@@ -5,6 +5,8 @@ package com.uldskull.rolegameassistant.ui.new_character
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 
 /**
  *   Class "NewCharacterViewModel" :
@@ -14,5 +16,11 @@ import androidx.lifecycle.AndroidViewModel
  **/
 class NewCharacterViewModel(application: Application)
     : AndroidViewModel(application) {
+
+    var progressStatus = MutableLiveData<Int>()
+
+    init {
+        progressStatus.value = 50
+    }
 
 }
