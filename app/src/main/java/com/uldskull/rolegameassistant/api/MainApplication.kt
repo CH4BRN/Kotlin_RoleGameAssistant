@@ -23,7 +23,7 @@ class MainApplication : Application() {
             androidContext(this@MainApplication)
             androidLogger()
 
-            TODO("Inject modules here")
+            // TODO("Inject modules here")
             modules(
                 viewModelModule
             )
