@@ -7,8 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 
 /**
  *   Class "NewCharacterActivity" :
- *   TODO: Fill class use.
+ *   Used to handle new character creation
  **/
 class NewCharacterActivity : AppCompatActivity() {
-// TODO : Fill class.
+
+
 }
