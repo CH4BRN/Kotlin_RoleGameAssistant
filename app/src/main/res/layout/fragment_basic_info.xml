@@ -1,14 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/holo_blue_dark">
+
     <TextView
+        android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:text="Basic Info : "
-        android:gravity="center"
-        app:layout_constraintTop_toTopOf="parent"/>
+
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_title">
+
+        <TableRow android:layout_width="match_parent"
+
+
+            >
+
+            <TextView
+                android:id="@+id/tv_subtitle_name"
+                android:layout_column="1"
+                android:text="Name : " />
+
+            <EditText
+                android:id="@+id/et_name"
+                android:layout_column="2"
+                android:layout_span="3"
+                android:layout_weight="1"
+                android:hint="Name ... " />
+        </TableRow>
+
+        <TableRow android:layout_width="match_parent"
+
+            >
+
+            <TextView
+                android:id="@+id/tv_subtitle_level"
+                android:layout_column="1"
+                android:layout_weight="1"
+                android:text="Level :" />
+
+            <EditText
+                android:id="@+id/et_level"
+                android:layout_column="2"
+                android:layout_weight="5"
+                android:hint="1"
+                android:inputType="number"/>
+
+            <TextView
+                android:id="@+id/tv_subtitle_experience"
+                android:layout_column="3"
+                android:layout_weight="1"
+                android:text="Experience : " />
+
+            <EditText
+                android:inputType="number"
+                android:id="@+id/et_experience"
+                android:layout_column="4"
+                android:layout_weight="5"
+                android:hint="50" />
+        </TableRow>
+
+        <TableRow android:layout_width="match_parent">
+
+            <TextView
+
+                android:id="@+id/tv_subtitle_race"
+                android:layout_column="1"
+                android:text="Race : " />
+
+            <EditText
+                android:id="@+id/et_race"
+                android:layout_column="2"
+                android:layout_span="3"
+                android:layout_weight="1"
+                android:hint="Race ... " />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/tv_subtitle_class"
+                android:layout_column="1"
+                android:text="Class : " />
+
+            <EditText
+                android:id="@+id/et_class"
+                android:layout_column="2"
+                android:layout_span="3"
+                android:layout_weight="1"
+                android:hint="Class ... " />
+        </TableRow>
+
+
+    </TableLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
