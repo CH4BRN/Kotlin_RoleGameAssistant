@@ -17,6 +17,21 @@ object EspressoVersions {
     const val androidxTestEspressoEspressoCore = "3.2.0"
 }
 
+object KoinVersion {
+    const val koinAndroid = "2.0.1"
+}
+
+object KoinDependencies {
+    const val orgKoinKoinAndroid =
+        "org.koin:koin-android:${KoinVersion.koinAndroid}"
+    const val orgKoinKoinCore =
+        "org.koin:koin-core:${KoinVersion.koinAndroid}"
+    const val orgKoinKoinAndroidxScope =
+        "org.koin:koin-androidx-scope:${KoinVersion.koinAndroid}"
+    const val orgKoinKoinAndroidxViewmodel =
+        "org.koin:koin-androidx-viewmodel:${KoinVersion.koinAndroid}"
+}
+
 object AndroidXDependencies {
     const val androidxAppcompatAppcompat =
         "androidx.appcompat:appcompat:" +
