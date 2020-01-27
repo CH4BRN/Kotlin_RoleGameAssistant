@@ -3,14 +3,12 @@
 
 package com.uldskull.rolegameassistant.ui.new_character
 
-import android.content.Context
 import android.os.Bundle
-import android.util.AttributeSet
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.ui.new_character.fragments.BasicInfoFragment
 import com.uldskull.rolegameassistant.ui.new_character.fragments.CharacteristicsFragment
+import com.uldskull.rolegameassistant.ui.new_character.fragments.ProgressBarFragment
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**
@@ -37,30 +35,44 @@ class NewCharacterActivity : AppCompatActivity() {
 
 
     }
+
     /** Call the methods that load the fragments    **/
-    private fun loadFragment(){
+    private fun loadFragment() {
         loadBasicInfoFragment()
         loadCharacteristicsFragment()
+        loadProgresBarFragment()
     }
 
     /** Load the characteristics fragment   **/
     private fun loadCharacteristicsFragment() {
-        val  characteristicsTransaction  = fragmentManager.beginTransaction()
+        val characteristicsTransaction = fragmentManager.beginTransaction()
         characteristicsTransaction.replace(
             R.id.container_characteristics,
-            CharacteristicsFragment?.newInstance(this))
+            CharacteristicsFragment?.newInstance(this)
+        )
             .commit()
     }
 
     /** Load the BasicInfo fragment **/
-    private fun loadBasicInfoFragment(){
+    private fun loadBasicInfoFragment() {
         var basicInfoTransaction = fragmentManager.beginTransaction()
         basicInfoTransaction.replace(
             R.id.container_basicInfo,
-            BasicInfoFragment?.newInstance(this))
+            BasicInfoFragment?.newInstance(this)
+        )
             .commit()
     }
 
+    /** Load the progress bar fragment  **/
+    private fun loadProgresBarFragment() {
+        var progressBarTransaction = fragmentManager.beginTransaction()
+        progressBarTransaction.replace(
+            R.id.container_progressBar,
+            ProgressBarFragment?.newInstance(this)
+        )
+            .commit()
+
+    }
 
 
 }
