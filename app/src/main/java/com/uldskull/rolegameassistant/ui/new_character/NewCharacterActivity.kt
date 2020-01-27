@@ -4,8 +4,8 @@
 package com.uldskull.rolegameassistant.ui.new_character
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
+import com.uldskull.rolegameassistant.R
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**
@@ -18,8 +18,10 @@ class NewCharacterActivity : AppCompatActivity() {
     private lateinit var newCharacterViewModel:NewCharacterViewModel
 
     /** Activity life cycle **/
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setContentView(R.layout.activity_new_character)
 
         //  Get the ViewModel by DI
         newCharacterViewModel = getViewModel()

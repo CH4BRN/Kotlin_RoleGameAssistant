@@ -19,6 +19,10 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ui.new_character.NewCharacterActivity">
+
+        </activity>
+
     </application>
 
 
