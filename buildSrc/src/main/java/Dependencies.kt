@@ -1,0 +1,36 @@
+/** File Dependencies.kt
+ *   @Author pierre.antoine - 27/01/2020 - No copyright.
+ **/
+
+object AndroidXVersions {
+    const val appcompatAppcompat = "1.1.0"
+    const val coreCoreKtx = "1.1.0"
+    const val constraintlayoutConstraintlayout = "1.1.3"
+}
+
+object JunitVersions {
+    const val junitJunit = "4.12"
+    const val androidxTestExtJunit = "1.1.1"
+}
+
+object EspressoVersions {
+    const val androidxTestEspressoEspressoCore = "3.2.0"
+}
+
+object AndroidXDependencies {
+    const val androidxAppcompatAppcompat =
+        "androidx.appcompat:appcompat:" +
+                "${AndroidXVersions.appcompatAppcompat}"
+    const val androidxCoreCoreKtx = "androidx.core:core-ktx:" +
+            "${AndroidXVersions.coreCoreKtx}"
+    const val androidxConstraintlayoutConstraintlayout =
+        "androidx.constraintlayout:constraintlayout:" +
+                "${AndroidXVersions.constraintlayoutConstraintlayout}"
+}
+
+object TestDependencies {
+    const val junitJunit = "junit:junit:${JunitVersions.junitJunit}"
+    const val androidxTestExtJunit = "androidx.test.ext:junit:${JunitVersions.androidxTestExtJunit}"
+    const val androidxTestEspressoEspressoCore =
+        "androidx.test.espresso:espresso-core:${EspressoVersions.androidxTestEspressoEspressoCore}"
+}
