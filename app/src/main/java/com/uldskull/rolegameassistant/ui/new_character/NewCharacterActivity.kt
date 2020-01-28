@@ -20,6 +20,7 @@ class NewCharacterActivity : AppCompatActivity() {
     /** ViewModel for new character activity    **/
     private lateinit var newCharacterViewModel: NewCharacterViewModel
 
+    /** SupportFragmentManager  **/
     private val fragmentManager = supportFragmentManager
 
     /** Activity life cycle **/
@@ -28,7 +29,7 @@ class NewCharacterActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_new_character)
 
-        //  Get the ViewModel by DI
+        //  Get the ViewModels by DI
         newCharacterViewModel = getViewModel()
 
         loadFragment()
@@ -36,11 +37,12 @@ class NewCharacterActivity : AppCompatActivity() {
 
     }
 
+
     /** Call the methods that load the fragments    **/
     private fun loadFragment() {
         loadBasicInfoFragment()
         loadCharacteristicsFragment()
-        loadProgresBarFragment()
+        loadProgresBarFragment(10)
     }
 
     /** Load the characteristics fragment   **/
@@ -63,14 +65,16 @@ class NewCharacterActivity : AppCompatActivity() {
             .commit()
     }
 
+
     /** Load the progress bar fragment  **/
-    private fun loadProgresBarFragment() {
+    private fun loadProgresBarFragment(progression: Int) {
         var progressBarTransaction = fragmentManager.beginTransaction()
         progressBarTransaction.replace(
             R.id.container_progressBar,
-            ProgressBarFragment?.newInstance(this)
+            ProgressBarFragment?.newInstance(this, progression)
         )
             .commit()
+
 
     }
 

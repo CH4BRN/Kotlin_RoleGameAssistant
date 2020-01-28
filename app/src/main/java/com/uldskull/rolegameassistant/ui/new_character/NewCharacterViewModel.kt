@@ -20,7 +20,7 @@ class NewCharacterViewModel(application: Application)
     var progressStatus = MutableLiveData<Int>()
 
     init {
-        progressStatus.value = 50
+        progressStatus.value = 0
     }
 
 }
