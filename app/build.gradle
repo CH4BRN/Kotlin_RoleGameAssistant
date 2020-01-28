@@ -35,7 +35,10 @@ dependencies {
     implementation KoinDependencies.orgKoinKoinAndroidxScope
     implementation KoinDependencies.orgKoinKoinAndroidxViewmodel
 
+    implementation project(":character")
+
     testImplementation TestDependencies.junitJunit
     androidTestImplementation  TestDependencies.androidxTestExtJunit
     androidTestImplementation TestDependencies.androidxTestEspressoEspressoCore
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
 }
