@@ -8,12 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.ui.new_character.NewCharacterActivity
-import com.uldskull.rolegameassistant.ui.new_character.NewCharacterViewModel
 import kotlinx.android.synthetic.main.fragment_progress_bar.*
-import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**
  *   Class "ProgressBarFragment" :
