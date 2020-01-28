@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.ui.new_character.NewCharacterActivity
@@ -23,7 +22,10 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  **/
 class ProgressBarFragment : Fragment() {
 
+    /** Root view   **/
     private lateinit var initialRootView: View
+    /** View model  **/
+    private lateinit var progressBarViewModel: ProgressBarViewModel
     private lateinit var newCharacterViewModel: NewCharacterViewModel
 
     /** Fragment lifecycle  **/
@@ -34,33 +36,38 @@ class ProgressBarFragment : Fragment() {
     ): View? {
         return initializeView(inflater, container)
     }
+
     /** Fragment lifecycle  **/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
+        progressBarViewModel = getViewModel()
+        progressBarViewModel.progressStatus.observe(this, Observer {
+            updateProgressBar(it)
+        })
         newCharacterViewModel = getViewModel ()
         newCharacterViewModel.progressStatus.observe(this, Observer {
             updateProgressBar(it)
         })
 
     }
+
     /** Updated the progress bar    **/
-    private fun updateProgressBar(value:Int) {
+    fun updateProgressBar(value: Int) {
         pb_progression.progress = value
     }
 
     /** Initialize the view **/
-    fun initializeView(inflater: LayoutInflater, container:ViewGroup?): View?{
+    fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = inflater.inflate(
             R.layout.fragment_progress_bar, container, false
         )
-        return  initialRootView
+        return initialRootView
     }
 
     companion object {
         @JvmStatic
-        fun newInstance(activity: NewCharacterActivity) : ProgressBarFragment {
+        fun newInstance(activity: NewCharacterActivity): ProgressBarFragment {
             return ProgressBarFragment()
         }
     }

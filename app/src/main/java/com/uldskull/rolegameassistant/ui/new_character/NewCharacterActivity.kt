@@ -4,11 +4,14 @@
 package com.uldskull.rolegameassistant.ui.new_character
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.ui.new_character.fragments.BasicInfoFragment
 import com.uldskull.rolegameassistant.ui.new_character.fragments.CharacteristicsFragment
 import com.uldskull.rolegameassistant.ui.new_character.fragments.ProgressBarFragment
+import com.uldskull.rolegameassistant.ui.new_character.fragments.ProgressBarViewModel
+import kotlinx.android.synthetic.main.activity_new_character.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**
@@ -28,7 +31,7 @@ class NewCharacterActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_new_character)
 
-        //  Get the ViewModel by DI
+        //  Get the ViewModels by DI
         newCharacterViewModel = getViewModel()
 
         loadFragment()
@@ -63,6 +66,7 @@ class NewCharacterActivity : AppCompatActivity() {
             .commit()
     }
 
+
     /** Load the progress bar fragment  **/
     private fun loadProgresBarFragment() {
         var progressBarTransaction = fragmentManager.beginTransaction()
@@ -71,6 +75,7 @@ class NewCharacterActivity : AppCompatActivity() {
             ProgressBarFragment?.newInstance(this)
         )
             .commit()
+
 
     }
 
