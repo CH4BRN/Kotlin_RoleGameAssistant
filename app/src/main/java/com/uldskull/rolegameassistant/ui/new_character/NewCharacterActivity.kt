@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.ui.new_character.fragments.*
+import com.uldskull.rolegameassistant.ui.new_character.fragments.abilities.AbilitiesRecyclerViewFragment
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**
@@ -40,6 +41,7 @@ class NewCharacterActivity : AppCompatActivity() {
         loadProgresBarFragment(10)
         loadPictureFragment()
         loadBackgroundFragment()
+        loadAbilitiesFragment()
     }
 
     /** Loads the picture fragment  **/
@@ -91,6 +93,15 @@ class NewCharacterActivity : AppCompatActivity() {
         backgroundTransaction.replace(
             R.id.container_background,
             BackgroundFragment.newInstance(this)
+        )
+            .commit()
+    }
+
+    private fun loadAbilitiesFragment() {
+        var abilitiesTransaction = fragmentManager.beginTransaction()
+        abilitiesTransaction.replace(
+            R.id.container_abilityScores,
+            AbilitiesRecyclerViewFragment.newInstance(this)
         )
             .commit()
     }
