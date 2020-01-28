@@ -38,7 +38,7 @@ class NewCharacterActivity : AppCompatActivity() {
     private fun loadFragment() {
         loadBasicInfoFragment()
         loadCharacteristicsFragment()
-        loadProgresBarFragment(10)
+        loadProgressBarFragment(10)
         loadPictureFragment()
         loadBackgroundFragment()
         loadAbilitiesFragment()
@@ -78,7 +78,7 @@ class NewCharacterActivity : AppCompatActivity() {
 
 
     /** Load the progress bar fragment  **/
-    private fun loadProgresBarFragment(progression: Int) {
+    private fun loadProgressBarFragment(progression: Int) {
         var progressBarTransaction = fragmentManager.beginTransaction()
         progressBarTransaction.replace(
             R.id.container_progressBar,
@@ -97,6 +97,7 @@ class NewCharacterActivity : AppCompatActivity() {
             .commit()
     }
 
+    /** Load abilities fragment **/
     private fun loadAbilitiesFragment() {
         var abilitiesTransaction = fragmentManager.beginTransaction()
         abilitiesTransaction.replace(
