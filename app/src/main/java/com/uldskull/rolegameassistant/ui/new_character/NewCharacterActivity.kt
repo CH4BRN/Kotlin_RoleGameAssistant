@@ -6,9 +6,7 @@ package com.uldskull.rolegameassistant.ui.new_character
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.ui.new_character.fragments.BasicInfoFragment
-import com.uldskull.rolegameassistant.ui.new_character.fragments.CharacteristicsFragment
-import com.uldskull.rolegameassistant.ui.new_character.fragments.ProgressBarFragment
+import com.uldskull.rolegameassistant.ui.new_character.fragments.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**
@@ -33,24 +31,35 @@ class NewCharacterActivity : AppCompatActivity() {
         newCharacterViewModel = getViewModel()
 
         loadFragment()
-
-
     }
-
 
     /** Call the methods that load the fragments    **/
     private fun loadFragment() {
         loadBasicInfoFragment()
         loadCharacteristicsFragment()
         loadProgresBarFragment(10)
+        loadPictureFragment()
+        loadBackgroundFragment()
+    }
+
+    /** Loads the picture fragment  **/
+    private fun loadPictureFragment() {
+        val pictureTransaction = fragmentManager.beginTransaction()
+
+        pictureTransaction.replace(
+            R.id.container_picture,
+            PictureFragment.newInstance(this)
+        )
+            .commit()
     }
 
     /** Load the characteristics fragment   **/
     private fun loadCharacteristicsFragment() {
         val characteristicsTransaction = fragmentManager.beginTransaction()
+
         characteristicsTransaction.replace(
             R.id.container_characteristics,
-            CharacteristicsFragment?.newInstance(this)
+            CharacteristicsFragment.newInstance(this)
         )
             .commit()
     }
@@ -60,7 +69,7 @@ class NewCharacterActivity : AppCompatActivity() {
         var basicInfoTransaction = fragmentManager.beginTransaction()
         basicInfoTransaction.replace(
             R.id.container_basicInfo,
-            BasicInfoFragment?.newInstance(this)
+            BasicInfoFragment.newInstance(this)
         )
             .commit()
     }
@@ -71,11 +80,19 @@ class NewCharacterActivity : AppCompatActivity() {
         var progressBarTransaction = fragmentManager.beginTransaction()
         progressBarTransaction.replace(
             R.id.container_progressBar,
-            ProgressBarFragment?.newInstance(this, progression)
+            ProgressBarFragment.newInstance(this, progression)
         )
             .commit()
+    }
 
-
+    /** Load background fragment    **/
+    private fun loadBackgroundFragment() {
+        var backgroundTransaction = fragmentManager.beginTransaction()
+        backgroundTransaction.replace(
+            R.id.container_background,
+            BackgroundFragment.newInstance(this)
+        )
+            .commit()
     }
 
 

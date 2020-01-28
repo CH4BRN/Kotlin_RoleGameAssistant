@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/holo_green_light">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_subtitle_personality"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Personality : "
+        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+    <EditText
+        android:id="@+id/et_personality"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Personality ..."
+        app:layout_constraintTop_toBottomOf="@id/tv_subtitle_personality" />
+
+    <TextView
+        android:id="@+id/tv_subtitle_ideals"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ideals : "
+        app:layout_constraintTop_toBottomOf="@id/et_personality" />
+
+    <EditText
+        android:id="@+id/et_ideals"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ideals ..."
+        app:layout_constraintTop_toBottomOf="@id/tv_subtitle_ideals" />
+
+    <TextView
+        android:id="@+id/tv_subtitle_bonds"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bonds : "
+        app:layout_constraintTop_toBottomOf="@id/et_ideals" />
+
+    <EditText
+        android:id="@+id/et_bonds"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Bonds ..."
+        app:layout_constraintTop_toBottomOf="@id/tv_subtitle_bonds" />
+
+    <TextView
+        android:id="@+id/tv_subtitle_flaws"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Flaws : "
+        app:layout_constraintTop_toBottomOf="@id/et_bonds" />
+
+    <EditText
+        android:id="@+id/et_flaws"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Flaws ..."
+        app:layout_constraintTop_toBottomOf="@id/tv_subtitle_flaws" />
+
+    <TextView
+        android:id="@+id/tv_subtitle_biography"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Biography : "
+        app:layout_constraintTop_toBottomOf="@id/et_flaws" />
+
+    <EditText
+        android:id="@+id/et_biography"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Biography ..."
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_subtitle_biography" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

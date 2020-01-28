@@ -13,7 +13,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         //  Start new character activity.
-        var intent = Intent(this, com.uldskull.rolegameassistant.ui.new_character.NewCharacterActivity::class.java)
+        var intent = Intent(
+            this,
+            com.uldskull.rolegameassistant.ui.new_character.NewCharacterActivity::class.java)
         startActivity(intent)
     }
 }
