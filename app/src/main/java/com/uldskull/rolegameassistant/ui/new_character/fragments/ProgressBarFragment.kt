@@ -20,13 +20,11 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  *   Fragment class used to display a progress bar.
  *   The progression is bound to a field into the view model.
  **/
-class ProgressBarFragment : Fragment() {
+class ProgressBarFragment(val progression:Int =0) : Fragment() {
 
     /** Root view   **/
     private lateinit var initialRootView: View
-    /** View model  **/
-    private lateinit var progressBarViewModel: ProgressBarViewModel
-    private lateinit var newCharacterViewModel: NewCharacterViewModel
+
 
     /** Fragment lifecycle  **/
     override fun onCreateView(
@@ -41,15 +39,12 @@ class ProgressBarFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        progressBarViewModel = getViewModel()
-        progressBarViewModel.progressStatus.observe(this, Observer {
-            updateProgressBar(it)
-        })
-        newCharacterViewModel = getViewModel ()
-        newCharacterViewModel.progressStatus.observe(this, Observer {
-            updateProgressBar(it)
-        })
 
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        updateProgressBar(progression)
     }
 
     /** Updated the progress bar    **/
@@ -67,8 +62,8 @@ class ProgressBarFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(activity: NewCharacterActivity): ProgressBarFragment {
-            return ProgressBarFragment()
+        fun newInstance(activity: NewCharacterActivity, progression:Int): ProgressBarFragment {
+            return ProgressBarFragment(progression = progression)
         }
     }
 

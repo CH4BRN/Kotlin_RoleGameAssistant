@@ -37,13 +37,17 @@ class NewCharacterActivity : AppCompatActivity() {
         loadFragment()
 
 
+
+
     }
+
+
 
     /** Call the methods that load the fragments    **/
     private fun loadFragment() {
         loadBasicInfoFragment()
         loadCharacteristicsFragment()
-        loadProgresBarFragment()
+        loadProgresBarFragment(10)
     }
 
     /** Load the characteristics fragment   **/
@@ -68,11 +72,11 @@ class NewCharacterActivity : AppCompatActivity() {
 
 
     /** Load the progress bar fragment  **/
-    private fun loadProgresBarFragment() {
+    private fun loadProgresBarFragment(progression:Int) {
         var progressBarTransaction = fragmentManager.beginTransaction()
         progressBarTransaction.replace(
             R.id.container_progressBar,
-            ProgressBarFragment?.newInstance(this)
+            ProgressBarFragment?.newInstance(this, progression)
         )
             .commit()
 
