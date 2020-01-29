@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.ui.new_character.fragments.*
 import com.uldskull.rolegameassistant.ui.new_character.fragments.abilities.AbilitiesRecyclerViewFragment
+import com.uldskull.rolegameassistant.ui.new_character.fragments.skills.SkillsRecyclerViewFragment
 import com.uldskull.rolegameassistant.ui.new_character.view_model.NewCharacterViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -44,6 +45,7 @@ class NewCharacterActivity : AppCompatActivity() {
         loadBackgroundFragment()
         loadAbilitiesFragment()
         loadHealthFragment()
+        loadSkillsFragment()
     }
 
     /** Loads the picture fragment  **/
@@ -89,7 +91,7 @@ class NewCharacterActivity : AppCompatActivity() {
             .commit()
     }
 
-    /** Load background fragment    **/
+    /** Load background fragment into background container**/
     private fun loadBackgroundFragment() {
         var backgroundTransaction = fragmentManager.beginTransaction()
         backgroundTransaction.replace(
@@ -99,7 +101,7 @@ class NewCharacterActivity : AppCompatActivity() {
             .commit()
     }
 
-    /** Load abilities fragment **/
+    /** Load abilities fragment into abilities container**/
     private fun loadAbilitiesFragment() {
         var abilitiesTransaction = fragmentManager.beginTransaction()
         abilitiesTransaction.replace(
@@ -109,13 +111,23 @@ class NewCharacterActivity : AppCompatActivity() {
             .commit()
     }
 
-    /** Load health fragment into container **/
+    /** Load health fragment into health container **/
     private fun loadHealthFragment() {
         var healthTransaction = fragmentManager.beginTransaction()
         healthTransaction.replace(
             R.id.container_health,
             HealthFragment.newInstance(this)
 
+        )
+            .commit()
+    }
+
+    /** Load skills fragment into skills container  **/
+    private fun loadSkillsFragment() {
+        var skillsTransaction = fragmentManager.beginTransaction()
+        skillsTransaction.replace(
+            R.id.container_skills,
+            SkillsRecyclerViewFragment.newInstance(this)
         )
             .commit()
     }

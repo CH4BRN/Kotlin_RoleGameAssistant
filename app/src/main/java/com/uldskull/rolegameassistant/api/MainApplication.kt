@@ -4,7 +4,7 @@
 package com.uldskull.rolegameassistant.api
 
 import android.app.Application
-import com.uldskull.rolegameassistant.cross_cutting.viewModelModule
+import com.uldskull.rolegameassistant.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin

@@ -16,6 +16,7 @@ import com.uldskull.rolegameassistant.domain.abilities.Ability
  **/
 class AbilitiesViewModel(application: Application) : AndroidViewModel(application) {
 
+    /** Abilities to display    **/
     var abilities = MutableLiveData<List<Ability>>()
 
     init {
