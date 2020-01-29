@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.ui.new_character.activities.NewCharacterActivity
 
 /**
  *   Class "CharacteristicsFragment" :
@@ -23,6 +24,7 @@ class CharacteristicsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        NewCharacterActivity.progression.value = arguments?.getInt(KEY_POSITION, -1)
         return initializeView(inflater, container)
     }
 
@@ -39,10 +41,17 @@ class CharacteristicsFragment : Fragment() {
     companion object {
 
         @JvmStatic
-        fun newInstance(activity: Activity): CharacteristicsFragment {
-            return CharacteristicsFragment()
+        fun newInstance(activity: Activity, position: Int): CharacteristicsFragment {
+            var fragment = CharacteristicsFragment()
+            var args = Bundle()
+
+            args.putInt(KEY_POSITION, position)
+            fragment.arguments = args
+
+            return fragment
         }
 
+        private const val KEY_POSITION = "position"
         private lateinit var initialRootView: View
 
     }

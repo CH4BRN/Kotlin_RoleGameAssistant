@@ -23,6 +23,7 @@ class PictureFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        NewCharacterActivity.progression.value = arguments?.getInt(KEY_POSITION, -1)
         return initializeView(inflater, container)
     }
 
@@ -39,10 +40,17 @@ class PictureFragment : Fragment() {
     companion object {
 
         @JvmStatic
-        fun newInstance(activity: NewCharacterActivity): PictureFragment {
-            return PictureFragment()
+        fun newInstance(activity: NewCharacterActivity, position: Int): PictureFragment {
+            var fragment = PictureFragment()
+            var args = Bundle()
+
+            args.putInt(KEY_POSITION, position)
+            fragment.arguments = args
+
+            return fragment
         }
 
+        private const val KEY_POSITION = "position"
         private lateinit var initialRootView: View
 
     }

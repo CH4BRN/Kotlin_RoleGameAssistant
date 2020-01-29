@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.ui.new_character.activities.NewCharacterActivity
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**
@@ -42,6 +43,7 @@ class AbilitiesRecyclerViewFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        NewCharacterActivity.progression.value = arguments?.getInt(KEY_POSITION, -1)
         return initializeView(inflater, container)
     }
 
@@ -84,11 +86,20 @@ class AbilitiesRecyclerViewFragment : Fragment() {
 
     companion object {
 
+
         @JvmStatic
-        fun newInstance(activity: Activity): AbilitiesRecyclerViewFragment {
-            return AbilitiesRecyclerViewFragment()
+        fun newInstance(activity: Activity, position: Int): AbilitiesRecyclerViewFragment {
+            var fragment = AbilitiesRecyclerViewFragment()
+            var args = Bundle()
+
+            args.putInt(KEY_POSITION, position)
+            fragment.arguments = args
+
+            return fragment
+
         }
 
+        const val KEY_POSITION = "position"
         private lateinit var initialRootView: View
 
     }
