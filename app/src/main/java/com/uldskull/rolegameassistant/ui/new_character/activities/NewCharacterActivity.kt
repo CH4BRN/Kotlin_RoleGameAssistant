@@ -16,7 +16,8 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  *   Class "NewCharacterActivity" :
  *   Used to handle new character creation
  **/
-class NewCharacterActivity : AppCompatActivity() {
+class NewCharacterActivity :
+    AppCompatActivity() {
 
     /** ViewModel for new character activity    **/
     private lateinit var newCharacterViewModel: NewCharacterViewModel

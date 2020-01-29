@@ -35,6 +35,8 @@ dependencies {
     implementation KoinDependencies.orgKoinKoinAndroidxScope
     implementation KoinDependencies.orgKoinKoinAndroidxViewmodel
 
+    implementation AndroidDependencies.androidSupportAppcompatV7
+
     implementation project(":character")
 
     testImplementation TestDependencies.junitJunit

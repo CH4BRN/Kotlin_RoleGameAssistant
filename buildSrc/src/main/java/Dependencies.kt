@@ -2,6 +2,10 @@
  *   @Author pierre.antoine - 27/01/2020 - No copyright.
  **/
 
+object AndroidVersions {
+    const val comAndroidSupportAppcompatV7 = "26.1.0"
+}
+
 object AndroidXVersions {
     const val appcompatAppcompat = "1.1.0"
     const val coreCoreKtx = "1.1.0"
@@ -30,6 +34,11 @@ object KoinDependencies {
         "org.koin:koin-androidx-scope:${KoinVersion.koinAndroid}"
     const val orgKoinKoinAndroidxViewmodel =
         "org.koin:koin-androidx-viewmodel:${KoinVersion.koinAndroid}"
+}
+
+object AndroidDependencies {
+    const val androidSupportAppcompatV7 =
+        "com.android.support:appcompat-v7:${AndroidVersions.comAndroidSupportAppcompatV7}"
 }
 
 object AndroidXDependencies {
