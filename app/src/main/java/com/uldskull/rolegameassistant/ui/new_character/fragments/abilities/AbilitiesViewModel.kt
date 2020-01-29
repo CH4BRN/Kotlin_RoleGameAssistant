@@ -20,10 +20,13 @@ class AbilitiesViewModel(application: Application) : AndroidViewModel(applicatio
 
     init {
         abilities.value = listOf(
-            Ability("aa", roll = 1, bonus = 1, total = 2),
-            Ability("bb", roll = 3, bonus = 4, total = 7),
-            Ability("cc", roll = 8, bonus = 9, total = 17),
-            Ability("dd", roll = 6, bonus = 3, total = 9)
+            Ability("Str : ", roll = 1, bonus = 5, total = 6),
+            Ability("Dex : ", roll = 2, bonus = 5, total = 7),
+            Ability("Con : ", roll = 3, bonus = 5, total = 8),
+            Ability("Int : ", roll = 4, bonus = 5, total = 9),
+            Ability("Wis : ", roll = 5, bonus = 5, total = 10),
+            Ability("Cha : ", roll = 6, bonus = 5, total = 11)
+
         )
     }
 
