@@ -3,13 +3,13 @@
 
 package com.uldskull.rolegameassistant.ui.new_character.fragments
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.ui.new_character.activities.NewCharacterActivity
 
 /**
  *   Class "CharacteristicsFragment" :
@@ -39,7 +39,7 @@ class CharacteristicsFragment : Fragment() {
     companion object {
 
         @JvmStatic
-        fun newInstance(activity: NewCharacterActivity): CharacteristicsFragment {
+        fun newInstance(activity: Activity): CharacteristicsFragment {
             return CharacteristicsFragment()
         }
 

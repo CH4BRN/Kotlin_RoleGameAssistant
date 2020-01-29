@@ -3,6 +3,7 @@
 
 package com.uldskull.rolegameassistant.ui.new_character.fragments.abilities
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,7 +14,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.ui.new_character.activities.NewCharacterActivity
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**
@@ -85,7 +85,7 @@ class AbilitiesRecyclerViewFragment : Fragment() {
     companion object {
 
         @JvmStatic
-        fun newInstance(activity: NewCharacterActivity): AbilitiesRecyclerViewFragment {
+        fun newInstance(activity: Activity): AbilitiesRecyclerViewFragment {
             return AbilitiesRecyclerViewFragment()
         }
 

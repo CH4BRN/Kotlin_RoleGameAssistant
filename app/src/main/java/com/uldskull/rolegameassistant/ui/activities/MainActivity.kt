@@ -3,14 +3,12 @@ package com.uldskull.rolegameassistant.ui.activities
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager.widget.ViewPager
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.ui.new_character.activities.NewCharacterActivity
 
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var viewPager: ViewPager
 
     /** Activity Lifecycle  **/
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,8 +16,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         //  loadSearchCharacterActivity()
-        //  loadNewCharacterActivity()
-        viewPager = findViewById(R.id.viewPager)
+        loadNewCharacterActivity()
+
+
+
+
 
     }
 
