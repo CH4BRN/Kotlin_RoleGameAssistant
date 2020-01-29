@@ -6,6 +6,7 @@ package com.uldskull.rolegameassistant.ui.new_character.fragments.skills
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,7 +44,10 @@ class SkillsRecyclerViewFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        NewCharacterActivity.progression.value = arguments?.getInt(KEY_POSITION, -1)
+        when (NewCharacterActivity.progression.value) {
+            3 -> NewCharacterActivity.progression.value = 4
+
+        }
         return initializeView(inflater, container)
     }
 
@@ -53,6 +57,15 @@ class SkillsRecyclerViewFragment : Fragment() {
             R.layout.fragment_recyclerview_skills, container, false
         )
         return initialRootView
+    }
+
+    override fun onInflate(context: Context, attrs: AttributeSet, savedInstanceState: Bundle?) {
+        super.onInflate(context, attrs, savedInstanceState)
+
+        when (NewCharacterActivity.progression.value) {
+            4 -> NewCharacterActivity.progression.value = 5
+
+        }
     }
 
     /** Fragment life-cycle **/
@@ -73,7 +86,9 @@ class SkillsRecyclerViewFragment : Fragment() {
             LinearLayoutManager.VERTICAL,
             false
         )
+
     }
+
 
     /** Observe ViewModel's skills  **/
     private fun startSkillsObservation() {

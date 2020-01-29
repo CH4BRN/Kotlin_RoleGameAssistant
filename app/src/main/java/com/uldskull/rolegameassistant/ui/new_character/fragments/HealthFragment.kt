@@ -23,7 +23,10 @@ class HealthFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        NewCharacterActivity.progression.value = arguments?.getInt(KEY_POSITION, -1)
+        when (NewCharacterActivity.progression.value) {
+            2 -> NewCharacterActivity.progression.value = 3
+
+        }
         return initializeView(inflater, container)
     }
 

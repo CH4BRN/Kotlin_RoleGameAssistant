@@ -24,7 +24,11 @@ class CharacteristicsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        NewCharacterActivity.progression.value = arguments?.getInt(KEY_POSITION, -1)
+        when (NewCharacterActivity.progression.value) {
+            0 -> NewCharacterActivity.progression.value = 0
+
+        }
+
         return initializeView(inflater, container)
     }
 

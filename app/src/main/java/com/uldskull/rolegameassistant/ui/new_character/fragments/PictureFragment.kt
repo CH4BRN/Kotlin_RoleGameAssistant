@@ -23,7 +23,7 @@ class PictureFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        NewCharacterActivity.progression.value = arguments?.getInt(KEY_POSITION, -1)
+        NewCharacterActivity.progression.value = 6
         return initializeView(inflater, container)
     }
 

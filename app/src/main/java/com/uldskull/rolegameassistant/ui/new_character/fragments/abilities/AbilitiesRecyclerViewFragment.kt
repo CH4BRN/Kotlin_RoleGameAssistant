@@ -43,7 +43,10 @@ class AbilitiesRecyclerViewFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        NewCharacterActivity.progression.value = arguments?.getInt(KEY_POSITION, -1)
+        when (NewCharacterActivity.progression.value) {
+            1 -> NewCharacterActivity.progression.value = 2
+
+        }
         return initializeView(inflater, container)
     }
 
