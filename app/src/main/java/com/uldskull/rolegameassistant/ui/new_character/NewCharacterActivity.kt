@@ -42,6 +42,7 @@ class NewCharacterActivity : AppCompatActivity() {
         loadPictureFragment()
         loadBackgroundFragment()
         loadAbilitiesFragment()
+        loadHealthFragment()
     }
 
     /** Loads the picture fragment  **/
@@ -103,6 +104,17 @@ class NewCharacterActivity : AppCompatActivity() {
         abilitiesTransaction.replace(
             R.id.container_abilityScores,
             AbilitiesRecyclerViewFragment.newInstance(this)
+        )
+            .commit()
+    }
+
+    /** Load health fragment into container **/
+    private fun loadHealthFragment() {
+        var healthTransaction = fragmentManager.beginTransaction()
+        healthTransaction.replace(
+            R.id.container_health,
+            HealthFragment.newInstance(this)
+
         )
             .commit()
     }
