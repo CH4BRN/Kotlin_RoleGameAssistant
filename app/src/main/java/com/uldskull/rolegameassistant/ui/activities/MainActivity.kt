@@ -17,13 +17,6 @@ class MainActivity : AppCompatActivity() {
         loadNewCharacterActivity()
     }
 
-    /** Character search activity java class    **/
-    private val CHARACTER_SEARCH_ACTIVITY =
-        com.uldskull.rolegameassistant.ui.activities.CharacterSearchActivity::class.java
-    /** New character activity java class   **/
-    private val NEW_CHARACTER_ACTIVITY =
-        NewCharacterActivity::class.java
-
     /** Load the search character activity  **/
     private fun loadSearchCharacterActivity() {
         startActivity(
@@ -42,5 +35,14 @@ class MainActivity : AppCompatActivity() {
                 NEW_CHARACTER_ACTIVITY
             )
         )
+    }
+
+    companion object {
+        /** Character search activity java class    **/
+        private val CHARACTER_SEARCH_ACTIVITY: Class<CharacterSearchActivity> =
+            CharacterSearchActivity::class.java
+        /** New character activity java class   **/
+        private val NEW_CHARACTER_ACTIVITY: Class<NewCharacterActivity> =
+            NewCharacterActivity::class.java
     }
 }

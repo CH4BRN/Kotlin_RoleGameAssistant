@@ -61,12 +61,7 @@ class AbilitiesRecyclerViewFragment : Fragment() {
 
         abilitiesAdapter = AbilitiesAdapter(activity as Context)
 
-        this.abilitiesViewModel.abilities.observe(this, Observer { abilities ->
-            kotlin.run {
-                abilities?.let { abilitiesAdapter?.setAbilities(it) }
-
-            }
-        })
+        startAbilitiesObservation()
 
         abilitiesRecyclerView?.adapter = abilitiesAdapter
 
@@ -75,13 +70,16 @@ class AbilitiesRecyclerViewFragment : Fragment() {
             LinearLayoutManager.VERTICAL,
             false
         )
-
-
     }
 
-    /** Initialize the ViewModel observation    **/
-    fun initViewModelObservation() {
+    /** Observe ViewModel's abilities   **/
+    private fun startAbilitiesObservation() {
+        this.abilitiesViewModel.abilities.observe(this, Observer { abilities ->
+            kotlin.run {
+                abilities?.let { abilitiesAdapter?.setAbilities(it) }
 
+            }
+        })
     }
 
     companion object {
