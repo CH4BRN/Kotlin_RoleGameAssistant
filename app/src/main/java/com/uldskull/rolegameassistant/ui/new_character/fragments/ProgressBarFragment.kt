@@ -38,12 +38,12 @@ class ProgressBarFragment(val progression:Int =0) : Fragment() {
     }
 
     /** Updated the progress bar    **/
-    fun updateProgressBar(value: Int) {
+    private fun updateProgressBar(value: Int) {
         pb_progression.progress = value
     }
 
     /** Initialize the view **/
-    fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
+    private fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = inflater.inflate(
             R.layout.fragment_progress_bar, container, false
         )

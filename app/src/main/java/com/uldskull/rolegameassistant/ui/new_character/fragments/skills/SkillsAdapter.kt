@@ -50,6 +50,8 @@ class SkillsAdapter internal constructor(
         val current = skills[position]
         holder.isSkillCheckedItemView.isChecked = true
         holder.skillNameItemView.text = current
+        holder.concernedAbilityItemView.text = current
+        holder.concernedAbilityModifier.text = current
     }
 
     /** Set the list containing skills to display   **/

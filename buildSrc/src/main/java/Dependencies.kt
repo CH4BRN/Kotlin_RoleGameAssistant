@@ -35,12 +35,12 @@ object KoinDependencies {
 object AndroidXDependencies {
     const val androidxAppcompatAppcompat =
         "androidx.appcompat:appcompat:" +
-                "${AndroidXVersions.appcompatAppcompat}"
+                AndroidXVersions.appcompatAppcompat
     const val androidxCoreCoreKtx = "androidx.core:core-ktx:" +
-            "${AndroidXVersions.coreCoreKtx}"
+            AndroidXVersions.coreCoreKtx
     const val androidxConstraintlayoutConstraintlayout =
         "androidx.constraintlayout:constraintlayout:" +
-                "${AndroidXVersions.constraintlayoutConstraintlayout}"
+                AndroidXVersions.constraintlayoutConstraintlayout
 }
 
 object TestDependencies {
