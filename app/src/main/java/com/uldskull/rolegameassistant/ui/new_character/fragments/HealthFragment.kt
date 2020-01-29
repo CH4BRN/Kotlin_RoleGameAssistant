@@ -3,6 +3,7 @@
 
 package com.uldskull.rolegameassistant.ui.new_character.fragments
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +13,17 @@ import com.uldskull.rolegameassistant.ui.new_character.NewCharacterActivity
 
 /**
  *   Class "HealthFragment" :
- *   TODO: Fill class use.
+ *   Manage the health fragment view.
  **/
 class HealthFragment : Fragment() {
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return initializeView(inflater, container)
+    }
 
     /** Initialize the view corresponding to this fragment class    **/
     private fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
