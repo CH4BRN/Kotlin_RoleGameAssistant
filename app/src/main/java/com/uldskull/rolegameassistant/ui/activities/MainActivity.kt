@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.ui.new_character.activities.NewCharacterActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         com.uldskull.rolegameassistant.ui.activities.CharacterSearchActivity::class.java
     /** New character activity java class   **/
     private val NEW_CHARACTER_ACTIVITY =
-        com.uldskull.rolegameassistant.ui.new_character.NewCharacterActivity::class.java
+        NewCharacterActivity::class.java
 
     /** Load the search character activity  **/
     private fun loadSearchCharacterActivity() {

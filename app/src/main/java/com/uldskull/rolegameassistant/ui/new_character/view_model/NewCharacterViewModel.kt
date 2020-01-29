@@ -1,11 +1,10 @@
 // File NewCharacterViewModel.kt
 // @Author pierre.antoine - 27/01/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.ui.new_character
+package com.uldskull.rolegameassistant.ui.new_character.view_model
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
 /**

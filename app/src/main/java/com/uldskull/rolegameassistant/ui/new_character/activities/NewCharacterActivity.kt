@@ -1,13 +1,14 @@
 // File NewCharacterActivity.kt
 // @Author pierre.antoine - 27/01/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.ui.new_character
+package com.uldskull.rolegameassistant.ui.new_character.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.ui.new_character.fragments.*
 import com.uldskull.rolegameassistant.ui.new_character.fragments.abilities.AbilitiesRecyclerViewFragment
+import com.uldskull.rolegameassistant.ui.new_character.view_model.NewCharacterViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**

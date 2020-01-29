@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.ui.new_character.NewCharacterActivity
+import com.uldskull.rolegameassistant.ui.new_character.activities.NewCharacterActivity
 import kotlinx.android.synthetic.main.fragment_progress_bar.*
 
 /**
@@ -30,13 +30,6 @@ class ProgressBarFragment(val progression:Int =0) : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return initializeView(inflater, container)
-    }
-
-    /** Fragment lifecycle  **/
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

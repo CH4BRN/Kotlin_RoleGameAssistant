@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.new_character.NewCharacterActivity" />
+        <activity android:name=".ui.new_character.activities.NewCharacterActivity" />
         <activity android:name=".ui.activities.CharacterSearchActivity" />
 
 

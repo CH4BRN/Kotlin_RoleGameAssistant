@@ -13,7 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.ui.new_character.NewCharacterActivity
+import com.uldskull.rolegameassistant.ui.new_character.activities.NewCharacterActivity
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**

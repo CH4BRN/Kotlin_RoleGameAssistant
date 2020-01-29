@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.ui.new_character.NewCharacterActivity
+import com.uldskull.rolegameassistant.ui.new_character.activities.NewCharacterActivity
 
 /**
  *   Class "PictureFragment" :
@@ -28,7 +28,7 @@ class PictureFragment : Fragment() {
 
     /** Initialize the view corresponding to this fragment class    **/
     private fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
-        initialRootView = inflater?.inflate(
+        initialRootView = inflater.inflate(
             R.layout.fragment_picture, container, false
         )
 
