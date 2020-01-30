@@ -3,6 +3,7 @@
 
 package com.uldskull.rolegameassistant.ui.new_character.fragments
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,7 @@ import com.uldskull.rolegameassistant.ui.new_character.activities.NewCharacterAc
  **/
 class BasicInfoFragment : Fragment() {
 
+
     /** Fragment Lifecycle  **/
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,21 +28,35 @@ class BasicInfoFragment : Fragment() {
         return initializeView(inflater, container)
     }
 
+
     /** Initialize the view corresponding to this fragment class    **/
-    private fun initializeView( inflater: LayoutInflater, container: ViewGroup?): View?{
+    private fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = inflater.inflate(
-            R.layout.fragment_basic_info, container, false)
+            R.layout.fragment_basic_info, container, false
+        )
 
-        return  initialRootView
+        return initialRootView
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        NewCharacterActivity.progression.value = 0
     }
 
     companion object {
         @JvmStatic
-        fun newInstance(activity: NewCharacterActivity) : BasicInfoFragment {
-            return BasicInfoFragment()
+        fun newInstance(activity: Activity, position: Int): BasicInfoFragment {
+            val fragment = BasicInfoFragment()
+            val args = Bundle()
+
+            args.putInt(KEY_POSITION, position)
+            fragment.arguments = args
+
+            return fragment
         }
 
+        private const val KEY_POSITION = "position"
         private lateinit var initialRootView: View
     }
 }

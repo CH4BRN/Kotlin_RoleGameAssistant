@@ -3,6 +3,7 @@
 
 package com.uldskull.rolegameassistant.ui.new_character.fragments
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,6 +24,11 @@ class BackgroundFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        when (NewCharacterActivity.progression.value) {
+            0 -> NewCharacterActivity.progression.value = 1
+
+        }
         return initializeView(inflater, container)
     }
 
@@ -36,12 +42,25 @@ class BackgroundFragment : Fragment() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        NewCharacterActivity.progression.value = 2
+    }
+
     companion object {
         @JvmStatic
-        fun newInstance(activity: NewCharacterActivity): BackgroundFragment {
-            return BackgroundFragment()
+        fun newInstance(activity: Activity, position: Int): BackgroundFragment {
+            val fragment = BackgroundFragment()
+
+            val args = Bundle()
+
+            args.putInt(KEY_POSITION, position)
+            fragment.arguments = args
+
+            return fragment
         }
 
+        private const val KEY_POSITION = "position"
         private lateinit var initialRootView: View
     }
 }

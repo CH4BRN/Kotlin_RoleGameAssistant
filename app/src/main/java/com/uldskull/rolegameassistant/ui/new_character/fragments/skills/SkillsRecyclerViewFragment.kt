@@ -3,6 +3,7 @@
 
 package com.uldskull.rolegameassistant.ui.new_character.fragments.skills
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -21,6 +22,7 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  *   Manage skill's RecyclerView fragment.
  **/
 class SkillsRecyclerViewFragment : Fragment() {
+
     /** ViewModel for skills    **/
     private lateinit var skillsViewModel: SkillsViewModel
 
@@ -36,6 +38,11 @@ class SkillsRecyclerViewFragment : Fragment() {
         skillsViewModel = getViewModel()
     }
 
+    override fun onResume() {
+        super.onResume()
+        NewCharacterActivity.progression.value = 5
+    }
+
     /** Fragment life-cycle  **/
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +51,7 @@ class SkillsRecyclerViewFragment : Fragment() {
     ): View? {
         return initializeView(inflater, container)
     }
+
 
     /** Initialize the view **/
     private fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
@@ -71,7 +79,9 @@ class SkillsRecyclerViewFragment : Fragment() {
             LinearLayoutManager.VERTICAL,
             false
         )
+
     }
+
 
     /** Observe ViewModel's skills  **/
     private fun startSkillsObservation() {
@@ -85,10 +95,17 @@ class SkillsRecyclerViewFragment : Fragment() {
     companion object {
 
         @JvmStatic
-        fun newInstance(activity: NewCharacterActivity): SkillsRecyclerViewFragment {
-            return SkillsRecyclerViewFragment()
+        fun newInstance(activity: Activity, position: Int): SkillsRecyclerViewFragment {
+            val fragment = SkillsRecyclerViewFragment()
+            val args = Bundle()
+
+            args.putInt(KEY_POSITION, position)
+            fragment.arguments = args
+
+            return fragment
         }
 
+        private const val KEY_POSITION = "position"
         private lateinit var initialRootView: View
 
     }

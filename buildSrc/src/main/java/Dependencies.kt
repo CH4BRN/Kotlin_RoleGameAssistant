@@ -2,10 +2,14 @@
  *   @Author pierre.antoine - 27/01/2020 - No copyright.
  **/
 
+object AndroidVersions {
+    const val comAndroidSupportAppcompatV7 = "26.1.0"
+}
+
 object AndroidXVersions {
     const val appcompatAppcompat = "1.1.0"
     const val coreCoreKtx = "1.1.0"
-    const val constraintlayoutConstraintlayout = "1.1.3"
+    const val constraintLayoutConstraintLayout = "1.1.3"
 }
 
 object JunitVersions {
@@ -32,15 +36,20 @@ object KoinDependencies {
         "org.koin:koin-androidx-viewmodel:${KoinVersion.koinAndroid}"
 }
 
+object AndroidDependencies {
+    const val androidSupportAppcompatV7 =
+        "com.android.support:appcompat-v7:${AndroidVersions.comAndroidSupportAppcompatV7}"
+}
+
 object AndroidXDependencies {
     const val androidxAppcompatAppcompat =
         "androidx.appcompat:appcompat:" +
                 AndroidXVersions.appcompatAppcompat
     const val androidxCoreCoreKtx = "androidx.core:core-ktx:" +
             AndroidXVersions.coreCoreKtx
-    const val androidxConstraintlayoutConstraintlayout =
+    const val androidxConstraintLayoutConstraintLayout =
         "androidx.constraintlayout:constraintlayout:" +
-                AndroidXVersions.constraintlayoutConstraintlayout
+                AndroidXVersions.constraintLayoutConstraintLayout
 }
 
 object TestDependencies {

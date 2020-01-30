@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.ui.new_character.activities.NewCharacterActivity
 
+
 class MainActivity : AppCompatActivity() {
+
 
     /** Activity Lifecycle  **/
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,6 +17,11 @@ class MainActivity : AppCompatActivity() {
 
         //  loadSearchCharacterActivity()
         loadNewCharacterActivity()
+
+
+
+
+
     }
 
     /** Load the search character activity  **/

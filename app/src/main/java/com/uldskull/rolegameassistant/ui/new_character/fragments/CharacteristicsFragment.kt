@@ -3,6 +3,7 @@
 
 package com.uldskull.rolegameassistant.ui.new_character.fragments
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,8 +24,21 @@ class CharacteristicsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         return initializeView(inflater, container)
     }
+
+    override fun onResume() {
+        super.onResume()
+        NewCharacterActivity.progression.value = 1
+    }
+
+    override fun onPause() {
+        super.onPause()
+        NewCharacterActivity.progression.value = 1
+    }
+
+
 
     /** Initialize the view corresponding to this fragment class    **/
     private fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
@@ -39,10 +53,17 @@ class CharacteristicsFragment : Fragment() {
     companion object {
 
         @JvmStatic
-        fun newInstance(activity: NewCharacterActivity): CharacteristicsFragment {
-            return CharacteristicsFragment()
+        fun newInstance(activity: Activity, position: Int): CharacteristicsFragment {
+            val fragment = CharacteristicsFragment()
+            val args = Bundle()
+
+            args.putInt(KEY_POSITION, position)
+            fragment.arguments = args
+
+            return fragment
         }
 
+        private const val KEY_POSITION = "position"
         private lateinit var initialRootView: View
 
     }

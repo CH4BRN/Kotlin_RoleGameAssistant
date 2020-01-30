@@ -3,6 +3,7 @@
 
 package com.uldskull.rolegameassistant.ui.new_character.fragments.abilities
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -42,8 +43,10 @@ class AbilitiesRecyclerViewFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         return initializeView(inflater, container)
     }
+
 
     /** Initialize the view **/
     private fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
@@ -51,6 +54,11 @@ class AbilitiesRecyclerViewFragment : Fragment() {
             R.layout.fragment_recyclerview_abilities, container, false
         )
         return initialRootView
+    }
+
+    override fun onResume() {
+        super.onResume()
+        NewCharacterActivity.progression.value = 3
     }
 
     /** Fragment life-cycle **/
@@ -84,11 +92,20 @@ class AbilitiesRecyclerViewFragment : Fragment() {
 
     companion object {
 
+
         @JvmStatic
-        fun newInstance(activity: NewCharacterActivity): AbilitiesRecyclerViewFragment {
-            return AbilitiesRecyclerViewFragment()
+        fun newInstance(activity: Activity, position: Int): AbilitiesRecyclerViewFragment {
+            val fragment = AbilitiesRecyclerViewFragment()
+            val args = Bundle()
+
+            args.putInt(KEY_POSITION, position)
+            fragment.arguments = args
+
+            return fragment
+
         }
 
+        private const val KEY_POSITION = "position"
         private lateinit var initialRootView: View
 
     }

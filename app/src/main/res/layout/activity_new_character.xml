@@ -1,79 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="8dp">
 
-        <FrameLayout
-            android:id="@+id/container_basicInfo"
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_margin="8dp"
-            android:background="@android:color/darker_gray"
-            android:maxHeight="40dp"
-            android:minHeight="8dp"
-            app:layout_constraintBottom_toTopOf="@id/container_characteristics" />
+            app:layout_constraintBottom_toTopOf="@id/btn_save"
+            app:layout_constraintTop_toTopOf="parent" />
+        <!--
+                <FrameLayout
+                    android:id="@+id/container_basicInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_margin="8dp"
+                    android:background="@android:color/darker_gray"
+                    android:maxHeight="40dp"
+                    android:minHeight="8dp"
+                    app:layout_constraintBottom_toTopOf="@id/container_characteristics" />
 
-        <FrameLayout
-            android:id="@+id/container_characteristics"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="8dp"
-            android:background="@android:color/darker_gray"
-            android:maxHeight="40dp"
-            android:minHeight="8dp"
-            app:layout_constraintBottom_toTopOf="@id/container_picture" />
+                <FrameLayout
+                    android:id="@+id/container_characteristics"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_margin="8dp"
+                    android:background="@android:color/darker_gray"
+                    android:maxHeight="40dp"
+                    android:minHeight="8dp"
+                    app:layout_constraintBottom_toTopOf="@id/container_picture" />
 
-        <FrameLayout
-            android:id="@+id/container_picture"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="8dp"
-            android:background="@android:color/darker_gray"
-            android:minHeight="8dp"
-            app:layout_constraintBottom_toTopOf="@id/container_background" />
+                <FrameLayout
+                    android:id="@+id/container_picture"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_margin="8dp"
+                    android:background="@android:color/darker_gray"
+                    android:minHeight="8dp"
+                    app:layout_constraintBottom_toTopOf="@id/container_background" />
 
-        <FrameLayout
-            android:id="@+id/container_background"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="8dp"
-            android:background="@android:color/darker_gray"
-            android:minHeight="8dp"
-            app:layout_constraintBottom_toTopOf="@id/container_abilityScores" />
+                <FrameLayout
+                    android:id="@+id/container_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_margin="8dp"
+                    android:background="@android:color/darker_gray"
+                    android:minHeight="8dp"
+                    app:layout_constraintBottom_toTopOf="@id/container_abilityScores" />
 
-        <FrameLayout
-            android:id="@+id/container_abilityScores"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="8dp"
-            android:background="@android:color/darker_gray"
-            android:minHeight="8dp"
-            app:layout_constraintBottom_toTopOf="@id/container_health" />
+                <FrameLayout
+                    android:id="@+id/container_abilityScores"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_margin="8dp"
+                    android:background="@android:color/darker_gray"
+                    android:minHeight="8dp"
+                    app:layout_constraintBottom_toTopOf="@id/container_health" />
 
-        <FrameLayout
-            android:id="@+id/container_health"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="8dp"
-            android:background="@android:color/darker_gray"
-            android:minHeight="8dp"
-            app:layout_constraintBottom_toTopOf="@id/container_skills" />
+                <FrameLayout
+                    android:id="@+id/container_health"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_margin="8dp"
+                    android:background="@android:color/darker_gray"
+                    android:minHeight="8dp"
+                    app:layout_constraintBottom_toTopOf="@id/container_skills" />
 
-        <FrameLayout
-            android:id="@+id/container_skills"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="8dp"
-            android:background="@android:color/darker_gray"
-            android:minHeight="8dp"
-            app:layout_constraintBottom_toTopOf="@id/btn_save" />
-
+                <FrameLayout
+                    android:id="@+id/container_skills"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_margin="8dp"
+                    android:background="@android:color/darker_gray"
+                    android:minHeight="8dp"
+                    app:layout_constraintBottom_toTopOf="@id/btn_save" />
+        -->
         <Button
             android:id="@+id/btn_save"
             android:layout_width="match_parent"
@@ -93,4 +96,3 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>

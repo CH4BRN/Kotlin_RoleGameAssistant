@@ -32,6 +32,7 @@ class ProgressBarFragment(val progression:Int =0) : Fragment() {
         return initializeView(inflater, container)
     }
 
+    /** Fragment life-cycle **/
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         updateProgressBar(progression)

@@ -5,10 +5,12 @@ package com.uldskull.rolegameassistant.ui.new_character.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.viewpager.widget.ViewPager
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.ui.new_character.fragments.*
-import com.uldskull.rolegameassistant.ui.new_character.fragments.abilities.AbilitiesRecyclerViewFragment
-import com.uldskull.rolegameassistant.ui.new_character.fragments.skills.SkillsRecyclerViewFragment
+import com.uldskull.rolegameassistant.ui.new_character.adapter.CharacterPagerAdapter
+import com.uldskull.rolegameassistant.ui.new_character.fragments.ProgressBarFragment
 import com.uldskull.rolegameassistant.ui.new_character.view_model.NewCharacterViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -16,7 +18,8 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  *   Class "NewCharacterActivity" :
  *   Used to handle new character creation
  **/
-class NewCharacterActivity : AppCompatActivity() {
+class NewCharacterActivity :
+    AppCompatActivity() {
 
     /** ViewModel for new character activity    **/
     private lateinit var newCharacterViewModel: NewCharacterViewModel
@@ -33,53 +36,34 @@ class NewCharacterActivity : AppCompatActivity() {
         //  Get the ViewModels by DI
         newCharacterViewModel = getViewModel()
 
+
+        progression.observe(
+            this, Observer { prog ->
+                kotlin.run {
+                    loadProgressBarFragment(prog)
+                }
+            })
+
+        viewPager = findViewById(R.id.viewPager)
+
+        characterPagerAdapter = CharacterPagerAdapter(supportFragmentManager, this)
+
+        viewPager.adapter = characterPagerAdapter
+
+
         loadFragment()
     }
 
+    /** View pager  **/
+    private lateinit var viewPager: ViewPager
+
+    private lateinit var characterPagerAdapter: CharacterPagerAdapter
+
     /** Call the methods that load the fragments    **/
     private fun loadFragment() {
-        loadBasicInfoFragment()
-        loadCharacteristicsFragment()
-        loadProgressBarFragment(10)
-        loadPictureFragment()
-        loadBackgroundFragment()
-        loadAbilitiesFragment()
-        loadHealthFragment()
-        loadSkillsFragment()
+        loadProgressBarFragment(0)
+
     }
-
-    /** Loads the picture fragment  **/
-    private fun loadPictureFragment() {
-        val pictureTransaction = fragmentManager.beginTransaction()
-
-        pictureTransaction.replace(
-            R.id.container_picture,
-            PictureFragment.newInstance(this)
-        )
-            .commit()
-    }
-
-    /** Load the characteristics fragment   **/
-    private fun loadCharacteristicsFragment() {
-        val characteristicsTransaction = fragmentManager.beginTransaction()
-
-        characteristicsTransaction.replace(
-            R.id.container_characteristics,
-            CharacteristicsFragment.newInstance(this)
-        )
-            .commit()
-    }
-
-    /** Load the BasicInfo fragment **/
-    private fun loadBasicInfoFragment() {
-        val basicInfoTransaction = fragmentManager.beginTransaction()
-        basicInfoTransaction.replace(
-            R.id.container_basicInfo,
-            BasicInfoFragment.newInstance(this)
-        )
-            .commit()
-    }
-
 
     /** Load the progress bar fragment  **/
     private fun loadProgressBarFragment(progression: Int) {
@@ -91,46 +75,9 @@ class NewCharacterActivity : AppCompatActivity() {
             .commit()
     }
 
-    /** Load background fragment into background container**/
-    private fun loadBackgroundFragment() {
-        val backgroundTransaction = fragmentManager.beginTransaction()
-        backgroundTransaction.replace(
-            R.id.container_background,
-            BackgroundFragment.newInstance(this)
-        )
-            .commit()
+
+    companion object {
+        var progression = MutableLiveData<Int>()
+
     }
-
-    /** Load abilities fragment into abilities container**/
-    private fun loadAbilitiesFragment() {
-        val abilitiesTransaction = fragmentManager.beginTransaction()
-        abilitiesTransaction.replace(
-            R.id.container_abilityScores,
-            AbilitiesRecyclerViewFragment.newInstance(this)
-        )
-            .commit()
-    }
-
-    /** Load health fragment into health container **/
-    private fun loadHealthFragment() {
-        val healthTransaction = fragmentManager.beginTransaction()
-        healthTransaction.replace(
-            R.id.container_health,
-            HealthFragment.newInstance(this)
-
-        )
-            .commit()
-    }
-
-    /** Load skills fragment into skills container  **/
-    private fun loadSkillsFragment() {
-        val skillsTransaction = fragmentManager.beginTransaction()
-        skillsTransaction.replace(
-            R.id.container_skills,
-            SkillsRecyclerViewFragment.newInstance(this)
-        )
-            .commit()
-    }
-
-
 }
