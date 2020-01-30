@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 
+apply plugin: 'kotlin-kapt'
+
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
@@ -34,6 +36,11 @@ dependencies {
     implementation KoinDependencies.orgKoinKoinCore
     implementation KoinDependencies.orgKoinKoinAndroidxScope
     implementation KoinDependencies.orgKoinKoinAndroidxViewmodel
+
+    implementation RoomDependencies.androidxRoomRoomRuntime
+    implementation RoomDependencies.androidxRoomRoomKtx
+    kapt RoomDependencies.androidxRoomRoomCompiler
+
 
     implementation AndroidDependencies.androidSupportAppcompatV7
 

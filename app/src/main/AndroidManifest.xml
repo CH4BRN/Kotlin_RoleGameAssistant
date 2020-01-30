@@ -3,7 +3,7 @@
     package="com.uldskull.rolegameassistant">
 
     <application
-        android:name="com.uldskull.rolegameassistant.api.MainApplication"
+        android:name="com.uldskull.rolegameassistant.framework.application.MainApplication"
         android:allowBackup="true"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:icon="@mipmap/ic_launcher"
@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.uldskull.rolegameassistant.ui.activities.MainActivity">
+        <activity android:name="com.uldskull.rolegameassistant.presentation.fragments.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,8 +19,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.new_character.activities.NewCharacterActivity" />
-        <activity android:name=".ui.character_search.activities.CharacterSearchActivity" />
+        <activity android:name="com.uldskull.rolegameassistant.presentation.fragments.activities.NewCharacterActivity" />
+        <activity android:name="com.uldskull.rolegameassistant.presentation.fragments.activities.CharacterSearchActivity" />
 
 
     </application>

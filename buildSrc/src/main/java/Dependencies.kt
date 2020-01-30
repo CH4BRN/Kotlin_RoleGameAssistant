@@ -25,6 +25,17 @@ object KoinVersion {
     const val koinAndroid = "2.0.1"
 }
 
+object RoomVersions {
+    const val room = "2.2.1"
+}
+
+object RoomDependencies {
+    const val androidxRoomRoomRuntime = "androidx.room:room-runtime:${RoomVersions.room}"
+    const val androidxRoomRoomKtx = "androidx.room:room-ktx:${RoomVersions.room}"
+    const val androidxRoomRoomCompiler = "androidx.room:room-compiler:${RoomVersions.room}"
+
+}
+
 object KoinDependencies {
     const val orgKoinKoinAndroid =
         "org.koin:koin-android:${KoinVersion.koinAndroid}"
@@ -57,4 +68,5 @@ object TestDependencies {
     const val androidxTestExtJunit = "androidx.test.ext:junit:${JunitVersions.androidxTestExtJunit}"
     const val androidxTestEspressoEspressoCore =
         "androidx.test.espresso:espresso-core:${EspressoVersions.androidxTestEspressoEspressoCore}"
+    const val androidxRoomRoomTesting = "androidx.room:room-testing:${RoomVersions.room}"
 }
