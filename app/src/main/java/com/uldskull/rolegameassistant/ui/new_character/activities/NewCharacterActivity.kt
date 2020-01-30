@@ -27,7 +27,8 @@ class NewCharacterActivity :
     /** SupportFragmentManager  **/
     private val fragmentManager = supportFragmentManager
 
-    /** Activity life cycle **/
+    /** Activity life cycle
+     * @param savedInstanceState the transmitted bundle**/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -36,36 +37,33 @@ class NewCharacterActivity :
         //  Get the ViewModels by DI
         newCharacterViewModel = getViewModel()
 
+        this.observeProgression()
 
+        //  Serialize the view pager.
+        viewPager = findViewById(R.id.viewPager)
+
+        //  Set the viewPager adapter.
+        viewPager.adapter = CharacterPagerAdapter(supportFragmentManager, this)
+
+        loadProgressBarFragment(0)
+    }
+
+    /** Observe view pager progression  **/
+    private fun observeProgression() {
         progression.observe(
             this, Observer { prog ->
                 kotlin.run {
                     loadProgressBarFragment(prog)
                 }
-            })
-
-        viewPager = findViewById(R.id.viewPager)
-
-        characterPagerAdapter = CharacterPagerAdapter(supportFragmentManager, this)
-
-        viewPager.adapter = characterPagerAdapter
-
-
-        loadFragment()
+            }
+        )
     }
 
     /** View pager  **/
     private lateinit var viewPager: ViewPager
 
-    private lateinit var characterPagerAdapter: CharacterPagerAdapter
-
-    /** Call the methods that load the fragments    **/
-    private fun loadFragment() {
-        loadProgressBarFragment(0)
-
-    }
-
-    /** Load the progress bar fragment  **/
+    /** Load the progress bar fragment
+     * @param progression the progression to display **/
     private fun loadProgressBarFragment(progression: Int) {
         val progressBarTransaction = fragmentManager.beginTransaction()
         progressBarTransaction.replace(
@@ -75,9 +73,8 @@ class NewCharacterActivity :
             .commit()
     }
 
-
     companion object {
+        /** ViewPager progression   **/
         var progression = MutableLiveData<Int>()
-
     }
 }

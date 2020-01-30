@@ -4,24 +4,21 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.ui.character_search.activities.CharacterSearchActivity
 import com.uldskull.rolegameassistant.ui.new_character.activities.NewCharacterActivity
 
 
 class MainActivity : AppCompatActivity() {
 
 
-    /** Activity Lifecycle  **/
+    /** Activity Lifecycle
+     * @param  savedInstanceState is the transmitted bundle**/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //  loadSearchCharacterActivity()
-        loadNewCharacterActivity()
-
-
-
-
-
+        loadSearchCharacterActivity()
+        // loadNewCharacterActivity()
     }
 
     /** Load the search character activity  **/

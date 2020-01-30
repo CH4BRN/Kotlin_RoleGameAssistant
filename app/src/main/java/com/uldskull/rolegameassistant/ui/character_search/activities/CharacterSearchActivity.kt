@@ -1,7 +1,7 @@
 // File CharacterSearchActivity.kt
 // @Author pierre.antoine - 29/01/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.ui.activities
+package com.uldskull.rolegameassistant.ui.character_search.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

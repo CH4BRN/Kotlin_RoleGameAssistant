@@ -20,7 +20,7 @@
         </activity>
 
         <activity android:name=".ui.new_character.activities.NewCharacterActivity" />
-        <activity android:name=".ui.activities.CharacterSearchActivity" />
+        <activity android:name=".ui.character_search.activities.CharacterSearchActivity" />
 
 
     </application>
