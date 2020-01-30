@@ -1,4 +1,4 @@
-package com.uldskull.rolegameassistant.presentation.fragments.activities
+package com.uldskull.rolegameassistant.presentation.activities
 
 import android.content.Intent
 import android.os.Bundle

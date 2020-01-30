@@ -10,7 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.presentation.fragments.activities.NewCharacterActivity
+import com.uldskull.rolegameassistant.presentation.activities.NewCharacterActivity
 
 /**
  *   Class "HealthFragment" :

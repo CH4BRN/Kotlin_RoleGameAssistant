@@ -1,7 +1,7 @@
 // File NewCharacterActivity.kt
 // @Author pierre.antoine - 27/01/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.presentation.fragments.activities
+package com.uldskull.rolegameassistant.presentation.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
