@@ -9,7 +9,7 @@ object AndroidVersions {
 object AndroidXVersions {
     const val appcompatAppcompat = "1.1.0"
     const val coreCoreKtx = "1.1.0"
-    const val constraintlayoutConstraintlayout = "1.1.3"
+    const val constraintLayoutConstraintLayout = "1.1.3"
 }
 
 object JunitVersions {
@@ -47,9 +47,9 @@ object AndroidXDependencies {
                 AndroidXVersions.appcompatAppcompat
     const val androidxCoreCoreKtx = "androidx.core:core-ktx:" +
             AndroidXVersions.coreCoreKtx
-    const val androidxConstraintlayoutConstraintlayout =
+    const val androidxConstraintLayoutConstraintLayout =
         "androidx.constraintlayout:constraintlayout:" +
-                AndroidXVersions.constraintlayoutConstraintlayout
+                AndroidXVersions.constraintLayoutConstraintLayout
 }
 
 object TestDependencies {

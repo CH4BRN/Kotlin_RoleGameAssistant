@@ -6,7 +6,6 @@ package com.uldskull.rolegameassistant.ui.new_character.fragments.skills
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +22,7 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  *   Manage skill's RecyclerView fragment.
  **/
 class SkillsRecyclerViewFragment : Fragment() {
+
     /** ViewModel for skills    **/
     private lateinit var skillsViewModel: SkillsViewModel
 
@@ -38,19 +38,20 @@ class SkillsRecyclerViewFragment : Fragment() {
         skillsViewModel = getViewModel()
     }
 
+    override fun onResume() {
+        super.onResume()
+        NewCharacterActivity.progression.value = 5
+    }
+
     /** Fragment life-cycle  **/
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        when (NewCharacterActivity.progression.value) {
-            3 -> NewCharacterActivity.progression.value = 4
-            4 -> NewCharacterActivity.progression.value = 6
-
-        }
         return initializeView(inflater, container)
     }
+
 
     /** Initialize the view **/
     private fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
@@ -58,15 +59,6 @@ class SkillsRecyclerViewFragment : Fragment() {
             R.layout.fragment_recyclerview_skills, container, false
         )
         return initialRootView
-    }
-
-    override fun onInflate(context: Context, attrs: AttributeSet, savedInstanceState: Bundle?) {
-        super.onInflate(context, attrs, savedInstanceState)
-
-        when (NewCharacterActivity.progression.value) {
-            4 -> NewCharacterActivity.progression.value = 6
-
-        }
     }
 
     /** Fragment life-cycle **/
@@ -104,8 +96,8 @@ class SkillsRecyclerViewFragment : Fragment() {
 
         @JvmStatic
         fun newInstance(activity: Activity, position: Int): SkillsRecyclerViewFragment {
-            var fragment = SkillsRecyclerViewFragment()
-            var args = Bundle()
+            val fragment = SkillsRecyclerViewFragment()
+            val args = Bundle()
 
             args.putInt(KEY_POSITION, position)
             fragment.arguments = args

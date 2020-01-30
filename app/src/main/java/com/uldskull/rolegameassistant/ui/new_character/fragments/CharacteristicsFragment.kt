@@ -24,13 +24,21 @@ class CharacteristicsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        when (NewCharacterActivity.progression.value) {
-            0 -> NewCharacterActivity.progression.value = 0
-
-        }
 
         return initializeView(inflater, container)
     }
+
+    override fun onResume() {
+        super.onResume()
+        NewCharacterActivity.progression.value = 1
+    }
+
+    override fun onPause() {
+        super.onPause()
+        NewCharacterActivity.progression.value = 1
+    }
+
+
 
     /** Initialize the view corresponding to this fragment class    **/
     private fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
@@ -46,8 +54,8 @@ class CharacteristicsFragment : Fragment() {
 
         @JvmStatic
         fun newInstance(activity: Activity, position: Int): CharacteristicsFragment {
-            var fragment = CharacteristicsFragment()
-            var args = Bundle()
+            val fragment = CharacteristicsFragment()
+            val args = Bundle()
 
             args.putInt(KEY_POSITION, position)
             fragment.arguments = args

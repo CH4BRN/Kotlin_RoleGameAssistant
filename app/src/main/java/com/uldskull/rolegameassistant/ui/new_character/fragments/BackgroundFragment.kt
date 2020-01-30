@@ -42,12 +42,17 @@ class BackgroundFragment : Fragment() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        NewCharacterActivity.progression.value = 2
+    }
+
     companion object {
         @JvmStatic
         fun newInstance(activity: Activity, position: Int): BackgroundFragment {
-            var fragment = BackgroundFragment()
+            val fragment = BackgroundFragment()
 
-            var args = Bundle()
+            val args = Bundle()
 
             args.putInt(KEY_POSITION, position)
             fragment.arguments = args

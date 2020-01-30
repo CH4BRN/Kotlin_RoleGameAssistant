@@ -18,34 +18,35 @@ import com.uldskull.rolegameassistant.ui.new_character.activities.NewCharacterAc
  **/
 class HealthFragment : Fragment() {
 
+    /** Fragment life-cycle **/
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        when (NewCharacterActivity.progression.value) {
-            2 -> NewCharacterActivity.progression.value = 3
 
-        }
         return initializeView(inflater, container)
     }
+
 
     /** Initialize the view corresponding to this fragment class    **/
     private fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = inflater.inflate(
             R.layout.fragment_health, container, false
         )
-
         return initialRootView
-
     }
 
+    override fun onResume() {
+        super.onResume()
+        NewCharacterActivity.progression.value = 4
+    }
     companion object {
 
         @JvmStatic
         fun newInstance(activity: Activity, position: Int): HealthFragment {
-            var fragment = HealthFragment()
-            var args = Bundle()
+            val fragment = HealthFragment()
+            val args = Bundle()
 
             args.putInt(KEY_POSITION, position)
             fragment.arguments = args

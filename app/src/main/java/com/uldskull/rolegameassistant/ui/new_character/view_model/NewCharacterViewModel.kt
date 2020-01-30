@@ -13,13 +13,6 @@ import androidx.lifecycle.MutableLiveData
  *   The ViewModel class allows data to survive configuration changes such as
  *   screen rotations.
  **/
-class NewCharacterViewModel(application: Application)
-    : AndroidViewModel(application) {
-
-    var progressStatus = MutableLiveData<Int>()
-
-    init {
-        progressStatus.value = 0
-    }
-
+class NewCharacterViewModel(application: Application) : AndroidViewModel(application) {
+    var progression = MutableLiveData<Int>()
 }

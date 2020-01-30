@@ -43,12 +43,10 @@ class AbilitiesRecyclerViewFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        when (NewCharacterActivity.progression.value) {
-            1 -> NewCharacterActivity.progression.value = 2
 
-        }
         return initializeView(inflater, container)
     }
+
 
     /** Initialize the view **/
     private fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
@@ -56,6 +54,11 @@ class AbilitiesRecyclerViewFragment : Fragment() {
             R.layout.fragment_recyclerview_abilities, container, false
         )
         return initialRootView
+    }
+
+    override fun onResume() {
+        super.onResume()
+        NewCharacterActivity.progression.value = 3
     }
 
     /** Fragment life-cycle **/
@@ -92,8 +95,8 @@ class AbilitiesRecyclerViewFragment : Fragment() {
 
         @JvmStatic
         fun newInstance(activity: Activity, position: Int): AbilitiesRecyclerViewFragment {
-            var fragment = AbilitiesRecyclerViewFragment()
-            var args = Bundle()
+            val fragment = AbilitiesRecyclerViewFragment()
+            val args = Bundle()
 
             args.putInt(KEY_POSITION, position)
             fragment.arguments = args
@@ -102,7 +105,7 @@ class AbilitiesRecyclerViewFragment : Fragment() {
 
         }
 
-        const val KEY_POSITION = "position"
+        private const val KEY_POSITION = "position"
         private lateinit var initialRootView: View
 
     }

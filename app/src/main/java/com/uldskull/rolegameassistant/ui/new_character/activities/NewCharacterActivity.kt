@@ -3,20 +3,14 @@
 
 package com.uldskull.rolegameassistant.ui.new_character.activities
 
-import android.app.Activity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.ui.new_character.fragments.*
-import com.uldskull.rolegameassistant.ui.new_character.fragments.abilities.AbilitiesRecyclerViewFragment
-import com.uldskull.rolegameassistant.ui.new_character.fragments.skills.SkillsRecyclerViewFragment
+import com.uldskull.rolegameassistant.ui.new_character.adapter.CharacterPagerAdapter
+import com.uldskull.rolegameassistant.ui.new_character.fragments.ProgressBarFragment
 import com.uldskull.rolegameassistant.ui.new_character.view_model.NewCharacterViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -41,6 +35,7 @@ class NewCharacterActivity :
 
         //  Get the ViewModels by DI
         newCharacterViewModel = getViewModel()
+
 
         progression.observe(
             this, Observer { prog ->
@@ -85,42 +80,4 @@ class NewCharacterActivity :
         var progression = MutableLiveData<Int>()
 
     }
-
-    class CharacterPagerAdapter(fm: FragmentManager, val activity: Activity) :
-        FragmentPagerAdapter(fm) {
-        override fun getCount(): Int = 6
-
-        override fun getItemPosition(`object`: Any): Int {
-            var position = super.getItemPosition(`object`)
-            Toast.makeText(activity, position.toString(), Toast.LENGTH_SHORT).show()
-            return position
-
-        }
-        override fun getItem(position: Int): Fragment {
-            when (position) {
-                0 -> {
-                    return BasicInfoFragment.newInstance(activity, position)
-                }
-                1 -> {
-                    return CharacteristicsFragment.newInstance(activity, position)
-                }
-                2 -> {
-                    return BackgroundFragment.newInstance(activity, position)
-                }
-                3 -> {
-                    return AbilitiesRecyclerViewFragment.newInstance(activity, position)
-                }
-                4 -> {
-                    return HealthFragment.newInstance(activity, position)
-                }
-                5 -> {
-                    return SkillsRecyclerViewFragment.newInstance(activity, position)
-                }
-                else -> {
-                    return BasicInfoFragment.newInstance(activity, position)
-                }
-            }
-        }
-    }
-
 }

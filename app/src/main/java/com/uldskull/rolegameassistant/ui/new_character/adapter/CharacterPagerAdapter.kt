@@ -4,8 +4,6 @@
 package com.uldskull.rolegameassistant.ui.new_character.adapter
 
 import android.app.Activity
-import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
@@ -18,20 +16,15 @@ import com.uldskull.rolegameassistant.ui.new_character.fragments.skills.SkillsRe
 
 /**
  *   Class "CharacterPagerAdapter" :
- *   TODO: Fill class use.
+ *   Adapter for ViewPager
  **/
 class CharacterPagerAdapter(fm: FragmentManager, val activity: Activity) :
-    FragmentStatePagerAdapter(fm) {
+    FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+    /** Number of view  **/
     override fun getCount(): Int = 6
 
-    override fun startUpdate(container: ViewGroup) {
-
-        Toast.makeText(activity, "update", Toast.LENGTH_SHORT).show()
-        super.startUpdate(container)
-    }
-
+    /** Instantiate the view    **/
     override fun getItem(position: Int): Fragment {
-        Toast.makeText(activity, position.toString(), Toast.LENGTH_SHORT).show()
 
         var fragment: Fragment? = null
         return when (position) {

@@ -28,7 +28,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation AndroidXDependencies.androidxAppcompatAppcompat
     implementation AndroidXDependencies.androidxCoreCoreKtx
-    implementation AndroidXDependencies.androidxConstraintlayoutConstraintlayout
+    implementation AndroidXDependencies.androidxConstraintLayoutConstraintLayout
 
     implementation KoinDependencies.orgKoinKoinAndroid
     implementation KoinDependencies.orgKoinKoinCore

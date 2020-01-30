@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.ui.new_character.activities.NewCharacterActivity
+import com.uldskull.rolegameassistant.ui.new_character.view_model.NewCharacterViewModel
+import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**
  *   Class "PictureFragment" :
@@ -17,13 +19,15 @@ import com.uldskull.rolegameassistant.ui.new_character.activities.NewCharacterAc
  **/
 class PictureFragment : Fragment() {
 
+    private lateinit var newCharacterViewModel: NewCharacterViewModel
     /** Fragment Lifecycle  **/
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        NewCharacterActivity.progression.value = 6
+        newCharacterViewModel = getViewModel()
+        newCharacterViewModel.progression.value = 6
         return initializeView(inflater, container)
     }
 
@@ -41,8 +45,8 @@ class PictureFragment : Fragment() {
 
         @JvmStatic
         fun newInstance(activity: NewCharacterActivity, position: Int): PictureFragment {
-            var fragment = PictureFragment()
-            var args = Bundle()
+            val fragment = PictureFragment()
+            val args = Bundle()
 
             args.putInt(KEY_POSITION, position)
             fragment.arguments = args
