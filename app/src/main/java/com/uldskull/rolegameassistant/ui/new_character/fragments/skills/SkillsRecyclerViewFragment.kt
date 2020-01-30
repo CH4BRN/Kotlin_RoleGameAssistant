@@ -46,6 +46,7 @@ class SkillsRecyclerViewFragment : Fragment() {
     ): View? {
         when (NewCharacterActivity.progression.value) {
             3 -> NewCharacterActivity.progression.value = 4
+            4 -> NewCharacterActivity.progression.value = 6
 
         }
         return initializeView(inflater, container)
@@ -63,7 +64,7 @@ class SkillsRecyclerViewFragment : Fragment() {
         super.onInflate(context, attrs, savedInstanceState)
 
         when (NewCharacterActivity.progression.value) {
-            4 -> NewCharacterActivity.progression.value = 5
+            4 -> NewCharacterActivity.progression.value = 6
 
         }
     }
