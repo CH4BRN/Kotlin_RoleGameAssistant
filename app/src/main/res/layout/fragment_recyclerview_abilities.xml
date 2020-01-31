@@ -7,7 +7,7 @@
     android:background="@android:color/holo_orange_light"
     android:orientation="vertical"
     android:padding="8dp"
-    tools:context=".ui.new_character.fragments.abilities.AbilitiesRecyclerViewFragment">
+    tools:context=".presentation.fragments.fragment.abilities.AbilitiesRecyclerViewFragment">
 
     <TextView
         android:id="@+id/tv_title"

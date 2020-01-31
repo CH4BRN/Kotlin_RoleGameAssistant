@@ -7,7 +7,7 @@
     android:background="@android:color/holo_orange_light"
     android:orientation="vertical"
     android:padding="8dp"
-    tools:context="com.uldskull.rolegameassistant.ui.new_character.fragments.skills.SkillsRecyclerViewFragment">
+    tools:context=".presentation.fragments.fragment.skills.SkillsRecyclerViewFragment">
 
     <TextView
         android:id="@+id/tv_title"
