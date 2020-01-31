@@ -46,6 +46,11 @@ class CharacteristicsFragment : Fragment() {
             R.layout.fragment_characteristics, container, false
         )
 
+        val fragmentManager = activity?.supportFragmentManager
+        val pictureTransaction = fragmentManager?.beginTransaction()
+        pictureTransaction?.replace(R.id.container_picture, PictureFragment(activity as Activity))
+            ?.commit()
+
         return initialRootView
 
     }
