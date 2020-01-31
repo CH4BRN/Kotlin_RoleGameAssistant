@@ -39,13 +39,17 @@ class NewCharacterActivity :
 
         this.observeProgression()
 
+        this.setCharacterPageAdapter()
+
+        this.loadProgressBarFragment(0)
+    }
+
+    private fun setCharacterPageAdapter() {
         //  Serialize the view pager.
         viewPager = findViewById(R.id.viewPager)
 
         //  Set the viewPager adapter.
         viewPager.adapter = CharacterPagerAdapter(supportFragmentManager, this)
-
-        loadProgressBarFragment(0)
     }
 
     /** Observe view pager progression  **/

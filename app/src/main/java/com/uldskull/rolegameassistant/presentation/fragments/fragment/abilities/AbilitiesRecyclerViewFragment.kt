@@ -56,6 +56,7 @@ class AbilitiesRecyclerViewFragment : Fragment() {
         return initialRootView
     }
 
+    /** Fragment life-cycle **/
     override fun onResume() {
         super.onResume()
         NewCharacterActivity.progression.value = 3
@@ -64,15 +65,26 @@ class AbilitiesRecyclerViewFragment : Fragment() {
     /** Fragment life-cycle **/
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initializeRecyclerView()
+    }
+
+    /** Initialize recycler view    **/
+    private fun initializeRecyclerView() {
         abilitiesRecyclerView = activity?.findViewById(R.id.recycler_view_abilities)
                 as RecyclerView?
-
-        abilitiesAdapter = AbilitiesAdapter(activity as Context)
-
         startAbilitiesObservation()
+        setRecyclerViewAdapter()
+        setRecyclerViewLayoutManager()
+    }
 
+    /** Set recycler view adapter   **/
+    private fun setRecyclerViewAdapter() {
+        abilitiesAdapter = AbilitiesAdapter(activity as Context)
         abilitiesRecyclerView?.adapter = abilitiesAdapter
+    }
 
+    /** Set recycler view layout manager    **/
+    private fun setRecyclerViewLayoutManager() {
         abilitiesRecyclerView?.layoutManager = LinearLayoutManager(
             activity,
             LinearLayoutManager.VERTICAL,

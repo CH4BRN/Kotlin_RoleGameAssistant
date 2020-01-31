@@ -25,10 +25,6 @@ class BackgroundFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        when (NewCharacterActivity.progression.value) {
-            0 -> NewCharacterActivity.progression.value = 1
-
-        }
         return initializeView(inflater, container)
     }
 

@@ -35,15 +35,29 @@ class PictureFragment(val context: Activity) : Fragment() {
     }
 
     fun selectImageAlbum() {
-        if (activity == null) {
-            return
-        }
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.type = "image/*"
+        if (activityIsNull()) return
+        val intent = getImageIntent()
 
         if (intent.resolveActivity(activity!!.packageManager) != null) {
-            activity!!.startActivityForResult(intent, REQUEST_CODE_SELECT_IMAGE_IN_ALBUM)
+            startSelectImageActivity(intent)
         }
+    }
+
+    private fun activityIsNull(): Boolean {
+        if (activity == null) {
+            return true
+        }
+        return false
+    }
+
+    private fun startSelectImageActivity(intent: Intent) {
+        activity!!.startActivityForResult(intent, REQUEST_CODE_SELECT_IMAGE_IN_ALBUM)
+    }
+
+    private fun getImageIntent(): Intent {
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "image/*"
+        return intent
     }
 
     /** Initialize the view corresponding to this fragment class    **/
@@ -58,6 +72,10 @@ class PictureFragment(val context: Activity) : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         var imageButton = activity?.findViewById<ImageButton>(R.id.img_btn_characterPicture)
 
+        setImageButtonListener(imageButton)
+    }
+
+    private fun setImageButtonListener(imageButton: ImageButton?) {
         imageButton?.setOnClickListener(View.OnClickListener {
             selectImageAlbum()
         })
