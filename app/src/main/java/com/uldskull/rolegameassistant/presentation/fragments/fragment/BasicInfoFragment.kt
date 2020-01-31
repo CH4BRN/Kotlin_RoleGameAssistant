@@ -34,11 +34,10 @@ class BasicInfoFragment : Fragment() {
         initialRootView = inflater.inflate(
             R.layout.fragment_basic_info, container, false
         )
-
         return initialRootView
-
     }
 
+    /** Fragment Lifecycle  **/
     override fun onResume() {
         super.onResume()
         NewCharacterActivity.progression.value = 0

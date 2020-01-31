@@ -38,6 +38,7 @@ class SkillsRecyclerViewFragment : Fragment() {
         skillsViewModel = getViewModel()
     }
 
+    /** Fragment Lifecycle  **/
     override fun onResume() {
         super.onResume()
         NewCharacterActivity.progression.value = 5
@@ -51,7 +52,6 @@ class SkillsRecyclerViewFragment : Fragment() {
     ): View? {
         return initializeView(inflater, container)
     }
-
 
     /** Initialize the view **/
     private fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
@@ -71,6 +71,7 @@ class SkillsRecyclerViewFragment : Fragment() {
         setRecyclerViewLayoutManager()
     }
 
+    /** Set recycler view layout manager    **/
     private fun setRecyclerViewLayoutManager() {
         skillsRecyclerView?.layoutManager = LinearLayoutManager(
             activity,
@@ -79,11 +80,11 @@ class SkillsRecyclerViewFragment : Fragment() {
         )
     }
 
+    /** Set recycler view adapter   **/
     private fun setRecyclerViewAdapter() {
         skillsAdapter = SkillsAdapter(activity as Context)
         skillsRecyclerView?.adapter = skillsAdapter
     }
-
 
     /** Observe ViewModel's skills  **/
     private fun startSkillsObservation() {

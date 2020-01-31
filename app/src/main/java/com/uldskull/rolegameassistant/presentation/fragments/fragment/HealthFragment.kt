@@ -37,6 +37,7 @@ class HealthFragment : Fragment() {
         return initialRootView
     }
 
+    /** Fragment Lifecycle  **/
     override fun onResume() {
         super.onResume()
         NewCharacterActivity.progression.value = 4

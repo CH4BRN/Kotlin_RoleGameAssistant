@@ -28,33 +28,33 @@ class CharacteristicsFragment : Fragment() {
         return initializeView(inflater, container)
     }
 
+    /** Fragment Lifecycle  **/
     override fun onResume() {
         super.onResume()
         setProgression()
     }
 
+    /** Set progress bar progression  **/
     private fun setProgression() {
         NewCharacterActivity.progression.value = 1
     }
 
+    /** Fragment Lifecycle  **/
     override fun onPause() {
         super.onPause()
         setProgression()
     }
-
 
     /** Initialize the view corresponding to this fragment class    **/
     private fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = inflater.inflate(
             R.layout.fragment_characteristics, container, false
         )
-
         loadPictureFragment()
-
         return initialRootView
-
     }
 
+    /** Load picture fragment   **/
     private fun loadPictureFragment() {
         val fragmentManager = activity?.supportFragmentManager
         val pictureTransaction = fragmentManager?.beginTransaction()

@@ -5,7 +5,6 @@ package com.uldskull.rolegameassistant.presentation.view_model
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
 
 /**
  *   Class "NewCharacterViewModel" :
@@ -13,6 +12,4 @@ import androidx.lifecycle.MutableLiveData
  *   The ViewModel class allows data to survive configuration changes such as
  *   screen rotations.
  **/
-class NewCharacterViewModel(application: Application) : AndroidViewModel(application) {
-    var progression = MutableLiveData<Int>()
-}
+class NewCharacterViewModel(application: Application) : AndroidViewModel(application)

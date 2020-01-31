@@ -38,6 +38,7 @@ class BackgroundFragment : Fragment() {
 
     }
 
+    /** Fragment Lifecycle  **/
     override fun onResume() {
         super.onResume()
         NewCharacterActivity.progression.value = 2
