@@ -23,7 +23,7 @@ class CharacterSearchActivity : AppCompatActivity() {
     }
 
 
-    fun initializeFab() {
+    private fun initializeFab() {
         if (fab_createCharacter != null) {
             fab_createCharacter.setOnClickListener {
                 var intent = Intent(this, NewCharacterActivity::class.java)

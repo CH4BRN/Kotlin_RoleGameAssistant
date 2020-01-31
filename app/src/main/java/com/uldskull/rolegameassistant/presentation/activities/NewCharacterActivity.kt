@@ -44,6 +44,7 @@ class NewCharacterActivity :
         this.loadProgressBarFragment(0)
     }
 
+    /** Set character page adapter  **/
     private fun setCharacterPageAdapter() {
         //  Serialize the view pager.
         viewPager = findViewById(R.id.viewPager)
