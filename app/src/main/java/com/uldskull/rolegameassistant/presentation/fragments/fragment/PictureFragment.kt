@@ -7,6 +7,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +26,9 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  **/
 class PictureFragment(val context: Activity) : Fragment() {
 
+    /** View model for new character    **/
     private lateinit var newCharacterViewModel: NewCharacterViewModel
+
     /** Fragment Lifecycle  **/
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,37 +40,53 @@ class PictureFragment(val context: Activity) : Fragment() {
         return initializeView(inflater, container)
     }
 
-    fun selectImageAlbum() {
-        if (activityIsNull()) return
+    /** Select image from the gallery   **/
+    private fun selectImageAlbum() {
+        if (isActivityNull()) return
 
-        val galleryIntent = Intent(
-            Intent.ACTION_PICK,
-            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        )
+        val galleryIntent = getPickImageIntent()
         startActivityForResult(galleryIntent, 0)
 
     }
 
+    /** Get a pick image intent **/
+    private fun getPickImageIntent(): Intent {
+        return Intent(
+            Intent.ACTION_PICK,
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        )
+    }
+
+    /** Called when the started activity is finished    **/
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
-        Toast.makeText(activity, "Bad request code", Toast.LENGTH_SHORT)
+        Toast.makeText(activity, "On activity result", Toast.LENGTH_SHORT)
 
         when (requestCode) {
             0 -> {
-                if (resultCode == Activity.RESULT_OK && data != null) {
+                if (isResultOk(resultCode) && data != null) {
                     var selectedImage: Uri? = data.data
 
                     img_btn_characterPicture.setImageURI(selectedImage)
                 }
             }
             else -> {
-                Toast.makeText(activity, "Bad request code", Toast.LENGTH_SHORT)
+                showBadRequestToast()
             }
 
         }
     }
 
-    private fun activityIsNull(): Boolean {
+    /** Show bad request toast  **/
+    private fun showBadRequestToast() {
+        Toast.makeText(activity, "Bad request code", Toast.LENGTH_SHORT)
+    }
+
+    /** Is result code ok   **/
+    private fun isResultOk(resultCode: Int) = resultCode == Activity.RESULT_OK
+
+    /** Is activity null    **/
+    private fun isActivityNull(): Boolean {
         if (activity == null) {
             return true
         }
@@ -83,6 +102,7 @@ class PictureFragment(val context: Activity) : Fragment() {
         return initialRootView
     }
 
+    /** Activity life-cycle **/
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var imageButton = activity?.findViewById<ImageButton>(R.id.img_btn_characterPicture)
@@ -90,10 +110,11 @@ class PictureFragment(val context: Activity) : Fragment() {
         setImageButtonListener(imageButton)
     }
 
+    /** Set image button listener       **/
     private fun setImageButtonListener(imageButton: ImageButton?) {
-        imageButton?.setOnClickListener(View.OnClickListener {
+        imageButton?.setOnClickListener {
             selectImageAlbum()
-        })
+        }
     }
 
     companion object {
