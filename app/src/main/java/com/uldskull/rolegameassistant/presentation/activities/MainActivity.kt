@@ -15,8 +15,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //loadSearchCharacterActivity()
-        loadNewCharacterActivity()
+        loadSearchCharacterActivity()
+        //loadNewCharacterActivity()
     }
 
     /** Load the search character activity  **/
