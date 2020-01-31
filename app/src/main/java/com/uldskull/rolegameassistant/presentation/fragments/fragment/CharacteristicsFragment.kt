@@ -30,14 +30,17 @@ class CharacteristicsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        setProgression()
+    }
+
+    private fun setProgression() {
         NewCharacterActivity.progression.value = 1
     }
 
     override fun onPause() {
         super.onPause()
-        NewCharacterActivity.progression.value = 1
+        setProgression()
     }
-
 
 
     /** Initialize the view corresponding to this fragment class    **/
@@ -46,8 +49,17 @@ class CharacteristicsFragment : Fragment() {
             R.layout.fragment_characteristics, container, false
         )
 
+        loadPictureFragment()
+
         return initialRootView
 
+    }
+
+    private fun loadPictureFragment() {
+        val fragmentManager = activity?.supportFragmentManager
+        val pictureTransaction = fragmentManager?.beginTransaction()
+        pictureTransaction?.replace(R.id.container_picture, PictureFragment(activity as Activity))
+            ?.commit()
     }
 
     companion object {

@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.uldskull.rolegameassistant">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:name="com.uldskull.rolegameassistant.framework.application.MainApplication"
         android:allowBackup="true"
@@ -19,7 +23,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.uldskull.rolegameassistant.presentation.activities.NewCharacterActivity" />
+        <activity android:name="com.uldskull.rolegameassistant.presentation.activities.NewCharacterActivity">
+
+        </activity>
+
         <activity android:name="com.uldskull.rolegameassistant.presentation.activities.CharacterSearchActivity" />
 
 

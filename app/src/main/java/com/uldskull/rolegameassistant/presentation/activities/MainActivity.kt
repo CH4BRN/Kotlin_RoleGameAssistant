@@ -22,20 +22,30 @@ class MainActivity : AppCompatActivity() {
     /** Load the search character activity  **/
     private fun loadSearchCharacterActivity() {
         startActivity(
-            Intent(
-                this,
-                CHARACTER_SEARCH_ACTIVITY
-            )
+            getCharacterSearchIntent()
+        )
+    }
+
+    /** get character search intent **/
+    private fun getCharacterSearchIntent(): Intent {
+        return Intent(
+            this,
+            CHARACTER_SEARCH_ACTIVITY
         )
     }
 
     /** Load the new character activity **/
     private fun loadNewCharacterActivity() {
         startActivity(
-            Intent(
-                this,
-                NEW_CHARACTER_ACTIVITY
-            )
+            getNewCharacterIntent()
+        )
+    }
+
+    /** Get new character intent    **/
+    private fun getNewCharacterIntent(): Intent {
+        return Intent(
+            this,
+            NEW_CHARACTER_ACTIVITY
         )
     }
 

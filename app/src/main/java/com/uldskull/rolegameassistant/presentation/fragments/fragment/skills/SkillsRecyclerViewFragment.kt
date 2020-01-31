@@ -64,22 +64,24 @@ class SkillsRecyclerViewFragment : Fragment() {
     /** Fragment life-cycle **/
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         skillsRecyclerView = activity?.findViewById(R.id.recycler_view_skills)
                 as RecyclerView?
-
-        skillsAdapter = SkillsAdapter(activity as Context)
-
         startSkillsObservation()
+        setRecyclerViewAdapter()
+        setRecyclerViewLayoutManager()
+    }
 
-        skillsRecyclerView?.adapter = skillsAdapter
-
+    private fun setRecyclerViewLayoutManager() {
         skillsRecyclerView?.layoutManager = LinearLayoutManager(
             activity,
             LinearLayoutManager.VERTICAL,
             false
         )
+    }
 
+    private fun setRecyclerViewAdapter() {
+        skillsAdapter = SkillsAdapter(activity as Context)
+        skillsRecyclerView?.adapter = skillsAdapter
     }
 
 

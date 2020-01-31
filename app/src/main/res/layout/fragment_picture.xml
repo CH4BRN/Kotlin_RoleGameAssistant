@@ -12,7 +12,9 @@
         android:gravity="center"
         android:text="Picture : "
         />
-    <ImageView
+
+    <ImageButton
+        android:id="@+id/img_btn_characterPicture"
         app:layout_constraintTop_toBottomOf="@id/tv_title"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
