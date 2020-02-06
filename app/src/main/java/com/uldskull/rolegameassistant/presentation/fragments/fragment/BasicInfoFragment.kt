@@ -11,6 +11,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.presentation.activities.NewCharacterActivity
+import com.uldskull.rolegameassistant.presentation.view_model.NewCharacterViewModel
+import kotlinx.android.synthetic.main.fragment_basic_info.*
+import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**
  *   Class "BasicInfoFragment" :
@@ -25,8 +28,11 @@ class BasicInfoFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        newCharacterViewModel = getViewModel()
         return initializeView(inflater, container)
     }
+
+    private lateinit var newCharacterViewModel: NewCharacterViewModel
 
 
     /** Initialize the view corresponding to this fragment class    **/
@@ -41,6 +47,52 @@ class BasicInfoFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         NewCharacterActivity.progression.value = 0
+    }
+
+    /** Fragment Lifecycle  **/
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setFocusListeners()
+    }
+
+    /** Set focus listeners **/
+    private fun setFocusListeners() {
+        setNameFocusListener()
+        setLevelFocusListener()
+        setExperienceFocusListener()
+        setRaceFocusListener()
+    }
+
+    /** Set race focus listener **/
+    private fun setRaceFocusListener() {
+        et_race.setOnFocusChangeListener { _, _
+            ->
+            newCharacterViewModel.saveRace(et_race?.text.toString())
+        }
+    }
+
+    /** Set experience focus listener   **/
+    private fun setExperienceFocusListener() {
+        et_experience.setOnFocusChangeListener { _, _
+            ->
+            newCharacterViewModel.saveExperience(et_experience?.text.toString())
+        }
+    }
+
+    /** Set level focus listener    **/
+    private fun setLevelFocusListener() {
+        et_level.setOnFocusChangeListener { _, _
+            ->
+            newCharacterViewModel.saveLevel(et_level?.text.toString())
+        }
+    }
+
+    /** Set name focus listener **/
+    private fun setNameFocusListener() {
+        et_name.setOnFocusChangeListener { _, _
+            ->
+            newCharacterViewModel.saveName(et_name?.text.toString())
+        }
     }
 
     companion object {
@@ -58,5 +110,7 @@ class BasicInfoFragment : Fragment() {
 
         private const val KEY_POSITION = "position"
         private lateinit var initialRootView: View
+
+
     }
 }
