@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         loadSearchCharacterActivity()
-        //loadNewCharacterActivity()
+
     }
 
     /** Load the search character activity  **/
