@@ -8,9 +8,9 @@ Class "DomainBasicInfo"
 Domain model for basic info.
  */
 data class DomainBasicInfo(
-    val pk_basicInfoId:Long?=null,
+    val pkBasicInfoId:Long?=null,
     val characterName:String?="name",
     val characterExperience:Int?=0,
-    val fk_characterId:Long?=null,
-    val fk_levelId:Long?=null
+    val fkCharacterId:Long?=null,
+    val fkLevelId:Long?=null
 )
