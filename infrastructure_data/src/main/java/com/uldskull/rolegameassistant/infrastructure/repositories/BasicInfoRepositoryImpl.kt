@@ -5,9 +5,9 @@ package com.uldskull.rolegameassistant.infrastructure.repositories
 import com.uldskull.rolegameassistant.repository.BasicInfoRepository
 
 /**
-Class "BasicInfoRepositoryImpl"
+    Class "BasicInfoRepositoryImpl"
 
-Insert and get BasicInfo from database.
+    Insert and get BasicInfo from database.
  */
 class BasicInfoRepositoryImpl : BasicInfoRepository{
 
