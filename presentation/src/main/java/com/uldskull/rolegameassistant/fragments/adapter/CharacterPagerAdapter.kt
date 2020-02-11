@@ -26,7 +26,6 @@ class CharacterPagerAdapter(fm: FragmentManager, val activity: Activity) :
     /** Instantiate the view    **/
     override fun getItem(position: Int): Fragment {
 
-        var fragment: Fragment? = null
         return when (position) {
             0 -> BasicInfoFragment.newInstance(activity, position)
             1 -> CharacteristicsFragment.newInstance(activity, position)
