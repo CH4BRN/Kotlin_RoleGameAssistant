@@ -44,7 +44,7 @@ dependencies {
 
     implementation AndroidDependencies.androidSupportAppcompatV7
 
-    implementation project(":character")
+    implementation project(':domain_character')
     implementation project(":di")
     implementation project(":presentation")
 
