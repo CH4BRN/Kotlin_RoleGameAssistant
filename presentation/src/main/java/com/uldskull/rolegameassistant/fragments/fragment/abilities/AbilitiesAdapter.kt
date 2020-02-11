@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.domain.model.abilities.Ability
+import com.uldskull.rolegameassistant.domain.model.abilities.DomainAbility
 
 /**
  *   Class "AbilitiesAdapter" :
@@ -23,7 +23,7 @@ class AbilitiesAdapter internal constructor(
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
     /** Abilities list  **/
-    private var abilities = emptyList<Ability>()
+    private var abilities = emptyList<DomainAbility>()
 
     /** Custom ViewHolder   **/
     inner class AbilitiesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -53,9 +53,9 @@ class AbilitiesAdapter internal constructor(
 
     }
 
-    /** Set the list containing abilities to display   **/
-    internal fun setAbilities(abilities: List<Ability>) {
-        this.abilities = abilities
+    /** Set the list containing domainAbilities to display   **/
+    internal fun setAbilities(domainAbilities: List<DomainAbility>) {
+        this.abilities = domainAbilities
         notifyDataSetChanged()
     }
 

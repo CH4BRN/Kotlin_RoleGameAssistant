@@ -6,7 +6,7 @@ package com.uldskull.rolegameassistant.fragments.fragment.abilities
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.uldskull.rolegameassistant.domain.model.abilities.Ability
+import com.uldskull.rolegameassistant.domain.model.abilities.DomainAbility
 
 /**
  *   Class "AbilitiesViewModel" :
@@ -17,16 +17,16 @@ import com.uldskull.rolegameassistant.domain.model.abilities.Ability
 class AbilitiesViewModel(application: Application) : AndroidViewModel(application) {
 
     /** Abilities to display    **/
-    var abilities = MutableLiveData<List<Ability>>()
+    var abilities = MutableLiveData<List<DomainAbility>>()
 
     init {
         abilities.value = listOf(
-            Ability("Str : ", roll = 1, bonus = 5, total = 6),
-            Ability("Dex : ", roll = 2, bonus = 5, total = 7),
-            Ability("Con : ", roll = 3, bonus = 5, total = 8),
-            Ability("Int : ", roll = 4, bonus = 5, total = 9),
-            Ability("Wis : ", roll = 5, bonus = 5, total = 10),
-            Ability("Cha : ", roll = 6, bonus = 5, total = 11)
+            DomainAbility("Str : ", roll = 1, bonus = 5, total = 6),
+            DomainAbility("Dex : ", roll = 2, bonus = 5, total = 7),
+            DomainAbility("Con : ", roll = 3, bonus = 5, total = 8),
+            DomainAbility("Int : ", roll = 4, bonus = 5, total = 9),
+            DomainAbility("Wis : ", roll = 5, bonus = 5, total = 10),
+            DomainAbility("Cha : ", roll = 6, bonus = 5, total = 11)
 
         )
     }

@@ -5,7 +5,7 @@ package com.uldskull.rolegameassistant.infrastructure.database_model.character
 
 /**
  *   Class "DbCharacter" :
- *   Character model for database.
+ *   DomainCharacter model for database.
  **/
 class DbCharacter {
 // TODO : Fill class.

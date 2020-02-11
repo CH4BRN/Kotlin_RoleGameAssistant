@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        /** Character search activity java class    **/
+        /** DomainCharacter search activity java class    **/
         private val CHARACTER_SEARCH_ACTIVITY: Class<CharacterSearchActivity> =
             CharacterSearchActivity::class.java
         /** New character activity java class   **/
