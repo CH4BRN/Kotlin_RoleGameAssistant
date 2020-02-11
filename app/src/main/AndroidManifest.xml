@@ -15,7 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.uldskull.rolegameassistant.presentation.activities.MainActivity">
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,11 +23,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.uldskull.rolegameassistant.presentation.activities.NewCharacterActivity">
+        <activity android:name="com.uldskull.rolegameassistant.activities.NewCharacterActivity">
 
         </activity>
 
-        <activity android:name="com.uldskull.rolegameassistant.presentation.activities.CharacterSearchActivity" />
+        <activity android:name="com.uldskull.rolegameassistant.activities.CharacterSearchActivity" />
 
 
     </application>

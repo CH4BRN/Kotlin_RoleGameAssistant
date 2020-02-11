@@ -4,7 +4,7 @@
 package com.uldskull.rolegameassistant.framework.application
 
 import android.app.Application
-import com.uldskull.rolegameassistant.framework.di.viewModelModule
+import com.uldskull.rolegameassistant.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin

@@ -45,6 +45,8 @@ dependencies {
     implementation AndroidDependencies.androidSupportAppcompatV7
 
     implementation project(":character")
+    implementation project(":di")
+    implementation project(":presentation")
 
     testImplementation TestDependencies.junitJunit
     androidTestImplementation  TestDependencies.androidxTestExtJunit
