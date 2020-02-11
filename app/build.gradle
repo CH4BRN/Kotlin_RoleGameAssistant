@@ -45,7 +45,7 @@ dependencies {
     implementation AndroidDependencies.androidSupportAppcompatV7
 
     implementation project(':domain_character')
-    implementation project(":di")
+    implementation project(':infrastructure_di')
     implementation project(":presentation")
 
     testImplementation TestDependencies.junitJunit
