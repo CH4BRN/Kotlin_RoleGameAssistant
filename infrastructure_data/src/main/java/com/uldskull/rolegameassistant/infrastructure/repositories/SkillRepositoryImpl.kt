@@ -5,8 +5,8 @@ package com.uldskull.rolegameassistant.infrastructure.repositories
 import com.uldskull.rolegameassistant.repository.SkillRepository
 
 /**
-Class "SkillRepositoryImpl"
+    Class "SkillRepositoryImpl"
 
-TODO: Describe class utility.
+    Insert and get Skill from database.
  */
 class SkillRepositoryImpl : SkillRepository
