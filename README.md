@@ -6,9 +6,9 @@ B.A.S.I.C type role game character manager
 I used the following :
 
 Architecture & patterns : 
-- CLEAN architecture (Framework / domain)
-
+- CLEAN architecture 
 - Domain Driven Design (?)
+
 - Repository (?)
 - Unit of work (?)
 
