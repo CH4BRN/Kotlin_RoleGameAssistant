@@ -52,6 +52,7 @@ object AndroidDependencies {
         "com.android.support:appcompat-v7:${AndroidVersions.comAndroidSupportAppcompatV7}"
 }
 
+
 object AndroidXDependencies {
     const val androidxAppcompatAppcompat =
         "androidx.appcompat:appcompat:" +
@@ -61,6 +62,9 @@ object AndroidXDependencies {
     const val androidxConstraintLayoutConstraintLayout =
         "androidx.constraintlayout:constraintlayout:" +
                 AndroidXVersions.constraintLayoutConstraintLayout
+    const val androidxRecyclerviewRecyclerview = "androidx.recyclerview:recyclerview:" +
+            AndroidXVersions.appcompatAppcompat
+
 }
 
 object TestDependencies {

@@ -1,2 +1,2 @@
-include ':app', ':character', ':basicInfo'
+include ':app', ':character', ':basicInfo', ':presentation', ':di', ':data'
 rootProject.name='Role Game Assistant'
