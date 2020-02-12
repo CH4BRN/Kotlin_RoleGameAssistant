@@ -11,5 +11,6 @@ class DomainAbilityScore(
     val abilityScoreId: Long? = null,
     val ability: Ability = Ability.STRENGTH,
     val roll: Int? = 0,
-    val bonus: Int? = 0
+    val bonus: Int? = 0,
+    var total: Int? = 0
 )
