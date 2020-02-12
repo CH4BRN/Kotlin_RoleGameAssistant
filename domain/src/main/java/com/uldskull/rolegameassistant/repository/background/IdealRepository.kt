@@ -2,6 +2,9 @@
 
 package com.uldskull.rolegameassistant.repository.background
 
+import com.uldskull.rolegameassistant.models.background.DomainIdeal
+import com.uldskull.rolegameassistant.repository.Repository
+
 /**
 Interface "IdealRepository"
 
@@ -13,4 +16,4 @@ With the exception of the getAllBasicInfo() DAO method
 these database operations will need to be performed on separate threads from the main
 thread using the AsyncTask class.
  **/
-interface IdealRepository
+interface IdealRepository<T>:Repository<T, DomainIdeal>

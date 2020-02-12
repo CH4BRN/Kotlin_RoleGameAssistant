@@ -2,6 +2,9 @@
 
 package com.uldskull.rolegameassistant.repository.background
 
+import com.uldskull.rolegameassistant.models.background.DomainFlaw
+import com.uldskull.rolegameassistant.repository.Repository
+
 /**
 Interface "FlawRepository"
 
@@ -13,4 +16,4 @@ With the exception of the getAllBasicInfo() DAO method
 these database operations will need to be performed on separate threads from the main
 thread using the AsyncTask class.
  **/
-interface FlawRepository
+interface FlawRepository<T>:Repository<T, DomainFlaw>

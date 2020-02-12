@@ -2,6 +2,9 @@
 
 package com.uldskull.rolegameassistant.repository.skill
 
+import com.uldskull.rolegameassistant.models.skill.DomainSkill
+import com.uldskull.rolegameassistant.repository.Repository
+
 /**
     Interface "SkillRepository"
 
@@ -9,4 +12,4 @@ package com.uldskull.rolegameassistant.repository.skill
     of the ViewModel and will need to provide methods that use the DAO to insert, delete and
     query basic info records.
  **/
-interface SkillRepository
+interface SkillRepository<T> : Repository<T, DomainSkill>
