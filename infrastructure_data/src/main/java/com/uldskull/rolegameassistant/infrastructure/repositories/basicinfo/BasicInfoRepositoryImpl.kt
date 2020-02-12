@@ -1,6 +1,6 @@
 // BasicInfoRepositoryImpl.kt created by UldSkull - 11/02/2020
 
-package com.uldskull.rolegameassistant.infrastructure.repositories
+package com.uldskull.rolegameassistant.infrastructure.repositories.basicinfo
 
 import com.uldskull.rolegameassistant.repository.BasicInfoRepository
 

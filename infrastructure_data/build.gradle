@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -38,6 +39,9 @@ dependencies {
     implementation project(":domain_characteristics")
     implementation project(":domain_abilityscore")
     implementation project(":domain_background")
+    implementation RoomDependencies.androidxRoomRoomRuntime
+    implementation RoomDependencies.androidxRoomRoomKtx
+    kapt RoomDependencies.androidxRoomRoomCompiler
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
