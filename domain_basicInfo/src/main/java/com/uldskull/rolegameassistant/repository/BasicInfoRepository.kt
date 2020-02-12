@@ -5,7 +5,7 @@ package com.uldskull.rolegameassistant.repository
 /**
     Interface "BasicInfoRepository"
 
-    The com.uldskull.rolegameassistant.repository class will be responsible for interacting with
+    The com.uldskull.rolegameassistant.com.uldskull.rolegameassistant.repository class will be responsible for interacting with
     the Room database on behalf of the ViewModel and will need to provide methods that use
     the DAO to insert, delete and query basic info records.
     With the exception of the getAllBasicInfo() DAO method

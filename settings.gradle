@@ -1,2 +1,12 @@
-include ':app', ':domain_character', ':domain_basicInfo', ':presentation', ':infrastructure_di', ':infrastructure_data', ':domain_characteristics', ':domain_background', ':domain_health', ':domain_skill', ':domain_abilityscore'
+include ':app', ':domain_background',
+        ':domain_character',
+        ':domain_basicInfo',
+        ':presentation',
+        ':infrastructure_di',
+        ':infrastructure_data',
+        ':domain_characteristics',
+        ':domain_health',
+        ':domain_skill',
+        ':domain_abilityscore'
+
 rootProject.name='Role Game Assistant'
