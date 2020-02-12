@@ -3,7 +3,7 @@
 package com.uldskull.rolegameassistant.repository.basic_info
 
 import com.uldskull.rolegameassistant.models.basic_info.DomainBasicInfo
-import com.uldskull.rolegameassistant.repository.Repository
+import com.uldskull.rolegameassistant.repository.GenericRepository
 
 /**
     Interface "BasicInfoRepository"
@@ -16,4 +16,4 @@ import com.uldskull.rolegameassistant.repository.Repository
     these database operations will need to be performed on separate threads from the main
     thread using the AsyncTask class.
  **/
-interface BasicInfoRepository<T>:Repository<T, DomainBasicInfo>
+interface BasicInfoRepository<T>:GenericRepository<T, DomainBasicInfo>

@@ -7,7 +7,7 @@ package com.uldskull.rolegameassistant.repository
  *   Interface "GenericRepository" :
  *   Interface for generic repository.
  **/
-interface Repository<T, U> {
+interface GenericRepository<T, U> {
     fun getAll(): T
     fun getOne(id: Long?): U
     fun insertAll(all: List<U>)

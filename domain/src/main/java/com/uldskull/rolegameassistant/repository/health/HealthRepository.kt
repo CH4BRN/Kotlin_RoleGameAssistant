@@ -3,7 +3,7 @@
 package com.uldskull.rolegameassistant.repository.health
 
 import com.uldskull.rolegameassistant.models.health.DomainHealth
-import com.uldskull.rolegameassistant.repository.Repository
+import com.uldskull.rolegameassistant.repository.GenericRepository
 
 /**
     Interface "HealthRepository"
@@ -12,4 +12,4 @@ import com.uldskull.rolegameassistant.repository.Repository
     of the ViewModel and will need to provide methods that use the DAO to insert, delete and
     query basic info records.
  **/
-interface HealthRepository<T>: Repository<T, DomainHealth>
+interface HealthRepository<T>: GenericRepository<T, DomainHealth>

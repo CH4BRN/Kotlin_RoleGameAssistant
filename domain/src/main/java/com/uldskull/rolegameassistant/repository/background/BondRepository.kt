@@ -3,7 +3,7 @@
 package com.uldskull.rolegameassistant.repository.background
 
 import com.uldskull.rolegameassistant.models.background.DomainBond
-import com.uldskull.rolegameassistant.repository.Repository
+import com.uldskull.rolegameassistant.repository.GenericRepository
 
 /**
 Interface "BondRepository"
@@ -16,4 +16,4 @@ With the exception of the getAllBasicInfo() DAO method
 these database operations will need to be performed on separate threads from the main
 thread using the AsyncTask class.
  **/
-interface BondRepository<T> : Repository<T, DomainBond>
+interface BondRepository<T> : GenericRepository<T, DomainBond>

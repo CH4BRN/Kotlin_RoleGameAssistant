@@ -3,7 +3,7 @@
 package com.uldskull.rolegameassistant.repository.background
 
 import com.uldskull.rolegameassistant.models.background.DomainBackground
-import com.uldskull.rolegameassistant.repository.Repository
+import com.uldskull.rolegameassistant.repository.GenericRepository
 
 /**
     Interface "BackgroundRepository"
@@ -13,4 +13,4 @@ import com.uldskull.rolegameassistant.repository.Repository
     query basic info records.
  **/
 interface BackgroundRepository<T> :
-Repository<T, DomainBackground>
+GenericRepository<T, DomainBackground>

@@ -3,7 +3,7 @@
 package com.uldskull.rolegameassistant.repository.ability_score
 
 import com.uldskull.rolegameassistant.models.ability_score.DomainAbilityScore
-import com.uldskull.rolegameassistant.repository.Repository
+import com.uldskull.rolegameassistant.repository.GenericRepository
 
 /**
     Interface "AbilityScoreRepository"
@@ -17,4 +17,4 @@ import com.uldskull.rolegameassistant.repository.Repository
     thread using the AsyncTask class.
  **/
 interface AbilityScoreRepository<T> :
-    Repository<T, DomainAbilityScore>
+    GenericRepository<T, DomainAbilityScore>

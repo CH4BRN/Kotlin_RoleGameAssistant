@@ -3,7 +3,7 @@
 package com.uldskull.rolegameassistant.repository.basic_info
 
 import com.uldskull.rolegameassistant.models.basic_info.DomainLevel
-import com.uldskull.rolegameassistant.repository.Repository
+import com.uldskull.rolegameassistant.repository.GenericRepository
 
 /**
 Interface "LevelRepository"
@@ -16,4 +16,4 @@ With the exception of the getAllBasicInfo() DAO method
 these database operations will need to be performed on separate threads from the main
 thread using the AsyncTask class.
  **/
-interface LevelRepository<T>:Repository<T, DomainLevel>
+interface LevelRepository<T>:GenericRepository<T, DomainLevel>
