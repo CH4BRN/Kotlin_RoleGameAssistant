@@ -9,4 +9,5 @@ Class "FlawRepositoryImpl"
 
 Insert and get Flaw from database.
  */
-class FlawRepositoryImpl : FlawRepository
+class FlawRepositoryImpl :
+    com.uldskull.rolegameassistant.repository.FlawRepository

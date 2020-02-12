@@ -9,4 +9,5 @@ Class "PersonalityRepositoryImpl"
 
 Insert and get personality
  */
-class PersonalityRepositoryImpl : PersonalityRepository
+class PersonalityRepositoryImpl :
+    com.uldskull.rolegameassistant.repository.PersonalityRepository

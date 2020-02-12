@@ -2,11 +2,12 @@
 
 package com.uldskull.rolegameassistant.infrastructure.repositories
 
-import com.uldskull.rolegameassistant.repository.HealthRepository
+import com.uldskull.rolegameassistant.repository.health.HealthRepository
 
 /**
     Class "HealthRepositoryImpl"
 
     Insert and get health from database.
  */
-class HealthRepositoryImpl : HealthRepository
+class HealthRepositoryImpl :
+    com.uldskull.rolegameassistant.repository.health.HealthRepository

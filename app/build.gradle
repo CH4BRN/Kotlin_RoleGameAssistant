@@ -1,9 +1,5 @@
 apply plugin: 'com.android.application'
-
-apply plugin: 'kotlin-kapt'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
 
 android {
@@ -24,10 +20,12 @@ android {
         }
     }
 }
+apply plugin: 'kotlin-kapt'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
     implementation AndroidXDependencies.androidxAppcompatAppcompat
     implementation AndroidXDependencies.androidxCoreCoreKtx
     implementation AndroidXDependencies.androidxConstraintLayoutConstraintLayout
@@ -44,13 +42,12 @@ dependencies {
 
     implementation AndroidDependencies.androidSupportAppcompatV7
 
-    implementation project(':domain_character')
-    implementation project(':infrastructure_di')
-    implementation project(":presentation")
+    implementation project(ProjectsDependencies.di)
+    implementation project(ProjectsDependencies.presentation)
 
     testImplementation TestDependencies.junitJunit
     androidTestImplementation  TestDependencies.androidxTestExtJunit
     androidTestImplementation TestDependencies.androidxTestEspressoEspressoCore
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation AndroidXDependencies.androidxRecyclerviewRecyclerview
+    implementation MaterialDependencies.comGoogleAndroidMaterialMaterial
 }

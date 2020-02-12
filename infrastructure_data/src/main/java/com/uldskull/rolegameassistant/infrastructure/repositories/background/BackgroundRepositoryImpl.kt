@@ -9,4 +9,5 @@ import com.uldskull.rolegameassistant.repository.BackgroundRepository
 
     Insert and get Background from database.
  */
-class BackgroundRepositoryImpl : BackgroundRepository
+class BackgroundRepositoryImpl :
+    com.uldskull.rolegameassistant.repository.BackgroundRepository
