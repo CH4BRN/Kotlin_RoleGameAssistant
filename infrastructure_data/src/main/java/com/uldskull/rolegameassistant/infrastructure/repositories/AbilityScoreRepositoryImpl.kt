@@ -4,8 +4,9 @@ package com.uldskull.rolegameassistant.infrastructure.repositories
 
 import androidx.lifecycle.LiveData
 import com.uldskull.rolegameassistant.infrastructure.dao.AbilityScoreDao
-import com.uldskull.rolegameassistant.model.DomainAbilityScore
-import com.uldskull.rolegameassistant.repository.AbilityScoreRepository
+import com.uldskull.rolegameassistant.models.ability_score.DomainAbilityScore
+import com.uldskull.rolegameassistant.repository.ability_score.AbilityScoreRepository
+
 
 /**
     Class "AbilityScoreRepositoryImpl"
@@ -13,7 +14,7 @@ import com.uldskull.rolegameassistant.repository.AbilityScoreRepository
     Insert and get AbilityScore from database.
  */
 class AbilityScoreRepositoryImpl(private val abilityScoreDao: AbilityScoreDao) :
-    com.uldskull.rolegameassistant.repository.AbilityScoreRepository<LiveData<DomainAbilityScore>> {
+    AbilityScoreRepository<LiveData<DomainAbilityScore>> {
     override fun getAll(): LiveData<DomainAbilityScore> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
