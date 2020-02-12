@@ -35,6 +35,8 @@ dependencies {
     implementation project(":domain_character")
     implementation project(":domain_skill")
     implementation project(":domain_health")
+    implementation project(":domain_characteristics")
+    implementation project(":domain_abilityscore")
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
