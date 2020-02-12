@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.domain.model.abilities.DomainAbility
+import com.uldskull.rolegameassistant.models.ability_score.DomainAbilityScore
 
 /**
  *   Class "AbilitiesAdapter" :
@@ -23,12 +23,12 @@ class AbilitiesAdapter internal constructor(
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
     /** Abilities list  **/
-    private var abilities = emptyList<DomainAbility>()
+    private var abilities = emptyList<DomainAbilityScore>()
 
     /** Custom ViewHolder   **/
     inner class AbilitiesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         //  Get the ability's name edit text.
-        val abilityNameItemView: EditText = itemView.findViewById(R.id.et_ability)
+        val abilityNameItemView: EditText = itemView.findViewById<EditText>(R.id.et_ability)
         //  Get the roll's edit text.
         val abilityRollItemView: EditText = itemView.findViewById(R.id.et_roll)
         //  Get the bonus' edit text.
@@ -46,7 +46,7 @@ class AbilitiesAdapter internal constructor(
     /** ViewHolder life-cycle   **/
     override fun onBindViewHolder(holder: AbilitiesViewHolder, position: Int) {
         val current = abilities[position]
-        holder.abilityNameItemView.setText(current.name)
+        holder.abilityNameItemView.setText(current.ability.toString())
         holder.abilityRollItemView.setText(current.roll.toString())
         holder.bonusItemView.setText(current.bonus.toString())
         holder.totalItemView.setText(current.total.toString())
@@ -54,7 +54,7 @@ class AbilitiesAdapter internal constructor(
     }
 
     /** Set the list containing domainAbilities to display   **/
-    internal fun setAbilities(domainAbilities: List<DomainAbility>) {
+    internal fun setAbilities(domainAbilities: List<DomainAbilityScore>) {
         this.abilities = domainAbilities
         notifyDataSetChanged()
     }
