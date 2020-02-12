@@ -1,9 +1,9 @@
-// BasicInfoRepository.kt created by UldSkull - 11/02/2020
+// AbilityScoreRepositoryitory.kt created by UldSkull - 12/02/2020
 
 package com.uldskull.rolegameassistant.repository
 
 /**
-    Interface "BasicInfoRepository"
+    Interface "AbilityScoreRepository"
 
     The com.uldskull.rolegameassistant.repository class will be responsible for interacting with
     the Room database on behalf of the ViewModel and will need to provide methods that use
@@ -13,5 +13,5 @@ package com.uldskull.rolegameassistant.repository
     these database operations will need to be performed on separate threads from the main
     thread using the AsyncTask class.
  **/
-interface BasicInfoRepository {
+interface AbilityScoreRepository {
 }

@@ -1,6 +1,6 @@
 // Ability.kt created by UldSkull - 11/02/2020
 
-package com.example.domain_abilityscore.model
+package com.uldskull.rolegameassistant.model
 
 /**
 Enum "Ability"
