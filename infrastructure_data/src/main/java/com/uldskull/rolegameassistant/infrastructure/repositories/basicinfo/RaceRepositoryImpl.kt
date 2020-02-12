@@ -2,11 +2,12 @@
 
 package com.uldskull.rolegameassistant.infrastructure.repositories.basicinfo
 
-import com.uldskull.rolegameassistant.repository.RaceRepository
+import com.uldskull.rolegameassistant.repository.basic_info.RaceRepository
 
 /**
 Class "RaceRepositoryImpl"
 
 TODO: Describe class utility.
  */
-class RaceRepositoryImpl : RaceRepository
+class RaceRepositoryImpl :
+    com.uldskull.rolegameassistant.repository.basic_info.RaceRepository

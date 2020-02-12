@@ -2,11 +2,12 @@
 
 package com.uldskull.rolegameassistant.infrastructure.repositories
 
-import com.uldskull.rolegameassistant.repository.CharacteristicsRepository
+import com.uldskull.rolegameassistant.repository.characteristics.CharacteristicsRepository
 
 /**
     Class "CharacteristicsRepositoryImpl"
 
     Insert and get Characteristics from database.
  */
-class CharacteristicsRepositoryImpl : CharacteristicsRepository
+class CharacteristicsRepositoryImpl :
+    com.uldskull.rolegameassistant.repository.characteristics.CharacteristicsRepository

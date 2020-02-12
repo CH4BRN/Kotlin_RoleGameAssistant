@@ -2,11 +2,12 @@
 
 package com.uldskull.rolegameassistant.infrastructure.repositories
 
-import com.uldskull.rolegameassistant.repository.SkillRepository
+import com.uldskull.rolegameassistant.repository.skill.SkillRepository
 
 /**
     Class "SkillRepositoryImpl"
 
     Insert and get Skill from database.
  */
-class SkillRepositoryImpl : SkillRepository
+class SkillRepositoryImpl :
+    com.uldskull.rolegameassistant.repository.skill.SkillRepository

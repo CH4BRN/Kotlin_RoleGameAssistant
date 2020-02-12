@@ -2,11 +2,12 @@
 
 package com.uldskull.rolegameassistant.infrastructure.repositories
 
-import com.uldskull.rolegameassistant.domain.repository.CharacterRepository
+import com.uldskull.rolegameassistant.repository.character.CharacterRepository
 
 /**
     Class "CharacterRepositoryImpl"
 
     Insert and get Character from database.
  */
-class CharacterRepositoryImpl : CharacterRepository
+class CharacterRepositoryImpl :
+    com.uldskull.rolegameassistant.repository.character.CharacterRepository

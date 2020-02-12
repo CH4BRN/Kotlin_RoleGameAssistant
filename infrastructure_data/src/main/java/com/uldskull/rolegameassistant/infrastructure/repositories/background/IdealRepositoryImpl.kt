@@ -9,4 +9,5 @@ Class "IdealRepositoryImpl"
 
 Insert and get Ideal from database.
  */
-class IdealRepositoryImpl : IdealRepository
+class IdealRepositoryImpl :
+    com.uldskull.rolegameassistant.repository.IdealRepository

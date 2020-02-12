@@ -9,4 +9,5 @@ Class "BondRepositoryImpl"
 
 Insert and get Bond from database.
  */
-class BondRepositoryImpl : BondRepository
+class BondRepositoryImpl :
+    com.uldskull.rolegameassistant.repository.BondRepository

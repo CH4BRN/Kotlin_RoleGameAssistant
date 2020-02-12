@@ -1,3 +1,5 @@
+import AndroidXVersions.lifecycle_version
+
 /** File Dependencies.kt
  *   @Author pierre.antoine - 27/01/2020 - No copyright.
  **/
@@ -6,10 +8,12 @@ object AndroidVersions {
     const val comAndroidSupportAppcompatV7 = "26.1.0"
 }
 
+
 object AndroidXVersions {
     const val appcompatAppcompat = "1.1.0"
     const val coreCoreKtx = "1.1.0"
     const val constraintLayoutConstraintLayout = "1.1.3"
+    const val lifecycle_version = "2.2.0"
 }
 
 object JunitVersions {
@@ -29,11 +33,19 @@ object RoomVersions {
     const val room = "2.2.1"
 }
 
+object MaterialVersions {
+    const val comGoogleAndroidMaterialMaterial = "1.0.0"
+}
+
 object RoomDependencies {
     const val androidxRoomRoomRuntime = "androidx.room:room-runtime:${RoomVersions.room}"
     const val androidxRoomRoomKtx = "androidx.room:room-ktx:${RoomVersions.room}"
     const val androidxRoomRoomCompiler = "androidx.room:room-compiler:${RoomVersions.room}"
+}
 
+object ProjectsDependencies {
+    const val di = ":infrastructure_di"
+    const val presentation = ":presentation"
 }
 
 object KoinDependencies {
@@ -52,6 +64,11 @@ object AndroidDependencies {
         "com.android.support:appcompat-v7:${AndroidVersions.comAndroidSupportAppcompatV7}"
 }
 
+object MaterialDependencies {
+    const val comGoogleAndroidMaterialMaterial =
+        "com.google.android.material:material:${MaterialVersions.comGoogleAndroidMaterialMaterial}"
+}
+
 
 object AndroidXDependencies {
     const val androidxAppcompatAppcompat =
@@ -64,6 +81,11 @@ object AndroidXDependencies {
                 AndroidXVersions.constraintLayoutConstraintLayout
     const val androidxRecyclerviewRecyclerview = "androidx.recyclerview:recyclerview:" +
             AndroidXVersions.appcompatAppcompat
+    const val androidxLifecycleLifecycleLivedataKtx =
+        "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    const val androidxLifecycleLifecycleViewmodelKtx =
+        "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+
 
 }
 

@@ -9,4 +9,5 @@ Class "BiographyRepositoryImpl"
 
 Insert and get Biography from database.
  */
-class BiographyRepositoryImpl : BiographyRepository
+class BiographyRepositoryImpl :
+    com.uldskull.rolegameassistant.repository.BiographyRepository
