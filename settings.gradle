@@ -1,7 +1,7 @@
-include ':app',
-        ':domain',
-        ':presentation',
-        ':infrastructure_di',
-        ':infrastructure_data'
+include ProjectsDependencies.app,
+        ProjectsDependencies.domain,
+        ProjectsDependencies.presentation,
+        ProjectsDependencies.di,
+        ProjectsDependencies.data
 
 rootProject.name='Role Game Assistant'

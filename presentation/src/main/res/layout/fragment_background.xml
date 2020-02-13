@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:hint="Personality ..."
             app:layout_constraintTop_toBottomOf="@id/tv_subtitle_personality"
-            android:inputType="TODO"
+            android:inputType="text"
             android:autofillHints="" />
 
         <TextView
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:hint="Ideals ..."
             app:layout_constraintTop_toBottomOf="@id/tv_subtitle_ideals"
-            android:inputType="TODO"
+            android:inputType="text"
             android:autofillHints="" />
 
         <TextView
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:hint="Bonds ..."
             app:layout_constraintTop_toBottomOf="@id/tv_subtitle_bonds"
-            android:inputType="TODO"
+            android:inputType="text"
             android:autofillHints="" />
 
         <TextView
@@ -80,7 +80,7 @@
             android:layout_height="wrap_content"
             android:hint="Flaws ..."
             app:layout_constraintTop_toBottomOf="@id/tv_subtitle_flaws"
-            android:inputType="TODO"
+            android:inputType="text"
             android:autofillHints="" />
 
         <TextView
@@ -97,7 +97,7 @@
             android:hint="Biography ..."
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_subtitle_biography"
-            android:inputType="TODO"
+            android:inputType="text"
             android:autofillHints="" />
 
 
