@@ -2,6 +2,8 @@
 
 package com.uldskull.rolegameassistant.infrastructure.repositories
 
+import androidx.lifecycle.LiveData
+import com.uldskull.rolegameassistant.models.character.DomainCharacter
 import com.uldskull.rolegameassistant.repository.character.CharacterRepository
 
 /**
@@ -10,4 +12,24 @@ import com.uldskull.rolegameassistant.repository.character.CharacterRepository
     Insert and get Character from database.
  */
 class CharacterRepositoryImpl :
-    com.uldskull.rolegameassistant.repository.character.CharacterRepository
+    CharacterRepository<LiveData<List<DomainCharacter>>> {
+    /** Get all entities    */
+    override fun getAll(): LiveData<List<DomainCharacter>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    /** Get one entity by its id    */
+    override fun getOne(id: Long?): DomainCharacter {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    /** Insert a list of entity */
+    override fun insertAll(all: List<DomainCharacter>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    /** Insert one entity   */
+    override fun insertOne(one: DomainCharacter): Long {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+}
