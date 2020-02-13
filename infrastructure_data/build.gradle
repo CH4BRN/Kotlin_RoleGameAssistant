@@ -3,15 +3,14 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
-
+    compileSdkVersion SdkVersions.compileSdkVersion
+    buildToolsVersion AndroidVersions.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 23
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion SdkVersions.minSdkVersion
+        targetSdkVersion SdkVersions.targetSdkVersion
+        versionCode ApplicationVersion.versionCode
+        versionName ApplicationVersion.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -28,14 +27,14 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(":domain")
+    implementation project(ProjectsDependencies.domain)
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.core:core-ktx:1.2.0'
-    testImplementation 'junit:junit:4.12'
+    implementation AndroidXDependencies.androidxAppcompatAppcompat
+    implementation AndroidXDependencies.androidxCoreCoreKtx
     implementation RoomDependencies.androidxRoomRoomRuntime
     implementation RoomDependencies.androidxRoomRoomKtx
     kapt RoomDependencies.androidxRoomRoomCompiler
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    testImplementation TestDependencies.junitJunit
+    androidTestImplementation TestDependencies.androidxTestExtJunit
+    androidTestImplementation TestDependencies.androidxTestEspressoEspressoCore
 }
