@@ -11,7 +11,7 @@ android {
         targetSdkVersion SdkVersions.targetSdkVersion
         versionCode ApplicationVersion.versionCode
         versionName ApplicationVersion.versionName
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner TestDependencies.androidTestRunnerAndroidJUnitRunner
     }
     buildTypes {
         release {

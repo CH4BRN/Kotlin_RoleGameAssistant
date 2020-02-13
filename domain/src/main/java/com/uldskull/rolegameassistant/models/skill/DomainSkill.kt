@@ -8,8 +8,8 @@ Class "DomainSkill"
 Domain model for skill.
  */
 data class DomainSkill(
-    val skillId:Long?=null,
-    val skillName:String?="",
-    val skillAbility:String,
-    val skillModifier:Int
+    val skillId: Long? = null,
+    val skillName: String? = "",
+    val skillAbility: String?,
+    val skillModifier: Int?
 )

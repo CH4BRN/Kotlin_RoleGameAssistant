@@ -3,13 +3,9 @@
 
 package com.uldskull.rolegameassistant.infrastructure.dao
 
-import androidx.room.Dao
-
 /**
  *   Interface "AbilityScoreDao" :
  *   TODO: Fill interface use.
  **/
-@Dao
-interface AbilityScoreDao {
-// TODO : Fill interface.
-}
+
+interface AbilityScoreDao
