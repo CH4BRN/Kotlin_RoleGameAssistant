@@ -64,4 +64,5 @@ object TestDependencies {
     const val androidxTestEspressoEspressoCore =
         "androidx.test.espresso:espresso-core:${EspressoVersions.androidxTestEspressoEspressoCore}"
     const val androidxRoomRoomTesting = "androidx.room:room-testing:${RoomVersions.room}"
+    const val androidTestRunnerAndroidJUnitRunner = "androidx.test.runner.AndroidJUnitRunner"
 }
