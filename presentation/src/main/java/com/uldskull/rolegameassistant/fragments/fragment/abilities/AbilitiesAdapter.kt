@@ -28,7 +28,7 @@ class AbilitiesAdapter internal constructor(
     /** Custom ViewHolder   **/
     inner class AbilitiesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         //  Get the ability's name edit text.
-        val abilityNameItemView: EditText = itemView.findViewById<EditText>(R.id.et_ability)
+        val abilityNameItemView: EditText = itemView.findViewById(R.id.et_ability)
         //  Get the roll's edit text.
         val abilityRollItemView: EditText = itemView.findViewById(R.id.et_roll)
         //  Get the bonus' edit text.

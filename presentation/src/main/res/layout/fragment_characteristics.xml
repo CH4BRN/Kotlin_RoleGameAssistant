@@ -36,7 +36,9 @@
                 android:layout_column="2"
                 android:layout_span="3"
                 android:layout_weight="1"
-                android:hint="Gender ... " />
+                android:hint="Gender ... "
+                android:inputType="text"
+                android:autofillHints="gender" />
         </TableRow>
 
         <TableRow android:layout_width="match_parent"
@@ -54,7 +56,8 @@
                 android:layout_column="2"
                 android:layout_weight="1"
                 android:hint="1"
-                android:inputType="number"/>
+                android:inputType="number"
+                android:autofillHints="" />
 
             <TextView
                 android:id="@+id/tv_subtitle_weight"
@@ -67,7 +70,8 @@
                 android:id="@+id/et_weight"
                 android:layout_column="4"
                 android:layout_weight="1"
-                android:hint="50" />
+                android:hint="50"
+                android:autofillHints="" />
             <TextView
                 android:id="@+id/tv_subtitle_age"
                 android:layout_column="5"
@@ -78,7 +82,8 @@
                 android:id="@+id/et_age"
                 android:layout_column="6"
                 android:layout_weight="1"
-                android:hint="30"/>
+                android:hint="30"
+                android:autofillHints="" />
         </TableRow>
     </TableLayout>
 

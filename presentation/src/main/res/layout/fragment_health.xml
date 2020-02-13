@@ -31,7 +31,9 @@
                 android:id="@+id/et_hpmod"
                 android:layout_column="2"
                 android:layout_weight="3"
-                android:hint="15" />
+                android:hint="15"
+                android:inputType="number"
+                android:autofillHints="0" />
         </TableRow>
 
         <TableRow>
@@ -68,7 +70,8 @@
                 android:hint="0"
                 android:id="@+id/et_level_bonus"
                 android:layout_column="3"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:inputType="number" />
         </TableRow>
 
         <TableRow>

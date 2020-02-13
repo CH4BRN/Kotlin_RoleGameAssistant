@@ -18,21 +18,21 @@ class NewCharacterViewModel(application: Application) : AndroidViewModel(applica
 
     fun saveName(name: String) {
         //TODO("implements save name")
-        Log.i("TEST", "$name")
+        Log.i("TEST", name)
     }
 
     fun saveLevel(level: String) {
         //TODO("implements save level")
-        Log.i("TEST", "$level")
+        Log.i("TEST", level)
     }
 
     fun saveExperience(experience: String) {
         //TODO("implements save experience")
-        Log.i("TEST", "$experience")
+        Log.i("TEST", experience)
     }
 
     fun saveRace(race: String) {
         //TODO("implement save race")
-        Log.i("TEST", "$race")
+        Log.i("TEST", race)
     }
 }

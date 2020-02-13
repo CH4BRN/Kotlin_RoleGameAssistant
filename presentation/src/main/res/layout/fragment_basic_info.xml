@@ -37,7 +37,9 @@
                 android:layout_column="2"
                 android:layout_span="3"
                 android:layout_weight="1"
-                android:hint="Name ... " />
+                android:hint="Name ... "
+                android:inputType="text"
+                android:autofillHints="" />
         </TableRow>
 
         <TableRow android:layout_width="match_parent"
@@ -55,7 +57,8 @@
                 android:layout_column="2"
                 android:layout_weight="5"
                 android:hint="1"
-                android:inputType="number"/>
+                android:inputType="number"
+                android:autofillHints="" />
 
             <TextView
                 android:id="@+id/tv_subtitle_experience"
@@ -68,7 +71,8 @@
                 android:id="@+id/et_experience"
                 android:layout_column="4"
                 android:layout_weight="5"
-                android:hint="50" />
+                android:hint="50"
+                android:autofillHints="0" />
         </TableRow>
 
         <TableRow android:layout_width="match_parent">
@@ -84,7 +88,9 @@
                 android:layout_column="2"
                 android:layout_span="3"
                 android:layout_weight="1"
-                android:hint="Race ... " />
+                android:hint="Race ... "
+                android:inputType="text"
+                android:autofillHints="race" />
         </TableRow>
 
         <TableRow>
@@ -99,7 +105,9 @@
                 android:layout_column="2"
                 android:layout_span="3"
                 android:layout_weight="1"
-                android:hint="Class ... " />
+                android:hint="Class ... "
+                android:inputType="text"
+                android:autofillHints="class" />
         </TableRow>
 
 
