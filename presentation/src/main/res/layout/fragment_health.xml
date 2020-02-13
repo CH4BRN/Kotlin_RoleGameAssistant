@@ -64,6 +64,8 @@
                 android:textSize="30sp" />
 
             <EditText
+                android:autofillHints="0"
+                android:hint="0"
                 android:id="@+id/et_level_bonus"
                 android:layout_column="3"
                 android:layout_weight="1" />

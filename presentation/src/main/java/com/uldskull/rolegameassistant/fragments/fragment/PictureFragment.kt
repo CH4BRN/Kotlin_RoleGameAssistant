@@ -65,7 +65,7 @@ class PictureFragment(val context: Activity) : Fragment() {
         when (requestCode) {
             0 -> {
                 if (isResultOk(resultCode) && data != null) {
-                    var selectedImage: Uri? = data.data
+                    val selectedImage: Uri? = data.data
 
                     img_btn_characterPicture.setImageURI(selectedImage)
                 }
@@ -105,7 +105,7 @@ class PictureFragment(val context: Activity) : Fragment() {
     /** Activity life-cycle **/
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var imageButton = activity?.findViewById<ImageButton>(R.id.img_btn_characterPicture)
+        val imageButton = activity?.findViewById<ImageButton>(R.id.img_btn_characterPicture)
 
         setImageButtonListener(imageButton)
     }
