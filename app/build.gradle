@@ -3,14 +3,14 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    compileSdkVersion SdkVersions.compileSdkVersion
+    buildToolsVersion AndroidVersions.buildToolsVersion
     defaultConfig {
-        applicationId "com.uldskull.rolegameassistant"
-        minSdkVersion 23
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        applicationId ApplicationValues.applicationId
+        minSdkVersion SdkVersions.minSdkVersion
+        targetSdkVersion SdkVersions.targetSdkVersion
+        versionCode ApplicationVersion.versionCode
+        versionName ApplicationVersion.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -46,7 +46,7 @@ dependencies {
     implementation project(ProjectsDependencies.presentation)
 
     testImplementation TestDependencies.junitJunit
-    androidTestImplementation  TestDependencies.androidxTestExtJunit
+    androidTestImplementation TestDependencies.androidxTestExtJunit
     androidTestImplementation TestDependencies.androidxTestEspressoEspressoCore
     implementation AndroidXDependencies.androidxRecyclerviewRecyclerview
     implementation MaterialDependencies.comGoogleAndroidMaterialMaterial
