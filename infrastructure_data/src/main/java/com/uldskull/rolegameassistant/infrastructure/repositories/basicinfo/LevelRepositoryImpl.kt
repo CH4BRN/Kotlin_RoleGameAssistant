@@ -2,12 +2,33 @@
 
 package com.uldskull.rolegameassistant.infrastructure.repositories.basicinfo
 
+import androidx.lifecycle.LiveData
+import com.uldskull.rolegameassistant.models.basic_info.DomainLevel
 import com.uldskull.rolegameassistant.repository.basic_info.LevelRepository
 
 /**
 Class "LevelRepositoryImpl"
 
-TODO: Describe class utility.
+Insert and get Level.
  */
-class LevelRepositoryImpl :
-    com.uldskull.rolegameassistant.repository.basic_info.LevelRepository
+class LevelRepositoryImpl : LevelRepository<LiveData<List<DomainLevel>>> {
+    /** Get all entities    */
+    override fun getAll(): LiveData<List<DomainLevel>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    /** Get one entity by its id    */
+    override fun getOne(id: Long?): DomainLevel {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    /** Insert a list of entity */
+    override fun insertAll(all: List<DomainLevel>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    /** Insert one entity   */
+    override fun insertOne(one: DomainLevel): Long {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+}

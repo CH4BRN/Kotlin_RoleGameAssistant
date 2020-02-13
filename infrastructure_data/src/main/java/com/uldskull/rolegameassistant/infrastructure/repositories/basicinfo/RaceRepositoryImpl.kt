@@ -2,12 +2,34 @@
 
 package com.uldskull.rolegameassistant.infrastructure.repositories.basicinfo
 
+import androidx.lifecycle.LiveData
+import com.uldskull.rolegameassistant.models.basic_info.DomainRace
 import com.uldskull.rolegameassistant.repository.basic_info.RaceRepository
 
 /**
 Class "RaceRepositoryImpl"
 
-TODO: Describe class utility.
+Insert and get Race.
  */
 class RaceRepositoryImpl :
-    com.uldskull.rolegameassistant.repository.basic_info.RaceRepository
+    RaceRepository<LiveData<List<DomainRace>>> {
+    /** Get all entities    */
+    override fun getAll(): LiveData<List<DomainRace>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    /** Get one entity by its id    */
+    override fun getOne(id: Long?): DomainRace {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    /** Insert a list of entity */
+    override fun insertAll(all: List<DomainRace>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    /** Insert one entity   */
+    override fun insertOne(one: DomainRace): Long {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+}
