@@ -4,38 +4,6 @@ import AndroidXVersions.lifecycle_version
  *   @Author pierre.antoine - 27/01/2020 - No copyright.
  **/
 
-object AndroidVersions {
-    const val comAndroidSupportAppcompatV7 = "26.1.0"
-}
-
-
-object AndroidXVersions {
-    const val appcompatAppcompat = "1.1.0"
-    const val coreCoreKtx = "1.1.0"
-    const val constraintLayoutConstraintLayout = "1.1.3"
-    const val lifecycle_version = "2.2.0"
-}
-
-object JunitVersions {
-    const val junitJunit = "4.12"
-    const val androidxTestExtJunit = "1.1.1"
-}
-
-object EspressoVersions {
-    const val androidxTestEspressoEspressoCore = "3.2.0"
-}
-
-object KoinVersion {
-    const val koinAndroid = "2.0.1"
-}
-
-object RoomVersions {
-    const val room = "2.2.1"
-}
-
-object MaterialVersions {
-    const val comGoogleAndroidMaterialMaterial = "1.0.0"
-}
 
 object RoomDependencies {
     const val androidxRoomRoomRuntime = "androidx.room:room-runtime:${RoomVersions.room}"
@@ -46,6 +14,9 @@ object RoomDependencies {
 object ProjectsDependencies {
     const val di = ":infrastructure_di"
     const val presentation = ":presentation"
+    const val domain = ":domain"
+    const val data = ":infrastructure_data"
+    const val app = ":app"
 }
 
 object KoinDependencies {
@@ -85,8 +56,6 @@ object AndroidXDependencies {
         "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     const val androidxLifecycleLifecycleViewmodelKtx =
         "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-
-
 }
 
 object TestDependencies {
