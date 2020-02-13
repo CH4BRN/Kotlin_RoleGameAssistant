@@ -7,6 +7,4 @@ Class "DbPicture"
 
 Picture model for database.
  */
-class DbPicture(
-
-)
+class DbPicture
