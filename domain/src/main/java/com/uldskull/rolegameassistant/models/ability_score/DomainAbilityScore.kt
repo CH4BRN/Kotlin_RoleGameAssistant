@@ -9,7 +9,7 @@ Domain model for ability score.
  */
 class DomainAbilityScore(
     val abilityScoreId: Long? = null,
-    val abilityScoreAbility: Ability = Ability.STRENGTH,
+    val abilityScoreAbility: Ability? = Ability.STRENGTH,
     val abilityScoreRoll: Int? = 0,
     val abilityScoreBonus: Int? = 0,
     var abilityScoreTotal: Int? = 0
