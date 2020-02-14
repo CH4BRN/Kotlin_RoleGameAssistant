@@ -3,15 +3,15 @@
 package com.uldskull.rolegameassistant.models.characteristics
 
 /**
-    Class "DomainCharacteristics"
+Class "DomainCharacteristics"
 
-    Domain model for characteristics.
+Domain model for characteristics.
  */
 data class DomainCharacteristics(
-    val pkCharacteristicsId:Long?=null,
-    val height:Int?=0,
-    val weight:Int?=0,
-    val age:Int?=0,
-    val fkCharacterId:Long?=null,
-    val fkGenderId:Long?=null
+    val characteristicsId: Long? = null,
+    val characteristicsHeight: Int? = 0,
+    val characteristicsWeight: Int? = 0,
+    val characteristicsAge: Int? = 0,
+    val characteristicsCharacterId: Long? = null,
+    val characteristicsGenderId: Long? = null
 )

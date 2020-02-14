@@ -8,7 +8,7 @@ Class "DomainLevel"
 Domain model for level.
  */
 data class DomainLevel(
-    val pkLevelId: Long? = null,
-    val value: Int? = 0,
-    val hpModifier: Int? = 0
+    val levelId: Long? = null,
+    val levelValue: Int? = 0,
+    val levelHpModifier: Int? = 0
 )

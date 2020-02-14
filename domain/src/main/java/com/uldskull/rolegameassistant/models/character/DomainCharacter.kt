@@ -8,5 +8,5 @@ Class "DomainCharacter"
 Model class for domain character.
  */
 class DomainCharacter(
-    val characterId:Long?=null
+    val characterId: Long? = null
 )

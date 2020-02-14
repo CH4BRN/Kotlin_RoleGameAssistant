@@ -3,9 +3,9 @@
 package com.uldskull.rolegameassistant.models.background
 
 /**
-    Class "DomainPersonality"
+Class "DomainPersonality"
 
-    Domain model for personality.
+Domain model for personality.
  */
 class DomainPersonality(
     val personalityId: Long? = null,

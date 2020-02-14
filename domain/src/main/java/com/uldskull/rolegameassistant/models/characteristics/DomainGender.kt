@@ -8,6 +8,6 @@ Class "DomainGender"
 Domain model for gender.
  */
 data class DomainGender(
-    val pkGenderId: Long? = null,
-    val name: String? = "gender"
+    val genderId: Long? = null,
+    val genderName: String? = "gender"
 )

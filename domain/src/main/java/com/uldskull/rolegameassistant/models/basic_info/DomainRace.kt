@@ -8,6 +8,6 @@ Class "DomainRace"
 Domain model for race.
  */
 data class DomainRace(
-    val pkRaceId: Long? = null,
-    val name: String? = "name"
+    val raceId: Long? = null,
+    val raceName: String? = "name"
 )

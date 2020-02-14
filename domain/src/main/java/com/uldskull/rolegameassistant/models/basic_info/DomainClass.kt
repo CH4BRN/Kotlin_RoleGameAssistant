@@ -8,7 +8,7 @@ Class "DomainClass"
 Domain model for class.
  */
 data class DomainClass(
-    val pkClassId: Long? = null,
-    val name: String? = "class"
+    val classId: Long? = null,
+    val className: String? = "class"
 
 )
