@@ -1,94 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/darker_gray"
-    android:padding="8dp">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/ParentLinearLayout">
 
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Character health"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:gravity="center"
+        android:text="Health : " />
 
-    <TableLayout
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_title">
+        android:layout_height="match_parent"
+        android:background="@android:color/holo_green_light">
 
-        <TableRow>
+        <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/darker_gray"
+            android:padding="8dp">
 
-            <TextView
-                android:id="@+id/tv_subtitle_hpMod"
-                android:layout_column="1"
-                android:layout_weight="1"
-                android:text="Hp mod : " />
 
-            <EditText
-                android:id="@+id/et_hpmod"
-                android:layout_column="2"
-                android:layout_weight="3"
-                android:hint="15"
-                android:inputType="number"
-                android:autofillHints="0" />
-        </TableRow>
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        <TableRow>
+                <TableRow>
 
-            <TextView
-                android:id="@+id/tv_subtitle_useMax"
-                android:layout_column="1"
-                android:layout_weight="1"
-                android:text="Use max ?" />
+                    <TextView
+                        android:id="@+id/tv_subtitle_hpMod"
+                        android:layout_column="1"
+                        android:layout_weight="1"
+                        android:text="Hp mod : " />
 
-            <CheckBox
-                android:id="@+id/chk_useMax"
-                android:layout_column="2"
-                android:layout_weight="3" />
-        </TableRow>
+                    <EditText
+                        android:id="@+id/et_hpmod"
+                        android:layout_column="2"
+                        android:layout_weight="3"
+                        android:autofillHints="0"
+                        android:hint="15"
+                        android:inputType="number" />
+                </TableRow>
 
-        <TableRow>
+                <TableRow>
 
-            <TextView
-                android:id="@+id/tv_subtitle_level"
-                android:layout_column="1"
-                android:layout_weight="1"
-                android:text="Level : " />
+                    <TextView
+                        android:id="@+id/tv_subtitle_useMax"
+                        android:layout_column="1"
+                        android:layout_weight="1"
+                        android:text="Use max ?" />
 
-            <TextView
-                android:id="@+id/tv_level"
-                android:layout_column="2"
-                android:layout_weight="1"
-                android:text="42"
-                android:textSize="30sp" />
+                    <CheckBox
+                        android:id="@+id/chk_useMax"
+                        android:layout_column="2"
+                        android:layout_weight="3" />
+                </TableRow>
 
-            <EditText
-                android:autofillHints="0"
-                android:hint="0"
-                android:id="@+id/et_level_bonus"
-                android:layout_column="3"
-                android:layout_weight="1"
-                android:inputType="number" />
-        </TableRow>
+                <TableRow>
 
-        <TableRow>
+                    <TextView
+                        android:id="@+id/tv_subtitle_level"
+                        android:layout_column="1"
+                        android:layout_weight="1"
+                        android:text="Level : " />
 
-            <TextView
-                android:id="@+id/tv_subtitle_max_health"
-                android:layout_column="1"
-                android:layout_weight="1"
-                android:text="Max health : " />
+                    <TextView
+                        android:id="@+id/tv_level"
+                        android:layout_column="2"
+                        android:layout_weight="1"
+                        android:text="42"
+                        android:textSize="30sp" />
 
-            <TextView
-                android:id="@+id/tc_max_health"
-                android:layout_column="2"
-                android:layout_weight="2.5"
-                android:text="155"
-                android:textSize="30sp" />
-        </TableRow>
-    </TableLayout>
+                    <EditText
+                        android:id="@+id/et_level_bonus"
+                        android:layout_column="3"
+                        android:layout_weight="1"
+                        android:autofillHints="0"
+                        android:hint="0"
+                        android:inputType="number" />
+                </TableRow>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/tv_subtitle_max_health"
+                        android:layout_column="1"
+                        android:layout_weight="1"
+                        android:text="Max health : " />
+
+                    <TextView
+                        android:id="@+id/tc_max_health"
+                        android:layout_column="2"
+                        android:layout_weight="2.5"
+                        android:text="155"
+                        android:textSize="30sp" />
+                </TableRow>
+            </TableLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+</LinearLayout>
+
