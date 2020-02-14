@@ -14,7 +14,7 @@ import com.uldskull.rolegameassistant.models.ability_score.DomainAbilityScore
  *   Database model class for ability score
  **/
 @Entity(tableName = TABLE_NAME_ABILITY_SCORE)
-class DbAbilityScore(
+data class DbAbilityScore(
     @PrimaryKey(autoGenerate = true) val dbAbilityScoreId: Long?,
     val dbAbilityScoreAbility: Ability?,
     val dbAbilityScoreRoll: Int?,

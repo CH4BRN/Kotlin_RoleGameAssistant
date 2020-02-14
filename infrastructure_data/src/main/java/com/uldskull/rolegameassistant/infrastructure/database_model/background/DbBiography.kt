@@ -13,7 +13,7 @@ import com.uldskull.rolegameassistant.models.background.DomainBiography
  *   Database model for biography.
  **/
 @Entity(tableName = DatabaseValues.TABLE_NAME_BIOGRAPHY)
-class DbBiography(
+data class DbBiography(
     @PrimaryKey(autoGenerate = true) val dbBiographyId: Long?,
     val dbBiographyValue: String?
 ) {
