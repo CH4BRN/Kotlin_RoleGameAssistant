@@ -5,14 +5,14 @@ package com.uldskull.rolegameassistant.infrastructure.database_model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.uldskull.rolegameassistant.infrastructure.DatabaseValues.SKILL_TABLE_NAME
+import com.uldskull.rolegameassistant.infrastructure.DatabaseValues.TABLE_NAME_SKILL
 import com.uldskull.rolegameassistant.models.skill.DomainSkill
 
 /**
  *   Class "DbSkill" :
  *   Database skill model.
  **/
-@Entity(tableName = SKILL_TABLE_NAME)
+@Entity(tableName = TABLE_NAME_SKILL)
 data class DbSkill(
     @PrimaryKey(autoGenerate = true) val skillId: Long? = null,
     val skillName: String?,

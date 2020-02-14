@@ -5,7 +5,7 @@ package com.uldskull.rolegameassistant.infrastructure.database_model.ability_sco
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.uldskull.rolegameassistant.infrastructure.DatabaseValues.ABILITY_SCORE_TABLE_NAME
+import com.uldskull.rolegameassistant.infrastructure.DatabaseValues.TABLE_NAME_ABILITY_SCORE
 import com.uldskull.rolegameassistant.models.ability_score.Ability
 import com.uldskull.rolegameassistant.models.ability_score.DomainAbilityScore
 
@@ -13,7 +13,7 @@ import com.uldskull.rolegameassistant.models.ability_score.DomainAbilityScore
  *   Class "DbAbilityScore" :
  *   Database model class for ability score
  **/
-@Entity(tableName = ABILITY_SCORE_TABLE_NAME)
+@Entity(tableName = TABLE_NAME_ABILITY_SCORE)
 class DbAbilityScore(
     @PrimaryKey(autoGenerate = true) val dbAbilityScoreId: Long?,
     val dbAbilityScoreAbility: Ability?,

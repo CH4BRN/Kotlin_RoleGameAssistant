@@ -5,14 +5,14 @@ package com.uldskull.rolegameassistant.infrastructure.database_model.health
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.uldskull.rolegameassistant.infrastructure.DatabaseValues.HEALTH_TABLE_NAME
+import com.uldskull.rolegameassistant.infrastructure.DatabaseValues.TABLE_NAME_HEALTH
 import com.uldskull.rolegameassistant.models.health.DomainHealth
 
 /**
  *   Class "DbHealth" :
  *   Database health model
  **/
-@Entity(tableName = HEALTH_TABLE_NAME)
+@Entity(tableName = TABLE_NAME_HEALTH)
 data class DbHealth(
     @PrimaryKey(autoGenerate = true) val dbHealthId: Long? = null,
     val dbHealthHpMod: Int?,
