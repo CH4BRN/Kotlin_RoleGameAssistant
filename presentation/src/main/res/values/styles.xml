@@ -3,9 +3,8 @@
     <style name="ParentLinearLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:background">@android:color/holo_green_dark</item>
+        <item name="android:background">@android:color/darker_gray</item>
         <item name="android:orientation">vertical</item>
         <item name="android:padding">8dp</item>
-
     </style>
 </resources>

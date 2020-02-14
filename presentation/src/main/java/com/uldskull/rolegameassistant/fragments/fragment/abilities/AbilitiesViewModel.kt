@@ -22,14 +22,62 @@ class AbilitiesViewModel(application: Application) : AndroidViewModel(applicatio
 
     init {
         abilities.value = listOf(
-            DomainAbilityScore(null, Ability.STRENGTH, roll = 1, bonus = 5, total = 6),
-            DomainAbilityScore(null, Ability.SIZE, roll = 2, bonus = 5, total = 6),
-            DomainAbilityScore(null, Ability.POWER, roll = 3, bonus = 5, total = 6),
-            DomainAbilityScore(null, Ability.INTELLIGENCE, roll = 41, bonus = 5, total = 6),
-            DomainAbilityScore(null, Ability.DEXTERITY, roll = 5, bonus = 5, total = 6),
-            DomainAbilityScore(null, Ability.CONSTITUTION, roll = 6, bonus = 5, total = 6),
-            DomainAbilityScore(null, Ability.CHARISMA, roll = 7, bonus = 5, total = 6),
-            DomainAbilityScore(null, Ability.APPEARANCE, roll = 8, bonus = 5, total = 6)
+            DomainAbilityScore(
+                null,
+                Ability.STRENGTH,
+                abilityScoreRoll = 1,
+                abilityScoreBonus = 5,
+                abilityScoreTotal = 6
+            ),
+            DomainAbilityScore(
+                null,
+                Ability.SIZE,
+                abilityScoreRoll = 2,
+                abilityScoreBonus = 5,
+                abilityScoreTotal = 6
+            ),
+            DomainAbilityScore(
+                null,
+                Ability.POWER,
+                abilityScoreRoll = 3,
+                abilityScoreBonus = 5,
+                abilityScoreTotal = 6
+            ),
+            DomainAbilityScore(
+                null,
+                Ability.INTELLIGENCE,
+                abilityScoreRoll = 41,
+                abilityScoreBonus = 5,
+                abilityScoreTotal = 6
+            ),
+            DomainAbilityScore(
+                null,
+                Ability.DEXTERITY,
+                abilityScoreRoll = 5,
+                abilityScoreBonus = 5,
+                abilityScoreTotal = 6
+            ),
+            DomainAbilityScore(
+                null,
+                Ability.CONSTITUTION,
+                abilityScoreRoll = 6,
+                abilityScoreBonus = 5,
+                abilityScoreTotal = 6
+            ),
+            DomainAbilityScore(
+                null,
+                Ability.CHARISMA,
+                abilityScoreRoll = 7,
+                abilityScoreBonus = 5,
+                abilityScoreTotal = 6
+            ),
+            DomainAbilityScore(
+                null,
+                Ability.APPEARANCE,
+                abilityScoreRoll = 8,
+                abilityScoreBonus = 5,
+                abilityScoreTotal = 6
+            )
         )
     }
 }

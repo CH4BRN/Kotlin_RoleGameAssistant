@@ -6,5 +6,6 @@ package com.uldskull.rolegameassistant.infrastructure
 
 object DatabaseValues {
     const val SKILL_TABLE_NAME = "skill"
+    const val HEALTH_TABLE_NAME = "health"
 
 }

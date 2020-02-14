@@ -1,7 +1,7 @@
 // File DbSkill.kt
 // @Author pierre.antoine - 13/02/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.infrastructure.models.skill
+package com.uldskull.rolegameassistant.infrastructure.database_model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

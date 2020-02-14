@@ -46,10 +46,10 @@ class AbilitiesAdapter internal constructor(
     /** ViewHolder life-cycle   **/
     override fun onBindViewHolder(holder: AbilitiesViewHolder, position: Int) {
         val current = abilities[position]
-        holder.abilityNameItemView.setText(current.ability.toString())
-        holder.abilityRollItemView.setText(current.roll.toString())
-        holder.bonusItemView.setText(current.bonus.toString())
-        holder.totalItemView.setText(current.total.toString())
+        holder.abilityNameItemView.setText(current.abilityScoreAbility.toString())
+        holder.abilityRollItemView.setText(current.abilityScoreRoll.toString())
+        holder.bonusItemView.setText(current.abilityScoreBonus.toString())
+        holder.totalItemView.setText(current.abilityScoreTotal.toString())
 
     }
 
