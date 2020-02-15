@@ -4,6 +4,7 @@
 package com.uldskull.rolegameassistant.application
 
 import android.app.Application
+import com.uldskull.rolegameassistant.di.roomModule
 
 import com.uldskull.rolegameassistant.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
@@ -29,6 +30,9 @@ class MainApplication : Application() {
             // TODO("Inject modules here")
             modules(
                 viewModelModule
+            )
+            modules(
+                roomModule
             )
 
         }

@@ -3,6 +3,7 @@
 package com.uldskull.rolegameassistant.infrastructure.repositories.basicinfo
 
 import androidx.lifecycle.LiveData
+import com.uldskull.rolegameassistant.infrastructure.dao.BasicInfoDao
 import com.uldskull.rolegameassistant.models.basic_info.DomainBasicInfo
 import com.uldskull.rolegameassistant.repository.basic_info.BasicInfoRepository
 
@@ -11,7 +12,7 @@ import com.uldskull.rolegameassistant.repository.basic_info.BasicInfoRepository
 
     Insert and get BasicInfo from database.
  */
-class BasicInfoRepositoryImpl : BasicInfoRepository<LiveData<List<DomainBasicInfo>>> {
+class BasicInfoRepositoryImpl(basicInfoDao: BasicInfoDao) : BasicInfoRepository<LiveData<List<DomainBasicInfo>>> {
     /** Get all entities    */
     override fun getAll(): LiveData<List<DomainBasicInfo>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
