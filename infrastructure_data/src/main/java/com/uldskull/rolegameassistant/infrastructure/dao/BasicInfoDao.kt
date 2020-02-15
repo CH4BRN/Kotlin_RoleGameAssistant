@@ -24,5 +24,8 @@ interface BasicInfoDao {
     fun getById(dbBasicInfoId: Long?):DbBasicInfo
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(vararg dbBasicInfos: DbBasicInfo)
+    fun insert(dbBasicInfo: DbBasicInfo)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAll(dbBasicInfos:List<DbBasicInfo>)
 }
