@@ -3,29 +3,38 @@
 package com.uldskull.rolegameassistant.infrastructure.repositories.basicinfo
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
 import com.uldskull.rolegameassistant.infrastructure.dao.BasicInfoDao
+import com.uldskull.rolegameassistant.infrastructure.database_model.basic_info.DbBasicInfo
 import com.uldskull.rolegameassistant.models.basic_info.DomainBasicInfo
 import com.uldskull.rolegameassistant.repository.basic_info.BasicInfoRepository
 
 /**
-    Class "BasicInfoRepositoryImpl"
+Class "BasicInfoRepositoryImpl"
 
-    Insert and get BasicInfo from database.
+Insert and get BasicInfo from database.
  */
-class BasicInfoRepositoryImpl(basicInfoDao: BasicInfoDao) : BasicInfoRepository<LiveData<List<DomainBasicInfo>>> {
+class BasicInfoRepositoryImpl(private val basicInfoDao: BasicInfoDao) :
+    BasicInfoRepository<LiveData<List<DomainBasicInfo>>> {
     /** Get all entities    */
     override fun getAll(): LiveData<List<DomainBasicInfo>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return Transformations.map(basicInfoDao.getAll()) { it ->
+            it.map {
+                it.toDomain()
+            }
+        }
     }
 
     /** Get one entity by its id    */
     override fun getOne(id: Long?): DomainBasicInfo {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return basicInfoDao.getById(id).toDomain()
     }
 
     /** Insert a list of entity */
     override fun insertAll(all: List<DomainBasicInfo>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        basicInfoDao.insertAll(all.map {
+            DbBasicInfo.from(it)
+        })
     }
 
     /** Insert one entity   */
