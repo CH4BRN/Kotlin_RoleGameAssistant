@@ -39,4 +39,5 @@ dependencies {
     testImplementation TestDependencies.junitJunit
     androidTestImplementation TestDependencies.androidxTestExtJunit
     androidTestImplementation TestDependencies.androidxTestEspressoEspressoCore
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 }
