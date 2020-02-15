@@ -14,7 +14,7 @@ class DbLevel(
     val dbLevelId: Long? = null,
     val dbLevelValue: Int? = 0,
     val dbLevelHpModifier: Int? = 0
-) : DbEntity<DomainLevel> {
+) : DbEntity<DomainLevel, DbLevel> {
     /**
      * Converts into domain model
      */
@@ -36,6 +36,12 @@ class DbLevel(
                 dbLevelHpModifier = domainLevel.levelHpModifier,
                 dbLevelValue = domainLevel.levelValue
             )
+        }
+    }
+
+    override fun List<DbLevel>.asDomainModel(): List<DomainLevel> {
+        return map{
+            toDomain()
         }
     }
 }

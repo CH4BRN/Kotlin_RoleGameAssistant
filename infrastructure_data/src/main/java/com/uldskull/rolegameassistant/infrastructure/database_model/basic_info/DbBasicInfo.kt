@@ -20,7 +20,7 @@ class DbBasicInfo(
     val dbBasicInfoCharacterExperience: Int? = 0,
     val dbBasicInfoCharacterId: Long? = null,
     val dbBasicInfoLevelId: Long? = null
-):DbEntity<DomainBasicInfo> {
+):DbEntity<DomainBasicInfo, DbBasicInfo> {
     companion object {
         /**
          * Converts to database model
@@ -49,4 +49,11 @@ class DbBasicInfo(
 
         )
     }
+
+    override fun List<DbBasicInfo>.asDomainModel(): List<DomainBasicInfo> {
+        return map{
+            toDomain()
+        }
+    }
+
 }

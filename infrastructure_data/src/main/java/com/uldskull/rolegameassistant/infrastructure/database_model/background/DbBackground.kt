@@ -16,7 +16,7 @@ import com.uldskull.rolegameassistant.models.background.DomainBackground
 @Entity(tableName = TABLE_NAME_BACKGROUND)
 data class DbBackground (
     @PrimaryKey(autoGenerate = true) val dbBackgroundId: Long?
-): DbEntity<DomainBackground> {
+): DbEntity<DomainBackground, DbBackground> {
     companion object {
         /**
          * Converts to database model.
@@ -35,6 +35,12 @@ data class DbBackground (
         return DomainBackground(
             backggroundId = dbBackgroundId
         )
+    }
+
+    override fun List<DbBackground>.asDomainModel(): List<DomainBackground> {
+        return map{
+            toDomain()
+        }
     }
 }
 

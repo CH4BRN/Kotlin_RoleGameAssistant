@@ -13,7 +13,7 @@ Database model for race.
 class DbRace(
     val dbRaceId: Long? = null,
     val dbRaceName: String? = "name"
-) : DbEntity<DomainRace> {
+) : DbEntity<DomainRace, DbRace> {
     /**
      * Converts into domain model.
      */
@@ -33,6 +33,12 @@ class DbRace(
                 dbRaceId = domainRace.raceId,
                 dbRaceName = domainRace.raceName
             )
+        }
+    }
+
+    override fun List<DbRace>.asDomainModel(): List<DomainRace> {
+        return map{
+            toDomain()
         }
     }
 }

@@ -7,7 +7,11 @@ Interface "DbEntity"
 
 TODO : Describe interface utility.
  **/
-interface DbEntity<T>{
+interface DbEntity<T,U>{
     fun toDomain():T
+
+    fun List<U>.asDomainModel():List<T>
+
+
 
 }

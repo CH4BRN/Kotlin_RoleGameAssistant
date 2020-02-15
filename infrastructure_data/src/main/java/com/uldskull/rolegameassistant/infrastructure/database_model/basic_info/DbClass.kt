@@ -16,7 +16,7 @@ Database model for class.
 @Entity(tableName = TABLE_NAME_CLASS)
 class DbClass(
     @PrimaryKey(autoGenerate = true)val dbClassId: Long? = null,
-    val dbClassName: String? = "class") : DbEntity<DomainClass> {
+    val dbClassName: String? = "class") : DbEntity<DomainClass, DbClass> {
     /**
      * Converts into domain model.
      */
@@ -36,6 +36,12 @@ class DbClass(
                 dbClassId = domainClass.classId,
                 dbClassName = domainClass.className
             )
+        }
+    }
+
+    override fun List<DbClass>.asDomainModel(): List<DomainClass> {
+        return map{
+            toDomain()
         }
     }
 }
