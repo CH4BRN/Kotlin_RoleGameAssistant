@@ -62,7 +62,7 @@ class CharacteristicsFragment : Fragment() {
         pictureTransaction?.replace(R.id.container_picture, PictureFragment(activity as Activity))
             ?.commit()
     }
-
+    private lateinit var initialRootView: View
     companion object {
 
         @JvmStatic
@@ -78,7 +78,7 @@ class CharacteristicsFragment : Fragment() {
         }
 
         private const val KEY_POSITION = "position"
-        private lateinit var initialRootView: View
+
 
     }
 

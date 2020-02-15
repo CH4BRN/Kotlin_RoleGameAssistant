@@ -51,7 +51,7 @@ class BackgroundFragment : Fragment() {
         super.onResume()
         NewCharacterActivity.progression.value = 2
     }
-
+    private lateinit var initialRootView: View
     companion object {
         @JvmStatic
         fun newInstance(activity: Activity, position: Int): BackgroundFragment {
@@ -67,6 +67,6 @@ class BackgroundFragment : Fragment() {
         }
 
         private const val KEY_POSITION = "position"
-        private lateinit var initialRootView: View
+
     }
 }

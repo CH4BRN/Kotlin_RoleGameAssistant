@@ -94,7 +94,7 @@ class BasicInfoFragment : Fragment() {
             newCharacterViewModel.saveName(et_name?.text.toString())
         }
     }
-
+    private lateinit var initialRootView: View
     companion object {
         @JvmStatic
         fun newInstance(activity: Activity, position: Int): BasicInfoFragment {
@@ -109,7 +109,7 @@ class BasicInfoFragment : Fragment() {
         }
 
         private const val KEY_POSITION = "position"
-        private lateinit var initialRootView: View
+
 
 
     }

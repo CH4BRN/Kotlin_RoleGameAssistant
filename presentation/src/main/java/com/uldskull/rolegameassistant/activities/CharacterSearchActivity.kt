@@ -24,7 +24,7 @@ class CharacterSearchActivity : AppCompatActivity() {
 
 
     private fun initializeFab() {
-        if (fab_createCharacter != null) {
+        if ( fab_createCharacter != null) {
             fab_createCharacter.setOnClickListener {
                 val intent = Intent(this, NewCharacterActivity::class.java)
                 startActivity(intent)

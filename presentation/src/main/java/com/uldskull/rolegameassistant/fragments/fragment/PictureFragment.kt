@@ -60,7 +60,7 @@ class PictureFragment(val context: Activity) : Fragment() {
     /** Called when the started activity is finished    **/
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
-        Toast.makeText(activity, "On activity result", Toast.LENGTH_SHORT)
+        Toast.makeText(activity, "On activity result", Toast.LENGTH_SHORT).show()
 
         when (requestCode) {
             0 -> {
@@ -79,7 +79,7 @@ class PictureFragment(val context: Activity) : Fragment() {
 
     /** Show bad request toast  **/
     private fun showBadRequestToast() {
-        Toast.makeText(activity, "Bad request code", Toast.LENGTH_SHORT)
+        Toast.makeText(activity, "Bad request code", Toast.LENGTH_SHORT).show()
     }
 
     /** Is result code ok   **/
@@ -116,7 +116,8 @@ class PictureFragment(val context: Activity) : Fragment() {
             selectImageAlbum()
         }
     }
-
+    /** Initial root view.  **/
+    private lateinit var initialRootView: View
     companion object {
 
         @JvmStatic
@@ -133,8 +134,7 @@ class PictureFragment(val context: Activity) : Fragment() {
 
         /** Key position code   **/
         private const val KEY_POSITION = "position"
-        /** Initial root view.  **/
-        private lateinit var initialRootView: View
+
         /** Request code for image selection    **/
         private const val REQUEST_CODE_SELECT_IMAGE_IN_ALBUM = 1
     }

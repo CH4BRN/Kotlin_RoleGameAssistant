@@ -101,7 +101,7 @@ class AbilitiesRecyclerViewFragment : Fragment() {
             }
         })
     }
-
+    private lateinit var initialRootView: View
     companion object {
 
 
@@ -118,7 +118,7 @@ class AbilitiesRecyclerViewFragment : Fragment() {
         }
 
         private const val KEY_POSITION = "position"
-        private lateinit var initialRootView: View
+
 
     }
 }

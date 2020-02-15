@@ -94,7 +94,7 @@ class SkillsRecyclerViewFragment : Fragment() {
             }
         })
     }
-
+    private lateinit var initialRootView: View
     companion object {
 
         @JvmStatic
@@ -109,7 +109,7 @@ class SkillsRecyclerViewFragment : Fragment() {
         }
 
         private const val KEY_POSITION = "position"
-        private lateinit var initialRootView: View
+
 
     }
 }

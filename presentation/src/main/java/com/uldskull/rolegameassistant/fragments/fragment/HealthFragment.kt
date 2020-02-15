@@ -42,6 +42,7 @@ class HealthFragment : Fragment() {
         super.onResume()
         NewCharacterActivity.progression.value = 4
     }
+    private lateinit var initialRootView: View
     companion object {
 
         @JvmStatic
@@ -58,7 +59,7 @@ class HealthFragment : Fragment() {
 
         private const val KEY_POSITION = "position"
 
-        private lateinit var initialRootView: View
+
 
     }
 }
