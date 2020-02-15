@@ -12,7 +12,7 @@ object KotlinVersions {
 
 object SdkVersions {
     const val compileSdkVersion = 29
-    const val minSdkVersion = 23
+    const val minSdkVersion = 28
     const val targetSdkVersion = 29
 }
 
