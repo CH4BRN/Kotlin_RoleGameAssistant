@@ -1,4 +1,4 @@
-// KoinModule_viewModels.kt created by UldSkull - 15/02/2020
+// Module_viewModels.kt created by UldSkull - 15/02/2020
 
 package com.uldskull.rolegameassistant.di
 

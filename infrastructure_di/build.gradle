@@ -40,6 +40,9 @@ dependencies {
     kapt RoomDependencies.androidxRoomRoomCompiler
     implementation project(ProjectsDependencies.presentation)
     implementation project(ProjectsDependencies.data)
+    implementation project(ProjectsDependencies.domain)
+    implementation project(ProjectsDependencies.domain_services)
+    implementation project (ProjectsDependencies.application_services_contracts)
     testImplementation TestDependencies.junitJunit
     androidTestImplementation TestDependencies.androidxTestExtJunit
     androidTestImplementation TestDependencies.androidxTestEspressoEspressoCore
