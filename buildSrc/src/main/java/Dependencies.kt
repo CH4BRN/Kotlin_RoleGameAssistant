@@ -17,6 +17,9 @@ object ProjectsDependencies {
     const val domain = ":domain"
     const val data = ":infrastructure_data"
     const val app = ":app"
+    const val application_services = ":application_services"
+    const val application_services_contracts = ":application_services_contracts"
+    const val domain_services = ":domain_services"
 }
 
 object KoinDependencies {
