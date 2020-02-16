@@ -2,6 +2,10 @@ include ProjectsDependencies.app,
         ProjectsDependencies.domain,
         ProjectsDependencies.presentation,
         ProjectsDependencies.di,
-        ProjectsDependencies.data
+        ProjectsDependencies.data,
+        ProjectsDependencies.application_services,
+        ProjectsDependencies.application_services_contracts,
+        ProjectsDependencies.domain_services
+
 
 rootProject.name='Role Game Assistant'
