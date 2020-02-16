@@ -4,6 +4,8 @@
 package com.uldskull.rolegameassistant.application
 
 import android.app.Application
+import com.uldskull.rolegameassistant.di.basicInfoDomainServicesModule
+import com.uldskull.rolegameassistant.di.basicInfoRepositoriesModule
 import com.uldskull.rolegameassistant.di.roomModule
 
 import com.uldskull.rolegameassistant.di.viewModelModule
@@ -22,6 +24,7 @@ class MainApplication : Application() {
     /** Application life cycle  **/
     override fun onCreate() {
         super.onCreate()
+        applicationContext.deleteDatabase("appdb")
         //  Start koin
         startKoin {
             androidContext(this@MainApplication)
@@ -33,6 +36,12 @@ class MainApplication : Application() {
             )
             modules(
                 roomModule
+            )
+            modules(
+                basicInfoDomainServicesModule
+            )
+            modules(
+                basicInfoRepositoriesModule
             )
 
         }
