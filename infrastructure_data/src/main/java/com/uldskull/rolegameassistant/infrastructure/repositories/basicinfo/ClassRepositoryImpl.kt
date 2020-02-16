@@ -3,8 +3,9 @@
 package com.uldskull.rolegameassistant.infrastructure.repositories.basicinfo
 
 import androidx.lifecycle.LiveData
+import com.uldskull.rolegameassistant.infrastructure.dao.basic_info.ClassDao
 import com.uldskull.rolegameassistant.models.basic_info.DomainClass
-import com.uldskull.rolegameassistant.repository.basic_info.ClassRepository
+import com.uldskull.rolegameassistant.contracts.repository.basic_info.ClassRepository
 
 
 /**
@@ -12,7 +13,7 @@ Class "ClassRepositoryImpl"
 
 Insert and get Class from database.
  */
-class ClassRepositoryImpl :
+class ClassRepositoryImpl(private val  classDao: ClassDao) :
     ClassRepository<LiveData<List<DomainClass>>> {
     /** Get all entities    */
     override fun getAll(): LiveData<List<DomainClass>> {
@@ -20,7 +21,7 @@ class ClassRepositoryImpl :
     }
 
     /** Get one entity by its id    */
-    override fun getOne(id: Long?): DomainClass {
+    override fun getOneById(id: Long?): DomainClass {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

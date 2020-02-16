@@ -4,7 +4,7 @@ package com.uldskull.rolegameassistant.infrastructure.repositories.background
 
 import androidx.lifecycle.LiveData
 import com.uldskull.rolegameassistant.models.background.DomainBond
-import com.uldskull.rolegameassistant.repository.background.BondRepository
+import com.uldskull.rolegameassistant.contracts.repository.background.BondRepository
 
 
 /**
@@ -20,7 +20,7 @@ class BondRepositoryImpl :
     }
 
     /** Get one entity by its id    */
-    override fun getOne(id: Long?): DomainBond {
+    override fun getOneById(id: Long?): DomainBond {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

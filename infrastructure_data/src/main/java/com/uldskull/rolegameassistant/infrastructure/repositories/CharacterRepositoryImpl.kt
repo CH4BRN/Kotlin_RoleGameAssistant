@@ -4,7 +4,7 @@ package com.uldskull.rolegameassistant.infrastructure.repositories
 
 import androidx.lifecycle.LiveData
 import com.uldskull.rolegameassistant.models.character.DomainCharacter
-import com.uldskull.rolegameassistant.repository.character.CharacterRepository
+import com.uldskull.rolegameassistant.contracts.repository.character.CharacterRepository
 
 /**
     Class "CharacterRepositoryImpl"
@@ -19,7 +19,7 @@ class CharacterRepositoryImpl :
     }
 
     /** Get one entity by its id    */
-    override fun getOne(id: Long?): DomainCharacter {
+    override fun getOneById(id: Long?): DomainCharacter {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

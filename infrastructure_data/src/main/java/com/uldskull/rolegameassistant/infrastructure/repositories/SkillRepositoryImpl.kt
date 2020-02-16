@@ -4,7 +4,7 @@ package com.uldskull.rolegameassistant.infrastructure.repositories
 
 import androidx.lifecycle.LiveData
 import com.uldskull.rolegameassistant.models.skill.DomainSkill
-import com.uldskull.rolegameassistant.repository.skill.SkillRepository
+import com.uldskull.rolegameassistant.contracts.repository.skill.SkillRepository
 
 /**
     Class "SkillRepositoryImpl"
@@ -19,7 +19,7 @@ class SkillRepositoryImpl :
     }
 
     /** Get one entity by its id    */
-    override fun getOne(id: Long?): DomainSkill {
+    override fun getOneById(id: Long?): DomainSkill {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

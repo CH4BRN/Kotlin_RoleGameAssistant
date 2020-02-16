@@ -5,7 +5,8 @@ package com.uldskull.rolegameassistant.infrastructure.database_model.background
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.uldskull.rolegameassistant.infrastructure.DatabaseValues.TABLE_NAME_FLAW
+import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_FLAW
+
 import com.uldskull.rolegameassistant.models.background.DomainFlaw
 
 /**

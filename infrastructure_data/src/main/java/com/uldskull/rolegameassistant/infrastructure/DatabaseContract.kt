@@ -4,7 +4,11 @@
 
 package com.uldskull.rolegameassistant.infrastructure
 
-object DatabaseValues {
+object DatabaseName{
+    const val DATABASE_NAME = "appdb"
+}
+
+object TableNames{
     const val TABLE_NAME_SKILL = "skill"
     const val TABLE_NAME_HEALTH = "health"
     const val TABLE_NAME_ABILITY_SCORE = "ability_score"
@@ -16,12 +20,25 @@ object DatabaseValues {
     const val TABLE_NAME_IDEAL = "ideal"
     const val TABLE_NAME_PERSONALITY = "personality"
     const val TABLE_NAME_BASIC_INFO = "basic_info"
-    const val TABLE_NAME_CLASS = "class"
+    const val TABLE_NAME_CLASS = "character_class"
     const val TABLE_NAME_LEVEL = "level"
     const val TABLE_NAME_RACE = "race"
     const val TABLE_NAME_CHARACTER = "character"
     const val TABLE_NAME_CHARACTERISTICS = "characteristics"
     const val TABLE_NAME_GENDER = "gender"
+}
+
+object ColumnNames{
+    const val COLUMN_NAME_DB_BASIC_INFO_ID = ":dbBasicInfoId"
+    const val COLUMN_NAME_DB_CLASS_ID = ":dbClassId"
+    const val COLUMN_NAME_DB_LEVEL_ID = ":dbLevelId"
+    const val COLUMN_NAME_DB_RACE_ID = ":dbRaceId"
+}
+
+object DatabaseValues {
+
+
+
 
 
 

@@ -2,7 +2,11 @@
 
 package com.uldskull.rolegameassistant.infrastructure.database_model.basic_info
 
-import com.uldskull.rolegameassistant.infrastructure.database_model.DbEntity
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_RACE
+import com.uldskull.rolegameassistant.infrastructure.database_model.contracts.AsDomainModels
+import com.uldskull.rolegameassistant.infrastructure.database_model.contracts.ToDomain
 import com.uldskull.rolegameassistant.models.basic_info.DomainRace
 
 /**
@@ -10,10 +14,13 @@ Class "DbRace"
 
 Database model for race.
  */
+@Entity(tableName = TABLE_NAME_RACE)
 class DbRace(
-    val dbRaceId: Long? = null,
+    @PrimaryKey(autoGenerate = true) val dbRaceId: Long? = null,
     val dbRaceName: String? = "name"
-) : DbEntity<DomainRace, DbRace> {
+) :
+    AsDomainModels<DomainRace, DbRace>,
+    ToDomain<DomainRace> {
     /**
      * Converts into domain model.
      */
@@ -37,7 +44,7 @@ class DbRace(
     }
 
     override fun List<DbRace>.asDomainModel(): List<DomainRace> {
-        return map{
+        return map {
             toDomain()
         }
     }

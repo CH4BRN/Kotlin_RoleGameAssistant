@@ -3,7 +3,8 @@
 package com.uldskull.rolegameassistant.infrastructure.database_model.character
 
 import androidx.room.Entity
-import com.uldskull.rolegameassistant.infrastructure.DatabaseValues.TABLE_NAME_PICTURE
+import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_PICTURE
+
 
 /**
 Class "DbPicture"

@@ -5,8 +5,10 @@ package com.uldskull.rolegameassistant.infrastructure.database_model.background
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.uldskull.rolegameassistant.infrastructure.DatabaseValues.TABLE_NAME_BACKGROUND
-import com.uldskull.rolegameassistant.infrastructure.database_model.DbEntity
+
+import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_BACKGROUND
+import com.uldskull.rolegameassistant.infrastructure.database_model.contracts.AsDomainModels
+import com.uldskull.rolegameassistant.infrastructure.database_model.contracts.ToDomain
 import com.uldskull.rolegameassistant.models.background.DomainBackground
 
 /**
@@ -16,7 +18,9 @@ import com.uldskull.rolegameassistant.models.background.DomainBackground
 @Entity(tableName = TABLE_NAME_BACKGROUND)
 data class DbBackground (
     @PrimaryKey(autoGenerate = true) val dbBackgroundId: Long?
-): DbEntity<DomainBackground, DbBackground> {
+):
+AsDomainModels<DomainBackground, DbBackground>,
+    ToDomain<DomainBackground>{
     companion object {
         /**
          * Converts to database model.

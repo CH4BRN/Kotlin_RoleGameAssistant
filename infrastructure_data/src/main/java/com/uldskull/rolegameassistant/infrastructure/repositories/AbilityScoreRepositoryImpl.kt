@@ -5,7 +5,7 @@ package com.uldskull.rolegameassistant.infrastructure.repositories
 import androidx.lifecycle.LiveData
 import com.uldskull.rolegameassistant.infrastructure.dao.AbilityScoreDao
 import com.uldskull.rolegameassistant.models.ability_score.DomainAbilityScore
-import com.uldskull.rolegameassistant.repository.ability_score.AbilityScoreRepository
+import com.uldskull.rolegameassistant.contracts.repository.ability_score.AbilityScoreRepository
 
 
 /**
@@ -19,7 +19,7 @@ class AbilityScoreRepositoryImpl(private val abilityScoreDao: AbilityScoreDao) :
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getOne(id: Long?): DomainAbilityScore {
+    override fun getOneById(id: Long?): DomainAbilityScore {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

@@ -4,8 +4,9 @@ package com.uldskull.rolegameassistant.infrastructure.database_model.basic_info
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.uldskull.rolegameassistant.infrastructure.DatabaseValues.TABLE_NAME_CLASS
-import com.uldskull.rolegameassistant.infrastructure.database_model.DbEntity
+import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_CLASS
+import com.uldskull.rolegameassistant.infrastructure.database_model.contracts.AsDomainModels
+import com.uldskull.rolegameassistant.infrastructure.database_model.contracts.ToDomain
 import com.uldskull.rolegameassistant.models.basic_info.DomainClass
 
 /**
@@ -15,8 +16,11 @@ Database model for class.
  */
 @Entity(tableName = TABLE_NAME_CLASS)
 class DbClass(
-    @PrimaryKey(autoGenerate = true)val dbClassId: Long? = null,
-    val dbClassName: String? = "class") : DbEntity<DomainClass, DbClass> {
+    @PrimaryKey(autoGenerate = true) val dbClassId: Long? = null,
+    val dbClassName: String? = "class"
+) :
+    AsDomainModels<DomainClass, DbClass>,
+    ToDomain<DomainClass> {
     /**
      * Converts into domain model.
      */
@@ -27,11 +31,11 @@ class DbClass(
         )
     }
 
-    companion object{
+    companion object {
         /**
          * Converts into database model
          */
-        fun from(domainClass: DomainClass):DbClass{
+        fun from(domainClass: DomainClass): DbClass {
             return DbClass(
                 dbClassId = domainClass.classId,
                 dbClassName = domainClass.className
@@ -40,7 +44,7 @@ class DbClass(
     }
 
     override fun List<DbClass>.asDomainModel(): List<DomainClass> {
-        return map{
+        return map {
             toDomain()
         }
     }

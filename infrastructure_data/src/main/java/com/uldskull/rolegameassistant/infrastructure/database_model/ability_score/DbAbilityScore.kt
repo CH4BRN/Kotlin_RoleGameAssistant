@@ -5,7 +5,7 @@ package com.uldskull.rolegameassistant.infrastructure.database_model.ability_sco
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.uldskull.rolegameassistant.infrastructure.DatabaseValues.TABLE_NAME_ABILITY_SCORE
+import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_ABILITY_SCORE
 import com.uldskull.rolegameassistant.models.ability_score.Ability
 import com.uldskull.rolegameassistant.models.ability_score.DomainAbilityScore
 

@@ -2,7 +2,11 @@
 
 package com.uldskull.rolegameassistant.infrastructure.database_model.basic_info
 
-import com.uldskull.rolegameassistant.infrastructure.database_model.DbEntity
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_LEVEL
+import com.uldskull.rolegameassistant.infrastructure.database_model.contracts.AsDomainModels
+import com.uldskull.rolegameassistant.infrastructure.database_model.contracts.ToDomain
 import com.uldskull.rolegameassistant.models.basic_info.DomainLevel
 
 /**
@@ -10,11 +14,14 @@ Class "DbLevel"
 
 Database model for level
  */
+@Entity(tableName = TABLE_NAME_LEVEL)
 class DbLevel(
-    val dbLevelId: Long? = null,
+    @PrimaryKey(autoGenerate = true) val dbLevelId: Long? = null,
     val dbLevelValue: Int? = 0,
     val dbLevelHpModifier: Int? = 0
-) : DbEntity<DomainLevel, DbLevel> {
+) :
+    AsDomainModels<DomainLevel, DbLevel>,
+    ToDomain<DomainLevel> {
     /**
      * Converts into domain model
      */
@@ -40,7 +47,7 @@ class DbLevel(
     }
 
     override fun List<DbLevel>.asDomainModel(): List<DomainLevel> {
-        return map{
+        return map {
             toDomain()
         }
     }

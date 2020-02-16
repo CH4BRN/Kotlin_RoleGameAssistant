@@ -4,7 +4,7 @@ package com.uldskull.rolegameassistant.infrastructure.repositories.background
 
 import androidx.lifecycle.LiveData
 import com.uldskull.rolegameassistant.models.background.DomainBackground
-import com.uldskull.rolegameassistant.repository.background.BackgroundRepository
+import com.uldskull.rolegameassistant.contracts.repository.background.BackgroundRepository
 
 
 /**
@@ -19,7 +19,7 @@ class BackgroundRepositoryImpl : BackgroundRepository<LiveData<List<DomainBackgr
     }
 
     /** Get one entity by its id    */
-    override fun getOne(id: Long?): DomainBackground {
+    override fun getOneById(id: Long?): DomainBackground {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

@@ -5,7 +5,8 @@ package com.uldskull.rolegameassistant.infrastructure.database_model.health
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.uldskull.rolegameassistant.infrastructure.DatabaseValues.TABLE_NAME_HEALTH
+import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_HEALTH
+
 import com.uldskull.rolegameassistant.models.health.DomainHealth
 
 /**

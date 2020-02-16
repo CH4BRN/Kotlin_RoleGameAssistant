@@ -4,7 +4,7 @@ package com.uldskull.rolegameassistant.infrastructure.repositories.background
 
 import androidx.lifecycle.LiveData
 import com.uldskull.rolegameassistant.models.background.DomainBiography
-import com.uldskull.rolegameassistant.repository.background.BiographyRepository
+import com.uldskull.rolegameassistant.contracts.repository.background.BiographyRepository
 
 /**
 Class "BiographyRepositoryImpl"
@@ -18,7 +18,7 @@ class BiographyRepositoryImpl : BiographyRepository<LiveData<List<DomainBiograph
     }
 
     /** Get one entity by its id    */
-    override fun getOne(id: Long?): DomainBiography {
+    override fun getOneById(id: Long?): DomainBiography {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

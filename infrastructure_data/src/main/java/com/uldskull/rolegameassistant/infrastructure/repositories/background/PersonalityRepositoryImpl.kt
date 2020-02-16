@@ -4,7 +4,7 @@ package com.uldskull.rolegameassistant.infrastructure.repositories.background
 
 import androidx.lifecycle.LiveData
 import com.uldskull.rolegameassistant.models.background.DomainPersonality
-import com.uldskull.rolegameassistant.repository.background.PersonalityRepository
+import com.uldskull.rolegameassistant.contracts.repository.background.PersonalityRepository
 
 /**
 Class "PersonalityRepositoryImpl"
@@ -19,7 +19,7 @@ class PersonalityRepositoryImpl :
     }
 
     /** Get one entity by its id    */
-    override fun getOne(id: Long?): DomainPersonality {
+    override fun getOneById(id: Long?): DomainPersonality {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

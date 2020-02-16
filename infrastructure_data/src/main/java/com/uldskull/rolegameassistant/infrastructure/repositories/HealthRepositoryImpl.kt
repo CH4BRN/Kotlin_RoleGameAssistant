@@ -4,7 +4,7 @@ package com.uldskull.rolegameassistant.infrastructure.repositories
 
 import androidx.lifecycle.LiveData
 import com.uldskull.rolegameassistant.models.health.DomainHealth
-import com.uldskull.rolegameassistant.repository.health.HealthRepository
+import com.uldskull.rolegameassistant.contracts.repository.health.HealthRepository
 
 
 /**
@@ -20,7 +20,7 @@ class HealthRepositoryImpl :
     }
 
     /** Get one entity by its id    */
-    override fun getOne(id: Long?): DomainHealth {
+    override fun getOneById(id: Long?): DomainHealth {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

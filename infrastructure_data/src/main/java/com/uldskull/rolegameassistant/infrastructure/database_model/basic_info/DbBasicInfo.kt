@@ -4,8 +4,10 @@ package com.uldskull.rolegameassistant.infrastructure.database_model.basic_info
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.uldskull.rolegameassistant.infrastructure.DatabaseValues.TABLE_NAME_BASIC_INFO
-import com.uldskull.rolegameassistant.infrastructure.database_model.DbEntity
+import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_BASIC_INFO
+import com.uldskull.rolegameassistant.infrastructure.database_model.contracts.AsDomainModels
+import com.uldskull.rolegameassistant.infrastructure.database_model.contracts.From
+import com.uldskull.rolegameassistant.infrastructure.database_model.contracts.ToDomain
 import com.uldskull.rolegameassistant.models.basic_info.DomainBasicInfo
 
 /**
@@ -20,12 +22,15 @@ class DbBasicInfo(
     val dbBasicInfoCharacterExperience: Int? = 0,
     val dbBasicInfoCharacterId: Long? = null,
     val dbBasicInfoLevelId: Long? = null
-):DbEntity<DomainBasicInfo, DbBasicInfo> {
-    companion object {
+):
+AsDomainModels<DomainBasicInfo, DbBasicInfo>,
+ToDomain<DomainBasicInfo>{
+    companion object :
+        From<DomainBasicInfo, DbBasicInfo> {
         /**
          * Converts to database model
          */
-        fun from(domainBasicInfo: DomainBasicInfo): DbBasicInfo {
+        override fun from(domainBasicInfo: DomainBasicInfo): DbBasicInfo {
             return DbBasicInfo(
                 dbBasicInfoCharacterId = domainBasicInfo.basicInfoCharacterId,
                 dbBasicInfoCharacterExperience = domainBasicInfo.basicInfoCharacterExperience,

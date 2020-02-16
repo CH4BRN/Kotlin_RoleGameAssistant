@@ -4,7 +4,7 @@ package com.uldskull.rolegameassistant.infrastructure.repositories.background
 
 import androidx.lifecycle.LiveData
 import com.uldskull.rolegameassistant.models.background.DomainFlaw
-import com.uldskull.rolegameassistant.repository.background.FlawRepository
+import com.uldskull.rolegameassistant.contracts.repository.background.FlawRepository
 
 /**
 Class "FlawRepositoryImpl"
@@ -19,7 +19,7 @@ class FlawRepositoryImpl :
     }
 
     /** Get one entity by its id    */
-    override fun getOne(id: Long?): DomainFlaw {
+    override fun getOneById(id: Long?): DomainFlaw {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
