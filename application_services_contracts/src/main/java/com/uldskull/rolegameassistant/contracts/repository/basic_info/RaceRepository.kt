@@ -3,7 +3,7 @@
 package com.uldskull.rolegameassistant.contracts.repository.basic_info
 
 import com.uldskull.rolegameassistant.models.basic_info.DomainRace
-import com.uldskull.rolegameassistant.contracts.repository.GenericRepository
+import com.uldskull.rolegameassistant.repository.GenericRepository
 
 /**
 Interface "RaceRepository"
@@ -16,4 +16,5 @@ With the exception of the getAllBasicInfo() DAO method
 these database operations will need to be performed on separate threads from the main
 thread using the AsyncTask class.
  **/
-interface RaceRepository<T>:GenericRepository<T, DomainRace>
+interface RaceRepository<T> :
+    GenericRepository<T, DomainRace>

@@ -3,7 +3,7 @@
 package com.uldskull.rolegameassistant.contracts.repository.skill
 
 import com.uldskull.rolegameassistant.models.skill.DomainSkill
-import com.uldskull.rolegameassistant.contracts.repository.GenericRepository
+import com.uldskull.rolegameassistant.repository.GenericRepository
 
 /**
 Interface "SkillRepository"
@@ -13,4 +13,5 @@ responsible for interacting with the Room database on behalf
 of the ViewModel and will need to provide methods that use the DAO to insert, delete and
 query basic info records.
  **/
-interface SkillRepository<T> : GenericRepository<T, DomainSkill>
+interface SkillRepository<T> :
+    GenericRepository<T, DomainSkill>

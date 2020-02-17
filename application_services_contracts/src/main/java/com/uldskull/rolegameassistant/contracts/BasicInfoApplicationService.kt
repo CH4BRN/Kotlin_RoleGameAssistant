@@ -8,4 +8,6 @@ Interface "BasicInfoApplicationServices"
 TODO : Describe interface utility.
  **/
 interface BasicInfoApplicationService {
+
+    suspend fun getCount(): Int?
 }

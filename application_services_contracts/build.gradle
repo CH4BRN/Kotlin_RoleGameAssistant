@@ -31,6 +31,12 @@ dependencies {
     implementation AndroidXDependencies.androidxAppcompatAppcompat
     implementation AndroidXDependencies.androidxCoreCoreKtx
     implementation project(ProjectsDependencies.domain)
+    implementation KoinDependencies.orgKoinKoinAndroid
+    implementation KoinDependencies.orgKoinKoinCore
+    implementation KoinDependencies.orgKoinKoinAndroidxScope
+    implementation KoinDependencies.orgKoinKoinAndroidxViewmodel
+    implementation KoinDependencies.orgKoinKoinAndroidScope
+    implementation KoinDependencies.orgKoinKoinAndroidViewmodel
     testImplementation TestDependencies.junitJunit
     androidTestImplementation TestDependencies.androidxTestExtJunit
     androidTestImplementation TestDependencies.androidxTestEspressoEspressoCore
