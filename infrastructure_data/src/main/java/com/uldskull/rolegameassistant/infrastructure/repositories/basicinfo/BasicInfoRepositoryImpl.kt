@@ -4,10 +4,12 @@ package com.uldskull.rolegameassistant.infrastructure.repositories.basicinfo
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
+import com.uldskull.rolegameassistant.base.Response
 import com.uldskull.rolegameassistant.infrastructure.dao.basic_info.BasicInfoDao
 import com.uldskull.rolegameassistant.infrastructure.database_model.basic_info.DbBasicInfo
 import com.uldskull.rolegameassistant.models.basic_info.DomainBasicInfo
-import com.uldskull.rolegameassistant.contracts.repository.basic_info.BasicInfoRepository
+import com.uldskull.rolegameassistant.repository.basic_info.BasicInfoRepository
+import com.uldskull.rolegameassistant.usecases.counter.GetCounterRequest
 
 /**
 Class "BasicInfoRepositoryImpl"
@@ -40,5 +42,9 @@ class BasicInfoRepositoryImpl(private val basicInfoDao: BasicInfoDao) :
     /** Insert one entity   */
     override fun insertOne(one: DomainBasicInfo): Long {
         return basicInfoDao.insert(DbBasicInfo.from(one))
+    }
+
+    override suspend fun getCounter(request: GetCounterRequest): Response<Int?> {
+        return Response.Success(getAll().value?.size)
     }
 }
