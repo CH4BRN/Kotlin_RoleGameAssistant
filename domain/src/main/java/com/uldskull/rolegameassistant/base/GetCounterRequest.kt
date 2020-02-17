@@ -1,9 +1,7 @@
 // File GetCounterRequest.kt
 // @Author pierre.antoine - 17/02/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.usecases.counter
-
-import com.uldskull.rolegameassistant.base.BaseRequest
+package com.uldskull.rolegameassistant.base
 
 /**
  *   Class "GetCounterRequest" :

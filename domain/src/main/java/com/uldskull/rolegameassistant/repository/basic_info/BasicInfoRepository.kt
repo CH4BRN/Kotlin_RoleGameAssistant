@@ -2,10 +2,11 @@
 
 package com.uldskull.rolegameassistant.repository.basic_info
 
+import com.uldskull.rolegameassistant.base.GetAllRequest
+import com.uldskull.rolegameassistant.base.GetCounterRequest
 import com.uldskull.rolegameassistant.base.Response
 import com.uldskull.rolegameassistant.models.basic_info.DomainBasicInfo
 import com.uldskull.rolegameassistant.repository.GenericRepository
-import com.uldskull.rolegameassistant.usecases.counter.GetCounterRequest
 
 
 /**
@@ -21,4 +22,6 @@ thread using the AsyncTask class.
  **/
 interface BasicInfoRepository<T> : GenericRepository<T, DomainBasicInfo> {
     suspend fun getCounter(request: GetCounterRequest): Response<Int?>
+
+    suspend fun getAll(request: GetAllRequest): Response<T?>
 }

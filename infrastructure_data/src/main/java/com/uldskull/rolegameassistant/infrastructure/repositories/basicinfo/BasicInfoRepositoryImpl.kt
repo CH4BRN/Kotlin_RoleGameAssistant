@@ -4,12 +4,14 @@ package com.uldskull.rolegameassistant.infrastructure.repositories.basicinfo
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
+import com.uldskull.rolegameassistant.base.GetAllRequest
+import com.uldskull.rolegameassistant.base.GetCounterRequest
 import com.uldskull.rolegameassistant.base.Response
+import com.uldskull.rolegameassistant.base.Success
 import com.uldskull.rolegameassistant.infrastructure.dao.basic_info.BasicInfoDao
 import com.uldskull.rolegameassistant.infrastructure.database_model.basic_info.DbBasicInfo
 import com.uldskull.rolegameassistant.models.basic_info.DomainBasicInfo
 import com.uldskull.rolegameassistant.repository.basic_info.BasicInfoRepository
-import com.uldskull.rolegameassistant.usecases.counter.GetCounterRequest
 
 /**
 Class "BasicInfoRepositoryImpl"
@@ -44,7 +46,14 @@ class BasicInfoRepositoryImpl(private val basicInfoDao: BasicInfoDao) :
         return basicInfoDao.insert(DbBasicInfo.from(one))
     }
 
-    override suspend fun getCounter(request: GetCounterRequest): Response<Int?> {
-        return Response.Success(getAll().value?.size)
+    override suspend fun getCounter(request: GetCounterRequest)
+            : Response<Int?> {
+        return Success(getAll().value?.size)
     }
+
+    override suspend fun getAll(request: GetAllRequest)
+            : Response<LiveData<List<DomainBasicInfo>>> {
+        return Success(getAll())
+    }
+
 }

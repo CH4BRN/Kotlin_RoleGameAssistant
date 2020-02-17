@@ -8,7 +8,8 @@ package com.uldskull.rolegameassistant.base
  *   TODO: Fill class use.
  **/
 sealed class Response<out T> {
-    class Success<out T>(val data: T) : Response<T?>()
+
+
     data class Error(
         val exception: Throwable,
         val code: Int? = null,
@@ -19,6 +20,8 @@ sealed class Response<out T> {
         val path: String? = null
     ) : Response<Nothing>()
 }
+
+class Success<out T>(val data: T) : Response<T?>()
 
 data class ErrorX(
     val message: String,
