@@ -23,6 +23,7 @@ Database interactions for basic info.
  **/
 @Dao
 interface BasicInfoDao {
+    /*
     @Query(SELECT + ALL + FROM + TABLE_NAME_BASIC_INFO)
     fun findAll(): LiveData<List<DbBasicInfo>>
 
@@ -34,4 +35,6 @@ interface BasicInfoDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(dbBasicInfos:List<DbBasicInfo>)
+    */
+
 }

@@ -36,6 +36,7 @@ dependencies {
     implementation KoinDependencies.orgKoinKoinAndroidxViewmodel
     implementation AndroidXDependencies.androidxRecyclerviewRecyclerview
     implementation project(ProjectsDependencies.domain)
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation TestDependencies.junitJunit
     androidTestImplementation TestDependencies.androidxTestExtJunit
     androidTestImplementation TestDependencies.androidxTestEspressoEspressoCore

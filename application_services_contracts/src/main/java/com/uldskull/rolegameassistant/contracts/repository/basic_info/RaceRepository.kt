@@ -2,8 +2,9 @@
 
 package com.uldskull.rolegameassistant.contracts.repository.basic_info
 
+import GenericRepository
 import com.uldskull.rolegameassistant.models.basic_info.DomainRace
-import com.uldskull.rolegameassistant.contracts.repository.GenericRepository
+
 
 /**
 Interface "RaceRepository"

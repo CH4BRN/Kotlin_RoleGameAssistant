@@ -3,7 +3,7 @@
 package com.uldskull.rolegameassistant.contracts.repository.skill
 
 import com.uldskull.rolegameassistant.models.skill.DomainSkill
-import com.uldskull.rolegameassistant.contracts.repository.GenericRepository
+import GenericRepository
 
 /**
 Interface "SkillRepository"

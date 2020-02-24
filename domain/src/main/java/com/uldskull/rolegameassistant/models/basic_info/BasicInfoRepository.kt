@@ -1,9 +1,10 @@
 // BasicInfoRepository.kt created by UldSkull - 11/02/2020
 
-package com.uldskull.rolegameassistant.contracts.repository.basic_info
+package com.uldskull.rolegameassistant.models.basic_info
 
-import com.uldskull.rolegameassistant.models.basic_info.DomainBasicInfo
-import com.uldskull.rolegameassistant.contracts.repository.GenericRepository
+import GenericRepository
+
+
 
 /**
 Interface "BasicInfoRepository"
@@ -16,4 +17,8 @@ With the exception of the getAllBasicInfo() DAO method
 these database operations will need to be performed on separate threads from the main
 thread using the AsyncTask class.
  **/
-interface BasicInfoRepository<T>:GenericRepository<T, DomainBasicInfo>
+interface BasicInfoRepository<T>:GenericRepository<T, DomainBasicInfo>{
+    suspend fun getCounter(request: GetCounterRequest): Response<Int> {
+        return Response.Success(100)
+    }
+}

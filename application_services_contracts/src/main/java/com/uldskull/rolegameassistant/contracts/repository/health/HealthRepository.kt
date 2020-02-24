@@ -3,7 +3,7 @@
 package com.uldskull.rolegameassistant.contracts.repository.health
 
 import com.uldskull.rolegameassistant.models.health.DomainHealth
-import com.uldskull.rolegameassistant.contracts.repository.GenericRepository
+import GenericRepository
 
 /**
     Interface "HealthRepository"

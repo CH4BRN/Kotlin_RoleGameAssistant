@@ -19,7 +19,7 @@ object TableNames{
     const val TABLE_NAME_FLAW = "flaw"
     const val TABLE_NAME_IDEAL = "ideal"
     const val TABLE_NAME_PERSONALITY = "personality"
-    const val TABLE_NAME_BASIC_INFO = "basic_info"
+    const val TABLE_NAME_BASIC_INFO = ""
     const val TABLE_NAME_CLASS = "character_class"
     const val TABLE_NAME_LEVEL = "level"
     const val TABLE_NAME_RACE = "race"

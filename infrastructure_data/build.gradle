@@ -34,6 +34,7 @@ dependencies {
     implementation RoomDependencies.androidxRoomRoomRuntime
     implementation RoomDependencies.androidxRoomRoomKtx
     implementation project(ProjectsDependencies.application_services_contracts)
+    implementation project (ProjectsDependencies.domain_services)
     kapt RoomDependencies.androidxRoomRoomCompiler
     testImplementation TestDependencies.junitJunit
     androidTestImplementation TestDependencies.androidxTestExtJunit

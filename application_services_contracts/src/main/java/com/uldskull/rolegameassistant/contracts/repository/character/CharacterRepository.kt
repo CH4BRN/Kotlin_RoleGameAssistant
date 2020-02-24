@@ -4,10 +4,10 @@
 package com.uldskull.rolegameassistant.contracts.repository.character
 
 import com.uldskull.rolegameassistant.models.character.DomainCharacter
-import com.uldskull.rolegameassistant.contracts.repository.GenericRepository
+import GenericRepository
 
 /**
  *   Interface "CharacterRepository" :
  *   Contract to allow character persistence.
  **/
-interface CharacterRepository<T>:GenericRepository<T, DomainCharacter>
+interface CharacterRepository<T>: GenericRepository<T, DomainCharacter>

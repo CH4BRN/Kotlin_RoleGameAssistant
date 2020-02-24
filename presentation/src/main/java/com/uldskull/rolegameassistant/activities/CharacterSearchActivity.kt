@@ -6,7 +6,9 @@ package com.uldskull.rolegameassistant.activities
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.fragments.fragment.CharacterListFragment
 import kotlinx.android.synthetic.main.activity_search_character.*
 
 /**
@@ -20,6 +22,7 @@ class CharacterSearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_character)
         initializeFab()
+        initializeSearchView()
     }
 
 
@@ -30,6 +33,21 @@ class CharacterSearchActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+    }
+
+    private fun initializeSearchView(){
+        changeFragment(R.id.container_searchCharacter,CharacterListFragment.newInstance(this), "search")
 
     }
+    /**
+     * Change the visible fragment
+     */
+    private fun changeFragment(container: Int, fragment: Fragment, tag: String) {
+        val supportFragmentManager = supportFragmentManager
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.replace(container, fragment, tag)
+        fragmentTransaction.addToBackStack(tag)
+        fragmentTransaction.commit()
+    }
+
 }

@@ -1,8 +1,6 @@
 // File GenericRepository.kt
 // @Author pierre.antoine - 12/02/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.contracts.repository
-
 /**
  *   Interface "GenericRepository" :
  *   Interface for generic repository.

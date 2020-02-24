@@ -3,7 +3,7 @@
 package com.uldskull.rolegameassistant.contracts.repository.ability_score
 
 import com.uldskull.rolegameassistant.models.ability_score.DomainAbilityScore
-import com.uldskull.rolegameassistant.contracts.repository.GenericRepository
+import GenericRepository
 
 /**
     Interface "AbilityScoreRepository"

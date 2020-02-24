@@ -2,8 +2,8 @@
 
 package com.uldskull.rolegameassistant.di
 
-import com.uldskull.rolegameassistant.use_cases.BasicInfoDomainService
-import com.uldskull.rolegameassistant.use_cases.BasicInfoDomainServiceImpl
+import com.uldskull.rolegameassistant.domain_services.BasicInfoDomainService
+import com.uldskull.rolegameassistant.domain_services.BasicInfoDomainServiceImpl
 import org.koin.dsl.module
 
 val basicInfoDomainServicesModule = module {

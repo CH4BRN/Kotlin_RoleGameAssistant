@@ -7,18 +7,20 @@ import androidx.lifecycle.Transformations
 import com.uldskull.rolegameassistant.infrastructure.dao.basic_info.BasicInfoDao
 import com.uldskull.rolegameassistant.infrastructure.database_model.basic_info.DbBasicInfo
 import com.uldskull.rolegameassistant.models.basic_info.DomainBasicInfo
-import com.uldskull.rolegameassistant.contracts.repository.basic_info.BasicInfoRepository
+import com.uldskull.rolegameassistant.models.basic_info.BasicInfoRepository
 
 /**
 Class "BasicInfoRepositoryImpl"
 
 Insert and get BasicInfo from database.
  */
+/*
 class BasicInfoRepositoryImpl(private val basicInfoDao: BasicInfoDao) :
     BasicInfoRepository<LiveData<List<DomainBasicInfo>>> {
     /** Get all entities    */
     override fun getAll(): LiveData<List<DomainBasicInfo>> {
-        return Transformations.map(basicInfoDao.findAll()) { it ->
+        return
+        Transformations.map(basicInfoDao.findAll()) { it ->
             it.map {
                 it.toDomain()
             }
@@ -41,4 +43,4 @@ class BasicInfoRepositoryImpl(private val basicInfoDao: BasicInfoDao) :
     override fun insertOne(one: DomainBasicInfo): Long {
         return basicInfoDao.insert(DbBasicInfo.from(one))
     }
-}
+}*/
