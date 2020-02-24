@@ -52,55 +52,33 @@ class BasicInfoFragment : Fragment() {
     /** Fragment Lifecycle  **/
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setFocusListeners()
+
+        val fragmentManager = activity?.supportFragmentManager
+        val transaction = fragmentManager?.beginTransaction()
+        transaction?.replace(R.id.container_picture, PictureFragment.newInstance(currentActivity as NewCharacterActivity, 0), "picture")
+
     }
 
-    /** Set focus listeners **/
-    private fun setFocusListeners() {
-        setNameFocusListener()
-        setLevelFocusListener()
-        setExperienceFocusListener()
-        setRaceFocusListener()
-    }
 
-    /** Set race focus listener **/
-    private fun setRaceFocusListener() {
-        et_race.setOnFocusChangeListener { _, _
-            ->
-            newCharacterViewModel.saveRace(et_race?.text.toString())
-        }
-    }
 
-    /** Set experience focus listener   **/
-    private fun setExperienceFocusListener() {
-        et_experience.setOnFocusChangeListener { _, _
-            ->
-            newCharacterViewModel.saveExperience(et_experience?.text.toString())
-        }
-    }
 
-    /** Set level focus listener    **/
-    private fun setLevelFocusListener() {
-        et_level.setOnFocusChangeListener { _, _
-            ->
-            newCharacterViewModel.saveLevel(et_level?.text.toString())
-        }
-    }
 
-    /** Set name focus listener **/
-    private fun setNameFocusListener() {
-        et_name.setOnFocusChangeListener { _, _
-            ->
-            newCharacterViewModel.saveName(et_name?.text.toString())
-        }
-    }
+
+
+
+
     private lateinit var initialRootView: View
     companion object {
+
+        var currentActivity:Activity? = null
         @JvmStatic
         fun newInstance(activity: Activity, position: Int): BasicInfoFragment {
+
+            currentActivity = activity
             val fragment =
                 BasicInfoFragment()
             val args = Bundle()
+
 
             args.putInt(KEY_POSITION, position)
             fragment.arguments = args
