@@ -1,2 +1,9 @@
-<manifest
-    package="com.uldskull.rolegameassistant" />
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.uldskull.rolegameassistant">
+
+    <application>
+        <activity android:name=".activities.FragmentManagerActivity"></activity>
+    </application>
+
+</manifest>

@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.fragments.fragment.CharacterSearchFragment
 import kotlinx.android.synthetic.main.activity_search_character.*
 
 /**
@@ -19,7 +20,13 @@ class CharacterSearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_character)
+
         initializeFab()
+        initializeCharacterSearchView()
+    }
+
+    private fun initializeCharacterSearchView(){
+        replaceFragment(R.id.container_searchCharacter, CharacterSearchFragment.newInstance())
     }
 
 
