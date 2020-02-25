@@ -31,6 +31,11 @@ object KoinDependencies {
         "org.koin:koin-androidx-scope:${KoinVersion.koinAndroid}"
     const val orgKoinKoinAndroidxViewmodel =
         "org.koin:koin-androidx-viewmodel:${KoinVersion.koinAndroid}"
+    const val orgKoinKoinAndroidViewmodel =
+        "org.koin:koin-android-viewmodel:${KoinVersion.koinAndroid}"
+    const val orgKoinKoinAndroidScope =
+        "org.koin:koin-android-scope:${KoinVersion.koinAndroid}"
+
 }
 
 object AndroidDependencies {

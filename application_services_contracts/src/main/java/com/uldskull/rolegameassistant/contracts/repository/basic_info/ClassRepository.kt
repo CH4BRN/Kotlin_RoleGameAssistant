@@ -4,7 +4,11 @@ package com.uldskull.rolegameassistant.contracts.repository.basic_info
 
 import GenericRepository
 import com.uldskull.rolegameassistant.models.basic_info.DomainClass
+<<<<<<< HEAD
 
+=======
+import com.uldskull.rolegameassistant.repository.GenericRepository
+>>>>>>> e7ef618d5525040e5ea05d137966ac1ecc64df65
 
 /**
 Interface "ClassRepository"
@@ -17,4 +21,5 @@ With the exception of the getAllBasicInfo() DAO method
 these database operations will need to be performed on separate threads from the main
 thread using the AsyncTask class.
  **/
-interface ClassRepository<T>:GenericRepository<T, DomainClass>
+interface ClassRepository<T> :
+    GenericRepository<T, DomainClass>

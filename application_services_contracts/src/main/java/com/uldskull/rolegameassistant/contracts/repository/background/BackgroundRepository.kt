@@ -3,7 +3,11 @@
 package com.uldskull.rolegameassistant.contracts.repository.background
 
 import com.uldskull.rolegameassistant.models.background.DomainBackground
+<<<<<<< HEAD
 import GenericRepository
+=======
+import com.uldskull.rolegameassistant.repository.GenericRepository
+>>>>>>> e7ef618d5525040e5ea05d137966ac1ecc64df65
 
 /**
     Interface "BackgroundRepository"
