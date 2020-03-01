@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.adapter.CharacterPagerAdapter
+import com.uldskull.rolegameassistant.fragments.fragment.PictureFragment
 import com.uldskull.rolegameassistant.fragments.fragment.ProgressBarFragment
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -36,6 +37,8 @@ class NewCharacterActivity :
 
         //  Get the ViewModels by DI
         newCharacterViewModel = getViewModel()
+
+        replaceFragment(R.id.container_picture, PictureFragment(this) )
 
         this.observeProgression()
 

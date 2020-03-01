@@ -26,6 +26,7 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  **/
 class PictureFragment(val context: Activity) : Fragment() {
 
+
     /** View model for new character    **/
     private lateinit var newCharacterViewModel: NewCharacterViewModel
 
@@ -35,6 +36,7 @@ class PictureFragment(val context: Activity) : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         newCharacterViewModel = getViewModel()
 
         return initializeView(inflater, container)

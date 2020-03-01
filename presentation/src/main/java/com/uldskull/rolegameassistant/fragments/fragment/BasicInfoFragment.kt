@@ -58,34 +58,12 @@ class BasicInfoFragment : Fragment() {
     /** Set focus listeners **/
     private fun setFocusListeners() {
         setNameFocusListener()
-        setLevelFocusListener()
-        setExperienceFocusListener()
-        setRaceFocusListener()
+
     }
 
-    /** Set race focus listener **/
-    private fun setRaceFocusListener() {
-        et_race.setOnFocusChangeListener { _, _
-            ->
-            newCharacterViewModel.saveRace(et_race?.text.toString())
-        }
-    }
 
-    /** Set experience focus listener   **/
-    private fun setExperienceFocusListener() {
-        et_experience.setOnFocusChangeListener { _, _
-            ->
-            newCharacterViewModel.saveExperience(et_experience?.text.toString())
-        }
-    }
 
-    /** Set level focus listener    **/
-    private fun setLevelFocusListener() {
-        et_level.setOnFocusChangeListener { _, _
-            ->
-            newCharacterViewModel.saveLevel(et_level?.text.toString())
-        }
-    }
+
 
     /** Set name focus listener **/
     private fun setNameFocusListener() {
