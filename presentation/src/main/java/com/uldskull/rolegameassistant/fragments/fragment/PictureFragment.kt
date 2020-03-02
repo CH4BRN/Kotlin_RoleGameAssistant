@@ -4,15 +4,18 @@
 package com.uldskull.rolegameassistant.fragments.fragment
 
 import android.app.Activity
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
@@ -47,15 +50,59 @@ class PictureFragment(val context: Activity) : Fragment() {
         if (isActivityNull()) return
 
         val galleryIntent = getPickImageIntent()
-        startActivityForResult(galleryIntent, 0)
-
+        startActivityForResult(galleryIntent, REQUEST_CODE_SELECT_IMAGE_IN_ALBUM)
     }
+
+    private fun selectPicture() {
+        var pictureDialog = AlertDialog.Builder(context)
+
+        pictureDialog.setTitle("Select action : ")
+        var pictureDialogItems = arrayOf(
+            "Select photo from gallery",
+            "Select photo from camera"
+        )
+
+        pictureDialog.setItems(pictureDialogItems,
+            object : DialogInterface.OnClickListener {
+                /**
+                 * This method will be invoked when a button in the dialog is clicked.
+                 *
+                 * @param dialog the dialog that received the click
+                 * @param which the button that was clicked (ex.
+                 * [DialogInterface.BUTTON_POSITIVE]) or the position
+                 * of the item clicked
+                 */
+                override fun onClick(dialog: DialogInterface?, which: Int) {
+                    when (which) {
+                        0 -> choosePhotoFromGallery()
+                        1 -> takePhotoFromCamera()
+                    }
+                }
+
+            })
+        pictureDialog.show()
+    }
+
+    private fun takePhotoFromCamera() {
+        var intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivityForResult(intent, REQUEST_CODE_CAMERA)
+    }
+
+
+    private fun choosePhotoFromGallery() {
+        var galleryIntent = Intent(Intent.ACTION_PICK,
+            EXTERNAL_CONTENT_URI
+        )
+
+        startActivityForResult(galleryIntent, REQUEST_CODE_GALLERY)
+    }
+
 
     /** Get a pick image intent **/
     private fun getPickImageIntent(): Intent {
         return Intent(
             Intent.ACTION_PICK,
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            EXTERNAL_CONTENT_URI
         )
     }
 
@@ -65,10 +112,23 @@ class PictureFragment(val context: Activity) : Fragment() {
         Toast.makeText(activity, "On activity result", Toast.LENGTH_SHORT).show()
 
         when (requestCode) {
-            0 -> {
+            REQUEST_CODE_SELECT_IMAGE_IN_ALBUM -> {
                 if (isResultOk(resultCode) && data != null) {
                     val selectedImage: Uri? = data.data
-
+                    img_btn_characterPicture.setImageURI(selectedImage)
+                }
+            }
+            REQUEST_CODE_GALLERY -> {
+                Toast.makeText(context, "Gallery", Toast.LENGTH_SHORT).show()
+                if (isResultOk(resultCode) && data != null) {
+                    val selectedImage: Uri? = data.data
+                    img_btn_characterPicture.setImageURI(selectedImage)
+                }
+            }
+            REQUEST_CODE_CAMERA -> {
+                Toast.makeText(context, "Camera", Toast.LENGTH_SHORT).show()
+                if (isResultOk(resultCode) && data != null) {
+                    val selectedImage: Uri? = data.data
                     img_btn_characterPicture.setImageURI(selectedImage)
                 }
             }
@@ -115,11 +175,14 @@ class PictureFragment(val context: Activity) : Fragment() {
     /** Set image button listener       **/
     private fun setImageButtonListener(imageButton: ImageButton?) {
         imageButton?.setOnClickListener {
-            selectImageAlbum()
+            //  selectImageAlbum()
+            selectPicture()
         }
     }
+
     /** Initial root view.  **/
     private lateinit var initialRootView: View
+
     companion object {
 
         @JvmStatic
@@ -136,9 +199,11 @@ class PictureFragment(val context: Activity) : Fragment() {
 
         /** Key position code   **/
         private const val KEY_POSITION = "position"
+        private const val REQUEST_CODE_GALLERY = 1
+        private const val REQUEST_CODE_CAMERA = 2
 
         /** Request code for image selection    **/
-        private const val REQUEST_CODE_SELECT_IMAGE_IN_ALBUM = 1
+        private const val REQUEST_CODE_SELECT_IMAGE_IN_ALBUM = 0
     }
 
 }

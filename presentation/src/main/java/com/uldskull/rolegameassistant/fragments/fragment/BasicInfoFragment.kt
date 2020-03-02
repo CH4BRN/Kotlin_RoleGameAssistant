@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
+import com.uldskull.rolegameassistant.activities.replaceFragment
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import kotlinx.android.synthetic.main.fragment_basic_info.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -19,7 +20,7 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  *   Class "BasicInfoFragment" :
  *   Fragment to fill information concerning basic info.
  **/
-class BasicInfoFragment : Fragment() {
+class BasicInfoFragment(val activity:Activity) : Fragment() {
 
 
     /** Fragment Lifecycle  **/
@@ -77,12 +78,13 @@ class BasicInfoFragment : Fragment() {
         @JvmStatic
         fun newInstance(activity: Activity, position: Int): BasicInfoFragment {
             val fragment =
-                BasicInfoFragment()
+                BasicInfoFragment(activity)
             val args = Bundle()
 
             args.putInt(KEY_POSITION, position)
             fragment.arguments = args
 
+            (activity as NewCharacterActivity).replaceFragment(R.id.container_picture, PictureFragment.newInstance(activity, 0))
             return fragment
         }
 

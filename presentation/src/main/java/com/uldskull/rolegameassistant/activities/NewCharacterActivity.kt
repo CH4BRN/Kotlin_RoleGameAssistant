@@ -38,7 +38,7 @@ class NewCharacterActivity :
         //  Get the ViewModels by DI
         newCharacterViewModel = getViewModel()
 
-        replaceFragment(R.id.container_picture, PictureFragment(this) )
+
 
         this.observeProgression()
 
