@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.uldskull.rolegameassistant.fragments.fragment.*
 import com.uldskull.rolegameassistant.fragments.fragment.abilities.AbilitiesRecyclerViewFragment
+import com.uldskull.rolegameassistant.fragments.fragment.bonds.BondsFragment
 import com.uldskull.rolegameassistant.fragments.fragment.skills.SkillsRecyclerViewFragment
 
 /**
