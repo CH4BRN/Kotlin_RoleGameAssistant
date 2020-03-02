@@ -7,10 +7,7 @@ import android.app.Activity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.uldskull.rolegameassistant.fragments.fragment.BASIC_INFO_FRAGMENT_POSITION
-import com.uldskull.rolegameassistant.fragments.fragment.BackgroundFragment
-import com.uldskull.rolegameassistant.fragments.fragment.BasicInfoFragment
-import com.uldskull.rolegameassistant.fragments.fragment.HealthFragment
+import com.uldskull.rolegameassistant.fragments.fragment.*
 import com.uldskull.rolegameassistant.fragments.fragment.abilities.AbilitiesRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.skills.SkillsRecyclerViewFragment
 
@@ -28,6 +25,7 @@ class CharacterPagerAdapter(fm: FragmentManager, val activity: Activity) :
 
         return when (position) {
             BASIC_INFO_FRAGMENT_POSITION -> BasicInfoFragment.newInstance(activity, position)
+            BONDS_FRAGMENT_POSITION -> BondsFragment.newInstance(activity, position)
             // 1 -> CharacteristicsFragment.newInstance(activity, position)
             2 -> BackgroundFragment.newInstance(activity, position)
             3 -> AbilitiesRecyclerViewFragment.newInstance(activity, position)

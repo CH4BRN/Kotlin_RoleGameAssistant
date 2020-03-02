@@ -85,7 +85,7 @@ class BasicInfoFragment(val activity: Activity) : Fragment() {
 
             (activity as NewCharacterActivity).replaceFragment(
                 R.id.container_picture,
-                PictureFragment.newInstance(activity, BASIC_INFO_FRAGMENT_POSITION)
+                PictureFragment.newInstance(activity, 42)
             )
             return fragment
         }

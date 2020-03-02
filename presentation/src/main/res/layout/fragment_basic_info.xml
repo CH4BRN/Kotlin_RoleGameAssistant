@@ -74,8 +74,8 @@
                         android:layout_column="2"
                         android:layout_span="3"
                         android:layout_weight="1"
-                        android:autofillHints=""
-                        android:hint="Biography ... "
+                        android:autofillHints="@string/lorem_ipsum_short"
+                        android:hint="@string/lorem_ipsum_short"
                         android:inputType="textMultiLine" />
                 </TableRow>
 
