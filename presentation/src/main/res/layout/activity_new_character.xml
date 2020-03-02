@@ -13,8 +13,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        android:text="BACK"
+        app:layout_constraintBottom_toTopOf="@id/container_progressBar"
+        app:layout_constraintStart_toStartOf="parent" />
+    <Button
+        android:layout_width="wrap_content"
         android:id="@+id/btn_save"
-        android:layout_width="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_height="0dp"
         android:layout_margin="8dp"
         android:text="SAVE"

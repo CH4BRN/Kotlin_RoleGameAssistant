@@ -20,7 +20,7 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  *   Class "BasicInfoFragment" :
  *   Fragment to fill information concerning basic info.
  **/
-class BasicInfoFragment(val activity:Activity) : Fragment() {
+class BasicInfoFragment(val activity: Activity) : Fragment() {
 
 
     /** Fragment Lifecycle  **/
@@ -63,9 +63,6 @@ class BasicInfoFragment(val activity:Activity) : Fragment() {
     }
 
 
-
-
-
     /** Set name focus listener **/
     private fun setNameFocusListener() {
         et_name.setOnFocusChangeListener { _, _
@@ -73,7 +70,9 @@ class BasicInfoFragment(val activity:Activity) : Fragment() {
             newCharacterViewModel.saveName(et_name?.text.toString())
         }
     }
+
     private lateinit var initialRootView: View
+
     companion object {
         @JvmStatic
         fun newInstance(activity: Activity, position: Int): BasicInfoFragment {
@@ -84,12 +83,12 @@ class BasicInfoFragment(val activity:Activity) : Fragment() {
             args.putInt(KEY_POSITION, position)
             fragment.arguments = args
 
-            (activity as NewCharacterActivity).replaceFragment(R.id.container_picture, PictureFragment.newInstance(activity, 0))
+            (activity as NewCharacterActivity).replaceFragment(
+                R.id.container_picture,
+                PictureFragment.newInstance(activity, BASIC_INFO_FRAGMENT_POSITION)
+            )
             return fragment
         }
-
-        private const val KEY_POSITION = "position"
-
 
 
     }

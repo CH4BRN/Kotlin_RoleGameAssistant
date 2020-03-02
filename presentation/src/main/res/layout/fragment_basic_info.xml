@@ -79,7 +79,11 @@
                         android:inputType="textMultiLine" />
                 </TableRow>
 
-                <TableRow android:layout_width="match_parent">
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp">
 
                     <TextView
                         android:id="@+id/tv_subtitle_race"
@@ -94,6 +98,58 @@
                         android:autofillHints=""
                         android:hint="Race ... "
                         android:inputType="text" />
+                </TableRow>
+
+                <TableRow android:layout_width="match_parent">
+
+                    <TextView
+                        android:id="@+id/tv_subtitle_gender"
+                        android:layout_column="1"
+                        android:text="Gender : " />
+
+                    <EditText
+                        android:id="@+id/et_gender"
+                        android:layout_column="2"
+                        android:layout_span="3"
+                        android:layout_weight="1"
+                        android:autofillHints="gender"
+                        android:hint="Gender ... "
+                        android:inputType="text" />
+                </TableRow>
+
+                <TableRow android:layout_width="match_parent"
+
+                    >
+
+                    <TextView
+                        android:id="@+id/tv_subtitle_height"
+                        android:layout_column="1"
+                        android:layout_weight="1"
+                        android:text="Height :" />
+
+                    <EditText
+                        android:id="@+id/et_height"
+                        android:layout_column="2"
+                        android:layout_weight="1"
+                        android:autofillHints=""
+                        android:hint="1"
+                        android:inputType="number" />
+
+                    <TextView
+                        android:id="@+id/tv_subtitle_weight"
+                        android:layout_column="3"
+                        android:layout_weight="1"
+                        android:text="Weight : " />
+
+                    <EditText
+                        android:id="@+id/et_weight"
+                        android:layout_column="4"
+                        android:layout_weight="1"
+                        android:autofillHints=""
+                        android:hint="50"
+                        android:inputType="number" />
+
+
                 </TableRow>
             </TableLayout>
 
