@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="9dp"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/img_alignment"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@android:color/holo_orange_light"
+        android:maxWidth="50dp"
+        android:maxHeight="50dp"
+        app:layout_constraintEnd_toStartOf="@id/tv_ideal"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_ideal"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:hint="Ideal"
+        app:layout_constraintEnd_toStartOf="@id/chk_ideal"
+        app:layout_constraintStart_toEndOf="@id/img_alignment" />
+
+    <CheckBox
+        android:id="@+id/chk_ideal"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_ideal" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

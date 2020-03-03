@@ -25,10 +25,10 @@ class BondsRecyclerViewFragment : Fragment() {
     /** ViewModel for bonds    **/
     private lateinit var bondsViewModel: BondsViewModel
 
-    /** Adapter for skills recycler view    **/
+    /** Adapter for bonds recycler view    **/
     private var bondsAdapter: BondsAdapter? = null
 
-    /** Reccycler view for skills   **/
+    /** Reccycler view for bonds   **/
     private var bondsRecyclerView: RecyclerView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

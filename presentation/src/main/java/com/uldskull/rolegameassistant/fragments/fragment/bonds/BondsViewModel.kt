@@ -9,20 +9,19 @@ import androidx.lifecycle.MutableLiveData
 
 /**
  *   Class "BondsViewModel" :
- *   TODO: Fill class use.
+ *   ViewModel class for bonds.
  **/
 class BondsViewModel(application: Application) : AndroidViewModel(application) {
-    /** Skills to display   **/
+    /** bonds to display   **/
     var bonds = MutableLiveData<List<String>>()
 
     init {
         bonds.value = listOf(
-            "Brave",
-            "Bonds",
-            "Bonds",
-            "Bonds",
-            "Bonds"
+            "Bond 1",
+            "Bond 2",
+            "Bond 3",
+            "Bond 4",
+            "Bond 5"
         )
     }
-// TODO : Fill class.
 }

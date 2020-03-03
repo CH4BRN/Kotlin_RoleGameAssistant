@@ -15,7 +15,7 @@ import com.uldskull.rolegameassistant.R
 
 /**
  *   Class "BondsAdapter" :
- *   TODO: Fill class use.
+ *   Adapter for bonds recycler view.
  **/
 class BondsAdapter internal constructor(
     context: Context
