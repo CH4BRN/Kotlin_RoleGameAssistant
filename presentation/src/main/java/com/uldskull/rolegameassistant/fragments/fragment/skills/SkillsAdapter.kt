@@ -33,10 +33,6 @@ class SkillsAdapter internal constructor(
         val isSkillCheckedItemView: CheckBox = itemView.findViewById(R.id.chk_isSkillChecked)
         //  Get the skill's name edit text
         val skillNameItemView: TextView = itemView.findViewById(R.id.tv_skillName)
-        //  Get the concerned  ability
-        val concernedAbilityItemView: TextView = itemView.findViewById(R.id.tv_skillAbility)
-        //  Get the ability modifier
-        val concernedAbilityModifier: TextView = itemView.findViewById(R.id.tv_skillAbilityModifier)
     }
 
     /** ViewHolder life-cycle **/
@@ -50,8 +46,6 @@ class SkillsAdapter internal constructor(
         val current = skills[position]
         holder.isSkillCheckedItemView.isChecked = true
         holder.skillNameItemView.text = current
-        holder.concernedAbilityItemView.text = current
-        holder.concernedAbilityModifier.text = current
     }
 
     /** Set the list containing skills to display   **/
