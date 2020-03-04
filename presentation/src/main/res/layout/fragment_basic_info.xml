@@ -18,7 +18,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
 
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
 
             <TableLayout
@@ -98,6 +98,12 @@
                         android:autofillHints=""
                         android:hint="Race ... "
                         android:inputType="text" />
+
+                    <Button
+                        android:id="@+id/btn_addRace"
+                        android:layout_column="5"
+                        android:layout_weight="1"
+                        android:text="Add Race" />
                 </TableRow>
 
                 <TableRow android:layout_width="match_parent">

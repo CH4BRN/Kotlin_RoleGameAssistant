@@ -54,43 +54,41 @@ class PictureFragment(val context: Activity) : Fragment() {
     }
 
     private fun selectPicture() {
-        var pictureDialog = AlertDialog.Builder(context)
+        val pictureDialog = AlertDialog.Builder(context)
 
         pictureDialog.setTitle("Select action : ")
-        var pictureDialogItems = arrayOf(
+        val pictureDialogItems = arrayOf(
             "Select photo from gallery",
             "Select photo from camera"
         )
 
-        pictureDialog.setItems(pictureDialogItems,
-            object : DialogInterface.OnClickListener {
-                /**
-                 * This method will be invoked when a button in the dialog is clicked.
-                 *
-                 * @param dialog the dialog that received the click
-                 * @param which the button that was clicked (ex.
-                 * [DialogInterface.BUTTON_POSITIVE]) or the position
-                 * of the item clicked
-                 */
-                override fun onClick(dialog: DialogInterface?, which: Int) {
-                    when (which) {
-                        0 -> choosePhotoFromGallery()
-                        1 -> takePhotoFromCamera()
-                    }
-                }
-
-            })
+        pictureDialog.setItems(
+            pictureDialogItems
+        ) { _, which ->
+            /**
+             * This method will be invoked when a button in the dialog is clicked.
+             *
+             * @param which the button that was clicked (ex.
+             * [DialogInterface.BUTTON_POSITIVE]) or the position
+             * of the item clicked
+             */
+            when (which) {
+                0 -> choosePhotoFromGallery()
+                1 -> takePhotoFromCamera()
+            }
+        }
         pictureDialog.show()
     }
 
     private fun takePhotoFromCamera() {
-        var intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         startActivityForResult(intent, REQUEST_CODE_CAMERA)
     }
 
 
     private fun choosePhotoFromGallery() {
-        var galleryIntent = Intent(Intent.ACTION_PICK,
+        val galleryIntent = Intent(
+            Intent.ACTION_PICK,
             EXTERNAL_CONTENT_URI
         )
 

@@ -8,5 +8,5 @@ package com.uldskull.rolegameassistant.models.background
     Domain model for background.
  */
 class DomainBackground(
-    val backggroundId:Long?=null
+    val backgroundId: Long? = null
 )

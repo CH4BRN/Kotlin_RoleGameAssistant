@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.models.ability_score.DomainAbilityScore
@@ -28,13 +29,13 @@ class AbilitiesAdapter internal constructor(
     /** Custom ViewHolder   **/
     inner class AbilitiesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         //  Get the ability's name edit text.
-        val abilityNameItemView: EditText = itemView.findViewById(R.id.et_ability)
+        val abilityNameItemView: TextView = itemView.findViewById(R.id.et_abilityName)
         //  Get the roll's edit text.
-        val abilityRollItemView: EditText = itemView.findViewById(R.id.et_roll)
+        val abilityRollItemView: EditText = itemView.findViewById(R.id.et_abilityRoll)
         //  Get the bonus' edit text.
-        val bonusItemView: EditText = itemView.findViewById(R.id.et_bonus)
+        val bonusItemView: EditText = itemView.findViewById(R.id.et_abilityBonus)
         //  Get the total's TextView.
-        val totalItemView: EditText = itemView.findViewById(R.id.et_total)
+        val totalItemView: EditText = itemView.findViewById(R.id.et_abilityTotal)
     }
 
     /** ViewHolder life-cycle   **/
@@ -46,7 +47,7 @@ class AbilitiesAdapter internal constructor(
     /** ViewHolder life-cycle   **/
     override fun onBindViewHolder(holder: AbilitiesViewHolder, position: Int) {
         val current = abilities[position]
-        holder.abilityNameItemView.setText(current.abilityScoreAbility.toString())
+        holder.abilityNameItemView.text = current.abilityScoreAbility.toString()
         holder.abilityRollItemView.setText(current.abilityScoreRoll.toString())
         holder.bonusItemView.setText(current.abilityScoreBonus.toString())
         holder.totalItemView.setText(current.abilityScoreTotal.toString())

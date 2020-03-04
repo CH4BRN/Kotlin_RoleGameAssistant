@@ -5,7 +5,7 @@ package com.uldskull.rolegameassistant.infrastructure.repositories.basicinfo
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.uldskull.rolegameassistant.infrastructure.dao.BasicInfoDao
-import com.uldskull.rolegameassistant.infrastructure.database_model.basic_info.DbBasicInfo
+import com.uldskull.rolegameassistant.infrastructure.database_model.basic_info.DbBasicInformation
 import com.uldskull.rolegameassistant.models.basic_info.DomainBasicInfo
 import com.uldskull.rolegameassistant.repository.basic_info.BasicInfoRepository
 
@@ -33,7 +33,7 @@ class BasicInfoRepositoryImpl(private val basicInfoDao: BasicInfoDao) :
     /** Insert a list of entity */
     override fun insertAll(all: List<DomainBasicInfo>) {
         basicInfoDao.insertAll(all.map {
-            DbBasicInfo.from(it)
+            DbBasicInformation.from(it)
         })
     }
 

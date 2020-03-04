@@ -27,7 +27,7 @@ class BondsAdapter internal constructor(
     /** Bonds list **/
     private var bonds = emptyList<String>()
 
-    /** Inner class to displauy **/
+    /** Inner class to display **/
     inner class BondsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var bondValueItemView: TextView = itemView.findViewById(R.id.tv_bond)
         var bondDeleteItemView: Button = itemView.findViewById(R.id.btn_deleteBond)
@@ -53,7 +53,7 @@ class BondsAdapter internal constructor(
 
     /**
      * Called by RecyclerView to display the data at the specified position. This method should
-     * update the contents of the [ViewHolder.itemView] to reflect the item at the given
+     * update the contents of the [BondsViewHolder.itemView] to reflect the item at the given
      * position.
      *
      *
@@ -62,7 +62,7 @@ class BondsAdapter internal constructor(
      * invalidated or the new position cannot be determined. For this reason, you should only
      * use the `position` parameter while acquiring the related data item inside
      * this method and should not keep a copy of it. If you need the position of an item later
-     * on (e.g. in a click listener), use [ViewHolder.getAdapterPosition] which will
+     * on (e.g. in a click listener), use [BondsViewHolder.getAdapterPosition] which will
      * have the updated adapter position.
      *
      * Override [.onBindViewHolder] instead if Adapter can

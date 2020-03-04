@@ -59,7 +59,7 @@ class AbilitiesRecyclerViewFragment : Fragment() {
     /** Fragment life-cycle **/
     override fun onResume() {
         super.onResume()
-        NewCharacterActivity.progression.value = 3
+        NewCharacterActivity.progression.value = 2
     }
 
     /** Fragment life-cycle **/

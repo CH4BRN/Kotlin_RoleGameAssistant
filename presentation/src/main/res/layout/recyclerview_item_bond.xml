@@ -8,8 +8,7 @@
         android:id="@+id/tv_bond"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Bond"
-        android:inputType="textMultiLine" />
+        android:hint="Bond" />
 
     <Button
         android:id="@+id/btn_deleteBond"

@@ -8,6 +8,7 @@
     android:orientation="horizontal">
 
     <ImageView
+        android:contentDescription="ideal alignment"
         android:id="@+id/img_alignment"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

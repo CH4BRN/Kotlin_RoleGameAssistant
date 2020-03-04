@@ -4,54 +4,53 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/et_ability"
+    <TextView
+        android:id="@+id/et_abilityName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="2"
-        android:maxLines="1"
-        android:singleLine="true"
-        android:maxWidth="40dp"
         android:autofillHints="ability"
         android:hint="ability"
-
-        android:textSize="16sp"
+        android:maxWidth="40dp"
+        android:maxLines="1"
         android:minWidth="40dp"
-        android:inputType="text" />
+
+        android:singleLine="true"
+        android:textSize="16sp" />
 
     <EditText
-        android:autofillHints="0"
-        android:hint="0"
-        android:id="@+id/et_roll"
+        android:id="@+id/et_abilityRoll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:maxWidth="15dp"
-        android:minWidth="15dp"
-        android:inputType="number" />
-
-    <EditText
         android:autofillHints="0"
         android:hint="0"
-        android:id="@+id/et_bonus"
+        android:inputType="number"
+        android:maxWidth="15dp"
+        android:minWidth="15dp" />
+
+    <EditText
+        android:id="@+id/et_abilityBonus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:autofillHints="0"
+        android:hint="0"
+        android:inputType="number"
         android:maxWidth="15dp"
-        android:minWidth="15dp"
-        android:inputType="number" />
+        android:minWidth="15dp" />
 
     <EditText
-        android:hint="0"
-        android:autofillHints="0"
-        android:id="@+id/et_total"
+        android:id="@+id/et_abilityTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:maxWidth="15dp"
+        android:autofillHints="0"
+        android:hint="0"
+        android:inputType="number"
 
-        android:minWidth="15dp"
-        android:inputType="number" />
+        android:maxWidth="15dp"
+        android:minWidth="15dp" />
 
 
 </LinearLayout>

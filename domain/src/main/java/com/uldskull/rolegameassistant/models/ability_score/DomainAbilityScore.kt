@@ -1,4 +1,4 @@
-// DomainAbilityScore.ktre.kt created by UldSkull - 12/02/2020
+// DomainAbilityScore.kt created by UldSkull - 12/02/2020
 
 package com.uldskull.rolegameassistant.models.ability_score
 
@@ -9,7 +9,7 @@ Domain model for ability score.
  */
 class DomainAbilityScore(
     val abilityScoreId: Long? = null,
-    val abilityScoreAbility: Ability? = Ability.STRENGTH,
+    val abilityScoreAbility: Ability? = null,
     val abilityScoreRoll: Int? = 0,
     val abilityScoreBonus: Int? = 0,
     var abilityScoreTotal: Int? = 0

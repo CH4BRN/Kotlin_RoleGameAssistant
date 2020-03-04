@@ -14,19 +14,19 @@ Class "DbBasicInfo"
 TODO: Describe class utility.
  */
 @Entity(tableName = TABLE_NAME_BASIC_INFO)
-class DbBasicInfo(
+class DbBasicInformation(
     @PrimaryKey(autoGenerate = true) val dbBasicInfoId: Long?,
     val dbBasicInfoCharacterName: String? = "name",
     val dbBasicInfoCharacterExperience: Int? = 0,
     val dbBasicInfoCharacterId: Long? = null,
     val dbBasicInfoLevelId: Long? = null
-):DbEntity<DomainBasicInfo, DbBasicInfo> {
+) : DbEntity<DomainBasicInfo, DbBasicInformation> {
     companion object {
         /**
          * Converts to database model
          */
-        fun from(domainBasicInfo: DomainBasicInfo): DbBasicInfo {
-            return DbBasicInfo(
+        fun from(domainBasicInfo: DomainBasicInfo): DbBasicInformation {
+            return DbBasicInformation(
                 dbBasicInfoCharacterId = domainBasicInfo.basicInfoCharacterId,
                 dbBasicInfoCharacterExperience = domainBasicInfo.basicInfoCharacterExperience,
                 dbBasicInfoCharacterName = domainBasicInfo.basicInfoCharacterName,
@@ -50,7 +50,7 @@ class DbBasicInfo(
         )
     }
 
-    override fun List<DbBasicInfo>.asDomainModel(): List<DomainBasicInfo> {
+    override fun List<DbBasicInformation>.asDomainModel(): List<DomainBasicInfo> {
         return map{
             toDomain()
         }

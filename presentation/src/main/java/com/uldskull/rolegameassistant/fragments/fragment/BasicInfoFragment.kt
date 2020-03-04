@@ -4,12 +4,15 @@
 package com.uldskull.rolegameassistant.fragments.fragment
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.activities.NEW_RACE_ACTIVITY
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
@@ -33,9 +36,12 @@ class BasicInfoFragment(val activity: Activity) : Fragment() {
         return initializeView(inflater, container)
     }
 
+
+    /**
+     * ViewModel for new character
+     */
     private lateinit var newCharacterViewModel: NewCharacterViewModel
-
-
+    private var btnAddRace: Button? = null
     /** Initialize the view corresponding to this fragment class    **/
     private fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = inflater.inflate(
@@ -50,9 +56,16 @@ class BasicInfoFragment(val activity: Activity) : Fragment() {
         NewCharacterActivity.progression.value = 0
     }
 
+
     /** Fragment Lifecycle  **/
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        btnAddRace = view.findViewById(R.id.btn_addRace)
+
+        btnAddRace?.setOnClickListener {
+            val intent = Intent(activity, NEW_RACE_ACTIVITY)
+            startActivityForResult(intent, 45)
+        }
         setFocusListeners()
     }
 
@@ -62,7 +75,6 @@ class BasicInfoFragment(val activity: Activity) : Fragment() {
 
     }
 
-
     /** Set name focus listener **/
     private fun setNameFocusListener() {
         et_name.setOnFocusChangeListener { _, _
@@ -71,9 +83,15 @@ class BasicInfoFragment(val activity: Activity) : Fragment() {
         }
     }
 
+    /**
+     * Initial root view
+     */
     private lateinit var initialRootView: View
 
     companion object {
+        /**
+         * Get a new instance of class BasicInfoFragment
+         */
         @JvmStatic
         fun newInstance(activity: Activity, position: Int): BasicInfoFragment {
             val fragment =

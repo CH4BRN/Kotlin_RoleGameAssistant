@@ -29,7 +29,7 @@ class SkillsRecyclerViewFragment : Fragment() {
     /** Adapter for skills recycler view    **/
     private var skillsAdapter: SkillsAdapter? = null
 
-    /** Reccycler view for skills   **/
+    /** Recycler view for skills   **/
     private var skillsRecyclerView: RecyclerView? = null
 
     /** Fragment life-cycle **/

@@ -28,7 +28,7 @@ class BondsRecyclerViewFragment : Fragment() {
     /** Adapter for bonds recycler view    **/
     private var bondsAdapter: BondsAdapter? = null
 
-    /** Reccycler view for bonds   **/
+    /** Recycler view for bonds   **/
     private var bondsRecyclerView: RecyclerView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +39,7 @@ class BondsRecyclerViewFragment : Fragment() {
     /** Fragment Lifecycle  **/
     override fun onResume() {
         super.onResume()
-        NewCharacterActivity.progression.value = 3
+        NewCharacterActivity.progression.value = 0
     }
 
     override fun onCreateView(

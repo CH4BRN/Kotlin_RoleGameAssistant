@@ -10,7 +10,6 @@ import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.adapter.CharacterPagerAdapter
-import com.uldskull.rolegameassistant.fragments.fragment.PictureFragment
 import com.uldskull.rolegameassistant.fragments.fragment.ProgressBarFragment
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -59,9 +58,9 @@ class NewCharacterActivity :
     /** Observe view pager progression  **/
     private fun observeProgression() {
         progression.observe(
-            this, Observer { prog ->
+            this, Observer { progression ->
                 kotlin.run {
-                    loadProgressBarFragment(prog)
+                    loadProgressBarFragment(progression)
                 }
             }
         )

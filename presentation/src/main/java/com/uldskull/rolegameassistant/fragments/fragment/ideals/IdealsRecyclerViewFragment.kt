@@ -29,7 +29,7 @@ class IdealsRecyclerViewFragment : Fragment() {
     /** Adapter for ideals recycler view    **/
     private var idealsAdapter: IdealsAdapter? = null
 
-    /** Reccycler view for ideals   **/
+    /** Recycler view for ideals   **/
     private var idealsRecyclerView: RecyclerView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +41,7 @@ class IdealsRecyclerViewFragment : Fragment() {
     /** Fragment Lifecycle  **/
     override fun onResume() {
         super.onResume()
-        NewCharacterActivity.progression.value = 4
+        NewCharacterActivity.progression.value = 1
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -1,7 +1,7 @@
-// File BondFragment.kt
-// @Author pierre.antoine - 02/03/2020 - No copyright.
+// File DerivedValues1Fragment.kt
+// @Author pierre.antoine - 04/03/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.fragments.fragment.bonds
+package com.uldskull.rolegameassistant.fragments.fragment.derivedValues
 
 import android.app.Activity
 import android.os.Bundle
@@ -11,16 +11,22 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
-import com.uldskull.rolegameassistant.activities.replaceFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 
 /**
- *   Class "BondFragment" :
- *   TODO: Fill class use.
+ *   Class "DerivedValues1Fragment" :
+ *   Fragment that handle derived values 1
  **/
-class BondsFragment(val activity: Activity) : Fragment() {
+class DerivedValues1Fragment(val activity: Activity) : Fragment() {
+
+    /**
+     * Initial root view
+     */
     private lateinit var initialRootView: View
 
+    /**
+     * Called when the view is created
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -29,23 +35,30 @@ class BondsFragment(val activity: Activity) : Fragment() {
         return initializeView(inflater, container)
     }
 
+    /**
+     * Called when the focus return on this view
+     */
     override fun onResume() {
         super.onResume()
-        NewCharacterActivity.progression.value = 0
+        NewCharacterActivity.progression.value = 4
     }
 
-    private fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
+    /**
+     * Initialize the view
+     */
+    fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = layoutInflater.inflate(
-            R.layout.fragment_bonds, container, false
+            R.layout.fragment_derived_values_1, container, false
         )
         return initialRootView
     }
 
     companion object {
         @JvmStatic
-        fun newInstance(activity: Activity, position: Int): BondsFragment {
+        fun newInstance(activity: Activity, position: Int): DerivedValues1Fragment {
+
             val fragment =
-                BondsFragment(
+                DerivedValues1Fragment(
                     activity
                 )
 
@@ -53,11 +66,6 @@ class BondsFragment(val activity: Activity) : Fragment() {
 
             args.putInt(KEY_POSITION, position)
             fragment.arguments = args
-            (activity as NewCharacterActivity).replaceFragment(
-                R.id.container_bonds,
-                BondsRecyclerViewFragment.newInstance(activity, 43)
-            )
-
             return fragment
         }
     }
