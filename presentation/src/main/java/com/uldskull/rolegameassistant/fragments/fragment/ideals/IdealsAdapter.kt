@@ -22,7 +22,8 @@ import com.uldskull.rolegameassistant.models.ideal.DomainIdeal
  **/
 class IdealsAdapter internal constructor(
     val context: Context
-) : RecyclerView.Adapter<IdealsAdapter.IdealsViewHolder>() {
+) :
+    RecyclerView.Adapter<IdealsAdapter.IdealsViewHolder>() {
     /** Inflater  **/
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
 
@@ -77,9 +78,6 @@ class IdealsAdapter internal constructor(
         holder.idealValueItemView.maxWidth = 550
         holder.idealValueItemView.text = current.value
 
-
-        holder.idealAlignmentItemView.maxHeight = 50
-        holder.idealAlignmentItemView.maxWidth = 50
         if (current.evilPoints > current.goodPoints) {
             holder.idealAlignmentItemView.setImageBitmap(
                 resizeImage(
@@ -95,7 +93,7 @@ class IdealsAdapter internal constructor(
                 )
             )
         }
-     
+
 
     }
 

@@ -4,8 +4,13 @@
 package com.uldskull.rolegameassistant.fragments.fragment.skills
 
 import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.models.skill.DomainSkill
 
 /**
  *   Class "JobSkillsAdapter" :
@@ -14,6 +19,23 @@ import androidx.recyclerview.widget.RecyclerView
 class JobSkillsAdapter internal constructor(
     context: Context
 ) : RecyclerView.Adapter<JobSkillsAdapter.JobSkillsViewHolder>() {
+
+    /** Inflater  **/
+    private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
+
+    /**  Inner class to display  **/
+    inner class JobSkillsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var tv_jobSkillName = itemView.findViewById<TextView>(R.id.tv_jobSkillName)
+        var tv_jobSkillBase = itemView.findViewById<TextView>(R.id.tv_jobSkillBase)
+        var tv_jobSkillAdd = itemView.findViewById<TextView>(R.id.tv_jobSkillAdd)
+        var tv_jobSkillTotal = itemView.findViewById<TextView>(R.id.tv_jobSkillTotal)
+
+
+    }
+
+    /**  Ideals list  **/
+    private var jobSkills = emptyList<DomainSkill>()
+
     /**
      * Called when RecyclerView needs a new [ViewHolder] of the given type to represent
      * an item.
@@ -40,8 +62,10 @@ class JobSkillsAdapter internal constructor(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): JobSkillsAdapter.JobSkillsViewHolder {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    ): JobSkillsViewHolder {
+        val itemView = layoutInflater.inflate(R.layout.recyclerview_item_jobskill, parent, false)
+        return JobSkillsViewHolder(itemView)
+
     }
 
     /**
@@ -50,7 +74,7 @@ class JobSkillsAdapter internal constructor(
      * @return The total number of items in this adapter.
      */
     override fun getItemCount(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return jobSkills.size
     }
 
     /**
@@ -75,7 +99,17 @@ class JobSkillsAdapter internal constructor(
      * @param position The position of the item within the adapter's data set.
      */
     override fun onBindViewHolder(holder: JobSkillsAdapter.JobSkillsViewHolder, position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val current = jobSkills[position]
+
+        holder.tv_jobSkillAdd.text = current.skillValue.toString()
+        holder.tv_jobSkillBase.text = current.skillBase.toString()
+        holder.tv_jobSkillName.text = current.skillName.toString()
+    }
+
+
+    fun setJobSkills(skills: List<DomainSkill>) {
+        this.jobSkills = skills
+        notifyDataSetChanged()
     }
 
 }

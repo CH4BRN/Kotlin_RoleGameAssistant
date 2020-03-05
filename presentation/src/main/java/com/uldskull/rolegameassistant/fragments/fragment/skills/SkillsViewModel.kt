@@ -6,6 +6,7 @@ package com.uldskull.rolegameassistant.fragments.fragment.skills
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import com.uldskull.rolegameassistant.models.skill.DomainSkill
 
 /**
  *   Class "SkillsViewModel" :
@@ -16,15 +17,30 @@ import androidx.lifecycle.MutableLiveData
 class SkillsViewModel(application: Application) : AndroidViewModel(application) {
 
     /** Skills to display   **/
-    var skills = MutableLiveData<List<String>>()
+    var skills = MutableLiveData<List<DomainSkill>>()
 
     init {
         skills.value = listOf(
-            "Skill 1",
-            "SKill 2",
-            "Skill 3",
-            "Skill 4",
-            "Skill 5"
+            DomainSkill(
+                skillName = "Sample",
+                skillBase = 15,
+                skillValue = 80
+            ),
+            DomainSkill(
+                skillName = "SampleSample",
+                skillBase = 35,
+                skillValue = 99
+            ),
+            DomainSkill(
+                skillName = "SampleSampleSample",
+                skillBase = 15,
+                skillValue = 80
+            ),
+            DomainSkill(
+                skillName = "SampleSampleSampleSample",
+                skillBase = 15,
+                skillValue = 80
+            )
         )
     }
 }

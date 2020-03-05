@@ -11,6 +11,7 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.models.skill.DomainSkill
 
 /**
  *   Class "SkillsAdapter" :
@@ -24,7 +25,7 @@ class SkillsAdapter internal constructor(
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
     /** Skills list **/
-    private var skills = emptyList<String>()
+    private var skills = emptyList<DomainSkill>()
 
     /** Custom view-holder  **/
     inner class SkillsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -45,11 +46,11 @@ class SkillsAdapter internal constructor(
     override fun onBindViewHolder(holder: SkillsViewHolder, position: Int) {
         val current = skills[position]
         holder.isSkillCheckedItemView.isChecked = true
-        holder.skillNameItemView.text = current
+        holder.skillNameItemView.text = current.skillName
     }
 
     /** Set the list containing skills to display   **/
-    internal fun setSkills(skills: List<String>) {
+    internal fun setSkills(skills: List<DomainSkill>) {
         this.skills = skills
         notifyDataSetChanged()
     }

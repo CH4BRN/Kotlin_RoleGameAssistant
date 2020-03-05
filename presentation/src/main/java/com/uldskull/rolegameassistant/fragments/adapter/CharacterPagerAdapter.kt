@@ -15,6 +15,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.bonds.BondsFragment
 import com.uldskull.rolegameassistant.fragments.fragment.derivedValues.DerivedValues1Fragment
 import com.uldskull.rolegameassistant.fragments.fragment.derivedValues.DerivedValues2Fragment
 import com.uldskull.rolegameassistant.fragments.fragment.ideals.IdealsFragment
+import com.uldskull.rolegameassistant.fragments.fragment.job.JobFragment
 import com.uldskull.rolegameassistant.fragments.fragment.jobs.JobsFragment
 import com.uldskull.rolegameassistant.fragments.fragment.skills.SkillsRecyclerViewFragment
 
@@ -56,6 +57,10 @@ class CharacterPagerAdapter(fm: FragmentManager, val activity: Activity) :
                 position
             )
             JOBS_FRAGMENT_POSITION -> JobsFragment.newInstance(
+                activity,
+                position
+            )
+            JOB_FRAGMENT_POSITION -> JobFragment.newInstance(
                 activity,
                 position
             )

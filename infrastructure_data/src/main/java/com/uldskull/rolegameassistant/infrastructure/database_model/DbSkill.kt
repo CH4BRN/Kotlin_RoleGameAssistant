@@ -15,9 +15,7 @@ import com.uldskull.rolegameassistant.models.skill.DomainSkill
 @Entity(tableName = TABLE_NAME_SKILL)
 data class DbSkill(
     @PrimaryKey(autoGenerate = true) val skillId: Long? = null,
-    val skillName: String?,
-    val skillAbility: String?,
-    val skillModifier: Int?
+    val skillName: String?
 ) {
     companion object {
         /**
@@ -26,9 +24,7 @@ data class DbSkill(
         fun from(domainSkill: DomainSkill): DbSkill {
             return DbSkill(
                 domainSkill.skillId,
-                domainSkill.skillName,
-                domainSkill.skillAbility,
-                domainSkill.skillModifier
+                domainSkill.skillName
             )
         }
     }
@@ -39,9 +35,7 @@ data class DbSkill(
     fun toDomain(): DomainSkill {
         return DomainSkill(
             skillId = skillId,
-            skillName = skillName,
-            skillAbility = skillAbility,
-            skillModifier = skillModifier
+            skillName = skillName
         )
     }
 }
