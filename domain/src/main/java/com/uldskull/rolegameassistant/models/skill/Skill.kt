@@ -7,8 +7,9 @@ package com.uldskull.rolegameassistant.models.skill
  *   Class "Skill" :
  *   TODO: Fill class use.
  **/
-abstract class Skill(var name: String, var description: String) {
-// TODO : Fill class.
-}
+abstract class AbstractSkill(var name: String, var description: String)
 
-class chosenSkill
+class ChosenSkill(name: String, description: String, attributed: Int) :
+    AbstractSkill(name, description)
+
+class ShownSkill(name: String, description: String) : AbstractSkill(name, description)

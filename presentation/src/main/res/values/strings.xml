@@ -36,6 +36,14 @@
         vel accumsan ipsum cursus.
     </string>
 
+    <string name="lorem">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    </string>
+
+    <string name="ipsum">
+        ipsum
+    </string>
+
     <!--  Abilities  -->
     <string name="STRENGTH">
         STRENGTH
