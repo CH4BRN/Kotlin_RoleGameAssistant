@@ -67,16 +67,17 @@
         <Spinner
             android:id="@+id/spinner_skill_tens"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent" />
 
         <Spinner
             android:id="@+id/spinner_skill_units"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent" />
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:text="/ 99" />
 
         <Button
