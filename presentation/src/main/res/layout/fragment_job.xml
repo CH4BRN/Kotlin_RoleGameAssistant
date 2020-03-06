@@ -11,6 +11,15 @@
         android:text="Job"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+    <FrameLayout
+        android:id="@+id/container_jobSkills"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+
     <LinearLayout
         android:id="@+id/container_jobPoints"
         android:layout_width="wrap_content"
@@ -20,7 +29,7 @@
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_title">
+        app:layout_constraintTop_toBottomOf="@id/container_jobSkills">
 
         <TextView
             android:id="@+id/tv_jobPoints"
@@ -86,12 +95,4 @@
             android:layout_height="wrap_content"
             android:text="Validate" />
     </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/container_jobSkills"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/container_skillPoints" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

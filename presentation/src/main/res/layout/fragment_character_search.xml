@@ -15,9 +15,9 @@
 
     <EditText
         android:id="@+id/et_characterSearch"
-        android:autofillHints="character..."
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:autofillHints="character..."
         android:hint="Search ..."
         android:inputType="text"
         app:layout_constraintTop_toBottomOf="@id/fragment_title" />

@@ -27,9 +27,9 @@
                 android:text="PE = PO = " />
 
             <EditText
-                android:hint="0"
                 android:layout_column="2"
                 android:layout_weight="4"
+                android:hint="0"
                 android:inputType="number" />
         </TableRow>
 
@@ -41,9 +41,9 @@
                 android:text="Damage bonus = " />
 
             <EditText
-                android:hint="0"
                 android:layout_column="2"
                 android:layout_weight="4"
+                android:hint="0"
                 android:inputType="number" />
         </TableRow>
 
@@ -55,28 +55,27 @@
                 android:text="TAI + FOR = " />
 
             <EditText
-                android:hint="0"
                 android:layout_column="2"
                 android:layout_weight="4"
+                android:hint="0"
                 android:inputType="number" />
         </TableRow>
 
 
+        <TableRow>
 
-            <TableRow>
+            <TextView
+                android:layout_column="1"
+                android:layout_weight="1"
+                android:text="Result = "></TextView>
 
-                <TextView
-                    android:layout_column="1"
-                    android:layout_weight="1"
-                    android:text="Result = "></TextView>
-
-                <EditText
-                    android:id="@+id/et_derivedValues2Result"
-                    android:hint="0"
-                    android:layout_column="2"
-                    android:layout_weight="4"
-                    android:inputType="number" />
-            </TableRow>
+            <EditText
+                android:id="@+id/et_derivedValues2Result"
+                android:layout_column="2"
+                android:layout_weight="4"
+                android:hint="0"
+                android:inputType="number" />
+        </TableRow>
 
     </TableLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

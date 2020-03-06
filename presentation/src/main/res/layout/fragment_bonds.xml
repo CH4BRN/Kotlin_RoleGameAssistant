@@ -17,9 +17,10 @@
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+
+            >
 
             <TextView
                 android:id="@+id/tv_bondSubTitle"
@@ -29,10 +30,10 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:autofillHints="Bond..."
                 android:id="@+id/etBond"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:autofillHints="Bond..."
                 android:ems="10"
                 android:gravity="start|top"
                 android:hint="@string/lorem_ipsum_short"

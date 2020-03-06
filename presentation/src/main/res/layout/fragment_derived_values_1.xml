@@ -26,10 +26,10 @@
                 android:text="PV : (SIZ + CON) /2 =" />
 
             <EditText
-
-                android:hint="0"
                 android:layout_column="2"
                 android:layout_weight="1"
+
+                android:hint="0"
                 android:inputType="number" />
         </TableRow>
 
@@ -40,9 +40,9 @@
                 android:text=" + RACE BONUS =" />
 
             <EditText
-                android:hint="0"
                 android:layout_column="2"
                 android:layout_weight="1"
+                android:hint="0"
                 android:inputType="number" />
         </TableRow>
 
@@ -53,9 +53,9 @@
                 android:text="TOTAL =" />
 
             <EditText
-                android:hint="0"
                 android:layout_column="2"
                 android:layout_weight="1"
+                android:hint="0"
                 android:inputType="number" />
         </TableRow>
 
@@ -66,9 +66,9 @@
                 android:text="IDEA : (INT * 5) =" />
 
             <EditText
-                android:hint="0"
                 android:layout_column="2"
                 android:layout_weight="1"
+                android:hint="0"
                 android:inputType="number" />
         </TableRow>
 
@@ -79,9 +79,9 @@
                 android:text="CHANCE : (POU * 5) =" />
 
             <EditText
-                android:hint="0"
                 android:layout_column="2"
                 android:layout_weight="1"
+                android:hint="0"
                 android:inputType="number" />
         </TableRow>
 
@@ -92,9 +92,9 @@
                 android:text="ALIGNMENT =" />
 
             <EditText
-                android:hint="0"
                 android:layout_column="2"
                 android:layout_weight="1"
+                android:hint="0"
                 android:inputType="number" />
         </TableRow>
 
