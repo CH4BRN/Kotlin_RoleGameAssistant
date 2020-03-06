@@ -3,7 +3,7 @@
 package com.uldskull.rolegameassistant.models.skill
 
 
-val SKILL_MAX_VALUE: Int = 99
+const val SKILL_MAX_VALUE: Int = 99
 /**
 Class "DomainSkill"
 

@@ -33,13 +33,13 @@ class JobsFragment(activity: Activity) : CustomFragment(activity) {
         super.onViewCreated(view, savedInstanceState)
 
         val arrayAdapter =
-            ArrayAdapter(activity, android.R.layout.simple_spinner_item, list_of_jobs)
+            ArrayAdapter(activity, android.R.layout.simple_spinner_item, listOfJobs)
 
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner_jobs?.adapter = arrayAdapter
     }
 
-    var list_of_jobs = arrayOf("Job1", "Job2", "Job3")
+    private var listOfJobs = arrayOf("Job1", "Job2", "Job3")
 
     override fun onCreateView(
         inflater: LayoutInflater,

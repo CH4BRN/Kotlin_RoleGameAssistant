@@ -25,10 +25,10 @@ class JobSkillsAdapter internal constructor(
 
     /**  Inner class to display  **/
     inner class JobSkillsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var tv_jobSkillName = itemView.findViewById<TextView>(R.id.tv_jobSkillName)
-        var tv_jobSkillBase = itemView.findViewById<TextView>(R.id.tv_jobSkillBase)
-        var tv_jobSkillAdd = itemView.findViewById<TextView>(R.id.tv_jobSkillAdd)
-        var tv_jobSkillTotal = itemView.findViewById<TextView>(R.id.tv_jobSkillTotal)
+        var tvJobskillname: TextView? = itemView.findViewById(R.id.tv_jobSkillName)
+        var tvJobskillbase: TextView = itemView.findViewById(R.id.tv_jobSkillBase)!!
+        var tvJobskilladd: TextView = itemView.findViewById(R.id.tv_jobSkillAdd)!!
+        var tvJobskilltotal: TextView = itemView.findViewById(R.id.tv_jobSkillTotal)!!
 
 
     }
@@ -37,7 +37,7 @@ class JobSkillsAdapter internal constructor(
     private var jobSkills = emptyList<DomainSkill>()
 
     /**
-     * Called when RecyclerView needs a new [ViewHolder] of the given type to represent
+     * Called when RecyclerView needs a new [JobSkillsViewHolder] of the given type to represent
      * an item.
      *
      *
@@ -79,7 +79,7 @@ class JobSkillsAdapter internal constructor(
 
     /**
      * Called by RecyclerView to display the data at the specified position. This method should
-     * update the contents of the [ViewHolder.itemView] to reflect the item at the given
+     * update the contents of the [JobSkillsViewHolder.itemView] to reflect the item at the given
      * position.
      *
      *
@@ -88,7 +88,7 @@ class JobSkillsAdapter internal constructor(
      * invalidated or the new position cannot be determined. For this reason, you should only
      * use the `position` parameter while acquiring the related data item inside
      * this method and should not keep a copy of it. If you need the position of an item later
-     * on (e.g. in a click listener), use [ViewHolder.getAdapterPosition] which will
+     * on (e.g. in a click listener), use [JobSkillsViewHolder.getAdapterPosition] which will
      * have the updated adapter position.
      *
      * Override [.onBindViewHolder] instead if Adapter can
@@ -98,12 +98,12 @@ class JobSkillsAdapter internal constructor(
      * item at the given position in the data set.
      * @param position The position of the item within the adapter's data set.
      */
-    override fun onBindViewHolder(holder: JobSkillsAdapter.JobSkillsViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: JobSkillsViewHolder, position: Int) {
         val current = jobSkills[position]
 
-        holder.tv_jobSkillAdd.text = current.skillValue.toString()
-        holder.tv_jobSkillBase.text = current.skillBase.toString()
-        holder.tv_jobSkillName.text = current.skillName.toString()
+        holder.tvJobskilladd.text = current.skillValue.toString()
+        holder.tvJobskillbase.text = current.skillBase.toString()
+        holder.tvJobskillname?.text = current.skillName.toString()
     }
 
 
