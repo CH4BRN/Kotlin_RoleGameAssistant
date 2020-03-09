@@ -5,6 +5,7 @@
     android:layout_height="match_parent">
 
     <TextView
+        style="@style/TextViewFragmentTitle"
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

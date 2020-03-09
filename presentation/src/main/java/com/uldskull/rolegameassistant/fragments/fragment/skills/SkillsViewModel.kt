@@ -24,22 +24,26 @@ class SkillsViewModel(application: Application) : AndroidViewModel(application) 
             DomainSkill(
                 skillName = "Sample",
                 skillBase = 15,
-                skillValue = 80
+                skillTensValue = 8,
+                skillUnitsValue = 0
             ),
             DomainSkill(
                 skillName = "SampleSample",
                 skillBase = 35,
-                skillValue = 99
+                skillTensValue = 9,
+                skillUnitsValue = 0
             ),
             DomainSkill(
                 skillName = "SampleSampleSample",
                 skillBase = 15,
-                skillValue = 80
+                skillTensValue = 8,
+                skillUnitsValue = 5
             ),
             DomainSkill(
                 skillName = "SampleSampleSampleSample",
                 skillBase = 15,
-                skillValue = 80
+                skillTensValue = 8,
+                skillUnitsValue = 9
             )
         )
     }

@@ -27,7 +27,8 @@ class JobSkillsAdapter internal constructor(
     inner class JobSkillsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var tvJobskillname: TextView? = itemView.findViewById(R.id.tv_jobSkillName)
         var tvJobskillbase: TextView = itemView.findViewById(R.id.tv_jobSkillBase)!!
-        var tvJobskilladd: TextView = itemView.findViewById(R.id.tv_jobSkillAdd)!!
+        var tvJobskillAddTens: TextView = itemView.findViewById(R.id.tv_jobSkillAddTens)!!
+        var tvJobskillAddUnits: TextView = itemView.findViewById(R.id.tv_jobSkillAddUnits)!!
         var tvJobskilltotal: TextView = itemView.findViewById(R.id.tv_jobSkillTotal)!!
 
 
@@ -101,7 +102,8 @@ class JobSkillsAdapter internal constructor(
     override fun onBindViewHolder(holder: JobSkillsViewHolder, position: Int) {
         val current = jobSkills[position]
 
-        holder.tvJobskilladd.text = current.skillValue.toString()
+        holder.tvJobskillAddTens.text = current.skillTensValue.toString()
+        holder.tvJobskillAddUnits.text = current.skillUnitsValue.toString()
         holder.tvJobskillbase.text = current.skillBase.toString()
         holder.tvJobskillname?.text = current.skillName.toString()
     }

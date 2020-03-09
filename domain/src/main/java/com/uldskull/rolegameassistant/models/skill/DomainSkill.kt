@@ -13,5 +13,6 @@ data class DomainSkill(
     val skillBase: Int? = 15,
     val skillId: Long? = null,
     val skillName: String? = "",
-    val skillValue: Int? = 0
+    val skillTensValue: Int? = 0,
+    val skillUnitsValue: Int? = 0
 )

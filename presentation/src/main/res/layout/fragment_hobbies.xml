@@ -9,13 +9,21 @@
         style="@style/TextViewFragmentTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="abilities"
+        android:text="Hobbies"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <EditText
+        android:id="@+id/et_hobbiesSkillSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Search ..."
+        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
     <FrameLayout
-        android:id="@+id/container_abilities"
+        android:id="@+id/container_hobbiesSkills"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+        app:layout_constraintTop_toBottomOf="@id/et_hobbiesSkillSearch" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

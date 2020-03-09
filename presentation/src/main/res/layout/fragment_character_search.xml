@@ -7,6 +7,7 @@
     tools:context=".fragments.fragment.CharacterSearchFragment">
 
     <TextView
+        style="@style/TextViewFragmentTitle"
         android:id="@+id/fragment_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

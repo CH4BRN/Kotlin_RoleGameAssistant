@@ -5,6 +5,7 @@
     android:layout_height="match_parent">
 
     <TextView
+        style="@style/TextViewFragmentTitle"
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,7 +17,7 @@
         android:id="@+id/container_jobSkills"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/container_jobPoints"
         app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
 
@@ -32,10 +33,22 @@
         app:layout_constraintTop_toBottomOf="@id/container_jobSkills">
 
         <TextView
-            android:id="@+id/tv_jobPoints"
+            android:id="@+id/tv_jobPoints_hundreds"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="100" />
+            android:text="1" />
+
+        <TextView
+            android:id="@+id/tv_jobPoints_tens"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0" />
+
+        <TextView
+            android:id="@+id/tv_jobPoints_units"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -49,20 +62,23 @@
             android:text="300" />
 
     </LinearLayout>
-
-    <Spinner
-        android:id="@+id/spinner_skills"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/container_jobPoints" />
-
     <Button
+        app:layout_constraintBottom_toTopOf="@id/tv_selectedSkill"
         android:id="@+id/btn_job_add_skill"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/tv_selectedSkill"
         android:text="Add skill"
-        app:layout_constraintEnd_toEndOf="@id/spinner_skills"
-        app:layout_constraintTop_toBottomOf="@id/spinner_skills" />
+        app:layout_constraintTop_toBottomOf="@id/container_jobPoints" />
+
+    <TextView
+        android:id="@+id/tv_selectedSkill"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="Skill : SampleSkill"
+        app:layout_constraintTop_toBottomOf="@id/btn_job_add_skill" />
+
 
     <LinearLayout
         android:id="@+id/container_skillPoints"
@@ -71,7 +87,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_job_add_skill">
+        app:layout_constraintTop_toBottomOf="@id/tv_selectedSkill">
 
         <Spinner
             android:id="@+id/spinner_skill_tens"

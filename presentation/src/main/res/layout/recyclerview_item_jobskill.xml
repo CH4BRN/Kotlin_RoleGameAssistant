@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginBottom="8dp"
     android:orientation="horizontal">
 
     <TextView
@@ -22,11 +23,24 @@
         android:text="15" />
 
     <TextView
-        android:id="@+id/tv_jobSkillAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="15" />
+        android:layout_weight="0.2"
+        android:text=" + " />
+
+    <TextView
+        android:id="@+id/tv_jobSkillAddTens"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:text="1" />
+
+    <TextView
+        android:id="@+id/tv_jobSkillAddUnits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:text="5" />
 
     <TextView
         android:layout_width="wrap_content"
