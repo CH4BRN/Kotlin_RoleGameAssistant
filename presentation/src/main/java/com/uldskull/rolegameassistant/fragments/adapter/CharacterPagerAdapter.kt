@@ -14,6 +14,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.abilities.AbilitiesRecy
 import com.uldskull.rolegameassistant.fragments.fragment.bonds.BondsFragment
 import com.uldskull.rolegameassistant.fragments.fragment.derivedValues.DerivedValues1Fragment
 import com.uldskull.rolegameassistant.fragments.fragment.derivedValues.DerivedValues2Fragment
+import com.uldskull.rolegameassistant.fragments.fragment.hobby.HobbiesFragment
 import com.uldskull.rolegameassistant.fragments.fragment.ideals.IdealsFragment
 import com.uldskull.rolegameassistant.fragments.fragment.job.JobFragment
 import com.uldskull.rolegameassistant.fragments.fragment.jobs.JobsFragment
@@ -26,7 +27,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.skills.SkillsRecyclerVi
 class CharacterPagerAdapter(fm: FragmentManager, val activity: Activity) :
     FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
     /** Number of view  **/
-    override fun getCount(): Int = 8
+    override fun getCount(): Int = 9
 
     /** Instantiate the view    **/
     override fun getItem(position: Int): Fragment {
@@ -61,6 +62,10 @@ class CharacterPagerAdapter(fm: FragmentManager, val activity: Activity) :
                 position
             )
             JOB_FRAGMENT_POSITION -> JobFragment.newInstance(
+                activity,
+                position
+            )
+            HOBBIES_1_FRAGMENT_POSITION -> HobbiesFragment.newInstance(
                 activity,
                 position
             )

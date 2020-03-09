@@ -38,11 +38,6 @@ class SkillsRecyclerViewFragment : Fragment() {
         skillsViewModel = getViewModel()
     }
 
-    /** Fragment Lifecycle  **/
-    override fun onResume() {
-        super.onResume()
-        NewCharacterActivity.progression.value = 5
-    }
 
     /** Fragment life-cycle  **/
     override fun onCreateView(
