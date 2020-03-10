@@ -1,7 +1,7 @@
 // File JobSkillsRecyclerViewFragment.kt
 // @Author pierre.antoine - 05/03/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.fragments.fragment.skills
+package com.uldskull.rolegameassistant.fragments.fragment.job
 
 import android.app.Activity
 import android.content.Context
@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
+import com.uldskull.rolegameassistant.fragments.fragment.skills.SkillsViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**
@@ -81,13 +82,16 @@ class JobSkillsRecyclerViewFragment(activity: Activity) : CustomFragment(activit
 
 
     private fun setRecyclerViewAdapter() {
-        jobSkillsAdapter = JobSkillsAdapter(activity as Context)
+        jobSkillsAdapter =
+            JobSkillsAdapter(
+                activity as Context
+            )
         jobSkillRecyclerView?.adapter = jobSkillsAdapter
     }
 
 
     private fun startSkillsObservation() {
-        this.skillsViewModel.skills.observe(this, Observer { skills ->
+        this.skillsViewModel.jobSkills.observe(this, Observer { skills ->
             kotlin.run {
                 skills?.let { jobSkillsAdapter?.setJobSkills(it) }
             }
@@ -98,7 +102,10 @@ class JobSkillsRecyclerViewFragment(activity: Activity) : CustomFragment(activit
 
         @JvmStatic
         fun newInstance(activity: Activity, position: Int): JobSkillsRecyclerViewFragment {
-            val fragment = JobSkillsRecyclerViewFragment(activity)
+            val fragment =
+                JobSkillsRecyclerViewFragment(
+                    activity
+                )
             val args = Bundle()
 
             args.putInt(KEY_POSITION, position)

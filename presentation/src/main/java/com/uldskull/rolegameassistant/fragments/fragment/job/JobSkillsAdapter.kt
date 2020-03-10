@@ -1,7 +1,7 @@
 // File JobSkillsAdapter.kt
 // @Author pierre.antoine - 05/03/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.fragments.fragment.skills
+package com.uldskull.rolegameassistant.fragments.fragment.job
 
 import android.content.Context
 import android.view.LayoutInflater

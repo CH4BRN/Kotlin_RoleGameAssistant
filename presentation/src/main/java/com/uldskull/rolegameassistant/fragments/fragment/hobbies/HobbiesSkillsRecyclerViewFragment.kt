@@ -1,6 +1,6 @@
 // HobbiesSkillsRecyclerViewFragment.kt created by UldSkull - 09/03/2020
 
-package com.uldskull.rolegameassistant.fragments.fragment.skills
+package com.uldskull.rolegameassistant.fragments.fragment.hobbies
 
 import android.app.Activity
 import android.content.Context
@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
+import com.uldskull.rolegameassistant.fragments.fragment.skills.SkillsAdapter
+import com.uldskull.rolegameassistant.fragments.fragment.skills.SkillsViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**
@@ -37,9 +39,15 @@ class HobbiesSkillsRecyclerViewFragment(activity: Activity) :
         skillsViewModel = getViewModel()
     }
 
+    override fun initializeRecyclerView() {
+        skillsRecyclerView =
+            activity.findViewById(R.id.recycler_view_hobbiesSkills) as RecyclerView?
+
+    }
+
     /** Observe ViewModel's skills  **/
     override fun startObservation() {
-        this.skillsViewModel.skills.observe(this, Observer { skills ->
+        this.skillsViewModel.hobbiesSkills.observe(this, Observer { skills ->
             kotlin.run {
                 skills?.let { skillsAdapter?.setSkills(it) }
             }
@@ -48,7 +56,10 @@ class HobbiesSkillsRecyclerViewFragment(activity: Activity) :
     }
 
     override fun setAdapter() {
-        skillsAdapter = SkillsAdapter(activity as Context)
+        skillsAdapter =
+            SkillsAdapter(
+                activity as Context
+            )
         skillsRecyclerView?.adapter = skillsAdapter
     }
 
@@ -63,7 +74,7 @@ class HobbiesSkillsRecyclerViewFragment(activity: Activity) :
 
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = layoutInflater.inflate(
-            R.layout.fragment_recyclerview_skills, container, false
+            R.layout.fragment_recyclerview_hobbiesskills, container, false
         )
         return initialRootView
     }

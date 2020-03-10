@@ -1,6 +1,6 @@
 // HobbiesFragment.kt created by UldSkull - 09/03/2020
 
-package com.uldskull.rolegameassistant.fragments.fragment.hobby
+package com.uldskull.rolegameassistant.fragments.fragment.hobbies
 
 import android.app.Activity
 import android.os.Bundle
@@ -12,7 +12,6 @@ import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
-import com.uldskull.rolegameassistant.fragments.fragment.skills.HobbiesSkillsRecyclerViewFragment
 
 /**
 Class "HobbiesFragment"

@@ -14,7 +14,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.abilities.AbilitiesRecy
 import com.uldskull.rolegameassistant.fragments.fragment.bonds.BondsFragment
 import com.uldskull.rolegameassistant.fragments.fragment.derivedValues.DerivedValues1Fragment
 import com.uldskull.rolegameassistant.fragments.fragment.derivedValues.DerivedValues2Fragment
-import com.uldskull.rolegameassistant.fragments.fragment.hobby.HobbiesFragment
+import com.uldskull.rolegameassistant.fragments.fragment.hobbies.HobbiesFragment
 import com.uldskull.rolegameassistant.fragments.fragment.ideals.IdealsFragment
 import com.uldskull.rolegameassistant.fragments.fragment.job.JobFragment
 import com.uldskull.rolegameassistant.fragments.fragment.jobs.JobsFragment

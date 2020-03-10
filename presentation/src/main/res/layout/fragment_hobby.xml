@@ -5,27 +5,24 @@
     android:layout_height="match_parent">
 
     <TextView
-        style="@style/TextViewFragmentTitle"
         android:id="@+id/tv_title"
+        style="@style/TextViewFragmentTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Job"
+        android:text="Hobby"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <FrameLayout
-        android:background="@android:color/darker_gray"
-        android:minHeight="8dp"
-        android:id="@+id/container_jobSkills"
+        android:id="@+id/container_hobbySkills"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/container_jobPoints"
+        android:background="@android:color/darker_gray"
+        android:minHeight="8dp"
+        app:layout_constraintBottom_toTopOf="@id/container_hobbyPoints"
         app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
-
     <LinearLayout
-
-        android:id="@+id/container_jobPoints"
+        android:id="@+id/container_hobbyPoints"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/holo_orange_light"
@@ -33,22 +30,22 @@
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/container_jobSkills">
+        app:layout_constraintTop_toBottomOf="@id/container_hobbySkills">
 
         <TextView
-            android:id="@+id/tv_jobPoints_hundreds"
+            android:id="@+id/tv_hobbyPoints_hundreds"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1" />
 
         <TextView
-            android:id="@+id/tv_jobPoints_tens"
+            android:id="@+id/tv_hobbyPoints_tens"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0" />
 
         <TextView
-            android:id="@+id/tv_jobPoints_units"
+            android:id="@+id/tv_hobbyPoints_units"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0" />
@@ -59,20 +56,21 @@
             android:text="/" />
 
         <TextView
-            android:id="@+id/tv_totalJobPoints"
+            android:id="@+id/tv_totalhobbyPoints"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="300" />
 
     </LinearLayout>
+
     <Button
-        app:layout_constraintBottom_toTopOf="@id/tv_selectedSkill"
-        android:id="@+id/btn_job_add_skill"
+        android:id="@+id/btn_hobby_add_skill"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@id/tv_selectedSkill"
         android:text="Add skill"
-        app:layout_constraintTop_toBottomOf="@id/container_jobPoints" />
+        app:layout_constraintBottom_toTopOf="@id/tv_selectedSkill"
+        app:layout_constraintEnd_toEndOf="@id/tv_selectedSkill"
+        app:layout_constraintTop_toBottomOf="@id/container_hobbyPoints" />
 
     <TextView
         android:id="@+id/tv_selectedSkill"
@@ -80,8 +78,7 @@
         android:layout_height="wrap_content"
         android:padding="8dp"
         android:text="Skill : SampleSkill"
-        app:layout_constraintTop_toBottomOf="@id/btn_job_add_skill" />
-
+        app:layout_constraintTop_toBottomOf="@id/btn_hobby_add_skill" />
 
     <LinearLayout
         android:id="@+id/container_skillPoints"
@@ -114,4 +111,5 @@
             android:layout_height="wrap_content"
             android:text="Validate" />
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

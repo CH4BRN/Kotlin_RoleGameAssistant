@@ -17,30 +17,59 @@ import com.uldskull.rolegameassistant.models.skill.DomainSkill
 class SkillsViewModel(application: Application) : AndroidViewModel(application) {
 
     /** Skills to display   **/
-    var skills = MutableLiveData<List<DomainSkill>>()
+    var jobSkills = MutableLiveData<List<DomainSkill>>()
+    var hobbiesSkills = MutableLiveData<List<DomainSkill>>()
 
     init {
-        skills.value = listOf(
+
+        hobbiesSkills.value = listOf(
             DomainSkill(
-                skillName = "Sample",
+                skillName = "hobbiesSkills",
                 skillBase = 15,
                 skillTensValue = 8,
                 skillUnitsValue = 0
             ),
             DomainSkill(
-                skillName = "SampleSample",
+                skillName = "hobbiesSkills",
                 skillBase = 35,
                 skillTensValue = 9,
                 skillUnitsValue = 0
             ),
             DomainSkill(
-                skillName = "SampleSampleSample",
+                skillName = "hohobbiesSkillshobbiesSkillsbby",
                 skillBase = 15,
                 skillTensValue = 8,
                 skillUnitsValue = 5
             ),
             DomainSkill(
-                skillName = "SampleSampleSampleSample",
+                skillName = "hobbiesSkills",
+                skillBase = 15,
+                skillTensValue = 8,
+                skillUnitsValue = 9
+            )
+        )
+
+        jobSkills.value = listOf(
+            DomainSkill(
+                skillName = "jobSkills",
+                skillBase = 15,
+                skillTensValue = 8,
+                skillUnitsValue = 0
+            ),
+            DomainSkill(
+                skillName = "jobSkillsjobSkills",
+                skillBase = 35,
+                skillTensValue = 9,
+                skillUnitsValue = 0
+            ),
+            DomainSkill(
+                skillName = "jobSkills",
+                skillBase = 15,
+                skillTensValue = 8,
+                skillUnitsValue = 5
+            ),
+            DomainSkill(
+                skillName = "jobSkillsjobSkills",
                 skillBase = 15,
                 skillTensValue = 8,
                 skillUnitsValue = 9

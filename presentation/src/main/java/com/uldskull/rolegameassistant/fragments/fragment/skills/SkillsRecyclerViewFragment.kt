@@ -14,7 +14,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -84,7 +83,7 @@ class SkillsRecyclerViewFragment : Fragment() {
 
     /** Observe ViewModel's skills  **/
     private fun startSkillsObservation() {
-        this.skillsViewModel.skills.observe(this, Observer { skills ->
+        this.skillsViewModel.jobSkills.observe(this, Observer { skills ->
             kotlin.run {
                 skills?.let { skillsAdapter?.setSkills(it) }
             }

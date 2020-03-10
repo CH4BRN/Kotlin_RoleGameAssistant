@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 
 /**
  *   Class "CustomFragment" :
@@ -31,12 +30,14 @@ abstract class CustomFragment(val activity: Activity) : Fragment() {
 }
 
 abstract class CustomRecyclerViewFragment(activity: Activity) : CustomFragment(activity) {
+    protected abstract fun initializeRecyclerView()
     protected abstract fun startObservation()
     protected abstract fun setAdapter()
     protected abstract fun setRecyclerViewLayoutManager()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initializeRecyclerView()
         startObservation()
         setAdapter()
         setRecyclerViewLayoutManager()
