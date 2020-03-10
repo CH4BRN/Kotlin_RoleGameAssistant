@@ -2,15 +2,16 @@
 
 package com.uldskull.rolegameassistant.fragments.fragment.skills
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.NewCharacterActivity
-import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -19,7 +20,7 @@ Class "HobbiesSkillsRecyclerViewFragment"
 
 Manage hobbies's skill's recyclerview fragmet.
  */
-class HobbiesSkillsRecyclerViewFragment(activity: NewCharacterActivity) :
+class HobbiesSkillsRecyclerViewFragment(activity: Activity) :
     CustomRecyclerViewFragment(activity) {
     /** ViewModel for skills  **/
     private lateinit var skillsViewModel: SkillsViewModel
@@ -36,25 +37,29 @@ class HobbiesSkillsRecyclerViewFragment(activity: NewCharacterActivity) :
         skillsViewModel = getViewModel()
     }
 
+    /** Observe ViewModel's skills  **/
     override fun startObservation() {
-        TODO("Not yet implemented")
+        this.skillsViewModel.skills.observe(this, Observer { skills ->
+            kotlin.run {
+                skills?.let { skillsAdapter?.setSkills(it) }
+            }
+        })
+
     }
 
     override fun setAdapter() {
-        TODO("Not yet implemented")
+        skillsAdapter = SkillsAdapter(activity as Context)
+        skillsRecyclerView?.adapter = skillsAdapter
     }
 
     override fun setRecyclerViewLayoutManager() {
-        TODO("Not yet implemented")
+        skillsRecyclerView?.layoutManager = LinearLayoutManager(
+            activity,
+            LinearLayoutManager.VERTICAL,
+            false
+        )
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
 
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = layoutInflater.inflate(
@@ -63,6 +68,15 @@ class HobbiesSkillsRecyclerViewFragment(activity: NewCharacterActivity) :
         return initialRootView
     }
 
+    companion object {
+        @JvmStatic
+        fun newInstance(activity: Activity, position: Int): HobbiesSkillsRecyclerViewFragment {
+
+            return HobbiesSkillsRecyclerViewFragment(
+                activity
+            )
+        }
+    }
 
 
 }

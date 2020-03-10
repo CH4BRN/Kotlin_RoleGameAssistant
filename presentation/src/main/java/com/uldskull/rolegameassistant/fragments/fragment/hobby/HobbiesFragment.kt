@@ -12,6 +12,7 @@ import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
+import com.uldskull.rolegameassistant.fragments.fragment.skills.HobbiesSkillsRecyclerViewFragment
 
 /**
 Class "HobbiesFragment"
@@ -37,6 +38,10 @@ class HobbiesFragment(activity: Activity) : CustomFragment(activity) {
 
             args.putInt(KEY_POSITION, position)
             fragment.arguments = args
+            (activity as NewCharacterActivity).replaceFragment(
+                R.id.container_hobbiesSkills,
+                HobbiesSkillsRecyclerViewFragment.newInstance(activity, 44)
+            )
 
 
             return fragment

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
+import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**
@@ -102,8 +103,6 @@ class SkillsRecyclerViewFragment : Fragment() {
 
             return fragment
         }
-
-        private const val KEY_POSITION = "position"
 
 
     }
