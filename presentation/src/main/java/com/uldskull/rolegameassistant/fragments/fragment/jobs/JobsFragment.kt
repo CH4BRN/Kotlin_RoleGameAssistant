@@ -4,13 +4,16 @@
 package com.uldskull.rolegameassistant.fragments.fragment.jobs
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Button
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
+import com.uldskull.rolegameassistant.activities.NewSkillActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
@@ -36,6 +39,8 @@ class JobsFragment(activity: Activity) : CustomFragment(activity) {
 
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner_jobs?.adapter = arrayAdapter
+
+
     }
 
     private var listOfJobs = arrayOf("Job1", "Job2", "Job3")

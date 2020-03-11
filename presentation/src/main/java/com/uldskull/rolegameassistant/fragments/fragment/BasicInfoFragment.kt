@@ -6,6 +6,7 @@ package com.uldskull.rolegameassistant.fragments.fragment
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,7 +54,12 @@ class BasicInfoFragment(val activity: Activity) : Fragment() {
     /** Fragment Lifecycle  **/
     override fun onResume() {
         super.onResume()
-        NewCharacterActivity.progression.value = 0
+        Log.i("BasicInfoFragment_1",NewCharacterActivity.progression.value?.compareTo(0).toString())
+        when(NewCharacterActivity.progression.value?.compareTo(0)){
+            null -> NewCharacterActivity.progression.value = 0
+            1 -> NewCharacterActivity.progression.value =0
+        }
+        Log.i("BasicInfoFragment_2",NewCharacterActivity.progression.value?.compareTo(0).toString())
     }
 
 

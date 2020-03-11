@@ -4,12 +4,15 @@
 package com.uldskull.rolegameassistant.fragments.fragment.hobby
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
+import com.uldskull.rolegameassistant.activities.NewSkillActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
@@ -27,6 +30,17 @@ class HobbyFragment (activity: Activity) : CustomFragment(activity) {
             R.layout.fragment_hobby, container, false
         )
         return initialRootView
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        var btnAddSkill = view.findViewById<Button>(R.id.btn_hobby_add_skill)
+        btnAddSkill.setOnClickListener {
+            val intent = Intent(activity, NewSkillActivity::class.java)
+            startActivity(intent)
+
+        }
+
     }
 
     companion object{

@@ -14,7 +14,6 @@
 
 
     <FrameLayout
-        android:background="@android:color/darker_gray"
         android:minHeight="8dp"
         android:id="@+id/container_jobSkills"
         android:layout_width="match_parent"

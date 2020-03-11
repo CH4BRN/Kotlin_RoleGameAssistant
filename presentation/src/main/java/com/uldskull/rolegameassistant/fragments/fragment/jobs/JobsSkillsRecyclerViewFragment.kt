@@ -5,14 +5,17 @@ package com.uldskull.rolegameassistant.fragments.fragment.jobs
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.activities.NewSkillActivity
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.skills.JobsSkillsAdapter
@@ -94,6 +97,16 @@ class JobsSkillsRecyclerViewFragment(activity: Activity) : CustomRecyclerViewFra
                 activity as Context
             )
         skillsRecyclerView?.adapter = skillsAdapter
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        var btnAddSkills = view.findViewById<Button>(R.id.btn_jobs_addSkill)
+        btnAddSkills.setOnClickListener{
+            val intent = Intent(activity, NewSkillActivity::class.java)
+            startActivity(intent)
+
+        }
     }
 
 

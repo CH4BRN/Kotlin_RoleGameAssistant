@@ -16,7 +16,6 @@
         android:id="@+id/container_hobbySkills"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/darker_gray"
         android:minHeight="8dp"
         app:layout_constraintBottom_toTopOf="@id/container_hobbyPoints"
         app:layout_constraintTop_toBottomOf="@id/tv_title" />

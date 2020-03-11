@@ -6,6 +6,7 @@ package com.uldskull.rolegameassistant.fragments.fragment.ideals
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,12 +47,21 @@ class IdealsFragment(val activity: Activity) : Fragment() {
         return initialRootView
     }
 
+
+
     override fun onResume() {
         super.onResume()
-        NewCharacterActivity.progression.value = 1
+        Log.i("IdealsFragment_1",NewCharacterActivity.progression.value?.compareTo(2).toString())
+        when(NewCharacterActivity.progression.value?.compareTo(2)){
+            null -> NewCharacterActivity.progression.value = 0
+            0 -> NewCharacterActivity.progression.value = 2
+            -1 -> NewCharacterActivity.progression.value = 2
+            1 -> NewCharacterActivity.progression.value = 2
+
+        }
+        Log.i("IdealsFragment_2",NewCharacterActivity.progression.value?.compareTo(2).toString())
+
     }
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         btn_addIdeal.setOnClickListener {

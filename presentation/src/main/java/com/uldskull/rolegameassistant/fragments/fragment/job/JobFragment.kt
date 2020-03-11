@@ -4,12 +4,15 @@
 package com.uldskull.rolegameassistant.fragments.fragment.job
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
+import com.uldskull.rolegameassistant.activities.NewSkillActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
@@ -31,9 +34,29 @@ class JobFragment(activity: Activity) : CustomFragment(activity) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         return initializeView(inflater, container)
     }
 
+    /**
+     * Called immediately after [.onCreateView]
+     * has returned, but before any saved state has been restored in to the view.
+     * This gives subclasses a chance to initialize themselves once
+     * they know their view hierarchy has been completely created.  The fragment's
+     * view hierarchy is not however attached to its parent at this point.
+     * @param view The View returned by [.onCreateView].
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     */
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val btnAddSkill = view.findViewById<Button>(R.id.btn_job_add_skill)
+        btnAddSkill.setOnClickListener {
+            val intent = Intent(activity, NewSkillActivity::class.java)
+            startActivity(intent)
+
+        }
+    }
 
     companion object {
         @JvmStatic

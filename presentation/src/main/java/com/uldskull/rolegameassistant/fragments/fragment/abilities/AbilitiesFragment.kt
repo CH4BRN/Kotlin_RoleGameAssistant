@@ -5,6 +5,7 @@ package com.uldskull.rolegameassistant.fragments.fragment.abilities
 
 import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,10 +45,17 @@ class AbilitiesFragment(val activity: Activity) : Fragment() {
         )
         return initialRootView
     }
-
     override fun onResume() {
         super.onResume()
-        NewCharacterActivity.progression.value = 2
+        Log.i("BondsFragment_1",NewCharacterActivity.progression.value?.compareTo(3).toString())
+        when(NewCharacterActivity.progression.value?.compareTo(1)){
+            null -> NewCharacterActivity.progression.value = 0
+            0 -> NewCharacterActivity.progression.value = 3
+            -1 -> NewCharacterActivity.progression.value = 3
+            1 -> NewCharacterActivity.progression.value = 3
+        }
+        Log.i("BondsFragment_2",NewCharacterActivity.progression.value?.compareTo(1).toString())
+
     }
 
     companion object {

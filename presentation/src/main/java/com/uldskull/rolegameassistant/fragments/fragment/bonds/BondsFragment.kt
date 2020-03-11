@@ -5,6 +5,7 @@ package com.uldskull.rolegameassistant.fragments.fragment.bonds
 
 import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,7 +32,15 @@ class BondsFragment(val activity: Activity) : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        NewCharacterActivity.progression.value = 0
+        Log.i("BondsFragment_1",NewCharacterActivity.progression.value?.compareTo(1).toString())
+        when(NewCharacterActivity.progression.value?.compareTo(1)){
+            null -> NewCharacterActivity.progression.value = 0
+            0 -> NewCharacterActivity.progression.value = 1
+            -1 -> NewCharacterActivity.progression.value = 1
+            1 -> NewCharacterActivity.progression.value = 0
+        }
+        Log.i("BondsFragment_2",NewCharacterActivity.progression.value?.compareTo(1).toString())
+
     }
 
     private fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {

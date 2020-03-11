@@ -47,6 +47,10 @@
             android:name=".activities.NewRaceActivity"
             android:configChanges="orientation|screenSize" />
 
+        <activity
+            android:name=".activities.NewSkillActivity"
+            android:configChanges="orientation|screenSize" />
+
 
     </application>
 
