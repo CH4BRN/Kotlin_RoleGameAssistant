@@ -9,19 +9,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
+import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**
  *   Class "AbilitiesRecyclerViewFragment" :
  *   Manage abilities's RecyclerView fragment.
  **/
-class AbilitiesRecyclerViewFragment : Fragment() {
+class AbilitiesRecyclerViewFragment(activity: Activity) :
+    CustomRecyclerViewFragment(activity) {
     /** ViewModel for abilities **/
     private lateinit var abilitiesViewModel: AbilitiesViewModel
 
@@ -49,7 +50,7 @@ class AbilitiesRecyclerViewFragment : Fragment() {
 
 
     /** Initialize the view **/
-    private fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
+    override fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = inflater.inflate(
             R.layout.fragment_recyclerview_abilities, container, false
         )
@@ -69,31 +70,17 @@ class AbilitiesRecyclerViewFragment : Fragment() {
     }
 
     /** Initialize recycler view    **/
-    private fun initializeRecyclerView() {
-        abilitiesRecyclerView = activity?.findViewById(R.id.recycler_view_abilities)
+    override fun initializeRecyclerView() {
+        abilitiesRecyclerView = activity.findViewById(R.id.recycler_view_abilities)
                 as RecyclerView?
-        startAbilitiesObservation()
         setRecyclerViewAdapter()
         setRecyclerViewLayoutManager()
     }
 
-    /** Set recycler view adapter   **/
-    private fun setRecyclerViewAdapter() {
-        abilitiesAdapter = AbilitiesAdapter(activity as Context)
-        abilitiesRecyclerView?.adapter = abilitiesAdapter
-    }
-
-    /** Set recycler view layout manager    **/
-    private fun setRecyclerViewLayoutManager() {
-        abilitiesRecyclerView?.layoutManager = LinearLayoutManager(
-            activity,
-            LinearLayoutManager.VERTICAL,
-            false
-        )
-    }
-
-    /** Observe ViewModel's abilities   **/
-    private fun startAbilitiesObservation() {
+    /**
+     * Start ViewModel's collection observation.
+     */
+    override fun startObservation() {
         this.abilitiesViewModel.abilities.observe(this, Observer { abilities ->
             kotlin.run {
                 abilities?.let { abilitiesAdapter?.setAbilities(it) }
@@ -101,13 +88,29 @@ class AbilitiesRecyclerViewFragment : Fragment() {
             }
         })
     }
-    private lateinit var initialRootView: View
+
+    /** Set recycler view adapter   **/
+    override fun setRecyclerViewAdapter() {
+        abilitiesAdapter = AbilitiesAdapter(activity as Context)
+        abilitiesRecyclerView?.adapter = abilitiesAdapter
+    }
+
+    /** Set recycler view layout manager    **/
+    override fun setRecyclerViewLayoutManager() {
+        abilitiesRecyclerView?.layoutManager = LinearLayoutManager(
+            activity,
+            LinearLayoutManager.VERTICAL,
+            false
+        )
+    }
+
+
     companion object {
 
 
         @JvmStatic
         fun newInstance(activity: Activity, position: Int): AbilitiesRecyclerViewFragment {
-            val fragment = AbilitiesRecyclerViewFragment()
+            val fragment = AbilitiesRecyclerViewFragment(activity)
             val args = Bundle()
 
             args.putInt(KEY_POSITION, position)

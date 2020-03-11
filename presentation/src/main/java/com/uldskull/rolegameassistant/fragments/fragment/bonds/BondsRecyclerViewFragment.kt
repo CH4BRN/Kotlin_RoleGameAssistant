@@ -9,19 +9,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
+import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**
  *   Class "BondsRecyclerViewFragment" :
  *   TODO: Fill class use.
  **/
-class BondsRecyclerViewFragment : Fragment() {
+class BondsRecyclerViewFragment(activity: Activity) :
+    CustomRecyclerViewFragment(activity) {
     /** ViewModel for bonds    **/
     private lateinit var bondsViewModel: BondsViewModel
 
@@ -35,6 +36,7 @@ class BondsRecyclerViewFragment : Fragment() {
         super.onCreate(savedInstanceState)
         bondsViewModel = getViewModel()
     }
+
 
     /** Fragment Lifecycle  **/
     override fun onResume() {
@@ -50,25 +52,15 @@ class BondsRecyclerViewFragment : Fragment() {
         return initializeView(inflater, container)
     }
 
-    private fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
+    override fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = layoutInflater.inflate(
             R.layout.fragment_recyclerview_bonds, container, false
         )
         return initialRootView
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        bondsRecyclerView = activity?.findViewById(R.id.recycler_view_bonds)
-                as RecyclerView?
-
-        startBondsObservation()
-        setRecyclerViewAdapter()
-        setRecyclerViewLayoutManager()
-    }
-
     /** Set recycler view layout manager    **/
-    private fun setRecyclerViewLayoutManager() {
+    override fun setRecyclerViewLayoutManager() {
         bondsRecyclerView?.layoutManager = LinearLayoutManager(
             activity,
             LinearLayoutManager.VERTICAL,
@@ -76,14 +68,18 @@ class BondsRecyclerViewFragment : Fragment() {
         )
     }
 
-
-    /** Set recycler view adapter   **/
-    private fun setRecyclerViewAdapter() {
-        bondsAdapter = BondsAdapter(activity as Context)
-        bondsRecyclerView?.adapter = bondsAdapter
+    /**
+     * Initialize the recycler view.
+     */
+    override fun initializeRecyclerView() {
+        bondsRecyclerView = activity.findViewById(R.id.recycler_view_bonds)
+                as RecyclerView?
     }
 
-    private fun startBondsObservation() {
+    /**
+     * Start ViewModel's collection observation.
+     */
+    override fun startObservation() {
         this.bondsViewModel.bonds.observe(this, Observer { bonds ->
             kotlin.run {
                 bonds?.let { bondsAdapter?.setBonds(it) }
@@ -91,13 +87,19 @@ class BondsRecyclerViewFragment : Fragment() {
         })
     }
 
-    private lateinit var initialRootView: View
+
+    /** Set recycler view adapter   **/
+    override fun setRecyclerViewAdapter() {
+        bondsAdapter = BondsAdapter(activity as Context)
+        bondsRecyclerView?.adapter = bondsAdapter
+    }
+
 
     companion object {
 
         @JvmStatic
         fun newInstance(activity: Activity, position: Int): BondsRecyclerViewFragment {
-            val fragment = BondsRecyclerViewFragment()
+            val fragment = BondsRecyclerViewFragment(activity)
             val args = Bundle()
 
             args.putInt(KEY_POSITION, position)

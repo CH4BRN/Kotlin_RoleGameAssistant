@@ -9,19 +9,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
+import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**
  *   Class "IdealsRecyclerViewFragment" :
  *   TODO: Fill class use.
  **/
-class IdealsRecyclerViewFragment : Fragment() {
+class IdealsRecyclerViewFragment(activity: Activity) : CustomRecyclerViewFragment(activity) {
 
     /** ViewModel for bonds    **/
     private lateinit var idealsViewModel: IdealsViewModel
@@ -32,11 +32,29 @@ class IdealsRecyclerViewFragment : Fragment() {
     /** Recycler view for ideals   **/
     private var idealsRecyclerView: RecyclerView? = null
 
+    /**
+     * Called to do initial creation of a fragment.  This is called after
+     * [.onAttach] and before
+     * [.onCreateView].
+     *
+     *
+     * Note that this can be called while the fragment's activity is
+     * still in the process of being created.  As such, you can not rely
+     * on things like the activity's content view hierarchy being initialized
+     * at this point.  If you want to do work once the activity itself is
+     * created, see [.onActivityCreated].
+     *
+     *
+     * Any restored child fragments will be created before the base
+     * `Fragment.onCreate` method returns.
+     *
+     * @param savedInstanceState If the fragment is being re-created from
+     * a previous saved state, this is the state.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         idealsViewModel = getViewModel()
     }
-
 
     /** Fragment Lifecycle  **/
     override fun onResume() {
@@ -44,27 +62,8 @@ class IdealsRecyclerViewFragment : Fragment() {
         NewCharacterActivity.progression.value = 1
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        idealsRecyclerView = activity?.findViewById(R.id.recycler_view_ideals)
-                as RecyclerView?
-        startIdealsObservation()
-        setRecyclerViewAdapter()
-        setRecyclerViewLayoutManager()
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return initializeView(inflater, container)
-    }
-
-
     /** Set recycler view layout manager    **/
-    private fun setRecyclerViewLayoutManager() {
+    override fun setRecyclerViewLayoutManager() {
         idealsRecyclerView?.layoutManager = LinearLayoutManager(
             activity,
             LinearLayoutManager.VERTICAL,
@@ -72,20 +71,30 @@ class IdealsRecyclerViewFragment : Fragment() {
         )
     }
 
-    private fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
+    /**
+     * Initialize the initial root view.
+     */
+    override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = layoutInflater.inflate(
             R.layout.fragment_recyclerview_ideals, container, false
         )
         return initialRootView
     }
 
-    /** Set recycler view adapter   **/
-    private fun setRecyclerViewAdapter() {
-        idealsAdapter = IdealsAdapter(activity as Context)
-        idealsRecyclerView?.adapter = idealsAdapter
+    /**
+     * Initialize the recycler view.
+     */
+    override fun initializeRecyclerView() {
+        idealsRecyclerView = activity.findViewById(R.id.recycler_view_ideals)
+                as RecyclerView?
+        setRecyclerViewAdapter()
+        setRecyclerViewLayoutManager()
     }
 
-    private fun startIdealsObservation() {
+    /**
+     * Start ViewModel's collection observation.
+     */
+    override fun startObservation() {
         this.idealsViewModel.ideals.observe(this, Observer { ideals ->
             kotlin.run {
                 ideals?.let { idealsAdapter?.setIdeals(it) }
@@ -93,13 +102,17 @@ class IdealsRecyclerViewFragment : Fragment() {
         })
     }
 
-    private lateinit var initialRootView: View
+    /** Set recycler view adapter   **/
+    override fun setRecyclerViewAdapter() {
+        idealsAdapter = IdealsAdapter(activity as Context)
+        idealsRecyclerView?.adapter = idealsAdapter
+    }
 
     companion object {
 
         @JvmStatic
         fun newInstance(activity: Activity, position: Int): IdealsRecyclerViewFragment {
-            val fragment = IdealsRecyclerViewFragment()
+            val fragment = IdealsRecyclerViewFragment(activity)
             val args = Bundle()
 
             args.putInt(KEY_POSITION, position)

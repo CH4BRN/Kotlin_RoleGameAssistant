@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
-import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
+import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.skills.SkillsViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -22,7 +22,7 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  *   Class "JobSkillsRecyclerViewFragment" :
  *   TODO: Fill class use.
  **/
-class JobSkillsRecyclerViewFragment(activity: Activity) : CustomFragment(activity) {
+class JobSkillsRecyclerViewFragment(activity: Activity) : CustomRecyclerViewFragment(activity) {
 
     private var jobSkillsAdapter: JobSkillsAdapter? = null
 
@@ -30,6 +30,9 @@ class JobSkillsRecyclerViewFragment(activity: Activity) : CustomFragment(activit
 
     private var jobSkillRecyclerView: RecyclerView? = null
 
+    /**
+     * Initialize the initial root view.
+     */
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = layoutInflater.inflate(
             R.layout.fragment_recyclerview_jobskills, container, false
@@ -37,6 +40,9 @@ class JobSkillsRecyclerViewFragment(activity: Activity) : CustomFragment(activit
         return initialRootView
     }
 
+    /**
+     * Fragment life-cycle : Called when the view is created.
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -57,22 +63,27 @@ class JobSkillsRecyclerViewFragment(activity: Activity) : CustomFragment(activit
         NewCharacterActivity.progression.value = 5
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initializeRecyclerView()
-    }
-
     /** Initialize recycler view    **/
-    private fun initializeRecyclerView() {
+    override fun initializeRecyclerView() {
         jobSkillRecyclerView = activity.findViewById(R.id.recycler_view_jobSkills)
                 as RecyclerView?
-        startSkillsObservation()
         setRecyclerViewAdapter()
         setRecyclerViewLayoutManager()
     }
 
+    /**
+     * Start ViewModel's collection observation.
+     */
+    override fun startObservation() {
+        this.skillsViewModel.jobSkills.observe(this, Observer { skills ->
+            kotlin.run {
+                skills?.let { jobSkillsAdapter?.setJobSkills(it) }
+            }
+        })
+    }
+
     /** Set recycler view layout manager    **/
-    private fun setRecyclerViewLayoutManager() {
+    override fun setRecyclerViewLayoutManager() {
         jobSkillRecyclerView?.layoutManager = LinearLayoutManager(
             activity,
             LinearLayoutManager.VERTICAL,
@@ -81,7 +92,7 @@ class JobSkillsRecyclerViewFragment(activity: Activity) : CustomFragment(activit
     }
 
 
-    private fun setRecyclerViewAdapter() {
+    override fun setRecyclerViewAdapter() {
         jobSkillsAdapter =
             JobSkillsAdapter(
                 activity as Context
@@ -89,14 +100,6 @@ class JobSkillsRecyclerViewFragment(activity: Activity) : CustomFragment(activit
         jobSkillRecyclerView?.adapter = jobSkillsAdapter
     }
 
-
-    private fun startSkillsObservation() {
-        this.skillsViewModel.jobSkills.observe(this, Observer { skills ->
-            kotlin.run {
-                skills?.let { jobSkillsAdapter?.setJobSkills(it) }
-            }
-        })
-    }
 
     companion object {
 
