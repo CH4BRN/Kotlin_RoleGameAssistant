@@ -17,9 +17,9 @@ import com.uldskull.rolegameassistant.models.skill.DomainSkill
  *   Class "SkillsAdapter" :
  *   Adapter for skills recycler view.
  **/
-class SkillsAdapter internal constructor(
+class JobsSkillsAdapter internal constructor(
     context: Context
-) : RecyclerView.Adapter<SkillsAdapter.SkillsViewHolder>() {
+) : RecyclerView.Adapter<JobsSkillsAdapter.SkillsViewHolder>() {
 
     /** Inflater    **/
     private val inflater: LayoutInflater = LayoutInflater.from(context)

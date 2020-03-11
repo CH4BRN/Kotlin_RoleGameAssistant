@@ -1,7 +1,7 @@
-// File JobSkillsAdapter.kt
-// @Author pierre.antoine - 05/03/2020 - No copyright.
+// File HobbySkillAdapter.kt
+// @Author pierre.antoine - 11/03/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.fragments.fragment.job
+package com.uldskull.rolegameassistant.fragments.fragment.hobby
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -13,32 +13,29 @@ import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.models.skill.DomainSkill
 
 /**
- *   Class "JobSkillsAdapter" :
+ *   Class "HobbySkillAdapter" :
  *   TODO: Fill class use.
  **/
-class JobSkillsAdapter internal constructor(
+class HobbySkillAdapter internal constructor(
     context: Context
-) : RecyclerView.Adapter<JobSkillsAdapter.JobSkillsViewHolder>() {
+) : RecyclerView.Adapter<HobbySkillAdapter.HobbySkillsViewHolder>() {
 
-    /** Inflater  **/
+
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
+    /**  Skills list  **/
+    private var hobbySkills = emptyList<DomainSkill>()
 
-    /**  Inner class to display  **/
-    inner class JobSkillsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var tvJobskillname: TextView? = itemView.findViewById(R.id.tv_jobSkillName)
-        var tvJobskillbase: TextView = itemView.findViewById(R.id.tv_jobSkillBase)!!
-        var tvJobskillAddTens: TextView = itemView.findViewById(R.id.tv_jobSkillAddTens)!!
-        var tvJobskillAddUnits: TextView = itemView.findViewById(R.id.tv_jobSkillAddUnits)!!
-        var tvJobskilltotal: TextView = itemView.findViewById(R.id.tv_jobSkillTotal)!!
-
+    inner class HobbySkillsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var tvHobbySkillName: TextView? = itemView.findViewById(R.id.tv_hobbySkillName)
+        var tvHobbySkillBase: TextView? = itemView.findViewById(R.id.tv_hobbySkillBase)
+        var tvHobbySkillAddTens: TextView? = itemView.findViewById(R.id.tv_hobbySkillAddTens)
+        var tvHobbySkillAddUnits: TextView? = itemView.findViewById(R.id.tv_hobbySkillAddUnits)
+        var tvHobbySkillTotal: TextView = itemView.findViewById(R.id.tv_hobbySkillTotal)
 
     }
 
-    /**  Skills list  **/
-    private var jobSkills = emptyList<DomainSkill>()
-
     /**
-     * Called when RecyclerView needs a new [JobSkillsViewHolder] of the given type to represent
+     * Called when RecyclerView needs a new [ViewHolder] of the given type to represent
      * an item.
      *
      *
@@ -60,13 +57,9 @@ class JobSkillsAdapter internal constructor(
      * @see .getItemViewType
      * @see .onBindViewHolder
      */
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): JobSkillsViewHolder {
-        val itemView = layoutInflater.inflate(R.layout.recyclerview_item_jobskill, parent, false)
-        return JobSkillsViewHolder(itemView)
-
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HobbySkillsViewHolder {
+        val itemView = layoutInflater.inflate(R.layout.recyclerview_item_hobbyskill, parent, false)
+        return HobbySkillsViewHolder((itemView))
     }
 
     /**
@@ -75,12 +68,12 @@ class JobSkillsAdapter internal constructor(
      * @return The total number of items in this adapter.
      */
     override fun getItemCount(): Int {
-        return jobSkills.size
+        return hobbySkills.size
     }
 
     /**
      * Called by RecyclerView to display the data at the specified position. This method should
-     * update the contents of the [JobSkillsViewHolder.itemView] to reflect the item at the given
+     * update the contents of the [ViewHolder.itemView] to reflect the item at the given
      * position.
      *
      *
@@ -89,7 +82,7 @@ class JobSkillsAdapter internal constructor(
      * invalidated or the new position cannot be determined. For this reason, you should only
      * use the `position` parameter while acquiring the related data item inside
      * this method and should not keep a copy of it. If you need the position of an item later
-     * on (e.g. in a click listener), use [JobSkillsViewHolder.getAdapterPosition] which will
+     * on (e.g. in a click listener), use [ViewHolder.getAdapterPosition] which will
      * have the updated adapter position.
      *
      * Override [.onBindViewHolder] instead if Adapter can
@@ -99,19 +92,16 @@ class JobSkillsAdapter internal constructor(
      * item at the given position in the data set.
      * @param position The position of the item within the adapter's data set.
      */
-    override fun onBindViewHolder(holder: JobSkillsViewHolder, position: Int) {
-        val current = jobSkills[position]
-
-        holder.tvJobskillAddTens.text = current.skillTensValue.toString()
-        holder.tvJobskillAddUnits.text = current.skillUnitsValue.toString()
-        holder.tvJobskillbase.text = current.skillBase.toString()
-        holder.tvJobskillname?.text = current.skillName.toString()
+    override fun onBindViewHolder(holder: HobbySkillsViewHolder, position: Int) {
+        val current = hobbySkills[position]
+        holder.tvHobbySkillAddTens?.text = current.skillTensValue.toString()
+        holder.tvHobbySkillAddUnits?.text = current.skillUnitsValue.toString()
+        holder.tvHobbySkillBase?.text = current.skillBase.toString()
+        holder.tvHobbySkillName?.text = current.skillName.toString()
     }
 
-
-    fun setJobSkills(skills: List<DomainSkill>) {
-        this.jobSkills = skills
+    fun setHobbySkills(skills: List<DomainSkill>) {
+        this.hobbySkills = skills
         notifyDataSetChanged()
     }
-
 }

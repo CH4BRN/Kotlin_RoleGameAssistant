@@ -19,7 +19,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.hobby.HobbyFragment
 import com.uldskull.rolegameassistant.fragments.fragment.ideals.IdealsFragment
 import com.uldskull.rolegameassistant.fragments.fragment.job.JobFragment
 import com.uldskull.rolegameassistant.fragments.fragment.jobs.JobsFragment
-import com.uldskull.rolegameassistant.fragments.fragment.skills.SkillsRecyclerViewFragment
+import com.uldskull.rolegameassistant.fragments.fragment.jobs.JobsSkillsRecyclerViewFragment
 
 /**
  *   Class "CharacterPagerAdapter" :
@@ -79,7 +79,7 @@ class CharacterPagerAdapter(fm: FragmentManager, val activity: Activity) :
             // 2 -> BackgroundFragment.newInstance(activity, position)
             3 -> AbilitiesRecyclerViewFragment.newInstance(activity, position)
             4 -> HealthFragment.newInstance(activity, position)
-            5 -> SkillsRecyclerViewFragment.newInstance(activity, position)
+            5 -> JobsSkillsRecyclerViewFragment.newInstance(activity, position)
             else -> BasicInfoFragment.newInstance(activity, position)
         }
     }

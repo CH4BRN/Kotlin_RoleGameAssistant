@@ -14,7 +14,6 @@ import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
-import com.uldskull.rolegameassistant.fragments.fragment.skills.SkillsRecyclerViewFragment
 import kotlinx.android.synthetic.main.fragment_jobs.*
 
 /**
@@ -62,7 +61,7 @@ class JobsFragment(activity: Activity) : CustomFragment(activity) {
             fragment.arguments = args
             (activity as NewCharacterActivity).replaceFragment(
                 R.id.container_jobs,
-                SkillsRecyclerViewFragment.newInstance(activity, 43)
+                JobsSkillsRecyclerViewFragment.newInstance(activity, 43)
             )
 
             return fragment

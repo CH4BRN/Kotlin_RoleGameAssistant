@@ -19,6 +19,7 @@ class SkillsViewModel(application: Application) : AndroidViewModel(application) 
     /** Skills to display   **/
     var jobSkills = MutableLiveData<List<DomainSkill>>()
     var hobbiesSkills = MutableLiveData<List<DomainSkill>>()
+    var hobbySkills = MutableLiveData<List<DomainSkill>>()
 
     init {
 
@@ -50,6 +51,33 @@ class SkillsViewModel(application: Application) : AndroidViewModel(application) 
         )
 
         jobSkills.value = listOf(
+            DomainSkill(
+                skillName = "jobSkills",
+                skillBase = 15,
+                skillTensValue = 8,
+                skillUnitsValue = 0
+            ),
+            DomainSkill(
+                skillName = "jobSkillsjobSkills",
+                skillBase = 35,
+                skillTensValue = 9,
+                skillUnitsValue = 0
+            ),
+            DomainSkill(
+                skillName = "jobSkills",
+                skillBase = 15,
+                skillTensValue = 8,
+                skillUnitsValue = 5
+            ),
+            DomainSkill(
+                skillName = "jobSkillsjobSkills",
+                skillBase = 15,
+                skillTensValue = 8,
+                skillUnitsValue = 9
+            )
+        )
+
+        hobbySkills.value = listOf(
             DomainSkill(
                 skillName = "jobSkills",
                 skillBase = 15,
