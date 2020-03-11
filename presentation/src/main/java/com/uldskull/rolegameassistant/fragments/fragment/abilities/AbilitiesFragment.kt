@@ -63,7 +63,7 @@ class AbilitiesFragment(val activity: Activity) : Fragment() {
             fragment.arguments = args
             (activity as NewCharacterActivity).replaceFragment(
                 R.id.container_abilities,
-                AbilitiesRecyclerViewFragment.newInstance(activity, 43)
+                AbilitiesRecyclerViewFragment.newInstance(activity, 42)
             )
 
             return fragment

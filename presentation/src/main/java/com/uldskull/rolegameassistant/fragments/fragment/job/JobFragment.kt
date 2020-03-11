@@ -48,7 +48,7 @@ class JobFragment(activity: Activity) : CustomFragment(activity) {
             fragment.arguments = args
             (activity as NewCharacterActivity).replaceFragment(
                 R.id.container_jobSkills,
-                JobSkillsRecyclerViewFragment.newInstance(activity, 43)
+                JobSkillsRecyclerViewFragment.newInstance(activity, 44)
             )
 
             return fragment

@@ -55,7 +55,7 @@ class HobbiesSkillsRecyclerViewFragment(activity: Activity) :
 
     }
 
-    override fun setAdapter() {
+    override fun setRecyclerViewAdapter() {
         skillsAdapter =
             SkillsAdapter(
                 activity as Context

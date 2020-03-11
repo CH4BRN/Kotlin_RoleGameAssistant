@@ -74,7 +74,7 @@ class IdealsFragment(val activity: Activity) : Fragment() {
             fragment.arguments = args
             (activity as NewCharacterActivity).replaceFragment(
                 R.id.container_ideals,
-                IdealsRecyclerViewFragment.newInstance(activity, 43)
+                IdealsRecyclerViewFragment.newInstance(activity, 41)
             )
 
             return fragment

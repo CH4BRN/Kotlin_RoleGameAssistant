@@ -39,7 +39,7 @@ class HobbiesFragment(activity: Activity) : CustomFragment(activity) {
             fragment.arguments = args
             (activity as NewCharacterActivity).replaceFragment(
                 R.id.container_hobbiesSkills,
-                HobbiesSkillsRecyclerViewFragment.newInstance(activity, 44)
+                HobbiesSkillsRecyclerViewFragment.newInstance(activity, 45)
             )
 
 

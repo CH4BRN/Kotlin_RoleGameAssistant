@@ -55,7 +55,7 @@ class BondsFragment(val activity: Activity) : Fragment() {
             fragment.arguments = args
             (activity as NewCharacterActivity).replaceFragment(
                 R.id.container_bonds,
-                BondsRecyclerViewFragment.newInstance(activity, 43)
+                BondsRecyclerViewFragment.newInstance(activity, 40)
             )
 
             return fragment
