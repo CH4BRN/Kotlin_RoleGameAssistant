@@ -16,6 +16,7 @@ import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NEW_RACE_ACTIVITY
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
+import com.uldskull.rolegameassistant.fragments.adapter.BASIC_INFO_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import kotlinx.android.synthetic.main.fragment_basic_info.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -54,12 +55,10 @@ class BasicInfoFragment(val activity: Activity) : Fragment() {
     /** Fragment Lifecycle  **/
     override fun onResume() {
         super.onResume()
-        Log.i("BasicInfoFragment_1",NewCharacterActivity.progression.value?.compareTo(0).toString())
-        when(NewCharacterActivity.progression.value?.compareTo(0)){
-            null -> NewCharacterActivity.progression.value = 0
-            1 -> NewCharacterActivity.progression.value =0
-        }
-        Log.i("BasicInfoFragment_2",NewCharacterActivity.progression.value?.compareTo(0).toString())
+        Log.i("BasicInfoFragment_1",NewCharacterActivity.progression.value.toString())
+        NewCharacterActivity.progression.value = BASIC_INFO_FRAGMENT_POSITION
+        Log.i("BasicInfoFragment_2",NewCharacterActivity.progression.value.toString())
+
     }
 
 

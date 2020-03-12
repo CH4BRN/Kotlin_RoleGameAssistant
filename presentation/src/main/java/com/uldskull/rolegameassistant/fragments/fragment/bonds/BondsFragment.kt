@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
+import com.uldskull.rolegameassistant.fragments.adapter.BONDS_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 
 /**
@@ -32,15 +33,9 @@ class BondsFragment(val activity: Activity) : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Log.i("BondsFragment_1",NewCharacterActivity.progression.value?.compareTo(1).toString())
-        when(NewCharacterActivity.progression.value?.compareTo(1)){
-            null -> NewCharacterActivity.progression.value = 0
-            0 -> NewCharacterActivity.progression.value = 1
-            -1 -> NewCharacterActivity.progression.value = 1
-            1 -> NewCharacterActivity.progression.value = 0
-        }
-        Log.i("BondsFragment_2",NewCharacterActivity.progression.value?.compareTo(1).toString())
-
+        Log.i("BondsFragment_1",NewCharacterActivity.progression.value.toString())
+        NewCharacterActivity.progression.value = BONDS_FRAGMENT_POSITION
+        Log.i("BondsFragment_2",NewCharacterActivity.progression.value.toString())
     }
 
     private fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {

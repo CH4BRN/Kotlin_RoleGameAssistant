@@ -6,6 +6,7 @@ package com.uldskull.rolegameassistant.fragments.fragment.jobs
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.activities.NewSkillActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
+import com.uldskull.rolegameassistant.fragments.adapter.JOBS_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import kotlinx.android.synthetic.main.fragment_jobs.*
@@ -41,6 +43,16 @@ class JobsFragment(activity: Activity) : CustomFragment(activity) {
         spinner_jobs?.adapter = arrayAdapter
 
 
+    }
+
+    /**
+     * Called when the focus return on this view
+     */
+    override fun onResume() {
+        super.onResume()
+        Log.i("JobsFragment_1",NewCharacterActivity.progression.value.toString())
+        NewCharacterActivity.progression.value = JOBS_FRAGMENT_POSITION
+        Log.i("JobsFragment_2",NewCharacterActivity.progression.value.toString())
     }
 
     private var listOfJobs = arrayOf("Job1", "Job2", "Job3")

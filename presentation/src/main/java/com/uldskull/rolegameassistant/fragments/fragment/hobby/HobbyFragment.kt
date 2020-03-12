@@ -6,6 +6,7 @@ package com.uldskull.rolegameassistant.fragments.fragment.hobby
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.activities.NewSkillActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
+import com.uldskull.rolegameassistant.fragments.adapter.HOBBIES_2_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 
@@ -41,6 +43,16 @@ class HobbyFragment (activity: Activity) : CustomFragment(activity) {
 
         }
 
+    }
+
+    /**
+     * Called when the focus return on this view
+     */
+    override fun onResume() {
+        super.onResume()
+        Log.i("HobbyFragment_1",NewCharacterActivity.progression.value.toString())
+        NewCharacterActivity.progression.value = HOBBIES_2_FRAGMENT_POSITION
+        Log.i("HobbyFragment_2",NewCharacterActivity.progression.value.toString())
     }
 
     companion object{

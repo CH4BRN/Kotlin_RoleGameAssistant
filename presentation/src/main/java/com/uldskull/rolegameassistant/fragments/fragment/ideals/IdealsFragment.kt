@@ -15,6 +15,7 @@ import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NEW_IDEAL_ACTIVITY
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
+import com.uldskull.rolegameassistant.fragments.adapter.IDEALS_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import kotlinx.android.synthetic.main.fragment_ideals.*
 
@@ -51,16 +52,9 @@ class IdealsFragment(val activity: Activity) : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Log.i("IdealsFragment_1",NewCharacterActivity.progression.value?.compareTo(2).toString())
-        when(NewCharacterActivity.progression.value?.compareTo(2)){
-            null -> NewCharacterActivity.progression.value = 0
-            0 -> NewCharacterActivity.progression.value = 2
-            -1 -> NewCharacterActivity.progression.value = 2
-            1 -> NewCharacterActivity.progression.value = 2
-
-        }
-        Log.i("IdealsFragment_2",NewCharacterActivity.progression.value?.compareTo(2).toString())
-
+        Log.i("IdealsFragment_1",NewCharacterActivity.progression.value.toString())
+        NewCharacterActivity.progression.value = IDEALS_FRAGMENT_POSITION
+        Log.i("IdealsFragment_2",NewCharacterActivity.progression.value.toString())
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

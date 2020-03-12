@@ -5,12 +5,14 @@ package com.uldskull.rolegameassistant.fragments.fragment.derivedValues
 
 import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
+import com.uldskull.rolegameassistant.fragments.adapter.DERIVED_VALUES_2_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 
 /**
@@ -34,9 +36,10 @@ class DerivedValues2Fragment(val activity: Activity) : Fragment() {
      */
     override fun onResume() {
         super.onResume()
-        NewCharacterActivity.progression.value = 4
+        Log.i("DerivedValues2Fragment_1",NewCharacterActivity.progression.value.toString())
+        NewCharacterActivity.progression.value = DERIVED_VALUES_2_FRAGMENT_POSITION
+        Log.i("DerivedValues2Fragment_2",NewCharacterActivity.progression.value.toString())
     }
-
     fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = layoutInflater.inflate(
             R.layout.fragment_derived_values_2, container, false
