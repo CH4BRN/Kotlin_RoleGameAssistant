@@ -13,7 +13,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -57,11 +56,6 @@ class AbilitiesRecyclerViewFragment(activity: Activity) :
         return initialRootView
     }
 
-    /** Fragment life-cycle **/
-    override fun onResume() {
-        super.onResume()
-        NewCharacterActivity.progression.value = 2
-    }
 
     /** Fragment life-cycle **/
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
