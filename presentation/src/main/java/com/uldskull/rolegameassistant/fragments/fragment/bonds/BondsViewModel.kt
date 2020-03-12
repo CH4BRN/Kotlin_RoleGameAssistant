@@ -16,6 +16,7 @@ class BondsViewModel(application: Application) : AndroidViewModel(application) {
     var bonds = MutableLiveData<List<String>>()
 
     init {
+
         bonds.value = listOf(
             "Bond 1",
             "Bond 2",
@@ -23,5 +24,7 @@ class BondsViewModel(application: Application) : AndroidViewModel(application) {
             "Bond 4",
             "Bond 5"
         )
+
+
     }
 }

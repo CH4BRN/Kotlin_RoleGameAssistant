@@ -33,9 +33,11 @@ class BondsFragment(val activity: Activity) : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Log.i("BondsFragment_1",NewCharacterActivity.progression.value.toString())
+
+        Log.i("BondsFragment_1", NewCharacterActivity.progression.value.toString())
         NewCharacterActivity.progression.value = BONDS_FRAGMENT_POSITION
-        Log.i("BondsFragment_2",NewCharacterActivity.progression.value.toString())
+        Log.i("BondsFragment_2", NewCharacterActivity.progression.value.toString())
+
     }
 
     private fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {

@@ -24,9 +24,9 @@
         android:id="@+id/container_hobbyPoints"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@android:color/holo_orange_light"
+
         android:orientation="horizontal"
-        android:padding="8dp"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/container_hobbySkills">
@@ -75,7 +75,7 @@
         android:id="@+id/tv_selectedSkill"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
+
         android:text="Skill : SampleSkill"
         app:layout_constraintTop_toBottomOf="@id/btn_hobby_add_skill" />
 

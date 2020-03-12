@@ -8,9 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.uldskull.rolegameassistant.fragments.fragment.BasicInfoFragment
-import com.uldskull.rolegameassistant.fragments.fragment.HealthFragment
 import com.uldskull.rolegameassistant.fragments.fragment.abilities.AbilitiesFragment
-import com.uldskull.rolegameassistant.fragments.fragment.abilities.AbilitiesRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.bonds.BondsFragment
 import com.uldskull.rolegameassistant.fragments.fragment.derivedValues.DerivedValues1Fragment
 import com.uldskull.rolegameassistant.fragments.fragment.derivedValues.DerivedValues2Fragment
@@ -19,7 +17,6 @@ import com.uldskull.rolegameassistant.fragments.fragment.hobby.HobbyFragment
 import com.uldskull.rolegameassistant.fragments.fragment.ideals.IdealsFragment
 import com.uldskull.rolegameassistant.fragments.fragment.job.JobFragment
 import com.uldskull.rolegameassistant.fragments.fragment.jobs.JobsFragment
-import com.uldskull.rolegameassistant.fragments.fragment.jobs.JobsSkillsRecyclerViewFragment
 
 /**
  *   Class "CharacterPagerAdapter" :
@@ -74,12 +71,6 @@ class CharacterPagerAdapter(fm: FragmentManager, val activity: Activity) :
                 activity,
                 position
             )
-
-            // 1 -> CharacteristicsFragment.newInstance(activity, position)
-            // 2 -> BackgroundFragment.newInstance(activity, position)
-            3 -> AbilitiesRecyclerViewFragment.newInstance(activity, position)
-            4 -> HealthFragment.newInstance(activity, position)
-            5 -> JobsSkillsRecyclerViewFragment.newInstance(activity, position)
             else -> BasicInfoFragment.newInstance(activity, position)
         }
     }

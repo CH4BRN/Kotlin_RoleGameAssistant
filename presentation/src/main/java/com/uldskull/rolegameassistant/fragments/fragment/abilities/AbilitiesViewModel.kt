@@ -79,5 +79,6 @@ class AbilitiesViewModel(application: Application) : AndroidViewModel(applicatio
                 abilityScoreTotal = 6
             )
         )
+
     }
 }

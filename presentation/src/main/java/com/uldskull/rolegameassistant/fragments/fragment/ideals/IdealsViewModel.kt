@@ -19,6 +19,7 @@ class IdealsViewModel(application: Application) : AndroidViewModel(application) 
 
 
     init {
+
         ideals.value = listOf(
             DomainIdeal(
                 value = application.getString(R.string.lorem_ipsum_short),
@@ -32,5 +33,7 @@ class IdealsViewModel(application: Application) : AndroidViewModel(application) 
             )
 
         )
+
+
     }
 }
