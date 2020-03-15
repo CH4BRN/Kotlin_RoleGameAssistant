@@ -13,15 +13,16 @@ import androidx.fragment.app.Fragment
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.fragments.adapter.DERIVED_VALUES_2_FRAGMENT_POSITION
+import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
+import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 
 /**
  *   Class "DerivedValues2Fragment" :
  *   TODO("COMMENT")
  **/
-class DerivedValues2Fragment(val activity: Activity) : Fragment() {
+class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
 
-    private lateinit var initialRootView: View
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,20 +37,21 @@ class DerivedValues2Fragment(val activity: Activity) : Fragment() {
      */
     override fun onResume() {
         super.onResume()
-        Log.i("DerivedValues2Fragment_1",NewCharacterActivity.progression.value.toString())
+        Log.i("DerivedValues2Fragment_1", NewCharacterActivity.progression.value.toString())
         NewCharacterActivity.progression.value = DERIVED_VALUES_2_FRAGMENT_POSITION
-        Log.i("DerivedValues2Fragment_2",NewCharacterActivity.progression.value.toString())
+        Log.i("DerivedValues2Fragment_2", NewCharacterActivity.progression.value.toString())
     }
-    fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
+
+    override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = layoutInflater.inflate(
             R.layout.fragment_derived_values_2, container, false
         )
         return initialRootView
     }
 
-    companion object {
+    companion object : CustomCompanion() {
         @JvmStatic
-        fun newInstance(activity: Activity, position: Int): DerivedValues2Fragment {
+        override fun newInstance(activity: Activity, position: Int): DerivedValues2Fragment {
 
             val fragment =
                 DerivedValues2Fragment(

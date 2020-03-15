@@ -16,16 +16,19 @@ import com.uldskull.rolegameassistant.activities.NEW_IDEAL_ACTIVITY
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
 import com.uldskull.rolegameassistant.fragments.adapter.IDEALS_FRAGMENT_POSITION
+import com.uldskull.rolegameassistant.fragments.adapter.IDEAL_RECYCLER_VIEW_FRAGMENT_POSITION
+import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
+import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
+import com.uldskull.rolegameassistant.fragments.fragment.REQUEST_CODE_IDEALS_NEW_IDEAL
 import kotlinx.android.synthetic.main.fragment_ideals.*
 
 /**
  *   Class "IdealsFragment" :
  *   Fragment to manage "Ideals" view.
  **/
-class IdealsFragment(val activity: Activity) : Fragment() {
-    /** Initial root view   **/
-    private lateinit var initialRootView: View
+class IdealsFragment(activity: Activity) : CustomFragment(activity) {
+
 
     /**
      * Called when the view is created
@@ -41,7 +44,7 @@ class IdealsFragment(val activity: Activity) : Fragment() {
     /**
      * Initialize the view
      */
-    private fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
+    override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = layoutInflater.inflate(
             R.layout.fragment_ideals, container, false
         )
@@ -49,25 +52,25 @@ class IdealsFragment(val activity: Activity) : Fragment() {
     }
 
 
-
     override fun onResume() {
         super.onResume()
-        Log.i("IdealsFragment_1",NewCharacterActivity.progression.value.toString())
+        Log.i("IdealsFragment_1", NewCharacterActivity.progression.value.toString())
         NewCharacterActivity.progression.value = IDEALS_FRAGMENT_POSITION
-        Log.i("IdealsFragment_2",NewCharacterActivity.progression.value.toString())
+        Log.i("IdealsFragment_2", NewCharacterActivity.progression.value.toString())
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         btn_addIdeal.setOnClickListener {
 
             val intent = Intent(activity, NEW_IDEAL_ACTIVITY)
-            startActivityForResult(intent, 44)
+            startActivityForResult(intent, REQUEST_CODE_IDEALS_NEW_IDEAL)
         }
     }
 
-    companion object {
+    companion object : CustomCompanion() {
         @JvmStatic
-        fun newInstance(activity: Activity, position: Int): IdealsFragment {
+        override fun newInstance(activity: Activity, position: Int): IdealsFragment {
             val fragment =
                 IdealsFragment(
                     activity
@@ -78,7 +81,10 @@ class IdealsFragment(val activity: Activity) : Fragment() {
             fragment.arguments = args
             (activity as NewCharacterActivity).replaceFragment(
                 R.id.container_ideals,
-                IdealsRecyclerViewFragment.newInstance(activity, 41)
+                IdealsRecyclerViewFragment.newInstance(
+                    activity,
+                    IDEAL_RECYCLER_VIEW_FRAGMENT_POSITION
+                )
             )
 
             return fragment

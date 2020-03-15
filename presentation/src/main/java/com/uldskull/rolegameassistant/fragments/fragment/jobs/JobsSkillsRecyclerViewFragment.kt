@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NewSkillActivity
+import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.skills.JobsSkillsAdapter
@@ -103,7 +104,7 @@ class JobsSkillsRecyclerViewFragment(activity: Activity) : CustomRecyclerViewFra
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var btnAddSkills = view.findViewById<ImageButton>(R.id.btn_jobs_addSkill)
-        btnAddSkills.setOnClickListener{
+        btnAddSkills.setOnClickListener {
             val intent = Intent(activity, NewSkillActivity::class.java)
             startActivity(intent)
 
@@ -111,10 +112,13 @@ class JobsSkillsRecyclerViewFragment(activity: Activity) : CustomRecyclerViewFra
     }
 
 
-    companion object {
+    companion object : CustomCompanion() {
 
         @JvmStatic
-        fun newInstance(activity: Activity, position: Int): JobsSkillsRecyclerViewFragment {
+        override fun newInstance(
+            activity: Activity,
+            position: Int
+        ): JobsSkillsRecyclerViewFragment {
             val fragment =
                 JobsSkillsRecyclerViewFragment(activity)
             val args = Bundle()

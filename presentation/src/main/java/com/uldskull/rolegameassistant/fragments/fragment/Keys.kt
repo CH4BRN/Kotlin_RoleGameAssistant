@@ -5,3 +5,4 @@
 package com.uldskull.rolegameassistant.fragments.fragment
 
 const val KEY_POSITION = "position"
+

@@ -27,7 +27,7 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  *   Class "PictureFragment" :
  *   Handle character's picture
  **/
-class PictureFragment(val context: Activity) : Fragment() {
+class PictureFragment(val context: Activity) : CustomFragment(context) {
 
 
     /** View model for new character    **/
@@ -155,7 +155,7 @@ class PictureFragment(val context: Activity) : Fragment() {
 
 
     /** Initialize the view corresponding to this fragment class    **/
-    private fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
+    override fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = inflater.inflate(
             R.layout.fragment_picture, container, false
         )
@@ -178,13 +178,10 @@ class PictureFragment(val context: Activity) : Fragment() {
         }
     }
 
-    /** Initial root view.  **/
-    private lateinit var initialRootView: View
-
-    companion object {
+    companion object : CustomCompanion() {
 
         @JvmStatic
-        fun newInstance(activity: NewCharacterActivity, position: Int): PictureFragment {
+        override fun newInstance(activity: Activity, position: Int): PictureFragment {
             val fragment =
                 PictureFragment(activity)
             val args = Bundle()
@@ -194,14 +191,5 @@ class PictureFragment(val context: Activity) : Fragment() {
 
             return fragment
         }
-
-        /** Key position code   **/
-        private const val KEY_POSITION = "position"
-        private const val REQUEST_CODE_GALLERY = 1
-        private const val REQUEST_CODE_CAMERA = 2
-
-        /** Request code for image selection    **/
-        private const val REQUEST_CODE_SELECT_IMAGE_IN_ALBUM = 0
     }
-
 }

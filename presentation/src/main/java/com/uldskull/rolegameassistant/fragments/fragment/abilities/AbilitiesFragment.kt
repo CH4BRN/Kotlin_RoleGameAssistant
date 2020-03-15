@@ -14,18 +14,16 @@ import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
 import com.uldskull.rolegameassistant.fragments.adapter.ABILITIES_FRAGMENT_POSITION
+import com.uldskull.rolegameassistant.fragments.adapter.ABILITIES_RECYCLER_VIEW_FRAGMENT_POSITION
+import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
+import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 
 /**
  *   Class "AbilitiesFragment" :
  *   TODO: Fill class use.
  **/
-class AbilitiesFragment(val activity: Activity) : Fragment() {
-
-    /** Initial root view   **/
-    private lateinit var initialRootView: View
-
-
+class AbilitiesFragment(activity: Activity) : CustomFragment(activity) {
     /**
      * Called when the view is created
      */
@@ -40,7 +38,7 @@ class AbilitiesFragment(val activity: Activity) : Fragment() {
     /**
      * Initialize the view
      */
-    private fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
+    override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = layoutInflater.inflate(
             R.layout.fragment_abilities, container, false
         )
@@ -53,9 +51,9 @@ class AbilitiesFragment(val activity: Activity) : Fragment() {
         Log.i("AbilitiesFragment_2",NewCharacterActivity.progression.value.toString())
     }
 
-    companion object {
+    companion object : CustomCompanion(){
         @JvmStatic
-        fun newInstance(activity: Activity, position: Int): AbilitiesFragment {
+       override fun newInstance(activity: Activity, position: Int): AbilitiesFragment {
             val fragment =
                 AbilitiesFragment(
                     activity
@@ -66,7 +64,7 @@ class AbilitiesFragment(val activity: Activity) : Fragment() {
             fragment.arguments = args
             (activity as NewCharacterActivity).replaceFragment(
                 R.id.container_abilities,
-                AbilitiesRecyclerViewFragment.newInstance(activity, 42)
+                AbilitiesRecyclerViewFragment.newInstance(activity, ABILITIES_RECYCLER_VIEW_FRAGMENT_POSITION)
             )
 
             return fragment

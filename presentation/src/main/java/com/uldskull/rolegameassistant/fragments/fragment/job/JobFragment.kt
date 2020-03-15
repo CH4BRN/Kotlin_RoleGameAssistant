@@ -17,6 +17,8 @@ import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.activities.NewSkillActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
 import com.uldskull.rolegameassistant.fragments.adapter.JOB_FRAGMENT_POSITION
+import com.uldskull.rolegameassistant.fragments.adapter.JOB_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION
+import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 
@@ -66,14 +68,14 @@ class JobFragment(activity: Activity) : CustomFragment(activity) {
      */
     override fun onResume() {
         super.onResume()
-        Log.i("JobFragment_1",NewCharacterActivity.progression.value.toString())
+        Log.i("JobFragment_1", NewCharacterActivity.progression.value.toString())
         NewCharacterActivity.progression.value = JOB_FRAGMENT_POSITION
-        Log.i("JobFragment_2",NewCharacterActivity.progression.value.toString())
+        Log.i("JobFragment_2", NewCharacterActivity.progression.value.toString())
     }
 
-    companion object {
+    companion object : CustomCompanion() {
         @JvmStatic
-        fun newInstance(activity: Activity, position: Int): JobFragment {
+        override fun newInstance(activity: Activity, position: Int): JobFragment {
             val fragment =
                 JobFragment(
                     activity
@@ -84,12 +86,13 @@ class JobFragment(activity: Activity) : CustomFragment(activity) {
             fragment.arguments = args
             (activity as NewCharacterActivity).replaceFragment(
                 R.id.container_jobSkills,
-                JobSkillsRecyclerViewFragment.newInstance(activity, 44)
+                JobSkillsRecyclerViewFragment.newInstance(
+                    activity,
+                    JOB_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION
+                )
             )
 
             return fragment
         }
     }
-
-// TODO : Fill class.
 }

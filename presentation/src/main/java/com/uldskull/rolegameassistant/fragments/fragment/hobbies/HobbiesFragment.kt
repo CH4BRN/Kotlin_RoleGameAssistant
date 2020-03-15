@@ -12,6 +12,8 @@ import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
 import com.uldskull.rolegameassistant.fragments.adapter.HOBBIES_FRAGMENT_POSITION
+import com.uldskull.rolegameassistant.fragments.adapter.HOBBIES_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION
+import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 
@@ -33,14 +35,14 @@ class HobbiesFragment(activity: Activity) : CustomFragment(activity) {
      */
     override fun onResume() {
         super.onResume()
-        Log.i("HobbiesFragment_1",NewCharacterActivity.progression.value.toString())
+        Log.i("HobbiesFragment_1", NewCharacterActivity.progression.value.toString())
         NewCharacterActivity.progression.value = HOBBIES_FRAGMENT_POSITION
-        Log.i("HobbiesFragment_2",NewCharacterActivity.progression.value.toString())
+        Log.i("HobbiesFragment_2", NewCharacterActivity.progression.value.toString())
     }
 
-    companion object {
+    companion object : CustomCompanion() {
         @JvmStatic
-        fun newInstance(activity: Activity, position: Int): HobbiesFragment {
+        override fun newInstance(activity: Activity, position: Int): HobbiesFragment {
             val fragment =
                 HobbiesFragment(
                     activity
@@ -51,7 +53,10 @@ class HobbiesFragment(activity: Activity) : CustomFragment(activity) {
             fragment.arguments = args
             (activity as NewCharacterActivity).replaceFragment(
                 R.id.container_hobbiesSkills,
-                HobbiesSkillsRecyclerViewFragment.newInstance(activity, 45)
+                HobbiesSkillsRecyclerViewFragment.newInstance(
+                    activity,
+                    HOBBIES_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION
+                )
             )
 
 

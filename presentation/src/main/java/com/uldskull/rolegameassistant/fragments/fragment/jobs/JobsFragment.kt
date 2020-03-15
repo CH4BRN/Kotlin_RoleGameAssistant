@@ -17,6 +17,8 @@ import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.activities.NewSkillActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
 import com.uldskull.rolegameassistant.fragments.adapter.JOBS_FRAGMENT_POSITION
+import com.uldskull.rolegameassistant.fragments.adapter.JOBS_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION
+import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import kotlinx.android.synthetic.main.fragment_jobs.*
@@ -50,9 +52,9 @@ class JobsFragment(activity: Activity) : CustomFragment(activity) {
      */
     override fun onResume() {
         super.onResume()
-        Log.i("JobsFragment_1",NewCharacterActivity.progression.value.toString())
+        Log.i("JobsFragment_1", NewCharacterActivity.progression.value.toString())
         NewCharacterActivity.progression.value = JOBS_FRAGMENT_POSITION
-        Log.i("JobsFragment_2",NewCharacterActivity.progression.value.toString())
+        Log.i("JobsFragment_2", NewCharacterActivity.progression.value.toString())
     }
 
     private var listOfJobs = arrayOf("Job1", "Job2", "Job3")
@@ -65,9 +67,9 @@ class JobsFragment(activity: Activity) : CustomFragment(activity) {
         return initializeView(inflater, container)
     }
 
-    companion object {
+    companion object : CustomCompanion() {
         @JvmStatic
-        fun newInstance(activity: Activity, position: Int): JobsFragment {
+        override fun newInstance(activity: Activity, position: Int): JobsFragment {
             val fragment =
                 JobsFragment(
                     activity
@@ -78,7 +80,10 @@ class JobsFragment(activity: Activity) : CustomFragment(activity) {
             fragment.arguments = args
             (activity as NewCharacterActivity).replaceFragment(
                 R.id.container_jobs,
-                JobsSkillsRecyclerViewFragment.newInstance(activity, 43)
+                JobsSkillsRecyclerViewFragment.newInstance(
+                    activity,
+                    JOBS_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION
+                )
             )
 
             return fragment

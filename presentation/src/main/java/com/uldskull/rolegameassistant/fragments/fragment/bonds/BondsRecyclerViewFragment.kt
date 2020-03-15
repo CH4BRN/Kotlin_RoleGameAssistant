@@ -13,7 +13,9 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
+import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**
@@ -35,7 +37,6 @@ class BondsRecyclerViewFragment(activity: Activity) :
         super.onCreate(savedInstanceState)
         bondsViewModel = getViewModel()
     }
-
 
 
     override fun onCreateView(
@@ -89,10 +90,10 @@ class BondsRecyclerViewFragment(activity: Activity) :
     }
 
 
-    companion object {
+    companion object : CustomCompanion() {
 
         @JvmStatic
-        fun newInstance(activity: Activity, position: Int): BondsRecyclerViewFragment {
+        override fun newInstance(activity: Activity, position: Int): BondsRecyclerViewFragment {
             val fragment = BondsRecyclerViewFragment(activity)
             val args = Bundle()
 
@@ -102,7 +103,7 @@ class BondsRecyclerViewFragment(activity: Activity) :
             return fragment
         }
 
-        private const val KEY_POSITION = "position"
+
     }
-// TODO : Fill class.
+
 }

@@ -13,7 +13,9 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
+import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**
@@ -98,12 +100,9 @@ class AbilitiesRecyclerViewFragment(activity: Activity) :
         )
     }
 
-
-    companion object {
-
-
+    companion object : CustomCompanion(){
         @JvmStatic
-        fun newInstance(activity: Activity, position: Int): AbilitiesRecyclerViewFragment {
+        override fun newInstance(activity: Activity, position: Int): AbilitiesRecyclerViewFragment {
             val fragment = AbilitiesRecyclerViewFragment(activity)
             val args = Bundle()
 
@@ -111,11 +110,6 @@ class AbilitiesRecyclerViewFragment(activity: Activity) :
             fragment.arguments = args
 
             return fragment
-
         }
-
-        private const val KEY_POSITION = "position"
-
-
     }
 }

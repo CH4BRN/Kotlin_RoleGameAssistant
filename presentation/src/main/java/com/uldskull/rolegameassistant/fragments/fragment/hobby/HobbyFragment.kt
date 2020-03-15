@@ -17,6 +17,8 @@ import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.activities.NewSkillActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
 import com.uldskull.rolegameassistant.fragments.adapter.HOBBIES_2_FRAGMENT_POSITION
+import com.uldskull.rolegameassistant.fragments.adapter.HOBBY_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION
+import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 
@@ -24,7 +26,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
  *   Class "HobbyFragment" :
  *   TODO: Fill class use.
  **/
-class HobbyFragment (activity: Activity) : CustomFragment(activity) {
+class HobbyFragment(activity: Activity) : CustomFragment(activity) {
     /**
      * Initialize the initial root view.
      */
@@ -51,14 +53,14 @@ class HobbyFragment (activity: Activity) : CustomFragment(activity) {
      */
     override fun onResume() {
         super.onResume()
-        Log.i("HobbyFragment_1",NewCharacterActivity.progression.value.toString())
+        Log.i("HobbyFragment_1", NewCharacterActivity.progression.value.toString())
         NewCharacterActivity.progression.value = HOBBIES_2_FRAGMENT_POSITION
-        Log.i("HobbyFragment_2",NewCharacterActivity.progression.value.toString())
+        Log.i("HobbyFragment_2", NewCharacterActivity.progression.value.toString())
     }
 
-    companion object{
+    companion object : CustomCompanion() {
         @JvmStatic
-        fun newInstance(activity: Activity, position:Int) : HobbyFragment{
+        override fun newInstance(activity: Activity, position: Int): HobbyFragment {
             val fragment =
                 HobbyFragment(
                     activity
@@ -71,7 +73,10 @@ class HobbyFragment (activity: Activity) : CustomFragment(activity) {
             fragment.arguments = args
             (activity as NewCharacterActivity).replaceFragment(
                 R.id.container_hobbySkills,
-                HobbySkillsRecyclerViewFragment.newInstance(activity, 46)
+                HobbySkillsRecyclerViewFragment.newInstance(
+                    activity,
+                    HOBBY_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION
+                )
             )
 
             return fragment

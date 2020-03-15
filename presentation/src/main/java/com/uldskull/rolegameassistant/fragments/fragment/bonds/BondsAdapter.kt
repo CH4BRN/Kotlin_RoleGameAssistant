@@ -80,9 +80,9 @@ class BondsAdapter internal constructor(
         holder.bondDeleteItemView.setOnClickListener {
 
             Log.i("ADAPTER", bonds[position])
-
             setBonds(bonds.minus(bonds[position]))
             Log.i("ADAPTER", bonds.size.toString())
+
         }
     }
 

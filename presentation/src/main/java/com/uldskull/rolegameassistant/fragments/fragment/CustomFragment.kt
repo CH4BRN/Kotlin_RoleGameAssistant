@@ -34,9 +34,10 @@ abstract class CustomFragment(val activity: Activity) : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.i(javaClass.simpleName.capitalize(), "onCreate")
+        Log.i(javaClass.simpleName.capitalize(), ONCREATE)
     }
 
+    private val ONCREATE = "OnCreate"
 
     /**
      * Initialize the initial root view.

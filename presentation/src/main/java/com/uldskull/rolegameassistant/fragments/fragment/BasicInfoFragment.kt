@@ -18,6 +18,7 @@ import com.uldskull.rolegameassistant.activities.NEW_RACE_ACTIVITY
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
 import com.uldskull.rolegameassistant.fragments.adapter.BASIC_INFO_FRAGMENT_POSITION
+import com.uldskull.rolegameassistant.fragments.adapter.PICTURE_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import kotlinx.android.synthetic.main.fragment_basic_info.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -26,7 +27,7 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  *   Class "BasicInfoFragment" :
  *   Fragment to fill information concerning basic info.
  **/
-class BasicInfoFragment(val activity: Activity) : Fragment() {
+class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
 
 
     /** Fragment Lifecycle  **/
@@ -46,7 +47,7 @@ class BasicInfoFragment(val activity: Activity) : Fragment() {
     private lateinit var newCharacterViewModel: NewCharacterViewModel
     private var btnAddRace: ImageButton? = null
     /** Initialize the view corresponding to this fragment class    **/
-    private fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
+    override fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = inflater.inflate(
             R.layout.fragment_basic_info, container, false
         )
@@ -70,7 +71,7 @@ class BasicInfoFragment(val activity: Activity) : Fragment() {
 
         btnAddRace?.setOnClickListener {
             val intent = Intent(activity, NEW_RACE_ACTIVITY)
-            startActivityForResult(intent, 45)
+            startActivityForResult(intent, REQUEST_CODE_BASIC_INFO_NEW_RACE)
         }
         setFocusListeners()
     }
@@ -89,17 +90,13 @@ class BasicInfoFragment(val activity: Activity) : Fragment() {
         }
     }
 
-    /**
-     * Initial root view
-     */
-    private lateinit var initialRootView: View
 
-    companion object {
+    companion object : CustomCompanion(){
         /**
          * Get a new instance of class BasicInfoFragment
          */
         @JvmStatic
-        fun newInstance(activity: Activity, position: Int): BasicInfoFragment {
+        override fun newInstance(activity: Activity, position: Int): BasicInfoFragment {
             val fragment =
                 BasicInfoFragment(activity)
             val args = Bundle()
@@ -109,11 +106,9 @@ class BasicInfoFragment(val activity: Activity) : Fragment() {
 
             (activity as NewCharacterActivity).replaceFragment(
                 R.id.container_picture,
-                PictureFragment.newInstance(activity, 42)
+                PictureFragment.newInstance(activity, PICTURE_FRAGMENT_POSITION)
             )
             return fragment
         }
-
-
     }
 }

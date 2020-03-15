@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.skills.JobsSkillsAdapter
 import com.uldskull.rolegameassistant.fragments.fragment.skills.SkillsViewModel
@@ -79,9 +80,12 @@ class HobbiesSkillsRecyclerViewFragment(activity: Activity) :
         return initialRootView
     }
 
-    companion object {
+    companion object : CustomCompanion() {
         @JvmStatic
-        fun newInstance(activity: Activity, position: Int): HobbiesSkillsRecyclerViewFragment {
+        override fun newInstance(
+            activity: Activity,
+            position: Int
+        ): HobbiesSkillsRecyclerViewFragment {
 
             return HobbiesSkillsRecyclerViewFragment(
                 activity

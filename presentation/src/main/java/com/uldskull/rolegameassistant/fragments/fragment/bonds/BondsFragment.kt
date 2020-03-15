@@ -14,15 +14,16 @@ import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
 import com.uldskull.rolegameassistant.fragments.adapter.BONDS_FRAGMENT_POSITION
+import com.uldskull.rolegameassistant.fragments.adapter.BONDS_RECYCLER_VIEW_FRAGMENT_POSITION
+import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
+import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 
 /**
  *   Class "BondFragment" :
  *   TODO: Fill class use.
  **/
-class BondsFragment(val activity: Activity) : Fragment() {
-    private lateinit var initialRootView: View
-
+class BondsFragment(activity: Activity) : CustomFragment(activity) {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,16 +41,16 @@ class BondsFragment(val activity: Activity) : Fragment() {
 
     }
 
-    private fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
+    override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = layoutInflater.inflate(
             R.layout.fragment_bonds, container, false
         )
         return initialRootView
     }
 
-    companion object {
+    companion object: CustomCompanion() {
         @JvmStatic
-        fun newInstance(activity: Activity, position: Int): BondsFragment {
+       override fun newInstance(activity: Activity, position: Int): BondsFragment {
             val fragment =
                 BondsFragment(
                     activity
@@ -61,7 +62,7 @@ class BondsFragment(val activity: Activity) : Fragment() {
             fragment.arguments = args
             (activity as NewCharacterActivity).replaceFragment(
                 R.id.container_bonds,
-                BondsRecyclerViewFragment.newInstance(activity, 40)
+                BondsRecyclerViewFragment.newInstance(activity, BONDS_RECYCLER_VIEW_FRAGMENT_POSITION)
             )
 
             return fragment

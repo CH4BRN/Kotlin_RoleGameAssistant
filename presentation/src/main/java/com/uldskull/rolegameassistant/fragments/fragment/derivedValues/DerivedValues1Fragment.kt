@@ -13,18 +13,15 @@ import androidx.fragment.app.Fragment
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.fragments.adapter.DERIVED_VALUES_1_FRAGMENT_POSITION
+import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
+import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 
 /**
  *   Class "DerivedValues1Fragment" :
  *   Fragment that handle derived values 1
  **/
-class DerivedValues1Fragment(val activity: Activity) : Fragment() {
-
-    /**
-     * Initial root view
-     */
-    private lateinit var initialRootView: View
+class DerivedValues1Fragment(activity: Activity) : CustomFragment(activity) {
 
     /**
      * Called when the view is created
@@ -42,24 +39,24 @@ class DerivedValues1Fragment(val activity: Activity) : Fragment() {
      */
     override fun onResume() {
         super.onResume()
-        Log.i("DerivedValues1Fragment_1",NewCharacterActivity.progression.value.toString())
+        Log.i("DerivedValues1Fragment_1", NewCharacterActivity.progression.value.toString())
         NewCharacterActivity.progression.value = DERIVED_VALUES_1_FRAGMENT_POSITION
-        Log.i("DerivedValues1Fragment_2",NewCharacterActivity.progression.value.toString())
+        Log.i("DerivedValues1Fragment_2", NewCharacterActivity.progression.value.toString())
     }
 
     /**
      * Initialize the view
      */
-    fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
+    override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = layoutInflater.inflate(
             R.layout.fragment_derived_values_1, container, false
         )
         return initialRootView
     }
 
-    companion object {
+    companion object : CustomCompanion() {
         @JvmStatic
-        fun newInstance(activity: Activity, position: Int): DerivedValues1Fragment {
+        override fun newInstance(activity: Activity, position: Int): DerivedValues1Fragment {
 
             val fragment =
                 DerivedValues1Fragment(
