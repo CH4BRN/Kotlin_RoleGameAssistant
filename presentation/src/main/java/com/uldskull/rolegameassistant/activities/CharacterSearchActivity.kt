@@ -5,6 +5,7 @@ package com.uldskull.rolegameassistant.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.fragment.CharacterSearchFragment
@@ -19,6 +20,7 @@ class CharacterSearchActivity : AppCompatActivity() {
     /** Activity life-cycle  **/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.i(CHARACTER_SEARCH_ACTIVTY.name, "Start")
         setContentView(R.layout.activity_search_character)
 
         initializeFab()

@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NEW_RACE_ACTIVITY
@@ -43,7 +44,7 @@ class BasicInfoFragment(val activity: Activity) : Fragment() {
      * ViewModel for new character
      */
     private lateinit var newCharacterViewModel: NewCharacterViewModel
-    private var btnAddRace: Button? = null
+    private var btnAddRace: ImageButton? = null
     /** Initialize the view corresponding to this fragment class    **/
     private fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = inflater.inflate(

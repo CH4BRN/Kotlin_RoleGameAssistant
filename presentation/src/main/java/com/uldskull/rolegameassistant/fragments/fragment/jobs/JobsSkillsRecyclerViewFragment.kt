@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -101,7 +102,7 @@ class JobsSkillsRecyclerViewFragment(activity: Activity) : CustomRecyclerViewFra
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var btnAddSkills = view.findViewById<Button>(R.id.btn_jobs_addSkill)
+        var btnAddSkills = view.findViewById<ImageButton>(R.id.btn_jobs_addSkill)
         btnAddSkills.setOnClickListener{
             val intent = Intent(activity, NewSkillActivity::class.java)
             startActivity(intent)

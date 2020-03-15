@@ -4,6 +4,7 @@
 package com.uldskull.rolegameassistant.activities
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -31,6 +32,7 @@ class NewCharacterActivity :
      * @param savedInstanceState the transmitted bundle**/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.i(NEW_CHARACTER_ACTIVITY.name, "Start")
 
         setContentView(R.layout.activity_new_character)
 

@@ -44,11 +44,13 @@
                 android:layout_marginTop="8dp"
                 app:layout_constraintTop_toBottomOf="@id/layout_title" />
 
-            <Button
+            <ImageButton
+                android:src="@drawable/ic_add_black_24dp"
                 android:id="@+id/btn_jobs_addSkill"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add skill"
+                android:background="@drawable/mybutton"
+                android:padding="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/recycleView_jobsSkills" />

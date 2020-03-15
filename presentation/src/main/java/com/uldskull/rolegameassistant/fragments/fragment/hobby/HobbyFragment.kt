@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.activities.NewSkillActivity
@@ -36,7 +37,7 @@ class HobbyFragment (activity: Activity) : CustomFragment(activity) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var btnAddSkill = view.findViewById<Button>(R.id.btn_hobby_add_skill)
+        var btnAddSkill = view.findViewById<ImageButton>(R.id.btn_hobby_add_skill)
         btnAddSkill.setOnClickListener {
             val intent = Intent(activity, NewSkillActivity::class.java)
             startActivity(intent)

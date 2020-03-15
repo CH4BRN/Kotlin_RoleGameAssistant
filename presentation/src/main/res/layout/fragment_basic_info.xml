@@ -27,8 +27,6 @@
                 android:id="@+id/layout_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -99,29 +97,35 @@
                 </TableRow>
 
 
-                <TableRow style="@style/Row">
+                <TableRow style="@style/Row"
+                    >
 
                     <TextView
                         android:id="@+id/tv_subtitle_race"
                         style="@style/TextViewSubTitle"
-                        android:text="Race : " />
+                        android:text="Race : "
+                        android:layout_gravity="center_vertical"/>
 
                     <Spinner
                         android:id="@+id/spinner_race"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_span="2"
                         android:layout_weight="1"
                         android:autofillHints=""
                         android:hint="Race ... "
                         android:inputType="text" />
 
-                    <Button
+                    <ImageButton
+                        android:padding="8dp"
+                        android:background="@drawable/mybutton"
+                        style="@style/myCornerRadiusButton"
                         android:id="@+id/btn_addRace"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:src="@drawable/ic_add_black_24dp"
                         android:layout_weight="1"
-                        android:text="Add Race" />
+                        />
                 </TableRow>
 
 

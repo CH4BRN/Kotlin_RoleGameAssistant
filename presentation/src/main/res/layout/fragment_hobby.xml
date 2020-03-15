@@ -62,11 +62,13 @@
 
     </LinearLayout>
 
-    <Button
+    <ImageButton
+        android:background="@drawable/mybutton"
+        android:src="@drawable/ic_add_black_24dp"
         android:id="@+id/btn_hobby_add_skill"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add skill"
+        android:padding="8dp"
         app:layout_constraintBottom_toTopOf="@id/tv_selectedSkill"
         app:layout_constraintEnd_toEndOf="@id/tv_selectedSkill"
         app:layout_constraintTop_toBottomOf="@id/container_hobbyPoints" />
@@ -104,11 +106,15 @@
             android:gravity="center"
             android:text="/ 99" />
 
-        <Button
+        <ImageButton
+            android:layout_marginLeft="8dp"
+            android:padding="8dp"
+            android:background="@drawable/mybutton"
+            android:src="@drawable/ic_check_black_24dp"
             android:id="@+id/btn_validateSkillPoints"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Validate" />
+             />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

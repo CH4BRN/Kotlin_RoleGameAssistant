@@ -4,8 +4,8 @@
     style="@style/ParentLinearLayout">
 
     <TextView
-        style="@style/TextViewFragmentTitle"
         android:id="@+id/tv_title"
+        style="@style/TextViewFragmentTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Bonds : " />
@@ -15,18 +15,12 @@
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:padding="4dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="4dp"
 
             >
 
-            <TextView
-                android:id="@+id/tv_bondSubTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Bond :"
-                app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/etBond"
@@ -38,13 +32,17 @@
                 android:hint="@string/lorem_ipsum_short"
                 android:inputType="textMultiLine"
 
-                app:layout_constraintTop_toBottomOf="@id/tv_bondSubTitle" />
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-            <Button
+            <ImageButton
                 android:id="@+id/btn_addBond"
+                style="@style/myCornerRadiusButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/mybutton"
+                android:padding="8dp"
+                android:src="@drawable/ic_add_black_24dp"
                 android:text="Add"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
