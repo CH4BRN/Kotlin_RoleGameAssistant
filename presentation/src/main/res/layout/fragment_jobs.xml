@@ -14,7 +14,21 @@
 
     <androidx.appcompat.widget.AppCompatSpinner
         android:id="@+id/spinner_jobs"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
+        app:layout_constraintBottom_toBottomOf="@id/btn_addJob"
+        app:layout_constraintEnd_toStartOf="@id/btn_addJob"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btn_addJob" />
+
+    <ImageButton
+        android:id="@+id/btn_addJob"
+        android:layout_width="wrap_content"
+        android:background="@drawable/mybutton"
+        android:padding="8dp"
+        android:src="@drawable/ic_add_black_24dp"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tv_title" />
 

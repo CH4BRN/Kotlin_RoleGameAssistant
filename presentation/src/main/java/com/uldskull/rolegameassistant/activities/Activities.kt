@@ -10,3 +10,4 @@ val NEW_CHARACTER_ACTIVITY = NewCharacterActivity::class.java
 val CHARACTER_SEARCH_ACTIVTY = CharacterSearchActivity::class.java
 val MAIN_ACTIVITY = MainActivity::class.java
 val NEW_SKILL_ACTIVTY = NewSkillActivity::class.java
+val NEW_JOB_ACTIVITY = NewJobActivity::class.java

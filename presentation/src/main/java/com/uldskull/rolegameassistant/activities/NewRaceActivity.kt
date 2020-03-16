@@ -4,17 +4,15 @@
 package com.uldskull.rolegameassistant.activities
 
 import android.os.Bundle
-import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
+import com.uldskull.rolegameassistant.R
 
 /**
  *   Class "NewRaceActivity" :
  *   TODO: Fill class use.
  **/
-class NewRaceActivity : AppCompatActivity() {
+class NewRaceActivity : CustomActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.i(NEW_RACE_ACTIVITY.name, "Start")
+        setContentView(R.layout.activity_new_race)
     }
-    // TODO : Fill class.
 }

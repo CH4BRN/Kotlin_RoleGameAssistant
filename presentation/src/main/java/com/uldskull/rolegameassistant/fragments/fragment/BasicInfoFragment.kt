@@ -10,9 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
-import androidx.fragment.app.Fragment
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NEW_RACE_ACTIVITY
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
@@ -57,9 +55,9 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
     /** Fragment Lifecycle  **/
     override fun onResume() {
         super.onResume()
-        Log.i("BasicInfoFragment_1",NewCharacterActivity.progression.value.toString())
+        Log.i("BasicInfoFragment_1", NewCharacterActivity.progression.value.toString())
         NewCharacterActivity.progression.value = BASIC_INFO_FRAGMENT_POSITION
-        Log.i("BasicInfoFragment_2",NewCharacterActivity.progression.value.toString())
+        Log.i("BasicInfoFragment_2", NewCharacterActivity.progression.value.toString())
 
     }
 
@@ -67,19 +65,25 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
     /** Fragment Lifecycle  **/
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        btnAddRace = view.findViewById(R.id.btn_addRace)
-
-        btnAddRace?.setOnClickListener {
-            val intent = Intent(activity, NEW_RACE_ACTIVITY)
-            startActivityForResult(intent, REQUEST_CODE_BASIC_INFO_NEW_RACE)
-        }
+        setButtonAddRace()
         setFocusListeners()
+    }
+
+    /**
+     * Set the add race button.
+     */
+    private fun setButtonAddRace() {
+        if (btn_addRace != null) {
+            btn_addRace?.setOnClickListener {
+                val intent = Intent(activity, NEW_RACE_ACTIVITY)
+                startActivityForResult(intent, REQUEST_CODE_BASIC_INFO_NEW_RACE)
+            }
+        }
     }
 
     /** Set focus listeners **/
     private fun setFocusListeners() {
         setNameFocusListener()
-
     }
 
     /** Set name focus listener **/
@@ -91,7 +95,7 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
     }
 
 
-    companion object : CustomCompanion(){
+    companion object : CustomCompanion() {
         /**
          * Get a new instance of class BasicInfoFragment
          */
