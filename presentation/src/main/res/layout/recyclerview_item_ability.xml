@@ -19,13 +19,14 @@
         android:textSize="16sp" />
 
     <EditText
+
         android:id="@+id/et_abilityRoll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:autofillHints="0"
         android:hint="0"
-        android:inputType="number"
+        android:inputType="number|none"
         android:maxWidth="15dp"
         android:minWidth="15dp" />
 

@@ -19,6 +19,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <EditText
+                android:id="@+id/etBondTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="Bond title ..."
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="Title"
+                android:inputType="text"
+                app:layout_constraintTop_toTopOf="parent" />
+
 
             <EditText
                 android:id="@+id/etBond"
@@ -30,7 +41,7 @@
                 android:hint="@string/lorem_ipsum_short"
                 android:inputType="textMultiLine"
 
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/etBondTitle" />
 
 
             <ImageButton
