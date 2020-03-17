@@ -28,6 +28,10 @@ object AndroidXVersions {
     const val lifecycle_version = "2.2.0"
 }
 
+object AndroidSupportVersions {
+    const val cardView = "28.0.0"
+}
+
 object JunitVersions {
     const val junitJunit = "4.12"
     const val androidxTestExtJunit = "1.1.1"

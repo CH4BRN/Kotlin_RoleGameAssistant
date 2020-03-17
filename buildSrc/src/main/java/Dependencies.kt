@@ -40,6 +40,10 @@ object MaterialDependencies {
         "com.google.android.material:material:${MaterialVersions.comGoogleAndroidMaterialMaterial}"
 }
 
+object AndroidSupportDependencies {
+    const val androidSupportCardview = "com.android.support:cardview-v7:" +
+            AndroidSupportVersions.cardView
+}
 
 object AndroidXDependencies {
     const val androidxAppcompatAppcompat =
@@ -52,6 +56,8 @@ object AndroidXDependencies {
                 AndroidXVersions.constraintLayoutConstraintLayout
     const val androidxRecyclerviewRecyclerview = "androidx.recyclerview:recyclerview:" +
             AndroidXVersions.appcompatAppcompat
+
+
     const val androidxLifecycleLifecycleLivedataKtx =
         "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     const val androidxLifecycleLifecycleViewmodelKtx =
