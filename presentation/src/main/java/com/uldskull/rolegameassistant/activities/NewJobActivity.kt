@@ -5,6 +5,7 @@ package com.uldskull.rolegameassistant.activities
 
 import android.os.Bundle
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.fragments.fragment.NavigationBarFragment
 
 /**
  *   Class "NewJobActivity" :
@@ -15,6 +16,18 @@ class NewJobActivity : CustomActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_new_job)
+        this.loadNavigationBarFragment()
     }
-    // TODO : Fill class.
+
+
+    /**
+     * Load the navigation bar fragment.
+     */
+    private fun loadNavigationBarFragment() {
+
+        this.replaceFragment(
+            R.id.container_navigationBar,
+            NavigationBarFragment.newInstance(this)
+        )
+    }
 }

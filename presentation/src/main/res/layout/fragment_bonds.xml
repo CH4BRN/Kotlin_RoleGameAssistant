@@ -12,14 +12,12 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingHorizontal="4dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="4dp"
-
-            >
+            android:layout_height="wrap_content">
 
 
             <EditText
@@ -43,7 +41,6 @@
                 android:background="@drawable/mybutton"
                 android:padding="8dp"
                 android:src="@drawable/ic_add_black_24dp"
-                android:text="Add"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/etBond" />

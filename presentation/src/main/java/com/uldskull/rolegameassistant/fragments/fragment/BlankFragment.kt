@@ -43,7 +43,7 @@ class BlankFragment(activity: Activity) : CustomFragment(activity) {
          * @return A new instance of fragment BlankFragment.
          */
         @JvmStatic
-        override fun newInstance(activity: Activity, position: Int): CustomFragment {
+        override fun newInstance(activity: Activity): CustomFragment {
             return BlankFragment(activity)
         }
     }

@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.fragments.adapter.HOBBIES_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
@@ -98,13 +99,12 @@ class HobbySkillsRecyclerViewFragment(activity: Activity) :
 
         @JvmStatic
         override fun newInstance(
-            activity: Activity,
-            position: Int
+            activity: Activity
         ): HobbySkillsRecyclerViewFragment {
             val fragment = HobbySkillsRecyclerViewFragment(activity)
             val args = Bundle()
 
-            args.putInt(KEY_POSITION, position)
+            args.putInt(KEY_POSITION, HOBBIES_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION)
             fragment.arguments = args
 
             return fragment

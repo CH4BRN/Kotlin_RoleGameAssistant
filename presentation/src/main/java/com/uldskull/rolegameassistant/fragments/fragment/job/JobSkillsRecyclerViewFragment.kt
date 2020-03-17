@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.fragments.adapter.JOB_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
@@ -100,14 +101,14 @@ class JobSkillsRecyclerViewFragment(activity: Activity) : CustomRecyclerViewFrag
     companion object : CustomCompanion() {
 
         @JvmStatic
-        override fun newInstance(activity: Activity, position: Int): JobSkillsRecyclerViewFragment {
+        override fun newInstance(activity: Activity): JobSkillsRecyclerViewFragment {
             val fragment =
                 JobSkillsRecyclerViewFragment(
                     activity
                 )
             val args = Bundle()
 
-            args.putInt(KEY_POSITION, position)
+            args.putInt(KEY_POSITION, JOB_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION)
             fragment.arguments = args
 
             return fragment

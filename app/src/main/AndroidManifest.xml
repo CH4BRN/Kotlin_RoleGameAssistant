@@ -51,6 +51,10 @@
             android:name=".activities.NewSkillActivity"
             android:configChanges="orientation|screenSize" />
 
+        <activity
+            android:name=".activities.NewJobActivity"
+            android:configChanges="orientation|screenSize" />
+
 
     </application>
 

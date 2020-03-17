@@ -38,7 +38,7 @@ class JobsSkillsAdapter internal constructor(
 
     /** ViewHolder life-cycle **/
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SkillsViewHolder {
-        val itemView = inflater.inflate(R.layout.recyclerview_item_shownskill, parent, false)
+        val itemView = inflater.inflate(R.layout.recyclerview_item_jobsskill, parent, false)
         return SkillsViewHolder(itemView)
     }
 

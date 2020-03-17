@@ -16,9 +16,8 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.NewCharacterActivity
+import com.uldskull.rolegameassistant.fragments.adapter.PICTURE_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import kotlinx.android.synthetic.main.fragment_picture.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -165,7 +164,7 @@ class PictureFragment(val context: Activity) : CustomFragment(context) {
     /** Activity life-cycle **/
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val imageButton = activity?.findViewById<ImageButton>(R.id.img_btn_characterPicture)
+        val imageButton = activity.findViewById<ImageButton>(R.id.img_btn_characterPicture)
 
         setImageButtonListener(imageButton)
     }
@@ -181,12 +180,12 @@ class PictureFragment(val context: Activity) : CustomFragment(context) {
     companion object : CustomCompanion() {
 
         @JvmStatic
-        override fun newInstance(activity: Activity, position: Int): PictureFragment {
+        override fun newInstance(activity: Activity): PictureFragment {
             val fragment =
                 PictureFragment(activity)
             val args = Bundle()
 
-            args.putInt(KEY_POSITION, position)
+            args.putInt(KEY_POSITION, PICTURE_FRAGMENT_POSITION)
             fragment.arguments = args
 
             return fragment

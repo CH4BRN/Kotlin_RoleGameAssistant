@@ -10,13 +10,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NewSkillActivity
+import com.uldskull.rolegameassistant.fragments.adapter.JOBS_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
@@ -116,14 +116,13 @@ class JobsSkillsRecyclerViewFragment(activity: Activity) : CustomRecyclerViewFra
 
         @JvmStatic
         override fun newInstance(
-            activity: Activity,
-            position: Int
+            activity: Activity
         ): JobsSkillsRecyclerViewFragment {
             val fragment =
                 JobsSkillsRecyclerViewFragment(activity)
             val args = Bundle()
 
-            args.putInt(KEY_POSITION, position)
+            args.putInt(KEY_POSITION, JOBS_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION)
             fragment.arguments = args
 
             return fragment

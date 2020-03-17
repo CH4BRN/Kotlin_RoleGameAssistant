@@ -6,7 +6,6 @@ package com.uldskull.rolegameassistant.activities
 import android.content.Intent
 import android.os.Bundle
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.adapter.CHARACTER_SEARCH_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CharacterSearchFragment
 import kotlinx.android.synthetic.main.activity_search_character.*
 
@@ -31,7 +30,7 @@ class CharacterSearchActivity : CustomActivity() {
     private fun initializeCharacterSearchView() {
         replaceFragment(
             R.id.container_searchCharacter,
-            CharacterSearchFragment.newInstance(this, CHARACTER_SEARCH_FRAGMENT_POSITION)
+            CharacterSearchFragment.newInstance(this)
         )
     }
 

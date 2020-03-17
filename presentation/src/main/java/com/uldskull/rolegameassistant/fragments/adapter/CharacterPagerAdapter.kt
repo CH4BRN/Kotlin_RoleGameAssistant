@@ -32,46 +32,36 @@ class CharacterPagerAdapter(fm: FragmentManager, val activity: Activity) :
 
         return when (position) {
             BASIC_INFO_FRAGMENT_POSITION -> BasicInfoFragment.newInstance(
-                activity,
-                position
+                activity
             )
             BONDS_FRAGMENT_POSITION -> BondsFragment.newInstance(
-                activity,
-                position
+                activity
             )
             IDEALS_FRAGMENT_POSITION -> IdealsFragment.newInstance(
-                activity,
-                position
+                activity
             )
             ABILITIES_FRAGMENT_POSITION -> AbilitiesFragment.newInstance(
-                activity,
-                position
+                activity
             )
             DERIVED_VALUES_1_FRAGMENT_POSITION -> DerivedValues1Fragment.newInstance(
-                activity,
-                position
+                activity
             )
             DERIVED_VALUES_2_FRAGMENT_POSITION -> DerivedValues2Fragment.newInstance(
-                activity,
-                position
+                activity
             )
             JOBS_FRAGMENT_POSITION -> JobsFragment.newInstance(
-                activity,
-                position
+                activity
             )
             JOB_FRAGMENT_POSITION -> JobFragment.newInstance(
-                activity,
-                position
+                activity
             )
             HOBBIES_FRAGMENT_POSITION -> HobbiesFragment.newInstance(
-                activity,
-                position
+                activity
             )
-            HOBBIES_2_FRAGMENT_POSITION -> HobbyFragment.newInstance(
-                activity,
-                position
+            HOBBY_FRAGMENT_POSITION -> HobbyFragment.newInstance(
+                activity
             )
-            else -> BasicInfoFragment.newInstance(activity, position)
+            else -> BasicInfoFragment.newInstance(activity)
         }
     }
 }

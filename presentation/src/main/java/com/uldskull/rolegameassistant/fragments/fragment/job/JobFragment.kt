@@ -10,14 +10,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.activities.NewSkillActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
 import com.uldskull.rolegameassistant.fragments.adapter.JOB_FRAGMENT_POSITION
-import com.uldskull.rolegameassistant.fragments.adapter.JOB_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
@@ -75,20 +73,19 @@ class JobFragment(activity: Activity) : CustomFragment(activity) {
 
     companion object : CustomCompanion() {
         @JvmStatic
-        override fun newInstance(activity: Activity, position: Int): JobFragment {
+        override fun newInstance(activity: Activity): JobFragment {
             val fragment =
                 JobFragment(
                     activity
                 )
             val args = Bundle()
 
-            args.putInt(KEY_POSITION, position)
+            args.putInt(KEY_POSITION, JOB_FRAGMENT_POSITION)
             fragment.arguments = args
             (activity as NewCharacterActivity).replaceFragment(
                 R.id.container_jobSkills,
                 JobSkillsRecyclerViewFragment.newInstance(
-                    activity,
-                    JOB_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION
+                    activity
                 )
             )
 

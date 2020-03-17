@@ -18,8 +18,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 app:layout_constraintTop_toTopOf="parent">
-                a
+
                 <TextView
+                    style="@style/TextViewSubTitle"
                     android:id="@+id/tv_jobSkillName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -27,6 +28,7 @@
                     android:text="Name :" />
 
                 <TextView
+                    style="@style/TextViewSubTitle"
                     android:id="@+id/tv_jobSkillBase"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -34,6 +36,7 @@
                     android:text="Base" />
 
                 <TextView
+                    style="@style/TextViewSubTitle"
                     android:id="@+id/tv_jobSkillAddTens"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -41,12 +44,14 @@
                     android:text="Add" />
 
                 <TextView
+                    style="@style/TextViewSubTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text=" / " />
 
                 <TextView
+                    style="@style/TextViewSubTitle"
                     android:id="@+id/tv_jobSkillTotal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

@@ -19,39 +19,20 @@
         android:layout_height="wrap_content"
         android:paddingTop="4dp"
         app:layout_constraintBottom_toBottomOf="parent">
-
-        <ImageButton
-            android:id="@+id/btn_back"
-            android:padding="16dp"
-            style="@style/myCornerRadiusButton"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_margin="8dp"
-            android:background="@drawable/mybutton"
-            android:src="@drawable/ic_arrow_back_black_24dp"
-            app:layout_constraintBottom_toTopOf="@id/container_progressBar"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <ImageButton
-            android:id="@+id/btn_save"
-            style="@style/myCornerRadiusButton"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:padding="16dp"
-            android:layout_margin="8dp"
-            android:src="@drawable/ic_save_black_24dp"
-            android:background="@drawable/mybutton"
-            android:text="SAVE"
-            app:layout_constraintBottom_toTopOf="@id/container_progressBar"
-            app:layout_constraintEnd_toEndOf="parent" />
-
         <FrameLayout
             android:id="@+id/container_progressBar"
+            app:layout_constraintBottom_toTopOf="@id/container_navigationBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:minHeight="8dp"
+            android:minHeight="8dp" />
+
+        <FrameLayout
+            android:id="@+id/container_navigationBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

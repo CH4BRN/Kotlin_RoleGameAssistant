@@ -83,8 +83,7 @@ class HobbiesSkillsRecyclerViewFragment(activity: Activity) :
     companion object : CustomCompanion() {
         @JvmStatic
         override fun newInstance(
-            activity: Activity,
-            position: Int
+            activity: Activity
         ): HobbiesSkillsRecyclerViewFragment {
 
             return HobbiesSkillsRecyclerViewFragment(

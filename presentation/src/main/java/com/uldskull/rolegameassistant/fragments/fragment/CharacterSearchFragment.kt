@@ -7,8 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.NewCharacterActivity
-import com.uldskull.rolegameassistant.activities.replaceFragment
+import com.uldskull.rolegameassistant.fragments.adapter.CHARACTER_SEARCH_FRAGMENT_POSITION
 
 /**
  * A simple [Fragment] subclass.
@@ -43,12 +42,12 @@ class CharacterSearchFragment(activity: Activity) : CustomFragment(activity) {
          * @return A new instance of fragment CharacterSearchFragment.
          */
         @JvmStatic
-       override fun newInstance(activity: Activity, position: Int): CharacterSearchFragment {
+        override fun newInstance(activity: Activity): CharacterSearchFragment {
             val fragment =
                 CharacterSearchFragment(activity)
             val args = Bundle()
 
-            args.putInt(KEY_POSITION, position)
+            args.putInt(KEY_POSITION, CHARACTER_SEARCH_FRAGMENT_POSITION)
             fragment.arguments = args
 
 

@@ -9,12 +9,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
 import com.uldskull.rolegameassistant.fragments.adapter.BONDS_FRAGMENT_POSITION
-import com.uldskull.rolegameassistant.fragments.adapter.BONDS_RECYCLER_VIEW_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
@@ -50,7 +48,7 @@ class BondsFragment(activity: Activity) : CustomFragment(activity) {
 
     companion object: CustomCompanion() {
         @JvmStatic
-       override fun newInstance(activity: Activity, position: Int): BondsFragment {
+        override fun newInstance(activity: Activity): BondsFragment {
             val fragment =
                 BondsFragment(
                     activity
@@ -58,11 +56,11 @@ class BondsFragment(activity: Activity) : CustomFragment(activity) {
 
             val args = Bundle()
 
-            args.putInt(KEY_POSITION, position)
+            args.putInt(KEY_POSITION, BONDS_FRAGMENT_POSITION)
             fragment.arguments = args
             (activity as NewCharacterActivity).replaceFragment(
                 R.id.container_bonds,
-                BondsRecyclerViewFragment.newInstance(activity, BONDS_RECYCLER_VIEW_FRAGMENT_POSITION)
+                BondsRecyclerViewFragment.newInstance(activity)
             )
 
             return fragment

@@ -4,21 +4,31 @@
 package com.uldskull.rolegameassistant.activities
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.fragments.fragment.NavigationBarFragment
 
 /**
  *   Class "NewIdealActivity" :
  *   TODO: Fill class use.
  **/
-class NewIdealActivity : AppCompatActivity() {
+class NewIdealActivity : CustomActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         Log.i(NEW_IDEAL_ACTIVITY.name, "Start")
         setContentView(R.layout.activity_new_ideal)
+        loadNavigationBarFragment()
     }
-// TODO : Fill class.
+
+    /**
+     * Load the navigation bar fragment.
+     */
+    private fun loadNavigationBarFragment() {
+
+        this.replaceFragment(
+            R.id.container_navigationBar,
+            NavigationBarFragment.newInstance(this)
+        )
+    }
 }

@@ -10,13 +10,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.NEW_IDEAL_ACTIVITY
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
+import com.uldskull.rolegameassistant.activities.NewIdealActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
 import com.uldskull.rolegameassistant.fragments.adapter.IDEALS_FRAGMENT_POSITION
-import com.uldskull.rolegameassistant.fragments.adapter.IDEAL_RECYCLER_VIEW_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
@@ -61,29 +59,33 @@ class IdealsFragment(activity: Activity) : CustomFragment(activity) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        btn_addIdeal.setOnClickListener {
+        setButtonAddIdeal(view)
+    }
 
-            val intent = Intent(activity, NEW_IDEAL_ACTIVITY)
-            startActivityForResult(intent, REQUEST_CODE_IDEALS_NEW_IDEAL)
+    private fun setButtonAddIdeal(view: View) {
+        if (btn_addIdeal != null) {
+            btn_addIdeal?.setOnClickListener {
+                val intent = Intent(activity, NewIdealActivity::class.java)
+                startActivityForResult(intent, REQUEST_CODE_IDEALS_NEW_IDEAL)
+            }
         }
     }
 
     companion object : CustomCompanion() {
         @JvmStatic
-        override fun newInstance(activity: Activity, position: Int): IdealsFragment {
+        override fun newInstance(activity: Activity): IdealsFragment {
             val fragment =
                 IdealsFragment(
                     activity
                 )
             val args = Bundle()
 
-            args.putInt(KEY_POSITION, position)
+            args.putInt(KEY_POSITION, IDEALS_FRAGMENT_POSITION)
             fragment.arguments = args
             (activity as NewCharacterActivity).replaceFragment(
                 R.id.container_ideals,
                 IdealsRecyclerViewFragment.newInstance(
-                    activity,
-                    IDEAL_RECYCLER_VIEW_FRAGMENT_POSITION
+                    activity
                 )
             )
 

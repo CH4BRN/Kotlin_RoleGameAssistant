@@ -3,9 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginLeft="4dp"
+    android:layout_marginRight="4dp"
     android:layout_marginTop="8dp"
-    android:layout_marginBottom="9dp"
-    android:orientation="horizontal">
+    android:elevation="4dp"
+    android:orientation="horizontal"
+    android:outlineProvider="bounds"
+    android:paddingTop="8dp"
+    android:paddingBottom="16dp">
 
     <ImageView
         android:id="@+id/img_alignment"
@@ -29,9 +34,15 @@
         app:layout_constraintStart_toEndOf="@id/img_alignment" />
 
     <CheckBox
-        android:id="@+id/chk_ideal"
+        style="@style/myCheckBox"
         android:layout_width="wrap_content"
+        android:maxWidth="50dp"
+        android:maxHeight="50dp"
+        android:minWidth="40dp"
+        android:id="@+id/chk_ideal"
         android:layout_height="match_parent"
+        android:minHeight="45dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_ideal"
         android:layout_weight="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tv_ideal" />

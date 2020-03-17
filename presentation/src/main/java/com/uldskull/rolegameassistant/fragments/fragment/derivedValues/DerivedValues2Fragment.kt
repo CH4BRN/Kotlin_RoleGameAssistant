@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.fragments.adapter.DERIVED_VALUES_2_FRAGMENT_POSITION
@@ -51,7 +50,7 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
 
     companion object : CustomCompanion() {
         @JvmStatic
-        override fun newInstance(activity: Activity, position: Int): DerivedValues2Fragment {
+        override fun newInstance(activity: Activity): DerivedValues2Fragment {
 
             val fragment =
                 DerivedValues2Fragment(
@@ -60,7 +59,7 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
 
             val args = Bundle()
 
-            args.putInt(KEY_POSITION, position)
+            args.putInt(KEY_POSITION, DERIVED_VALUES_2_FRAGMENT_POSITION)
             fragment.arguments = args
             return fragment
         }

@@ -16,7 +16,6 @@ import com.uldskull.rolegameassistant.activities.NEW_JOB_ACTIVITY
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
 import com.uldskull.rolegameassistant.fragments.adapter.JOBS_FRAGMENT_POSITION
-import com.uldskull.rolegameassistant.fragments.adapter.JOBS_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
@@ -96,20 +95,19 @@ class JobsFragment(activity: Activity) : CustomFragment(activity) {
 
     companion object : CustomCompanion() {
         @JvmStatic
-        override fun newInstance(activity: Activity, position: Int): JobsFragment {
+        override fun newInstance(activity: Activity): JobsFragment {
             val fragment =
                 JobsFragment(
                     activity
                 )
             val args = Bundle()
 
-            args.putInt(KEY_POSITION, position)
+            args.putInt(KEY_POSITION, JOBS_FRAGMENT_POSITION)
             fragment.arguments = args
             (activity as NewCharacterActivity).replaceFragment(
                 R.id.container_jobs,
                 JobsSkillsRecyclerViewFragment.newInstance(
-                    activity,
-                    JOBS_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION
+                    activity
                 )
             )
 

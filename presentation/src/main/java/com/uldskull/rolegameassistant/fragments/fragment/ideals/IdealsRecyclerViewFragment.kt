@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.fragments.adapter.IDEAL_RECYCLER_VIEW_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
@@ -107,11 +108,11 @@ class IdealsRecyclerViewFragment(activity: Activity) : CustomRecyclerViewFragmen
     companion object : CustomCompanion() {
 
         @JvmStatic
-        override fun newInstance(activity: Activity, position: Int): IdealsRecyclerViewFragment {
+        override fun newInstance(activity: Activity): IdealsRecyclerViewFragment {
             val fragment = IdealsRecyclerViewFragment(activity)
             val args = Bundle()
 
-            args.putInt(KEY_POSITION, position)
+            args.putInt(KEY_POSITION, IDEAL_RECYCLER_VIEW_FRAGMENT_POSITION)
             fragment.arguments = args
 
             return fragment

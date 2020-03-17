@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/ParentLinearLayout"
     android:layout_width="match_parent">
-
     <TextView
         android:id="@+id/tv_title"
         style="@style/TextViewFragmentTitle"
@@ -11,11 +10,12 @@
         android:layout_height="wrap_content"
         android:text="Ideals : " />
     <ScrollView
+        android:paddingHorizontal="4dp"
         android:id="@+id/scrollview_parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+
+        <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -30,14 +30,14 @@
 
         <ImageButton
             android:padding="8dp"
-            android:background="@drawable/mybutton"
-            android:src="@drawable/ic_add_black_24dp"
             android:id="@+id/btn_addIdeal"
+            style="@style/myCornerRadiusButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/container_ideals"
+            android:src="@drawable/ic_add_black_24dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/container_ideals" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

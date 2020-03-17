@@ -10,13 +10,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NEW_RACE_ACTIVITY
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
 import com.uldskull.rolegameassistant.fragments.adapter.BASIC_INFO_FRAGMENT_POSITION
-import com.uldskull.rolegameassistant.fragments.adapter.PICTURE_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import kotlinx.android.synthetic.main.fragment_basic_info.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -43,7 +41,6 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
      * ViewModel for new character
      */
     private lateinit var newCharacterViewModel: NewCharacterViewModel
-    private var btnAddRace: ImageButton? = null
     /** Initialize the view corresponding to this fragment class    **/
     override fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = inflater.inflate(
@@ -100,17 +97,17 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
          * Get a new instance of class BasicInfoFragment
          */
         @JvmStatic
-        override fun newInstance(activity: Activity, position: Int): BasicInfoFragment {
+        override fun newInstance(activity: Activity): BasicInfoFragment {
             val fragment =
                 BasicInfoFragment(activity)
             val args = Bundle()
 
-            args.putInt(KEY_POSITION, position)
+            args.putInt(KEY_POSITION, BASIC_INFO_FRAGMENT_POSITION)
             fragment.arguments = args
 
             (activity as NewCharacterActivity).replaceFragment(
                 R.id.container_picture,
-                PictureFragment.newInstance(activity, PICTURE_FRAGMENT_POSITION)
+                PictureFragment.newInstance(activity)
             )
             return fragment
         }

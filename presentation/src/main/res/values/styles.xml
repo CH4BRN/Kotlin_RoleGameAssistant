@@ -45,7 +45,13 @@
 
 
     <style name="myCornerRadiusButton">
+        <item name="android:background">@drawable/mybutton</item>
         <item name="android:textSize">24dp</item>
         <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="myCheckBox">
+        <item name="android:scaleX">2.50</item>
+        <item name="android:scaleY">2.5</item>
     </style>
 </resources>

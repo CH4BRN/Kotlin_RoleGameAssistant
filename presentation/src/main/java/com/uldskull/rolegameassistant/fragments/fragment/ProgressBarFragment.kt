@@ -8,10 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.NewCharacterActivity
-
 import kotlinx.android.synthetic.main.fragment_progress_bar.*
 
 /**
@@ -49,9 +46,17 @@ class ProgressBarFragment(val progression: Int = 0, activity: Activity) : Custom
         return initialRootView
     }
 
-    companion object : CustomCompanion(){
+    companion object : CustomCompanion() {
         @JvmStatic
-      override  fun newInstance(activity: Activity, progression: Int): ProgressBarFragment {
+        override fun newInstance(activity: Activity): CustomFragment {
+            return ProgressBarFragment(
+                progression = 0,
+                activity = activity
+            )
+        }
+
+        @JvmStatic
+        fun newInstance(activity: Activity, progression: Int): CustomFragment {
             return ProgressBarFragment(
                 progression = progression,
                 activity = activity

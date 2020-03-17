@@ -10,5 +10,5 @@ Class "CustomCompagnon"
 TODO: Describe class utility.
  */
 abstract class CustomCompanion{
-    abstract fun newInstance(activity: Activity, position:Int):CustomFragment
+    abstract fun newInstance(activity: Activity): CustomFragment
 }

@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.adapter.CharacterPagerAdapter
+import com.uldskull.rolegameassistant.fragments.fragment.NavigationBarFragment
 import com.uldskull.rolegameassistant.fragments.fragment.ProgressBarFragment
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -45,6 +46,7 @@ class NewCharacterActivity :
 
         this.setCharacterPageAdapter()
 
+        this.loadNavigationBarFragment()
         this.loadProgressBarFragment(0)
     }
 
@@ -74,12 +76,22 @@ class NewCharacterActivity :
     /** Load the progress bar fragment
      * @param progression the progression to display **/
     private fun loadProgressBarFragment(progression: Int) {
-        val progressBarTransaction = fragmentManager.beginTransaction()
-        progressBarTransaction.replace(
+
+        this.replaceFragment(
             R.id.container_progressBar,
             ProgressBarFragment.newInstance(this, progression)
         )
-            .commit()
+    }
+
+    /**
+     * Load the navigation bar fragment.
+     */
+    private fun loadNavigationBarFragment() {
+
+        this.replaceFragment(
+            R.id.container_navigationBar,
+            NavigationBarFragment.newInstance(this)
+        )
     }
 
     companion object {
