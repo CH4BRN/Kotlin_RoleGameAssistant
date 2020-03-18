@@ -33,6 +33,10 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
         savedInstanceState: Bundle?
     ): View? {
         newCharacterViewModel = getViewModel()
+        for (i in 1..10) {
+            newCharacterViewModel.getDice(i)
+
+        }
         return initializeView(inflater, container)
     }
 

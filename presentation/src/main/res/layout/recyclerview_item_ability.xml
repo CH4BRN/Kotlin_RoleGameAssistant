@@ -26,7 +26,8 @@
         android:layout_weight="1"
         android:autofillHints="0"
         android:hint="0"
-        android:inputType="number|none"
+        android:inputType="none"
+        android:maxLength="2"
         android:maxWidth="15dp"
         android:minWidth="15dp" />
 
@@ -41,8 +42,8 @@
         android:maxWidth="15dp"
         android:minWidth="15dp" />
 
-    <EditText
-        android:id="@+id/et_abilityTotal"
+    <TextView
+        android:id="@+id/tv_abilityTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"

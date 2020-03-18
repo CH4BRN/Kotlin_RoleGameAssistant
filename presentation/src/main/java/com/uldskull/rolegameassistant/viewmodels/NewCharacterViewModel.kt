@@ -6,6 +6,7 @@ package com.uldskull.rolegameassistant.viewmodels
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import com.uldskull.rolegameassistant.useCases.diceRoll.GetOneDiceRollUseCase
 
 /**
  *   Class "NewCharacterViewModel" :
@@ -13,7 +14,10 @@ import androidx.lifecycle.AndroidViewModel
  *   The ViewModel class allows data to survive configuration changes such as
  *   screen rotations.
  **/
-class NewCharacterViewModel(application: Application) : AndroidViewModel(application) {
+class NewCharacterViewModel(
+    application: Application,
+    private val diceUseCase: GetOneDiceRollUseCase
+) : AndroidViewModel(application) {
 
 
     fun saveName(name: String) {
@@ -34,5 +38,10 @@ class NewCharacterViewModel(application: Application) : AndroidViewModel(applica
     fun saveRace(race: String) {
         //TODO("implement save race")
         Log.i("TEST", race)
+    }
+
+    fun getDice(faces: Int) {
+
+        Log.i(javaClass.simpleName, diceUseCase.execute(faces).toString())
     }
 }

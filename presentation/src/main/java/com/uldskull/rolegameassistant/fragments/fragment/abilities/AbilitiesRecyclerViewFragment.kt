@@ -6,6 +6,7 @@ package com.uldskull.rolegameassistant.fragments.fragment.abilities
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ import com.uldskull.rolegameassistant.fragments.adapter.ABILITIES_RECYCLER_VIEW_
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
+import kotlinx.android.synthetic.main.fragment_recyclerview_abilities.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**
@@ -30,6 +32,9 @@ class AbilitiesRecyclerViewFragment(activity: Activity) :
 
     /** Adapter for abilities recycler view **/
     private var abilitiesAdapter: AbilitiesAdapter? = null
+
+    /** Adapter to display disabled edit texts **/
+    private var abilitiesDisabledAdapter: AbilitiesDisabledAdapter? = null
 
     /** Recycler View for abilities **/
     private var abilitiesRecyclerView: RecyclerView? = null
@@ -64,6 +69,33 @@ class AbilitiesRecyclerViewFragment(activity: Activity) :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initializeRecyclerView()
+        setButtonUsePoints()
+        setButtonRoll()
+    }
+
+    /**
+     * Set the button that launch a dice roll for each ability
+     */
+    private fun setButtonRoll() {
+        if (btn_roll != null) {
+            btn_roll.setOnClickListener {
+                Log.i(this.javaClass.simpleName, "Roll")
+            }
+        }
+    }
+
+    /**
+     * Set the button that allow the user to use his points
+     * manually.
+     */
+    private fun setButtonUsePoints() {
+        if (btn_use_point != null) {
+            btn_use_point.setOnClickListener {
+                Log.i(this.javaClass.simpleName, "Use points")
+                abilitiesRecyclerView?.adapter = abilitiesAdapter
+                setRecyclerViewLayoutManager()
+            }
+        }
     }
 
     /** Initialize recycler view    **/
@@ -80,7 +112,28 @@ class AbilitiesRecyclerViewFragment(activity: Activity) :
     override fun startObservation() {
         this.abilitiesViewModel.abilities.observe(this, Observer { abilities ->
             kotlin.run {
-                abilities?.let { abilitiesAdapter?.setAbilities(it) }
+                abilities?.let {
+                    Log.i(
+                        "abilitiesDisabledADAPTER", when (abilitiesDisabledAdapter) {
+                            null -> "Is null"
+                            else -> "Is not null"
+                        }
+                    )
+                    abilitiesDisabledAdapter?.setAbilities(it)
+
+                    Log.i("ABILITIES IT SIZE : ", it.size.toString())
+                }
+                abilities?.let {
+                    Log.i(
+                        "abilitiesADAPTER", when (abilitiesAdapter) {
+                            null -> "Is null"
+                            else -> "Is not null"
+                        }
+                    )
+                    abilitiesAdapter?.setAbilities(it)
+
+                    Log.i("ABILITIES IT SIZE : ", it.size.toString())
+                }
 
             }
         })
@@ -88,8 +141,16 @@ class AbilitiesRecyclerViewFragment(activity: Activity) :
 
     /** Set recycler view adapter   **/
     override fun setRecyclerViewAdapter() {
+        setRecyclerViewDisabledAdapter()
+    }
+
+    /**
+     * Set Disabled recyclerview adapter
+     */
+    private fun setRecyclerViewDisabledAdapter() {
+        abilitiesDisabledAdapter = AbilitiesDisabledAdapter(activity as Context)
         abilitiesAdapter = AbilitiesAdapter(activity as Context)
-        abilitiesRecyclerView?.adapter = abilitiesAdapter
+        abilitiesRecyclerView?.adapter = abilitiesDisabledAdapter
     }
 
     /** Set recycler view layout manager    **/
@@ -101,7 +162,8 @@ class AbilitiesRecyclerViewFragment(activity: Activity) :
         )
     }
 
-    companion object : CustomCompanion(){
+
+    companion object : CustomCompanion() {
         @JvmStatic
         override fun newInstance(activity: Activity): AbilitiesRecyclerViewFragment {
             val fragment = AbilitiesRecyclerViewFragment(activity)
@@ -112,5 +174,7 @@ class AbilitiesRecyclerViewFragment(activity: Activity) :
 
             return fragment
         }
+
+
     }
 }

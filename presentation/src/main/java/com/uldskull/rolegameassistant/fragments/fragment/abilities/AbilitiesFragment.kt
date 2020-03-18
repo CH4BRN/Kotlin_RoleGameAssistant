@@ -33,6 +33,7 @@ class AbilitiesFragment(activity: Activity) : CustomFragment(activity) {
         return initializeView(inflater, container)
     }
 
+
     /**
      * Initialize the view
      */
