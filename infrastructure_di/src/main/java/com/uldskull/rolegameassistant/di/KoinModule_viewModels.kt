@@ -15,7 +15,8 @@ val viewModelModule = module {
     //  New Character ViewModel
     viewModel {
         NewCharacterViewModel(
-            application = get()
+            application = get(),
+            diceUseCase = get()
         )
     }
     //  Abilities ViewModel
