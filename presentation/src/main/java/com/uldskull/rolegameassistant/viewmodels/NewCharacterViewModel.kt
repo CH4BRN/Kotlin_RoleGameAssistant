@@ -6,7 +6,7 @@ package com.uldskull.rolegameassistant.viewmodels
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import com.uldskull.rolegameassistant.useCases.diceRoll.GetOneDiceRollUseCase
+import com.uldskull.rolegameassistant.useCases.diceRoll.DiceService
 
 /**
  *   Class "NewCharacterViewModel" :
@@ -16,9 +16,17 @@ import com.uldskull.rolegameassistant.useCases.diceRoll.GetOneDiceRollUseCase
  **/
 class NewCharacterViewModel(
     application: Application,
-    private val diceUseCase: GetOneDiceRollUseCase
+    private val diceService: DiceService
 ) : AndroidViewModel(application) {
 
+    fun displayDices() {
+        for (i in 1..9) {
+            Log.i("DICES", diceService.getOneDiceRollWithANumberOfFace(i).toString())
+        }
+
+        var list = arrayListOf(6, 12, 20)
+        diceService.getMultipleDiceRollWithANumberOfFace(list).forEach(System.out::println)
+    }
 
     fun saveName(name: String) {
         //TODO("implements save name")
@@ -40,8 +48,5 @@ class NewCharacterViewModel(
         Log.i("TEST", race)
     }
 
-    fun getDice(faces: Int) {
 
-        Log.i(javaClass.simpleName, diceUseCase.execute(faces).toString())
-    }
 }

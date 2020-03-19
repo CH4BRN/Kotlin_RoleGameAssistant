@@ -7,7 +7,7 @@ object ApplicationVersion {
 }
 
 object KotlinVersions {
-    const val kotlin_version = "1.3.61"
+    const val kotlin_version = "1.3.70"
 }
 
 object SdkVersions {
@@ -51,4 +51,8 @@ object RoomVersions {
 
 object MaterialVersions {
     const val comGoogleAndroidMaterialMaterial = "1.0.0"
+}
+
+object KotlinxVersions {
+    const val coroutines_version = "1.3.5"
 }

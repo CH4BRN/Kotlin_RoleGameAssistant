@@ -40,10 +40,7 @@ object MaterialDependencies {
         "com.google.android.material:material:${MaterialVersions.comGoogleAndroidMaterialMaterial}"
 }
 
-object AndroidSupportDependencies {
-    const val androidSupportCardview = "com.android.support:cardview-v7:" +
-            AndroidSupportVersions.cardView
-}
+
 
 object AndroidXDependencies {
     const val androidxAppcompatAppcompat =
@@ -62,6 +59,11 @@ object AndroidXDependencies {
         "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     const val androidxLifecycleLifecycleViewmodelKtx =
         "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+}
+
+object KotlinXDependencies {
+    const val kotlinxCoroutinesCore =
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core:${KotlinxVersions.coroutines_version}"
 }
 
 object TestDependencies {

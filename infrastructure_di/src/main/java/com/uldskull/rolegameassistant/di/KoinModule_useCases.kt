@@ -4,9 +4,15 @@
 
 package com.uldskull.rolegameassistant.di
 
+import com.uldskull.rolegameassistant.useCases.diceRoll.DiceService
+import com.uldskull.rolegameassistant.useCases.diceRoll.DiceServiceImpl
 import com.uldskull.rolegameassistant.useCases.diceRoll.GetOneDiceRollUseCase
 import org.koin.dsl.module
 
 val useCasesModule = module {
     factory { GetOneDiceRollUseCase() }
+}
+
+val useCasesServiceModule = module {
+    single<DiceService> { DiceServiceImpl(get()) }
 }
