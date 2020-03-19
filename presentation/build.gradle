@@ -5,7 +5,6 @@ android {
     compileSdkVersion SdkVersions.compileSdkVersion
     buildToolsVersion AndroidVersions.buildToolsVersion
 
-
     defaultConfig {
         minSdkVersion SdkVersions.minSdkVersion
         targetSdkVersion SdkVersions.targetSdkVersion
@@ -28,6 +27,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$KotlinVersions.kotlin_version"
+
     implementation AndroidXDependencies.androidxAppcompatAppcompat
     implementation AndroidXDependencies.androidxCoreCoreKtx
     implementation KoinDependencies.orgKoinKoinAndroid
@@ -36,8 +36,9 @@ dependencies {
     implementation KoinDependencies.orgKoinKoinAndroidxViewmodel
     implementation AndroidXDependencies.androidxRecyclerviewRecyclerview
     implementation project(ProjectsDependencies.domain)
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.0.2'
     testImplementation TestDependencies.junitJunit
     androidTestImplementation TestDependencies.androidxTestExtJunit
     androidTestImplementation TestDependencies.androidxTestEspressoEspressoCore

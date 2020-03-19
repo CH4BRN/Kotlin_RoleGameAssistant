@@ -1,31 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@android:color/holo_green_dark"
     tools:context=".fragments.fragment.CharacterSearchFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        app:layout_constraintTop_toTopOf="parent"
+        style="@style/TextViewFragmentTitle"
         android:id="@+id/fragment_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Character search" />
+        android:text="Character search"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <EditText
-        app:layout_constraintTop_toBottomOf="@id/fragment_title"
+        android:id="@+id/et_characterSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:autofillHints="character..."
         android:hint="Search ..."
-        android:id="@+id/et_characterSearch"/>
+        android:inputType="text"
+        app:layout_constraintTop_toBottomOf="@id/fragment_title" />
+
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_characters"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/et_characterSearch"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:id="@+id/recycler_view_characters"/>
+        app:layout_constraintTop_toBottomOf="@id/et_characterSearch" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,7 +7,7 @@ object ApplicationVersion {
 }
 
 object KotlinVersions {
-    const val kotlin_version = "1.3.61"
+    const val kotlin_version = "1.3.70"
 }
 
 object SdkVersions {
@@ -26,6 +26,10 @@ object AndroidXVersions {
     const val coreCoreKtx = "1.1.0"
     const val constraintLayoutConstraintLayout = "1.1.3"
     const val lifecycle_version = "2.2.0"
+}
+
+object AndroidSupportVersions {
+    const val cardView = "28.0.0"
 }
 
 object JunitVersions {
@@ -47,4 +51,8 @@ object RoomVersions {
 
 object MaterialVersions {
     const val comGoogleAndroidMaterialMaterial = "1.0.0"
+}
+
+object KotlinxVersions {
+    const val coroutines_version = "1.3.5"
 }

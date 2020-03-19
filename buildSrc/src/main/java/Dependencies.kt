@@ -41,6 +41,7 @@ object MaterialDependencies {
 }
 
 
+
 object AndroidXDependencies {
     const val androidxAppcompatAppcompat =
         "androidx.appcompat:appcompat:" +
@@ -52,10 +53,17 @@ object AndroidXDependencies {
                 AndroidXVersions.constraintLayoutConstraintLayout
     const val androidxRecyclerviewRecyclerview = "androidx.recyclerview:recyclerview:" +
             AndroidXVersions.appcompatAppcompat
+
+
     const val androidxLifecycleLifecycleLivedataKtx =
         "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     const val androidxLifecycleLifecycleViewmodelKtx =
         "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+}
+
+object KotlinXDependencies {
+    const val kotlinxCoroutinesCore =
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core:${KotlinxVersions.coroutines_version}"
 }
 
 object TestDependencies {

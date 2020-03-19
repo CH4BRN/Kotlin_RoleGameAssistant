@@ -5,6 +5,8 @@ package com.uldskull.rolegameassistant.application
 
 import android.app.Application
 import com.uldskull.rolegameassistant.di.roomModule
+import com.uldskull.rolegameassistant.di.useCasesModule
+import com.uldskull.rolegameassistant.di.useCasesServiceModule
 
 import com.uldskull.rolegameassistant.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
@@ -33,6 +35,12 @@ class MainApplication : Application() {
             )
             modules(
                 roomModule
+            )
+            modules(
+                useCasesModule
+            )
+            modules(
+                useCasesServiceModule
             )
 
         }

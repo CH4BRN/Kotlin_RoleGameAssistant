@@ -8,7 +8,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues.TABLE_NAME_BASIC_INFO
-import com.uldskull.rolegameassistant.infrastructure.database_model.basic_info.DbBasicInfo
+import com.uldskull.rolegameassistant.infrastructure.database_model.basic_info.DbBasicInformation
 
 /**
 Interface "BasicInfoDao"
@@ -18,14 +18,14 @@ Database interactions for basic info.
 @Dao
 interface BasicInfoDao {
     @Query("SELECT * FROM $TABLE_NAME_BASIC_INFO")
-    fun getAll(): LiveData<List<DbBasicInfo>>
+    fun getAll(): LiveData<List<DbBasicInformation>>
 
     @Query("SELECT * FROM $TABLE_NAME_BASIC_INFO WHERE dbBasicInfoId = :dbBasicInfoId")
-    fun getById(dbBasicInfoId: Long?):DbBasicInfo
+    fun getById(dbBasicInfoId: Long?): DbBasicInformation
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(dbBasicInfo: DbBasicInfo)
+    fun insert(dbBasicInfo: DbBasicInformation)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(dbBasicInfos:List<DbBasicInfo>)
+    fun insertAll(dbBasicInformation: List<DbBasicInformation>)
 }

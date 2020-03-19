@@ -5,6 +5,7 @@
 package com.uldskull.rolegameassistant.infrastructure
 
 object DatabaseValues {
+    const val DATABASE_NAME = "appdb"
     const val TABLE_NAME_SKILL = "skill"
     const val TABLE_NAME_HEALTH = "health"
     const val TABLE_NAME_ABILITY_SCORE = "ability_score"

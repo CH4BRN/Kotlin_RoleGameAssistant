@@ -1,6 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <resources>
+    <!--  Abilities  -->
+    <string name="STRENGTH">
+        STRENGTH
+    </string>
+
+    <!--  app name  -->
     <string name="app_name">presentation</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="ipsum">
+        ipsum
+    </string>
+
+    <string name="lorem">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    </string>
+    <!--  lorem ipsum : long  -->
+    <string name="lorem_ipsum_long">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras
+        eleifend justo sit amet lacus fringilla consequat quis vel enim.
+        Integer ut nunc augue. Integer consectetur euismod volutpat.
+        Curabitur ut dolor eu risus lacinia varius. Integer vitae
+        pulvinar eros. Maecenas lacus lectus, ornare et consequat nec,
+        blandit eu augue. Aenean tempor ipsum non elit efficitur,
+        vel accumsan ipsum cursus. Duis eleifend volutpat est, at
+        lacinia arcu pharetra eu. Praesent metus enim, scelerisque
+        commodo faucibus eget, posuere et leo.
+        Phasellus sollicitudin mi non imperdiet maximus. Phasellus
+        eget condimentum nunc. Duis et condimentum dolor, ut
+        condimentum metus. Suspendisse id urna in erat sodales
+        euismod. Fusce tempus volutpat nibh. Quisque aliquet
+        cursus facilisis. Maecenas sapien libero, hendrerit
+        sagittis vehicula quis, euismod blandit ligula. Sed ut
+        velit convallis, aliquam eros sit amet, ullamcorper ante.
+        Fusce at ipsum ligula. Vestibulum at elit tortor. Nullam
+        tincidunt lectus quis tortor tempor, vitae mattis enim
+        sodales.
+    </string>
+    <!-- lorem ipsum : short  -->
+    <string name="lorem_ipsum_short">
+         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras
+        eleifend justo sit amet lacus fringilla consequat quis vel enim.
+        Integer ut nunc augue. Integer consectetur euismod volutpat.
+        Curabitur ut dolor eu risus lacinia varius. Integer vitae
+        pulvinar eros. Maecenas lacus lectus, ornare et consequat nec,
+        blandit eu augue. Aenean tempor ipsum non elit efficitur,
+        vel accumsan ipsum cursus.
+    </string>
 </resources>

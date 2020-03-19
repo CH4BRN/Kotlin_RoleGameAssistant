@@ -3,14 +3,12 @@
 
 package com.uldskull.rolegameassistant.fragments.fragment
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.NewCharacterActivity
-
 import kotlinx.android.synthetic.main.fragment_progress_bar.*
 
 /**
@@ -18,11 +16,7 @@ import kotlinx.android.synthetic.main.fragment_progress_bar.*
  *   Fragment class used to display a progress bar.
  *   The progression is bound to a field into the view model.
  **/
-class ProgressBarFragment(val progression:Int =0) : Fragment() {
-
-    /** Root view   **/
-    private lateinit var initialRootView: View
-
+class ProgressBarFragment(val progression: Int = 0, activity: Activity) : CustomFragment(activity) {
 
     /** Fragment lifecycle  **/
     override fun onCreateView(
@@ -45,18 +39,27 @@ class ProgressBarFragment(val progression:Int =0) : Fragment() {
     }
 
     /** Initialize the view **/
-    private fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
+    override fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = inflater.inflate(
             R.layout.fragment_progress_bar, container, false
         )
         return initialRootView
     }
 
-    companion object {
+    companion object : CustomCompanion() {
         @JvmStatic
-        fun newInstance(activity: NewCharacterActivity, progression:Int): ProgressBarFragment {
+        override fun newInstance(activity: Activity): CustomFragment {
             return ProgressBarFragment(
-                progression = progression
+                progression = 0,
+                activity = activity
+            )
+        }
+
+        @JvmStatic
+        fun newInstance(activity: Activity, progression: Int): CustomFragment {
+            return ProgressBarFragment(
+                progression = progression,
+                activity = activity
             )
         }
     }

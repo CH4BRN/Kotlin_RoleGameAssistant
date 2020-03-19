@@ -23,7 +23,7 @@ data class DbBackground (
          */
         fun from(domainBackground: DomainBackground): DbBackground {
             return DbBackground(
-                dbBackgroundId = domainBackground.backggroundId
+                dbBackgroundId = domainBackground.backgroundId
             )
         }
     }
@@ -33,7 +33,7 @@ data class DbBackground (
      */
    override fun toDomain(): DomainBackground {
         return DomainBackground(
-            backggroundId = dbBackgroundId
+            backgroundId = dbBackgroundId
         )
     }
 

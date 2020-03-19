@@ -15,5 +15,5 @@ Architecture & patterns :
 Dependency Injection : 
 - Koin
 
-Peristance : 
+Persistance :
 - Sqlite + Room

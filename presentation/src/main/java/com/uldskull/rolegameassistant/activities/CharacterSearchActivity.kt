@@ -5,7 +5,6 @@ package com.uldskull.rolegameassistant.activities
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.fragment.CharacterSearchFragment
 import kotlinx.android.synthetic.main.activity_search_character.*
@@ -14,24 +13,33 @@ import kotlinx.android.synthetic.main.activity_search_character.*
  *   Class "CharacterSearchActivity" :
  *   Handle character searches
  **/
-class CharacterSearchActivity : AppCompatActivity() {
+class CharacterSearchActivity : CustomActivity() {
 
     /** Activity life-cycle  **/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_character)
 
-        initializeFab()
+        initializeAddCharacterFab()
         initializeCharacterSearchView()
     }
 
-    private fun initializeCharacterSearchView(){
-        replaceFragment(R.id.container_searchCharacter, CharacterSearchFragment.newInstance())
+    /**
+     * Initialize the Character search view.
+     */
+    private fun initializeCharacterSearchView() {
+        replaceFragment(
+            R.id.container_searchCharacter,
+            CharacterSearchFragment.newInstance(this)
+        )
     }
 
 
-    private fun initializeFab() {
-        if ( fab_createCharacter != null) {
+    /**
+     * Initializes the floating action button.
+     */
+    private fun initializeAddCharacterFab() {
+        if (fab_createCharacter != null) {
             fab_createCharacter.setOnClickListener {
                 val intent = Intent(this, NewCharacterActivity::class.java)
                 startActivity(intent)

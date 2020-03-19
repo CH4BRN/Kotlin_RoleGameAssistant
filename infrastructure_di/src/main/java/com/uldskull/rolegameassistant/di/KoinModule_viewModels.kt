@@ -3,6 +3,8 @@
 package com.uldskull.rolegameassistant.di
 
 import com.uldskull.rolegameassistant.fragments.fragment.abilities.AbilitiesViewModel
+import com.uldskull.rolegameassistant.fragments.fragment.bonds.BondsViewModel
+import com.uldskull.rolegameassistant.fragments.fragment.ideals.IdealsViewModel
 import com.uldskull.rolegameassistant.fragments.fragment.skills.SkillsViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -13,7 +15,8 @@ val viewModelModule = module {
     //  New Character ViewModel
     viewModel {
         NewCharacterViewModel(
-            application = get()
+            application = get(),
+            diceService = get()
         )
     }
     //  Abilities ViewModel
@@ -28,6 +31,16 @@ val viewModelModule = module {
             application = get()
         )
     }
-
-
+    //  Bonds ViewModel
+    viewModel {
+        BondsViewModel(
+            application = get()
+        )
+    }
+    //  Ideals ViewModel
+    viewModel {
+        IdealsViewModel(
+            application = get()
+        )
+    }
 }

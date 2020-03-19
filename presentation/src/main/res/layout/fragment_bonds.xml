@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/ParentLinearLayout">
+
+    <TextView
+        android:id="@+id/tv_title"
+        style="@style/TextViewFragmentTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bonds : " />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="4dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/etBondTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="Bond title ..."
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="Title"
+                android:inputType="text"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <EditText
+                android:id="@+id/etBond"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="Bond..."
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="@string/lorem_ipsum_short"
+                android:inputType="textMultiLine"
+
+                app:layout_constraintTop_toBottomOf="@id/etBondTitle" />
+
+
+            <ImageButton
+                android:id="@+id/btn_addBond"
+                style="@style/myCornerRadiusButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/mybutton"
+                android:padding="8dp"
+                android:src="@drawable/ic_add_black_24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/etBond" />
+
+            <FrameLayout
+                android:id="@+id/container_bonds"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_addBond" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+
+</LinearLayout>

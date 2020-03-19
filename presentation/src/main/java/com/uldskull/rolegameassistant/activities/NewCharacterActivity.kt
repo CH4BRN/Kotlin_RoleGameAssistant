@@ -4,13 +4,14 @@
 package com.uldskull.rolegameassistant.activities
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.adapter.CharacterPagerAdapter
-import com.uldskull.rolegameassistant.fragments.fragment.PictureFragment
+import com.uldskull.rolegameassistant.fragments.fragment.NavigationBarFragment
 import com.uldskull.rolegameassistant.fragments.fragment.ProgressBarFragment
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -32,18 +33,20 @@ class NewCharacterActivity :
      * @param savedInstanceState the transmitted bundle**/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.i(NEW_CHARACTER_ACTIVITY.name, "Start")
 
         setContentView(R.layout.activity_new_character)
 
         //  Get the ViewModels by DI
         newCharacterViewModel = getViewModel()
 
-        replaceFragment(R.id.container_picture, PictureFragment(this) )
+
 
         this.observeProgression()
 
         this.setCharacterPageAdapter()
 
+        this.loadNavigationBarFragment()
         this.loadProgressBarFragment(0)
     }
 
@@ -59,9 +62,9 @@ class NewCharacterActivity :
     /** Observe view pager progression  **/
     private fun observeProgression() {
         progression.observe(
-            this, Observer { prog ->
+            this, Observer { progression ->
                 kotlin.run {
-                    loadProgressBarFragment(prog)
+                    loadProgressBarFragment(progression)
                 }
             }
         )
@@ -73,12 +76,22 @@ class NewCharacterActivity :
     /** Load the progress bar fragment
      * @param progression the progression to display **/
     private fun loadProgressBarFragment(progression: Int) {
-        val progressBarTransaction = fragmentManager.beginTransaction()
-        progressBarTransaction.replace(
+
+        this.replaceFragment(
             R.id.container_progressBar,
             ProgressBarFragment.newInstance(this, progression)
         )
-            .commit()
+    }
+
+    /**
+     * Load the navigation bar fragment.
+     */
+    private fun loadNavigationBarFragment() {
+
+        this.replaceFragment(
+            R.id.container_navigationBar,
+            NavigationBarFragment.newInstance(this)
+        )
     }
 
     companion object {

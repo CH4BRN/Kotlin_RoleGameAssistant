@@ -6,16 +6,17 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.uldskull.rolegameassistant.infrastructure.DatabaseValues.DATABASE_NAME
 import com.uldskull.rolegameassistant.infrastructure.dao.BasicInfoDao
-import com.uldskull.rolegameassistant.infrastructure.database_model.basic_info.DbBasicInfo
+import com.uldskull.rolegameassistant.infrastructure.database_model.basic_info.DbBasicInformation
 
 /**
 Class "AppDatabase"
 
-Abstract class for romm database
+Abstract class for room database
  */
 @Database(
-    entities = [DbBasicInfo::class],
+    entities = [DbBasicInformation::class],
     version = 1
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -40,7 +41,7 @@ abstract class AppDatabase : RoomDatabase() {
                 .databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    "appdb"
+                    DATABASE_NAME
                 )
                 .allowMainThreadQueries()
                 .build()
