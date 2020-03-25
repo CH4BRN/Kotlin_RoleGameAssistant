@@ -11,9 +11,9 @@ import android.widget.EditText
  *   Class "AbiltiesEnabledAdapter" :
  *   TODO: Fill class use.
  **/
-class AbilitiesDisabledAdapter(context: Context) : AbilitiesAdapter(context) {
+class CharacteristicsDisabledAdapter(context: Context) : CharacteristicsAdapter(context) {
     /** ViewHolder life-cycle   **/
-    override fun onBindViewHolder(holder: AbilitiesViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CharacteristicsViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
 
         disabledEditText(holder.abilityRollItemView)

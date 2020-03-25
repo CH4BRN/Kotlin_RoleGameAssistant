@@ -66,9 +66,9 @@ class JobFragment(activity: Activity) : CustomFragment(activity) {
      */
     override fun onResume() {
         super.onResume()
-        Log.i("JobFragment_1", NewCharacterActivity.progression.value.toString())
+        Log.d("JobFragment_1", NewCharacterActivity.progression.value.toString())
         NewCharacterActivity.progression.value = JOB_FRAGMENT_POSITION
-        Log.i("JobFragment_2", NewCharacterActivity.progression.value.toString())
+        Log.d("JobFragment_2", NewCharacterActivity.progression.value.toString())
     }
 
     companion object : CustomCompanion() {

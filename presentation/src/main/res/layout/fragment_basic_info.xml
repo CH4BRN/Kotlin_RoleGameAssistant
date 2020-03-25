@@ -35,7 +35,6 @@
                     android:layout_width="match_parent">
 
                     <TextView
-
                         android:id="@+id/tv_subtitle_name"
                         style="@style/TextViewSubTitle"
                         android:text="Name : " />
@@ -44,8 +43,6 @@
                         android:id="@+id/et_name"
                         android:layout_width="match_parent"
                         android:layout_weight="1"
-                        android:autofillHints=""
-
                         android:hint="Name ... "
                         android:inputType="text" />
                 </TableRow>

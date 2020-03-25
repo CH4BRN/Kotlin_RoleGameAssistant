@@ -6,7 +6,7 @@ package com.uldskull.rolegameassistant.fragments.fragment.skills
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.uldskull.rolegameassistant.models.skill.DomainSkill
+import com.uldskull.rolegameassistant.models.character.DomainFilledSkill
 
 /**
  *   Class "SkillsViewModel" :
@@ -17,91 +17,25 @@ import com.uldskull.rolegameassistant.models.skill.DomainSkill
 class SkillsViewModel(application: Application) : AndroidViewModel(application) {
 
     /** Skills to display   **/
-    var jobSkills = MutableLiveData<List<DomainSkill>>()
-    var hobbiesSkills = MutableLiveData<List<DomainSkill>>()
-    var hobbySkills = MutableLiveData<List<DomainSkill>>()
+    var jobSkills = MutableLiveData<List<DomainFilledSkill>>()
+    var hobbiesSkills = MutableLiveData<List<DomainFilledSkill>>()
+    var hobbySkills = MutableLiveData<List<DomainFilledSkill>>()
 
     init {
 
         hobbiesSkills.value = listOf(
-            DomainSkill(
-                skillName = "hobbiesSkills",
-                skillBase = 15,
-                skillTensValue = 8,
-                skillUnitsValue = 0
-            ),
-            DomainSkill(
-                skillName = "hobbiesSkills",
-                skillBase = 35,
-                skillTensValue = 9,
-                skillUnitsValue = 0
-            ),
-            DomainSkill(
-                skillName = "hohobbiesSkillshobbiesSkillsbby",
-                skillBase = 15,
-                skillTensValue = 8,
-                skillUnitsValue = 5
-            ),
-            DomainSkill(
-                skillName = "hobbiesSkills",
-                skillBase = 15,
-                skillTensValue = 8,
-                skillUnitsValue = 9
+            DomainFilledSkill(
+                filledSkillName = "SKILL",
+                filledSkillMax = 24,
+                filledSkillDescription = "Its a skill.",
+                filledSkillBase = 0,
+                filledSkillTensValue = 0,
+                filledSkillUnitsValue = 0,
+                filledSkillId = 0,
+                filledSkillTotal = 0
             )
         )
 
-        jobSkills.value = listOf(
-            DomainSkill(
-                skillName = "jobSkills",
-                skillBase = 15,
-                skillTensValue = 8,
-                skillUnitsValue = 0
-            ),
-            DomainSkill(
-                skillName = "jobSkillsjobSkills",
-                skillBase = 35,
-                skillTensValue = 9,
-                skillUnitsValue = 0
-            ),
-            DomainSkill(
-                skillName = "jobSkills",
-                skillBase = 15,
-                skillTensValue = 8,
-                skillUnitsValue = 5
-            ),
-            DomainSkill(
-                skillName = "jobSkillsjobSkills",
-                skillBase = 15,
-                skillTensValue = 8,
-                skillUnitsValue = 9
-            )
-        )
 
-        hobbySkills.value = listOf(
-            DomainSkill(
-                skillName = "jobSkills",
-                skillBase = 15,
-                skillTensValue = 8,
-                skillUnitsValue = 0
-            ),
-            DomainSkill(
-                skillName = "jobSkillsjobSkills",
-                skillBase = 35,
-                skillTensValue = 9,
-                skillUnitsValue = 0
-            ),
-            DomainSkill(
-                skillName = "jobSkills",
-                skillBase = 15,
-                skillTensValue = 8,
-                skillUnitsValue = 5
-            ),
-            DomainSkill(
-                skillName = "jobSkillsjobSkills",
-                skillBase = 15,
-                skillTensValue = 8,
-                skillUnitsValue = 9
-            )
-        )
     }
 }

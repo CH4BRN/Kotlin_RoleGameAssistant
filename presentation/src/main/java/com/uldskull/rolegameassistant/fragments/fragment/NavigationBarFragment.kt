@@ -6,6 +6,7 @@ package com.uldskull.rolegameassistant.fragments.fragment
 import android.app.Activity
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,12 +60,27 @@ class NavigationBarFragment(activity: Activity) : CustomFragment(activity) {
         super.onViewCreated(view, savedInstanceState)
 
         setBackButton()
+        setSaveButton()
     }
 
     private fun setBackButton() {
         btn_back.setOnClickListener {
             displayBackConfirmation()
         }
+    }
+
+    private fun setSaveButton() {
+        btn_save.setOnClickListener {
+            doSave()
+        }
+    }
+
+    private fun doSave() {
+        Log.d(
+            "NavigationBarFragment",
+            "doSave"
+        )
+
     }
 
     companion object : CustomCompanion() {

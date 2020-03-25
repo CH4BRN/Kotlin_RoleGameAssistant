@@ -14,8 +14,9 @@ class MainActivity : AppCompatActivity() {
      * @param  savedInstanceState is the transmitted bundle**/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.i(MAIN_ACTIVITY.name, "Start")
+        Log.d(MAIN_ACTIVITY.name, "Start")
         setContentView(R.layout.activity_main)
+
 
         loadSearchCharacterActivity()
 
@@ -50,6 +51,7 @@ class MainActivity : AppCompatActivity() {
             NEW_CHARACTER_ACTIVITY
         )
     }
+
 
     companion object {
         /** DomainCharacter search activity java class    **/

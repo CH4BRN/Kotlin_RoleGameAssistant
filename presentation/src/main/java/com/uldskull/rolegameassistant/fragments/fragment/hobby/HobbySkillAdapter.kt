@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.models.skill.DomainSkill
+import com.uldskull.rolegameassistant.models.character.DomainFilledSkill
 
 /**
  *   Class "HobbySkillAdapter" :
@@ -23,7 +23,7 @@ class HobbySkillAdapter internal constructor(
 
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
     /**  Skills list  **/
-    private var hobbySkills = emptyList<DomainSkill>()
+    private var hobbySkills = emptyList<DomainFilledSkill>()
 
     inner class HobbySkillsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var tvHobbySkillName: TextView? = itemView.findViewById(R.id.tv_hobbySkillName)
@@ -94,13 +94,13 @@ class HobbySkillAdapter internal constructor(
      */
     override fun onBindViewHolder(holder: HobbySkillsViewHolder, position: Int) {
         val current = hobbySkills[position]
-        holder.tvHobbySkillAddTens?.text = current.skillTensValue.toString()
-        holder.tvHobbySkillAddUnits?.text = current.skillUnitsValue.toString()
-        holder.tvHobbySkillBase?.text = current.skillBase.toString()
+        holder.tvHobbySkillAddTens?.text = current.filledSkillTensValue.toString()
+        holder.tvHobbySkillAddUnits?.text = current.filledSkillUnitsValue.toString()
+        holder.tvHobbySkillBase?.text = current.filledSkillBase.toString()
         holder.tvHobbySkillName?.text = current.skillName.toString()
     }
 
-    fun setHobbySkills(skills: List<DomainSkill>) {
+    fun setHobbySkills(skills: List<DomainFilledSkill>) {
         this.hobbySkills = skills
         notifyDataSetChanged()
     }

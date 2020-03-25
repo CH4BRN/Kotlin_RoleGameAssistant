@@ -16,7 +16,7 @@ class NewIdealActivity : CustomActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.i(NEW_IDEAL_ACTIVITY.name, "Start")
+        Log.d(NEW_IDEAL_ACTIVITY.name, "Start")
         setContentView(R.layout.activity_new_ideal)
         loadNavigationBarFragment()
     }

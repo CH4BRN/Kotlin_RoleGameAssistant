@@ -33,7 +33,7 @@ class NewCharacterActivity :
      * @param savedInstanceState the transmitted bundle**/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.i(NEW_CHARACTER_ACTIVITY.name, "Start")
+        Log.d(NEW_CHARACTER_ACTIVITY.name, "Start")
 
         setContentView(R.layout.activity_new_character)
 

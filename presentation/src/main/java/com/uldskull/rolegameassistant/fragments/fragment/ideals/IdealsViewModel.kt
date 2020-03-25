@@ -6,8 +6,8 @@ package com.uldskull.rolegameassistant.fragments.fragment.ideals
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.models.ideal.DomainIdeal
+import com.uldskull.rolegameassistant.models.character.DomainIdeal
+
 
 /**
  *   Class "IdealsViewModel" :
@@ -21,16 +21,7 @@ class IdealsViewModel(application: Application) : AndroidViewModel(application) 
     init {
 
         ideals.value = listOf(
-            DomainIdeal(
-                value = application.getString(R.string.lorem_ipsum_short),
-                evilPoints = 10,
-                goodPoints = 100
-            ),
-            DomainIdeal(
-                value = application.getString(R.string.lorem_ipsum_short),
-                evilPoints = 100,
-                goodPoints = 10
-            )
+
 
         )
 

@@ -15,7 +15,7 @@ TODO: Describe class utility.
 class NewSkillActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.i(NEW_SKILL_ACTIVTY.name, "Start")
+        Log.d(NEW_SKILL_ACTIVTY.name, "Start")
         setContentView(R.layout.activity_new_skill)
     }
 }

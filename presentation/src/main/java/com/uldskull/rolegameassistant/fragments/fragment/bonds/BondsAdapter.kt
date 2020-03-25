@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -79,9 +78,9 @@ class BondsAdapter internal constructor(
 
         holder.bondDeleteItemView.setOnClickListener {
 
-            Log.i("ADAPTER", bonds[position])
+            Log.d("ADAPTER", bonds[position])
             setBonds(bonds.minus(bonds[position]))
-            Log.i("ADAPTER", bonds.size.toString())
+            Log.d("ADAPTER", bonds.size.toString())
 
         }
     }

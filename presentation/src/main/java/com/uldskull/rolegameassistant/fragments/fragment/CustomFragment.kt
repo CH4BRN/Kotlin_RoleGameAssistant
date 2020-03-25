@@ -34,7 +34,7 @@ abstract class CustomFragment(val activity: Activity) : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.i(javaClass.simpleName.capitalize(), ONCREATE)
+        Log.d(javaClass.simpleName.capitalize(), ONCREATE)
     }
 
     private val ONCREATE = "OnCreate"

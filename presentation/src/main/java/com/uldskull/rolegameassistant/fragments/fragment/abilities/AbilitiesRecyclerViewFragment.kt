@@ -28,13 +28,13 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 class AbilitiesRecyclerViewFragment(activity: Activity) :
     CustomRecyclerViewFragment(activity) {
     /** ViewModel for abilities **/
-    private lateinit var abilitiesViewModel: AbilitiesViewModel
+    private lateinit var characteristicsViewModel: CharacteristicsViewModel
 
     /** Adapter for abilities recycler view **/
-    private var abilitiesAdapter: AbilitiesAdapter? = null
+    private var characteristicsAdapter: CharacteristicsAdapter? = null
 
     /** Adapter to display disabled edit texts **/
-    private var abilitiesDisabledAdapter: AbilitiesDisabledAdapter? = null
+    private var abilitiesDisabledAdapter: CharacteristicsDisabledAdapter? = null
 
     /** Recycler View for abilities **/
     private var abilitiesRecyclerView: RecyclerView? = null
@@ -42,7 +42,7 @@ class AbilitiesRecyclerViewFragment(activity: Activity) :
     /** Fragment fife-cycle   **/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        abilitiesViewModel = getViewModel()
+        characteristicsViewModel = getViewModel()
     }
 
     /** Fragment life-cycle **/
@@ -79,7 +79,7 @@ class AbilitiesRecyclerViewFragment(activity: Activity) :
     private fun setButtonRoll() {
         if (btn_roll != null) {
             btn_roll.setOnClickListener {
-                Log.i(this.javaClass.simpleName, "Roll")
+                Log.d(this.javaClass.simpleName, "Roll")
             }
         }
     }
@@ -91,8 +91,8 @@ class AbilitiesRecyclerViewFragment(activity: Activity) :
     private fun setButtonUsePoints() {
         if (btn_use_point != null) {
             btn_use_point.setOnClickListener {
-                Log.i(this.javaClass.simpleName, "Use points")
-                abilitiesRecyclerView?.adapter = abilitiesAdapter
+                Log.d(this.javaClass.simpleName, "Use points")
+                abilitiesRecyclerView?.adapter = characteristicsAdapter
                 setRecyclerViewLayoutManager()
             }
         }
@@ -110,10 +110,10 @@ class AbilitiesRecyclerViewFragment(activity: Activity) :
      * Start ViewModel's collection observation.
      */
     override fun startObservation() {
-        this.abilitiesViewModel.abilities.observe(this, Observer { abilities ->
+        this.characteristicsViewModel.characteristicsToChoose.observe(this, Observer { abilities ->
             kotlin.run {
                 abilities?.let {
-                    Log.i(
+                    Log.d(
                         "abilitiesDisabledADAPTER", when (abilitiesDisabledAdapter) {
                             null -> "Is null"
                             else -> "Is not null"
@@ -121,18 +121,18 @@ class AbilitiesRecyclerViewFragment(activity: Activity) :
                     )
                     abilitiesDisabledAdapter?.setAbilities(it)
 
-                    Log.i("ABILITIES IT SIZE : ", it.size.toString())
+                    Log.d("ABILITIES IT SIZE : ", it.size.toString())
                 }
                 abilities?.let {
-                    Log.i(
-                        "abilitiesADAPTER", when (abilitiesAdapter) {
+                    Log.d(
+                        "abilitiesADAPTER", when (characteristicsAdapter) {
                             null -> "Is null"
                             else -> "Is not null"
                         }
                     )
-                    abilitiesAdapter?.setAbilities(it)
+                    characteristicsAdapter?.setAbilities(it)
 
-                    Log.i("ABILITIES IT SIZE : ", it.size.toString())
+                    Log.d("ABILITIES IT SIZE : ", it.size.toString())
                 }
 
             }
@@ -148,8 +148,8 @@ class AbilitiesRecyclerViewFragment(activity: Activity) :
      * Set Disabled recyclerview adapter
      */
     private fun setRecyclerViewDisabledAdapter() {
-        abilitiesDisabledAdapter = AbilitiesDisabledAdapter(activity as Context)
-        abilitiesAdapter = AbilitiesAdapter(activity as Context)
+        abilitiesDisabledAdapter = CharacteristicsDisabledAdapter(activity as Context)
+        characteristicsAdapter = CharacteristicsAdapter(activity as Context)
         abilitiesRecyclerView?.adapter = abilitiesDisabledAdapter
     }
 

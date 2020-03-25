@@ -11,7 +11,7 @@ android {
         versionCode ApplicationVersion.versionCode
         versionName ApplicationVersion.versionName
 
-        testInstrumentationRunner TestDependencies.androidTestRunnerAndroidJUnitRunner
+        testInstrumentationRunner TestDependencies.AndroidJUnitRunner
         consumerProguardFiles 'consumer-rules.pro'
     }
 
@@ -28,19 +28,21 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$KotlinVersions.kotlin_version"
 
-    implementation AndroidXDependencies.androidxAppcompatAppcompat
-    implementation AndroidXDependencies.androidxCoreCoreKtx
-    implementation KoinDependencies.orgKoinKoinAndroid
-    implementation KoinDependencies.orgKoinKoinCore
-    implementation KoinDependencies.orgKoinKoinAndroidxScope
-    implementation KoinDependencies.orgKoinKoinAndroidxViewmodel
-    implementation AndroidXDependencies.androidxRecyclerviewRecyclerview
+    implementation AndroidXDependencies.Appcompat
+    implementation AndroidXDependencies.CoreKtx
+    implementation KoinDependencies.KoinAndroid
+    implementation KoinDependencies.KoinCore
+    implementation KoinDependencies.KoinAndroidxScope
+    implementation KoinDependencies.KoinAndroidxViewmodel
+    implementation AndroidXDependencies.Recyclerview
     implementation project(ProjectsDependencies.domain)
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.2'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation AndroidXDependencies.LifecycleViewmodelKtx
+    implementation KotlinXDependencies.kotlinxCoroutinesCore
+    implementation KotlinXDependencies.kotlinxCoroutinesAndroid
+
+    implementation AndroidXDependencies.LegacySupportV4
     testImplementation TestDependencies.junitJunit
-    androidTestImplementation TestDependencies.androidxTestExtJunit
-    androidTestImplementation TestDependencies.androidxTestEspressoEspressoCore
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    androidTestImplementation TestDependencies.Junit
+    androidTestImplementation TestDependencies.EspressoCore
+    implementation AndroidXDependencies.ConstraintLayout
 }

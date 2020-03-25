@@ -14,6 +14,6 @@ import androidx.appcompat.app.AppCompatActivity
 abstract class CustomActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.i(this.localClassName, "Start")
+        Log.d(this.localClassName, "Start")
     }
 }

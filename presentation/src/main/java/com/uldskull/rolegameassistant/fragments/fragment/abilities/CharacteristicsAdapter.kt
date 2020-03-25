@@ -14,7 +14,7 @@ import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.models.ability_score.DomainAbilityScore
+import com.uldskull.rolegameassistant.models.character.characteristic.DomainCharacteristic
 import kotlinx.android.synthetic.main.recyclerview_item_ability.view.*
 
 
@@ -22,21 +22,21 @@ import kotlinx.android.synthetic.main.recyclerview_item_ability.view.*
  *   Class "AbilitiesAdapter" :
  *   Adapter for abilities recycler view.
  **/
-open class AbilitiesAdapter internal constructor(
+open class CharacteristicsAdapter internal constructor(
     context: Context
-) : RecyclerView.Adapter<AbilitiesAdapter.AbilitiesViewHolder>() {
+) : RecyclerView.Adapter<CharacteristicsAdapter.CharacteristicsViewHolder>() {
 
     private var onBind: Boolean = false
     /** Inflater    **/
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
     /** Abilities list  **/
-    private var abilities = emptyList<DomainAbilityScore>()
+    private var rollCharacteristics = emptyList<DomainCharacteristic>()
 
     /** Custom ViewHolder   **/
-    inner class AbilitiesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class CharacteristicsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         //  Get the ability's name edit text.
-        val abilityNameItemView: TextView = itemView.findViewById(R.id.et_abilityName)
+        val characteristicNameItemView: TextView = itemView.findViewById(R.id.et_abilityName)
 
         //  Get the roll's edit text.
         val abilityRollItemView: EditText = itemView.findViewById(R.id.et_abilityRoll)
@@ -48,18 +48,18 @@ open class AbilitiesAdapter internal constructor(
     }
 
     /** ViewHolder life-cycle   **/
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbilitiesViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacteristicsViewHolder {
         var roll: Int? = 0
         var bonus: Int? = 0
         val itemView = inflater.inflate(R.layout.recyclerview_item_ability, parent, false)
         itemView.et_abilityRoll.inputType = InputType.TYPE_CLASS_NUMBER
         itemView.et_abilityRoll.addTextChangedListener {
             var stringRoll = itemView.et_abilityRoll.text.toString()
-            Log.i(javaClass.simpleName, stringRoll)
+            Log.d(javaClass.simpleName, stringRoll)
             try {
                 if (stringRoll.isNotBlank() && !stringRoll.isNullOrEmpty()) {
                     roll = stringRoll.toInt()
-                    Log.i(javaClass.simpleName, "Roll : " + roll.toString())
+                    Log.d(javaClass.simpleName, "Roll : " + roll.toString())
                 } else
                     roll = 0
                 var total: Int = roll!! + bonus!!
@@ -75,11 +75,11 @@ open class AbilitiesAdapter internal constructor(
 
         itemView.et_abilityBonus.addTextChangedListener {
             var stringBonus = itemView.et_abilityBonus.text.toString()
-            Log.i(javaClass.simpleName, stringBonus)
+            Log.d(javaClass.simpleName, stringBonus)
             try {
                 if (stringBonus.isNotBlank() && !stringBonus.isNullOrEmpty()) {
                     bonus = stringBonus.toInt()
-                    Log.i(javaClass.simpleName, "Bonus : " + bonus.toString())
+                    Log.d(javaClass.simpleName, "Bonus : " + bonus.toString())
                 } else {
                     bonus = 0
                 }
@@ -94,29 +94,27 @@ open class AbilitiesAdapter internal constructor(
             }
         }
 
-        return AbilitiesViewHolder((itemView))
+        return CharacteristicsViewHolder((itemView))
     }
 
 
     /** ViewHolder life-cycle   **/
-    override fun onBindViewHolder(holder: AbilitiesViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CharacteristicsViewHolder, position: Int) {
         onBind = true
-        val current = abilities[position]
-        holder.abilityNameItemView.text = current.abilityScoreAbility.toString()
-        holder.abilityRollItemView.hint = current.abilityScoreRoll.toString()
-        holder.bonusItemView.hint = current.abilityScoreBonus.toString()
+        val current = rollCharacteristics[position]
+        holder.characteristicNameItemView.text = current.characteristicName.toString()
         onBind = false
 
 
     }
 
     /** Set the list containing domainAbilities to display   **/
-    internal fun setAbilities(domainAbilities: List<DomainAbilityScore>) {
-        this.abilities = domainAbilities
-        Log.i(this.javaClass.simpleName, this.abilities.size.toString())
+    internal fun setAbilities(domainAbilities: List<DomainCharacteristic>) {
+        this.rollCharacteristics = domainAbilities
+        Log.d(this.javaClass.simpleName, this.rollCharacteristics.size.toString())
         notifyDataSetChanged()
     }
 
     /** Number of items in the list **/
-    override fun getItemCount(): Int = abilities.size
+    override fun getItemCount(): Int = rollCharacteristics.size
 }

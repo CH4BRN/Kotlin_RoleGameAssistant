@@ -6,7 +6,9 @@ package com.uldskull.rolegameassistant.viewmodels
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import com.uldskull.rolegameassistant.useCases.diceRoll.DiceService
+import kotlinx.coroutines.launch
 
 /**
  *   Class "NewCharacterViewModel" :
@@ -20,33 +22,64 @@ class NewCharacterViewModel(
 ) : AndroidViewModel(application) {
 
     fun displayDices() {
-        for (i in 1..9) {
-            Log.i("DICES", diceService.getOneDiceRollWithANumberOfFace(i).toString())
-        }
+        viewModelScope.launch {
 
-        var list = arrayListOf(6, 12, 20)
-        diceService.getMultipleDiceRollWithANumberOfFace(list).forEach(System.out::println)
+            Log.d("DICES", diceService.getOneDiceRollWithANumberOfFace(6).toString())
+
+            var list = arrayListOf(6, 12, 20)
+            diceService.getMultipleDiceRollWithANumberOfFace(list).forEach(System.out::println)
+        }
     }
 
+
     fun saveName(name: String) {
-        //TODO("implements save name")
-        Log.i("TEST", name)
+        Log.d("NewCharacterViewModel", "name = $name")
+        this.characterName = name
     }
 
     fun saveLevel(level: String) {
         //TODO("implements save level")
-        Log.i("TEST", level)
+        Log.d("NewCharacterViewModel", level)
     }
 
     fun saveExperience(experience: String) {
         //TODO("implements save experience")
-        Log.i("TEST", experience)
+        Log.d("TEST", experience)
     }
 
     fun saveRace(race: String) {
         //TODO("implement save race")
-        Log.i("TEST", race)
+        Log.d("TEST", race)
     }
+
+    /**
+     * Save age into view model
+     */
+    fun saveAge(characterAge: String) {
+        Log.d("NewCharacterViewModel", "age = $characterAge")
+        try {
+            this.characterAge = characterAge.toInt()
+        } catch (e: Exception) {
+            throw e
+        }
+
+    }
+
+    /**
+     * Save gender into view model
+     */
+    fun saveGender(characterGender: String) {
+        Log.d("NewCharacterViewModel", "gender = $characterGender")
+        try {
+            this.characterGender = characterGender
+        } catch (e: Exception) {
+            throw e
+        }
+    }
+
+    private var characterGender: String = "gender"
+    private var characterName: String = "name"
+    private var characterAge: Int = 42
 
 
 }

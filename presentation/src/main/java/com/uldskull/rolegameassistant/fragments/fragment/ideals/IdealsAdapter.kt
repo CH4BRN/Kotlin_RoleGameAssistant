@@ -14,7 +14,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.models.ideal.DomainIdeal
+import com.uldskull.rolegameassistant.models.character.DomainIdeal
+
 
 /**
  *   Class "IdealsAdapter" :
@@ -76,9 +77,9 @@ class IdealsAdapter internal constructor(
         val current = ideals[position]
 
         holder.idealValueItemView.maxWidth = 550
-        holder.idealValueItemView.text = current.value
+        holder.idealValueItemView.text = current.idealName
 
-        if (current.evilPoints > current.goodPoints) {
+        if (current.idealEvilPoints > current.idealGoodPoints) {
             holder.idealAlignmentItemView.setImageBitmap(
                 resizeImage(
                     BitmapFactory.decodeResource(context.resources, R.drawable.evil_icon),

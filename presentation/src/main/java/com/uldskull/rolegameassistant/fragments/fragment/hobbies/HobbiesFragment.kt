@@ -34,9 +34,9 @@ class HobbiesFragment(activity: Activity) : CustomFragment(activity) {
      */
     override fun onResume() {
         super.onResume()
-        Log.i("HobbiesFragment_1", NewCharacterActivity.progression.value.toString())
+        Log.d("HobbiesFragment_1", NewCharacterActivity.progression.value.toString())
         NewCharacterActivity.progression.value = HOBBIES_FRAGMENT_POSITION
-        Log.i("HobbiesFragment_2", NewCharacterActivity.progression.value.toString())
+        Log.d("HobbiesFragment_2", NewCharacterActivity.progression.value.toString())
     }
 
     companion object : CustomCompanion() {

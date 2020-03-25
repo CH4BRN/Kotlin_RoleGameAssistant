@@ -52,9 +52,9 @@ class IdealsFragment(activity: Activity) : CustomFragment(activity) {
 
     override fun onResume() {
         super.onResume()
-        Log.i("IdealsFragment_1", NewCharacterActivity.progression.value.toString())
+        Log.d("IdealsFragment_1", NewCharacterActivity.progression.value.toString())
         NewCharacterActivity.progression.value = IDEALS_FRAGMENT_POSITION
-        Log.i("IdealsFragment_2", NewCharacterActivity.progression.value.toString())
+        Log.d("IdealsFragment_2", NewCharacterActivity.progression.value.toString())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

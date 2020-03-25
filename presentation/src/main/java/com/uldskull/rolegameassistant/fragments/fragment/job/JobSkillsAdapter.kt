@@ -10,7 +10,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.models.skill.DomainSkill
+import com.uldskull.rolegameassistant.models.character.DomainFilledSkill
+
 
 /**
  *   Class "JobSkillsAdapter" :
@@ -35,7 +36,7 @@ class JobSkillsAdapter internal constructor(
     }
 
     /**  Skills list  **/
-    private var jobSkills = emptyList<DomainSkill>()
+    private var jobSkills = emptyList<DomainFilledSkill>()
 
     /**
      * Called when RecyclerView needs a new [JobSkillsViewHolder] of the given type to represent
@@ -102,14 +103,14 @@ class JobSkillsAdapter internal constructor(
     override fun onBindViewHolder(holder: JobSkillsViewHolder, position: Int) {
         val current = jobSkills[position]
 
-        holder.tvJobskillAddTens.text = current.skillTensValue.toString()
-        holder.tvJobskillAddUnits.text = current.skillUnitsValue.toString()
-        holder.tvJobskillbase.text = current.skillBase.toString()
+        holder.tvJobskillAddTens.text = current.filledSkillTensValue.toString()
+        holder.tvJobskillAddUnits.text = current.filledSkillUnitsValue.toString()
+        holder.tvJobskillbase.text = current.filledSkillBase.toString()
         holder.tvJobskillname?.text = current.skillName.toString()
     }
 
 
-    fun setJobSkills(skills: List<DomainSkill>) {
+    fun setJobSkills(skills: List<DomainFilledSkill>) {
         this.jobSkills = skills
         notifyDataSetChanged()
     }
