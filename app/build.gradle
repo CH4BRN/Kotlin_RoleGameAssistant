@@ -11,7 +11,7 @@ android {
         targetSdkVersion SdkVersions.targetSdkVersion
         versionCode ApplicationVersion.versionCode
         versionName ApplicationVersion.versionName
-        testInstrumentationRunner TestDependencies.androidTestRunnerAndroidJUnitRunner
+        testInstrumentationRunner TestDependencies.AndroidJUnitRunner
     }
     buildTypes {
         release {
@@ -26,28 +26,28 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    implementation AndroidXDependencies.androidxAppcompatAppcompat
-    implementation AndroidXDependencies.androidxCoreCoreKtx
-    implementation AndroidXDependencies.androidxConstraintLayoutConstraintLayout
+    implementation AndroidXDependencies.Appcompat
+    implementation AndroidXDependencies.CoreKtx
+    implementation AndroidXDependencies.ConstraintLayout
 
-    implementation KoinDependencies.orgKoinKoinAndroid
-    implementation KoinDependencies.orgKoinKoinCore
-    implementation KoinDependencies.orgKoinKoinAndroidxScope
-    implementation KoinDependencies.orgKoinKoinAndroidxViewmodel
+    implementation KoinDependencies.KoinAndroid
+    implementation KoinDependencies.KoinCore
+    implementation KoinDependencies.KoinAndroidxScope
+    implementation KoinDependencies.KoinAndroidxViewmodel
 
-    implementation RoomDependencies.androidxRoomRoomRuntime
-    implementation RoomDependencies.androidxRoomRoomKtx
-    kapt RoomDependencies.androidxRoomRoomCompiler
+    implementation RoomDependencies.RoomRuntime
+    implementation RoomDependencies.RoomKtx
+    kapt RoomDependencies.RoomCompiler
 
 
-    implementation AndroidDependencies.androidSupportAppcompatV7
+    implementation AndroidDependencies.appcompatV7
 
     implementation project(ProjectsDependencies.di)
     implementation project(ProjectsDependencies.presentation)
 
     testImplementation TestDependencies.junitJunit
-    androidTestImplementation TestDependencies.androidxTestExtJunit
-    androidTestImplementation TestDependencies.androidxTestEspressoEspressoCore
-    implementation AndroidXDependencies.androidxRecyclerviewRecyclerview
-    implementation MaterialDependencies.comGoogleAndroidMaterialMaterial
+    androidTestImplementation TestDependencies.Junit
+    androidTestImplementation TestDependencies.EspressoCore
+    implementation AndroidXDependencies.Recyclerview
+    implementation MaterialDependencies.material
 }

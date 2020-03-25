@@ -17,15 +17,20 @@ object SdkVersions {
 }
 
 object AndroidVersions {
-    const val comAndroidSupportAppcompatV7 = "26.1.0"
+    const val AppcompatV7 = "26.1.0"
     const val buildToolsVersion = "29.0.2"
 }
 
+object MockitoVersions {
+    const val mockito = "1.10.19"
+}
+
 object AndroidXVersions {
-    const val appcompatAppcompat = "1.1.0"
+    const val Appcompat = "1.1.0"
     const val coreCoreKtx = "1.1.0"
-    const val constraintLayoutConstraintLayout = "1.1.3"
+    const val constraintLayout = "1.1.3"
     const val lifecycle_version = "2.2.0"
+    const val legacySupport = "1.0.0"
 }
 
 object AndroidSupportVersions {
@@ -34,11 +39,11 @@ object AndroidSupportVersions {
 
 object JunitVersions {
     const val junitJunit = "4.12"
-    const val androidxTestExtJunit = "1.1.1"
+    const val ExtJunit = "1.1.1"
 }
 
 object EspressoVersions {
-    const val androidxTestEspressoEspressoCore = "3.2.0"
+    const val EspressoCore = "3.2.0"
 }
 
 object KoinVersion {
@@ -50,9 +55,9 @@ object RoomVersions {
 }
 
 object MaterialVersions {
-    const val comGoogleAndroidMaterialMaterial = "1.0.0"
+    const val Material = "1.0.0"
 }
 
 object KotlinxVersions {
-    const val coroutines_version = "1.3.5"
+    const val coroutines = "1.3.5"
 }

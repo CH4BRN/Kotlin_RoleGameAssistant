@@ -1,4 +1,11 @@
+import AndroidVersions.AppcompatV7
+import AndroidXVersions.constraintLayout
+import AndroidXVersions.coreCoreKtx
+import AndroidXVersions.legacySupport
 import AndroidXVersions.lifecycle_version
+import KoinVersion.koinAndroid
+import KotlinxVersions.coroutines
+import RoomVersions.room
 
 /** File Dependencies.kt
  *   @Author pierre.antoine - 27/01/2020 - No copyright.
@@ -6,9 +13,9 @@ import AndroidXVersions.lifecycle_version
 
 
 object RoomDependencies {
-    const val androidxRoomRoomRuntime = "androidx.room:room-runtime:${RoomVersions.room}"
-    const val androidxRoomRoomKtx = "androidx.room:room-ktx:${RoomVersions.room}"
-    const val androidxRoomRoomCompiler = "androidx.room:room-compiler:${RoomVersions.room}"
+    const val RoomRuntime = "androidx.room:room-runtime:${room}"
+    const val RoomKtx = "androidx.room:room-ktx:${room}"
+    const val RoomCompiler = "androidx.room:room-compiler:${room}"
 }
 
 object ProjectsDependencies {
@@ -20,57 +27,62 @@ object ProjectsDependencies {
 }
 
 object KoinDependencies {
-    const val orgKoinKoinAndroid =
-        "org.koin:koin-android:${KoinVersion.koinAndroid}"
-    const val orgKoinKoinCore =
-        "org.koin:koin-core:${KoinVersion.koinAndroid}"
-    const val orgKoinKoinAndroidxScope =
-        "org.koin:koin-androidx-scope:${KoinVersion.koinAndroid}"
-    const val orgKoinKoinAndroidxViewmodel =
-        "org.koin:koin-androidx-viewmodel:${KoinVersion.koinAndroid}"
+    const val KoinAndroid =
+        "org.koin:koin-android:${koinAndroid}"
+    const val KoinCore =
+        "org.koin:koin-core:${koinAndroid}"
+    const val KoinAndroidxScope =
+        "org.koin:koin-androidx-scope:${koinAndroid}"
+    const val KoinAndroidxViewmodel =
+        "org.koin:koin-androidx-viewmodel:${koinAndroid}"
+    // Koin for Unit tests
+    const val KoinTest = "org.koin:koin-test:${koinAndroid}"
+
 }
 
 object AndroidDependencies {
-    const val androidSupportAppcompatV7 =
-        "com.android.support:appcompat-v7:${AndroidVersions.comAndroidSupportAppcompatV7}"
+    const val appcompatV7 =
+        "com.android.support:appcompat-v7:${AppcompatV7}"
 }
 
 object MaterialDependencies {
-    const val comGoogleAndroidMaterialMaterial =
-        "com.google.android.material:material:${MaterialVersions.comGoogleAndroidMaterialMaterial}"
+    const val material =
+        "com.google.android.material:material:${MaterialVersions.Material}"
 }
 
 
-
 object AndroidXDependencies {
-    const val androidxAppcompatAppcompat =
-        "androidx.appcompat:appcompat:" +
-                AndroidXVersions.appcompatAppcompat
-    const val androidxCoreCoreKtx = "androidx.core:core-ktx:" +
-            AndroidXVersions.coreCoreKtx
-    const val androidxConstraintLayoutConstraintLayout =
-        "androidx.constraintlayout:constraintlayout:" +
-                AndroidXVersions.constraintLayoutConstraintLayout
-    const val androidxRecyclerviewRecyclerview = "androidx.recyclerview:recyclerview:" +
-            AndroidXVersions.appcompatAppcompat
+    const val Appcompat =
+        "androidx.appcompat:appcompat:${AndroidXVersions.Appcompat}"
+    const val CoreKtx = "androidx.core:core-ktx:${coreCoreKtx}"
+    const val ConstraintLayout =
+        "androidx.constraintlayout:constraintlayout:${constraintLayout}"
+    const val Recyclerview = "androidx.recyclerview:recyclerview:${AndroidXVersions.Appcompat}"
 
 
-    const val androidxLifecycleLifecycleLivedataKtx =
+    const val LifecycleLivedataKtx =
         "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
-    const val androidxLifecycleLifecycleViewmodelKtx =
+    const val LifecycleViewmodelKtx =
         "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+
+    const val LegacySupportV4 = "androidx.legacy:legacy-support-v4:${legacySupport}"
+
 }
 
 object KotlinXDependencies {
     const val kotlinxCoroutinesCore =
-        "org.jetbrains.kotlinx:kotlinx-coroutines-core:${KotlinxVersions.coroutines_version}"
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutines}"
+    const val kotlinxCoroutinesAndroid =
+        "org.jetbrains.kotlinx:kotlinx-coroutines-android:${coroutines}"
 }
 
 object TestDependencies {
     const val junitJunit = "junit:junit:${JunitVersions.junitJunit}"
-    const val androidxTestExtJunit = "androidx.test.ext:junit:${JunitVersions.androidxTestExtJunit}"
-    const val androidxTestEspressoEspressoCore =
-        "androidx.test.espresso:espresso-core:${EspressoVersions.androidxTestEspressoEspressoCore}"
-    const val androidxRoomRoomTesting = "androidx.room:room-testing:${RoomVersions.room}"
-    const val androidTestRunnerAndroidJUnitRunner = "androidx.test.runner.AndroidJUnitRunner"
+    const val mockitoCore = "org.mockito:mockito-core:${MockitoVersions.mockito}"
+    const val Junit = "androidx.test.ext:junit:${JunitVersions.ExtJunit}"
+    const val EspressoCore =
+        "androidx.test.espresso:espresso-core:${EspressoVersions.EspressoCore}"
+    const val RoomTesting = "androidx.room:room-testing:${RoomVersions.room}"
+    const val AndroidJUnitRunner = "androidx.test.runner.AndroidJUnitRunner"
 }
+

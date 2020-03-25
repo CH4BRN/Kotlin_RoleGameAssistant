@@ -4,11 +4,12 @@
 package com.uldskull.rolegameassistant.application
 
 import android.app.Application
+import android.util.Log
+import com.uldskull.rolegameassistant.di.koin_modules.repositoriesModule
+import com.uldskull.rolegameassistant.di.koin_modules.useCasesModule
+import com.uldskull.rolegameassistant.di.koin_modules.useCasesServiceModule
+import com.uldskull.rolegameassistant.di.koin_modules.viewModelModule
 import com.uldskull.rolegameassistant.di.roomModule
-import com.uldskull.rolegameassistant.di.useCasesModule
-import com.uldskull.rolegameassistant.di.useCasesServiceModule
-
-import com.uldskull.rolegameassistant.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -19,10 +20,9 @@ import org.koin.core.context.startKoin
  **/
 class MainApplication : Application() {
 
-
-
     /** Application life cycle  **/
     override fun onCreate() {
+        Log.d("MAIN_APPLICATION", "onCreate")
         super.onCreate()
         //  Start koin
         startKoin {
@@ -41,6 +41,9 @@ class MainApplication : Application() {
             )
             modules(
                 useCasesServiceModule
+            )
+            modules(
+                repositoriesModule
             )
 
         }
