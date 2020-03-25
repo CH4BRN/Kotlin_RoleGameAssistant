@@ -2,7 +2,7 @@
  *   @Author pierre.antoine - 18/03/2020 - No copyright.
  **/
 
-package com.uldskull.rolegameassistant.di
+package com.uldskull.rolegameassistant.di.koin_modules
 
 import com.uldskull.rolegameassistant.useCases.diceRoll.DiceService
 import com.uldskull.rolegameassistant.useCases.diceRoll.DiceServiceImpl

@@ -8,5 +8,6 @@ import org.koin.dsl.module
 /** ViewModels injection    **/
 val roomModule = module {
 
-    single { AppDatabase.getDatabase(get()).basicInfoDao() }
+    single { AppDatabase.getDatabase(get()).dbCharacteristicDao() }
+
 }
