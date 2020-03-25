@@ -1,41 +1,51 @@
 // File DbSkill.kt
-// @Author pierre.antoine - 13/02/2020 - No copyright.
+// @Author pierre.antoine - 24/03/2020 - No copyright.
 
 package com.uldskull.rolegameassistant.infrastructure.database_model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.uldskull.rolegameassistant.infrastructure.DatabaseValues.TABLE_NAME_SKILL
-import com.uldskull.rolegameassistant.models.skill.DomainSkill
+import com.uldskull.rolegameassistant.models.character.DomainSkill
+
+/**
+ *   Class "DbSkill" :
+ *   TODO: Fill class use.
+ **/
 
 /**
  *   Class "DbSkill" :
  *   Database skill model.
- **/
-@Entity(tableName = TABLE_NAME_SKILL)
-data class DbSkill(
-    @PrimaryKey(autoGenerate = true) val skillId: Long? = null,
-    val skillName: String?
-) {
-    companion object {
-        /**
-         * Converts to Database model
-         */
-        fun from(domainSkill: DomainSkill): DbSkill {
-            return DbSkill(
-                domainSkill.skillId,
-                domainSkill.skillName
-            )
-        }
+ */
+@Entity
+open class DbSkill(
+    @PrimaryKey(autoGenerate = true)
+    val skillId: Long,
+    val skillName: String,
+    val skillDescription: String
+) : DbEntity<DomainSkill> {
+    /**
+     * Converts a Database model entity into a domain model.
+     */
+    override fun toDomain(): DomainSkill {
+        return DomainSkill(
+            skillId = this.skillId,
+            skillName = this.skillName,
+            skillDescription = this.skillDescription
+        )
     }
 
-    /**
-     * Converts to domain model.
-     */
-    fun toDomain(): DomainSkill {
-        return DomainSkill(
-            skillId = skillId,
-            skillName = skillName
-        )
+    companion object :
+        DbCompanion<DomainSkill, DbSkill> {
+        /**
+         * Converts a domain model into a database model entity.
+         */
+        override fun from(domainModel: DomainSkill): DbSkill {
+            return DbSkill(
+                skillId = domainModel.skillId,
+                skillName = domainModel.skillName,
+                skillDescription = domainModel.skillDescription
+            )
+        }
+
     }
 }

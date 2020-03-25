@@ -12,7 +12,7 @@ android {
         versionCode ApplicationVersion.versionCode
         versionName ApplicationVersion.versionName
 
-        testInstrumentationRunner TestDependencies.androidTestRunnerAndroidJUnitRunner
+        testInstrumentationRunner TestDependencies.AndroidJUnitRunner
         consumerProguardFiles 'consumer-rules.pro'
     }
 
@@ -28,13 +28,23 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(ProjectsDependencies.domain)
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$KotlinVersions.kotlin_version"
-    implementation AndroidXDependencies.androidxAppcompatAppcompat
-    implementation AndroidXDependencies.androidxCoreCoreKtx
-    implementation RoomDependencies.androidxRoomRoomRuntime
-    implementation RoomDependencies.androidxRoomRoomKtx
-    kapt RoomDependencies.androidxRoomRoomCompiler
+    implementation AndroidXDependencies.Appcompat
+    implementation AndroidXDependencies.CoreKtx
+    implementation RoomDependencies.RoomRuntime
+    implementation RoomDependencies.RoomKtx
+    implementation KotlinXDependencies.kotlinxCoroutinesAndroid
+    implementation KotlinXDependencies.kotlinxCoroutinesCore
+    kapt RoomDependencies.RoomCompiler
     testImplementation TestDependencies.junitJunit
-    androidTestImplementation TestDependencies.androidxTestExtJunit
-    androidTestImplementation TestDependencies.androidxTestEspressoEspressoCore
+
+    testImplementation KoinDependencies.KoinAndroid
+    testImplementation KoinDependencies.KoinAndroidxScope
+    testImplementation KoinDependencies.KoinAndroidxViewmodel
+    testImplementation KoinDependencies.KoinCore
+
+    testImplementation KoinDependencies.KoinTest
+    androidTestImplementation TestDependencies.Junit
+    androidTestImplementation TestDependencies.EspressoCore
 }

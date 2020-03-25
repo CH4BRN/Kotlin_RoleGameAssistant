@@ -5,13 +5,22 @@ package com.uldskull.rolegameassistant.infrastructure.database_model
 /**
 Interface "DbEntity"
 
-TODO : Describe interface utility.
+Interface that ensure there is a mapping between domain entity and dbEntity.
+U  - Database entity
+T  - Domain entity.
  **/
-interface DbEntity<T,U>{
-    fun toDomain():T
+interface DbEntity<DO> {
+    /**
+     * Converts a Database model entity into a domain model.
+     */
+    fun toDomain(): DO
 
-    fun List<U>.asDomainModel():List<T>
 
+}
 
-
+interface DbCompanion<DO, DA> {
+    /**
+     * Converts a domain model into a database model entity.
+     */
+    fun from(domainModel: DO): DA
 }
