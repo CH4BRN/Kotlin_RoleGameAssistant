@@ -1,13 +1,13 @@
 // Ability.kt created by UldSkull - 11/02/2020
 
-package com.uldskull.rolegameassistant.models.ability_score
+package com.uldskull.rolegameassistant.models.character.characteristic
 
 /**
 Enum "Ability"
 
-Enumeration to store abilities names.
+Enumeration to store characteristics names.
  */
-enum class Ability(val abilityName:String) {
+enum class CharacteristicsName(val characteristicName: String) {
     SIZE("SIZE"),
     STRENGTH("STRENGTH"),
     DEXTERITY("DEXTERITY"),
