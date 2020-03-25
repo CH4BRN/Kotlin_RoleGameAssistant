@@ -11,5 +11,5 @@ interface DiceService {
 
     fun getOneDiceRollWithANumberOfFace(numberOfFace: Int): Int?
 
-    fun getMultipleDiceRollWithANumberOfFace(numberOfFaces: ArrayList<Int>): ArrayList<Int>
+    suspend fun getMultipleDiceRollWithANumberOfFace(numberOfFaces: ArrayList<Int>): ArrayList<Int>
 }

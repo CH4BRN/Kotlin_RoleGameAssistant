@@ -1,14 +1,14 @@
-// BasicInfoRepository.kt created by UldSkull - 11/02/2020
+// AbilityScoreRepository.kt created by UldSkull - 12/02/2020
 
-package com.uldskull.rolegameassistant.repository.basic_info
+package com.uldskull.rolegameassistant.repository.characteristic
 
-import com.uldskull.rolegameassistant.models.basic_info.DomainBasicInfo
+import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollCharacteristic
 import com.uldskull.rolegameassistant.repository.GenericRepository
 
 /**
-    Interface "BasicInfoRepository"
+    Interface "AbilityScoreRepository"
 
-    The com.uldskull.rolegameassistant.com.uldskull.rolegameassistant.repository class will be responsible for interacting with
+    The repository class will be responsible for interacting with
     the Room database on behalf of the ViewModel and will need to provide methods that use
     the DAO to insert, delete and query basic info records.
     With the exception of the getAllBasicInfo() DAO method
@@ -16,4 +16,5 @@ import com.uldskull.rolegameassistant.repository.GenericRepository
     these database operations will need to be performed on separate threads from the main
     thread using the AsyncTask class.
  **/
-interface BasicInfoRepository<T>:GenericRepository<T, DomainBasicInfo>
+interface CharacteristicRollRepository<T> :
+    GenericRepository<T, DomainRollCharacteristic>

@@ -2,7 +2,8 @@
 
 package com.uldskull.rolegameassistant.repository.skill
 
-import com.uldskull.rolegameassistant.models.skill.DomainSkill
+import com.uldskull.rolegameassistant.models.character.DomainSkill
+
 import com.uldskull.rolegameassistant.repository.GenericRepository
 
 /**

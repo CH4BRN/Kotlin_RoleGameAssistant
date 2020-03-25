@@ -10,22 +10,24 @@ package com.uldskull.rolegameassistant.useCases.diceRoll
 class DiceServiceImpl(
     private val getOneDiceRollUseCase: GetOneDiceRollUseCase
 ) : DiceService {
+
     override fun getOneDiceRollWithANumberOfFace(numberOfFace: Int): Int {
         return getOneDiceRollUseCase.execute(numberOfFace)
     }
 
-    override fun getMultipleDiceRollWithANumberOfFace(numberOfFaces: ArrayList<Int>): ArrayList<Int> {
+    override suspend fun getMultipleDiceRollWithANumberOfFace(numberOfFaces: ArrayList<Int>): ArrayList<Int> {
         var list: ArrayList<Int>? = null
-        for (i in 0 until numberOfFaces.size) {
+
+        for (i in 1 until when (numberOfFaces.size) {
+            0 or 1 -> 2
+            else -> numberOfFaces.size
+        }
+        ) {
             if (list == null) {
                 list = ArrayList()
             }
-            list.add(getOneDiceRollWithANumberOfFace(numberOfFaces[i]))
+            list.add(getOneDiceRollUseCase.execute(numberOfFaces[i]))
         }
         return list!!
-
     }
-
 }
-
-

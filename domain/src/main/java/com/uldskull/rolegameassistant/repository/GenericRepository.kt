@@ -9,11 +9,16 @@ package com.uldskull.rolegameassistant.repository
  **/
 interface GenericRepository<T, U> {
     /** Get all entities    */
-    fun getAll(): T
+    fun getAll(): T?
     /** Get one entity by its id    */
-    fun getOne(id: Long?): U
-    /** Insert a list of entity */
-    fun insertAll(all: List<U>)
-    /** Insert one entity   */
-    fun insertOne(one: U): Long
+    fun getOne(id: Long?): U?
+
+    /** Insert a list of entity - it should return long[] or List<Long>.*/
+    fun insertAll(all: List<U>?): List<Long>?
+
+    /** Insert one entity  -  it can return a long, which is the new rowId for the inserted item.*/
+    fun insertOne(one: U?): Long
+
+    /** Delete all entities **/
+    fun deleteAll(): Int
 }

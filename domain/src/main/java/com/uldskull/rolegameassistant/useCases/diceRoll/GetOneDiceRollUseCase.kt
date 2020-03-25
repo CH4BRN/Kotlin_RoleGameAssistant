@@ -12,6 +12,9 @@ import kotlin.random.Random
  **/
 class GetOneDiceRollUseCase : UseCase<Int, Int> {
     override fun execute(faces: Int): Int {
-        return Random.nextInt(0, faces)
+        when (faces) {
+            0 or 1 -> return 1
+        }
+        return Random.nextInt(1, faces)
     }
 }
