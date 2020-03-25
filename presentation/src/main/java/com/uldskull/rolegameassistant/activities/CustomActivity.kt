@@ -9,7 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 
 /**
  *   Class "CustomActivity" :
- *   TODO: Fill class use.
+ *   Abstract base class for activity.
+ *   onCreate logs "Start"
  **/
 abstract class CustomActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

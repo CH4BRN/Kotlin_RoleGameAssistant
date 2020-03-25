@@ -54,7 +54,8 @@
                 android:src="@drawable/ic_add_black_24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/etBond" />
+                app:layout_constraintTop_toBottomOf="@id/etBond"
+                android:contentDescription="Add bond." />
 
             <FrameLayout
                 android:id="@+id/container_bonds"

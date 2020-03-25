@@ -10,7 +10,8 @@ import com.uldskull.rolegameassistant.R
 /**
 Class "NewSkillActivity"
 
-TODO: Describe class utility.
+Activity for a new skill creation.
+ Logs "start" when it is created.
  */
 class NewSkillActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

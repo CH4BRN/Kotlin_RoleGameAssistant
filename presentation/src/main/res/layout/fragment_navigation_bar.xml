@@ -14,7 +14,8 @@
         android:padding="16dp"
         android:src="@drawable/ic_arrow_back_black_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="Go back." />
 
     <ImageButton
         android:id="@+id/btn_save"
@@ -27,5 +28,6 @@
         android:src="@drawable/ic_save_black_24dp"
         android:text="SAVE"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="Save." />
 </androidx.constraintlayout.widget.ConstraintLayout>

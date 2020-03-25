@@ -103,7 +103,7 @@ class JobsSkillsRecyclerViewFragment(activity: Activity) : CustomRecyclerViewFra
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var btnAddSkills = view.findViewById<ImageButton>(R.id.btn_jobs_addSkill)
+        val btnAddSkills = view.findViewById<ImageButton>(R.id.btn_jobs_addSkill)
         btnAddSkills.setOnClickListener {
             val intent = Intent(activity, NewSkillActivity::class.java)
             startActivity(intent)

@@ -54,15 +54,15 @@ open class CharacteristicsAdapter internal constructor(
         val itemView = inflater.inflate(R.layout.recyclerview_item_ability, parent, false)
         itemView.et_abilityRoll.inputType = InputType.TYPE_CLASS_NUMBER
         itemView.et_abilityRoll.addTextChangedListener {
-            var stringRoll = itemView.et_abilityRoll.text.toString()
+            val stringRoll = itemView.et_abilityRoll.text.toString()
             Log.d(javaClass.simpleName, stringRoll)
             try {
-                if (stringRoll.isNotBlank() && !stringRoll.isNullOrEmpty()) {
+                if (stringRoll.isNotBlank() && !stringRoll.isEmpty()) {
                     roll = stringRoll.toInt()
                     Log.d(javaClass.simpleName, "Roll : " + roll.toString())
                 } else
                     roll = 0
-                var total: Int = roll!! + bonus!!
+                val total: Int = roll!! + bonus!!
 
                 itemView.tv_abilityTotal.text = total.toString()
 
@@ -74,16 +74,16 @@ open class CharacteristicsAdapter internal constructor(
         itemView.et_abilityBonus.inputType = InputType.TYPE_CLASS_NUMBER
 
         itemView.et_abilityBonus.addTextChangedListener {
-            var stringBonus = itemView.et_abilityBonus.text.toString()
+            val stringBonus = itemView.et_abilityBonus.text.toString()
             Log.d(javaClass.simpleName, stringBonus)
             try {
-                if (stringBonus.isNotBlank() && !stringBonus.isNullOrEmpty()) {
+                if (stringBonus.isNotBlank() && !stringBonus.isEmpty()) {
                     bonus = stringBonus.toInt()
                     Log.d(javaClass.simpleName, "Bonus : " + bonus.toString())
                 } else {
                     bonus = 0
                 }
-                var total: Int = roll!! + bonus!!
+                val total: Int = roll!! + bonus!!
 
                 itemView.tv_abilityTotal.text = total.toString()
 
@@ -102,7 +102,7 @@ open class CharacteristicsAdapter internal constructor(
     override fun onBindViewHolder(holder: CharacteristicsViewHolder, position: Int) {
         onBind = true
         val current = rollCharacteristics[position]
-        holder.characteristicNameItemView.text = current.characteristicName.toString()
+        holder.characteristicNameItemView.text = current.characteristicName
         onBind = false
 
 

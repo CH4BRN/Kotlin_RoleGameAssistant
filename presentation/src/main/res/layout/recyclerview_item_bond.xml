@@ -20,6 +20,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:gravity="center"
-         />
+        android:contentDescription="TODO" />
 
 </LinearLayout>

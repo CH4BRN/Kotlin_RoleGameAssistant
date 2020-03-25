@@ -37,7 +37,7 @@ class HobbyFragment(activity: Activity) : CustomFragment(activity) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var btnAddSkill = view.findViewById<ImageButton>(R.id.btn_hobby_add_skill)
+        val btnAddSkill = view.findViewById<ImageButton>(R.id.btn_hobby_add_skill)
         btnAddSkill.setOnClickListener {
             val intent = Intent(activity, NewSkillActivity::class.java)
             startActivity(intent)

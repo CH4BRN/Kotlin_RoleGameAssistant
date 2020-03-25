@@ -82,7 +82,7 @@ object TestDependencies {
     const val Junit = "androidx.test.ext:junit:${JunitVersions.ExtJunit}"
     const val EspressoCore =
         "androidx.test.espresso:espresso-core:${EspressoVersions.EspressoCore}"
-    const val RoomTesting = "androidx.room:room-testing:${RoomVersions.room}"
+    const val RoomTesting = "androidx.room:room-testing:$room"
     const val AndroidJUnitRunner = "androidx.test.runner.AndroidJUnitRunner"
 }
 

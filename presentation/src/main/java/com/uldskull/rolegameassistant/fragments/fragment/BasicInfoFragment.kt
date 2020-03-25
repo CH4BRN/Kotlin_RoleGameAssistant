@@ -80,12 +80,12 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
         super.onViewCreated(view, savedInstanceState)
         setButtonAddRace()
         setFocusListeners()
-        var domainCharacteristic: DomainCharacteristic = DomainCharacteristic(
+        val domainCharacteristic = DomainCharacteristic(
             characteristicId = null,
             characteristicName = CharacteristicsName.APPEARANCE.characteristicName
         )
         val characteristicViewModel: CharacteristicViewModel = getViewModel()
-        var insertResult = characteristicViewModel.saveOne(domainCharacteristic)
+        val insertResult = characteristicViewModel.saveOne(domainCharacteristic)
         Log.d("BasicInfoFragment result = ", insertResult.toString())
 
         val characteristicObserver = Observer<List<DomainCharacteristic>> { newCharacteristics ->

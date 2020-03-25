@@ -10,10 +10,13 @@ import com.uldskull.rolegameassistant.fragments.fragment.NavigationBarFragment
 
 /**
  *   Class "NewIdealActivity" :
- *   TODO: Fill class use.
+ *   Activity for a new ideal creation
  **/
 class NewIdealActivity : CustomActivity() {
 
+    /**
+     * Activity life-cycle, called when the activity is created.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(NEW_IDEAL_ACTIVITY.name, "Start")

@@ -19,7 +19,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 
 /**
  *   Class "AbilitiesFragment" :
- *   TODO: Fill class use.
+ *   Display
  **/
 class AbilitiesFragment(activity: Activity) : CustomFragment(activity) {
     /**
@@ -63,7 +63,7 @@ class AbilitiesFragment(activity: Activity) : CustomFragment(activity) {
             fragment.arguments = args
             (activity as NewCharacterActivity).replaceFragment(
                 R.id.container_abilities,
-                AbilitiesRecyclerViewFragment.newInstance(activity)
+                CharacteristicsRecyclerViewFragment.newInstance(activity)
             )
 
             return fragment

@@ -97,7 +97,7 @@ class HobbySkillAdapter internal constructor(
         holder.tvHobbySkillAddTens?.text = current.filledSkillTensValue.toString()
         holder.tvHobbySkillAddUnits?.text = current.filledSkillUnitsValue.toString()
         holder.tvHobbySkillBase?.text = current.filledSkillBase.toString()
-        holder.tvHobbySkillName?.text = current.skillName.toString()
+        holder.tvHobbySkillName?.text = current.skillName
     }
 
     fun setHobbySkills(skills: List<DomainFilledSkill>) {

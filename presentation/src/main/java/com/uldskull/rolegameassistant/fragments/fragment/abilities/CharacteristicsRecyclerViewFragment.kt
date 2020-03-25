@@ -25,7 +25,7 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  *   Class "AbilitiesRecyclerViewFragment" :
  *   Manage abilities's RecyclerView fragment.
  **/
-class AbilitiesRecyclerViewFragment(activity: Activity) :
+class CharacteristicsRecyclerViewFragment(activity: Activity) :
     CustomRecyclerViewFragment(activity) {
     /** ViewModel for abilities **/
     private lateinit var characteristicsViewModel: CharacteristicsViewModel
@@ -165,8 +165,8 @@ class AbilitiesRecyclerViewFragment(activity: Activity) :
 
     companion object : CustomCompanion() {
         @JvmStatic
-        override fun newInstance(activity: Activity): AbilitiesRecyclerViewFragment {
-            val fragment = AbilitiesRecyclerViewFragment(activity)
+        override fun newInstance(activity: Activity): CharacteristicsRecyclerViewFragment {
+            val fragment = CharacteristicsRecyclerViewFragment(activity)
             val args = Bundle()
 
             args.putInt(KEY_POSITION, ABILITIES_RECYCLER_VIEW_FRAGMENT_POSITION)

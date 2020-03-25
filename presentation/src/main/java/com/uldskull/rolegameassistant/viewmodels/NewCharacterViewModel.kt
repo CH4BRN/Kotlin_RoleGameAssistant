@@ -26,7 +26,7 @@ class NewCharacterViewModel(
 
             Log.d("DICES", diceService.getOneDiceRollWithANumberOfFace(6).toString())
 
-            var list = arrayListOf(6, 12, 20)
+            val list = arrayListOf(6, 12, 20)
             diceService.getMultipleDiceRollWithANumberOfFace(list).forEach(System.out::println)
         }
     }
@@ -57,10 +57,13 @@ class NewCharacterViewModel(
      */
     fun saveAge(characterAge: String) {
         Log.d("NewCharacterViewModel", "age = $characterAge")
-        try {
-            this.characterAge = characterAge.toInt()
-        } catch (e: Exception) {
-            throw e
+        if(characterAge != null && characterAge.isNotEmpty()){
+            try {
+                this.characterAge = characterAge.toInt()
+            } catch (e: Exception) {
+                throw e
+            }
+
         }
 
     }

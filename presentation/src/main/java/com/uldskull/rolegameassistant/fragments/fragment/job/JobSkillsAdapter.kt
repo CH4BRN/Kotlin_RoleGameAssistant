@@ -106,7 +106,7 @@ class JobSkillsAdapter internal constructor(
         holder.tvJobskillAddTens.text = current.filledSkillTensValue.toString()
         holder.tvJobskillAddUnits.text = current.filledSkillUnitsValue.toString()
         holder.tvJobskillbase.text = current.filledSkillBase.toString()
-        holder.tvJobskillname?.text = current.skillName.toString()
+        holder.tvJobskillname?.text = current.skillName
     }
 
 
