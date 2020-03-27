@@ -47,6 +47,19 @@ class CharacteristicViewModel(
         return result
     }
 
+    private val lock = java.lang.Object()
+    fun saveAll(domainCharacteristics: List<DomainCharacteristic>): List<Long>? =
+        synchronized(lock) {
+            var result: List<Long>? = null
+            Log.d("CharacteristicViewModel", "saveAll")
+            thread(start = true) {
+                result = characteristicRepositoryImpl.insertAll(domainCharacteristics)
+                Log.d("CharacteristicViewModel", "INSERTED $result")
+            }
+            lock.notifyAll()
+            return result
+        }
+
     var result = characteristicRepositoryImpl.getAll()
 
     private fun findAll(): LiveData<List<DomainCharacteristic>>? {

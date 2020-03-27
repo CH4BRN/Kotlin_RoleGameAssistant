@@ -7,6 +7,7 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.uldskull.rolegameassistant.models.character.DomainRace
 import com.uldskull.rolegameassistant.useCases.diceRoll.DiceService
 import kotlinx.coroutines.launch
 
@@ -21,6 +22,56 @@ class NewCharacterViewModel(
     private val diceService: DiceService
 ) : AndroidViewModel(application) {
 
+
+    /**
+     * Character height
+     */
+    private var characterHeight: Int? = 0
+        set(value) {
+            Log.d("NewCharacterViewModel characterHeight", value.toString())
+            field = value
+        }
+    /**
+     * Character name.
+     */
+    var characterName: String? = ""
+        set(value) {
+            Log.d("NewCharacterViewModel CharacterName", value)
+            field = value
+        }
+    /**
+     * Character age.
+     */
+    private var characterAge: Int? = 0
+        set(value) {
+            Log.d("NewCharacterViewModel characterAge", value.toString())
+            field = value
+        }
+    /**
+     * Character gender.
+     */
+    var characterGender: String? = ""
+        set(value) {
+            Log.d("NewCharacterViewModel characterGender", value)
+            field = value
+        }
+    /**
+     * Character biography.
+     */
+    var characterBiography: String? = ""
+        set(value) {
+            Log.d("NewCharacterViewModel characterBiography", value.toString())
+            field = value
+        }
+    /**
+     * Character race.
+     */
+    var characterRace: DomainRace? = DomainRace(null, "Race", "Description")
+        set(value) {
+            Log.d("NewCharacterViewModel characterRace", value?.raceName.toString())
+            field = value
+        }
+
     fun displayDices() {
         viewModelScope.launch {
 
@@ -31,58 +82,40 @@ class NewCharacterViewModel(
         }
     }
 
-
-    fun saveName(name: String) {
-        Log.d("NewCharacterViewModel", "name = $name")
-        this.characterName = name
-    }
-
-    fun saveLevel(level: String) {
-        //TODO("implements save level")
-        Log.d("NewCharacterViewModel", level)
-    }
-
-    fun saveExperience(experience: String) {
-        //TODO("implements save experience")
-        Log.d("TEST", experience)
-    }
-
-    fun saveRace(race: String) {
-        //TODO("implement save race")
-        Log.d("TEST", race)
-    }
-
     /**
      * Save age into view model
      */
     fun saveAge(characterAge: String) {
         Log.d("NewCharacterViewModel", "age = $characterAge")
-        if(characterAge != null && characterAge.isNotEmpty()){
+        if (characterAge != null && characterAge.isNotEmpty()) {
             try {
                 this.characterAge = characterAge.toInt()
             } catch (e: Exception) {
                 throw e
             }
-
-        }
-
-    }
-
-    /**
-     * Save gender into view model
-     */
-    fun saveGender(characterGender: String) {
-        Log.d("NewCharacterViewModel", "gender = $characterGender")
-        try {
-            this.characterGender = characterGender
-        } catch (e: Exception) {
-            throw e
         }
     }
 
-    private var characterGender: String = "gender"
-    private var characterName: String = "name"
-    private var characterAge: Int = 42
+    fun saveCharacter() {
+        Log.d("NewCharacterViewModel _ save", characterName)
+        Log.d("NewCharacterViewModel _ save", characterAge.toString())
+        Log.d("NewCharacterViewModel _ save", characterGender)
+        Log.d("NewCharacterViewModel _ save", characterBiography)
+        Log.d("NewCharacterViewModel _ save", characterHeight.toString())
+        Log.d("NewCharacterViewModel _ save", characterRace?.raceName)
+
+    }
+
+    fun saveHeight(characterHeight: String) {
+        Log.d("NewCharacterViewModel", "height = $characterHeight")
+        if (characterHeight != null && characterHeight.isNotEmpty()) {
+            try {
+                this.characterHeight = characterHeight.toInt()
+            } catch (e: Exception) {
+                throw e
+            }
+        }
+    }
 
 
 }
