@@ -8,7 +8,7 @@ import com.uldskull.rolegameassistant.repository.GenericRepository
 
 /**
  *   Class "CharacteristicRepository" :
- *   TODO: Fill class use.
+ *   Class to manage characteristics persistence.
  **/
 interface CharacteristicRepository<T> :
     GenericRepository<T, DomainCharacteristic>
