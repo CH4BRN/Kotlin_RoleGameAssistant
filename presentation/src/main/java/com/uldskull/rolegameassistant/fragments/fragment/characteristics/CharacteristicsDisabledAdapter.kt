@@ -1,7 +1,7 @@
 // File AbiltiesEnabledAdapter.kt
 // @Author pierre.antoine - 18/03/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.fragments.fragment.abilities
+package com.uldskull.rolegameassistant.fragments.fragment.characteristics
 
 import android.content.Context
 import android.text.InputType

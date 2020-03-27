@@ -32,10 +32,30 @@ abstract class CustomFragment(val activity: Activity) : Fragment() {
         return initializeView(inflater, container)
     }
 
+    /**
+     * Called to do initial creation of a fragment.  This is called after
+     * [.onAttach] and before
+     * [.onCreateView].
+     *
+     *
+     * Note that this can be called while the fragment's activity is
+     * still in the process of being created.  As such, you can not rely
+     * on things like the activity's content view hierarchy being initialized
+     * at this point.  If you want to do work once the activity itself is
+     * created, see [.onActivityCreated].
+     *
+     *
+     * Any restored child fragments will be created before the base
+     * `Fragment.onCreate` method returns.
+     *
+     * @param savedInstanceState If the fragment is being re-created from
+     * a previous saved state, this is the state.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(javaClass.simpleName.capitalize(), ONCREATE)
     }
+
 
     private val ONCREATE = "OnCreate"
 

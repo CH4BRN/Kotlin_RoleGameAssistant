@@ -12,13 +12,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import kotlinx.android.synthetic.main.fragment_navigation_bar.*
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
  *   Class "NavigationBarFragment" :
  *   Fragment that displays the navigation bar.
  **/
 class NavigationBarFragment(activity: Activity) : CustomFragment(activity) {
+
+    /**
+     * New character view model.
+     */
+    private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
+
+
     /**
      * Initialize the initial root view.
      */
@@ -80,6 +89,8 @@ class NavigationBarFragment(activity: Activity) : CustomFragment(activity) {
             "NavigationBarFragment",
             "doSave"
         )
+
+        newCharacterViewModel.saveCharacter()
 
     }
 

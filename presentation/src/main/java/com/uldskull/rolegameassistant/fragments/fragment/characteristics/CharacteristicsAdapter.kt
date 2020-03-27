@@ -1,7 +1,7 @@
 // File AbilitiesAdapter.kt
 // @Author pierre.antoine - 28/01/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.fragments.fragment.abilities
+package com.uldskull.rolegameassistant.fragments.fragment.characteristics
 
 import android.content.Context
 import android.text.InputType
@@ -36,15 +36,15 @@ open class CharacteristicsAdapter internal constructor(
     /** Custom ViewHolder   **/
     inner class CharacteristicsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         //  Get the ability's name edit text.
-        val characteristicNameItemView: TextView = itemView.findViewById(R.id.et_abilityName)
+        val characteristicNameItemView: TextView = itemView.findViewById(R.id.et_characteristicName)
 
         //  Get the roll's edit text.
-        val abilityRollItemView: EditText = itemView.findViewById(R.id.et_abilityRoll)
+        val abilityRollItemView: EditText = itemView.findViewById(R.id.et_characteristicRoll)
 
         //  Get the bonus' edit text.
-        val bonusItemView: EditText = itemView.findViewById(R.id.et_abilityBonus)
+        val bonusItemView: EditText = itemView.findViewById(R.id.et_characteristicBonus)
         //  Get the total's TextView.
-        val totalItemView: TextView = itemView.findViewById(R.id.tv_abilityTotal)
+        val totalItemView: TextView = itemView.findViewById(R.id.tv_characteristicTotal)
     }
 
     /** ViewHolder life-cycle   **/
@@ -52,32 +52,32 @@ open class CharacteristicsAdapter internal constructor(
         var roll: Int? = 0
         var bonus: Int? = 0
         val itemView = inflater.inflate(R.layout.recyclerview_item_ability, parent, false)
-        itemView.et_abilityRoll.inputType = InputType.TYPE_CLASS_NUMBER
-        itemView.et_abilityRoll.addTextChangedListener {
-            val stringRoll = itemView.et_abilityRoll.text.toString()
+        itemView.et_characteristicRoll.inputType = InputType.TYPE_CLASS_NUMBER
+        itemView.et_characteristicRoll.addTextChangedListener {
+            val stringRoll = itemView.et_characteristicRoll.text.toString()
             Log.d(javaClass.simpleName, stringRoll)
             try {
-                if (stringRoll.isNotBlank() && !stringRoll.isEmpty()) {
+                if (stringRoll.isNotBlank() && stringRoll.isNotEmpty()) {
                     roll = stringRoll.toInt()
                     Log.d(javaClass.simpleName, "Roll : " + roll.toString())
                 } else
                     roll = 0
                 val total: Int = roll!! + bonus!!
 
-                itemView.tv_abilityTotal.text = total.toString()
+                itemView.tv_characteristicTotal.text = total.toString()
 
             } catch (e: Exception) {
                 e.printStackTrace()
                 throw  e
             }
         }
-        itemView.et_abilityBonus.inputType = InputType.TYPE_CLASS_NUMBER
+        itemView.et_characteristicBonus.inputType = InputType.TYPE_CLASS_NUMBER
 
-        itemView.et_abilityBonus.addTextChangedListener {
-            val stringBonus = itemView.et_abilityBonus.text.toString()
+        itemView.et_characteristicBonus.addTextChangedListener {
+            val stringBonus = itemView.et_characteristicBonus.text.toString()
             Log.d(javaClass.simpleName, stringBonus)
             try {
-                if (stringBonus.isNotBlank() && !stringBonus.isEmpty()) {
+                if (stringBonus.isNotBlank() && stringBonus.isNotEmpty()) {
                     bonus = stringBonus.toInt()
                     Log.d(javaClass.simpleName, "Bonus : " + bonus.toString())
                 } else {
@@ -85,7 +85,7 @@ open class CharacteristicsAdapter internal constructor(
                 }
                 val total: Int = roll!! + bonus!!
 
-                itemView.tv_abilityTotal.text = total.toString()
+                itemView.tv_characteristicTotal.text = total.toString()
 
 
             } catch (e: Exception) {
@@ -109,8 +109,8 @@ open class CharacteristicsAdapter internal constructor(
     }
 
     /** Set the list containing domainAbilities to display   **/
-    internal fun setAbilities(domainAbilities: List<DomainCharacteristic>) {
-        this.rollCharacteristics = domainAbilities
+    internal fun setAbilities(domainCharacteristics: List<DomainCharacteristic>) {
+        this.rollCharacteristics = domainCharacteristics
         Log.d(this.javaClass.simpleName, this.rollCharacteristics.size.toString())
         notifyDataSetChanged()
     }

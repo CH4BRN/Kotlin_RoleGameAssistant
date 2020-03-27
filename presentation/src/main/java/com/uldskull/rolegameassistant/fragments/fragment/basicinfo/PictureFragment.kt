@@ -1,7 +1,7 @@
 // File PictureFragment.kt
 // @Author pierre.antoine - 28/01/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.fragments.fragment
+package com.uldskull.rolegameassistant.fragments.fragment.basicinfo
 
 import android.app.Activity
 import android.content.DialogInterface
@@ -18,6 +18,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.adapter.PICTURE_FRAGMENT_POSITION
+import com.uldskull.rolegameassistant.fragments.fragment.*
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import kotlinx.android.synthetic.main.fragment_picture.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -49,7 +50,10 @@ class PictureFragment(val context: Activity) : CustomFragment(context) {
         if (isActivityNull()) return
 
         val galleryIntent = getPickImageIntent()
-        startActivityForResult(galleryIntent, REQUEST_CODE_SELECT_IMAGE_IN_ALBUM)
+        startActivityForResult(
+            galleryIntent,
+            REQUEST_CODE_SELECT_IMAGE_IN_ALBUM
+        )
     }
 
     private fun selectPicture() {
@@ -81,7 +85,10 @@ class PictureFragment(val context: Activity) : CustomFragment(context) {
 
     private fun takePhotoFromCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        startActivityForResult(intent, REQUEST_CODE_CAMERA)
+        startActivityForResult(
+            intent,
+            REQUEST_CODE_CAMERA
+        )
     }
 
 
@@ -91,7 +98,10 @@ class PictureFragment(val context: Activity) : CustomFragment(context) {
             EXTERNAL_CONTENT_URI
         )
 
-        startActivityForResult(galleryIntent, REQUEST_CODE_GALLERY)
+        startActivityForResult(
+            galleryIntent,
+            REQUEST_CODE_GALLERY
+        )
     }
 
 
@@ -182,7 +192,9 @@ class PictureFragment(val context: Activity) : CustomFragment(context) {
         @JvmStatic
         override fun newInstance(activity: Activity): PictureFragment {
             val fragment =
-                PictureFragment(activity)
+                PictureFragment(
+                    activity
+                )
             val args = Bundle()
 
             args.putInt(KEY_POSITION, PICTURE_FRAGMENT_POSITION)
