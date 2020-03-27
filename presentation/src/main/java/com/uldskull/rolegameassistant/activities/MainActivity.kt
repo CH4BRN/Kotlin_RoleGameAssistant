@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Log.d(MAIN_ACTIVITY.name, "Start")
         setContentView(R.layout.activity_main)
+        application.deleteDatabase("appdb")
 
 
         loadSearchCharacterActivity()
