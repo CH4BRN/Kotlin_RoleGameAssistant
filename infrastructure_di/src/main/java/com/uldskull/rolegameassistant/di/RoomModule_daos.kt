@@ -9,5 +9,6 @@ import org.koin.dsl.module
 val roomModule = module {
 
     single { AppDatabase.getDatabase(get()).dbCharacteristicDao() }
+    single { AppDatabase.getDatabase(get()).dbRaceDao() }
 
 }

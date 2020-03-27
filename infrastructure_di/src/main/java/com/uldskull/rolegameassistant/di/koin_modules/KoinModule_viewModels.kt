@@ -7,6 +7,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.ideals.IdealsViewModel
 import com.uldskull.rolegameassistant.fragments.fragment.skills.SkillsViewModel
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
+import com.uldskull.rolegameassistant.viewmodels.RacesViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -42,6 +43,13 @@ val viewModelModule = module {
     viewModel {
         IdealsViewModel(
             application = get()
+        )
+    }
+    //  Race ViewModel
+    viewModel {
+        RacesViewModel(
+            application = get(),
+            raceRepositoryImpl = get()
         )
     }
 }
