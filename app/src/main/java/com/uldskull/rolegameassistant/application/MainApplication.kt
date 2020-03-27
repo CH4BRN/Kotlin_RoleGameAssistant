@@ -31,20 +31,22 @@ class MainApplication : Application() {
 
             // TODO("Inject modules here")
             modules(
-                viewModelModule
-            )
-            modules(
                 roomModule
             )
+            modules(
+                repositoriesModule
+            )
+            modules(
+                viewModelModule
+            )
+
             modules(
                 useCasesModule
             )
             modules(
                 useCasesServiceModule
             )
-            modules(
-                repositoriesModule
-            )
+
 
         }
     }
