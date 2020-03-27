@@ -9,6 +9,9 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues.DATABASE_NAME
 import com.uldskull.rolegameassistant.infrastructure.dao.DbCharacteristicDao
+import com.uldskull.rolegameassistant.infrastructure.dao.DbRaceDao
+import com.uldskull.rolegameassistant.infrastructure.database_model.DbRace
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbBonusCharacteristic
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbCharacteristic
 
 /**
@@ -17,12 +20,20 @@ Class "AppDatabase"
 Abstract class for room database
  */
 @Database(
-    entities = [DbCharacteristic::class],
+    entities = [DbCharacteristic::class, DbRace::class, DbBonusCharacteristic::class],
     version = 1
 )
 abstract class AppDatabase : RoomDatabase() {
 
+    /**
+     * Database characteristic DAO
+     */
     abstract fun dbCharacteristicDao(): DbCharacteristicDao
+
+    /**
+     * Database Race DAO
+     */
+    abstract fun dbRaceDao(): DbRaceDao
 
     companion object {
         /** Database Instance   */

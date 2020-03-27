@@ -21,6 +21,8 @@ class DbBonusCharacteristic(
     val characteristicBonus: Int,
     val characteristicMax: Int
 ) : DbEntity<DomainBonusCharacteristic> {
+
+
     /**
      * Converts a Database model entity into a domain model.
      */

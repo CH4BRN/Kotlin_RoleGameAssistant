@@ -10,7 +10,7 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_character
 
 /**
  *   Interface "DbCharacteristicDao" :
- *   TODO: Fill interface use.
+ *   DbCharacteristics database interactions.
  **/
 @Dao
 interface DbCharacteristicDao {

@@ -19,7 +19,7 @@ class CharacterRepositoryImpl :
     }
 
     /** Get one entity by its id    */
-    override fun getOne(id: Long?): DomainCharacter? {
+    override fun findOneById(id: Long?): DomainCharacter? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

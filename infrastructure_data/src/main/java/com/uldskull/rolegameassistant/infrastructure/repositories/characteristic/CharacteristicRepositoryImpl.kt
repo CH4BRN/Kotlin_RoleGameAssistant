@@ -39,7 +39,7 @@ class CharacteristicRepositoryImpl(private val dbCharacteristicDao: DbCharacteri
     }
 
     /** Get one entity by its id    */
-    override fun getOne(id: Long?): DomainCharacteristic? {
+    override fun findOneById(id: Long?): DomainCharacteristic? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -53,7 +53,7 @@ class CharacteristicRepositoryImpl(private val dbCharacteristicDao: DbCharacteri
                         c
                     )
                 })
-                Log.d("CharacteristicRepositoryImpl", "insertOne RESULT = ${result.size}")
+                Log.d("CharacteristicRepositoryImpl", "insertAll RESULT = ${result.size}")
                 return result
             } catch (e: Exception) {
                 e.printStackTrace()
