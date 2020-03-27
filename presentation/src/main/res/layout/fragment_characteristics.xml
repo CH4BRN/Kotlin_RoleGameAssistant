@@ -9,7 +9,7 @@
         style="@style/TextViewFragmentTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Abilities"
+        android:text="Characteristics"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_title">
 
         <FrameLayout
-            android:id="@+id/container_abilities"
+            android:id="@+id/container_characteristics"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>

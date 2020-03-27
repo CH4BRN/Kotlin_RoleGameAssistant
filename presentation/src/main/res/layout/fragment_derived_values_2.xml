@@ -38,8 +38,7 @@
                     android:layout_column="2"
                     android:layout_weight="4"
                     android:hint="0"
-                    android:inputType="number"
-                    android:importantForAutofill="no" />
+                    android:inputType="number" />
             </TableRow>
 
             <TableRow>
@@ -55,8 +54,7 @@
                     android:layout_column="2"
                     android:layout_weight="4"
                     android:hint="0"
-                    android:inputType="number"
-                    android:importantForAutofill="no" />
+                    android:inputType="number" />
             </TableRow>
 
             <TableRow>
@@ -72,8 +70,7 @@
                     android:layout_column="2"
                     android:layout_weight="4"
                     android:hint="0"
-                    android:inputType="number"
-                    android:importantForAutofill="no" />
+                    android:inputType="number" />
             </TableRow>
 
 
@@ -91,8 +88,7 @@
                     android:layout_column="2"
                     android:layout_weight="4"
                     android:hint="0"
-                    android:inputType="number"
-                    android:importantForAutofill="no" />
+                    android:inputType="number" />
             </TableRow>
 
         </TableLayout>

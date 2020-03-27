@@ -23,7 +23,7 @@
                 android:id="@+id/etBondTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:autofillHints="Bond title ..."
+
                 android:ems="10"
                 android:gravity="start|top"
                 android:hint="Title"
@@ -35,7 +35,7 @@
                 android:id="@+id/etBond"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:autofillHints="Bond..."
+
                 android:ems="10"
                 android:gravity="start|top"
                 android:hint="@string/lorem_ipsum_short"
