@@ -6,7 +6,7 @@ package com.uldskull.rolegameassistant.activities
 import android.content.Intent
 import android.os.Bundle
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.CharacterSearchFragment
+import com.uldskull.rolegameassistant.fragments.fragment.characterSearch.CharacterSearchFragment
 import kotlinx.android.synthetic.main.activity_search_character.*
 
 /**

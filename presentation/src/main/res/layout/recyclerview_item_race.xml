@@ -3,7 +3,7 @@
     android:id="@+id/row_linear_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/myclickablerecyclerviewitem"
+    android:background="@drawable/my_clickable_recyclerview_cell"
     android:orientation="vertical"
     android:paddingBottom="8dp">
 

@@ -6,8 +6,11 @@ package com.uldskull.rolegameassistant.viewmodels
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
+import com.uldskull.rolegameassistant.models.character.DomainCharacter
 import com.uldskull.rolegameassistant.models.character.DomainRace
+import com.uldskull.rolegameassistant.repository.character.CharacterRepository
 import com.uldskull.rolegameassistant.useCases.diceRoll.DiceService
 import kotlinx.coroutines.launch
 
@@ -19,7 +22,8 @@ import kotlinx.coroutines.launch
  **/
 class NewCharacterViewModel(
     application: Application,
-    private val diceService: DiceService
+    private val diceService: DiceService,
+    private val characterRepository: CharacterRepository<LiveData<DomainCharacter>>
 ) : AndroidViewModel(application) {
 
 
@@ -66,7 +70,22 @@ class NewCharacterViewModel(
     /**
      * Character race.
      */
-    var characterRace: DomainRace? = DomainRace(null, "Race", "Description")
+    var characterRace: DomainRace? = DomainRace(
+        raceId = null,
+        raceName = "Warrior"
+        /*,
+        raceCharacteristics = listOf(
+            DomainBonusCharacteristic(
+                characteristicId = null,
+                characteristicName = CharacteristicsName.STRENGTH.characteristicName,
+                characteristicBonus = 2,
+                characteristicMax = 8
+            )
+        )*/
+        ,
+
+        raceDescription = "Strength bonus"
+    )
         set(value) {
             Log.d("NewCharacterViewModel characterRace", value?.raceName.toString())
             field = value
@@ -103,6 +122,30 @@ class NewCharacterViewModel(
         Log.d("NewCharacterViewModel _ save", characterBiography)
         Log.d("NewCharacterViewModel _ save", characterHeight.toString())
         Log.d("NewCharacterViewModel _ save", characterRace?.raceName)
+
+        var character = DomainCharacter(
+            characterId = null,
+            characterName = characterName,
+            characterAge = characterAge,
+            characterGender = characterGender,
+            characterBiography = characterBiography,
+            characterHeight = characterHeight,
+            characterRace = characterRace,
+            characterIdeaPoints = null,
+            //characterSkills = null,
+            //characterJob = null,
+            //characterIdeals = null,
+            //characterHobby = null,
+            characterHealthPoints = null,
+            characterEnergyPoints = null,
+            characterAlignment = null
+            //characterCharacteristics = null,
+            //characterBonds = null
+        )
+
+        val result = characterRepository.insertOne(character)
+
+        Log.d("RESULT", result?.toString())
 
     }
 

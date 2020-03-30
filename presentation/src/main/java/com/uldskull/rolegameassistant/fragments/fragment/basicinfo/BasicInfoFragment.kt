@@ -21,12 +21,12 @@ import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.REQUEST_CODE_BASIC_INFO_NEW_RACE
-import com.uldskull.rolegameassistant.models.character.DomainRace
-import com.uldskull.rolegameassistant.models.character.characteristic.CharacteristicsName
+import com.uldskull.rolegameassistant.viewmodels.CharacteristicViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.RacesViewModel
 import kotlinx.android.synthetic.main.fragment_basic_info.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import kotlin.concurrent.thread
 
 
 /**
@@ -39,7 +39,39 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
      */
     private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
     private val raceViewModel: RacesViewModel by sharedViewModel()
+    private val characteristicViewModel: CharacteristicViewModel by sharedViewModel()
 
+    private fun testInsert() {
+        thread(start = true) {
+            //  RACE
+            Log.d("testInsert", "BasicInfoFragment START")
+            var raceId: Long? = raceViewModel.testInsert()
+            var race = raceViewModel.findRaceWithId(raceId)
+
+            Log.d("testInsert", "BasicInfoFragment - Race name : ${race?.raceName}")
+
+            //  CHARACTERISTIC
+            var characteristicId: Long? = characteristicViewModel.testInsertOne(raceId)
+            var characteristicIds: List<Long>? = characteristicViewModel.testInsertMultiple(raceId)
+
+            var raceCharacteristic =
+                characteristicViewModel.findRaceCharacteristicWithId(characteristicId)
+
+            Log.d(
+                "testInsert",
+                "BasicInfoFragment - Characteristic name : ${raceCharacteristic?.characteristicName}"
+            )
+            Log.d(
+                "testInsert",
+                "BasicInfoFragment - Characteristic raceId : ${raceCharacteristic?.characteristicRaceId}"
+            )
+
+            //  RACE WITH CHILDREN
+            var result = raceViewModel.findRaceWithCharacteristics()
+
+            Log.d("testInsert", "BasicInfoFragment END")
+        }
+    }
 
     /**
      * Fragment Lifecycle
@@ -51,19 +83,6 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
     ): View? {
         newCharacterViewModel.displayDices()
 
-        val domainRaces = listOf(
-            DomainRace(null, "Warrior", "${CharacteristicsName.STRENGTH.characteristicName} bonus"),
-            DomainRace(null, "Monk", "${CharacteristicsName.CHARISMA.characteristicName} bonus"),
-            DomainRace(null, "Giant", "${CharacteristicsName.SIZE.characteristicName} bonus"),
-            DomainRace(null, "Magician", "${CharacteristicsName.POWER.characteristicName} bonus"),
-            DomainRace(
-                null,
-                "Archerer",
-                "${CharacteristicsName.DEXTERITY.characteristicName} bonus"
-            )
-        )
-        val insertResult = raceViewModel.saveAll(domainRaces)
-        Log.d("BasicInfoFragment insertResult : ", insertResult?.toString())
 
         return initializeView(inflater, container)
     }
@@ -95,9 +114,9 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonAddRace()
-
-
         setEditTextListeners()
+
+        testInsert()
     }
 
 

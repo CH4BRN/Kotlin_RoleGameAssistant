@@ -72,7 +72,7 @@ class CharacteristicsFragment(activity: Activity) : CustomFragment(activity) {
             )
         )
 
-        val insertResult = characteristicsViewModel.saveAll(domainCharacteristics)
+        val insertResult = characteristicsViewModel.saveAllCharacteristics(domainCharacteristics)
         Log.d("BasicInfoFragment result = ", insertResult?.size.toString())
 
         val characteristicObserver = startCharacteristicsObservation()
