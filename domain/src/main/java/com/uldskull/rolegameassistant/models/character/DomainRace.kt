@@ -9,7 +9,7 @@ package com.uldskull.rolegameassistant.models.character
  **/
 class DomainRace(
     val raceId: Long?,
-    val raceName: String,
-    val raceDescription: String
-    //,    val raceCharacteristics: List<DomainBonusCharacteristic>
+    val raceName: String?,
+    val raceDescription: String?
+    //,     val raceCharacteristics: List<DomainRaceCharacteristic>?
 )

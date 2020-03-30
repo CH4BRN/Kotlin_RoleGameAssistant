@@ -11,13 +11,13 @@ class DomainRollCharacteristic(
     characteristicId: Long,
     characteristicName: String,
     characteristicBonus: Int,
-    characteristicMax: Int,
+    characteristicRaceId: Long,
     val characteristicRoll: Int,
     val characteristicTotal: Int
 
-) : DomainBonusCharacteristic(
+) : DomainRaceCharacteristic(
     characteristicId = characteristicId,
     characteristicName = characteristicName,
     characteristicBonus = characteristicBonus,
-    characteristicMax = characteristicMax
+    characteristicRaceId = characteristicRaceId
 )

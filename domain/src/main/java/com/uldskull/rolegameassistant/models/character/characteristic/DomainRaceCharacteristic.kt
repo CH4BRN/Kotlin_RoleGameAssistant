@@ -7,11 +7,11 @@ package com.uldskull.rolegameassistant.models.character.characteristic
  *   Class "DomainBonusCharacteristic" :
  *   Characteristic with bonus and max values
  **/
-open class DomainBonusCharacteristic(
+open class DomainRaceCharacteristic(
     characteristicId: Long?,
-    characteristicName: String,
-    val characteristicBonus: Int,
-    val characteristicMax: Int
+    characteristicName: String?,
+    val characteristicBonus: Int?,
+    val characteristicRaceId: Long?
 ) : DomainCharacteristic(
     characteristicId,
     characteristicName
