@@ -19,9 +19,9 @@ import com.uldskull.rolegameassistant.models.character.DomainSkill
 @Entity
 open class DbSkill(
     @PrimaryKey(autoGenerate = true)
-    val skillId: Long,
-    val skillName: String,
-    val skillDescription: String
+    val skillId: Long?,
+    val skillName: String?,
+    val skillDescription: String?
 ) : DbEntity<DomainSkill> {
     /**
      * Converts a Database model entity into a domain model.
@@ -39,11 +39,11 @@ open class DbSkill(
         /**
          * Converts a domain model into a database model entity.
          */
-        override fun from(domainModel: DomainSkill): DbSkill {
+        override fun from(domainModel: DomainSkill?): DbSkill {
             return DbSkill(
-                skillId = domainModel.skillId,
-                skillName = domainModel.skillName,
-                skillDescription = domainModel.skillDescription
+                skillId = domainModel?.skillId,
+                skillName = domainModel?.skillName,
+                skillDescription = domainModel?.skillDescription
             )
         }
 

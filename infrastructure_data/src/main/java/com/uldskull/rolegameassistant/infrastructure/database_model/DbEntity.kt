@@ -22,5 +22,5 @@ interface DbCompanion<DO, DA> {
     /**
      * Converts a domain model into a database model entity.
      */
-    fun from(domainModel: DO): DA
+    fun from(domainModel: DO?): DA
 }

@@ -7,7 +7,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.uldskull.rolegameassistant.infrastructure.dao.DbRaceDao
-import com.uldskull.rolegameassistant.infrastructure.database_model.DbRace
+import com.uldskull.rolegameassistant.infrastructure.dao.DbRaceWithDbBonusCharacteristicsDao
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_race.DbRace
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_race.DbRaceWithCharacteristics
 import com.uldskull.rolegameassistant.models.character.DomainRace
 import com.uldskull.rolegameassistant.repository.race.RaceRepository
 
@@ -15,7 +17,10 @@ import com.uldskull.rolegameassistant.repository.race.RaceRepository
  *   Class "RaceRepositoryImpl" :
  *   TODO: Fill class use.
  **/
-class RaceRepositoryImpl(private val dbRaceDao: DbRaceDao) :
+class DbRaceRepositoryImpl(
+    private val dbRaceDao: DbRaceDao,
+    private val dbRaceWithDbBonusCharacteristicsDao: DbRaceWithDbBonusCharacteristicsDao
+) :
     RaceRepository<LiveData<List<DomainRace>>> {
     /** Get all entities    */
     override fun getAll(): LiveData<List<DomainRace>>? {
@@ -31,7 +36,15 @@ class RaceRepositoryImpl(private val dbRaceDao: DbRaceDao) :
 
     /** Get one entity by its id    */
     override fun findOneById(id: Long?): DomainRace? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Log.d("findOneById", "id : $id")
+        var result: DbRace
+        try {
+            result = dbRaceDao.getRaceById(id)
+        } catch (e: Exception) {
+            Log.e("findOneById", "FAILED")
+            throw e
+        }
+        return result.toDomain()
     }
 
     /** Insert a list of entity - it should return long[] or List<Long>.*/
@@ -89,9 +102,26 @@ class RaceRepositoryImpl(private val dbRaceDao: DbRaceDao) :
                 raceName = it.raceName,
                 raceDescription = it.raceDescription
             )
-            //,                raceCharacteristics = it.raceCharacteristics.map { characteristic -> characteristic.toDomain() })
         }
+    }
 
+    override fun findOneWithChildren(): DomainRace {
+
+        Log.d("testInsert", "DbRaceRepositoryImpl findOneWithChildren START")
+        val result: List<DbRaceWithCharacteristics> =
+            dbRaceWithDbBonusCharacteristicsDao.getRaceWithCharacteristics()
+        Log.d("testInsert", "DbRaceRepositoryImpl findOneWithChildren  count = " + result.count())
+
+        result.forEach {
+            Log.d("findOneWithChildren", "result type = " + it.javaClass)
+            Log.d("findOneWithChildren", "race name = " + it.race.raceName)
+            Log.d("findOneWithChildren", "characteristic count = " + it.characteristics.size)
+            it.characteristics.forEach {
+                Log.d("findOneWithChildren ", "Characteristic name =" + it.characteristicName)
+                Log.d("findOneWithChildren ", "Characteristic bonus =" + it.characteristicBonus)
+            }
+        }
+        return result.first().race.toDomain()
     }
 }
 // TODO : Fill class.

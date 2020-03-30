@@ -22,6 +22,7 @@ object DatabaseValues {
     const val TABLE_NAME_RACE = "race"
     const val TABLE_NAME_CHARACTER = "character"
     const val TABLE_NAME_CHARACTERISTICS = "characteristics"
+    const val TABLE_NAME_RACE_CHARACTERISTICS = "race_characteristics"
     const val TABLE_NAME_GENDER = "gender"
 
 

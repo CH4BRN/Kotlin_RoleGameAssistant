@@ -20,7 +20,8 @@ class DbRollCharacteristic(
     val characteristicBonus: Int,
     val characteristicMax: Int,
     val characteristicRoll: Int,
-    val characteristicTotal: Int
+    val characteristicTotal: Int,
+    val characteristicRaceId: Long
 ) :
     DbEntity<DomainRollCharacteristic> {
     /**
@@ -31,9 +32,9 @@ class DbRollCharacteristic(
             characteristicId = this.characteristicId,
             characteristicName = this.characteristicName,
             characteristicBonus = this.characteristicBonus,
-            characteristicMax = this.characteristicMax,
             characteristicRoll = this.characteristicRoll,
-            characteristicTotal = this.characteristicTotal
+            characteristicTotal = this.characteristicTotal,
+            characteristicRaceId = this.characteristicRaceId
         )
     }
 }

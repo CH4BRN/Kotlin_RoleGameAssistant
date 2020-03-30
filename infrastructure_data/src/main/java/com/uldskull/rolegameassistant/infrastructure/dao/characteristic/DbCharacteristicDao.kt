@@ -1,7 +1,7 @@
 // File DbCharacteristicDao.kt
-// @Author pierre.antoine - 24/03/2020 - No copyright.
+// @Author pierre.antoine - 30/03/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.infrastructure.dao
+package com.uldskull.rolegameassistant.infrastructure.dao.characteristic
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
@@ -10,30 +10,32 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_character
 
 /**
  *   Interface "DbCharacteristicDao" :
- *   DbCharacteristics database interactions.
+ *   TODO: Fill interface use.
  **/
 @Dao
 interface DbCharacteristicDao {
     //  CREATE
     @Insert
-    fun insertCharacteristic(dbCharacteristic: DbCharacteristic): Long
+    fun insertCharacteristic(dbRaceCharacteristic: DbCharacteristic): Long
 
     @Insert
-    fun insertCharacteristics(dbCharacteristics: List<DbCharacteristic>): List<Long>
+    fun insertCharacteristics(dbRaceCharacteristics: List<DbCharacteristic>): List<Long>
 
     //  READ
     @Query("SELECT * FROM ${DatabaseValues.TABLE_NAME_CHARACTERISTICS}")
     fun getCharacteristics(): LiveData<List<DbCharacteristic>>
 
+    @Query("SELECT * FROM ${DatabaseValues.TABLE_NAME_CHARACTERISTICS} WHERE characteristicId = :id")
+    fun getCharacteristicById(id: Long?): DbCharacteristic
+
     //  UPDATE
     @Update
-    fun updateCharacteristic(vararg characteristics: DbCharacteristic): Int
+    fun updateCharacteristic(vararg dbRaceCharacteristics: DbCharacteristic): Int
 
     //  DELETE
     @Delete
-    fun deleteCharacteristics(vararg characteristics: DbCharacteristic): Int
+    fun deleteCharacteristics(vararg dbRaceCharacteristic: DbCharacteristic): Int
 
     @Query("DELETE FROM ${DatabaseValues.TABLE_NAME_CHARACTERISTICS}")
     fun deleteAllCharacteristics(): Int
-
 }

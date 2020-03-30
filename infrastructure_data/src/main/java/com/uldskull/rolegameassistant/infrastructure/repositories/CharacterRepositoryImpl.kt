@@ -2,7 +2,11 @@
 
 package com.uldskull.rolegameassistant.infrastructure.repositories
 
+import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
+import com.uldskull.rolegameassistant.infrastructure.dao.DbCharacterDao
+import com.uldskull.rolegameassistant.infrastructure.database_model.DbCharacter
 import com.uldskull.rolegameassistant.models.character.DomainCharacter
 import com.uldskull.rolegameassistant.repository.character.CharacterRepository
 
@@ -11,11 +15,37 @@ Class "CharacterRepositoryImpl"
 
 Insert and get Character from database.
  */
-class CharacterRepositoryImpl :
+class CharacterRepositoryImpl(
+    private val dbCharacterDao: DbCharacterDao
+) :
     CharacterRepository<LiveData<List<DomainCharacter>>> {
     /** Get all entities    */
     override fun getAll(): LiveData<List<DomainCharacter>>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        try {
+            return Transformations.map(dbCharacterDao.getCharacters()) {
+                it.asDomainModel()
+            }
+        } catch (e: Exception) {
+            throw e
+        }
+    }
+
+    private fun List<DbCharacter>.asDomainModel(): List<DomainCharacter> {
+        return map {
+            DomainCharacter(
+                characterName = it.characterName,
+                characterAge = it.characterAge,
+                characterBiography = it.characterBiography,
+                characterIdeaPoints = it.characterIdeaPoints,
+                characterHealthPoints = it.characterHealthPoints,
+                characterEnergyPoints = it.characterEnergyPoints,
+                characterAlignment = it.characterAlignment,
+                characterGender = it.characterGender,
+                characterHeight = it.characterHeight,
+                characterId = it.characterId,
+                characterRace = it.characterRace?.toDomain()
+            )
+        }
     }
 
     /** Get one entity by its id    */
@@ -30,7 +60,18 @@ class CharacterRepositoryImpl :
 
     /** Insert one entity   */
     override fun insertOne(one: DomainCharacter?): Long {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Log.d("CharacterRepositoryImpl", "insertOne")
+        return if (one != null) {
+            try {
+                val result = dbCharacterDao.insertCharacter(DbCharacter.from(one))
+                Log.d("CharacteristicRepositoryImpl", "insertOne RESULT = $result")
+                result
+            } catch (e: Exception) {
+                throw e
+            }
+        } else {
+            -1
+        }
     }
 
     /** Delete all entities **/

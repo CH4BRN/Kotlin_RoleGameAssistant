@@ -6,7 +6,7 @@ package com.uldskull.rolegameassistant.infrastructure.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
-import com.uldskull.rolegameassistant.infrastructure.database_model.DbRace
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_race.DbRace
 
 /**
  *   Interface "DbRaceDao" :
@@ -24,6 +24,9 @@ interface DbRaceDao {
     //  READ
     @Query("SELECT * FROM ${DatabaseValues.TABLE_NAME_RACE}")
     fun getRaces(): LiveData<List<DbRace>>
+
+    @Query("SELECT * FROM ${DatabaseValues.TABLE_NAME_RACE} WHERE raceId LIKE :id")
+    fun getRaceById(id: Long?): DbRace
 
     //  UPDATE
     @Update
