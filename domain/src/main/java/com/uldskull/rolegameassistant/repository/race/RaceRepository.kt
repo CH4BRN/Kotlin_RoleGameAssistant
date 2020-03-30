@@ -11,4 +11,6 @@ import com.uldskull.rolegameassistant.repository.GenericRepository
  *   Class to manage race persistence.
  **/
 interface RaceRepository<T> :
-    GenericRepository<T, DomainRace>
+    GenericRepository<T, DomainRace> {
+    fun findOneWithChildren(): DomainRace
+}
