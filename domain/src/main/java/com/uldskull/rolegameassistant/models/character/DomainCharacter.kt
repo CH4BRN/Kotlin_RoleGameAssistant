@@ -2,6 +2,8 @@
 
 package com.uldskull.rolegameassistant.models.character
 
+import com.uldskull.rolegameassistant.models.character.breed.DomainBreed
+
 /**
 Class "DomainCharacter"
 
@@ -13,7 +15,7 @@ open class DomainCharacter(
     val characterAge: Int?,
     val characterGender: String?,
     val characterBiography: String?,
-    val characterRace: DomainRace?,
+    val characterBreed: DomainBreed?,
     // val characterBonds: List<String>?,
     //val characterCharacteristics: List<DomainRollCharacteristic>?,
     val characterHealthPoints: Int?,
@@ -24,8 +26,19 @@ open class DomainCharacter(
     //val characterJob: DomainJob?,
     //val characterHobby: DomainHobby?,
     // val characterIdeals: List<DomainIdeal>?,
-    val characterHeight: Int?
-)
+    val characterHeight: Int?,
+    val characterPictureUri: String?
+) {
+    override fun toString(): String {
+        return "id : ${characterId}\n" +
+                "name : ${characterName}\n" +
+                "age : ${characterAge}\n" +
+                "gender : ${characterGender}\n" +
+                "biography : ${characterBiography}\n" +
+                "breed : ${characterBreed?.breedName}\n" +
+                "picture : ${characterPictureUri}"
+    }
+}
 
 
 

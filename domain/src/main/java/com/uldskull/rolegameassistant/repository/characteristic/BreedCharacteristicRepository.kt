@@ -3,12 +3,12 @@
 
 package com.uldskull.rolegameassistant.repository.characteristic
 
-import com.uldskull.rolegameassistant.models.character.characteristic.DomainRaceCharacteristic
+import com.uldskull.rolegameassistant.models.character.characteristic.DomainBreedCharacteristic
 import com.uldskull.rolegameassistant.repository.GenericRepository
 
 /**
  *   Interface "RaceCharacteristicRepository" :
  *   TODO: Fill interface use.
  **/
-interface RaceCharacteristicRepository<T> :
-    GenericRepository<T, DomainRaceCharacteristic>
+interface BreedCharacteristicRepository<T> :
+    GenericRepository<T, DomainBreedCharacteristic>
