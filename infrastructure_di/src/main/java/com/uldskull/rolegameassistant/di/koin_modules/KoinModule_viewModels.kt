@@ -5,10 +5,10 @@ package com.uldskull.rolegameassistant.di.koin_modules
 import com.uldskull.rolegameassistant.fragments.fragment.bonds.BondsViewModel
 import com.uldskull.rolegameassistant.fragments.fragment.ideals.IdealsViewModel
 import com.uldskull.rolegameassistant.fragments.fragment.skills.SkillsViewModel
+import com.uldskull.rolegameassistant.viewmodels.BreedsViewModel
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicViewModel
 import com.uldskull.rolegameassistant.viewmodels.CharactersViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
-import com.uldskull.rolegameassistant.viewmodels.RacesViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -19,14 +19,16 @@ val viewModelModule = module {
         NewCharacterViewModel(
             application = get(),
             diceService = get(),
-            characterRepository = get()
+            characterRepository = get(),
+            breedsRepository = get(),
+            characteristicRepository = get()
         )
     }
     //  Characteristics ViewModel
     viewModel {
         CharacteristicViewModel(
             application = get(),
-            raceCharacteristicRepositoryImpl = get(),
+            breedCharacteristicRepositoryImpl = get(),
             characteristicRepositoryImpl = get()
         )
     }
@@ -48,11 +50,11 @@ val viewModelModule = module {
             application = get()
         )
     }
-    //  Race ViewModel
+    //  Breeds ViewModel
     viewModel {
-        RacesViewModel(
+        BreedsViewModel(
             application = get(),
-            raceRepositoryImpl = get()
+            breedRepositoryImpl = get()
         )
     }
     //  Characters ViewModel

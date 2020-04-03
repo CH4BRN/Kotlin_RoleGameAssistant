@@ -8,13 +8,13 @@ import org.koin.dsl.module
 /** ViewModels injection    **/
 val roomModule = module {
 
-    //  RACE
-    single { AppDatabase.getDatabase(get()).dbRaceDao() }
+    //  BREED
+    single { AppDatabase.getDatabase(get()).dbBreedDao() }
     //  CHARACTER
     single { AppDatabase.getDatabase(get()).dbCharacterDao() }
     //  CHARACTERISTICS
     single { AppDatabase.getDatabase(get()).dbCharacteristicDao() }
-    single { AppDatabase.getDatabase(get()).dbRaceCharacteristicDao() }
-    single { AppDatabase.getDatabase(get()).dbRaceWithDbBonusCharacteristicsDao() }
+    single { AppDatabase.getDatabase(get()).dbBreedCharacteristicDao() }
+    single { AppDatabase.getDatabase(get()).dbBreedWithDbBonusCharacteristicsDao() }
 
 }
