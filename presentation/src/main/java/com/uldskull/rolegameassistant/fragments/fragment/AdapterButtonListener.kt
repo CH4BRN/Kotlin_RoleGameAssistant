@@ -4,9 +4,12 @@
 package com.uldskull.rolegameassistant.fragments.fragment
 
 /**
- *   Interface "AdapaterButtonListener" :
- *   TODO: Fill interface use.
+ *   Interface "AdapterButtonListener" :
+ *   Ensure communication between adapter and fragment.
  **/
 interface AdapterButtonListener<T> {
-    fun buttonPressed(t: T)
+    /**
+     * Called when a recyclerview cell is pressed
+     */
+    fun itemPressed(domainModel: T?)
 }

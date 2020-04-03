@@ -5,6 +5,8 @@ package com.uldskull.rolegameassistant.fragments.fragment.bonds
 
 import android.app.Activity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +18,9 @@ import com.uldskull.rolegameassistant.fragments.adapter.BONDS_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
+import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
+import kotlinx.android.synthetic.main.fragment_bonds.*
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
  *   Class "BondFragment" :
@@ -29,6 +34,12 @@ class BondsFragment(activity: Activity) : CustomFragment(activity) {
     ): View? {
         return initializeView(inflater, container)
     }
+
+    private val bondValueMaxCharacters = 380
+
+    private val bondsViewModel: BondsViewModel by sharedViewModel()
+
+    private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
 
     override fun onResume() {
         super.onResume()
@@ -46,7 +57,116 @@ class BondsFragment(activity: Activity) : CustomFragment(activity) {
         return initialRootView
     }
 
-    companion object: CustomCompanion() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        btn_addBond?.isEnabled = false
+        tv_remainingCharactersValue.text = bondValueMaxCharacters.toString()
+        etBondTitle?.addTextChangedListener(object : TextWatcher {
+            /**
+             * This method is called to notify you that, somewhere within
+             * `s`, the text has been changed.
+             * It is legitimate to make further changes to `s` from
+             * this callback, but be careful not to get yourself into an infinite
+             * loop, because any changes you make will cause this method to be
+             * called again recursively.
+             * (You are not told where the change took place because other
+             * afterTextChanged() methods may already have made other changes
+             * and invalidated the offsets.  But if you need to know here,
+             * you can use [Spannable.setSpan] in [.onTextChanged]
+             * to mark your place and then look up from here where the span
+             * ended up.
+             */
+            override fun afterTextChanged(s: Editable?) {
+                bondsViewModel.currentBondTitle = s.toString()
+                if (bondsViewModel.bondValueIsInitialized() && bondsViewModel.bondTitleIsInitialized()) {
+                    btn_addBond.isEnabled = true
+                }
+            }
+
+            /**
+             * This method is called to notify you that, within `s`,
+             * the `count` characters beginning at `start`
+             * are about to be replaced by new text with length `after`.
+             * It is an error to attempt to make changes to `s` from
+             * this callback.
+             */
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            /**
+             * This method is called to notify you that, within `s`,
+             * the `count` characters beginning at `start`
+             * have just replaced old text that had length `before`.
+             * It is an error to attempt to make changes to `s` from
+             * this callback.
+             */
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+        })
+
+
+        etBondValue.addTextChangedListener(object : TextWatcher {
+            /**
+             * This method is called to notify you that, somewhere within
+             * `s`, the text has been changed.
+             * It is legitimate to make further changes to `s` from
+             * this callback, but be careful not to get yourself into an infinite
+             * loop, because any changes you make will cause this method to be
+             * called again recursively.
+             * (You are not told where the change took place because other
+             * afterTextChanged() methods may already have made other changes
+             * and invalidated the offsets.  But if you need to know here,
+             * you can use [Spannable.setSpan] in [.onTextChanged]
+             * to mark your place and then look up from here where the span
+             * ended up.
+             */
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+            /**
+             * This method is called to notify you that, within `s`,
+             * the `count` characters beginning at `start`
+             * are about to be replaced by new text with length `after`.
+             * It is an error to attempt to make changes to `s` from
+             * this callback.
+             */
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            /**
+             * This method is called to notify you that, within `s`,
+             * the `count` characters beginning at `start`
+             * have just replaced old text that had length `before`.
+             * It is an error to attempt to make changes to `s` from
+             * this callback.
+             */
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                bondsViewModel.currentBondValue = s.toString()
+                if (bondsViewModel.bondValueIsInitialized() && bondsViewModel.bondTitleIsInitialized()) {
+                    btn_addBond.isEnabled = true
+                }
+                if (!s.isNullOrBlank()) {
+                    Log.d("slength", "${s.length}")
+                    var remaining = bondValueMaxCharacters - s.length
+                    tv_remainingCharactersValue.text = remaining.toString()
+                } else {
+                    tv_remainingCharactersValue.text = bondValueMaxCharacters.toString()
+                }
+            }
+
+        })
+
+
+        btn_addBond.setOnClickListener {
+            Log.d("Bond", "Click")
+            newCharacterViewModel.characterBonds = bondsViewModel.addBond()
+        }
+
+    }
+
+    companion object : CustomCompanion() {
         @JvmStatic
         override fun newInstance(activity: Activity): BondsFragment {
             val fragment =
@@ -66,4 +186,6 @@ class BondsFragment(activity: Activity) : CustomFragment(activity) {
             return fragment
         }
     }
+
+
 }

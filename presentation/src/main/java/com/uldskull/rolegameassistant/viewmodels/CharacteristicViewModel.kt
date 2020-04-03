@@ -9,10 +9,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.uldskull.rolegameassistant.models.character.characteristic.CharacteristicsName
+import com.uldskull.rolegameassistant.models.character.characteristic.DomainBreedCharacteristic
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainCharacteristic
-import com.uldskull.rolegameassistant.models.character.characteristic.DomainRaceCharacteristic
+import com.uldskull.rolegameassistant.repository.characteristic.BreedCharacteristicRepository
 import com.uldskull.rolegameassistant.repository.characteristic.CharacteristicRepository
-import com.uldskull.rolegameassistant.repository.characteristic.RaceCharacteristicRepository
 import kotlinx.coroutines.launch
 import kotlin.concurrent.thread
 
@@ -23,7 +23,7 @@ import kotlin.concurrent.thread
  **/
 class CharacteristicViewModel(
     application: Application,
-    private val raceCharacteristicRepositoryImpl: RaceCharacteristicRepository<LiveData<List<DomainRaceCharacteristic>>>,
+    private val breedCharacteristicRepositoryImpl: BreedCharacteristicRepository<LiveData<List<DomainBreedCharacteristic>>>,
     private val characteristicRepositoryImpl: CharacteristicRepository<LiveData<List<DomainCharacteristic>>>
 ) : AndroidViewModel(application) {
 
@@ -34,41 +34,41 @@ class CharacteristicViewModel(
     private fun refreshDataFromRepository() {
         viewModelScope.launch {
             try {
-                result = findAllRaceCharacteristics()
+                result = findAllBreedCharacteristics()
             } catch (e: Exception) {
                 throw e
             }
         }
     }
 
-    fun saveOneRaceCharacteristic(domainRaceCharacteristic: DomainRaceCharacteristic): Long? {
+    fun saveOneBreedCharacteristic(domainBreedCharacteristic: DomainBreedCharacteristic): Long? {
         var result: Long? = null
         Log.d("CharacteristicViewModel", "saveOne")
 
-        result = raceCharacteristicRepositoryImpl.insertOne(domainRaceCharacteristic)
+        result = breedCharacteristicRepositoryImpl.insertOne(domainBreedCharacteristic)
         Log.d("CharacteristicViewModel", "saved $result")
         return result
     }
 
-    private fun getTestDomainRaceCharacteristics(raceId: Long?): List<DomainRaceCharacteristic> {
-        return listOf<DomainRaceCharacteristic>(
-            DomainRaceCharacteristic(
+    private fun getTestDomainBreedCharacteristics(breedId: Long?): List<DomainBreedCharacteristic> {
+        return listOf<DomainBreedCharacteristic>(
+            DomainBreedCharacteristic(
                 characteristicId = null,
                 characteristicBonus = 42,
                 characteristicName = CharacteristicsName.STRENGTH.characteristicName,
-                characteristicRaceId = raceId
+                characteristicBreedId = breedId
             ),
-            DomainRaceCharacteristic(
+            DomainBreedCharacteristic(
                 characteristicId = null,
                 characteristicBonus = 42,
                 characteristicName = CharacteristicsName.DEXTERITY.characteristicName,
-                characteristicRaceId = raceId
+                characteristicBreedId = breedId
             ),
-            DomainRaceCharacteristic(
+            DomainBreedCharacteristic(
                 characteristicId = null,
                 characteristicBonus = 42,
                 characteristicName = CharacteristicsName.POWER.characteristicName,
-                characteristicRaceId = raceId
+                characteristicBreedId = breedId
             )
         )
     }
@@ -76,43 +76,43 @@ class CharacteristicViewModel(
     fun testInsertMultiple(raceId: Long?): List<Long>? {
         Log.d("testInsertMultiple", "CharacteristicViewModel START")
 
-        var raceCharacteristics = getTestDomainRaceCharacteristics(raceId)
+        var breedCharacteristics = getTestDomainBreedCharacteristics(raceId)
 
-        raceCharacteristics.forEach {
+        breedCharacteristics.forEach {
             Log.d("testInsertMultiple", "Characteristic name = " + it.characteristicName)
-            Log.d("testInsertMultiple", "Characteristic raceId = " + it.characteristicRaceId)
+            Log.d("testInsertMultiple", "Characteristic raceId = " + it.characteristicBreedId)
         }
 
-        var raceCharacteristicsIds: List<Long>? = emptyList()
+        var breedCharacteristicsIds: List<Long>? = emptyList()
         Log.d(
             "testInsertMultiple",
-            "CharacteristicViewModel raceCharacteristicIds size before = ${raceCharacteristicsIds?.size}"
+            "CharacteristicViewModel raceCharacteristicIds size before = ${breedCharacteristicsIds?.size}"
         )
 
         try {
-            raceCharacteristicsIds = this.saveAllRaceCharacteristics(
-                raceCharacteristics
+            breedCharacteristicsIds = this.saveAllBreedCharacteristics(
+                breedCharacteristics
             )
             Log.d(
                 "testInsertMultiple",
-                "CharacteristicViewModel raceCharacteristicIds size while= ${raceCharacteristicsIds?.size}"
+                "CharacteristicViewModel raceCharacteristicIds size while= ${breedCharacteristicsIds?.size}"
             )
         } catch (e: Exception) {
-            Log.e("testInsertMultiple", "saveAllRaceCharacteristics FAILED")
+            Log.e("testInsertMultiple", "saveAllBreedCharacteristics FAILED")
             throw e
         }
         Log.d(
             "testInsertMultiple",
-            "CharacteristicViewModel saveAllRaceCharacteristics after= ${raceCharacteristicsIds?.size}"
+            "CharacteristicViewModel saveAllBreedCharacteristics after= ${breedCharacteristicsIds?.size}"
         )
 
         Log.d(
             "testInsertMultiple",
-            "CharacteristicViewModel findRaceCharacteristicWithId START"
+            "CharacteristicViewModel findBreedCharacteristicWithId START"
         )
 
-        raceCharacteristicsIds?.forEach {
-            var raceCharacteristic = this.findRaceCharacteristicWithId(it)
+        breedCharacteristicsIds?.forEach {
+            var raceCharacteristic = this.findBreedCharacteristicWithId(it)
             if (raceCharacteristic == null) {
                 throw Exception("Not found")
             }
@@ -122,7 +122,7 @@ class CharacteristicViewModel(
             )
         }
 
-        return raceCharacteristicsIds
+        return breedCharacteristicsIds
 
     }
 
@@ -130,11 +130,11 @@ class CharacteristicViewModel(
     fun testInsertOne(raceId: Long?): Long? {
         Log.d("testInsertOne", "CharacteristicViewModel START")
 
-        var raceCharacteristic = getTestDomainRaceCharacteristic(raceId)
+        var raceCharacteristic = getTestDomainBreedCharacteristic(raceId)
         Log.d(
             "testInsertOne",
-            "CharacteristicViewModel DomainRaceCharacteristic instantiated with raceId : " +
-                    "${raceCharacteristic.characteristicRaceId}"
+            "CharacteristicViewModel DomainBreedCharacteristic instantiated with raceId : " +
+                    "${raceCharacteristic.characteristicBreedId}"
         )
         var raceCharacteristicId: Long? = 0
         Log.d(
@@ -143,56 +143,56 @@ class CharacteristicViewModel(
         )
 
         try {
-            raceCharacteristicId = this.saveOneRaceCharacteristic(
+            raceCharacteristicId = this.saveOneBreedCharacteristic(
                 raceCharacteristic
             )
             Log.d(
                 "testInsertOne",
-                "CharacteristicViewModel raceCharacteristicId while= ${raceCharacteristicId.toString()}"
+                "CharacteristicViewModel breedCharacteristicId while= ${raceCharacteristicId.toString()}"
             )
         } catch (e: Exception) {
-            Log.e("testInsertOne", "saveOneRaceCharacteristic FAILED")
+            Log.e("testInsertOne", "saveOneBreedCharacteristic FAILED")
             throw e
         }
         Log.d(
             "testInsertOne",
-            "CharacteristicViewModel raceCharacteristicId after= ${raceCharacteristicId.toString()}"
+            "CharacteristicViewModel breedCharacteristicId after= ${raceCharacteristicId.toString()}"
         )
         Log.d(
             "testInsertOne",
-            "CharacteristicViewModel findRaceCharacteristicWithId START"
+            "CharacteristicViewModel findBreedCharacteristicWithId START"
         )
-        var foundRaceCharacteristic: DomainRaceCharacteristic? = null
+        var foundBreedCharacteristic: DomainBreedCharacteristic? = null
         try {
-            foundRaceCharacteristic =
-                this.findRaceCharacteristicWithId(raceCharacteristicId)
+            foundBreedCharacteristic =
+                this.findBreedCharacteristicWithId(raceCharacteristicId)
         } catch (e: Exception) {
             Log.e(
                 "testInsertOne",
-                "CharacteristicViewModel findRaceCharacteristicWithId FAILED"
+                "CharacteristicViewModel findBreedCharacteristicWithId FAILED"
             )
         }
 
         Log.d(
             "testInsertOne",
-            "CharacteristicViewModel foundRaceCharacteristic : "
-                    + foundRaceCharacteristic?.characteristicName + " \n" +
-                    "Race id : " + foundRaceCharacteristic?.characteristicRaceId.toString()
+            "CharacteristicViewModel foundBreedCharacteristic : "
+                    + foundBreedCharacteristic?.characteristicName + " \n" +
+                    "Breed id : " + foundBreedCharacteristic?.characteristicBreedId.toString()
         )
 
         Log.d(
             "testInsertOne",
-            "CharacteristicViewModel findRaceCharacteristicWithId END"
+            "CharacteristicViewModel findBreedCharacteristicWithId END"
         )
         return raceCharacteristicId
     }
 
-    private fun getTestDomainRaceCharacteristic(raceId: Long?): DomainRaceCharacteristic {
-        var raceCharacteristic = DomainRaceCharacteristic(
+    private fun getTestDomainBreedCharacteristic(raceId: Long?): DomainBreedCharacteristic {
+        var raceCharacteristic = DomainBreedCharacteristic(
             characteristicId = null,
             characteristicBonus = 42,
             characteristicName = CharacteristicsName.STRENGTH.characteristicName,
-            characteristicRaceId = raceId
+            characteristicBreedId = raceId
         )
         return raceCharacteristic
     }
@@ -200,7 +200,7 @@ class CharacteristicViewModel(
     fun findCharacteristicWithId(characteristicId: Long?): DomainCharacteristic? {
         Log.d("CharacteristicViewModel", "findCharacteristicWithId with id : $characteristicId")
 
-        var result = raceCharacteristicRepositoryImpl.findOneById(characteristicId)
+        var result = breedCharacteristicRepositoryImpl.findOneById(characteristicId)
         Log.d(
             "CharacteristicViewModel",
             "findCharacteristicWithId result" + result?.characteristicName
@@ -209,10 +209,10 @@ class CharacteristicViewModel(
         return result
     }
 
-    fun findRaceCharacteristicWithId(raceCharacteristicId: Long?): DomainRaceCharacteristic? {
+    fun findBreedCharacteristicWithId(raceCharacteristicId: Long?): DomainBreedCharacteristic? {
         Log.d("CharacteristicViewModel", "findCharacteristicWithId with id : $raceCharacteristicId")
 
-        var result = raceCharacteristicRepositoryImpl.findOneById(raceCharacteristicId)
+        var result = breedCharacteristicRepositoryImpl.findOneById(raceCharacteristicId)
         Log.d(
             "CharacteristicViewModel",
             "findCharacteristicWithId result " + result?.characteristicName
@@ -222,12 +222,12 @@ class CharacteristicViewModel(
     }
 
     private val lock = java.lang.Object()
-    fun saveAllRaceCharacteristics(domainRaceCharacteristics: List<DomainRaceCharacteristic>): List<Long>? =
+    fun saveAllBreedCharacteristics(domainBreedCharacteristics: List<DomainBreedCharacteristic>): List<Long>? =
         synchronized(lock) {
             var result: List<Long>? = null
-            Log.d("CharacteristicViewModel", "saveAllRaceCharacteristics")
+            Log.d("CharacteristicViewModel", "saveAllBreedCharacteristics")
 
-            result = raceCharacteristicRepositoryImpl.insertAll(domainRaceCharacteristics)
+            result = breedCharacteristicRepositoryImpl.insertAll(domainBreedCharacteristics)
             Log.d("CharacteristicViewModel", "INSERTED $result")
 
             lock.notifyAll()
@@ -237,7 +237,7 @@ class CharacteristicViewModel(
     fun saveAllCharacteristics(domainCharacteristics: List<DomainCharacteristic>): List<Long>? =
         synchronized(lock) {
             var result: List<Long>? = null
-            Log.d("CharacteristicViewModel", "saveAllRaceCharacteristics")
+            Log.d("CharacteristicViewModel", "saveAllCharacteristics")
             thread(start = true) {
                 result = characteristicRepositoryImpl.insertAll(domainCharacteristics)
                 Log.d("CharacteristicViewModel", "INSERTED $result")
@@ -247,21 +247,21 @@ class CharacteristicViewModel(
 
         }
 
-    var result = raceCharacteristicRepositoryImpl.getAll()
+    var result = breedCharacteristicRepositoryImpl.getAll()
 
-    private fun findAllRaceCharacteristics(): LiveData<List<DomainRaceCharacteristic>>? {
-        Log.d("testInsert", "findAllRaceCharacteristics")
+    private fun findAllBreedCharacteristics(): LiveData<List<DomainBreedCharacteristic>>? {
+        Log.d("testInsert", "findAllBreedCharacteristics")
         thread(start = true) {
-            result = raceCharacteristicRepositoryImpl.getAll()
+            result = breedCharacteristicRepositoryImpl.getAll()
         }
 
         return result
     }
 
-    fun deleteAllRaceCharacteristics(): Int? {
-        Log.d("testInsert", "deleteAllRaceCharacteristics")
+    fun deleteAllBreedCharacteristics(): Int? {
+        Log.d("testInsert", "deleteAllBreedCharacteristics")
         thread(start = true) {
-            raceCharacteristicRepositoryImpl.deleteAll()
+            breedCharacteristicRepositoryImpl.deleteAll()
         }
         return 0
     }

@@ -13,17 +13,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.NEW_RACE_ACTIVITY
+import com.uldskull.rolegameassistant.activities.NEW_BREED_ACTIVITY
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
 import com.uldskull.rolegameassistant.fragments.adapter.BASIC_INFO_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
-import com.uldskull.rolegameassistant.fragments.fragment.REQUEST_CODE_BASIC_INFO_NEW_RACE
+import com.uldskull.rolegameassistant.fragments.fragment.REQUEST_CODE_BASIC_INFO_NEW_BREED
+import com.uldskull.rolegameassistant.fragments.fragment.basicinfo.breed.BreedsRecyclerViewFragment
+import com.uldskull.rolegameassistant.viewmodels.BreedsViewModel
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
-import com.uldskull.rolegameassistant.viewmodels.RacesViewModel
 import kotlinx.android.synthetic.main.fragment_basic_info.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import kotlin.concurrent.thread
@@ -38,36 +39,36 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
      * ViewModel for new character
      */
     private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
-    private val raceViewModel: RacesViewModel by sharedViewModel()
+    private val breedsViewModel: BreedsViewModel by sharedViewModel()
     private val characteristicViewModel: CharacteristicViewModel by sharedViewModel()
 
     private fun testInsert() {
         thread(start = true) {
-            //  RACE
+            //  BREED
             Log.d("testInsert", "BasicInfoFragment START")
-            var raceId: Long? = raceViewModel.testInsert()
-            var race = raceViewModel.findRaceWithId(raceId)
+            var breedId: Long? = breedsViewModel.testInsert()
+            var breed = breedsViewModel.findBreedWithId(breedId)
 
-            Log.d("testInsert", "BasicInfoFragment - Race name : ${race?.raceName}")
+            Log.d("testInsert", "BasicInfoFragment - Breed name : ${breed?.breedName}")
 
             //  CHARACTERISTIC
-            var characteristicId: Long? = characteristicViewModel.testInsertOne(raceId)
-            var characteristicIds: List<Long>? = characteristicViewModel.testInsertMultiple(raceId)
+            var characteristicId: Long? = characteristicViewModel.testInsertOne(breedId)
+            var characteristicIds: List<Long>? = characteristicViewModel.testInsertMultiple(breedId)
 
-            var raceCharacteristic =
-                characteristicViewModel.findRaceCharacteristicWithId(characteristicId)
+            var breedCharacteristic =
+                characteristicViewModel.findBreedCharacteristicWithId(characteristicId)
 
             Log.d(
                 "testInsert",
-                "BasicInfoFragment - Characteristic name : ${raceCharacteristic?.characteristicName}"
+                "BasicInfoFragment - Characteristic name : ${breedCharacteristic?.characteristicName}"
             )
             Log.d(
                 "testInsert",
-                "BasicInfoFragment - Characteristic raceId : ${raceCharacteristic?.characteristicRaceId}"
+                "BasicInfoFragment - Characteristic breedId : ${breedCharacteristic?.characteristicBreedId}"
             )
 
-            //  RACE WITH CHILDREN
-            var result = raceViewModel.findRaceWithCharacteristics()
+            //  BREED WITH CHILDREN
+
 
             Log.d("testInsert", "BasicInfoFragment END")
         }
@@ -113,10 +114,10 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setButtonAddRace()
+        setButtonAddBreed()
         setEditTextListeners()
 
-        testInsert()
+        // testInsert()
     }
 
 
@@ -375,15 +376,15 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
     }
 
     /**
-     * Set the add race button.
+     * Set the add breed button.
      */
-    private fun setButtonAddRace() {
-        if (btn_addRace != null) {
-            btn_addRace?.setOnClickListener {
-                val intent = Intent(activity, NEW_RACE_ACTIVITY)
+    private fun setButtonAddBreed() {
+        if (btn_addBreed != null) {
+            btn_addBreed?.setOnClickListener {
+                val intent = Intent(activity, NEW_BREED_ACTIVITY)
                 startActivityForResult(
                     intent,
-                    REQUEST_CODE_BASIC_INFO_NEW_RACE
+                    REQUEST_CODE_BASIC_INFO_NEW_BREED
                 )
             }
         }
@@ -412,8 +413,8 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
                 )
             )
             activity.replaceFragment(
-                R.id.container_race,
-                RacesRecyclerViewFragment.newInstance(
+                R.id.container_breed,
+                BreedsRecyclerViewFragment.newInstance(
                     activity
                 )
             )

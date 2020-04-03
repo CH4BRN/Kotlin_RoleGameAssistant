@@ -21,7 +21,7 @@ import com.uldskull.rolegameassistant.fragments.adapter.PICTURE_FRAGMENT_POSITIO
 import com.uldskull.rolegameassistant.fragments.fragment.*
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import kotlinx.android.synthetic.main.fragment_picture.*
-import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
  *   Class "PictureFragment" :
@@ -31,7 +31,7 @@ class PictureFragment(val context: Activity) : CustomFragment(context) {
 
 
     /** View model for new character    **/
-    private lateinit var newCharacterViewModel: NewCharacterViewModel
+    private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
 
     /** Fragment Lifecycle  **/
     override fun onCreateView(
@@ -39,9 +39,6 @@ class PictureFragment(val context: Activity) : CustomFragment(context) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        newCharacterViewModel = getViewModel()
-
         return initializeView(inflater, container)
     }
 
@@ -123,6 +120,7 @@ class PictureFragment(val context: Activity) : CustomFragment(context) {
                 if (isResultOk(resultCode) && data != null) {
                     val selectedImage: Uri? = data.data
                     img_btn_characterPicture.setImageURI(selectedImage)
+                    newCharacterViewModel.characterPictureUri = selectedImage
                 }
             }
             REQUEST_CODE_GALLERY -> {
@@ -130,6 +128,7 @@ class PictureFragment(val context: Activity) : CustomFragment(context) {
                 if (isResultOk(resultCode) && data != null) {
                     val selectedImage: Uri? = data.data
                     img_btn_characterPicture.setImageURI(selectedImage)
+                    newCharacterViewModel.characterPictureUri = selectedImage
                 }
             }
             REQUEST_CODE_CAMERA -> {

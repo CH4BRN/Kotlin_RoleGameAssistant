@@ -91,7 +91,7 @@ class NavigationBarFragment(activity: Activity) : CustomFragment(activity) {
         )
 
         newCharacterViewModel.saveCharacter()
-
+        //  newCharacterViewModel.displayBreed()
     }
 
     companion object : CustomCompanion() {

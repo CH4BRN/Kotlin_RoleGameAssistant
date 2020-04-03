@@ -15,9 +15,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.adapter.CHARACTERS_RECYCLER_VIEW_FRAGMENT_POSITION
+import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
+import com.uldskull.rolegameassistant.models.character.DomainCharacter
 import com.uldskull.rolegameassistant.viewmodels.CharactersViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -26,11 +28,22 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   TODO: Fill class use.
  **/
 class CharacterRecyclerViewFragment(activity: Activity) :
-    CustomRecyclerViewFragment(activity) {
+    CustomRecyclerViewFragment(activity),
+    AdapterButtonListener<DomainCharacter> {
+
+    /**
+     * Character recycler view
+     */
     private var characterRecyclerView: RecyclerView? = null
 
+    /**
+     * Viewmodel that manage characters.
+     */
     private val charactersViewModel: CharactersViewModel by sharedViewModel()
 
+    /**
+     * Adapter for character's recycler view.
+     */
     private var charactersAdapter: CharactersAdapter? = null
 
     /**
@@ -60,7 +73,7 @@ class CharacterRecyclerViewFragment(activity: Activity) :
      * Set the recycler view adapter.
      */
     override fun setRecyclerViewAdapter() {
-        charactersAdapter = CharactersAdapter(activity as Context)
+        charactersAdapter = CharactersAdapter(activity as Context, this)
         characterRecyclerView?.adapter = charactersAdapter
     }
 
@@ -97,7 +110,13 @@ class CharacterRecyclerViewFragment(activity: Activity) :
 
             return fragment
         }
-
     }
-// TODO : Fill class.
+
+    /**
+     * Called when a recyclerview cell is pressed
+     */
+    override fun itemPressed(domainCharacter: DomainCharacter?) {
+        Log.d("TEST PRESS", "Button pressed for ${domainCharacter?.characterName}")
+        this.charactersViewModel.selectedCharacter = domainCharacter
+    }
 }

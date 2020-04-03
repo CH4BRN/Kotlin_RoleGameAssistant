@@ -1,7 +1,7 @@
-// File RaceRecyclerViewFragment.kt
+// File BreedsRecyclerViewFragment.kt
 // @Author pierre.antoine - 26/03/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.fragments.fragment.basicinfo
+package com.uldskull.rolegameassistant.fragments.fragment.basicinfo.breed
 
 import android.app.Activity
 import android.content.Context
@@ -14,32 +14,33 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.adapter.RACES_RECYCLER_VIEW_FRAGMENT_POSITION
+import com.uldskull.rolegameassistant.fragments.adapter.BREED_RECYCLER_VIEW_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
-import com.uldskull.rolegameassistant.models.character.DomainRace
+import com.uldskull.rolegameassistant.models.character.breed.DomainBreed
+import com.uldskull.rolegameassistant.viewmodels.BreedsViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
-import com.uldskull.rolegameassistant.viewmodels.RacesViewModel
+import kotlinx.android.synthetic.main.fragment_recyclerview_breeds.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
- *   Class "RaceRecyclerViewFragment" :
+ *   Class "BreedsRecyclerViewFragment" :
  *   TODO: Fill class use.
  **/
-class RacesRecyclerViewFragment(activity: Activity) :
+class BreedsRecyclerViewFragment(activity: Activity) :
     CustomRecyclerViewFragment(activity),
-    AdapterButtonListener<DomainRace> {
+    AdapterButtonListener<DomainBreed> {
     /**
      * Recycler view for races.
      */
-    private var raceRecyclerView: RecyclerView? = null
+    private var breedsRecyclerView: RecyclerView? = null
 
     /**
      * ViewModel for races
      */
-    private val racesViewModel: RacesViewModel by sharedViewModel()
+    private val breedsViewModel: BreedsViewModel by sharedViewModel()
 
     /**
      * ViewModel for characters
@@ -49,13 +50,13 @@ class RacesRecyclerViewFragment(activity: Activity) :
     /**
      * Adapter for races recycler view
      */
-    private var racesAdapter: RacesAdapter? = null
+    private var breedsAdapter: BreedsAdapter? = null
 
     /**
      * Initialize the recycler view.
      */
     override fun initializeRecyclerView() {
-        raceRecyclerView = activity.findViewById(R.id.recycler_view_races)
+        breedsRecyclerView = activity.findViewById(R.id.recycler_view_breeds)
                 as RecyclerView?
         setRecyclerViewAdapter()
         setRecyclerViewLayoutManager()
@@ -65,30 +66,33 @@ class RacesRecyclerViewFragment(activity: Activity) :
      * Start ViewModel's collection observation.
      */
     override fun startObservation() {
-        this.racesViewModel.result?.observe(this, Observer { races ->
+        this.breedsViewModel.result?.observe(this, Observer { races ->
             kotlin.run {
                 races?.let {
-                    racesAdapter?.setRaces(it)
+                    breedsAdapter?.setBreeds(it)
                     Log.d("RACES IT SIZE ", it.size.toString())
                 }
             }
         })
-
     }
 
     /**
      * Set the recycler view adapter.
      */
     override fun setRecyclerViewAdapter() {
-        racesAdapter = RacesAdapter(activity as Context, this)
-        raceRecyclerView?.adapter = racesAdapter
+        breedsAdapter =
+            BreedsAdapter(
+                activity as Context,
+                this
+            )
+        breedsRecyclerView?.adapter = breedsAdapter
     }
 
     /**
      * Set the RecyclerView's layout manager.
      */
     override fun setRecyclerViewLayoutManager() {
-        raceRecyclerView?.layoutManager = LinearLayoutManager(
+        breedsRecyclerView?.layoutManager = LinearLayoutManager(
             activity,
             LinearLayoutManager.VERTICAL,
             false
@@ -100,26 +104,30 @@ class RacesRecyclerViewFragment(activity: Activity) :
      */
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = layoutInflater.inflate(
-            R.layout.fragment_recyclerview_races, container, false
+            R.layout.fragment_recyclerview_breeds, container, false
         )
         return initialRootView
     }
 
     /**
-     * Called by the adapter when a race is pressed.
+     * Called by the adapter when a breed is pressed.
      */
-    override fun buttonPressed(t: DomainRace) {
-        Log.d("RaceRecyclerViewFragment", "Button pressed")
-        newCharacterViewModel.characterRace = t
+    override fun itemPressed(t: DomainBreed?) {
+        Log.d("BreedsRecyclerViewFragment", "Button pressed")
+        recycler_view_breeds?.requestFocus()
+        newCharacterViewModel.characterBreed = t
     }
 
     companion object : CustomCompanion() {
         @JvmStatic
-        override fun newInstance(activity: Activity): RacesRecyclerViewFragment {
-            val fragment = RacesRecyclerViewFragment(activity)
+        override fun newInstance(activity: Activity): BreedsRecyclerViewFragment {
+            val fragment =
+                BreedsRecyclerViewFragment(
+                    activity
+                )
             val args = Bundle()
 
-            args.putInt(KEY_POSITION, RACES_RECYCLER_VIEW_FRAGMENT_POSITION)
+            args.putInt(KEY_POSITION, BREED_RECYCLER_VIEW_FRAGMENT_POSITION)
             fragment.arguments = args
 
             return fragment

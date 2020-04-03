@@ -1,25 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="horizontal"
+    android:padding="8dp">
 
-    <TextView
-        style="@style/TextViewSubTitle"
-        android:id="@+id/tv_bond"
-        android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:id="@+id/layout_info"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Bond" />
+        android:paddingRight="8dp"
+        app:layout_constraintEnd_toStartOf="@id/btn_deleteBond"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_bond"
+            style="@style/TextViewSubTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TITLE"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/tv_bondValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="8dp"
+            android:text="@string/lorem_ipsum_short"
+            app:layout_constraintTop_toBottomOf="@id/tv_bond" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <ImageButton
-        android:padding="8dp"
-        android:src="@drawable/ic_remove_black_24dp"
-        android:background="@drawable/mybutton"
         android:id="@+id/btn_deleteBond"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
+        android:background="@drawable/mybutton"
+        android:contentDescription="Delete bond"
         android:gravity="center"
-        android:contentDescription="Delete bond" />
+        android:padding="8dp"
+        android:src="@drawable/ic_remove_black_24dp"
+        app:layout_constraintBottom_toBottomOf="@id/layout_info"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/layout_info" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

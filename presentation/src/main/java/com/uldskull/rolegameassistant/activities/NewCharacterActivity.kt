@@ -40,14 +40,12 @@ class NewCharacterActivity :
         //  Get the ViewModels by DI
         newCharacterViewModel = getViewModel()
 
-
-
         this.observeProgression()
 
         this.setCharacterPageAdapter()
 
         this.loadNavigationBarFragment()
-        this.loadProgressBarFragment(0)
+        this.updateProgressBarFragment(0)
     }
 
     /** Set character page adapter  **/
@@ -64,7 +62,7 @@ class NewCharacterActivity :
         progression.observe(
             this, Observer { progression ->
                 kotlin.run {
-                    loadProgressBarFragment(progression)
+                    updateProgressBarFragment(progression)
                 }
             }
         )
@@ -75,8 +73,7 @@ class NewCharacterActivity :
 
     /** Load the progress bar fragment
      * @param progression the progression to display **/
-    private fun loadProgressBarFragment(progression: Int) {
-
+    private fun updateProgressBarFragment(progression: Int) {
         this.replaceFragment(
             R.id.container_progressBar,
             ProgressBarFragment.newInstance(this, progression)
@@ -87,7 +84,6 @@ class NewCharacterActivity :
      * Load the navigation bar fragment.
      */
     private fun loadNavigationBarFragment() {
-
         this.replaceFragment(
             R.id.container_navigationBar,
             NavigationBarFragment.newInstance(this)

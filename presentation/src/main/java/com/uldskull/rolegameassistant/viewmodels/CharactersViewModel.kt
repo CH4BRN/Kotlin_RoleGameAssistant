@@ -27,6 +27,10 @@ class CharactersViewModel(
     }
 
     /**
+     * Current selected character.
+     */
+    var selectedCharacter: DomainCharacter? = null
+    /**
      * List of characters
      */
     var characters = characterRepository.getAll()

@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.uldskull.rolegameassistant.fragments.fragment.basicinfo.RacesRecyclerViewFragment">
+    tools:context="com.uldskull.rolegameassistant.fragments.fragment.basicinfo.breed.BreedsRecyclerViewFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_races"
+        android:id="@+id/recycler_view_breeds"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

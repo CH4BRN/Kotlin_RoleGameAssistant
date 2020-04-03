@@ -1,7 +1,7 @@
 // File RacesAdapter.kt
 // @Author pierre.antoine - 26/03/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.fragments.fragment.basicinfo
+package com.uldskull.rolegameassistant.fragments.fragment.basicinfo.breed
 
 import android.content.Context
 import android.graphics.Color
@@ -15,35 +15,31 @@ import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewAdapter
-import com.uldskull.rolegameassistant.models.character.DomainRace
+import com.uldskull.rolegameassistant.models.character.breed.DomainBreed
 
 /**
  *   Class "RacesAdapter" :
- *   TODO: Fill class use.
+ *   Class that populates the breed recycler view
  **/
-
-
-class RacesAdapter internal constructor(
+class BreedsAdapter internal constructor(
     context: Context,
-    val buttonListener: AdapterButtonListener<DomainRace>
+    private val buttonListener: AdapterButtonListener<DomainBreed>
 ) : CustomRecyclerViewAdapter(context) {
-
-
     /**
      * Races list
      */
-    private var races: List<DomainRace> = emptyList<DomainRace>()
+    private var breeds: List<DomainBreed> = emptyList<DomainBreed>()
     /** Inflater    **/
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
     /**
      * View holder for races
      */
-    inner class RacesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class BreedsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val raceItemLayout: LinearLayout =
-            itemView.findViewById<LinearLayout>(R.id.row_linear_layout)
-        val raceNameItemView: TextView = itemView.findViewById(R.id.tv_raceName)
-        val raceDescriptionItemView: TextView = itemView.findViewById(R.id.tv_raceDescription)
+            itemView.findViewById<LinearLayout>(R.id.breed_item_linear_layout)
+        val raceNameItemView: TextView = itemView.findViewById(R.id.tv_breedName)
+        val raceDescriptionItemView: TextView = itemView.findViewById(R.id.tv_breedDescription)
     }
 
     /**
@@ -69,9 +65,9 @@ class RacesAdapter internal constructor(
      * @see .getItemViewType
      * @see .onBindViewHolder
      */
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RacesViewHolder {
-        val itemView = inflater.inflate(R.layout.recyclerview_item_race, parent, false)
-        return RacesViewHolder(itemView)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BreedsViewHolder {
+        val itemView = inflater.inflate(R.layout.recyclerview_item_breed, parent, false)
+        return BreedsViewHolder(itemView)
     }
 
     /**
@@ -80,7 +76,7 @@ class RacesAdapter internal constructor(
      * @return The total number of items in this adapter.
      */
     override fun getItemCount(): Int {
-        return races.size
+        return breeds.size
     }
 
     /**
@@ -105,33 +101,35 @@ class RacesAdapter internal constructor(
      * @param position The position of the item within the adapter's data set.
      */
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val raceViewHolder = holder as RacesViewHolder
-        val current = races[position]
-        raceViewHolder.raceNameItemView.text = current.raceName
-        raceViewHolder.raceDescriptionItemView.text = current.raceDescription
+        val breedsViewHolder = holder as BreedsViewHolder
+        val current = breeds[position]
+        breedsViewHolder.raceNameItemView.text = current.breedName
+        breedsViewHolder.raceDescriptionItemView.text = current.breedDescription
 
-        holder.raceItemLayout.setOnClickListener {
+        breedsViewHolder.raceItemLayout.setOnClickListener {
             rowIndex = position
-            buttonListener.buttonPressed(races[position])
+            buttonListener.itemPressed(breeds[position])
             notifyDataSetChanged()
         }
 
         if (rowIndex == position) {
-            holder.raceItemLayout.setBackgroundColor(Color.parseColor("#D98B43"))
-            holder.raceNameItemView.setTextColor(Color.parseColor("#ffffff"))
+            breedsViewHolder.raceItemLayout.setBackgroundColor(Color.parseColor("#D98B43"))
+            breedsViewHolder.raceNameItemView.setTextColor(Color.parseColor("#ffffff"))
         } else {
-            holder.raceItemLayout.setBackgroundColor(Color.parseColor("#ffffff"))
-            holder.raceNameItemView.setTextColor(Color.parseColor("#C02942"))
+            breedsViewHolder.raceItemLayout.setBackgroundColor(Color.parseColor("#ffffff"))
+            breedsViewHolder.raceNameItemView.setTextColor(Color.parseColor("#C02942"))
         }
 
 
     }
 
-    var rowIndex: Int = -1
 
-    internal fun setRaces(domainRaces: List<DomainRace>) {
-        this.races = domainRaces
-        Log.d(this.javaClass.simpleName, "Races size = " + this.races.size.toString())
+    /**
+     * Set the races list content.
+     */
+    internal fun setBreeds(domainBreeds: List<DomainBreed>) {
+        this.breeds = domainBreeds
+        Log.d(this.javaClass.simpleName, "Races size = " + this.breeds.size.toString())
         notifyDataSetChanged()
     }
 }

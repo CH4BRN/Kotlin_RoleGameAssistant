@@ -44,7 +44,7 @@
                 <TextView
                     style="@style/TextViewSubTitle"
                     android:layout_column="1"
-                    android:text=" + RACE BONUS =" />
+                    android:text=" + BREED BONUS =" />
 
                 <EditText
                     android:layout_column="2"

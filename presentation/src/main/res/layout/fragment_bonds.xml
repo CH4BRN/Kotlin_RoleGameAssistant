@@ -21,21 +21,38 @@
 
             <EditText
                 android:id="@+id/etBondTitle"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
+                android:importantForAutofill="no"
                 android:layout_height="wrap_content"
-
                 android:ems="10"
+                app:layout_constraintStart_toStartOf="parent"
                 android:gravity="start|top"
                 android:hint="Title"
                 android:inputType="text"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <TextView
+                android:id="@+id/tv_remainingCharactersTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@id/tv_remainingCharactersValue"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_remainingCharactersValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="400"
+                app:layout_constraintBottom_toBottomOf="@id/etBondTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
 
             <EditText
-                android:id="@+id/etBond"
+                android:id="@+id/etBondValue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                android:maxLength="380"
                 android:ems="10"
                 android:gravity="start|top"
                 android:hint="@string/lorem_ipsum_short"
@@ -47,6 +64,7 @@
             <ImageButton
                 android:id="@+id/btn_addBond"
                 style="@style/myCornerRadiusButton"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/mybutton"
@@ -54,7 +72,7 @@
                 android:src="@drawable/ic_add_black_24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/etBond"
+                app:layout_constraintTop_toBottomOf="@id/etBondValue"
                 android:contentDescription="Add bond." />
 
             <FrameLayout

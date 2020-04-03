@@ -4,29 +4,44 @@
 package com.uldskull.rolegameassistant.fragments.fragment.characterSearch
 
 import android.content.Context
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewAdapter
 import com.uldskull.rolegameassistant.models.character.DomainCharacter
 
 /**
  *   Class "CharacterAdapter" :
- *   TODO: Fill class use.
+ *   Adapter that populates the character recycler view.
  **/
 class CharactersAdapter internal constructor(
-    context: Context
+    context: Context,
+    private val buttonListener: AdapterButtonListener<DomainCharacter>
 ) : CustomRecyclerViewAdapter(context) {
 
+    /**
+     * Character list
+     */
     private var characters: List<DomainCharacter> = emptyList()
 
+    /**
+     * Layout inflater
+     */
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
+    /**
+     * View holder class
+     */
     inner class CharactersViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val characterItemLayout: LinearLayout =
+            itemView.findViewById(R.id.character_item_linear_layout)
         val characterNameItemView: TextView = itemView.findViewById(R.id.tv_characterName)
     }
 
@@ -64,7 +79,6 @@ class CharactersAdapter internal constructor(
      * @return The total number of items in this adapter.
      */
     override fun getItemCount(): Int {
-
         return characters.size
     }
 
@@ -93,12 +107,30 @@ class CharactersAdapter internal constructor(
         val charactersViewHolder = holder as CharactersViewHolder
         val current = characters[position]
         charactersViewHolder.characterNameItemView.text = current.characterName
+        Log.d("test", "$current")
+
+        charactersViewHolder.characterItemLayout.setOnClickListener {
+            rowIndex = position
+            buttonListener.itemPressed(characters[position])
+            notifyDataSetChanged()
+        }
+
+        if (rowIndex == position) {
+            charactersViewHolder.characterItemLayout.setBackgroundColor(Color.parseColor("#D98B43"))
+            charactersViewHolder.characterNameItemView.setTextColor(Color.parseColor("#ffffff"))
+        } else {
+            charactersViewHolder.characterItemLayout.setBackgroundColor(Color.parseColor("#ffffff"))
+            charactersViewHolder.characterNameItemView.setTextColor(Color.parseColor("#C02942"))
+        }
     }
 
+
+    /**
+     * Set the character list content
+     */
     internal fun setCharacters(domainCharacters: List<DomainCharacter>) {
         this.characters = domainCharacters
         Log.d(this.javaClass.simpleName, "Characters size = " + this.characters.size.toString())
         notifyDataSetChanged()
     }
-// TODO : Fill class.
 }

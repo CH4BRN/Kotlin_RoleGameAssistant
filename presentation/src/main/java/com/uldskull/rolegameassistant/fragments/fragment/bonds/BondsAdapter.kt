@@ -4,6 +4,7 @@
 package com.uldskull.rolegameassistant.fragments.fragment.bonds
 
 import android.content.Context
+import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,24 +13,29 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
+import com.uldskull.rolegameassistant.models.character.DomainBond
+import kotlinx.android.synthetic.main.recyclerview_item_bond.view.*
 
 /**
  *   Class "BondsAdapter" :
  *   Adapter for bonds recycler view.
  **/
 class BondsAdapter internal constructor(
-    context: Context
+    context: Context,
+    private val buttonListener: AdapterButtonListener<DomainBond>
 ) : RecyclerView.Adapter<BondsAdapter.BondsViewHolder>() {
 
     /** Inflater    **/
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
     /** Bonds list **/
-    private var bonds = emptyList<String>()
+    private var bonds = emptyList<DomainBond>()
 
     /** Inner class to display **/
     inner class BondsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var bondValueItemView: TextView = itemView.findViewById(R.id.tv_bond)
+        var bondTitleItemView: TextView = itemView.findViewById(R.id.tv_bond)
+        var bondValueItemView: TextView = itemView.findViewById(R.id.tv_bondValue)
         var bondDeleteItemView: ImageButton = itemView.findViewById(R.id.btn_deleteBond)
     }
 
@@ -39,6 +45,8 @@ class BondsAdapter internal constructor(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BondsViewHolder {
 
         val itemView = inflater.inflate(R.layout.recyclerview_item_bond, parent, false)
+
+        itemView.tv_bondValue.movementMethod = ScrollingMovementMethod()
         return BondsViewHolder(itemView)
     }
 
@@ -74,13 +82,21 @@ class BondsAdapter internal constructor(
      */
     override fun onBindViewHolder(holder: BondsViewHolder, position: Int) {
         val current = bonds[position]
-        holder.bondValueItemView.text = current
+        holder.bondTitleItemView.text = current.bondTitle
+        holder.bondValueItemView.text = current.bondValue
+
 
         holder.bondDeleteItemView.setOnClickListener {
+            Log.d("Bond", "position = $position")
+            val bond = bonds[position]
 
-            Log.d("ADAPTER", bonds[position])
-            setBonds(bonds.minus(bonds[position]))
+            setBonds(bonds.minus(bond))
+            Log.d("ADAPTER", bond.toString())
+            buttonListener.itemPressed(bond)
+
+
             Log.d("ADAPTER", bonds.size.toString())
+            Log.d("ADAPTER", "delete")
 
         }
     }
@@ -88,7 +104,7 @@ class BondsAdapter internal constructor(
     /**
      * Set the displayed bonds.
      */
-    fun setBonds(bonds: List<String>) {
+    fun setBonds(bonds: List<DomainBond>) {
         this.bonds = bonds
         notifyDataSetChanged()
     }
