@@ -44,7 +44,7 @@
             android:configChanges="orientation|screenSize" />
 
         <activity
-            android:name=".activities.NewRaceActivity"
+            android:name=".activities.NewBreedActivity"
             android:configChanges="orientation|screenSize" />
 
         <activity
