@@ -33,17 +33,18 @@ class CharacterRepositoryImpl(
     private fun List<DbCharacter>.asDomainModel(): List<DomainCharacter> {
         return map {
             DomainCharacter(
+                characterId = it.characterId,
                 characterName = it.characterName,
                 characterAge = it.characterAge,
-                characterBiography = it.characterBiography,
-                characterIdeaPoints = it.characterIdeaPoints,
-                characterHealthPoints = it.characterHealthPoints,
-                characterEnergyPoints = it.characterEnergyPoints,
-                characterAlignment = it.characterAlignment,
                 characterGender = it.characterGender,
+                characterBiography = it.characterBiography,
+                characterBreed = it.characterBreed?.toDomain(),
+                characterHealthPoints = it.characterHealthPoints,
+                characterIdeaPoints = it.characterIdeaPoints,
+                characterAlignment = it.characterAlignment,
+                characterEnergyPoints = it.characterEnergyPoints,
                 characterHeight = it.characterHeight,
-                characterId = it.characterId,
-                characterRace = it.characterRace?.toDomain()
+                characterPictureUri = it.characterPictureUri
             )
         }
     }

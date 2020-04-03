@@ -10,14 +10,15 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues.DATABASE_NAME
 import com.uldskull.rolegameassistant.infrastructure.dao.DbCharacterDao
-import com.uldskull.rolegameassistant.infrastructure.dao.DbRaceDao
-import com.uldskull.rolegameassistant.infrastructure.dao.DbRaceWithDbBonusCharacteristicsDao
+import com.uldskull.rolegameassistant.infrastructure.dao.breed.DbBreedDao
+import com.uldskull.rolegameassistant.infrastructure.dao.breed.DbBreedWithDbCharacteristicsDao
+import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbBreedCharacteristicDao
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbCharacteristicDao
-import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbRaceCharacteristicDao
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbCharacter
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.DbBreed
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbBreedCharacteristic
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbCharacteristic
-import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbRaceCharacteristic
-import com.uldskull.rolegameassistant.infrastructure.database_model.db_race.DbRace
+import com.uldskull.rolegameassistant.models.character.characteristic.CharacteristicsName
 import kotlin.concurrent.thread
 
 /**
@@ -26,7 +27,7 @@ Class "AppDatabase"
 Abstract class for room database
  */
 @Database(
-    entities = [DbCharacter::class, DbRace::class, DbCharacteristic::class, DbRaceCharacteristic::class],
+    entities = [DbCharacter::class, DbBreed::class, DbCharacteristic::class, DbBreedCharacteristic::class],
     version = 1
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -37,28 +38,29 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun dbCharacteristicDao(): DbCharacteristicDao
 
     /**
-     * Database race characteristic DAO
+     * Database breed characteristic DAO
      */
-    abstract fun dbRaceCharacteristicDao(): DbRaceCharacteristicDao
+    abstract fun dbBreedCharacteristicDao(): DbBreedCharacteristicDao
 
     /**
-     * Database Race DAO
+     * Database Breed DAO
      */
-    abstract fun dbRaceDao(): DbRaceDao
+    abstract fun dbBreedDao(): DbBreedDao
 
     /**
      * Database Character DAO
      */
     abstract fun dbCharacterDao(): DbCharacterDao
 
-    abstract fun dbRaceWithDbBonusCharacteristicsDao(): DbRaceWithDbBonusCharacteristicsDao
+    abstract fun dbBreedWithDbBonusCharacteristicsDao(): DbBreedWithDbCharacteristicsDao
 
     private class AppDatabaseCallback : RoomDatabase.Callback() {
         override fun onOpen(db: SupportSQLiteDatabase) {
             super.onOpen(db)
             INSTANCE?.let { database ->
                 thread(true) {
-                    populateRaces(database.dbRaceDao())
+                    populateBreed(database.dbBreedDao())
+                    populateBreedCharacteristics(database.dbBreedCharacteristicDao())
                 }
             }
         }
@@ -79,33 +81,73 @@ abstract class AppDatabase : RoomDatabase() {
             return INSTANCE!!
         }
 
-
-        fun populateRaces(raceDao: DbRaceDao) {
-
-            var races = listOf(
-                DbRace(
-                    raceName = "TestRace 1",
-                    raceId = null,
-                    raceDescription = "Test race number 1"
+        fun populateBreedCharacteristics(breedCharacteristicDao: DbBreedCharacteristicDao) {
+            var dbBreedCharacteristics = listOf(
+                DbBreedCharacteristic(
+                    characteristicId = null,
+                    characteristicBonus = 1,
+                    characteristicName = CharacteristicsName.STRENGTH.characteristicName,
+                    characteristicBreedId = 1
                 ),
-                DbRace(
-                    raceName = "TestRace 2",
-                    raceId = null,
-                    raceDescription = "Test race number 2"
+                DbBreedCharacteristic(
+                    characteristicId = null,
+                    characteristicBonus = 1,
+                    characteristicName = CharacteristicsName.POWER.characteristicName,
+                    characteristicBreedId = 1
                 ),
-                DbRace(
-                    raceName = "TestRace 3",
-                    raceId = null,
-                    raceDescription = "Test race number 3"
+                DbBreedCharacteristic(
+                    characteristicId = null,
+                    characteristicBonus = 1,
+                    characteristicName = CharacteristicsName.STRENGTH.characteristicName,
+                    characteristicBreedId = 1
                 ),
-                DbRace(
-                    raceName = "TestRace 4",
-                    raceId = null,
-                    raceDescription = "Test race number 4"
+                DbBreedCharacteristic(
+                    characteristicId = null,
+                    characteristicBonus = 1,
+                    characteristicName = CharacteristicsName.POWER.characteristicName,
+                    characteristicBreedId = 1
                 )
             )
+            var result = breedCharacteristicDao.insertBreedCharacteristics(dbBreedCharacteristics)
+            result.forEach {
+                Log.d("Insert result", it.toString())
+            }
 
-            raceDao.insertRaces(races)
+
+        }
+
+
+        fun populateBreed(breedDao: DbBreedDao) {
+
+            var dbBreeds = listOf(
+                DbBreed(
+                    breedName = "TestBreed 1",
+                    breedId = null,
+                    breedDescription = "Test breed number 1"
+                )/*
+                ,
+                DbBreed(
+                    breedName = "TestBreed 2",
+                    breedId = null,
+                    breedDescription = "Test  breed number 2"
+                ),
+                DbBreed(
+                    breedName = "TestBreed 3",
+                    breedId = null,
+                    breedDescription = "Test  breed number 3"
+                ),
+                DbBreed(
+                    breedName = "TestBreed 4",
+                    breedId = null,
+                    breedDescription = "Test  breed number 4"
+                )
+                */
+            )
+            var result = breedDao.insertBreeds(dbBreeds)
+            result.forEach {
+                Log.d("Insert result", it.toString())
+            }
+
         }
 
         /** Build the database  */

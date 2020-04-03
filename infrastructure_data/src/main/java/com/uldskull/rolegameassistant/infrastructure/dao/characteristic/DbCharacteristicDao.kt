@@ -16,10 +16,10 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_character
 interface DbCharacteristicDao {
     //  CREATE
     @Insert
-    fun insertCharacteristic(dbRaceCharacteristic: DbCharacteristic): Long
+    fun insertCharacteristic(dbBreedCharacteristic: DbCharacteristic): Long
 
     @Insert
-    fun insertCharacteristics(dbRaceCharacteristics: List<DbCharacteristic>): List<Long>
+    fun insertCharacteristics(dbBreedCharacteristics: List<DbCharacteristic>): List<Long>
 
     //  READ
     @Query("SELECT * FROM ${DatabaseValues.TABLE_NAME_CHARACTERISTICS}")
@@ -30,11 +30,11 @@ interface DbCharacteristicDao {
 
     //  UPDATE
     @Update
-    fun updateCharacteristic(vararg dbRaceCharacteristics: DbCharacteristic): Int
+    fun updateCharacteristic(vararg dbBreedCharacteristics: DbCharacteristic): Int
 
     //  DELETE
     @Delete
-    fun deleteCharacteristics(vararg dbRaceCharacteristic: DbCharacteristic): Int
+    fun deleteCharacteristics(vararg dbBreedCharacteristic: DbCharacteristic): Int
 
     @Query("DELETE FROM ${DatabaseValues.TABLE_NAME_CHARACTERISTICS}")
     fun deleteAllCharacteristics(): Int

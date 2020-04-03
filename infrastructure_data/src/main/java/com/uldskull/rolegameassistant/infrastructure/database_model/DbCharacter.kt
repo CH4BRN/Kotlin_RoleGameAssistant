@@ -7,7 +7,7 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
-import com.uldskull.rolegameassistant.infrastructure.database_model.db_race.DbRace
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.DbBreed
 import com.uldskull.rolegameassistant.models.character.DomainCharacter
 
 /**
@@ -22,7 +22,7 @@ class DbCharacter(
     val characterAge: Int?,
     val characterBiography: String?,
     @Embedded
-    val characterRace: DbRace?,
+    val characterBreed: DbBreed?,
     //val characterBonds: ArrayList<String>?,
     // val characterCharacteristics: List<DbRollCharacteristic>?,
     val characterHealthPoints: Int?,
@@ -34,7 +34,8 @@ class DbCharacter(
     // val characterHobby: DbHobby?,
     // val characterIdeals: ArrayList<DbIdeal>?,
     val characterGender: String?,
-    val characterHeight: Int?
+    val characterHeight: Int?,
+    val characterPictureUri: String?
 
 ) : DbEntity<DomainCharacter> {
 
@@ -46,21 +47,22 @@ class DbCharacter(
         return DomainCharacter(
             characterId = this.characterId,
             characterName = this.characterName,
-            characterRace = this.characterRace?.toDomain(),
             characterAge = this.characterAge,
+            characterGender = this.characterGender,
             characterBiography = this.characterBiography,
             //   characterBonds = this.characterBonds,
             //   characterCharacteristics = this.characterCharacteristics?.map { characteristic -> characteristic.toDomain() },
-            characterAlignment = this.characterAlignment,
-            characterEnergyPoints = this.characterEnergyPoints,
+            characterBreed = this.characterBreed?.toDomain(),
             characterHealthPoints = this.characterHealthPoints,
+            characterIdeaPoints = this.characterIdeaPoints,
             //   characterHobby = this.characterHobby?.toDomain(),
             //  characterIdeals = this.characterIdeals?.map { ideal -> ideal.toDomain() },
-            characterIdeaPoints = this.characterIdeaPoints,
+            characterAlignment = this.characterAlignment,
             //   characterJob = this.characterJob?.toDomain(),
             //  characterSkills = this.characterSkills?.map { skill -> skill.toDomain()},
-            characterGender = this.characterGender,
-            characterHeight = this.characterHeight
+            characterEnergyPoints = this.characterEnergyPoints,
+            characterHeight = this.characterHeight,
+            characterPictureUri = this.characterPictureUri
 
 
         )
@@ -76,6 +78,7 @@ class DbCharacter(
 
                 characterHeight = domainModel?.characterHeight,
                 characterGender = domainModel?.characterGender,
+                characterPictureUri = domainModel?.characterPictureUri,
                 //  characterBonds = null,
                 // characterCharacteristics = null,
                 characterAlignment = domainModel?.characterAlignment,
@@ -86,7 +89,7 @@ class DbCharacter(
                 //characterJob = null,
                 //characterSkills = null,
                 characterIdeaPoints = domainModel?.characterIdeaPoints,
-                characterRace = DbRace.from(domainModel?.characterRace),
+                characterBreed = DbBreed.from(domainModel?.characterBreed),
                 characterBiography = domainModel?.characterBiography,
                 characterAge = domainModel?.characterAge,
                 characterName = domainModel?.characterName

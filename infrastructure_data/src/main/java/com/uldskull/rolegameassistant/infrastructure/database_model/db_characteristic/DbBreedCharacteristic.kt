@@ -8,44 +8,44 @@ import androidx.room.PrimaryKey
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbCompanion
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbEntity
-import com.uldskull.rolegameassistant.models.character.characteristic.DomainRaceCharacteristic
+import com.uldskull.rolegameassistant.models.character.characteristic.DomainBreedCharacteristic
 
 /**
  *   Class "DbBonusCharacteristic" :
  *   TODO: Fill class use.
  **/
-@Entity(tableName = DatabaseValues.TABLE_NAME_RACE_CHARACTERISTICS)
-class DbRaceCharacteristic(
+@Entity(tableName = DatabaseValues.TABLE_NAME_BREED_CHARACTERISTICS)
+class DbBreedCharacteristic(
     @PrimaryKey(autoGenerate = true)
     val characteristicId: Long?,
     val characteristicName: String?,
     val characteristicBonus: Int?,
-    val characteristicRaceId: Long?
-) : DbEntity<DomainRaceCharacteristic> {
+    val characteristicBreedId: Long?
+) : DbEntity<DomainBreedCharacteristic> {
 
 
     /**
      * Converts a Database model entity into a domain model.
      */
-    override fun toDomain(): DomainRaceCharacteristic {
-        return DomainRaceCharacteristic(
+    override fun toDomain(): DomainBreedCharacteristic {
+        return DomainBreedCharacteristic(
             characteristicId = this.characteristicId,
             characteristicName = this.characteristicName,
             characteristicBonus = this.characteristicBonus,
-            characteristicRaceId = this.characteristicRaceId
+            characteristicBreedId = this.characteristicBreedId
         )
     }
 
-    companion object : DbCompanion<DomainRaceCharacteristic, DbRaceCharacteristic> {
+    companion object : DbCompanion<DomainBreedCharacteristic, DbBreedCharacteristic> {
         /**
          * Converts a domain model into a database model entity.
          */
-        override fun from(domainModel: DomainRaceCharacteristic?): DbRaceCharacteristic {
-            return DbRaceCharacteristic(
+        override fun from(domainModel: DomainBreedCharacteristic?): DbBreedCharacteristic {
+            return DbBreedCharacteristic(
                 characteristicId = domainModel?.characteristicId,
                 characteristicBonus = domainModel?.characteristicBonus,
                 characteristicName = domainModel?.characteristicName,
-                characteristicRaceId = domainModel?.characteristicRaceId
+                characteristicBreedId = domainModel?.characteristicBreedId
             )
 
         }
