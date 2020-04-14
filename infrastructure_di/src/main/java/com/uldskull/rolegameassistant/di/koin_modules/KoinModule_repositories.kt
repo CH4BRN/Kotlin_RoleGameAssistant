@@ -9,14 +9,20 @@ import com.uldskull.rolegameassistant.infrastructure.repositories.CharacterRepos
 import com.uldskull.rolegameassistant.infrastructure.repositories.breed.DbBreedsRepositoryImpl
 import com.uldskull.rolegameassistant.infrastructure.repositories.characteristic.DbBreedsCharacteristicRepositoryImpl
 import com.uldskull.rolegameassistant.infrastructure.repositories.characteristic.DbCharacteristicRepositoryImpl
-import com.uldskull.rolegameassistant.models.character.DomainCharacter
+import com.uldskull.rolegameassistant.infrastructure.repositories.characteristic.DbRollCharacteristicRepositoryImpl
+import com.uldskull.rolegameassistant.infrastructure.repositories.ideal.DbIdealsRepositoryImpl
+import com.uldskull.rolegameassistant.models.character.DomainIdeal
 import com.uldskull.rolegameassistant.models.character.breed.DomainBreed
+import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainBreedCharacteristic
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainCharacteristic
+import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollCharacteristic
 import com.uldskull.rolegameassistant.repository.breed.BreedsRepository
 import com.uldskull.rolegameassistant.repository.character.CharacterRepository
 import com.uldskull.rolegameassistant.repository.characteristic.BreedCharacteristicRepository
 import com.uldskull.rolegameassistant.repository.characteristic.CharacteristicRepository
+import com.uldskull.rolegameassistant.repository.characteristic.RollCharacteristicRepository
+import com.uldskull.rolegameassistant.repository.ideal.IdealsRepository
 import org.koin.dsl.module
 
 val repositoriesModule = module {
@@ -31,6 +37,12 @@ val repositoriesModule = module {
             dbBreedCharacteristicDao = get()
         )
     }
+
+    single<RollCharacteristicRepository<LiveData<List<DomainRollCharacteristic>>>> {
+        DbRollCharacteristicRepositoryImpl(
+            dbRollCharacteristicsDao = get()
+        )
+    }
     single<BreedsRepository<LiveData<List<DomainBreed>>>> {
         DbBreedsRepositoryImpl(
             get(),
@@ -40,6 +52,12 @@ val repositoriesModule = module {
 
     single<CharacterRepository<LiveData<List<DomainCharacter>>>> {
         CharacterRepositoryImpl(
+            get()
+        )
+    }
+
+    single<IdealsRepository<LiveData<List<DomainIdeal>>>> {
+        DbIdealsRepositoryImpl(
             get()
         )
     }

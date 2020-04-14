@@ -10,12 +10,16 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.uldskull.rolegameassistant.models.character.DomainBond
-import com.uldskull.rolegameassistant.models.character.DomainCharacter
+import com.uldskull.rolegameassistant.models.character.DomainIdeal
 import com.uldskull.rolegameassistant.models.character.breed.DomainBreed
+import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
+import com.uldskull.rolegameassistant.models.character.characteristic.CharacteristicsName
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainBreedCharacteristic
+import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollCharacteristic
 import com.uldskull.rolegameassistant.repository.breed.BreedsRepository
 import com.uldskull.rolegameassistant.repository.character.CharacterRepository
 import com.uldskull.rolegameassistant.repository.characteristic.BreedCharacteristicRepository
+import com.uldskull.rolegameassistant.repository.ideal.IdealsRepository
 import com.uldskull.rolegameassistant.useCases.diceRoll.DiceService
 import kotlinx.coroutines.launch
 
@@ -30,17 +34,37 @@ class NewCharacterViewModel(
     private val diceService: DiceService,
     private val characterRepository: CharacterRepository<LiveData<List<DomainCharacter>>>,
     private val breedsRepository: BreedsRepository<LiveData<List<DomainBreed>>>,
-    private val characteristicRepository: BreedCharacteristicRepository<LiveData<List<DomainBreedCharacteristic>>>
+    private val characteristicRepository: BreedCharacteristicRepository<LiveData<List<DomainBreedCharacteristic>>>,
+    private val idealsRepository: IdealsRepository<LiveData<List<DomainIdeal>>>
 ) : AndroidViewModel(application) {
+
+    companion object {
+        private const val TAG = "NewCharacterViewModel"
+    }
 
     /**
      * Character's bonds
      */
     var characterBonds: MutableList<DomainBond>? = mutableListOf()
+
     /**
-     * Charactere picture.
+     * Character's ideals
+     */
+    var characterIdeals: MutableList<DomainIdeal?> = mutableListOf()
+    /**
+     * Character's picture.
      */
     var characterPictureUri: Uri? = null
+
+
+    /**
+     * Character's id.
+     */
+    var characterId: Long? = null
+        set(value) {
+            Log.d("NewCharacterViewModel characterId", value.toString())
+            field = value
+        }
     /**
      * Character height
      */
@@ -85,16 +109,11 @@ class NewCharacterViewModel(
      * Character breed.
      */
     var characterBreed: DomainBreed? = null
-        set(value) {
-            Log.d("NewCharacterViewModel characterBreed", value?.breedName.toString())
-            field = value
-        }
+
 
     fun displayDices() {
         viewModelScope.launch {
-
             Log.d("DICES", diceService.getOneDiceRollWithANumberOfFace(6).toString())
-
             val list = arrayListOf(6, 12, 20)
             diceService.getMultipleDiceRollWithANumberOfFace(list).forEach(System.out::println)
         }
@@ -114,110 +133,26 @@ class NewCharacterViewModel(
         }
     }
 
-    fun tryToInsertAndGetACharacteristic(domainBreedCharacteristic: DomainBreedCharacteristic): DomainBreedCharacteristic? {
-        var characteristicInsertResult: Long? = -1
-        try {
-            characteristicInsertResult =
-                characteristicRepository.insertOne(domainBreedCharacteristic)
 
-        } catch (e: Exception) {
-            throw e
-        }
-        var characteristicSearchResult: DomainBreedCharacteristic?
-        try {
-            characteristicSearchResult =
-                characteristicRepository.findOneById(characteristicInsertResult)
-            if (characteristicSearchResult != null) {
-                Log.d("test", "INSERTED")
-            }
-        } catch (e: Exception) {
-            throw e
-        }
-        return characteristicSearchResult
-    }
-
-
-    fun displayBreed() {
-        var breedInsertResult: Long? = tryToInsertAndGetABreed()
-
-        var characteristic = DomainBreedCharacteristic(
-            characteristicId = null,
-            characteristicBonus = 1,
-            characteristicName = "DomainBreedCharacteristic",
-            characteristicBreedId = breedInsertResult
-        )
-        var characteristicInsertResult: DomainBreedCharacteristic? =
-            tryToInsertAndGetACharacteristic(characteristic)
-        Log.d("test", "FIRST CHARACTERISTIC : $characteristicInsertResult")
-
-        var secondCharacteristic = DomainBreedCharacteristic(
-            characteristicId = null,
-            characteristicBonus = 2,
-            characteristicName = "Second characteristic",
-            characteristicBreedId = breedInsertResult
-        )
-
-        var secondCharacteristicInsertResult: DomainBreedCharacteristic? =
-            tryToInsertAndGetACharacteristic(secondCharacteristic)
-        Log.d("test", "SECOND CHARACTERISTIC : $secondCharacteristicInsertResult")
-
-        breedsRepository.findOneWithChildren(breedInsertResult)
-
-    }
-
-
-    private fun tryToInsertAndGetABreed(): Long? {
-        // INSERT A BREED
-        Log.d("test", "INSERT A BREED")
-        var breedInsertResult: Long? = -1
-        try {
-            //  Creates a breed
-            var breed =
-                DomainBreed(
-                    breedId = null,
-                    breedName = "test breed",
-                    breedDescription = "test description"
-                )
-            Log.d("test", "Created breed : $breed")
-
-            //  Inserts it
-            breedInsertResult = breedsRepository.insertOne(
-                breed
-            )
-            Log.d("test", "breedInsertResult : $breedInsertResult")
-
-            //  Tries to get it.
-            Log.d("test", "Tries to get breed corresponding to $breedInsertResult")
-            var breedSearchResult = breedsRepository.findOneById(
-                id = breedInsertResult
-            )
-            Log.d("test", "breedSearchResult  : $breedSearchResult")
-
-        } catch (e: Exception) {
-            throw e
-        }
-        return breedInsertResult
-    }
-
-    fun saveCharacter() {
+    fun saveCharacter(characteristics: List<DomainRollCharacteristic>?): Long? {
         if (!characterName.isNullOrEmpty()) {
-            Log.d("NewCharacterViewModel _ savecharacterName", characterName)
+            Log.d("NewCharacterViewModel _ saveCharacterName", characterName)
         }
         if (!characterAge?.toString().isNullOrEmpty()) {
-            Log.d("NewCharacterViewModel _ savecharacterAge", characterAge?.toString())
+            Log.d("NewCharacterViewModel _ saveCharacterAge", characterAge?.toString())
         }
         if (!characterGender.isNullOrEmpty()) {
-            Log.d("NewCharacterViewModel _ savecharacterGender", characterGender)
+            Log.d("NewCharacterViewModel _ saveCharacterGender", characterGender)
         }
         if (!characterBiography.isNullOrEmpty()) {
-            Log.d("NewCharacterViewModel _ savecharacterBiography", characterBiography)
+            Log.d("NewCharacterViewModel _ saveCharacterBiography", characterBiography)
         }
         if (!characterHeight?.toString().isNullOrEmpty()) {
-            Log.d("NewCharacterViewModel _ savecharacterHeight", characterHeight?.toString())
+            Log.d("NewCharacterViewModel _ saveCharacterHeight", characterHeight?.toString())
         }
         if (characterBreed != null) {
             var breed = breedsRepository.findOneWithChildren(characterBreed?.breedId)
-            Log.d("NewCharacterViewModel _ savecharacterBreed", breed?.breed?.breedName)
+            Log.d("NewCharacterViewModel _ saveCharacterBreed", breed?.breed?.breedName)
 
             breed?.characteristics?.forEach {
                 Log.d(
@@ -242,32 +177,83 @@ class NewCharacterViewModel(
             }
         }
 
+        if (!characterIdeals.isNullOrEmpty()) {
+            characterIdeals.forEach {
+                Log.d(
+                    "NewCharacterViewModel _ savecharacterIdeals",
+                    it?.idealName
+                )
+            }
+        }
 
-        var character = DomainCharacter(
-            characterId = null,
-            characterName = this.characterName,
-            characterAge = this.characterAge,
-            characterGender = this.characterGender,
-            characterBiography = this.characterBiography,
-            characterHeight = this.characterHeight,
-            characterBreed = this.characterBreed,
-            characterIdeaPoints = null,
-            characterPictureUri = this.characterPictureUri.toString(),
-            //characterSkills = null,
-            //characterJob = null,
-            //characterIdeals = null,
-            //characterHobby = null,
-            characterHealthPoints = null,
-            characterEnergyPoints = null,
-            characterAlignment = null
-            //characterCharacteristics = null,
-            //characterBonds = null
-        )
+        if (!characteristics.isNullOrEmpty()) {
+            characteristics.forEach {
+                Log.d(
+                    TAG,
+                    "Char : " + it.characteristicName + " " + it.characteristicTotal
+                )
 
-        val result = characterRepository.insertOne(character)
 
-        Log.d("RESULT", result?.toString())
+            }
+        }
 
+        var character =
+            DomainCharacter(
+                characterId = characterId,
+                characterName = this.characterName,
+                characterAge = this.characterAge,
+                characterGender = this.characterGender,
+                characterBiography = this.characterBiography,
+                characterHeight = this.characterHeight,
+                characterBreed = this.characterBreed,
+                characterIdeaPoints = null,
+                characterPictureUri = this.characterPictureUri.toString(),
+                characterBonds = this.characterBonds,
+                characterIdeals = this.characterIdeals,
+                //characterSkills = null,
+                //characterJob = null,
+                //characterIdeals = null,
+                //characterHobby = null,
+                characterHealthPoints = null,
+                characterEnergyPoints = null,
+                characterAlignment = null,
+                characterAppearance = characteristics?.find { c -> c.characteristicName == CharacteristicsName.APPEARANCE.characteristicName },
+                characterCharisma = characteristics?.find { c -> c.characteristicName == CharacteristicsName.CHARISMA.characteristicName },
+                characterConstitution = characteristics?.find { c -> c.characteristicName == CharacteristicsName.CONSTITUTION.characteristicName },
+                characterDexterity = characteristics?.find { c -> c.characteristicName == CharacteristicsName.DEXTERITY.characteristicName },
+                characterIntelligence = characteristics?.find { c -> c.characteristicName == CharacteristicsName.INTELLIGENCE?.characteristicName },
+                characterPower = characteristics?.find { c -> c.characteristicName == CharacteristicsName.POWER.characteristicName },
+                characterSize = characteristics?.find { c -> c.characteristicName == CharacteristicsName.SIZE.characteristicName },
+                characterStrength = characteristics?.find { c -> c.characteristicName == CharacteristicsName.STRENGTH.characteristicName }
+            )
+
+
+
+        try {
+            if (characterId == null) {
+
+                Log.d("CHARACTER", "INSERT")
+
+                characterId = characterRepository.insertOne(character)
+                Log.d("CHARACTER", "character $character")
+            } else {
+                Log.d("CHARACTER", "UPDATE")
+                Log.d("CHARACTER", "character $character ")
+                characterRepository.updateOne(character)
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            throw e
+        }
+
+        Log.d("RESULT", character.toString())
+
+        val searchResult = characterRepository.findOneById(characterId)
+
+        Log.d("ideals", "$searchResult")
+
+        return characterId
     }
 
     fun saveHeight(characterHeight: String) {
@@ -279,6 +265,20 @@ class NewCharacterViewModel(
                 throw e
             }
         }
+    }
+
+    fun addIdeal(domainModel: DomainIdeal) {
+        characterIdeals.add(domainModel)
+    }
+
+    fun removeIdeal(domainModel: DomainIdeal) {
+        if (!characterIdeals.isNullOrEmpty()) {
+            if (characterIdeals.contains(domainModel)) {
+                characterIdeals.remove(domainModel)
+            }
+        }
+
+
     }
 
 

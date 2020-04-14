@@ -80,37 +80,7 @@ class BreedsViewModel(
     }
 
 
-    fun testInsert(): Long? {
-        Log.d("testInsert", "RacesViewModel START")
 
-        var warriorRace =
-            DomainBreed(
-                breedId = null,
-                breedDescription = "Strength bonus",
-                breedName = "Warrior"
-            )
-        Log.d("testInsert", "RacesViewModel warriorRace instantiated")
-        var raceId: Long? = 0
-        Log.d("testInsert", "RacesViewModel raceId before = ${raceId.toString()}")
-
-        try {
-            raceId = this.saveOne(
-                warriorRace
-            )
-            Log.d("testInsert", "RacesViewModel raceId while= ${raceId.toString()}")
-        } catch (e: Exception) {
-            Log.e("testInsert", "RacesViewModel FAILED")
-            throw e
-        }
-        Log.d("testInsert", "RacesViewModel raceId after= ${raceId.toString()}")
-
-        var breed = this.findBreedWithId(raceId)
-
-        Log.d("testInsert", "RacesViewModel found breed : ${breed?.breedName}")
-
-        Log.d("testInsert", "RacesViewModel END")
-        return raceId
-    }
 
 
     fun saveOne(domainBreed: DomainBreed): Long? {
@@ -134,7 +104,4 @@ class BreedsViewModel(
 
 
     }
-
-
-// TODO : Fill class.
 }

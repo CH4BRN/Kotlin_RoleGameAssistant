@@ -23,11 +23,10 @@ import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.REQUEST_CODE_BASIC_INFO_NEW_BREED
 import com.uldskull.rolegameassistant.fragments.fragment.basicinfo.breed.BreedsRecyclerViewFragment
 import com.uldskull.rolegameassistant.viewmodels.BreedsViewModel
-import com.uldskull.rolegameassistant.viewmodels.CharacteristicViewModel
+import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import kotlinx.android.synthetic.main.fragment_basic_info.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import kotlin.concurrent.thread
 
 
 /**
@@ -40,39 +39,9 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
      */
     private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
     private val breedsViewModel: BreedsViewModel by sharedViewModel()
-    private val characteristicViewModel: CharacteristicViewModel by sharedViewModel()
-
-    private fun testInsert() {
-        thread(start = true) {
-            //  BREED
-            Log.d("testInsert", "BasicInfoFragment START")
-            var breedId: Long? = breedsViewModel.testInsert()
-            var breed = breedsViewModel.findBreedWithId(breedId)
-
-            Log.d("testInsert", "BasicInfoFragment - Breed name : ${breed?.breedName}")
-
-            //  CHARACTERISTIC
-            var characteristicId: Long? = characteristicViewModel.testInsertOne(breedId)
-            var characteristicIds: List<Long>? = characteristicViewModel.testInsertMultiple(breedId)
-
-            var breedCharacteristic =
-                characteristicViewModel.findBreedCharacteristicWithId(characteristicId)
-
-            Log.d(
-                "testInsert",
-                "BasicInfoFragment - Characteristic name : ${breedCharacteristic?.characteristicName}"
-            )
-            Log.d(
-                "testInsert",
-                "BasicInfoFragment - Characteristic breedId : ${breedCharacteristic?.characteristicBreedId}"
-            )
-
-            //  BREED WITH CHILDREN
+    private val characteristicsViewModel: CharacteristicsViewModel by sharedViewModel()
 
 
-            Log.d("testInsert", "BasicInfoFragment END")
-        }
-    }
 
     /**
      * Fragment Lifecycle
@@ -82,6 +51,7 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.d(TAG, "onCreateView")
         newCharacterViewModel.displayDices()
 
 
@@ -93,6 +63,7 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
      * Initialize the view corresponding to this fragment class
      */
     override fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
+        Log.d(TAG, "initializeView")
         initialRootView = inflater.inflate(
             R.layout.fragment_basic_info, container, false
         )
@@ -104,15 +75,16 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
      */
     override fun onResume() {
         super.onResume()
-        Log.d("BasicInfoFragment_1", NewCharacterActivity.progression.value.toString())
+        Log.d(TAG, "Progression before : " + NewCharacterActivity.progression.value.toString())
         NewCharacterActivity.progression.value = BASIC_INFO_FRAGMENT_POSITION
-        Log.d("BasicInfoFragment_2", NewCharacterActivity.progression.value.toString())
+        Log.d(TAG, "Progression after : " + NewCharacterActivity.progression.value.toString())
     }
 
     /**
      * Fragment Lifecycle
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Log.d(TAG, "onViewCreated")
         super.onViewCreated(view, savedInstanceState)
         setButtonAddBreed()
         setEditTextListeners()
@@ -125,6 +97,7 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
      * Set edit text listeners
      */
     private fun setEditTextListeners() {
+        Log.d(TAG, "setEditTextListeners")
         setNameTextChangedListener()
         setAgeTextChangedListener()
         setGenderTextChangedListener()
@@ -137,6 +110,7 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
      * Set gender text changed listener
      */
     private fun setGenderTextChangedListener() {
+        Log.d(TAG, "setGenderTextChangedListener")
         et_gender?.addTextChangedListener(object : TextWatcher {
             /**
              * This method is called to notify you that, somewhere within
@@ -188,6 +162,7 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
      * Set Age EditText Text changed listener.
      */
     private fun setAgeTextChangedListener() {
+        Log.d(TAG, "setAgeTextChangedListener")
         et_age?.addTextChangedListener(object : TextWatcher {
             /**
              * This method is called to notify you that, somewhere within
@@ -240,6 +215,7 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
      * Set Name EditText Text changed listener.
      */
     private fun setNameTextChangedListener() {
+        Log.d(TAG, "setNameTextCHangedListener")
         et_name?.addTextChangedListener(object : TextWatcher {
             /**
              * This method is called to notify you that, somewhere within
@@ -290,6 +266,7 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
      * Set Biography EditText text changed listener.
      */
     private fun setBiographyTextChangedListener() {
+        Log.d(TAG, "setBiographyTextChangedListener")
         et_biography?.addTextChangedListener(object : TextWatcher {
             /**
              * This method is called to notify you that, somewhere within
@@ -335,6 +312,7 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
     }
 
     private fun setHeightTextChangedListener() {
+        Log.d(TAG, "setHeightTextChangedListener")
         et_height?.addTextChangedListener(object : TextWatcher {
             /**
              * This method is called to notify you that, somewhere within
@@ -351,6 +329,7 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
              * ended up.
              */
             override fun afterTextChanged(s: Editable?) {
+                Log.d(TAG, "afterTextChanged")
                 newCharacterViewModel.saveHeight(s.toString())
             }
 
@@ -379,6 +358,7 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
      * Set the add breed button.
      */
     private fun setButtonAddBreed() {
+        Log.d(TAG, "setButtonAddBreed")
         if (btn_addBreed != null) {
             btn_addBreed?.setOnClickListener {
                 val intent = Intent(activity, NEW_BREED_ACTIVITY)
@@ -392,11 +372,14 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
 
 
     companion object : CustomCompanion() {
+        private const val TAG = "BasicInfoFragment"
+
         /**
          * Get a new instance of class BasicInfoFragment
          */
         @JvmStatic
         override fun newInstance(activity: Activity): BasicInfoFragment {
+            Log.d(TAG, "newInstance")
             val fragment =
                 BasicInfoFragment(
                     activity

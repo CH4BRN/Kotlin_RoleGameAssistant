@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewAdapter
-import com.uldskull.rolegameassistant.models.character.DomainCharacter
+import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
 
 /**
  *   Class "CharacterAdapter" :
@@ -107,7 +107,7 @@ class CharactersAdapter internal constructor(
         val charactersViewHolder = holder as CharactersViewHolder
         val current = characters[position]
         charactersViewHolder.characterNameItemView.text = current.characterName
-        Log.d("test", "$current")
+        Log.d("test", "\nCurrent character : $current")
 
         charactersViewHolder.characterItemLayout.setOnClickListener {
             rowIndex = position

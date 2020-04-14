@@ -19,7 +19,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
-import com.uldskull.rolegameassistant.models.character.DomainCharacter
+import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
 import com.uldskull.rolegameassistant.viewmodels.CharactersViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -45,6 +45,22 @@ class CharacterRecyclerViewFragment(activity: Activity) :
      * Adapter for character's recycler view.
      */
     private var charactersAdapter: CharactersAdapter? = null
+
+    /**
+     * Companion object
+     */
+    companion object : CustomCompanion() {
+        override fun newInstance(activity: Activity): CharacterRecyclerViewFragment {
+            Log.d("CharacterRecyclerViewFragment", "newInstance")
+            val fragment = CharacterRecyclerViewFragment(activity)
+            val args = Bundle()
+
+            args.putInt(KEY_POSITION, CHARACTERS_RECYCLER_VIEW_FRAGMENT_POSITION)
+            fragment.arguments = args
+
+            return fragment
+        }
+    }
 
     /**
      * Initialize the recycler view.
@@ -99,18 +115,7 @@ class CharacterRecyclerViewFragment(activity: Activity) :
     }
 
 
-    companion object : CustomCompanion() {
-        override fun newInstance(activity: Activity): CharacterRecyclerViewFragment {
-            Log.d("CharacterRecyclerViewFragent", "newInstance")
-            val fragment = CharacterRecyclerViewFragment(activity)
-            val args = Bundle()
 
-            args.putInt(KEY_POSITION, CHARACTERS_RECYCLER_VIEW_FRAGMENT_POSITION)
-            fragment.arguments = args
-
-            return fragment
-        }
-    }
 
     /**
      * Called when a recyclerview cell is pressed

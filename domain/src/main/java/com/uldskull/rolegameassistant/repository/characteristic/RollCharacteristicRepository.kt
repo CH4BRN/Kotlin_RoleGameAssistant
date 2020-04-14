@@ -16,5 +16,5 @@ import com.uldskull.rolegameassistant.repository.GenericRepository
     these database operations will need to be performed on separate threads from the main
     thread using the AsyncTask class.
  **/
-interface CharacteristicRollRepository<T> :
+interface RollCharacteristicRepository<T> :
     GenericRepository<T, DomainRollCharacteristic>

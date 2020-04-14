@@ -1,7 +1,7 @@
 // File NavigationBarFragment.kt
 // @Author pierre.antoine - 17/03/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.fragments.fragment
+package com.uldskull.rolegameassistant.fragments.fragment.bars
 
 import android.app.Activity
 import android.content.DialogInterface
@@ -12,6 +12,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
+import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
+import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
+import com.uldskull.rolegameassistant.viewmodels.CharactersViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import kotlinx.android.synthetic.main.fragment_navigation_bar.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -27,11 +31,22 @@ class NavigationBarFragment(activity: Activity) : CustomFragment(activity) {
      */
     private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
 
+    /**
+     * Characteristics view model.
+     */
+    private val characteristicsViewModel: CharacteristicsViewModel by sharedViewModel()
+
+    /**
+     * Characters view model.
+     */
+    private val charactersViewModel: CharactersViewModel by sharedViewModel()
+
 
     /**
      * Initialize the initial root view.
      */
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
+        Log.d(TAG, "initializeView")
         initialRootView = layoutInflater.inflate(
             R.layout.fragment_navigation_bar, container, false
         )
@@ -39,6 +54,7 @@ class NavigationBarFragment(activity: Activity) : CustomFragment(activity) {
     }
 
     private fun displayBackConfirmation() {
+        Log.d(TAG, "displayBackConfirmation")
         val confirmDialog = AlertDialog.Builder(activity)
 
         confirmDialog.setTitle("Go back? : ")
@@ -67,36 +83,42 @@ class NavigationBarFragment(activity: Activity) : CustomFragment(activity) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d(TAG, "onViewCreated")
 
         setBackButton()
         setSaveButton()
     }
 
     private fun setBackButton() {
+        Log.d(TAG, "setBackButton")
         btn_back.setOnClickListener {
             displayBackConfirmation()
         }
     }
 
     private fun setSaveButton() {
+        Log.d(TAG, "setSaveButton")
         btn_save.setOnClickListener {
             doSave()
         }
     }
 
     private fun doSave() {
-        Log.d(
-            "NavigationBarFragment",
-            "doSave"
-        )
+        Log.d(TAG, "doSave")
+        var insertedId =
+            newCharacterViewModel.saveCharacter(characteristicsViewModel.rollCharacteristics)
+        var result = charactersViewModel.findOneById(insertedId)
+        Log.d(TAG, "$result")
 
-        newCharacterViewModel.saveCharacter()
-        //  newCharacterViewModel.displayBreed()
     }
 
     companion object : CustomCompanion() {
+        private const val TAG = "NavigationBarFragment"
         override fun newInstance(activity: Activity): CustomFragment {
-            return NavigationBarFragment(activity)
+            Log.d(TAG, "newInstance")
+            return NavigationBarFragment(
+                activity
+            )
         }
 
     }

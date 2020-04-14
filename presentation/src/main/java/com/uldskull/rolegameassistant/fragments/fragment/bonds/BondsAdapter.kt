@@ -25,6 +25,9 @@ class BondsAdapter internal constructor(
     context: Context,
     private val buttonListener: AdapterButtonListener<DomainBond>
 ) : RecyclerView.Adapter<BondsAdapter.BondsViewHolder>() {
+    companion object {
+        private const val TAG = "BondsAdapter"
+    }
 
     /** Inflater    **/
     private val inflater: LayoutInflater = LayoutInflater.from(context)
@@ -43,6 +46,7 @@ class BondsAdapter internal constructor(
      * Called when the view holder is created.
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BondsViewHolder {
+        Log.d(TAG, "onCreateViewHolder")
 
         val itemView = inflater.inflate(R.layout.recyclerview_item_bond, parent, false)
 
@@ -56,6 +60,7 @@ class BondsAdapter internal constructor(
      * @return The total number of items in this adapter.
      */
     override fun getItemCount(): Int {
+        Log.d(TAG, "getItemCount")
         return bonds.size
     }
 
@@ -81,6 +86,7 @@ class BondsAdapter internal constructor(
      * @param position The position of the item within the adapter's data set.
      */
     override fun onBindViewHolder(holder: BondsViewHolder, position: Int) {
+        Log.d(TAG, "onBindViewHolder")
         val current = bonds[position]
         holder.bondTitleItemView.text = current.bondTitle
         holder.bondValueItemView.text = current.bondValue
@@ -105,6 +111,7 @@ class BondsAdapter internal constructor(
      * Set the displayed bonds.
      */
     fun setBonds(bonds: List<DomainBond>) {
+        Log.d(TAG, "setBonds")
         this.bonds = bonds
         notifyDataSetChanged()
     }

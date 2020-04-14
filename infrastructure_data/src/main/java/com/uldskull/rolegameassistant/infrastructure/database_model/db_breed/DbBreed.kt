@@ -17,7 +17,8 @@ class DbBreed(
     @PrimaryKey(autoGenerate = true)
     val breedId: Long?,
     val breedName: String?,
-    var breedDescription: String?
+    var breedDescription: String?,
+    var breedHealthBonus: Int?
 ) : DbEntity<DomainBreed> {
     /**
      * Converts a Database model entity into a domain model.
@@ -26,7 +27,8 @@ class DbBreed(
         return DomainBreed(
             breedId = this.breedId,
             breedName = this.breedName,
-            breedDescription = this.breedDescription
+            breedDescription = this.breedDescription,
+            breedHealthBonus = this.breedHealthBonus
         )
     }
 
@@ -42,7 +44,8 @@ class DbBreed(
             return DbBreed(
                 breedId = domainModel?.breedId,
                 breedDescription = domainModel?.breedDescription,
-                breedName = domainModel?.breedName
+                breedName = domainModel?.breedName,
+                breedHealthBonus = domainModel?.breedHealthBonus
             )
 
         }

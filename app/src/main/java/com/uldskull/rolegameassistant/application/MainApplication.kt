@@ -22,7 +22,7 @@ class MainApplication : Application() {
 
     /** Application life cycle  **/
     override fun onCreate() {
-        Log.d("MAIN_APPLICATION", "onCreate")
+        Log.d(TAG, "onCreate")
         super.onCreate()
         //  Start koin
         startKoin {
@@ -49,5 +49,9 @@ class MainApplication : Application() {
 
 
         }
+    }
+
+    companion object {
+        const val TAG = "MainApplication"
     }
 }

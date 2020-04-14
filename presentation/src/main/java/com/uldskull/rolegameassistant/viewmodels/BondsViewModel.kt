@@ -1,7 +1,7 @@
 // File BondsViewModel.kt
 // @Author pierre.antoine - 02/03/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.fragments.fragment.bonds
+package com.uldskull.rolegameassistant.viewmodels
 
 import android.app.Application
 import android.util.Log

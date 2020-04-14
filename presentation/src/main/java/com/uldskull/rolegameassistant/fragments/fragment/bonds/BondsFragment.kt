@@ -18,6 +18,7 @@ import com.uldskull.rolegameassistant.fragments.adapter.BONDS_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
+import com.uldskull.rolegameassistant.viewmodels.BondsViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import kotlinx.android.synthetic.main.fragment_bonds.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -32,6 +33,7 @@ class BondsFragment(activity: Activity) : CustomFragment(activity) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.d(TAG, "onCreateView")
         return initializeView(inflater, container)
     }
 
@@ -43,14 +45,13 @@ class BondsFragment(activity: Activity) : CustomFragment(activity) {
 
     override fun onResume() {
         super.onResume()
-
-        Log.d("BondsFragment_1", NewCharacterActivity.progression.value.toString())
+        Log.d(TAG, "onResume")
         NewCharacterActivity.progression.value = BONDS_FRAGMENT_POSITION
-        Log.d("BondsFragment_2", NewCharacterActivity.progression.value.toString())
 
     }
 
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
+        Log.d(TAG, "initializeView")
         initialRootView = layoutInflater.inflate(
             R.layout.fragment_bonds, container, false
         )
@@ -59,6 +60,7 @@ class BondsFragment(activity: Activity) : CustomFragment(activity) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d(TAG, "onViewCreated")
         btn_addBond?.isEnabled = false
         tv_remainingCharactersValue.text = bondValueMaxCharacters.toString()
         etBondTitle?.addTextChangedListener(object : TextWatcher {
@@ -148,7 +150,7 @@ class BondsFragment(activity: Activity) : CustomFragment(activity) {
                     btn_addBond.isEnabled = true
                 }
                 if (!s.isNullOrBlank()) {
-                    Log.d("slength", "${s.length}")
+                    Log.d(TAG, "onTextChanged s.length = ${s.length}")
                     var remaining = bondValueMaxCharacters - s.length
                     tv_remainingCharactersValue.text = remaining.toString()
                 } else {
@@ -160,15 +162,19 @@ class BondsFragment(activity: Activity) : CustomFragment(activity) {
 
 
         btn_addBond.setOnClickListener {
-            Log.d("Bond", "Click")
+            Log.d(TAG, "setOnClickListener")
             newCharacterViewModel.characterBonds = bondsViewModel.addBond()
         }
+        etBondTitle.setText("")
+        etBondValue.setText("")
 
     }
 
     companion object : CustomCompanion() {
+        private const val TAG = "BondsFragment"
         @JvmStatic
         override fun newInstance(activity: Activity): BondsFragment {
+            Log.d(TAG, "newInstance")
             val fragment =
                 BondsFragment(
                     activity

@@ -10,7 +10,7 @@ package com.uldskull.rolegameassistant.models.character.characteristic
 open class DomainBreedCharacteristic(
     characteristicId: Long?,
     characteristicName: String?,
-    val characteristicBonus: Int?,
+    val characteristicBonus: Int? = 0,
     val characteristicBreedId: Long?
 ) : DomainCharacteristic(
     characteristicId,

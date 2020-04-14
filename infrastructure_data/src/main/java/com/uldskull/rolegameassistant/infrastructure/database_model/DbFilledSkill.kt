@@ -28,6 +28,7 @@ class DbFilledSkill(
      * Converts a Database model entity into a domain model.
      */
     override fun toDomain(): DomainFilledSkill {
+
         return DomainFilledSkill(
             filledSkillId = this.filledSkillId,
             filledSkillTensValue = this.filledSkillTensValue,

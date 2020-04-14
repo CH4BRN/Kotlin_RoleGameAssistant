@@ -15,21 +15,29 @@ import com.uldskull.rolegameassistant.repository.characteristic.BreedCharacteris
  *   Class "DbBreedCharacteristicRepositoryImpl" :
  *   TODO: Fill class use.
  **/
-class DbBreedsCharacteristicRepositoryImpl(private val dbBreedCharacteristicDao: DbBreedCharacteristicDao) :
+class DbBreedsCharacteristicRepositoryImpl(
+    private val dbBreedCharacteristicDao: DbBreedCharacteristicDao
+) :
     BreedCharacteristicRepository<LiveData<List<DomainBreedCharacteristic>>> {
+    companion object {
+        private const val TAG = "DbBreedsCharacteristicRepositoryImpl"
+    }
+
     /** Get all entities    */
     override fun getAll(): LiveData<List<DomainBreedCharacteristic>>? {
+        Log.d(TAG, "getAll")
         try {
             return Transformations.map(dbBreedCharacteristicDao.getBreedCharacteristics()) {
                 it.asDomainModel()
             }
         } catch (e: Exception) {
-            Log.e("DbBreedCharacteristicRepositoryImpl", "Get all failed ! ")
+            Log.e(TAG, "getAll FAILED ! ")
             throw e
         }
     }
 
     private fun List<DbBreedCharacteristic>.asDomainModel(): List<DomainBreedCharacteristic> {
+        Log.d(TAG, "asDomainModel")
         return map {
             DomainBreedCharacteristic(
                 characteristicName = it.characteristicName,
@@ -42,12 +50,12 @@ class DbBreedsCharacteristicRepositoryImpl(private val dbBreedCharacteristicDao:
 
     /** Get one entity by its id    */
     override fun findOneById(id: Long?): DomainBreedCharacteristic? {
-        Log.d("test", "findOneById")
+        Log.d(TAG, "findOneById")
         var result: DbBreedCharacteristic
         try {
             result = dbBreedCharacteristicDao.getBreedCharacteristicById(id)
         } catch (e: Exception) {
-            Log.e("test", "FAILED")
+            Log.e(TAG, "findOneById FAILED")
             throw e
         }
         return result.toDomain()
@@ -55,7 +63,7 @@ class DbBreedsCharacteristicRepositoryImpl(private val dbBreedCharacteristicDao:
 
     /** Insert a list of entity - it should return long[] or List<Long>.*/
     override fun insertAll(all: List<DomainBreedCharacteristic>?): List<Long>? {
-        Log.d("DbBreedCharacteristicRepositoryImpl", "insertAll")
+        Log.d(TAG, "insertAll")
         if ((all != null) && (all.isNotEmpty())) {
             try {
                 val result = dbBreedCharacteristicDao.insertBreedCharacteristics(all.map { b ->
@@ -64,21 +72,21 @@ class DbBreedsCharacteristicRepositoryImpl(private val dbBreedCharacteristicDao:
                     )
                 })
 
-                Log.d("DbBreedsCharacteristicRepositoryImpl", "insertAll RESULT = ${result.size}")
+                Log.d(TAG, "insertAll RESULT = ${result.size}")
                 return result
             } catch (e: Exception) {
                 e.printStackTrace()
                 throw e
             }
         } else {
-            Log.d("DbBreedsCharacteristicRepositoryImpl", "insertAll RESULT = 0")
+            Log.d(TAG, "insertAll RESULT = 0")
             return emptyList()
         }
     }
 
     /** Insert one entity  -  it can return a long, which is the new rowId for the inserted item.*/
     override fun insertOne(one: DomainBreedCharacteristic?): Long? {
-        Log.d("test", "insertOne $one")
+        Log.d(TAG, "insertOne $one")
         return if (one != null) {
             try {
                 val result =
@@ -87,9 +95,11 @@ class DbBreedsCharacteristicRepositoryImpl(private val dbBreedCharacteristicDao:
                             one
                         )
                     )
-                Log.d("test", "insertOne RESULT = $result")
+                Log.d(TAG, "insertOne RESULT = $result")
                 result
             } catch (e: Exception) {
+                Log.e(TAG, "insertOne FAILED")
+                e.printStackTrace()
                 throw e
             }
         } else {
@@ -99,11 +109,26 @@ class DbBreedsCharacteristicRepositoryImpl(private val dbBreedCharacteristicDao:
 
     /** Delete all entities **/
     override fun deleteAll(): Int {
-        Log.d("DbBreedCharacteristicRepositoryImpl", "deleteAll")
+        Log.d(TAG, "deleteAll")
         try {
             return dbBreedCharacteristicDao.deleteAllBreedCharacteristics()
         } catch (e: Exception) {
+            Log.e(TAG, "deleteAll FAILED")
+            e.printStackTrace()
             throw e
         }
+    }
+
+    /**  Update one entity  **/
+    override fun updateOne(one: DomainBreedCharacteristic?): Int? {
+        Log.d(TAG, "updateOne")
+        try {
+            dbBreedCharacteristicDao.updateBreedCharacteristic(DbBreedCharacteristic.from(one))
+        } catch (e: Exception) {
+            Log.e(TAG, "updateOne FAILED")
+            e.printStackTrace()
+            throw e
+        }
+        return 1
     }
 }

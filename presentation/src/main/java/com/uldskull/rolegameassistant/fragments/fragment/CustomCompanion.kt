@@ -1,14 +1,13 @@
-// CustomCompagnon.kt created by UldSkull - 15/03/2020
-
+// CustomCompanion.kt created by UldSkull - 15/03/2020
 package com.uldskull.rolegameassistant.fragments.fragment
 
 import android.app.Activity
 
 /**
-Class "CustomCompagnon"
+Class "CustomCompanion"
 
-TODO: Describe class utility.
+Custom companion class
  */
-abstract class CustomCompanion{
+abstract class CustomCompanion {
     abstract fun newInstance(activity: Activity): CustomFragment
 }

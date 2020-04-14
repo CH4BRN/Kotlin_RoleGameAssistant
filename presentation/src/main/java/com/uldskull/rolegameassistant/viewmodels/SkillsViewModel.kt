@@ -1,7 +1,7 @@
 // File SkillsViewModel.kt
 // @Author pierre.antoine - 29/01/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.fragments.fragment.skills
+package com.uldskull.rolegameassistant.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

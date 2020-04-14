@@ -1,7 +1,7 @@
 // File JobsViewModel.kt
 // @Author pierre.antoine - 04/03/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.fragments.fragment.jobs
+package com.uldskull.rolegameassistant.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

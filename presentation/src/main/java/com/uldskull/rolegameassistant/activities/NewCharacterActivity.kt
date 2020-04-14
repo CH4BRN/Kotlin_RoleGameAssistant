@@ -11,8 +11,8 @@ import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.adapter.CharacterPagerAdapter
-import com.uldskull.rolegameassistant.fragments.fragment.NavigationBarFragment
-import com.uldskull.rolegameassistant.fragments.fragment.ProgressBarFragment
+import com.uldskull.rolegameassistant.fragments.fragment.bars.NavigationBarFragment
+import com.uldskull.rolegameassistant.fragments.fragment.bars.ProgressBarFragment
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -33,7 +33,7 @@ class NewCharacterActivity :
      * @param savedInstanceState the transmitted bundle**/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d(NEW_CHARACTER_ACTIVITY.name, "Start")
+        Log.d(TAG, "onCreate")
 
         setContentView(R.layout.activity_new_character)
 
@@ -50,6 +50,7 @@ class NewCharacterActivity :
 
     /** Set character page adapter  **/
     private fun setCharacterPageAdapter() {
+        Log.d(TAG, "setCharacterPageAdapter")
         //  Serialize the view pager.
         viewPager = findViewById(R.id.viewPager)
 
@@ -59,6 +60,7 @@ class NewCharacterActivity :
 
     /** Observe view pager progression  **/
     private fun observeProgression() {
+        Log.d(TAG, "observeProgression")
         progression.observe(
             this, Observer { progression ->
                 kotlin.run {
@@ -74,6 +76,7 @@ class NewCharacterActivity :
     /** Load the progress bar fragment
      * @param progression the progression to display **/
     private fun updateProgressBarFragment(progression: Int) {
+        Log.d(TAG, "updateProgressBarFragment")
         this.replaceFragment(
             R.id.container_progressBar,
             ProgressBarFragment.newInstance(this, progression)
@@ -84,6 +87,7 @@ class NewCharacterActivity :
      * Load the navigation bar fragment.
      */
     private fun loadNavigationBarFragment() {
+        Log.d(TAG, "loadNavigationBarFragment")
         this.replaceFragment(
             R.id.container_navigationBar,
             NavigationBarFragment.newInstance(this)
@@ -91,6 +95,8 @@ class NewCharacterActivity :
     }
 
     companion object {
+
+        private const val TAG = "NewCharacterActivity"
         /** ViewPager progression   **/
         var progression = MutableLiveData<Int>()
     }

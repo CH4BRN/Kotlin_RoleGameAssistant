@@ -17,9 +17,9 @@ import com.uldskull.rolegameassistant.fragments.adapter.ABILITIES_FRAGMENT_POSIT
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
-import com.uldskull.rolegameassistant.models.character.characteristic.CharacteristicsName
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainCharacteristic
-import com.uldskull.rolegameassistant.viewmodels.CharacteristicViewModel
+import com.uldskull.rolegameassistant.viewmodels.BreedCharacteristicsViewModel
+import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
@@ -27,7 +27,8 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   Display
  **/
 class CharacteristicsFragment(activity: Activity) : CustomFragment(activity) {
-    private val characteristicsViewModel: CharacteristicViewModel by sharedViewModel()
+    private val characteristicsViewModel: CharacteristicsViewModel by sharedViewModel()
+    private val breedCharacteristicsViewModel: BreedCharacteristicsViewModel by sharedViewModel()
     /**
      * Called when the view is created
      */
@@ -37,47 +38,11 @@ class CharacteristicsFragment(activity: Activity) : CustomFragment(activity) {
         savedInstanceState: Bundle?
     ): View? {
 
-        val domainCharacteristics = listOf<DomainCharacteristic>(
-            DomainCharacteristic(
-                characteristicId = null,
-                characteristicName = CharacteristicsName.APPEARANCE.characteristicName
-            ),
-            DomainCharacteristic(
-                characteristicId = null,
-                characteristicName = CharacteristicsName.CHARISMA.characteristicName
-            ),
-            DomainCharacteristic(
-                characteristicId = null,
-                characteristicName = CharacteristicsName.CONSTITUTION.characteristicName
-            ),
-            DomainCharacteristic(
-                characteristicId = null,
-                characteristicName = CharacteristicsName.DEXTERITY.characteristicName
-            ),
-            DomainCharacteristic(
-                characteristicId = null,
-                characteristicName = CharacteristicsName.INTELLIGENCE.characteristicName
-            ),
-            DomainCharacteristic(
-                characteristicId = null,
-                characteristicName = CharacteristicsName.POWER.characteristicName
-            ),
-            DomainCharacteristic(
-                characteristicId = null,
-                characteristicName = CharacteristicsName.SIZE.characteristicName
-            ),
-            DomainCharacteristic(
-                characteristicId = null,
-                characteristicName = CharacteristicsName.STRENGTH.characteristicName
-            )
-        )
-
-        val insertResult = characteristicsViewModel.saveAllCharacteristics(domainCharacteristics)
-        Log.d("BasicInfoFragment result = ", insertResult?.size.toString())
+        Log.d(TAG, "onCreateView")
 
         val characteristicObserver = startCharacteristicsObservation()
 
-        characteristicsViewModel.result?.observe(this, characteristicObserver)
+        breedCharacteristicsViewModel.breedCharacteristics?.observe(this, characteristicObserver)
 
 
         return initializeView(inflater, container)
@@ -87,9 +52,10 @@ class CharacteristicsFragment(activity: Activity) : CustomFragment(activity) {
      * Start characteristics observation
      */
     private fun startCharacteristicsObservation(): Observer<List<DomainCharacteristic>> {
+        Log.d(TAG, "startCharacteristicsObservation")
         return Observer { newCharacteristics ->
             newCharacteristics.forEach {
-                Log.d("BasicInfoFragment", it.characteristicName)
+                Log.d(TAG, it.characteristicName)
             }
         }
     }
@@ -99,6 +65,7 @@ class CharacteristicsFragment(activity: Activity) : CustomFragment(activity) {
      * Initialize the view
      */
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
+        Log.d(TAG, "initializeView")
         initialRootView = layoutInflater.inflate(
             R.layout.fragment_characteristics, container, false
         )
@@ -106,15 +73,17 @@ class CharacteristicsFragment(activity: Activity) : CustomFragment(activity) {
     }
 
     override fun onResume() {
+        Log.d(TAG, "onResume")
         super.onResume()
-        Log.d("AbilitiesFragment_1", NewCharacterActivity.progression.value.toString())
         NewCharacterActivity.progression.value = ABILITIES_FRAGMENT_POSITION
-        Log.d("AbilitiesFragment_2", NewCharacterActivity.progression.value.toString())
     }
 
     companion object : CustomCompanion() {
+        private const val TAG = "CharacteristicsFragment"
+
         @JvmStatic
         override fun newInstance(activity: Activity): CharacteristicsFragment {
+            Log.d(TAG, "newInstance")
             val fragment =
                 CharacteristicsFragment(
                     activity

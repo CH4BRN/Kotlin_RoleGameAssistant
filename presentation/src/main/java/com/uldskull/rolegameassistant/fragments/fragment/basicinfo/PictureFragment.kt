@@ -10,6 +10,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,15 +36,18 @@ class PictureFragment(val context: Activity) : CustomFragment(context) {
 
     /** Fragment Lifecycle  **/
     override fun onCreateView(
+
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.d(TAG, "onCreateView")
         return initializeView(inflater, container)
     }
 
     /** Select image from the gallery   **/
     private fun selectImageAlbum() {
+        Log.d(TAG, "selectImageAlbum")
         if (isActivityNull()) return
 
         val galleryIntent = getPickImageIntent()
@@ -54,6 +58,7 @@ class PictureFragment(val context: Activity) : CustomFragment(context) {
     }
 
     private fun selectPicture() {
+        Log.d(TAG, "selectPicture")
         val pictureDialog = AlertDialog.Builder(context)
 
         pictureDialog.setTitle("Select action : ")
@@ -81,6 +86,7 @@ class PictureFragment(val context: Activity) : CustomFragment(context) {
     }
 
     private fun takePhotoFromCamera() {
+        Log.d(TAG, "takePhotoFromCamera")
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         startActivityForResult(
             intent,
@@ -90,6 +96,7 @@ class PictureFragment(val context: Activity) : CustomFragment(context) {
 
 
     private fun choosePhotoFromGallery() {
+        Log.d(TAG, "choosePhotoFromGallery")
         val galleryIntent = Intent(
             Intent.ACTION_PICK,
             EXTERNAL_CONTENT_URI
@@ -104,6 +111,7 @@ class PictureFragment(val context: Activity) : CustomFragment(context) {
 
     /** Get a pick image intent **/
     private fun getPickImageIntent(): Intent {
+        Log.d(TAG, "getPickImageIntent")
         return Intent(
             Intent.ACTION_PICK,
             EXTERNAL_CONTENT_URI
@@ -113,7 +121,7 @@ class PictureFragment(val context: Activity) : CustomFragment(context) {
     /** Called when the started activity is finished    **/
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
-        Toast.makeText(activity, "On activity result", Toast.LENGTH_SHORT).show()
+        Log.d(TAG, "onActivityResult")
 
         when (requestCode) {
             REQUEST_CODE_SELECT_IMAGE_IN_ALBUM -> {
@@ -147,14 +155,19 @@ class PictureFragment(val context: Activity) : CustomFragment(context) {
 
     /** Show bad request toast  **/
     private fun showBadRequestToast() {
+        Log.d(TAG, "showBadRequestToast")
         Toast.makeText(activity, "Bad request code", Toast.LENGTH_SHORT).show()
     }
 
     /** Is result code ok   **/
-    private fun isResultOk(resultCode: Int) = resultCode == Activity.RESULT_OK
+    private fun isResultOk(resultCode: Int): Boolean {
+        Log.d(TAG, "isResultOk")
+        return resultCode == Activity.RESULT_OK
+    }
 
     /** Is activity null    **/
     private fun isActivityNull(): Boolean {
+        Log.d(TAG, "isActivityNull")
         if (activity == null) {
             return true
         }
@@ -164,6 +177,7 @@ class PictureFragment(val context: Activity) : CustomFragment(context) {
 
     /** Initialize the view corresponding to this fragment class    **/
     override fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
+        Log.d(TAG, "initializeView")
         initialRootView = inflater.inflate(
             R.layout.fragment_picture, container, false
         )
@@ -172,6 +186,7 @@ class PictureFragment(val context: Activity) : CustomFragment(context) {
 
     /** Activity life-cycle **/
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Log.d(TAG, "onViewCreated")
         super.onViewCreated(view, savedInstanceState)
         val imageButton = activity.findViewById<ImageButton>(R.id.img_btn_characterPicture)
 
@@ -180,6 +195,7 @@ class PictureFragment(val context: Activity) : CustomFragment(context) {
 
     /** Set image button listener       **/
     private fun setImageButtonListener(imageButton: ImageButton?) {
+        Log.d(TAG, "setImageButtonListener")
         imageButton?.setOnClickListener {
             //  selectImageAlbum()
             selectPicture()
@@ -187,9 +203,11 @@ class PictureFragment(val context: Activity) : CustomFragment(context) {
     }
 
     companion object : CustomCompanion() {
+        private const val TAG = "PictureFragment"
 
         @JvmStatic
         override fun newInstance(activity: Activity): PictureFragment {
+            Log.d(TAG, "newInstance")
             val fragment =
                 PictureFragment(
                     activity

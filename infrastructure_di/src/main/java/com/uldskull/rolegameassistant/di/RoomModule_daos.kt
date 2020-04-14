@@ -16,5 +16,9 @@ val roomModule = module {
     single { AppDatabase.getDatabase(get()).dbCharacteristicDao() }
     single { AppDatabase.getDatabase(get()).dbBreedCharacteristicDao() }
     single { AppDatabase.getDatabase(get()).dbBreedWithDbBonusCharacteristicsDao() }
+    single { AppDatabase.getDatabase(get()).dbRollCharacteristicsDao() }
+    //  IDEALS
+    single { AppDatabase.getDatabase(get()).dbIdealsDao() }
+
 
 }

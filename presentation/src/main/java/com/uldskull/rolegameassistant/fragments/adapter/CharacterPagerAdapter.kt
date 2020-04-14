@@ -4,6 +4,7 @@
 package com.uldskull.rolegameassistant.fragments.adapter
 
 import android.app.Activity
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
@@ -24,12 +25,19 @@ import com.uldskull.rolegameassistant.fragments.fragment.jobs.JobsFragment
  **/
 class CharacterPagerAdapter(fm: FragmentManager, val activity: Activity) :
     FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+    companion object {
+        private const val TAG = "CharacterPageAdapter"
+    }
     /** Number of view  **/
-    override fun getCount(): Int = 10
+    override fun getCount(): Int {
+        Log.d(TAG, "getCount")
+        return 10
+
+    }
 
     /** Instantiate the view    **/
     override fun getItem(position: Int): Fragment {
-
+        Log.d(TAG, "getItem")
         return when (position) {
             BASIC_INFO_FRAGMENT_POSITION -> BasicInfoFragment.newInstance(
                 activity

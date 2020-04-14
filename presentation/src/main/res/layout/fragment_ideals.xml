@@ -22,7 +22,6 @@
 
         <FrameLayout
             android:minHeight="8dp"
-
             android:id="@+id/container_ideals"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

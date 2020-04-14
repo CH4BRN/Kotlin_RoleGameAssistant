@@ -2,13 +2,7 @@
 
 package com.uldskull.rolegameassistant.di.koin_modules
 
-import com.uldskull.rolegameassistant.fragments.fragment.bonds.BondsViewModel
-import com.uldskull.rolegameassistant.fragments.fragment.ideals.IdealsViewModel
-import com.uldskull.rolegameassistant.fragments.fragment.skills.SkillsViewModel
-import com.uldskull.rolegameassistant.viewmodels.BreedsViewModel
-import com.uldskull.rolegameassistant.viewmodels.CharacteristicViewModel
-import com.uldskull.rolegameassistant.viewmodels.CharactersViewModel
-import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
+import com.uldskull.rolegameassistant.viewmodels.*
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -21,15 +15,25 @@ val viewModelModule = module {
             diceService = get(),
             characterRepository = get(),
             breedsRepository = get(),
-            characteristicRepository = get()
+            characteristicRepository = get(),
+            idealsRepository = get()
         )
     }
     //  Characteristics ViewModel
     viewModel {
-        CharacteristicViewModel(
+        CharacteristicsViewModel(
             application = get(),
-            breedCharacteristicRepositoryImpl = get(),
-            characteristicRepositoryImpl = get()
+            characteristicRepositoryImpl = get(),
+            rollCharacteristicRepositoryImpl = get(),
+            diceServiceImpl = get(),
+            breedsRepository = get()
+        )
+    }
+    //  Breed Characteristics ViewModel
+    viewModel {
+        BreedCharacteristicsViewModel(
+            application = get(),
+            breedCharacteristicRepositoryImpl = get()
         )
     }
     //  Skills ViewModel
@@ -47,7 +51,8 @@ val viewModelModule = module {
     //  Ideals ViewModel
     viewModel {
         IdealsViewModel(
-            application = get()
+            application = get(),
+            idealsRepositoryImpl = get()
         )
     }
     //  Breeds ViewModel
@@ -62,6 +67,12 @@ val viewModelModule = module {
         CharactersViewModel(
             application = get(),
             characterRepository = get()
+        )
+    }
+    //  Derived values ViewModel
+    viewModel {
+        DerivedValuesViewModel(
+            application = get()
         )
     }
 }

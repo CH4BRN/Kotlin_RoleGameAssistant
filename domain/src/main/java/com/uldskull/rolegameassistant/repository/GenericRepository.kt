@@ -21,4 +21,7 @@ interface GenericRepository<T, U> {
 
     /** Delete all entities **/
     fun deleteAll(): Int
+
+    /**  Update one entity  **/
+    fun updateOne(one: U?): Int?
 }

@@ -25,6 +25,11 @@ class BreedsAdapter internal constructor(
     context: Context,
     private val buttonListener: AdapterButtonListener<DomainBreed>
 ) : CustomRecyclerViewAdapter(context) {
+
+    companion object {
+        private const val TAG = "BreedsAdapter"
+    }
+
     /**
      * Races list
      */
@@ -66,6 +71,7 @@ class BreedsAdapter internal constructor(
      * @see .onBindViewHolder
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BreedsViewHolder {
+        Log.d(TAG, "onCreateViewHolder")
         val itemView = inflater.inflate(R.layout.recyclerview_item_breed, parent, false)
         return BreedsViewHolder(itemView)
     }
@@ -76,6 +82,7 @@ class BreedsAdapter internal constructor(
      * @return The total number of items in this adapter.
      */
     override fun getItemCount(): Int {
+        Log.d(TAG, "getItemCount")
         return breeds.size
     }
 
@@ -101,6 +108,7 @@ class BreedsAdapter internal constructor(
      * @param position The position of the item within the adapter's data set.
      */
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        Log.d(TAG, "onBindViewHolder")
         val breedsViewHolder = holder as BreedsViewHolder
         val current = breeds[position]
         breedsViewHolder.raceNameItemView.text = current.breedName
@@ -119,17 +127,15 @@ class BreedsAdapter internal constructor(
             breedsViewHolder.raceItemLayout.setBackgroundColor(Color.parseColor("#ffffff"))
             breedsViewHolder.raceNameItemView.setTextColor(Color.parseColor("#C02942"))
         }
-
-
     }
-
 
     /**
      * Set the races list content.
      */
     internal fun setBreeds(domainBreeds: List<DomainBreed>) {
+        Log.d(TAG, "setBreeds")
         this.breeds = domainBreeds
-        Log.d(this.javaClass.simpleName, "Races size = " + this.breeds.size.toString())
+        Log.d(TAG, "Breeds size = " + this.breeds.size.toString())
         notifyDataSetChanged()
     }
 }

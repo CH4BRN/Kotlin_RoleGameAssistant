@@ -13,8 +13,12 @@ import androidx.appcompat.app.AppCompatActivity
  *   onCreate logs "Start"
  **/
 abstract class CustomActivity : AppCompatActivity() {
+    companion object {
+        private const val TAG = "CustomActivity"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d(TAG, "onCreate")
         super.onCreate(savedInstanceState)
-        Log.d(this.localClassName, "Start")
     }
 }

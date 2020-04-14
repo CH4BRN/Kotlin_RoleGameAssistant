@@ -21,6 +21,8 @@ import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragm
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.models.character.breed.DomainBreed
 import com.uldskull.rolegameassistant.viewmodels.BreedsViewModel
+import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
+import com.uldskull.rolegameassistant.viewmodels.DerivedValuesViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import kotlinx.android.synthetic.main.fragment_recyclerview_breeds.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -46,6 +48,8 @@ class BreedsRecyclerViewFragment(activity: Activity) :
      * ViewModel for characters
      */
     private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
+    private val characteristicsViewModel: CharacteristicsViewModel by sharedViewModel()
+    private val derivedValuesViewModel: DerivedValuesViewModel by sharedViewModel()
 
     /**
      * Adapter for races recycler view
@@ -56,6 +60,7 @@ class BreedsRecyclerViewFragment(activity: Activity) :
      * Initialize the recycler view.
      */
     override fun initializeRecyclerView() {
+        Log.d(TAG, "initializeRecyclerView")
         breedsRecyclerView = activity.findViewById(R.id.recycler_view_breeds)
                 as RecyclerView?
         setRecyclerViewAdapter()
@@ -66,11 +71,12 @@ class BreedsRecyclerViewFragment(activity: Activity) :
      * Start ViewModel's collection observation.
      */
     override fun startObservation() {
+        Log.d(TAG, "startObservation")
         this.breedsViewModel.result?.observe(this, Observer { races ->
             kotlin.run {
                 races?.let {
                     breedsAdapter?.setBreeds(it)
-                    Log.d("RACES IT SIZE ", it.size.toString())
+                    Log.d(TAG, "BREEDS SIZE " + it.size.toString())
                 }
             }
         })
@@ -80,6 +86,7 @@ class BreedsRecyclerViewFragment(activity: Activity) :
      * Set the recycler view adapter.
      */
     override fun setRecyclerViewAdapter() {
+        Log.d(TAG, "setRecyclerViewAdapter")
         breedsAdapter =
             BreedsAdapter(
                 activity as Context,
@@ -92,6 +99,7 @@ class BreedsRecyclerViewFragment(activity: Activity) :
      * Set the RecyclerView's layout manager.
      */
     override fun setRecyclerViewLayoutManager() {
+        Log.d(TAG, "setRecyclerViewLayoutManager")
         breedsRecyclerView?.layoutManager = LinearLayoutManager(
             activity,
             LinearLayoutManager.VERTICAL,
@@ -103,6 +111,7 @@ class BreedsRecyclerViewFragment(activity: Activity) :
      * Initialize the initial root view.
      */
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
+        Log.d(TAG, "initializeView")
         initialRootView = layoutInflater.inflate(
             R.layout.fragment_recyclerview_breeds, container, false
         )
@@ -113,14 +122,22 @@ class BreedsRecyclerViewFragment(activity: Activity) :
      * Called by the adapter when a breed is pressed.
      */
     override fun itemPressed(t: DomainBreed?) {
-        Log.d("BreedsRecyclerViewFragment", "Button pressed")
+        Log.d(TAG, "itemPressed")
         recycler_view_breeds?.requestFocus()
-        newCharacterViewModel.characterBreed = t
+        if (t != null) {
+            newCharacterViewModel.characterBreed = t
+            characteristicsViewModel.characterBreed = t
+            derivedValuesViewModel.breedHealthBonus = t.breedHealthBonus
+        }
+
     }
 
     companion object : CustomCompanion() {
+        private const val TAG = "BreedsRecyclerViewFragment"
+
         @JvmStatic
         override fun newInstance(activity: Activity): BreedsRecyclerViewFragment {
+            Log.d(TAG, "newInstance")
             val fragment =
                 BreedsRecyclerViewFragment(
                     activity

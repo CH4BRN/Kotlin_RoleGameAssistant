@@ -19,7 +19,7 @@ class DbBreedCharacteristic(
     @PrimaryKey(autoGenerate = true)
     val characteristicId: Long?,
     val characteristicName: String?,
-    val characteristicBonus: Int?,
+    var characteristicBonus: Int = 0,
     val characteristicBreedId: Long?
 ) : DbEntity<DomainBreedCharacteristic> {
 
@@ -43,9 +43,9 @@ class DbBreedCharacteristic(
         override fun from(domainModel: DomainBreedCharacteristic?): DbBreedCharacteristic {
             return DbBreedCharacteristic(
                 characteristicId = domainModel?.characteristicId,
-                characteristicBonus = domainModel?.characteristicBonus,
-                characteristicName = domainModel?.characteristicName,
-                characteristicBreedId = domainModel?.characteristicBreedId
+                characteristicBonus = domainModel?.characteristicBonus!!,
+                characteristicName = domainModel.characteristicName,
+                characteristicBreedId = domainModel.characteristicBreedId
             )
 
         }

@@ -20,6 +20,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.models.character.DomainBond
+import com.uldskull.rolegameassistant.viewmodels.BondsViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
@@ -43,10 +44,12 @@ class BondsRecyclerViewFragment(activity: Activity) :
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.d(TAG, "onCreateView")
         return initializeView(inflater, container)
     }
 
     override fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
+        Log.d(TAG, "initializeView")
         initialRootView = layoutInflater.inflate(
             R.layout.fragment_recyclerview_bonds, container, false
         )
@@ -58,17 +61,18 @@ class BondsRecyclerViewFragment(activity: Activity) :
      */
     override fun itemPressed(domainModel: DomainBond?) {
 
-        Log.d("Bond : ", "Item pressed for $domainModel")
+        Log.d(TAG, "Item pressed for $domainModel")
 
-        Log.d("Bond", "viewmodel bonds size before =" + bondsViewModel.bonds.value?.size)
+        Log.d(TAG, "viewmodel bonds size before =" + bondsViewModel.bonds.value?.size)
         val deleteResult = bondsViewModel.deleteBond(domainModel)
-        Log.d("Bond", "viewmodel bonds size after =" + bondsViewModel.bonds.value?.size)
+        Log.d(TAG, "viewmodel bonds size after =" + bondsViewModel.bonds.value?.size)
         bondsRecyclerView?.requestFocus()
-        Log.d("Bond", "Adapter size : ${bondsAdapter?.itemCount}")
+        Log.d(TAG, "Adapter size : ${bondsAdapter?.itemCount}")
     }
 
     /** Set recycler view layout manager    **/
     override fun setRecyclerViewLayoutManager() {
+        Log.d(TAG, "setRecyclerViewLayoutManager")
         bondsRecyclerView?.layoutManager = LinearLayoutManager(
             activity,
             LinearLayoutManager.VERTICAL,
@@ -80,6 +84,7 @@ class BondsRecyclerViewFragment(activity: Activity) :
      * Initialize the recycler view.
      */
     override fun initializeRecyclerView() {
+        Log.d(TAG, "initializeRecyclerView")
         bondsRecyclerView = activity.findViewById(R.id.recycler_view_bonds)
                 as RecyclerView?
     }
@@ -88,6 +93,7 @@ class BondsRecyclerViewFragment(activity: Activity) :
      * Start ViewModel's collection observation.
      */
     override fun startObservation() {
+        Log.d(TAG, "startObservation")
         this.bondsViewModel.bonds.observe(this, Observer { bonds ->
             kotlin.run {
                 bonds?.let { bondsAdapter?.setBonds(it) }
@@ -98,6 +104,7 @@ class BondsRecyclerViewFragment(activity: Activity) :
 
     /** Set recycler view adapter   **/
     override fun setRecyclerViewAdapter() {
+        Log.d(TAG, "setRecyclerViewAdapter")
         bondsAdapter = BondsAdapter(
             activity as Context,
             this
@@ -107,9 +114,11 @@ class BondsRecyclerViewFragment(activity: Activity) :
 
 
     companion object : CustomCompanion() {
+        private const val TAG = "BondsRecyclerViewFragment"
 
         @JvmStatic
         override fun newInstance(activity: Activity): BondsRecyclerViewFragment {
+            Log.d(TAG, "newInstance")
             val fragment = BondsRecyclerViewFragment(activity)
             val args = Bundle()
 

@@ -7,18 +7,28 @@ import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues.DATABASE_NAME
-import com.uldskull.rolegameassistant.infrastructure.dao.DbCharacterDao
 import com.uldskull.rolegameassistant.infrastructure.dao.breed.DbBreedDao
 import com.uldskull.rolegameassistant.infrastructure.dao.breed.DbBreedWithDbCharacteristicsDao
+import com.uldskull.rolegameassistant.infrastructure.dao.character.DbCharacterDao
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbBreedCharacteristicDao
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbCharacteristicDao
-import com.uldskull.rolegameassistant.infrastructure.database_model.DbCharacter
+import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbRollCharacteristicsDao
+import com.uldskull.rolegameassistant.infrastructure.dao.ideal.DbIdealsDao
+import com.uldskull.rolegameassistant.infrastructure.database.DatabaseUtils.Companion.populateBreed
+import com.uldskull.rolegameassistant.infrastructure.database.DatabaseUtils.Companion.populateBreedCharacteristics
+import com.uldskull.rolegameassistant.infrastructure.database.DatabaseUtils.Companion.populateIdeals
+import com.uldskull.rolegameassistant.infrastructure.database.DatabaseUtils.Companion.populateRollCharacteristics
+import com.uldskull.rolegameassistant.infrastructure.database_model.DbIdeal
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.DbBreed
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_character.BondConverter
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_character.DbCharacter
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_character.IdealConverter
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbBreedCharacteristic
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbCharacteristic
-import com.uldskull.rolegameassistant.models.character.characteristic.CharacteristicsName
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbRollCharacteristic
 import kotlin.concurrent.thread
 
 /**
@@ -27,9 +37,16 @@ Class "AppDatabase"
 Abstract class for room database
  */
 @Database(
-    entities = [DbCharacter::class, DbBreed::class, DbCharacteristic::class, DbBreedCharacteristic::class],
+    entities = [
+        DbCharacter::class,
+        DbBreed::class,
+        DbCharacteristic::class,
+        DbBreedCharacteristic::class,
+        DbRollCharacteristic::class,
+        DbIdeal::class],
     version = 1
 )
+@TypeConverters(BondConverter::class, IdealConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
     /**
@@ -43,6 +60,11 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun dbBreedCharacteristicDao(): DbBreedCharacteristicDao
 
     /**
+     * Database roll characteristic DAO
+     */
+    abstract fun dbRollCharacteristicsDao(): DbRollCharacteristicsDao
+
+    /**
      * Database Breed DAO
      */
     abstract fun dbBreedDao(): DbBreedDao
@@ -52,7 +74,16 @@ abstract class AppDatabase : RoomDatabase() {
      */
     abstract fun dbCharacterDao(): DbCharacterDao
 
+    /**
+     * Database Breed with characteristics DAO
+     */
     abstract fun dbBreedWithDbBonusCharacteristicsDao(): DbBreedWithDbCharacteristicsDao
+
+    /**
+     * Database Ideals DAO
+     */
+    abstract fun dbIdealsDao(): DbIdealsDao
+
 
     private class AppDatabaseCallback : RoomDatabase.Callback() {
         override fun onOpen(db: SupportSQLiteDatabase) {
@@ -61,18 +92,25 @@ abstract class AppDatabase : RoomDatabase() {
                 thread(true) {
                     populateBreed(database.dbBreedDao())
                     populateBreedCharacteristics(database.dbBreedCharacteristicDao())
+                    populateIdeals(database.dbIdealsDao())
+                    populateRollCharacteristics(database.dbRollCharacteristicsDao())
                 }
             }
         }
     }
 
     companion object {
+        /**
+         * Class tag
+         */
+        private const val TAG = "AppDatabase"
+
         /** Database Instance   */
         private var INSTANCE: AppDatabase? = null
 
         /** Get the instance    */
         fun getDatabase(context: Context): AppDatabase {
-            Log.d("DATABASE", "getDatabase")
+            Log.d(TAG, "getDatabase")
 
             if (INSTANCE == null) {
                 INSTANCE = buildAppDatabase(context)
@@ -81,78 +119,10 @@ abstract class AppDatabase : RoomDatabase() {
             return INSTANCE!!
         }
 
-        fun populateBreedCharacteristics(breedCharacteristicDao: DbBreedCharacteristicDao) {
-            var dbBreedCharacteristics = listOf(
-                DbBreedCharacteristic(
-                    characteristicId = null,
-                    characteristicBonus = 1,
-                    characteristicName = CharacteristicsName.STRENGTH.characteristicName,
-                    characteristicBreedId = 1
-                ),
-                DbBreedCharacteristic(
-                    characteristicId = null,
-                    characteristicBonus = 1,
-                    characteristicName = CharacteristicsName.POWER.characteristicName,
-                    characteristicBreedId = 1
-                ),
-                DbBreedCharacteristic(
-                    characteristicId = null,
-                    characteristicBonus = 1,
-                    characteristicName = CharacteristicsName.STRENGTH.characteristicName,
-                    characteristicBreedId = 1
-                ),
-                DbBreedCharacteristic(
-                    characteristicId = null,
-                    characteristicBonus = 1,
-                    characteristicName = CharacteristicsName.POWER.characteristicName,
-                    characteristicBreedId = 1
-                )
-            )
-            var result = breedCharacteristicDao.insertBreedCharacteristics(dbBreedCharacteristics)
-            result.forEach {
-                Log.d("Insert result", it.toString())
-            }
-
-
-        }
-
-
-        fun populateBreed(breedDao: DbBreedDao) {
-
-            var dbBreeds = listOf(
-                DbBreed(
-                    breedName = "TestBreed 1",
-                    breedId = null,
-                    breedDescription = "Test breed number 1"
-                )/*
-                ,
-                DbBreed(
-                    breedName = "TestBreed 2",
-                    breedId = null,
-                    breedDescription = "Test  breed number 2"
-                ),
-                DbBreed(
-                    breedName = "TestBreed 3",
-                    breedId = null,
-                    breedDescription = "Test  breed number 3"
-                ),
-                DbBreed(
-                    breedName = "TestBreed 4",
-                    breedId = null,
-                    breedDescription = "Test  breed number 4"
-                )
-                */
-            )
-            var result = breedDao.insertBreeds(dbBreeds)
-            result.forEach {
-                Log.d("Insert result", it.toString())
-            }
-
-        }
 
         /** Build the database  */
         private fun buildAppDatabase(context: Context): AppDatabase {
-            Log.d("DATABASE", "buildAppDatabase")
+            Log.d(TAG, "buildAppDatabase")
             return Room
                 .databaseBuilder(
                     context.applicationContext,

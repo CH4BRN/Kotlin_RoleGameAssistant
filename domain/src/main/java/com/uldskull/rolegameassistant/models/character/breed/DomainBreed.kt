@@ -10,8 +10,13 @@ package com.uldskull.rolegameassistant.models.character.breed
 class DomainBreed(
     val breedId: Long?,
     val breedName: String?,
-    val breedDescription: String?
+    val breedDescription: String?,
+    val breedHealthBonus: Int?
 ) {
     override fun toString(): String =
-        "\nId : ${breedId}\nName : ${breedName}\nDescription : ${breedDescription}"
+        "\tBREED : \n" +
+                "Id : ${breedId}\n" +
+                "Name : ${breedName}\n" +
+                "Description : ${breedDescription}\n" +
+                "Health bonus : $breedHealthBonus\n"
 }

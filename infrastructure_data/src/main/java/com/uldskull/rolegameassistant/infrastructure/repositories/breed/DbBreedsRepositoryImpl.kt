@@ -24,32 +24,35 @@ class DbBreedsRepositoryImpl(
     private val dbBreedWithDbCharacteristicsDao: DbBreedWithDbCharacteristicsDao
 ) :
     BreedsRepository<LiveData<List<DomainBreed>>> {
+
+    companion object {
+        private const val TAG = "DbBreedsRepositoryImpl"
+    }
+
     /** Get all entities    */
     override fun getAll(): LiveData<List<DomainBreed>>? {
+        Log.d(TAG, "getAll")
         try {
-            //  Transform the dbBreeds into domain races
+            //  Transform the dbBreeds into domain breeds
             return Transformations.map(dbBreedDao.getBreeds()) {
                 it.asDomainModel()
             }
         } catch (e: Exception) {
+            Log.e(TAG, "getAll FAILED")
+            e.printStackTrace()
             throw e
         }
     }
 
-    fun findAll() {
-        Log.d("test", "findAll")
-
-        return
-    }
-
     /** Get one entity by its id    */
     override fun findOneById(id: Long?): DomainBreed? {
-        Log.d("findOneById", "id : $id")
+        Log.d(TAG, "findOneById")
         var result: DbBreed
         try {
             result = dbBreedDao.getBreedById(id)
         } catch (e: Exception) {
-            Log.e("findOneById", "FAILED")
+            Log.e(TAG, "findOneById FAILED")
+            e.printStackTrace()
             throw e
         }
         return result.toDomain()
@@ -57,7 +60,7 @@ class DbBreedsRepositoryImpl(
 
     /** Insert a list of entity - it should return long[] or List<Long>.*/
     override fun insertAll(all: List<DomainBreed>?): List<Long>? {
-        Log.d("BreedsRepositoryImpl", "insertAll")
+        Log.d(TAG, "insertAll")
         if ((all != null) && (all.isNotEmpty())) {
             try {
                 val result = dbBreedDao.insertBreeds(all.map { r ->
@@ -65,27 +68,30 @@ class DbBreedsRepositoryImpl(
                         r
                     )
                 })
-                Log.d("BreedsRepositoryImpl", "insertAll RESULT = ${result.size}")
+                Log.d(TAG, "insertAll RESULT = ${result.size}")
                 return result
             } catch (e: Exception) {
+                Log.e(TAG, "insertAll FAILED")
                 e.printStackTrace()
                 throw e
             }
         } else {
-            Log.d("BreedsRepositoryImpl", "insertAll RESULT = 0")
+            Log.d(TAG, "insertAll RESULT = 0")
             return emptyList()
         }
     }
 
     /** Insert one entity  -  it can return a long, which is the new rowId for the inserted item.*/
     override fun insertOne(one: DomainBreed?): Long {
-        Log.d("BreedsRepositoryImpl", "insertOne")
+        Log.d(TAG, "insertOne")
         return if (one != null) {
             try {
                 val result = dbBreedDao.insertBreed(DbBreed.from(one))
-                Log.d("BreedsRepositoryImpl", "insertOne RESULT = $result")
+                Log.d(TAG, "insertOne RESULT = $result")
                 result
             } catch (e: Exception) {
+                Log.e(TAG, "insertOne FAILED")
+                e.printStackTrace()
                 throw  e
             }
         } else {
@@ -95,20 +101,24 @@ class DbBreedsRepositoryImpl(
 
     /** Delete all entities **/
     override fun deleteAll(): Int {
-        Log.d("BreedsRepositoryImpl", "deleteAll")
+        Log.d(TAG, "deleteAll")
         try {
             return dbBreedDao.deleteAllBreeds()
         } catch (e: Exception) {
+            Log.e(TAG, "deleteAll FAILED")
+            e.printStackTrace()
             throw e
         }
     }
 
     private fun List<DbBreed>.asDomainModel(): List<DomainBreed> {
+        Log.d(TAG, "asDomainModel")
         return map {
             DomainBreed(
                 breedId = it.breedId,
                 breedName = it.breedName,
-                breedDescription = it.breedDescription
+                breedDescription = it.breedDescription,
+                breedHealthBonus = it.breedHealthBonus
             )
         }
     }
@@ -117,6 +127,7 @@ class DbBreedsRepositoryImpl(
      * Find all breeds with its characteristics
      */
     override fun findAllWithChildren(): List<DomainBreedWithCharacteristics> {
+        Log.d(TAG, "findAllWithChildren")
 
         val getBreedsWithCharacteristicsResult: List<DbBreedWithCharacteristics> =
             dbBreedWithDbCharacteristicsDao.getBreedsWithCharacteristics()
@@ -148,6 +159,7 @@ class DbBreedsRepositoryImpl(
     }
 
     override fun findOneWithChildren(id: Long?): DomainBreedWithCharacteristics? {
+        Log.d(TAG, "findOneWithChildren")
         val getBreedWithCharacteristicResult: DbBreedWithCharacteristics =
             dbBreedWithDbCharacteristicsDao.getBreedWithCharacteristics(id)
 
@@ -169,5 +181,11 @@ class DbBreedsRepositoryImpl(
         }
 
         return null
+    }
+
+    /**  Update one entity  **/
+    override fun updateOne(one: DomainBreed?): Int? {
+        Log.d(TAG, "updateOne")
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
