@@ -26,8 +26,11 @@ class DbIdealsRepositoryImpl(
     override fun getAll(): LiveData<List<DomainIdeal>>? {
         Log.d(TAG, "getAll")
         try {
+            var ideals = dbIdealDao.getIdeals()
+            Log.d(TAG, "ideals = " + ideals.value?.size.toString())
             //  Transform the dbIdeals into domain ideals
-            return Transformations.map(dbIdealDao.getIdeals()) {
+            return Transformations.map(ideals) {
+                Log.d(TAG, "ideals size = ${it.size}")
                 it.asDomainModel()
             }
         } catch (e: Exception) {

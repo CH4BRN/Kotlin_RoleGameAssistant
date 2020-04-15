@@ -15,6 +15,11 @@ import com.uldskull.rolegameassistant.fragments.adapter.DERIVED_VALUES_2_FRAGMEN
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
+import com.uldskull.rolegameassistant.models.character.characteristic.CharacteristicsName
+import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
+import com.uldskull.rolegameassistant.viewmodels.DerivedValuesViewModel
+import kotlinx.android.synthetic.main.fragment_derived_values_2.*
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
  *   Class "DerivedValues2Fragment" :
@@ -22,6 +27,8 @@ import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
  **/
 class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
 
+    private val characteristicsViewModel: CharacteristicsViewModel by sharedViewModel()
+    private val derivedValuesViewModel: DerivedValuesViewModel by sharedViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,6 +36,35 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
         savedInstanceState: Bundle?
     ): View? {
         return initializeView(inflater, container)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setEnergyPoints()
+        if (et_sizePlusStrength != null) {
+            var couple = characteristicsViewModel.rollCharacteristics.filter { c ->
+                c.characteristicName == CharacteristicsName.STRENGTH.characteristicName || c.characteristicName == CharacteristicsName.SIZE.characteristicName
+            }
+            var score = 0
+            couple.forEach {
+                if (it.characteristicTotal != null) {
+                    score += it.characteristicTotal!!
+                }
+            }
+            et_sizePlusStrength.setText(score.toString())
+
+        }
+    }
+
+    private fun setEnergyPoints() {
+        if (et_energyPoints != null) {
+            var power = characteristicsViewModel.rollCharacteristics.find { c ->
+                c.characteristicName == CharacteristicsName.POWER.characteristicName
+            }
+
+            var energyPoints = derivedValuesViewModel.calculateEnergyPoints(power)
+            et_energyPoints.setText(energyPoints.toString())
+        }
     }
 
     /**

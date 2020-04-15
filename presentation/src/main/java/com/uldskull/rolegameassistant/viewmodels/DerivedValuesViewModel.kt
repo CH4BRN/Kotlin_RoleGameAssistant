@@ -17,9 +17,66 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
         private const val TAG = "DerivedValuesViewModel"
     }
 
+    /**
+     * Character's base health
+     */
     var baseHealth: Int = 0
+    /**
+     * Character's breed's health bonus
+     */
     var breedHealthBonus: Int? = 0
+        set(value) {
+            Log.d(TAG, "Health bonus = $value")
+            field = value
+        }
+    /**
+     * Character's total health
+     */
+    var totalHealth: Int = 0
+    /**
+     * Character's idea score
+     */
+    var ideaScore: Int = 0
+    /**
+     * Character's chance score
+     */
+    var chanceScore: Int = 0
 
+    /**
+     * Calculate energy points
+     */
+    fun calculateEnergyPoints(power: DomainRollCharacteristic?): Int {
+        return if (power?.characteristicTotal != null) {
+            Log.d(TAG, "power = ${power.characteristicTotal}")
+            power.characteristicTotal!!
+        } else 0
+
+    }
+
+    /**
+     * Calculate character's idea score
+     */
+    fun calculateIdeaScore(intelligence: DomainRollCharacteristic?): Int {
+        if (intelligence?.characteristicTotal != null) {
+            ideaScore = intelligence.characteristicTotal!! * 5
+        }
+        return ideaScore
+
+    }
+
+    /**
+     * Calculate character's chance score
+     */
+    fun calculateChanceScore(power: DomainRollCharacteristic?): Int {
+        if (power?.characteristicTotal != null) {
+            chanceScore = power.characteristicTotal!! * 5
+        }
+        return chanceScore
+    }
+
+    /**
+     * Calculate character's base health
+     */
     fun calculateBaseHealth(rollCharacteristics: List<DomainRollCharacteristic>): Int {
         var hp = 0
         rollCharacteristics.forEach {
@@ -33,5 +90,14 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
         return baseHealth
 
     }
-// TODO : Fill class.
+
+    /**
+     * Calculate character's total health.
+     */
+    fun calculateTotalHealth(): Int {
+        if (baseHealth != null && breedHealthBonus != null) {
+            totalHealth = baseHealth + breedHealthBonus!!
+        }
+        return totalHealth
+    }
 }

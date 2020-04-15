@@ -39,19 +39,15 @@ class CharacteristicsFragment(activity: Activity) : CustomFragment(activity) {
     ): View? {
 
         Log.d(TAG, "onCreateView")
-
-        val characteristicObserver = startCharacteristicsObservation()
-
+        val characteristicObserver = getCharacteristicObserver()
         breedCharacteristicsViewModel.breedCharacteristics?.observe(this, characteristicObserver)
-
-
         return initializeView(inflater, container)
     }
 
     /**
      * Start characteristics observation
      */
-    private fun startCharacteristicsObservation(): Observer<List<DomainCharacteristic>> {
+    private fun getCharacteristicObserver(): Observer<List<DomainCharacteristic>> {
         Log.d(TAG, "startCharacteristicsObservation")
         return Observer { newCharacteristics ->
             newCharacteristics.forEach {

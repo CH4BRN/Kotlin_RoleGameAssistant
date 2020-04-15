@@ -16,6 +16,10 @@ class DomainIdeal(
     var isChecked: Boolean
 ) {
     override fun toString(): String {
-        return "id : $idealId\nName : $idealName\nGood : ${idealGoodPoints.toString()}\nEvil : ${idealEvilPoints.toString()}"
+        return "id : $idealId\n" +
+                "Name : $idealName\n" +
+                "Good : ${idealGoodPoints.toString()}\n" +
+                "Evil : ${idealEvilPoints.toString()}\n" +
+                "Checked : $isChecked \n"
     }
 }

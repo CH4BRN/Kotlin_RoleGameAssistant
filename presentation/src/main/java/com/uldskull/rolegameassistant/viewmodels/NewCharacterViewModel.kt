@@ -51,6 +51,36 @@ class NewCharacterViewModel(
      * Character's ideals
      */
     var characterIdeals: MutableList<DomainIdeal?> = mutableListOf()
+
+    var characterAlignment: Int = 0
+        get() {
+            field = calculateCharacterAlignment()
+            return field
+        }
+
+    fun calculateCharacterAlignment(): Int {
+        var alignment = 0
+        if (characterIdeals != null && characterIdeals.isNotEmpty()) {
+            alignment = 0
+            characterIdeals.forEach {
+                var evilPoints = 0
+                if (it?.idealEvilPoints != null) {
+                    evilPoints = it.idealEvilPoints!!
+                }
+
+                var goodPoints = 0
+                if (it?.idealGoodPoints != null) {
+                    goodPoints = it.idealGoodPoints!!
+                }
+
+                alignment -= evilPoints
+                alignment += goodPoints
+            }
+            return alignment
+        }
+        return 0
+    }
+
     /**
      * Character's picture.
      */

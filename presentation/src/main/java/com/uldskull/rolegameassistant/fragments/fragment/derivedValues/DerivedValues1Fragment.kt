@@ -20,6 +20,7 @@ import com.uldskull.rolegameassistant.models.character.characteristic.Characteri
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollCharacteristic
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.DerivedValuesViewModel
+import com.uldskull.rolegameassistant.viewmodels.IdealsViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import kotlinx.android.synthetic.main.fragment_derived_values_1.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -35,6 +36,8 @@ class DerivedValues1Fragment(activity: Activity) : CustomFragment(activity) {
     private val characteristicsViewModel: CharacteristicsViewModel by sharedViewModel()
 
     private val derivedValuesViewModel: DerivedValuesViewModel by sharedViewModel()
+
+    private val idealsViewModel: IdealsViewModel by sharedViewModel()
 
     /**
      * Called when the view is created
@@ -57,12 +60,43 @@ class DerivedValues1Fragment(activity: Activity) : CustomFragment(activity) {
         NewCharacterActivity.progression.value = DERIVED_VALUES_1_FRAGMENT_POSITION
         setHealthPointsScore()
         setBreedHealthBonusScore()
+        setTotalHealthScore()
+        setIdeaScore()
+        setChanceScore()
+        setAlignmentScore()
     }
 
+    /**
+     * Set breed health bonus score
+     */
     private fun setBreedHealthBonusScore() {
         if (et_breedHealthBonus != null) {
             et_breedHealthBonus.setText(derivedValuesViewModel.breedHealthBonus!!.toString())
+        }
+    }
 
+    private fun setTotalHealthScore() {
+
+        if (et_totalHealth != null) {
+            et_totalHealth.setText(derivedValuesViewModel.calculateTotalHealth().toString())
+        }
+    }
+
+    private fun setIdeaScore() {
+        if (et_ideaPoints != null) {
+            et_ideaPoints.setText(derivedValuesViewModel.calculateIdeaScore(getIntelligence()).toString())
+        }
+    }
+
+    private fun setChanceScore() {
+        if (et_chancePoints != null) {
+            et_chancePoints.setText(derivedValuesViewModel.calculateChanceScore(getPower()).toString())
+        }
+    }
+
+    private fun setAlignmentScore() {
+        if (et_alignmentPoints != null) {
+            et_alignmentPoints.setText(idealsViewModel.calculateAlignmentScore().toString())
         }
     }
 
@@ -79,6 +113,20 @@ class DerivedValues1Fragment(activity: Activity) : CustomFragment(activity) {
                 }
             }
         }
+    }
+
+    private fun getIntelligence(): DomainRollCharacteristic? {
+        var intelligence =
+            characteristicsViewModel.rollCharacteristics.find { c -> c.characteristicName == CharacteristicsName.INTELLIGENCE.characteristicName }
+        Log.d(TAG, "INTELLIGENCE : $intelligence")
+        return intelligence
+    }
+
+    private fun getPower(): DomainRollCharacteristic? {
+        var power =
+            characteristicsViewModel.rollCharacteristics.find { c -> c.characteristicName == CharacteristicsName.POWER.characteristicName }
+        Log.d(TAG, "POWER : $power")
+        return power
     }
 
     private fun getConstitution(): DomainRollCharacteristic? {

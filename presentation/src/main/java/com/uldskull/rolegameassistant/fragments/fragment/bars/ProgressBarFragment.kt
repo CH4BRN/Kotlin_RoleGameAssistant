@@ -46,9 +46,9 @@ class ProgressBarFragment(val progression: Int = 0, activity: Activity) : Custom
     }
 
     /** Initialize the view **/
-    override fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
+    override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         Log.d(TAG, "initializeView")
-        initialRootView = inflater.inflate(
+        initialRootView = layoutInflater.inflate(
             R.layout.fragment_progress_bar, container, false
         )
         return initialRootView

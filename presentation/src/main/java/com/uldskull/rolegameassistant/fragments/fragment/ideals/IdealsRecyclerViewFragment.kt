@@ -22,7 +22,6 @@ import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.models.character.DomainIdeal
 import com.uldskull.rolegameassistant.viewmodels.IdealsViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
-import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
@@ -34,7 +33,7 @@ class IdealsRecyclerViewFragment(activity: Activity) :
     AdapterButtonListener<DomainIdeal> {
 
     /** ViewModel for bonds    **/
-    private lateinit var idealsViewModel: IdealsViewModel
+    private val idealsViewModel: IdealsViewModel by sharedViewModel()
 
     private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
 
@@ -65,14 +64,15 @@ class IdealsRecyclerViewFragment(activity: Activity) :
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("IdealsRecyclerViewFragment", "onCreate")
-        idealsViewModel = getViewModel()
+        Log.d(TAG, "onCreate")
+
     }
 
 
     /** Set recycler view layout manager    **/
     override fun setRecyclerViewLayoutManager() {
-        Log.d("IdealsRecyclerViewFragment", "setRecyclerViewLayoutManager")
+        Log.d(TAG, "setRecyclerViewLayoutManager")
+
         idealsRecyclerView?.layoutManager = LinearLayoutManager(
             activity,
             LinearLayoutManager.VERTICAL,
@@ -84,7 +84,7 @@ class IdealsRecyclerViewFragment(activity: Activity) :
      * Initialize the initial root view.
      */
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
-        Log.d("IdealsRecyclerViewFragment", "initializeView")
+        Log.d(TAG, "initializeView")
         initialRootView = layoutInflater.inflate(
             R.layout.fragment_recyclerview_ideals, container, false
         )
@@ -95,7 +95,7 @@ class IdealsRecyclerViewFragment(activity: Activity) :
      * Initialize the recycler view.
      */
     override fun initializeRecyclerView() {
-        Log.d("IdealsRecyclerViewFragment", "initializeRecyclerView")
+        Log.d(TAG, "initializeRecyclerView")
         idealsRecyclerView = activity.findViewById(R.id.recycler_view_ideals)
                 as RecyclerView?
         setRecyclerViewAdapter()
@@ -106,26 +106,47 @@ class IdealsRecyclerViewFragment(activity: Activity) :
      * Start ViewModel's collection observation.
      */
     override fun startObservation() {
-        Log.d("IdealsRecyclerViewFragment", "startObservation")
-        this.idealsViewModel.ideals?.observe(this, Observer { ideals ->
-            kotlin.run {
-                ideals?.let { idealsAdapter?.setIdeals(it) }
-            }
-        })
+        Log.d(TAG, "startObservation")
+
+        var observedIdeals = idealsViewModel.observedIdeals
+        var gotIdeals: MutableList<DomainIdeal> = mutableListOf()
+        if (idealsViewModel.displayedIdeals == null || idealsViewModel.displayedIdeals.isEmpty()) {
+            Log.d(TAG, "displayedIdeals == null or empty")
+            observedIdeals?.observe(this, Observer { it ->
+                Log.d(TAG, "observe")
+                it.forEach {
+                    Log.d(TAG, "Got ideal : $it")
+                    gotIdeals.add(it)
+                }
+                Log.d(TAG, "gotIdeals size : ${gotIdeals.size}")
+
+                idealsViewModel.displayedIdeals = gotIdeals
+
+                Log.d(
+                    TAG,
+                    "idealsViewModel.displayedIdeals  size : ${idealsViewModel.displayedIdeals.size}"
+                )
+                idealsAdapter?.setIdeals(idealsViewModel.displayedIdeals)
+            })
+        }
+
     }
 
     /** Set recycler view adapter   **/
     override fun setRecyclerViewAdapter() {
-        Log.d("IdealsRecyclerViewFragment", "setRecyclerViewAdapter")
+        Log.d(TAG, "setRecyclerViewAdapter")
         idealsAdapter = IdealsAdapter(activity as Context, this)
+
+        idealsAdapter?.setIdeals(idealsViewModel.displayedIdeals)
         idealsRecyclerView?.adapter = idealsAdapter
     }
 
     companion object : CustomCompanion() {
 
+        private const val TAG = "IdealsRecyclerViewFragment"
         @JvmStatic
         override fun newInstance(activity: Activity): IdealsRecyclerViewFragment {
-            Log.d("IdealsRecyclerViewFragment", "newInstance")
+            Log.d(TAG, "newInstance")
             val fragment = IdealsRecyclerViewFragment(activity)
             val args = Bundle()
 
@@ -134,22 +155,31 @@ class IdealsRecyclerViewFragment(activity: Activity) :
 
             return fragment
         }
-
     }
 
     /**
      * Called when a recyclerview cell is pressed
      */
     override fun itemPressed(domainModel: DomainIdeal?) {
-        Log.d("IdealsRecyclerViewFragment", "itemPressed")
+        Log.d(TAG, "itemPressed")
         if (domainModel != null) {
             if (domainModel.isChecked) {
-                Log.d("ideal", "add $domainModel")
+                Log.d(TAG, "newCharacterViewModel add $domainModel")
                 newCharacterViewModel.addIdeal(domainModel)
             } else {
-                Log.d("ideal", "remove $domainModel")
+                Log.d(TAG, "newCharacterViewModel remove $domainModel")
                 newCharacterViewModel.removeIdeal(domainModel)
             }
+            var temp = idealsViewModel.displayedIdeals
+            Log.d(TAG, "dis size :  ${temp.size}")
+            var index = temp.indexOf(domainModel)
+            Log.d(TAG, "dis.removeAt($index)")
+            temp.removeAt(index)
+            Log.d(TAG, "dis size :  ${temp.size}")
+            Log.d(TAG, "dis.add($domainModel)")
+            temp.add(index, domainModel)
+            Log.d(TAG, "dis size :  ${temp.size}")
+            idealsViewModel.displayedIdeals = temp
         }
     }
 }
