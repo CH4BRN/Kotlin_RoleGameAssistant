@@ -294,9 +294,6 @@ class CharacteristicsViewModel(
     /**
      * All rollCharacteristics from the repository
      */
-    /*
-    var observedRollCharacteristics = rollCharacteristicRepositoryImpl.getAll()
-*/
     var rollCharacteristics = rollCharacteristics()
 
     /**

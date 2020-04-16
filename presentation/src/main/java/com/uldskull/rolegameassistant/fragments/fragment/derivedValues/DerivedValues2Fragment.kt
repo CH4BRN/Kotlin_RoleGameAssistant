@@ -14,6 +14,7 @@ import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.fragments.adapter.DERIVED_VALUES_2_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
+import com.uldskull.rolegameassistant.fragments.fragment.EditTextUtil.Companion.editTextEnabling
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.models.character.characteristic.CharacteristicsName
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
@@ -45,6 +46,8 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
         setEnergyPoints()
         setSizePlusStrength()
         setDamageBonus()
+        editTextsEnabling()
+        setBtnEditClickListener()
     }
 
     private fun setDamageBonus() {
@@ -68,6 +71,25 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
         }
     }
 
+    private fun setBtnEditClickListener() {
+        if (btn_edit != null) {
+            btn_edit?.setOnClickListener {
+                editTextsEnabling()
+            }
+        }
+    }
+
+    private fun editTextsEnabling() {
+        if (et_energyPoints != null) {
+            editTextEnabling(et_energyPoints)
+        }
+        if (et_sizePlusStrength != null) {
+            editTextEnabling(et_sizePlusStrength)
+        }
+        if (et_damageBonus != null) {
+            editTextEnabling(et_damageBonus)
+        }
+    }
     private fun setEnergyPoints() {
         Log.d(TAG, "setEnergyPoints")
         if (et_energyPoints != null) {
