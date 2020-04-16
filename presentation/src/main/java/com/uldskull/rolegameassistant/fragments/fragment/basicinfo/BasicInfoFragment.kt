@@ -52,7 +52,6 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
         savedInstanceState: Bundle?
     ): View? {
         Log.d(TAG, "onCreateView")
-        newCharacterViewModel.displayDices()
 
 
         return initializeView(inflater, container)

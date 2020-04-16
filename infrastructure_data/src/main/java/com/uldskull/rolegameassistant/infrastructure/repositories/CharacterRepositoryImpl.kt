@@ -63,7 +63,6 @@ class CharacterRepositoryImpl(
                 characterIntelligence = it.characterIntelligence?.toDomain(),
                 characterDexterity = it.characterDexterity?.toDomain(),
                 characterConstitution = it.characterConstitution?.toDomain(),
-                characterCharisma = it.characterCharisma?.toDomain(),
                 characterAppearance = it.characterAppearance?.toDomain()
             )
         }

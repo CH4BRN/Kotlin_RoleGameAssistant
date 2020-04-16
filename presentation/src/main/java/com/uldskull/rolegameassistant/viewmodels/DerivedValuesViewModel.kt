@@ -6,6 +6,7 @@ package com.uldskull.rolegameassistant.viewmodels
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import com.uldskull.rolegameassistant.models.character.breed.DomainBreed
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollCharacteristic
 
 /**
@@ -156,6 +157,18 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
             totalHealth = baseHealth + breedHealthBonus!!
         }
         return totalHealth
+    }
+
+    fun calculateBreedsHealthBonus(breeds: List<DomainBreed>): Int {
+        Log.d(TAG, "calculateBreedsHealthBonus")
+        var bonus: Int = 0
+        breeds.forEach {
+            if (it.breedHealthBonus != null) {
+                bonus += it.breedHealthBonus!!
+            }
+        }
+        breedHealthBonus = bonus
+        return breedHealthBonus!!
     }
 
 

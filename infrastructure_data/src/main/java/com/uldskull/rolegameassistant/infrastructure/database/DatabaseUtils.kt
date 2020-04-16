@@ -45,15 +45,6 @@ class DatabaseUtils {
                 DbRollCharacteristic(
                     characteristicId = null,
                     characteristicMax = 24,
-                    characteristicName = CharacteristicsName.CHARISMA.toString(),
-                    characteristicBonus = 0,
-                    characteristicTotal = 0,
-                    characteristicRoll = 0
-                ),
-
-                DbRollCharacteristic(
-                    characteristicId = null,
-                    characteristicMax = 24,
                     characteristicName = CharacteristicsName.INTELLIGENCE.toString(),
                     characteristicBonus = 0,
                     characteristicTotal = 0,

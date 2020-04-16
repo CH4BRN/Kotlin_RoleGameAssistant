@@ -137,7 +137,7 @@ class CharacteristicsRecyclerViewFragment(activity: Activity) :
             b.breedChecked
         }
         Log.d(TAG, "checkedBreedList.size} ${checkedBreedList.size}")
-        characteristicsViewModel.calculateBonuses(checkedBreedList)
+        characteristicsViewModel.calculateBreedBonuses(checkedBreedList)
         characteristicsViewModel.updateCharacteristics()
 
         characteristicsDisabledAdapter?.setCharacteristics(characteristicsViewModel.rollCharacteristics)

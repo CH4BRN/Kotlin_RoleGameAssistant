@@ -14,6 +14,5 @@ enum class CharacteristicsName(val characteristicName: String) {
     CONSTITUTION("CONSTITUTION"),
     INTELLIGENCE("INTELLIGENCE"),
     POWER("POWER"),
-    APPEARANCE("APPEARANCE"),
-    CHARISMA("CHARISMA")
+    APPEARANCE("APPEARANCE")
 }

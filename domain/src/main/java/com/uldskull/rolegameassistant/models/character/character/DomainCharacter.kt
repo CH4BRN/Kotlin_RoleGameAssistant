@@ -28,7 +28,6 @@ open class DomainCharacter(
     val characterHeight: Int?,
     val characterPictureUri: String?,
     var characterConstitution: DomainRollCharacteristic?,
-    var characterCharisma: DomainRollCharacteristic?,
     var characterStrength: DomainRollCharacteristic?,
     var characterPower: DomainRollCharacteristic?,
     var characterDexterity: DomainRollCharacteristic?,
@@ -61,7 +60,6 @@ open class DomainCharacter(
                 "bon : \n$bondsList\n" +
                 "ide : \n$idealsList\n" +
                 "con : $characterConstitution\n" +
-                "cha : $characterCharisma\n" +
                 "str : $characterStrength\n" +
                 "pow : $characterPower\n" +
                 "dex : $characterDexterity\n" +

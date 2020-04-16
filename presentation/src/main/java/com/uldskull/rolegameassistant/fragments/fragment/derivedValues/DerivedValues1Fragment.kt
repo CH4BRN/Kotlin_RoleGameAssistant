@@ -71,12 +71,14 @@ class DerivedValues1Fragment(activity: Activity) : CustomFragment(activity) {
      */
     private fun setBreedHealthBonusScore() {
         if (et_breedHealthBonus != null) {
+            derivedValuesViewModel.breedHealthBonus =
+                derivedValuesViewModel.calculateBreedsHealthBonus(
+                    characteristicsViewModel.characterBreeds.filter { b -> b.breedChecked })
             et_breedHealthBonus.setText(derivedValuesViewModel.breedHealthBonus!!.toString())
         }
     }
 
     private fun setTotalHealthScore() {
-
         if (et_totalHealth != null) {
             et_totalHealth.setText(derivedValuesViewModel.calculateTotalHealth().toString())
         }
@@ -114,6 +116,7 @@ class DerivedValues1Fragment(activity: Activity) : CustomFragment(activity) {
             }
         }
     }
+
 
     private fun getIntelligence(): DomainRollCharacteristic? {
         var intelligence =

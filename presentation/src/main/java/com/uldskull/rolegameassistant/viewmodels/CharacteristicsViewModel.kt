@@ -39,12 +39,6 @@ class CharacteristicsViewModel(
             field = value
             Log.d(TAG, "constitutionBonus AFTER $field")
         }
-    var charismaBonus: Int = 0
-        set(value) {
-            Log.d(TAG, "charismaBonus BEFORE $field")
-            field = value
-            Log.d(TAG, "charismaBonus AFTER $field")
-        }
     var intelligenceBonus: Int = 0
         set(value) {
             Log.d(TAG, "intelligenceBonus BEFORE $field")
@@ -110,16 +104,6 @@ class CharacteristicsViewModel(
                 characteristicId = null,
                 characteristicName = CharacteristicsName.CONSTITUTION?.characteristicName,
                 characteristicBonus = constitutionBonus,
-                characteristicTotal = 0,
-                characteristicRoll = 0,
-                characteristicMax = 0
-            )
-        )
-        newList.add(
-            DomainRollCharacteristic(
-                characteristicId = null,
-                characteristicName = CharacteristicsName.CHARISMA?.characteristicName,
-                characteristicBonus = charismaBonus,
                 characteristicTotal = 0,
                 characteristicRoll = 0,
                 characteristicMax = 0
@@ -201,12 +185,6 @@ class CharacteristicsViewModel(
         )
         newList.add(
             getDiceRollCharacteristic(
-                name = CharacteristicsName.CHARISMA,
-                bonus = charismaBonus
-            )
-        )
-        newList.add(
-            getDiceRollCharacteristic(
                 name = CharacteristicsName.STRENGTH,
                 bonus = strengthBonus
             )
@@ -250,10 +228,32 @@ class CharacteristicsViewModel(
         name: CharacteristicsName,
         bonus: Int?
     ): DomainRollCharacteristic {
-        var roll = diceServiceImpl.getOneDiceRollWithANumberOfFace(10)
-        var total = roll
-        if (bonus != null && roll != null) {
-            total = roll + bonus
+
+        var finalRoll: Int = 0
+
+        when (name.characteristicName) {
+            CharacteristicsName.STRENGTH.characteristicName,
+            CharacteristicsName.CONSTITUTION.characteristicName,
+            CharacteristicsName.DEXTERITY.characteristicName,
+            CharacteristicsName.APPEARANCE.characteristicName,
+            CharacteristicsName.POWER.characteristicName
+            -> {
+                diceServiceImpl.getMultipleDiceRollWithANumberOfFace(arrayListOf(6, 6, 6)).forEach {
+                    finalRoll += it
+                }
+            }
+            CharacteristicsName.SIZE.characteristicName,
+            CharacteristicsName.INTELLIGENCE.characteristicName -> {
+                diceServiceImpl.getMultipleDiceRollWithANumberOfFace(arrayListOf(6, 6)).forEach {
+                    finalRoll += it
+                }
+                finalRoll += 6
+            }
+        }
+
+        var total = finalRoll
+        if (bonus != null && finalRoll != null) {
+            total = finalRoll + bonus
         }
 
         return DomainRollCharacteristic(
@@ -261,7 +261,7 @@ class CharacteristicsViewModel(
             characteristicName = name.characteristicName,
             characteristicBonus = bonus,
             characteristicTotal = total,
-            characteristicRoll = roll,
+            characteristicRoll = finalRoll,
             characteristicMax = 24
         )
 
@@ -271,7 +271,6 @@ class CharacteristicsViewModel(
         Log.d(
             TAG, "Bonuses : \n" +
                     "\tapp : $appearanceBonus" +
-                    "\tcha : $charismaBonus" +
                     "\tcon : $constitutionBonus" +
                     "\tdex : $dexterityBonus" +
                     "\tint : $intelligenceBonus" +
@@ -284,7 +283,6 @@ class CharacteristicsViewModel(
 
     private fun initializeBonuses() {
         appearanceBonus = 0
-        charismaBonus = 0
         constitutionBonus = 0
         dexterityBonus = 0
         intelligenceBonus = 0
@@ -359,7 +357,8 @@ class CharacteristicsViewModel(
         return result
     }
 
-    fun calculateBonuses(breedList: List<DomainBreed>) {
+
+    fun calculateBreedBonuses(breedList: List<DomainBreed>) {
         Log.d(TAG, "calculates bonuses")
         initializeBonuses()
         displayBonuses()
@@ -378,7 +377,6 @@ class CharacteristicsViewModel(
                         CharacteristicsName.POWER.characteristicName -> powerBonus += bonus
                         CharacteristicsName.INTELLIGENCE.characteristicName -> intelligenceBonus += bonus
                         CharacteristicsName.DEXTERITY.characteristicName -> dexterityBonus += bonus
-                        CharacteristicsName.CHARISMA.characteristicName -> charismaBonus += bonus
                         CharacteristicsName.CONSTITUTION.characteristicName -> constitutionBonus += bonus
                     }
                 }

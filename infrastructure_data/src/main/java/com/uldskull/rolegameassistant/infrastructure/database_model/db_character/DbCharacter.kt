@@ -31,7 +31,6 @@ class DbCharacter(
     val characterBiography: String?,
     val characterBreeds: List<DbBreed?>?,
     val characterBonds: List<DbBond?>?,
-    // val characterCharacteristics: List<DbRollCharacteristic>?,
     val characterHealthPoints: Int?,
     val characterIdeaPoints: Int?,
     val characterAlignment: Int?,
@@ -55,8 +54,6 @@ class DbCharacter(
     val characterDexterity: DbRollCharacteristic?,
     @Embedded(prefix = "con")
     val characterConstitution: DbRollCharacteristic?,
-    @Embedded(prefix = "cha")
-    val characterCharisma: DbRollCharacteristic?,
     @Embedded(prefix = "app")
     val characterAppearance: DbRollCharacteristic?
 
@@ -113,7 +110,6 @@ class DbCharacter(
             characterIntelligence = this.characterIntelligence?.toDomain(),
             characterDexterity = this.characterDexterity?.toDomain(),
             characterConstitution = this.characterConstitution?.toDomain(),
-            characterCharisma = this.characterCharisma?.toDomain(),
             characterAppearance = this.characterAppearance?.toDomain()
 
 
@@ -159,7 +155,6 @@ class DbCharacter(
                 characterAge = domainModel?.characterAge,
                 characterName = domainModel?.characterName,
                 characterAppearance = DbRollCharacteristic.from(domainModel?.characterAppearance),
-                characterCharisma = DbRollCharacteristic.from(domainModel?.characterCharisma),
                 characterConstitution = DbRollCharacteristic.from(domainModel?.characterConstitution),
                 characterDexterity = DbRollCharacteristic.from(domainModel?.characterDexterity),
                 characterIntelligence = DbRollCharacteristic.from(domainModel?.characterIntelligence),

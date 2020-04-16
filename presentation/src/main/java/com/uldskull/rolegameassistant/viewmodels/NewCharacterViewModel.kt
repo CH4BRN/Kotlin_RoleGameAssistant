@@ -8,7 +8,6 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.viewModelScope
 import com.uldskull.rolegameassistant.models.character.DomainBond
 import com.uldskull.rolegameassistant.models.character.DomainIdeal
 import com.uldskull.rolegameassistant.models.character.breed.DomainBreed
@@ -21,7 +20,6 @@ import com.uldskull.rolegameassistant.repository.character.CharacterRepository
 import com.uldskull.rolegameassistant.repository.characteristic.BreedCharacteristicRepository
 import com.uldskull.rolegameassistant.repository.ideal.IdealsRepository
 import com.uldskull.rolegameassistant.useCases.diceRoll.DiceService
-import kotlinx.coroutines.launch
 
 /**
  *   Class "NewCharacterViewModel" :
@@ -141,14 +139,6 @@ class NewCharacterViewModel(
     var characterBreeds: MutableList<DomainBreed>? = mutableListOf()
 
 
-    fun displayDices() {
-        viewModelScope.launch {
-            Log.d("DICES", diceService.getOneDiceRollWithANumberOfFace(6).toString())
-            val list = arrayListOf(6, 12, 20)
-            diceService.getMultipleDiceRollWithANumberOfFace(list).forEach(System.out::println)
-        }
-    }
-
     /**
      * Save age into view model
      */
@@ -225,8 +215,6 @@ class NewCharacterViewModel(
                     TAG,
                     "Char : " + it.characteristicName + " " + it.characteristicTotal
                 )
-
-
             }
         }
 
@@ -251,7 +239,6 @@ class NewCharacterViewModel(
                 characterEnergyPoints = null,
                 characterAlignment = null,
                 characterAppearance = characteristics?.find { c -> c.characteristicName == CharacteristicsName.APPEARANCE.toString() },
-                characterCharisma = characteristics?.find { c -> c.characteristicName == CharacteristicsName.CHARISMA.toString() },
                 characterConstitution = characteristics?.find { c -> c.characteristicName == CharacteristicsName.CONSTITUTION.toString() },
                 characterDexterity = characteristics?.find { c -> c.characteristicName == CharacteristicsName.DEXTERITY.toString() },
                 characterIntelligence = characteristics?.find { c -> c.characteristicName == CharacteristicsName.INTELLIGENCE?.toString() },
