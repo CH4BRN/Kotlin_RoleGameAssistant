@@ -1,17 +1,16 @@
 // File IdealConverter.kt
 // @Author pierre.antoine - 09/04/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.infrastructure.database_model.db_character
+package com.uldskull.rolegameassistant.infrastructure.database_model.db_ideal
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
-import com.uldskull.rolegameassistant.infrastructure.database_model.DbIdeal
 
 /**
  *   Class "IdealConverter" :
  *   TODO: Fill class use.
  **/
-class IdealConverter {
+class DbIdealConverter {
     @TypeConverter
     fun convertIdealListToString(ideals: List<DbIdeal>): String {
         var idealsArray = arrayOfNulls<DbIdeal>(ideals.size)

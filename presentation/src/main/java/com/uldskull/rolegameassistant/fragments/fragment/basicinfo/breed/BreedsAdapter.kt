@@ -33,7 +33,7 @@ class BreedsAdapter internal constructor(
     /**
      * Races list
      */
-    private var breeds: List<DomainBreed> = emptyList<DomainBreed>()
+    private var breeds: MutableList<DomainBreed> = mutableListOf()
     /** Inflater    **/
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
@@ -82,7 +82,7 @@ class BreedsAdapter internal constructor(
      * @return The total number of items in this adapter.
      */
     override fun getItemCount(): Int {
-        Log.d(TAG, "getItemCount")
+        // Log.d(TAG, "getItemCount")
         return breeds.size
     }
 
@@ -116,11 +116,14 @@ class BreedsAdapter internal constructor(
 
         breedsViewHolder.raceItemLayout.setOnClickListener {
             rowIndex = position
+            Log.d(TAG, "${breeds[position]}")
+            breeds[position].breedChecked = !breeds[position].breedChecked
+            Log.d(TAG, "${breeds[position]}")
             buttonListener.itemPressed(breeds[position])
             notifyDataSetChanged()
         }
 
-        if (rowIndex == position) {
+        if (current.breedChecked) {
             breedsViewHolder.raceItemLayout.setBackgroundColor(Color.parseColor("#D98B43"))
             breedsViewHolder.raceNameItemView.setTextColor(Color.parseColor("#ffffff"))
         } else {
@@ -132,7 +135,7 @@ class BreedsAdapter internal constructor(
     /**
      * Set the races list content.
      */
-    internal fun setBreeds(domainBreeds: List<DomainBreed>) {
+    internal fun setBreeds(domainBreeds: MutableList<DomainBreed>) {
         Log.d(TAG, "setBreeds")
         this.breeds = domainBreeds
         Log.d(TAG, "Breeds size = " + this.breeds.size.toString())

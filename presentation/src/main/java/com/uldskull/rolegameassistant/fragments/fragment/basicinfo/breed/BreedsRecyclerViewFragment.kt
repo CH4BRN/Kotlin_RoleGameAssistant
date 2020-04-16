@@ -22,8 +22,6 @@ import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.models.character.breed.DomainBreed
 import com.uldskull.rolegameassistant.viewmodels.BreedsViewModel
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
-import com.uldskull.rolegameassistant.viewmodels.DerivedValuesViewModel
-import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import kotlinx.android.synthetic.main.fragment_recyclerview_breeds.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -47,9 +45,7 @@ class BreedsRecyclerViewFragment(activity: Activity) :
     /**
      * ViewModel for characters
      */
-    private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
     private val characteristicsViewModel: CharacteristicsViewModel by sharedViewModel()
-    private val derivedValuesViewModel: DerivedValuesViewModel by sharedViewModel()
 
     /**
      * Adapter for races recycler view
@@ -72,9 +68,10 @@ class BreedsRecyclerViewFragment(activity: Activity) :
      */
     override fun startObservation() {
         Log.d(TAG, "startObservation")
-        this.breedsViewModel.result?.observe(this, Observer { races ->
+        this.breedsViewModel.observedBreeds?.observe(this, Observer { breeds ->
             kotlin.run {
-                races?.let {
+                breeds?.let {
+                    breedsViewModel.displayedBreeds = it as MutableList<DomainBreed>
                     breedsAdapter?.setBreeds(it)
                     Log.d(TAG, "BREEDS SIZE " + it.size.toString())
                 }
@@ -121,15 +118,29 @@ class BreedsRecyclerViewFragment(activity: Activity) :
     /**
      * Called by the adapter when a breed is pressed.
      */
-    override fun itemPressed(t: DomainBreed?) {
+    override fun itemPressed(domainBreed: DomainBreed?) {
         Log.d(TAG, "itemPressed")
         recycler_view_breeds?.requestFocus()
-        if (t != null) {
-            newCharacterViewModel.characterBreed = t
-            characteristicsViewModel.characterBreed = t
-            derivedValuesViewModel.breedHealthBonus = t.breedHealthBonus
+        Log.d(
+            TAG,
+            "checked breed = " + breedsViewModel.displayedBreeds.filter { b -> b.breedChecked }.size
+        )
+        if (domainBreed != null) {
+            Log.d(
+                TAG,
+                "${domainBreed.breedName} is not null  and is ${when (domainBreed.breedChecked) {
+                    true -> "checked"
+                    else -> "not checked"
+                }
+                }"
+            )
         }
-
+        Log.d(TAG, "Filter")
+        characteristicsViewModel.characterBreeds = breedsViewModel.displayedBreeds
+        Log.d(
+            TAG,
+            "checked breed = " + breedsViewModel.displayedBreeds.filter { b -> b.breedChecked }.size
+        )
     }
 
     companion object : CustomCompanion() {

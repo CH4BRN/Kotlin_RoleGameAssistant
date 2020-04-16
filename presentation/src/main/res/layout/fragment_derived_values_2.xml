@@ -41,24 +41,6 @@
                     android:hint="0"
                     android:inputType="number" />
             </TableRow>
-
-            <TableRow>
-
-                <TextView
-
-                    style="@style/TextViewSubTitle"
-                    android:layout_column="1"
-                    android:layout_weight="1"
-                    android:text="Damage bonus = " />
-
-                <EditText
-                    android:id="@+id/et_damageBonus"
-                    android:layout_column="2"
-                    android:layout_weight="4"
-                    android:hint="0"
-                    android:inputType="number" />
-            </TableRow>
-
             <TableRow>
 
                 <TextView
@@ -70,6 +52,22 @@
 
                 <EditText
                     android:id="@+id/et_sizePlusStrength"
+                    android:layout_column="2"
+                    android:layout_weight="4"
+                    android:hint="0"
+                    android:inputType="number" />
+            </TableRow>
+            <TableRow>
+
+                <TextView
+
+                    style="@style/TextViewSubTitle"
+                    android:layout_column="1"
+                    android:layout_weight="1"
+                    android:text="Damage bonus = " />
+
+                <EditText
+                    android:id="@+id/et_damageBonus"
                     android:layout_column="2"
                     android:layout_weight="4"
                     android:hint="0"

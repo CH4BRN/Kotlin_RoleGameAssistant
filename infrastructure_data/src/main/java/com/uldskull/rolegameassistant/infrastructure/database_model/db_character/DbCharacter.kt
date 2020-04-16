@@ -9,12 +9,13 @@ import androidx.room.PrimaryKey
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbCompanion
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbEntity
-import com.uldskull.rolegameassistant.infrastructure.database_model.DbIdeal
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_bond.DbBond
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.DbBreed
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbRollCharacteristic
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_ideal.DbIdeal
 import com.uldskull.rolegameassistant.models.character.DomainBond
 import com.uldskull.rolegameassistant.models.character.DomainIdeal
+import com.uldskull.rolegameassistant.models.character.breed.DomainBreed
 import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
 
 /**
@@ -28,8 +29,7 @@ class DbCharacter(
     val characterName: String?,
     val characterAge: Int?,
     val characterBiography: String?,
-    @Embedded
-    val characterBreed: DbBreed?,
+    val characterBreeds: List<DbBreed?>?,
     val characterBonds: List<DbBond?>?,
     // val characterCharacteristics: List<DbRollCharacteristic>?,
     val characterHealthPoints: Int?,
@@ -81,6 +81,12 @@ class DbCharacter(
         } else {
             domainIdeals = emptyList()
         }
+        var domainBreeds: List<DomainBreed?>
+        if (!this.characterBreeds.isNullOrEmpty()) {
+            domainBreeds = this.characterBreeds.map { dbBreed -> dbBreed?.toDomain() }
+        } else {
+            domainBreeds = emptyList()
+        }
 
         return DomainCharacter(
             characterId = this.characterId,
@@ -91,7 +97,7 @@ class DbCharacter(
             characterBonds = domainBonds,
             characterIdeals = domainIdeals,
             //   characterCharacteristics = this.characterCharacteristics?.map { characteristic -> characteristic.toDomain() },
-            characterBreed = this.characterBreed?.toDomain(),
+            characterBreeds = domainBreeds,
             characterHealthPoints = this.characterHealthPoints,
             characterIdeaPoints = this.characterIdeaPoints,
             //   characterHobby = this.characterHobby?.toDomain(),
@@ -144,7 +150,11 @@ class DbCharacter(
                 //characterJob = null,
                 //characterSkills = null,
                 characterIdeaPoints = domainModel?.characterIdeaPoints,
-                characterBreed = DbBreed.from(domainModel?.characterBreed),
+                characterBreeds = domainModel?.characterBreeds?.map { domainBreed ->
+                    DbBreed.from(
+                        domainBreed
+                    )
+                },
                 characterBiography = domainModel?.characterBiography,
                 characterAge = domainModel?.characterAge,
                 characterName = domainModel?.characterName,

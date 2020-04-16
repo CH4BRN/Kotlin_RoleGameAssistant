@@ -23,14 +23,19 @@ class BreedsViewModel(
     private val breedRepositoryImpl: BreedsRepository<LiveData<List<DomainBreed>>>
 ) : AndroidViewModel(application) {
 
+    companion object {
+        private const val TAG = "BreedsViewModel"
+    }
+
     init {
         refreshDataFromRepository()
     }
 
     private fun refreshDataFromRepository() {
+        Log.d(TAG, "refreshDataFromRepository")
         viewModelScope.launch {
             try {
-                result = findAll()
+                observedBreeds = findAll()
             } catch (e: Exception) {
                 throw e
             }
@@ -38,7 +43,7 @@ class BreedsViewModel(
     }
 
     fun findBreedsWithCharacteristics(): List<DomainBreedWithCharacteristics> {
-        Log.d("RacesViewModel", "findBreedsWithCharacteristics")
+        Log.d(TAG, "findBreedsWithCharacteristics")
         var result = breedRepositoryImpl.findAllWithChildren()
 
         return result
@@ -47,7 +52,7 @@ class BreedsViewModel(
     }
 
     fun findBreedWithCharacteristics(id: Long?): DomainBreedWithCharacteristics? {
-        Log.d("RacesViewModel", "findBreedWithCharacteristics")
+        Log.d(TAG, "findBreedWithCharacteristics")
 
         // var result = breedRepositoryImpl.findOneWithChildren(id)
 
@@ -60,34 +65,36 @@ class BreedsViewModel(
      * Find one breed by its ID
      */
     fun findBreedWithId(raceId: Long?): DomainBreed? {
-        Log.d("BreedsViewModel", "findBreedWithId with id : $raceId")
+        Log.d(TAG, "findBreedWithId with id : $raceId")
 
         var result = breedRepositoryImpl.findOneById(raceId)
-        Log.d("BreedsViewModel", "findBreedWithId result" + result?.breedName)
+        Log.d(TAG, "findBreedWithId result" + result?.breedName)
 
         return result
     }
 
 
-    var result = breedRepositoryImpl.getAll()
+    var displayedBreeds: MutableList<DomainBreed> = mutableListOf()
+        set(value) {
+            Log.d(TAG, "displayedBreeds size :  ${value.size}")
+            field = value
+        }
+
+    var observedBreeds = breedRepositoryImpl.getAll()
 
     private fun findAll(): LiveData<List<DomainBreed>>? {
-        Log.d("BreedsViewModel", "findAll")
+        Log.d(TAG, "findAll")
         thread(start = true) {
-            result = breedRepositoryImpl.getAll()
+            observedBreeds = breedRepositoryImpl.getAll()
         }
-        return result
+        return observedBreeds
     }
-
-
-
-
 
     fun saveOne(domainBreed: DomainBreed): Long? {
         var result: Long? = null
-        Log.d("BreedsViewModel", "saveOne")
+        Log.d(TAG, "saveOne")
         result = breedRepositoryImpl.insertOne(domainBreed)
-        Log.d("BreedsViewModel", "INSERTED $result")
+        Log.d(TAG, "INSERTED $result")
         return result
     }
 
@@ -95,13 +102,11 @@ class BreedsViewModel(
 
     fun saveAll(domainBreed: List<DomainBreed>): List<Long>? = synchronized(lock) {
         var result: List<Long>? = emptyList()
-        Log.d("BreedsViewModel", "saveAll")
+        Log.d(TAG, "saveAll")
 
         result = breedRepositoryImpl.insertAll(domainBreed)
-        Log.d("BreedsViewModel", "INSERTED $result")
+        Log.d(TAG, "INSERTED $result")
         lock.notifyAll()
         return result
-
-
     }
 }

@@ -31,6 +31,7 @@ class CharacteristicsRecyclerViewFragment(activity: Activity) :
     CustomRecyclerViewFragment(activity) {
 
     private var editable: Boolean = false
+
     /** ViewModel for characteristics **/
     private val characteristicsViewModel: CharacteristicsViewModel by sharedViewModel()
 
@@ -53,8 +54,6 @@ class CharacteristicsRecyclerViewFragment(activity: Activity) :
 
         return initializeView(inflater, container)
     }
-
-
     /** Initialize the view **/
     override fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = inflater.inflate(
@@ -85,7 +84,6 @@ class CharacteristicsRecyclerViewFragment(activity: Activity) :
 
                 } else {
                     characteristicsRecyclerView?.adapter = characteristicsAdapter
-
                 }
             }
         }
@@ -109,8 +107,6 @@ class CharacteristicsRecyclerViewFragment(activity: Activity) :
 
                 setRecyclerViewLayoutManager()
             }
-
-
         }
     }
 
@@ -128,7 +124,6 @@ class CharacteristicsRecyclerViewFragment(activity: Activity) :
     override fun startObservation() {
     }
 
-
     fun populateRandomRollCharacteristics() {
         characteristicsViewModel.populateRandomRollCharacteristics()
         characteristicsDisabledAdapter?.setCharacteristics(characteristicsViewModel.rollCharacteristics)
@@ -137,6 +132,14 @@ class CharacteristicsRecyclerViewFragment(activity: Activity) :
     }
 
     fun populateRollCharacteristics() {
+        Log.d(TAG, "populateRollCharacteristics")
+        var checkedBreedList = characteristicsViewModel.characterBreeds.filter { b ->
+            b.breedChecked
+        }
+        Log.d(TAG, "checkedBreedList.size} ${checkedBreedList.size}")
+        characteristicsViewModel.calculateBonuses(checkedBreedList)
+        characteristicsViewModel.updateCharacteristics()
+
         characteristicsDisabledAdapter?.setCharacteristics(characteristicsViewModel.rollCharacteristics)
         characteristicsAdapter?.setCharacteristics(characteristicsViewModel.rollCharacteristics)
         characteristicsRecyclerView?.adapter = characteristicsDisabledAdapter

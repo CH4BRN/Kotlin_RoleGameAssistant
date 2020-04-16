@@ -117,28 +117,28 @@ class DerivedValues1Fragment(activity: Activity) : CustomFragment(activity) {
 
     private fun getIntelligence(): DomainRollCharacteristic? {
         var intelligence =
-            characteristicsViewModel.rollCharacteristics.find { c -> c.characteristicName == CharacteristicsName.INTELLIGENCE.characteristicName }
+            characteristicsViewModel.rollCharacteristics.find { c -> c.characteristicName == CharacteristicsName.INTELLIGENCE.toString() }
         Log.d(TAG, "INTELLIGENCE : $intelligence")
         return intelligence
     }
 
     private fun getPower(): DomainRollCharacteristic? {
         var power =
-            characteristicsViewModel.rollCharacteristics.find { c -> c.characteristicName == CharacteristicsName.POWER.characteristicName }
+            characteristicsViewModel.rollCharacteristics.find { c -> c.characteristicName == CharacteristicsName.POWER.toString() }
         Log.d(TAG, "POWER : $power")
         return power
     }
 
     private fun getConstitution(): DomainRollCharacteristic? {
         var constitution =
-            characteristicsViewModel.rollCharacteristics.find { c -> c.characteristicName == CharacteristicsName.CONSTITUTION.characteristicName }
+            characteristicsViewModel.rollCharacteristics.find { c -> c.characteristicName == CharacteristicsName.CONSTITUTION.toString() }
         Log.d(TAG, "CONSTITUTION : $constitution")
         return constitution
     }
 
     private fun getSize(): DomainRollCharacteristic? {
         var size =
-            characteristicsViewModel.rollCharacteristics.find { c -> c.characteristicName == CharacteristicsName.SIZE.characteristicName }
+            characteristicsViewModel.rollCharacteristics.find { c -> c.characteristicName == CharacteristicsName.SIZE.toString() }
         Log.d(TAG, "SIZE : $size")
         return size
     }

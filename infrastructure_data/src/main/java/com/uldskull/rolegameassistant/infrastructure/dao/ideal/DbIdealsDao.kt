@@ -6,7 +6,7 @@ package com.uldskull.rolegameassistant.infrastructure.dao.ideal
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
-import com.uldskull.rolegameassistant.infrastructure.database_model.DbIdeal
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_ideal.DbIdeal
 
 /**
  *   Interface "DbIdealsDao" :

@@ -8,10 +8,10 @@ import com.uldskull.rolegameassistant.infrastructure.dao.breed.DbBreedDao
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbBreedCharacteristicDao
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbRollCharacteristicsDao
 import com.uldskull.rolegameassistant.infrastructure.dao.ideal.DbIdealsDao
-import com.uldskull.rolegameassistant.infrastructure.database_model.DbIdeal
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.DbBreed
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbBreedCharacteristic
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbRollCharacteristic
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_ideal.DbIdeal
 import com.uldskull.rolegameassistant.models.character.characteristic.CharacteristicsName
 
 /**
@@ -29,7 +29,7 @@ class DatabaseUtils {
                 DbRollCharacteristic(
                     characteristicId = null,
                     characteristicMax = 24,
-                    characteristicName = CharacteristicsName.APPEARANCE.characteristicName,
+                    characteristicName = CharacteristicsName.APPEARANCE.toString(),
                     characteristicBonus = 0,
                     characteristicTotal = 0,
                     characteristicRoll = 0
@@ -37,7 +37,7 @@ class DatabaseUtils {
                 DbRollCharacteristic(
                     characteristicId = null,
                     characteristicMax = 24,
-                    characteristicName = CharacteristicsName.CONSTITUTION.characteristicName,
+                    characteristicName = CharacteristicsName.CONSTITUTION.toString(),
                     characteristicBonus = 0,
                     characteristicTotal = 0,
                     characteristicRoll = 0
@@ -45,7 +45,7 @@ class DatabaseUtils {
                 DbRollCharacteristic(
                     characteristicId = null,
                     characteristicMax = 24,
-                    characteristicName = CharacteristicsName.CHARISMA.characteristicName,
+                    characteristicName = CharacteristicsName.CHARISMA.toString(),
                     characteristicBonus = 0,
                     characteristicTotal = 0,
                     characteristicRoll = 0
@@ -54,7 +54,7 @@ class DatabaseUtils {
                 DbRollCharacteristic(
                     characteristicId = null,
                     characteristicMax = 24,
-                    characteristicName = CharacteristicsName.INTELLIGENCE.characteristicName,
+                    characteristicName = CharacteristicsName.INTELLIGENCE.toString(),
                     characteristicBonus = 0,
                     characteristicTotal = 0,
                     characteristicRoll = 0
@@ -62,7 +62,7 @@ class DatabaseUtils {
                 DbRollCharacteristic(
                     characteristicId = null,
                     characteristicMax = 24,
-                    characteristicName = CharacteristicsName.SIZE.characteristicName,
+                    characteristicName = CharacteristicsName.SIZE.toString(),
                     characteristicBonus = 0,
                     characteristicTotal = 0,
                     characteristicRoll = 0
@@ -70,7 +70,7 @@ class DatabaseUtils {
                 DbRollCharacteristic(
                     characteristicId = null,
                     characteristicMax = 24,
-                    characteristicName = CharacteristicsName.DEXTERITY.characteristicName,
+                    characteristicName = CharacteristicsName.DEXTERITY.toString(),
                     characteristicBonus = 0,
                     characteristicTotal = 0,
                     characteristicRoll = 0
@@ -78,7 +78,7 @@ class DatabaseUtils {
                 DbRollCharacteristic(
                     characteristicId = null,
                     characteristicMax = 24,
-                    characteristicName = CharacteristicsName.STRENGTH.characteristicName,
+                    characteristicName = CharacteristicsName.STRENGTH.toString(),
                     characteristicBonus = 0,
                     characteristicTotal = 0,
                     characteristicRoll = 0
@@ -86,7 +86,7 @@ class DatabaseUtils {
                 DbRollCharacteristic(
                     characteristicId = null,
                     characteristicMax = 24,
-                    characteristicName = CharacteristicsName.POWER.characteristicName,
+                    characteristicName = CharacteristicsName.POWER.toString(),
                     characteristicBonus = 0,
                     characteristicTotal = 0,
                     characteristicRoll = 0
@@ -108,26 +108,14 @@ class DatabaseUtils {
                 DbBreedCharacteristic(
                     characteristicId = null,
                     characteristicBonus = 1,
-                    characteristicName = CharacteristicsName.STRENGTH.characteristicName,
+                    characteristicName = CharacteristicsName.STRENGTH.toString(),
                     characteristicBreedId = 1
                 ),
                 DbBreedCharacteristic(
                     characteristicId = null,
                     characteristicBonus = 1,
-                    characteristicName = CharacteristicsName.POWER.characteristicName,
-                    characteristicBreedId = 1
-                ),
-                DbBreedCharacteristic(
-                    characteristicId = null,
-                    characteristicBonus = 1,
-                    characteristicName = CharacteristicsName.SIZE.characteristicName,
-                    characteristicBreedId = 1
-                ),
-                DbBreedCharacteristic(
-                    characteristicId = null,
-                    characteristicBonus = 1,
-                    characteristicName = CharacteristicsName.INTELLIGENCE.characteristicName,
-                    characteristicBreedId = 1
+                    characteristicName = CharacteristicsName.SIZE.toString(),
+                    characteristicBreedId = 2
                 )
             )
             var result = breedCharacteristicDao.insertBreedCharacteristics(dbBreedCharacteristics)

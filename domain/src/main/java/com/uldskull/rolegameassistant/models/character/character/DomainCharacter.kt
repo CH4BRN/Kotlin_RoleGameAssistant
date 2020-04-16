@@ -18,16 +18,13 @@ open class DomainCharacter(
     val characterAge: Int?,
     val characterGender: String?,
     val characterBiography: String?,
-    val characterBreed: DomainBreed?,
+    val characterBreeds: List<DomainBreed?>?,
     val characterBonds: List<DomainBond?>?,
     val characterIdeals: List<DomainIdeal?>?,
     val characterHealthPoints: Int?,
     val characterIdeaPoints: Int?,
     val characterAlignment: Int?,
     val characterEnergyPoints: Int?,
-    //val characterSkills: List<DomainFilledSkill>?,
-    //val characterJob: DomainJob?,
-    //val characterHobby: DomainHobby?,
     val characterHeight: Int?,
     val characterPictureUri: String?,
     var characterConstitution: DomainRollCharacteristic?,
@@ -59,7 +56,7 @@ open class DomainCharacter(
                 "age : ${characterAge}\n" +
                 "gen : ${characterGender}\n" +
                 "bio : ${characterBiography}\n" +
-                "bre : ${characterBreed?.breedName}\n" +
+                "bre : ${characterBreeds?.size}\n" +
                 "pic : $characterPictureUri\n" +
                 "bon : \n$bondsList\n" +
                 "ide : \n$idealsList\n" +

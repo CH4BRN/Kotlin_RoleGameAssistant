@@ -21,14 +21,15 @@ import com.uldskull.rolegameassistant.infrastructure.database.DatabaseUtils.Comp
 import com.uldskull.rolegameassistant.infrastructure.database.DatabaseUtils.Companion.populateBreedCharacteristics
 import com.uldskull.rolegameassistant.infrastructure.database.DatabaseUtils.Companion.populateIdeals
 import com.uldskull.rolegameassistant.infrastructure.database.DatabaseUtils.Companion.populateRollCharacteristics
-import com.uldskull.rolegameassistant.infrastructure.database_model.DbIdeal
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_bond.DbBondConverter
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.DbBreed
-import com.uldskull.rolegameassistant.infrastructure.database_model.db_character.BondConverter
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.DbBreedConverter
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_character.DbCharacter
-import com.uldskull.rolegameassistant.infrastructure.database_model.db_character.IdealConverter
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbBreedCharacteristic
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbCharacteristic
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbRollCharacteristic
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_ideal.DbIdeal
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_ideal.DbIdealConverter
 import kotlin.concurrent.thread
 
 /**
@@ -46,7 +47,11 @@ Abstract class for room database
         DbIdeal::class],
     version = 1
 )
-@TypeConverters(BondConverter::class, IdealConverter::class)
+@TypeConverters(
+    DbBondConverter::class,
+    DbIdealConverter::class,
+    DbBreedConverter::class
+)
 abstract class AppDatabase : RoomDatabase() {
 
     /**
@@ -115,7 +120,6 @@ abstract class AppDatabase : RoomDatabase() {
             if (INSTANCE == null) {
                 INSTANCE = buildAppDatabase(context)
             }
-
             return INSTANCE!!
         }
 

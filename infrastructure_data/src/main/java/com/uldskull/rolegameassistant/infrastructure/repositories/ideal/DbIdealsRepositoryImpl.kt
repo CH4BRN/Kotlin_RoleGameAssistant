@@ -7,7 +7,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.uldskull.rolegameassistant.infrastructure.dao.ideal.DbIdealsDao
-import com.uldskull.rolegameassistant.infrastructure.database_model.DbIdeal
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_ideal.DbIdeal
 import com.uldskull.rolegameassistant.models.character.DomainIdeal
 import com.uldskull.rolegameassistant.repository.ideal.IdealsRepository
 

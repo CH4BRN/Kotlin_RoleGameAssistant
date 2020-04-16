@@ -138,7 +138,7 @@ class NewCharacterViewModel(
     /**
      * Character breed.
      */
-    var characterBreed: DomainBreed? = null
+    var characterBreeds: MutableList<DomainBreed>? = mutableListOf()
 
 
     fun displayDices() {
@@ -180,16 +180,19 @@ class NewCharacterViewModel(
         if (!characterHeight?.toString().isNullOrEmpty()) {
             Log.d("NewCharacterViewModel _ saveCharacterHeight", characterHeight?.toString())
         }
-        if (characterBreed != null) {
-            var breed = breedsRepository.findOneWithChildren(characterBreed?.breedId)
-            Log.d("NewCharacterViewModel _ saveCharacterBreed", breed?.breed?.breedName)
+        if (characterBreeds != null) {
+            characterBreeds!!.forEach {
+                var breed = breedsRepository.findOneWithChildren(it.breedId)
+                Log.d("NewCharacterViewModel _ saveCharacterBreed", breed?.breed?.breedName)
 
-            breed?.characteristics?.forEach {
-                Log.d(
-                    "NewCharacterViewModel",
-                    "characteristic : ${it.characteristicName} bonus ${it.characteristicBonus}"
-                )
+                breed?.characteristics?.forEach {
+                    Log.d(
+                        "NewCharacterViewModel",
+                        "characteristic : ${it.characteristicName} bonus ${it.characteristicBonus}"
+                    )
+                }
             }
+
         }
         if (!characterPictureUri?.toString().isNullOrEmpty()) {
             Log.d(
@@ -235,7 +238,7 @@ class NewCharacterViewModel(
                 characterGender = this.characterGender,
                 characterBiography = this.characterBiography,
                 characterHeight = this.characterHeight,
-                characterBreed = this.characterBreed,
+                characterBreeds = this.characterBreeds,
                 characterIdeaPoints = null,
                 characterPictureUri = this.characterPictureUri.toString(),
                 characterBonds = this.characterBonds,
@@ -247,14 +250,14 @@ class NewCharacterViewModel(
                 characterHealthPoints = null,
                 characterEnergyPoints = null,
                 characterAlignment = null,
-                characterAppearance = characteristics?.find { c -> c.characteristicName == CharacteristicsName.APPEARANCE.characteristicName },
-                characterCharisma = characteristics?.find { c -> c.characteristicName == CharacteristicsName.CHARISMA.characteristicName },
-                characterConstitution = characteristics?.find { c -> c.characteristicName == CharacteristicsName.CONSTITUTION.characteristicName },
-                characterDexterity = characteristics?.find { c -> c.characteristicName == CharacteristicsName.DEXTERITY.characteristicName },
-                characterIntelligence = characteristics?.find { c -> c.characteristicName == CharacteristicsName.INTELLIGENCE?.characteristicName },
-                characterPower = characteristics?.find { c -> c.characteristicName == CharacteristicsName.POWER.characteristicName },
-                characterSize = characteristics?.find { c -> c.characteristicName == CharacteristicsName.SIZE.characteristicName },
-                characterStrength = characteristics?.find { c -> c.characteristicName == CharacteristicsName.STRENGTH.characteristicName }
+                characterAppearance = characteristics?.find { c -> c.characteristicName == CharacteristicsName.APPEARANCE.toString() },
+                characterCharisma = characteristics?.find { c -> c.characteristicName == CharacteristicsName.CHARISMA.toString() },
+                characterConstitution = characteristics?.find { c -> c.characteristicName == CharacteristicsName.CONSTITUTION.toString() },
+                characterDexterity = characteristics?.find { c -> c.characteristicName == CharacteristicsName.DEXTERITY.toString() },
+                characterIntelligence = characteristics?.find { c -> c.characteristicName == CharacteristicsName.INTELLIGENCE?.toString() },
+                characterPower = characteristics?.find { c -> c.characteristicName == CharacteristicsName.POWER.toString() },
+                characterSize = characteristics?.find { c -> c.characteristicName == CharacteristicsName.SIZE.toString() },
+                characterStrength = characteristics?.find { c -> c.characteristicName == CharacteristicsName.STRENGTH.toString() }
             )
 
 
@@ -307,9 +310,5 @@ class NewCharacterViewModel(
                 characterIdeals.remove(domainModel)
             }
         }
-
-
     }
-
-
 }

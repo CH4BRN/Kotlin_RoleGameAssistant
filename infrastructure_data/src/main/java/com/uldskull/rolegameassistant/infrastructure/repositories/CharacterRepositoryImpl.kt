@@ -48,7 +48,7 @@ class CharacterRepositoryImpl(
                 characterAge = it.characterAge,
                 characterGender = it.characterGender,
                 characterBiography = it.characterBiography,
-                characterBreed = it.characterBreed?.toDomain(),
+                characterBreeds = it.characterBreeds?.map { dbBreed -> dbBreed?.toDomain() },
                 characterHealthPoints = it.characterHealthPoints,
                 characterIdeaPoints = it.characterIdeaPoints,
                 characterAlignment = it.characterAlignment,

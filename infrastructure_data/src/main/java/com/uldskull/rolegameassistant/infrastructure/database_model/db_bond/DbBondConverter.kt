@@ -1,17 +1,16 @@
 // File BondConverter.kt
 // @Author pierre.antoine - 06/04/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.infrastructure.database_model.db_character
+package com.uldskull.rolegameassistant.infrastructure.database_model.db_bond
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
-import com.uldskull.rolegameassistant.infrastructure.database_model.db_bond.DbBond
 
 /**
  *   Class "BondConverter" :
  *   TODO: Fill class use.
  **/
-class BondConverter {
+class DbBondConverter {
     @TypeConverter
     fun convertBondListToString(bonds: List<DbBond>): String {
         var bondsArray = arrayOfNulls<DbBond>(bonds.size)
