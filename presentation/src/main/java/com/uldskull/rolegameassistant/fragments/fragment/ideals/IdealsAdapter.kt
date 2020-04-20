@@ -16,6 +16,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
+import com.uldskull.rolegameassistant.fragments.fragment.ImageUtil.Companion.resizeImage
 import com.uldskull.rolegameassistant.models.character.DomainIdeal
 
 
@@ -147,11 +148,6 @@ class IdealsAdapter internal constructor(
             }
         }
     }
-
-    private fun resizeImage(bitmap: Bitmap, width: Int, height: Int): Bitmap {
-        return Bitmap.createScaledBitmap(bitmap, width, height, false)
-    }
-
     /**
      * Set the displayed bonds.
      */

@@ -185,7 +185,7 @@ class BondsFragment(activity: Activity) : CustomFragment(activity) {
             args.putInt(KEY_POSITION, BONDS_FRAGMENT_POSITION)
             fragment.arguments = args
             (activity as NewCharacterActivity).replaceFragment(
-                R.id.container_bonds,
+                R.id.fragmentBonds_container_bonds,
                 BondsRecyclerViewFragment.newInstance(activity)
             )
 

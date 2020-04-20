@@ -34,7 +34,7 @@ class NewIdealActivity : CustomActivity() {
         Log.d(TAG, "loadNavigationBarFragment")
 
         this.replaceFragment(
-            R.id.container_navigationBar,
+            R.id.activityNewIdeal_container_navigationBar,
             NavigationBarFragment.newInstance(this)
         )
     }

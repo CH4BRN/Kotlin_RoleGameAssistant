@@ -76,7 +76,7 @@
                 android:contentDescription="Add bond." />
 
             <FrameLayout
-                android:id="@+id/container_bonds"
+                android:id="@+id/fragmentBonds_container_bonds"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"

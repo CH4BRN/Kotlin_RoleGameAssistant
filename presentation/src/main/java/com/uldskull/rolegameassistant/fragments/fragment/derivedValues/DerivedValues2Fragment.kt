@@ -4,6 +4,8 @@
 package com.uldskull.rolegameassistant.fragments.fragment.derivedValues
 
 import android.app.Activity
+import android.content.Context
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,12 +17,13 @@ import com.uldskull.rolegameassistant.fragments.adapter.DERIVED_VALUES_2_FRAGMEN
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.EditTextUtil.Companion.editTextEnabling
+import com.uldskull.rolegameassistant.fragments.fragment.ImageUtil.Companion.resizeImage
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
-import com.uldskull.rolegameassistant.models.character.characteristic.CharacteristicsName
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.DerivedValuesViewModel
 import com.uldskull.rolegameassistant.viewmodels.IdealsViewModel
 import kotlinx.android.synthetic.main.fragment_derived_values_2.*
+import kotlinx.android.synthetic.main.recyclerview_item_ideal.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
@@ -50,6 +53,7 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
         setDamageBonus()
         editTextsEnabling()
         setBtnEditClickListener()
+        setAlignmentScore()
     }
 
     private fun setDamageBonus() {
@@ -58,24 +62,24 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
             et_damageBonus.setText(derivedValuesViewModel.damageBonus?.name)
         }
     }
+
     private fun setAlignmentScore() {
         if (et_alignmentPoints != null) {
-            et_alignmentPoints.setText(idealsViewModel.calculateAlignmentScore().toString())
+            idealsViewModel.calculateAlignmentScore()
+            et_alignmentPoints?.setText(idealsViewModel.alignmentScore.toString())
         }
     }
+
 
     private fun setSizePlusStrength() {
         Log.d(TAG, "setSizePlusStrength")
         if (et_sizePlusStrength != null) {
-            var characteristics = characteristicsViewModel.displayedCharacteristics?.filter { c ->
-                c.characteristicName == CharacteristicsName.STRENGTH.name || c.characteristicName == CharacteristicsName.SIZE.name
-            }
-            characteristics?.forEach {
-                Log.d(TAG, "${it}")
-            }
             et_sizePlusStrength.setText(
                 derivedValuesViewModel.calculateSizePlusStrength(
-                    characteristics
+                    listOf(
+                        characteristicsViewModel.getStrength(),
+                        characteristicsViewModel.getSize()
+                    )
                 ).toString()
             )
         }
@@ -104,14 +108,15 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
             editTextEnabling(et_alignmentPoints)
         }
     }
+
     private fun setEnergyPoints() {
         Log.d(TAG, "setEnergyPoints")
         if (et_energyPoints != null) {
-            var power = characteristicsViewModel.displayedCharacteristics?.find { c ->
-                c.characteristicName == CharacteristicsName.POWER.toString()
-            }
-            Log.d(TAG, "$power")
-            et_energyPoints.setText(derivedValuesViewModel.calculateEnergyPoints(power).toString())
+            et_energyPoints.setText(
+                derivedValuesViewModel.calculateEnergyPoints(
+                    characteristicsViewModel.getPower()
+                ).toString()
+            )
         }
     }
 
@@ -122,7 +127,7 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
         super.onResume()
         Log.d(TAG, "onResume")
         NewCharacterActivity.progression.value = DERIVED_VALUES_2_FRAGMENT_POSITION
-        setAlignmentScore()
+
     }
 
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {

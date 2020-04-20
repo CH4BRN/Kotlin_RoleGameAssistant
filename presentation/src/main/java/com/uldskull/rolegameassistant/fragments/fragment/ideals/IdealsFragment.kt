@@ -83,7 +83,7 @@ class IdealsFragment(activity: Activity) : CustomFragment(activity) {
             args.putInt(KEY_POSITION, IDEALS_FRAGMENT_POSITION)
             fragment.arguments = args
             (activity as NewCharacterActivity).replaceFragment(
-                R.id.container_ideals,
+                R.id.fragmentIdeals_container_ideals,
                 IdealsRecyclerViewFragment.newInstance(
                     activity
                 )

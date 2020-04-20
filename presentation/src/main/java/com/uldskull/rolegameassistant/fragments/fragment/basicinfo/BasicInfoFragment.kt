@@ -389,13 +389,13 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
             fragment.arguments = args
 
             (activity as NewCharacterActivity).replaceFragment(
-                R.id.container_picture,
+                R.id.basicInfo_container_picture,
                 PictureFragment.newInstance(
                     activity
                 )
             )
             activity.replaceFragment(
-                R.id.container_breed,
+                R.id.basicInfo_container_breed,
                 BreedsRecyclerViewFragment.newInstance(
                     activity
                 )

@@ -25,17 +25,15 @@ class DiceServiceImpl(
         for (i in 0 until when (numberOfFaces.size) {
             0 or 1 -> 2
             else -> numberOfFaces.size
-        }
-        ) {
+        }){
             if (list == null) {
                 list = ArrayList()
             }
-            println("Face : ${numberOfFaces[i]}")
+
             var result = getOneDiceRollUseCase.execute(numberOfFaces[i])
-            println("result = ${result}")
+
             list.add(result)
         }
-        println(TAG + "list size ${list?.size}")
         return list!!
     }
 }

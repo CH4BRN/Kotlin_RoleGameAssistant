@@ -86,11 +86,10 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
     /**
      * Calculate size plus strength for damage bonus
      */
-    fun calculateSizePlusStrength(characteristics: List<DomainRollCharacteristic>?): Int {
-
+    fun calculateSizePlusStrength(characteristics: List<DomainRollCharacteristic?>): Int {
         characteristics?.forEach {
-            if (it.characteristicTotal != null) {
-                sizePlusStrengthScore += it.characteristicTotal!!
+            if (it?.characteristicTotal != null) {
+                sizePlusStrengthScore += it?.characteristicTotal!!
             }
         }
         damageBonus = calculateDamageBonus()

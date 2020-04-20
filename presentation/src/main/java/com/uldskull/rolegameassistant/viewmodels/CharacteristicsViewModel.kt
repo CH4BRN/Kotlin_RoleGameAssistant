@@ -160,7 +160,7 @@ class CharacteristicsViewModel(
     fun getDiceRollCharacteristic(
         name: CharacteristicsName,
         bonus: Int?,
-        rollRule:String?
+        rollRule: String?
     ): DomainRollCharacteristic {
 
         var finalRoll: Int = 0
@@ -174,21 +174,21 @@ class CharacteristicsViewModel(
                 }
             }
             CharacteristicsName.CONSTITUTION.characteristicName
-                ->{
+            -> {
                 println("CONSTITUTION")
                 diceServiceImpl.getMultipleDiceRollWithANumberOfFace(arrayListOf(6, 6, 6)).forEach {
                     finalRoll += it
                 }
             }
             CharacteristicsName.DEXTERITY.characteristicName
-            ->{
+            -> {
                 println("DEXTERITY")
                 diceServiceImpl.getMultipleDiceRollWithANumberOfFace(arrayListOf(6, 6, 6)).forEach {
                     finalRoll += it
                 }
             }
             CharacteristicsName.APPEARANCE.characteristicName
-            ->{
+            -> {
                 println("DEXTERITY")
                 diceServiceImpl.getMultipleDiceRollWithANumberOfFace(arrayListOf(6, 6, 6)).forEach {
                     finalRoll += it
@@ -202,7 +202,7 @@ class CharacteristicsViewModel(
                 }
             }
             CharacteristicsName.SIZE.characteristicName
-            ->{
+            -> {
                 println("SIZE")
                 diceServiceImpl.getMultipleDiceRollWithANumberOfFace(arrayListOf(6, 6)).forEach {
                     finalRoll += it
@@ -387,6 +387,18 @@ class CharacteristicsViewModel(
             observedCharacteristics?.value = displayedCharacteristics
         }
         displayBonuses()
+    }
+
+    fun getStrength(): DomainRollCharacteristic? {
+        return displayedCharacteristics?.find { c -> c.characteristicName == CharacteristicsName.STRENGTH.characteristicName }
+    }
+
+    fun getSize(): DomainRollCharacteristic? {
+        return displayedCharacteristics?.find { c -> c.characteristicName == CharacteristicsName.SIZE.characteristicName }
+    }
+
+    fun getPower(): DomainRollCharacteristic? {
+        return displayedCharacteristics?.find { c -> c.characteristicName == CharacteristicsName.POWER.characteristicName }
     }
 
 
