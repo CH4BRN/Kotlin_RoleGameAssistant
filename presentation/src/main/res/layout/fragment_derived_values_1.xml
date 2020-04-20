@@ -29,12 +29,13 @@
                 <TextView
                     style="@style/TextViewSubTitle"
                     android:layout_column="1"
-                    android:text="HP : (SIZ + CON) /2 =" />
+                    android:text="HP : (SIZ + CON) /2 ="
+                    android:layout_weight="1"/>
 
                 <EditText
                     android:id="@+id/et_healthPoints"
                     android:layout_column="2"
-                    android:layout_weight="1"
+                    android:layout_weight="4"
                     android:hint="0"
                     android:inputType="number" />
             </TableRow>
@@ -44,12 +45,13 @@
                 <TextView
                     style="@style/TextViewSubTitle"
                     android:layout_column="1"
-                    android:text=" + BREED BONUS =" />
+                    android:text=" + BREED BONUS ="
+                    android:layout_weight="1"/>
 
                 <EditText
                     android:id="@+id/et_breedHealthBonus"
                     android:layout_column="2"
-                    android:layout_weight="1"
+                    android:layout_weight="4"
                     android:hint="0"
                     android:inputType="number" />
             </TableRow>
@@ -59,12 +61,13 @@
                 <TextView
                     style="@style/TextViewSubTitle"
                     android:layout_column="1"
-                    android:text="TOTAL =" />
+                    android:text="TOTAL ="
+                    android:layout_weight="1"/>
 
                 <EditText
                     android:id="@+id/et_totalHealth"
                     android:layout_column="2"
-                    android:layout_weight="1"
+                    android:layout_weight="4"
                     android:hint="0"
                     android:inputType="number" />
             </TableRow>
@@ -74,12 +77,13 @@
                 <TextView
                     style="@style/TextViewSubTitle"
                     android:layout_column="1"
-                    android:text="IDEA : (INT * 5) =" />
+                    android:text="IDEA : (INT * 5) ="
+                    android:layout_weight="1"/>
 
                 <EditText
                     android:id="@+id/et_ideaPoints"
                     android:layout_column="2"
-                    android:layout_weight="1"
+                    android:layout_weight="4"
                     android:hint="0"
                     android:inputType="number" />
             </TableRow>
@@ -89,30 +93,18 @@
                 <TextView
                     style="@style/TextViewSubTitle"
                     android:layout_column="1"
-                    android:text="CHANCE : (POU * 5) =" />
+                    android:text="CHANCE : (POU * 5) ="
+                    android:layout_weight="1"/>
 
                 <EditText
                     android:id="@+id/et_chancePoints"
                     android:layout_column="2"
-                    android:layout_weight="1"
+                    android:layout_weight="4"
                     android:hint="0"
                     android:inputType="number" />
             </TableRow>
 
-            <TableRow>
 
-                <TextView
-                    style="@style/TextViewSubTitle"
-                    android:layout_column="1"
-                    android:text="ALIGNMENT =" />
-
-                <EditText
-                    android:id="@+id/et_alignmentPoints"
-                    android:layout_column="2"
-                    android:layout_weight="1"
-                    android:hint="0"
-                    android:inputType="number" />
-            </TableRow>
 
         </TableLayout>
 
