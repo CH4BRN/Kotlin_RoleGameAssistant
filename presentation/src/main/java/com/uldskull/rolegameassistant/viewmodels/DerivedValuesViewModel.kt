@@ -92,7 +92,6 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
         return sizePlusStrengthScore
     }
 
-
     fun calculateDamageBonus(): DamageBonus {
         when (sizePlusStrengthScore) {
             in 2..12 -> return DamageBonus.minus1D6

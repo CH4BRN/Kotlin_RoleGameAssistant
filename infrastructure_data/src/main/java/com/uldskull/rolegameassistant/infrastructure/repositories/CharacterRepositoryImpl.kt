@@ -28,9 +28,9 @@ class CharacterRepositoryImpl(
     /** Get all entities    */
     override fun getAll(): LiveData<List<DomainCharacter>>? {
         Log.d(TAG, "getAll")
-        try {
-            return Transformations.map(dbCharacterDao.getCharacters()) {
-                it.asDomainModel()
+        return try {
+            Transformations.map(dbCharacterDao.getCharacters()) {
+                return@map it.asDomainModel()
             }
         } catch (e: Exception) {
             Log.e(TAG, "getAll FAILED")

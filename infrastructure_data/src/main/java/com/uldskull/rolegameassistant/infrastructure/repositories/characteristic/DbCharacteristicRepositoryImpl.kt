@@ -5,6 +5,7 @@ package com.uldskull.rolegameassistant.infrastructure.repositories.characteristi
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbCharacteristicDao
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbCharacteristic
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainCharacteristic
@@ -16,13 +17,13 @@ import com.uldskull.rolegameassistant.repository.characteristic.CharacteristicRe
  **/
 class DbCharacteristicRepositoryImpl(
     private val dbCharacteristicDao: DbCharacteristicDao
-) : CharacteristicRepository<LiveData<List<DomainCharacteristic>>> {
+) : CharacteristicRepository<MutableLiveData<List<DomainCharacteristic>>> {
 
     companion object {
         private const val TAG = "DbCharacteristicRepositoryImpl"
     }
     /** Get all entities    */
-    override fun getAll(): LiveData<List<DomainCharacteristic>>? {
+    override fun getAll(): MutableLiveData<List<DomainCharacteristic>>? {
         Log.d(TAG, "getAll")
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

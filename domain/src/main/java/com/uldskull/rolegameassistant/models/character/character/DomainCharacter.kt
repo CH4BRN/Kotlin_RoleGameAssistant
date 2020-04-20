@@ -41,12 +41,12 @@ open class DomainCharacter(
         var bondsList: String = ""
         var idealsList: String = ""
 
-        characterBonds?.forEach {
-            bondsList += "\t" + it?.bondTitle.toString() + "\n"
+        characterBonds?.forEach { bond ->
+            bondsList += "\t" + bond?.bondTitle.toString() + "\n"
         }
 
-        characterIdeals?.forEach {
-            idealsList += "\t" + it?.idealName.toString() + "\n"
+        characterIdeals?.forEach { ideal ->
+            idealsList += "\t" + ideal?.idealName.toString() + "\n"
         }
 
         return "\n" +

@@ -7,6 +7,7 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.uldskull.rolegameassistant.models.character.breed.DomainBreed
 import com.uldskull.rolegameassistant.models.character.characteristic.CharacteristicsName
@@ -27,11 +28,20 @@ import kotlin.concurrent.thread
  **/
 class CharacteristicsViewModel(
     application: Application,
-    private val rollCharacteristicRepositoryImpl: RollCharacteristicRepository<LiveData<List<DomainRollCharacteristic>>>,
+    private val rollCharacteristicRepositoryImpl: RollCharacteristicRepository<MutableLiveData<List<DomainRollCharacteristic>>>,
     private val characteristicRepositoryImpl: CharacteristicRepository<LiveData<List<DomainCharacteristic>>>,
     private val breedsRepository: BreedsRepository<LiveData<List<DomainBreed>>>,
     private val diceServiceImpl: DiceService
 ) : AndroidViewModel(application) {
+
+    var displayedCharacteristics: MutableList<DomainRollCharacteristic>? = mutableListOf()
+        set(value) {
+            Log.d(TAG, "displayedCharacteristics size : ${value?.size}")
+            value?.sortBy { c -> c.characteristicName }
+
+            field = value
+        }
+
 
     var constitutionBonus: Int = 0
         set(value) {
@@ -89,15 +99,14 @@ class CharacteristicsViewModel(
             var checked = value.filter { b -> b.breedChecked }
             checked.forEach {
                 Log.d(TAG, "Checked : ${it.breedName}")
-
             }
-
-            rollCharacteristics = rollCharacteristics()
+            calculateBreedBonuses(checked)
             field = value
         }
 
 
     private fun rollCharacteristics(): MutableList<DomainRollCharacteristic> {
+        Log.d(TAG, "rollCharacteristics")
         var newList: MutableList<DomainRollCharacteristic> = mutableListOf()
         newList.add(
             DomainRollCharacteristic(
@@ -220,7 +229,7 @@ class CharacteristicsViewModel(
             )
         )
 
-        rollCharacteristics = newList
+        observedCharacteristics?.value = newList
 
     }
 
@@ -280,6 +289,7 @@ class CharacteristicsViewModel(
         )
     }
 
+    var observedCharacteristics = rollCharacteristicRepositoryImpl?.getAll()
 
     private fun initializeBonuses() {
         appearanceBonus = 0
@@ -294,7 +304,7 @@ class CharacteristicsViewModel(
     /**
      * All rollCharacteristics from the repository
      */
-    var rollCharacteristics = rollCharacteristics()
+    // var rollCharacteristics: MutableList<DomainRollCharacteristic> //= rollCharacteristics()
 
     /**
      * Initialize the ViewModel
@@ -312,6 +322,7 @@ class CharacteristicsViewModel(
         Log.d(TAG, "refreshDataFromRepository")
         viewModelScope.launch {
             try {
+                observedCharacteristics = rollCharacteristicRepositoryImpl?.getAll()
 
             } catch (e: Exception) {
                 Log.e(TAG, "refreshData FAILED")
@@ -333,7 +344,6 @@ class CharacteristicsViewModel(
             }
             lock.notifyAll()
             return result
-
         }
 
 
@@ -354,6 +364,8 @@ class CharacteristicsViewModel(
         return result
     }
 
+    var rollCharacteristics = mutableListOf<DomainRollCharacteristic>()
+
 
     fun calculateBreedBonuses(breedList: List<DomainBreed>) {
         Log.d(TAG, "calculates bonuses")
@@ -363,11 +375,14 @@ class CharacteristicsViewModel(
         breedList.forEach {
             Log.d(TAG, "${it.breedName}")
             var breedWithChildren = breedsRepository.findOneWithChildren(it.breedId)
-            breedWithChildren?.characteristics?.forEach {
-                if (it.characteristicBonus != null) {
-                    var bonus = it.characteristicBonus!!
-                    Log.d(TAG, "Bonus ${it.characteristicName}  ${it.characteristicBonus}")
-                    when (it.characteristicName) {
+            breedWithChildren?.characteristics?.forEach { characteristic ->
+                if (characteristic.characteristicBonus != null) {
+                    var bonus = characteristic.characteristicBonus!!
+                    Log.d(
+                        TAG,
+                        "Bonus ${characteristic.characteristicName}  ${characteristic.characteristicBonus}"
+                    )
+                    when (characteristic.characteristicName) {
                         CharacteristicsName.APPEARANCE.characteristicName -> appearanceBonus += bonus
                         CharacteristicsName.SIZE.characteristicName -> sizeBonus += bonus
                         CharacteristicsName.STRENGTH.characteristicName -> strengthBonus += bonus
@@ -379,13 +394,42 @@ class CharacteristicsViewModel(
                 }
             }
         }
+
+        if (displayedCharacteristics != null) {
+            for (index in 0 until displayedCharacteristics!!.size) {
+
+                var newCharacteristic: DomainRollCharacteristic = displayedCharacteristics!![index]
+                Log.d(TAG, "Characteristic before : $newCharacteristic")
+                when (newCharacteristic.characteristicName) {
+                    CharacteristicsName.APPEARANCE.characteristicName -> {
+                        newCharacteristic.characteristicBonus = appearanceBonus
+                    }
+                    CharacteristicsName.POWER.characteristicName -> {
+                        newCharacteristic.characteristicBonus = powerBonus
+                    }
+                    CharacteristicsName.STRENGTH.characteristicName -> {
+                        newCharacteristic.characteristicBonus = strengthBonus
+                    }
+                    CharacteristicsName.DEXTERITY.characteristicName -> {
+                        newCharacteristic.characteristicBonus = dexterityBonus
+                    }
+                    CharacteristicsName.SIZE.characteristicName -> {
+                        newCharacteristic.characteristicBonus = sizeBonus
+                    }
+                    CharacteristicsName.INTELLIGENCE.characteristicName -> {
+                        newCharacteristic.characteristicBonus = intelligenceBonus
+                    }
+                    CharacteristicsName.CONSTITUTION.characteristicName -> {
+                        newCharacteristic.characteristicBonus = constitutionBonus
+                    }
+                }
+                Log.d(TAG, "Characteristic after : $newCharacteristic")
+                displayedCharacteristics!![index] = newCharacteristic
+            }
+            observedCharacteristics?.value = displayedCharacteristics
+        }
         displayBonuses()
-
     }
 
-    fun updateCharacteristics() {
-        rollCharacteristics = rollCharacteristics()
-
-    }
 
 }

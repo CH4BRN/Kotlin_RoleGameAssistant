@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
@@ -19,6 +20,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragm
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.characteristics.adapters.CharacteristicsAdapter
 import com.uldskull.rolegameassistant.fragments.fragment.characteristics.adapters.CharacteristicsDisabledAdapter
+import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollCharacteristic
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
 import kotlinx.android.synthetic.main.fragment_recyclerview_characteristics.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -54,6 +56,7 @@ class CharacteristicsRecyclerViewFragment(activity: Activity) :
 
         return initializeView(inflater, container)
     }
+
     /** Initialize the view **/
     override fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = inflater.inflate(
@@ -122,31 +125,31 @@ class CharacteristicsRecyclerViewFragment(activity: Activity) :
      * Start ViewModel's collection observation.
      */
     override fun startObservation() {
+        characteristicsViewModel.observedCharacteristics?.observe(
+            this, Observer {
+                Log.d(TAG, "observedCharacteristics changed size ${it.size}")
+                characteristicsViewModel?.displayedCharacteristics  = it as MutableList<DomainRollCharacteristic>
+                characteristicsDisabledAdapter?.setCharacteristics(characteristicsViewModel?.displayedCharacteristics)
+                characteristicsAdapter?.setCharacteristics(characteristicsViewModel?.displayedCharacteristics)
+            }
+        )
     }
 
     fun populateRandomRollCharacteristics() {
         characteristicsViewModel.populateRandomRollCharacteristics()
-        characteristicsDisabledAdapter?.setCharacteristics(characteristicsViewModel.rollCharacteristics)
-        characteristicsAdapter?.setCharacteristics(characteristicsViewModel.rollCharacteristics)
+        characteristicsDisabledAdapter?.setCharacteristics(characteristicsViewModel.displayedCharacteristics)
+        Log.d(TAG, "item count = ${characteristicsDisabledAdapter?.itemCount.toString()}")
+        characteristicsAdapter?.setCharacteristics(characteristicsViewModel.displayedCharacteristics)
         characteristicsRecyclerView?.adapter = characteristicsDisabledAdapter
-    }
 
-    fun populateRollCharacteristics() {
-        Log.d(TAG, "populateRollCharacteristics")
-        var checkedBreedList = characteristicsViewModel.characterBreeds.filter { b ->
-            b.breedChecked
-        }
-        Log.d(TAG, "checkedBreedList.size} ${checkedBreedList.size}")
-        characteristicsViewModel.calculateBreedBonuses(checkedBreedList)
-        characteristicsViewModel.updateCharacteristics()
-
-        characteristicsDisabledAdapter?.setCharacteristics(characteristicsViewModel.rollCharacteristics)
-        characteristicsAdapter?.setCharacteristics(characteristicsViewModel.rollCharacteristics)
-        characteristicsRecyclerView?.adapter = characteristicsDisabledAdapter
     }
 
     /** Set recycler view adapter   **/
     override fun setRecyclerViewAdapter() {
+        var checkedBreedList = characteristicsViewModel.characterBreeds.filter { b ->
+            b.breedChecked
+        }
+        characteristicsViewModel.calculateBreedBonuses(checkedBreedList)
         setRecyclerViewDisabledAdapter()
     }
 
@@ -163,7 +166,6 @@ class CharacteristicsRecyclerViewFragment(activity: Activity) :
             CharacteristicsAdapter(
                 activity as Context
             )
-        populateRollCharacteristics()
         characteristicsRecyclerView?.adapter = characteristicsDisabledAdapter
     }
 

@@ -5,6 +5,7 @@
 package com.uldskull.rolegameassistant.di.koin_modules
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.uldskull.rolegameassistant.infrastructure.repositories.CharacterRepositoryImpl
 import com.uldskull.rolegameassistant.infrastructure.repositories.breed.DbBreedsRepositoryImpl
 import com.uldskull.rolegameassistant.infrastructure.repositories.characteristic.DbBreedsCharacteristicRepositoryImpl
@@ -26,7 +27,7 @@ import com.uldskull.rolegameassistant.repository.ideal.IdealsRepository
 import org.koin.dsl.module
 
 val repositoriesModule = module {
-    single<CharacteristicRepository<LiveData<List<DomainCharacteristic>>>> {
+    single<CharacteristicRepository<MutableLiveData<List<DomainCharacteristic>>>> {
         DbCharacteristicRepositoryImpl(
             get()
         )
