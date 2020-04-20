@@ -22,6 +22,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.characteristics.adapter
 import com.uldskull.rolegameassistant.fragments.fragment.characteristics.adapters.CharacteristicsDisabledAdapter
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollCharacteristic
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
+import com.uldskull.rolegameassistant.viewmodels.DerivedValuesViewModel
 import kotlinx.android.synthetic.main.fragment_recyclerview_characteristics.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -36,6 +37,8 @@ class CharacteristicsRecyclerViewFragment(activity: Activity) :
 
     /** ViewModel for characteristics **/
     private val characteristicsViewModel: CharacteristicsViewModel by sharedViewModel()
+
+    private val derivedValuesViewModel: DerivedValuesViewModel by sharedViewModel()
 
     /** Adapter for abilities recycler view **/
     private var characteristicsAdapter: CharacteristicsAdapter? = null
@@ -82,6 +85,7 @@ class CharacteristicsRecyclerViewFragment(activity: Activity) :
             btn_roll.setOnClickListener {
                 Log.d(TAG, "Roll")
                 populateRandomRollCharacteristics()
+                setEditTextChangedToFalse()
                 if (!editable) {
                     characteristicsRecyclerView?.adapter = characteristicsDisabledAdapter
 
@@ -90,6 +94,14 @@ class CharacteristicsRecyclerViewFragment(activity: Activity) :
                 }
             }
         }
+    }
+
+    private fun setEditTextChangedToFalse() {
+        derivedValuesViewModel.breedBonusEditTextHasChanged = false
+        derivedValuesViewModel.chanceEditTextHasChanged = false
+        derivedValuesViewModel.healthEditTextHasChanged = false
+        derivedValuesViewModel.ideaEditTextHasChanged = false
+        derivedValuesViewModel.totalHealthEditTextHasChanged = false
     }
 
     /**

@@ -47,7 +47,8 @@ class DbRollCharacteristicRepositoryImpl(
                 characteristicBonus = it.characteristicBonus,
                 characteristicTotal = it.characteristicTotal,
                 characteristicRoll = it.characteristicRoll,
-                characteristicMax = it.characteristicMax
+                characteristicMax = it.characteristicMax,
+                characteristicRollRule = it.characteristicRollRule
             )
         }
     }

@@ -13,13 +13,16 @@ class DomainRollCharacteristic(
     var characteristicBonus: Int?,
     var characteristicRoll: Int?,
     var characteristicTotal: Int?,
-    val characteristicMax: Int?
+    val characteristicMax: Int?,
+    val characteristicRollRule:String?
 ) {
+
     override fun toString(): String {
         return "RollCharacteristic : \n" +
                 "\tname : $characteristicName\n" +
                 "\tbonus : ${characteristicBonus.toString()}\n" +
-                "\troll : ${characteristicRoll.toString()}\n"
+                "\troll : ${characteristicRoll.toString()}\n"+
+                "\troll rule : ${characteristicRollRule}\n"
 
     }
 }

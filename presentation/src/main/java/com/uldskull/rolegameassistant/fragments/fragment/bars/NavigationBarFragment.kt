@@ -106,7 +106,7 @@ class NavigationBarFragment(activity: Activity) : CustomFragment(activity) {
     private fun doSave() {
         Log.d(TAG, "doSave")
         var insertedId =
-            newCharacterViewModel.saveCharacter(characteristicsViewModel.rollCharacteristics)
+            newCharacterViewModel.saveCharacter(characteristicsViewModel.displayedCharacteristics)
         var result = charactersViewModel.findOneById(insertedId)
         Log.d(TAG, "$result")
 

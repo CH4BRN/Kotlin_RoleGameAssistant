@@ -5,6 +5,8 @@ package com.uldskull.rolegameassistant.fragments.fragment.derivedValues
 
 import android.app.Activity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -37,7 +39,6 @@ class DerivedValues1Fragment(activity: Activity) : CustomFragment(activity) {
 
     private val derivedValuesViewModel: DerivedValuesViewModel by sharedViewModel()
 
-    private val idealsViewModel: IdealsViewModel by sharedViewModel()
 
     /**
      * Called when the view is created
@@ -58,12 +59,13 @@ class DerivedValues1Fragment(activity: Activity) : CustomFragment(activity) {
         super.onResume()
         Log.d(TAG, "onResume")
         NewCharacterActivity.progression.value = DERIVED_VALUES_1_FRAGMENT_POSITION
+
         setHealthPointsScore()
         setBreedHealthBonusScore()
         setTotalHealthScore()
         setIdeaScore()
         setChanceScore()
-        setAlignmentScore()
+
     }
 
     /**
@@ -79,39 +81,37 @@ class DerivedValues1Fragment(activity: Activity) : CustomFragment(activity) {
     }
 
     private fun setTotalHealthScore() {
-        if (et_totalHealth != null) {
+        if (et_totalHealth != null&& !derivedValuesViewModel.totalHealthEditTextHasChanged) {
             et_totalHealth.setText(derivedValuesViewModel.calculateTotalHealth().toString())
         }
     }
 
     private fun setIdeaScore() {
-        if (et_ideaPoints != null) {
+        if (et_ideaPoints != null&& !derivedValuesViewModel.ideaEditTextHasChanged) {
             et_ideaPoints.setText(derivedValuesViewModel.calculateIdeaScore(getIntelligence()).toString())
         }
     }
 
     private fun setChanceScore() {
-        if (et_chancePoints != null) {
+        Log.d(TAG, "setChanceScore")
+        if (et_chancePoints != null&& !derivedValuesViewModel.chanceEditTextHasChanged) {
             et_chancePoints.setText(derivedValuesViewModel.calculateChanceScore(getPower()).toString())
         }
     }
 
-    private fun setAlignmentScore() {
-        if (et_alignmentPoints != null) {
-            et_alignmentPoints.setText(idealsViewModel.calculateAlignmentScore().toString())
-        }
-    }
+
 
     private fun setHealthPointsScore() {
-        if (et_healthPoints != null) {
+        Log.d(TAG, "setHealthPointScore ${derivedValuesViewModel.healthEditTextHasChanged}")
+        if (et_healthPoints != null && !derivedValuesViewModel.healthEditTextHasChanged) {
             var size =
                 getSize()
             var constitution =
                 getConstitution()
             if (size != null && constitution != null) {
-                var hp = derivedValuesViewModel.calculateBaseHealth(listOf(size, constitution))
-                if (hp != null) {
-                    et_healthPoints.setText(hp.toString())
+                derivedValuesViewModel.baseHealth = derivedValuesViewModel.calculateBaseHealth(listOf(size, constitution))
+                if (derivedValuesViewModel.baseHealth != null) {
+                    et_healthPoints.setText(derivedValuesViewModel.baseHealth.toString())
                 }
             }
         }
@@ -120,28 +120,28 @@ class DerivedValues1Fragment(activity: Activity) : CustomFragment(activity) {
 
     private fun getIntelligence(): DomainRollCharacteristic? {
         var intelligence =
-            characteristicsViewModel.rollCharacteristics.find { c -> c.characteristicName == CharacteristicsName.INTELLIGENCE.toString() }
+            characteristicsViewModel.displayedCharacteristics?.find { c -> c.characteristicName == CharacteristicsName.INTELLIGENCE.toString() }
         Log.d(TAG, "INTELLIGENCE : $intelligence")
         return intelligence
     }
 
     private fun getPower(): DomainRollCharacteristic? {
         var power =
-            characteristicsViewModel.rollCharacteristics.find { c -> c.characteristicName == CharacteristicsName.POWER.toString() }
+            characteristicsViewModel.displayedCharacteristics?.find { c -> c.characteristicName == CharacteristicsName.POWER.toString() }
         Log.d(TAG, "POWER : $power")
         return power
     }
 
     private fun getConstitution(): DomainRollCharacteristic? {
         var constitution =
-            characteristicsViewModel.rollCharacteristics.find { c -> c.characteristicName == CharacteristicsName.CONSTITUTION.toString() }
+            characteristicsViewModel.displayedCharacteristics?.find { c -> c.characteristicName == CharacteristicsName.CONSTITUTION.toString() }
         Log.d(TAG, "CONSTITUTION : $constitution")
         return constitution
     }
 
     private fun getSize(): DomainRollCharacteristic? {
         var size =
-            characteristicsViewModel.rollCharacteristics.find { c -> c.characteristicName == CharacteristicsName.SIZE.toString() }
+            characteristicsViewModel.displayedCharacteristics?.find { c -> c.characteristicName == CharacteristicsName.SIZE.toString() }
         Log.d(TAG, "SIZE : $size")
         return size
     }
@@ -169,11 +169,170 @@ class DerivedValues1Fragment(activity: Activity) : CustomFragment(activity) {
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setHealthPointsScore()
         editTextsEnabling()
+
+        setEditTextsListeners()
         setBtnEditClickListener()
         Log.d(TAG, "set health points")
 
+    }
+
+    private fun setEditTextsListeners() {
+        setHealthPointListener()
+        setBreedBonusListener()
+        setTotalHealthListener()
+        setIdeaListener()
+        setChanceListener()
+    }
+
+    private fun setChanceListener() {
+        et_chancePoints.addTextChangedListener(object :TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+                derivedValuesViewModel.chanceEditTextHasChanged = true
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if(!s.isNullOrBlank()){
+                    try {
+                        derivedValuesViewModel.chanceScore = s.toString().toInt()
+                    }catch (e:Exception){
+                        Log.e(TAG, "et_chancePoints failed")
+                        e.printStackTrace()
+                        throw e
+                    }
+                }
+            }
+
+        })
+    }
+
+    private fun setIdeaListener() {
+        et_ideaPoints.addTextChangedListener(object :TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+                derivedValuesViewModel.ideaEditTextHasChanged = true
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if(!s.isNullOrBlank()){
+                    try {
+                        derivedValuesViewModel.ideaScore = s.toString().toInt()
+                    }catch (e:Exception){
+                        Log.e(TAG, "et_ideaPoints failed")
+                        e.printStackTrace()
+                        throw e
+                    }
+                }
+            }
+
+        })
+    }
+
+    private fun setTotalHealthListener() {
+        et_totalHealth.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+                derivedValuesViewModel.totalHealthEditTextHasChanged = true
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if(!s.isNullOrBlank()){
+                    try {
+                        derivedValuesViewModel.totalHealth = s.toString().toInt()
+                    }catch (e:Exception){
+                        Log.e(TAG, "et_totalHealth failed")
+                        e.printStackTrace()
+                        throw e
+                    }
+                }
+            }
+
+        })
+    }
+
+    private fun setBreedBonusListener() {
+        et_breedHealthBonus.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+                derivedValuesViewModel.breedBonusEditTextHasChanged = true
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                if(!s.isNullOrBlank()){
+                    try {
+                        derivedValuesViewModel.breedHealthBonus = s.toString().toInt()
+                    }catch (e:Exception){
+                        Log.e(TAG, "et_breedHealthBonus failed")
+                        e.printStackTrace()
+                        throw e
+                    }
+                }
+            }
+
+        })
+    }
+
+    private fun setHealthPointListener() {
+        et_healthPoints.addTextChangedListener(object : TextWatcher{
+            /**
+             * This method is called to notify you that, somewhere within
+             * `s`, the text has been changed.
+             * It is legitimate to make further changes to `s` from
+             * this callback, but be careful not to get yourself into an infinite
+             * loop, because any changes you make will cause this method to be
+             * called again recursively.
+             * (You are not told where the change took place because other
+             * afterTextChanged() methods may already have made other changes
+             * and invalidated the offsets.  But if you need to know here,
+             * you can use [Spannable.setSpan] in [.onTextChanged]
+             * to mark your place and then look up from here where the span
+             * ended up.
+             */
+            override fun afterTextChanged(s: Editable?) {
+                derivedValuesViewModel.healthEditTextHasChanged = true
+            }
+
+            /**
+             * This method is called to notify you that, within `s`,
+             * the `count` characters beginning at `start`
+             * are about to be replaced by new text with length `after`.
+             * It is an error to attempt to make changes to `s` from
+             * this callback.
+             */
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            /**
+             * This method is called to notify you that, within `s`,
+             * the `count` characters beginning at `start`
+             * have just replaced old text that had length `before`.
+             * It is an error to attempt to make changes to `s` from
+             * this callback.
+             */
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if(!s.isNullOrBlank()){
+                    try {
+                        derivedValuesViewModel.baseHealth = s.toString().toInt()
+                    }catch (e:Exception){
+                        Log.e(TAG, "et_healthPoints failed")
+                        e.printStackTrace()
+                        throw e
+                    }
+                }
+            }
+
+        })
     }
 
     private fun setBtnEditClickListener() {
@@ -200,9 +359,7 @@ class DerivedValues1Fragment(activity: Activity) : CustomFragment(activity) {
         if (et_chancePoints != null) {
             editTextEnabling(et_chancePoints)
         }
-        if (et_alignmentPoints != null) {
-            editTextEnabling(et_alignmentPoints)
-        }
+
     }
 
     companion object : CustomCompanion() {

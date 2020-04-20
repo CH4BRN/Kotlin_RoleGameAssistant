@@ -21,6 +21,7 @@ import com.uldskull.rolegameassistant.models.character.characteristic.Characteri
 class DatabaseUtils {
 
     companion object {
+
         private const val TAG = "DatabaseUtils"
 
         fun populateRollCharacteristics(rollCharacteristicsDao: DbRollCharacteristicsDao) {
@@ -32,7 +33,8 @@ class DatabaseUtils {
                     characteristicName = CharacteristicsName.APPEARANCE.toString(),
                     characteristicBonus = 0,
                     characteristicTotal = 0,
-                    characteristicRoll = 0
+                    characteristicRoll = 0,
+                    characteristicRollRule = "3D6"
                 ),
                 DbRollCharacteristic(
                     characteristicId = null,
@@ -40,7 +42,8 @@ class DatabaseUtils {
                     characteristicName = CharacteristicsName.CONSTITUTION.toString(),
                     characteristicBonus = 0,
                     characteristicTotal = 0,
-                    characteristicRoll = 0
+                    characteristicRoll = 0,
+                    characteristicRollRule = "3D6"
                 ),
                 DbRollCharacteristic(
                     characteristicId = null,
@@ -48,7 +51,8 @@ class DatabaseUtils {
                     characteristicName = CharacteristicsName.INTELLIGENCE.toString(),
                     characteristicBonus = 0,
                     characteristicTotal = 0,
-                    characteristicRoll = 0
+                    characteristicRoll = 0,
+                    characteristicRollRule = "2D6+6"
                 ),
                 DbRollCharacteristic(
                     characteristicId = null,
@@ -56,7 +60,8 @@ class DatabaseUtils {
                     characteristicName = CharacteristicsName.SIZE.toString(),
                     characteristicBonus = 0,
                     characteristicTotal = 0,
-                    characteristicRoll = 0
+                    characteristicRoll = 0,
+                    characteristicRollRule = "2D6+6"
                 ),
                 DbRollCharacteristic(
                     characteristicId = null,
@@ -64,7 +69,8 @@ class DatabaseUtils {
                     characteristicName = CharacteristicsName.DEXTERITY.toString(),
                     characteristicBonus = 0,
                     characteristicTotal = 0,
-                    characteristicRoll = 0
+                    characteristicRoll = 0,
+                    characteristicRollRule = "3D6"
                 ),
                 DbRollCharacteristic(
                     characteristicId = null,
@@ -72,7 +78,8 @@ class DatabaseUtils {
                     characteristicName = CharacteristicsName.STRENGTH.toString(),
                     characteristicBonus = 0,
                     characteristicTotal = 0,
-                    characteristicRoll = 0
+                    characteristicRoll = 0,
+                    characteristicRollRule = "3D6"
                 ),
                 DbRollCharacteristic(
                     characteristicId = null,
@@ -80,7 +87,8 @@ class DatabaseUtils {
                     characteristicName = CharacteristicsName.POWER.toString(),
                     characteristicBonus = 0,
                     characteristicTotal = 0,
-                    characteristicRoll = 0
+                    characteristicRoll = 0,
+                    characteristicRollRule = "3D6"
                 )
 
             )

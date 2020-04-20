@@ -22,9 +22,11 @@ class DbRollCharacteristic(
     val characteristicBonus: Int?,
     val characteristicMax: Int?,
     val characteristicRoll: Int?,
-    val characteristicTotal: Int?
+    val characteristicTotal: Int?,
+    val characteristicRollRule: String?
 ) :
     DbEntity<DomainRollCharacteristic> {
+
 
     companion object : DbCompanion<DomainRollCharacteristic, DbRollCharacteristic> {
         /**
@@ -38,7 +40,8 @@ class DbRollCharacteristic(
                 characteristicTotal = domainModel?.characteristicTotal,
                 characteristicBonus = domainModel?.characteristicBonus,
                 characteristicName = domainModel?.characteristicName,
-                characteristicMax = domainModel?.characteristicMax
+                characteristicMax = domainModel?.characteristicMax,
+                characteristicRollRule = domainModel?.characteristicRollRule
 
             )
         }
@@ -55,7 +58,8 @@ class DbRollCharacteristic(
             characteristicBonus = this.characteristicBonus,
             characteristicRoll = this.characteristicRoll,
             characteristicTotal = this.characteristicTotal,
-            characteristicMax = this.characteristicMax
+            characteristicMax = this.characteristicMax,
+            characteristicRollRule = this.characteristicRollRule
         )
     }
 }

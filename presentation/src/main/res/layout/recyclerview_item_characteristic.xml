@@ -1,60 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:paddingLeft="4dp"
-    android:paddingRight="4dp">
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp">
 
+        <TextView
+            android:id="@+id/et_characteristicName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:hint="ability"
+            android:maxWidth="40dp"
+            android:maxLines="1"
+            android:gravity="left"
+            android:minWidth="35dp"
+            android:singleLine="true"
+            android:textSize="16sp" />
+
+        <EditText
+            android:gravity="center_horizontal"
+            android:minWidth="12dp"
+            android:id="@+id/et_characteristicRoll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="0"
+            android:inputType="none"
+            android:maxLength="2"
+            android:maxWidth="15dp"
+            android:textSize="24sp" />
+
+        <EditText
+            android:gravity="center_horizontal"
+            android:minWidth="12dp"
+            android:id="@+id/et_characteristicBonus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="0"
+            android:inputType="number"
+            android:maxWidth="15dp"
+            android:textSize="24sp" />
+
+        <TextView
+            android:gravity="center_horizontal"
+            android:minWidth="12dp"
+            android:id="@+id/tv_characteristicTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="0"
+            android:maxWidth="15dp"
+            android:textSize="24sp" />
+
+
+    </LinearLayout>
     <TextView
-        android:id="@+id/et_characteristicName"
-        android:layout_width="wrap_content"
+        android:paddingLeft="8dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:hint="ability"
-        android:maxWidth="40dp"
-        android:maxLines="1"
-        android:gravity="left"
-        android:minWidth="35dp"
-        android:singleLine="true"
-        android:textSize="16sp" />
-
-    <EditText
-        android:gravity="center_horizontal"
-        android:minWidth="12dp"
-        android:id="@+id/et_characteristicRoll"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:hint="0"
-        android:inputType="none"
-        android:maxLength="2"
-        android:maxWidth="15dp"
-        android:textSize="24sp" />
-
-    <EditText
-        android:gravity="center_horizontal"
-        android:minWidth="12dp"
-        android:id="@+id/et_characteristicBonus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:hint="0"
-        android:inputType="number"
-        android:maxWidth="15dp"
-        android:textSize="24sp" />
-
-    <TextView
-        android:gravity="center_horizontal"
-        android:minWidth="12dp"
-        android:id="@+id/tv_characteristicTotal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:hint="0"
-        android:maxWidth="15dp"
-
-        android:textSize="24sp" />
-
-
+        android:id="@+id/tv_characteristicRollRule"
+        android:hint="1D6"/>
 </LinearLayout>
+

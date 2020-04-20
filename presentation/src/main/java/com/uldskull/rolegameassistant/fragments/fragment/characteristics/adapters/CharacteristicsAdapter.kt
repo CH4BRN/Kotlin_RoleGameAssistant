@@ -42,6 +42,7 @@ open class CharacteristicsAdapter internal constructor(
 
     /** Custom ViewHolder   **/
     inner class CharacteristicsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val rollRuleItemView: TextView = itemView.findViewById<TextView>(R.id.tv_characteristicRollRule)
         //  Get the ability's name edit text.
         val characteristicNameItemView: TextView =
             itemView.findViewById<TextView>(R.id.et_characteristicName)
@@ -79,6 +80,7 @@ open class CharacteristicsAdapter internal constructor(
         holder.bonusItemView.setText(current.characteristicBonus.toString())
         holder.abilityRollItemView.setText(current.characteristicRoll.toString())
         holder.totalItemView.text = current.characteristicTotal.toString()
+        holder.rollRuleItemView.setText(current.characteristicRollRule)
 
         holder.abilityRollItemView.addTextChangedListener {
             val stringRoll = holder.abilityRollItemView.text.toString()
