@@ -37,7 +37,7 @@ class CharacteristicsViewModel(
     var displayedCharacteristics: MutableList<DomainRollCharacteristic>? = mutableListOf()
         set(value) {
             Log.d(TAG, "displayedCharacteristics size : ${value?.size}")
-            value?.sortBy { c -> c.characteristicName }
+
 
             field = value
         }

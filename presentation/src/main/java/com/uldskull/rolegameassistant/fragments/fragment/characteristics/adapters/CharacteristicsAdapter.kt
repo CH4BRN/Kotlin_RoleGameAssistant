@@ -128,7 +128,7 @@ open class CharacteristicsAdapter internal constructor(
     internal fun setCharacteristics(domainCharacteristics: List<DomainRollCharacteristic>?) {
         Log.d(TAG, "setCharacteristics")
         if (domainCharacteristics != null) {
-            this.rollCharacteristics = domainCharacteristics
+            this.rollCharacteristics = domainCharacteristics.sortedBy { c -> c.characteristicName }
         }
 
         Log.d(TAG, "rollCharacteristics size = " + this.rollCharacteristics.size.toString())

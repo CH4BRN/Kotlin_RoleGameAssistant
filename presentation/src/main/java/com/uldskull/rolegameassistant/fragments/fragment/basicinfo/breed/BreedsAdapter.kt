@@ -137,6 +137,7 @@ class BreedsAdapter internal constructor(
      */
     internal fun setBreeds(domainBreeds: MutableList<DomainBreed>) {
         Log.d(TAG, "setBreeds")
+        domainBreeds.sortBy { b -> b.breedName }
         this.breeds = domainBreeds
         Log.d(TAG, "Breeds size = " + this.breeds.size.toString())
         notifyDataSetChanged()

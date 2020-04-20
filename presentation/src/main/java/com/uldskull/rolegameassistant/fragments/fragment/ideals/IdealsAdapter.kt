@@ -157,7 +157,7 @@ class IdealsAdapter internal constructor(
      */
     fun setIdeals(ideals: List<DomainIdeal>) {
         Log.d(TAG, "ideals size =" + ideals.size.toString())
-        this.ideals = ideals
+        this.ideals =  ideals.sortedBy { i -> i.idealName }
         notifyDataSetChanged()
     }
 }

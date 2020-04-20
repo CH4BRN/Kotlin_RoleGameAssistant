@@ -112,7 +112,7 @@ class BondsAdapter internal constructor(
      */
     fun setBonds(bonds: List<DomainBond>) {
         Log.d(TAG, "setBonds")
-        this.bonds = bonds
+        this.bonds = bonds.sortedBy { b -> b.bondTitle }
         notifyDataSetChanged()
     }
 }
