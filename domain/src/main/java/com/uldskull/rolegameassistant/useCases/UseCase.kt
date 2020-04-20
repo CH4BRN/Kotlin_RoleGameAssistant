@@ -8,5 +8,5 @@ package com.uldskull.rolegameassistant.useCases
  *   TODO: Fill interface use.
  **/
 interface UseCase<in Request, out Response> {
-   fun execute(request: Request): Response
+    fun execute(request: Request?): Response
 }

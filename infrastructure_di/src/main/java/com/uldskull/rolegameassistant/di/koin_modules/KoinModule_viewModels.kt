@@ -2,12 +2,7 @@
 
 package com.uldskull.rolegameassistant.di.koin_modules
 
-import com.uldskull.rolegameassistant.fragments.fragment.bonds.BondsViewModel
-import com.uldskull.rolegameassistant.fragments.fragment.ideals.IdealsViewModel
-import com.uldskull.rolegameassistant.fragments.fragment.skills.SkillsViewModel
-import com.uldskull.rolegameassistant.viewmodels.CharacteristicViewModel
-import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
-import com.uldskull.rolegameassistant.viewmodels.RacesViewModel
+import com.uldskull.rolegameassistant.viewmodels.*
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -17,14 +12,28 @@ val viewModelModule = module {
     viewModel {
         NewCharacterViewModel(
             application = get(),
-            diceService = get()
+            diceService = get(),
+            characterRepository = get(),
+            breedsRepository = get(),
+            characteristicRepository = get(),
+            idealsRepository = get()
         )
     }
     //  Characteristics ViewModel
     viewModel {
-        CharacteristicViewModel(
+        CharacteristicsViewModel(
             application = get(),
-            characteristicRepositoryImpl = get()
+            characteristicRepositoryImpl = get(),
+            rollCharacteristicRepositoryImpl = get(),
+            diceServiceImpl = get(),
+            breedsRepository = get()
+        )
+    }
+    //  Breed Characteristics ViewModel
+    viewModel {
+        BreedCharacteristicsViewModel(
+            application = get(),
+            breedCharacteristicRepositoryImpl = get()
         )
     }
     //  Skills ViewModel
@@ -42,14 +51,28 @@ val viewModelModule = module {
     //  Ideals ViewModel
     viewModel {
         IdealsViewModel(
-            application = get()
+            application = get(),
+            idealsRepositoryImpl = get()
         )
     }
-    //  Race ViewModel
+    //  Breeds ViewModel
     viewModel {
-        RacesViewModel(
+        BreedsViewModel(
             application = get(),
-            raceRepositoryImpl = get()
+            breedRepositoryImpl = get()
+        )
+    }
+    //  Characters ViewModel
+    viewModel {
+        CharactersViewModel(
+            application = get(),
+            characterRepository = get()
+        )
+    }
+    //  Derived values ViewModel
+    viewModel {
+        DerivedValuesViewModel(
+            application = get()
         )
     }
 }

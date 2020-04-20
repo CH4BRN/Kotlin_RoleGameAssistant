@@ -15,19 +15,20 @@ import com.uldskull.rolegameassistant.models.character.DomainFilledSkill
 @Entity
 class DbFilledSkill(
     @PrimaryKey(autoGenerate = true)
-    val filledSkillId: Long,
-    val filledSkillName: String,
-    val filledSkillDescription: String,
-    val filledSkillBase: Int,
-    val filledSkillTensValue: Int,
-    val filledSkillUnitsValue: Int,
-    val filledSkillTotal: Int,
-    val filledSkillMax: Int
+    val filledSkillId: Long?,
+    val filledSkillName: String?,
+    val filledSkillDescription: String?,
+    val filledSkillBase: Int?,
+    val filledSkillTensValue: Int?,
+    val filledSkillUnitsValue: Int?,
+    val filledSkillTotal: Int?,
+    val filledSkillMax: Int?
 ) : DbEntity<DomainFilledSkill> {
     /**
      * Converts a Database model entity into a domain model.
      */
     override fun toDomain(): DomainFilledSkill {
+
         return DomainFilledSkill(
             filledSkillId = this.filledSkillId,
             filledSkillTensValue = this.filledSkillTensValue,
@@ -44,16 +45,16 @@ class DbFilledSkill(
         /**
          * Converts a domain model into a database model entity.
          */
-        override fun from(domainModel: DomainFilledSkill): DbFilledSkill {
+        override fun from(domainModel: DomainFilledSkill?): DbFilledSkill {
             return DbFilledSkill(
-                filledSkillId = domainModel.skillId,
-                filledSkillTensValue = domainModel.filledSkillTensValue,
-                filledSkillUnitsValue = domainModel.filledSkillUnitsValue,
-                filledSkillBase = domainModel.filledSkillBase,
-                filledSkillDescription = domainModel.skillDescription,
-                filledSkillMax = domainModel.filledSkillMax,
-                filledSkillName = domainModel.skillName,
-                filledSkillTotal = domainModel.filledSkillTotal
+                filledSkillId = domainModel?.skillId,
+                filledSkillTensValue = domainModel?.filledSkillTensValue,
+                filledSkillUnitsValue = domainModel?.filledSkillUnitsValue,
+                filledSkillBase = domainModel?.filledSkillBase,
+                filledSkillDescription = domainModel?.skillDescription,
+                filledSkillMax = domainModel?.filledSkillMax,
+                filledSkillName = domainModel?.skillName,
+                filledSkillTotal = domainModel?.filledSkillTotal
 
             )
         }

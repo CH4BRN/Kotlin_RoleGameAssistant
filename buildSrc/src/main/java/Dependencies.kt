@@ -3,6 +3,7 @@ import AndroidXVersions.constraintLayout
 import AndroidXVersions.coreCoreKtx
 import AndroidXVersions.legacySupport
 import AndroidXVersions.lifecycle_version
+import GoogleVersions.gson
 import KoinVersion.koinAndroid
 import KotlinxVersions.coroutines
 import RoomVersions.room
@@ -16,6 +17,10 @@ object RoomDependencies {
     const val RoomRuntime = "androidx.room:room-runtime:${room}"
     const val RoomKtx = "androidx.room:room-ktx:${room}"
     const val RoomCompiler = "androidx.room:room-compiler:${room}"
+}
+
+object GoogleDependencies {
+    const val Gson = "com.google.code.gson:gson:${gson}"
 }
 
 object ProjectsDependencies {

@@ -13,10 +13,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
+        android:id="@+id/scrollView_derivedValues2"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:paddingHorizontal="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_title">
@@ -35,28 +35,12 @@
                     android:text="PE = PO = " />
 
                 <EditText
+                    android:id="@+id/et_energyPoints"
                     android:layout_column="2"
                     android:layout_weight="4"
                     android:hint="0"
                     android:inputType="number" />
             </TableRow>
-
-            <TableRow>
-
-                <TextView
-
-                    style="@style/TextViewSubTitle"
-                    android:layout_column="1"
-                    android:layout_weight="1"
-                    android:text="Damage bonus = " />
-
-                <EditText
-                    android:layout_column="2"
-                    android:layout_weight="4"
-                    android:hint="0"
-                    android:inputType="number" />
-            </TableRow>
-
             <TableRow>
 
                 <TextView
@@ -67,13 +51,12 @@
                     android:text="TAI + FOR = " />
 
                 <EditText
+                    android:id="@+id/et_sizePlusStrength"
                     android:layout_column="2"
                     android:layout_weight="4"
                     android:hint="0"
                     android:inputType="number" />
             </TableRow>
-
-
             <TableRow>
 
                 <TextView
@@ -81,19 +64,35 @@
                     style="@style/TextViewSubTitle"
                     android:layout_column="1"
                     android:layout_weight="1"
-                    android:text="Result = " />
+                    android:text="Damage bonus = " />
 
                 <EditText
-                    android:id="@+id/et_derivedValues2Result"
+                    android:id="@+id/et_damageBonus"
                     android:layout_column="2"
                     android:layout_weight="4"
                     android:hint="0"
                     android:inputType="number" />
             </TableRow>
 
+
+
         </TableLayout>
 
     </ScrollView>
 
+    <ImageButton
+        android:id="@+id/btn_edit"
+        style="@style/myCornerRadiusButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/mybutton"
+        android:contentDescription="Edit derived values manually."
+        android:padding="4dp"
+        android:src="@drawable/ic_pencil"
+        android:text="Use points"
+        app:layout_constraintEnd_toEndOf="@id/scrollView_derivedValues2"
+        app:layout_constraintTop_toBottomOf="@id/scrollView_derivedValues2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

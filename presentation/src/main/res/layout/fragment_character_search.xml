@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.uldskull.rolegameassistant.fragments.fragment.characterSearch.CharacterSearchFragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragments.fragment.CharacterSearchFragment">
+    android:layout_height="match_parent">
 
     <TextView
         style="@style/TextViewFragmentTitle"
@@ -22,8 +22,9 @@
         android:inputType="text"
         app:layout_constraintTop_toBottomOf="@id/fragment_title" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_characters"
+    <FrameLayout
+        android:id="@+id/container_recycler_view_characters"
+        android:minHeight="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -6,6 +6,7 @@ package com.uldskull.rolegameassistant.fragments.fragment.ideals
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
 import com.uldskull.rolegameassistant.models.character.DomainIdeal
 
 
@@ -22,24 +24,36 @@ import com.uldskull.rolegameassistant.models.character.DomainIdeal
  *   Adapter for ideals recycler view
  **/
 class IdealsAdapter internal constructor(
-    val context: Context
+    val context: Context,
+    private val buttonListener: AdapterButtonListener<DomainIdeal>
 ) :
     RecyclerView.Adapter<IdealsAdapter.IdealsViewHolder>() {
+    companion object {
+        private const val TAG = "IdealsAdapter"
+    }
+
     /** Inflater  **/
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
 
     /**  Ideals list  **/
     private var ideals = emptyList<DomainIdeal>()
 
+
     /**  Inner class to display  **/
     inner class IdealsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var idealCheckedItemView: CheckBox = itemView.findViewById(R.id.chk_ideal)
         var idealValueItemView: TextView = itemView.findViewById(R.id.tv_ideal)
+        var idealNameItemView: TextView = itemView.findViewById(R.id.tv_idealTitle)
         var idealAlignmentItemView: ImageView = itemView.findViewById(R.id.img_alignment)
+        var idealEvilPoints: TextView = itemView.findViewById(R.id.tv_idealEvilPoints)
+        var idealGoodPoints: TextView = itemView.findViewById(R.id.tv_idealGoodPoints)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IdealsViewHolder {
+        Log.d("IdealsAdapter", "onCreateViewHolder")
         val itemView = layoutInflater.inflate(R.layout.recyclerview_item_ideal, parent, false)
+
+
         return IdealsViewHolder(itemView)
     }
 
@@ -49,6 +63,7 @@ class IdealsAdapter internal constructor(
      * @return The total number of items in this adapter.
      */
     override fun getItemCount(): Int {
+        Log.d("IdealsAdapter", "getItemCount")
         return ideals.size
     }
 
@@ -77,25 +92,60 @@ class IdealsAdapter internal constructor(
         val current = ideals[position]
 
         holder.idealValueItemView.maxWidth = 550
-        holder.idealValueItemView.text = current.idealName
+        holder.idealNameItemView.text = current.idealName
+        holder.idealEvilPoints.text = current.idealEvilPoints.toString()
+        holder.idealGoodPoints.text = current.idealGoodPoints.toString()
+        holder.idealCheckedItemView.isChecked = current.isChecked
 
-        if (current.idealEvilPoints > current.idealGoodPoints) {
-            holder.idealAlignmentItemView.setImageBitmap(
-                resizeImage(
-                    BitmapFactory.decodeResource(context.resources, R.drawable.evil_icon),
-                    250, 250
-                )
+        val idealGoodPoints = current.idealGoodPoints
+        val idealEvilPoints = current.idealEvilPoints
+        setAlignmentIcon(idealEvilPoints, idealGoodPoints, holder)
+        holder.idealCheckedItemView.setOnClickListener {
+            Log.d(
+                "ideal", current.idealName +
+                        when (holder.idealCheckedItemView.isChecked) {
+                            true -> " is checked"
+                            else -> " is unchecked"
+                        }
             )
-        } else {
-            holder.idealAlignmentItemView.setImageBitmap(
-                resizeImage(
-                    BitmapFactory.decodeResource(context.resources, R.drawable.good_icon),
-                    250, 250
-                )
-            )
+            when (holder.idealCheckedItemView.isChecked) {
+                true -> {
+                    current.isChecked = true
+                }
+                else -> {
+                    current.isChecked = false
+                }
+            }
+
+            this.buttonListener.itemPressed(current)
+
         }
 
 
+    }
+
+    private fun setAlignmentIcon(
+        idealEvilPoints: Int?,
+        idealGoodPoints: Int?,
+        holder: IdealsViewHolder
+    ) {
+        if (idealEvilPoints != null && idealGoodPoints != null) {
+            if (idealEvilPoints > idealGoodPoints) {
+                holder.idealAlignmentItemView.setImageBitmap(
+                    resizeImage(
+                        BitmapFactory.decodeResource(context.resources, R.drawable.evil_icon),
+                        250, 250
+                    )
+                )
+            } else {
+                holder.idealAlignmentItemView.setImageBitmap(
+                    resizeImage(
+                        BitmapFactory.decodeResource(context.resources, R.drawable.good_icon),
+                        250, 250
+                    )
+                )
+            }
+        }
     }
 
     private fun resizeImage(bitmap: Bitmap, width: Int, height: Int): Bitmap {
@@ -106,6 +156,7 @@ class IdealsAdapter internal constructor(
      * Set the displayed bonds.
      */
     fun setIdeals(ideals: List<DomainIdeal>) {
+        Log.d(TAG, "ideals size =" + ideals.size.toString())
         this.ideals = ideals
         notifyDataSetChanged()
     }

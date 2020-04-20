@@ -14,7 +14,13 @@ import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.fragments.adapter.DERIVED_VALUES_2_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
+import com.uldskull.rolegameassistant.fragments.fragment.EditTextUtil.Companion.editTextEnabling
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
+import com.uldskull.rolegameassistant.models.character.characteristic.CharacteristicsName
+import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
+import com.uldskull.rolegameassistant.viewmodels.DerivedValuesViewModel
+import kotlinx.android.synthetic.main.fragment_derived_values_2.*
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
  *   Class "DerivedValues2Fragment" :
@@ -22,13 +28,77 @@ import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
  **/
 class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
 
+    private val characteristicsViewModel: CharacteristicsViewModel by sharedViewModel()
+    private val derivedValuesViewModel: DerivedValuesViewModel by sharedViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.d(TAG, "onCreateView")
         return initializeView(inflater, container)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Log.d(TAG, "onViewCreated")
+        setEnergyPoints()
+        setSizePlusStrength()
+        setDamageBonus()
+        editTextsEnabling()
+        setBtnEditClickListener()
+    }
+
+    private fun setDamageBonus() {
+        Log.d(TAG, "setDamageBonus")
+        if (et_damageBonus != null) {
+            et_damageBonus.setText(derivedValuesViewModel.damageBonus?.name)
+        }
+    }
+
+    private fun setSizePlusStrength() {
+        Log.d(TAG, "setSizePlusStrength")
+        if (et_sizePlusStrength != null) {
+            var characteristics = characteristicsViewModel.rollCharacteristics.filter { c ->
+                c.characteristicName == CharacteristicsName.STRENGTH.name || c.characteristicName == CharacteristicsName.SIZE.name
+            }
+            et_sizePlusStrength.setText(
+                derivedValuesViewModel.calculateSizePlusStrength(
+                    characteristics
+                ).toString()
+            )
+        }
+    }
+
+    private fun setBtnEditClickListener() {
+        if (btn_edit != null) {
+            btn_edit?.setOnClickListener {
+                editTextsEnabling()
+            }
+        }
+    }
+
+    private fun editTextsEnabling() {
+        if (et_energyPoints != null) {
+            editTextEnabling(et_energyPoints)
+        }
+        if (et_sizePlusStrength != null) {
+            editTextEnabling(et_sizePlusStrength)
+        }
+        if (et_damageBonus != null) {
+            editTextEnabling(et_damageBonus)
+        }
+    }
+    private fun setEnergyPoints() {
+        Log.d(TAG, "setEnergyPoints")
+        if (et_energyPoints != null) {
+            var power = characteristicsViewModel.rollCharacteristics.find { c ->
+                c.characteristicName == CharacteristicsName.POWER.toString()
+            }
+            Log.d(TAG, "$power")
+            et_energyPoints.setText(derivedValuesViewModel.calculateEnergyPoints(power).toString())
+        }
     }
 
     /**
@@ -36,12 +106,12 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
      */
     override fun onResume() {
         super.onResume()
-        Log.i("DerivedValues2Fragment_1", NewCharacterActivity.progression.value.toString())
+        Log.d(TAG, "onResume")
         NewCharacterActivity.progression.value = DERIVED_VALUES_2_FRAGMENT_POSITION
-        Log.i("DerivedValues2Fragment_2", NewCharacterActivity.progression.value.toString())
     }
 
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
+        Log.d(TAG, "initializeView")
         initialRootView = layoutInflater.inflate(
             R.layout.fragment_derived_values_2, container, false
         )
@@ -49,16 +119,17 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
     }
 
     companion object : CustomCompanion() {
+        const val TAG = "DerivedValues2Fragment"
+
         @JvmStatic
         override fun newInstance(activity: Activity): DerivedValues2Fragment {
-
+            Log.d(TAG, "newInstance")
             val fragment =
                 DerivedValues2Fragment(
                     activity
                 )
 
             val args = Bundle()
-
             args.putInt(KEY_POSITION, DERIVED_VALUES_2_FRAGMENT_POSITION)
             fragment.arguments = args
             return fragment

@@ -15,7 +15,7 @@ class DiceServiceImpl(
         return getOneDiceRollUseCase.execute(numberOfFace)
     }
 
-    override suspend fun getMultipleDiceRollWithANumberOfFace(numberOfFaces: ArrayList<Int>): ArrayList<Int> {
+    override fun getMultipleDiceRollWithANumberOfFace(numberOfFaces: ArrayList<Int>): ArrayList<Int> {
         var list: ArrayList<Int>? = null
 
         for (i in 1 until when (numberOfFaces.size) {

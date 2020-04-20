@@ -8,16 +8,18 @@ package com.uldskull.rolegameassistant.models.character.characteristic
  *   TODO: Fill class use.
  **/
 class DomainRollCharacteristic(
-    characteristicId: Long,
-    characteristicName: String,
-    characteristicBonus: Int,
-    characteristicMax: Int,
-    val characteristicRoll: Int,
-    val characteristicTotal: Int
+    val characteristicId: Long?,
+    val characteristicName: String?,
+    var characteristicBonus: Int?,
+    var characteristicRoll: Int?,
+    var characteristicTotal: Int?,
+    val characteristicMax: Int?
+) {
+    override fun toString(): String {
+        return "RollCharacteristic : \n" +
+                "\tname : $characteristicName\n" +
+                "\tbonus : ${characteristicBonus.toString()}\n" +
+                "\troll : ${characteristicRoll.toString()}\n"
 
-) : DomainBonusCharacteristic(
-    characteristicId = characteristicId,
-    characteristicName = characteristicName,
-    characteristicBonus = characteristicBonus,
-    characteristicMax = characteristicMax
-)
+    }
+}

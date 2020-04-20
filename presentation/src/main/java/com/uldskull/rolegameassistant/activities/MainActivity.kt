@@ -14,10 +14,9 @@ class MainActivity : AppCompatActivity() {
      * @param  savedInstanceState is the transmitted bundle**/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d(MAIN_ACTIVITY.name, "Start")
+        Log.d(TAG, "OnCreate")
         setContentView(R.layout.activity_main)
         application.deleteDatabase("appdb")
-
 
         loadSearchCharacterActivity()
 
@@ -25,6 +24,7 @@ class MainActivity : AppCompatActivity() {
 
     /** Load the search character activity  **/
     private fun loadSearchCharacterActivity() {
+        Log.d(TAG, "loadSearchCharacterActivity")
         startActivity(
             getCharacterSearchIntent()
         )
@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
 
     /** get character search intent **/
     private fun getCharacterSearchIntent(): Intent {
+        Log.d(TAG, "getCaracterSearhIntent")
         return Intent(
             this,
             CHARACTER_SEARCH_ACTIVITY
@@ -40,6 +41,7 @@ class MainActivity : AppCompatActivity() {
 
     /** Load the new character activity **/
     private fun loadNewCharacterActivity() {
+        Log.d(TAG, "loadNewCharacterActivity")
         startActivity(
             getNewCharacterIntent()
         )
@@ -47,6 +49,7 @@ class MainActivity : AppCompatActivity() {
 
     /** Get new character intent    **/
     private fun getNewCharacterIntent(): Intent {
+        Log.d(TAG, "getNewCharacterIntent")
         return Intent(
             this,
             NEW_CHARACTER_ACTIVITY
@@ -55,13 +58,6 @@ class MainActivity : AppCompatActivity() {
 
 
     companion object {
-        /** DomainCharacter search activity java class    **/
-        private val CHARACTER_SEARCH_ACTIVITY: Class<CharacterSearchActivity> =
-            CharacterSearchActivity::class.java
-        /** New character activity java class   **/
-        private val NEW_CHARACTER_ACTIVITY: Class<NewCharacterActivity> =
-            NewCharacterActivity::class.java
-
-
+        private const val TAG = "MainActivity"
     }
 }

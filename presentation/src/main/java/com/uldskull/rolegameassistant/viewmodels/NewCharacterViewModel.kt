@@ -4,12 +4,22 @@
 package com.uldskull.rolegameassistant.viewmodels
 
 import android.app.Application
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.viewModelScope
-import com.uldskull.rolegameassistant.models.character.DomainRace
+import androidx.lifecycle.LiveData
+import com.uldskull.rolegameassistant.models.character.DomainBond
+import com.uldskull.rolegameassistant.models.character.DomainIdeal
+import com.uldskull.rolegameassistant.models.character.breed.DomainBreed
+import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
+import com.uldskull.rolegameassistant.models.character.characteristic.CharacteristicsName
+import com.uldskull.rolegameassistant.models.character.characteristic.DomainBreedCharacteristic
+import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollCharacteristic
+import com.uldskull.rolegameassistant.repository.breed.BreedsRepository
+import com.uldskull.rolegameassistant.repository.character.CharacterRepository
+import com.uldskull.rolegameassistant.repository.characteristic.BreedCharacteristicRepository
+import com.uldskull.rolegameassistant.repository.ideal.IdealsRepository
 import com.uldskull.rolegameassistant.useCases.diceRoll.DiceService
-import kotlinx.coroutines.launch
 
 /**
  *   Class "NewCharacterViewModel" :
@@ -19,10 +29,70 @@ import kotlinx.coroutines.launch
  **/
 class NewCharacterViewModel(
     application: Application,
-    private val diceService: DiceService
+    private val diceService: DiceService,
+    private val characterRepository: CharacterRepository<LiveData<List<DomainCharacter>>>,
+    private val breedsRepository: BreedsRepository<LiveData<List<DomainBreed>>>,
+    private val characteristicRepository: BreedCharacteristicRepository<LiveData<List<DomainBreedCharacteristic>>>,
+    private val idealsRepository: IdealsRepository<LiveData<List<DomainIdeal>>>
 ) : AndroidViewModel(application) {
 
+    companion object {
+        private const val TAG = "NewCharacterViewModel"
+    }
 
+    /**
+     * Character's bonds
+     */
+    var characterBonds: MutableList<DomainBond>? = mutableListOf()
+
+    /**
+     * Character's ideals
+     */
+    var characterIdeals: MutableList<DomainIdeal?> = mutableListOf()
+
+    var characterAlignment: Int = 0
+        get() {
+            field = calculateCharacterAlignment()
+            return field
+        }
+
+    fun calculateCharacterAlignment(): Int {
+        var alignment = 0
+        if (characterIdeals != null && characterIdeals.isNotEmpty()) {
+            alignment = 0
+            characterIdeals.forEach {
+                var evilPoints = 0
+                if (it?.idealEvilPoints != null) {
+                    evilPoints = it.idealEvilPoints!!
+                }
+
+                var goodPoints = 0
+                if (it?.idealGoodPoints != null) {
+                    goodPoints = it.idealGoodPoints!!
+                }
+
+                alignment -= evilPoints
+                alignment += goodPoints
+            }
+            return alignment
+        }
+        return 0
+    }
+
+    /**
+     * Character's picture.
+     */
+    var characterPictureUri: Uri? = null
+
+
+    /**
+     * Character's id.
+     */
+    var characterId: Long? = null
+        set(value) {
+            Log.d("NewCharacterViewModel characterId", value.toString())
+            field = value
+        }
     /**
      * Character height
      */
@@ -64,23 +134,10 @@ class NewCharacterViewModel(
             field = value
         }
     /**
-     * Character race.
+     * Character breed.
      */
-    var characterRace: DomainRace? = DomainRace(null, "Race", "Description")
-        set(value) {
-            Log.d("NewCharacterViewModel characterRace", value?.raceName.toString())
-            field = value
-        }
+    var characterBreeds: MutableList<DomainBreed>? = mutableListOf()
 
-    fun displayDices() {
-        viewModelScope.launch {
-
-            Log.d("DICES", diceService.getOneDiceRollWithANumberOfFace(6).toString())
-
-            val list = arrayListOf(6, 12, 20)
-            diceService.getMultipleDiceRollWithANumberOfFace(list).forEach(System.out::println)
-        }
-    }
 
     /**
      * Save age into view model
@@ -96,14 +153,127 @@ class NewCharacterViewModel(
         }
     }
 
-    fun saveCharacter() {
-        Log.d("NewCharacterViewModel _ save", characterName)
-        Log.d("NewCharacterViewModel _ save", characterAge.toString())
-        Log.d("NewCharacterViewModel _ save", characterGender)
-        Log.d("NewCharacterViewModel _ save", characterBiography)
-        Log.d("NewCharacterViewModel _ save", characterHeight.toString())
-        Log.d("NewCharacterViewModel _ save", characterRace?.raceName)
 
+    fun saveCharacter(characteristics: List<DomainRollCharacteristic>?): Long? {
+        if (!characterName.isNullOrEmpty()) {
+            Log.d("NewCharacterViewModel _ saveCharacterName", characterName)
+        }
+        if (!characterAge?.toString().isNullOrEmpty()) {
+            Log.d("NewCharacterViewModel _ saveCharacterAge", characterAge?.toString())
+        }
+        if (!characterGender.isNullOrEmpty()) {
+            Log.d("NewCharacterViewModel _ saveCharacterGender", characterGender)
+        }
+        if (!characterBiography.isNullOrEmpty()) {
+            Log.d("NewCharacterViewModel _ saveCharacterBiography", characterBiography)
+        }
+        if (!characterHeight?.toString().isNullOrEmpty()) {
+            Log.d("NewCharacterViewModel _ saveCharacterHeight", characterHeight?.toString())
+        }
+        if (characterBreeds != null) {
+            characterBreeds!!.forEach {
+                var breed = breedsRepository.findOneWithChildren(it.breedId)
+                Log.d("NewCharacterViewModel _ saveCharacterBreed", breed?.breed?.breedName)
+
+                breed?.characteristics?.forEach {
+                    Log.d(
+                        "NewCharacterViewModel",
+                        "characteristic : ${it.characteristicName} bonus ${it.characteristicBonus}"
+                    )
+                }
+            }
+
+        }
+        if (!characterPictureUri?.toString().isNullOrEmpty()) {
+            Log.d(
+                "NewCharacterViewModel _ savecharacterPictureUri",
+                characterPictureUri?.toString()
+            )
+        }
+
+        if (!characterBonds.isNullOrEmpty()) {
+            characterBonds?.forEach {
+                Log.d(
+                    "NewCharacterViewModel _ savecharacterBonds",
+                    it.bondTitle
+                )
+            }
+        }
+
+        if (!characterIdeals.isNullOrEmpty()) {
+            characterIdeals.forEach {
+                Log.d(
+                    "NewCharacterViewModel _ savecharacterIdeals",
+                    it?.idealName
+                )
+            }
+        }
+
+        if (!characteristics.isNullOrEmpty()) {
+            characteristics.forEach {
+                Log.d(
+                    TAG,
+                    "Char : " + it.characteristicName + " " + it.characteristicTotal
+                )
+            }
+        }
+
+        var character =
+            DomainCharacter(
+                characterId = characterId,
+                characterName = this.characterName,
+                characterAge = this.characterAge,
+                characterGender = this.characterGender,
+                characterBiography = this.characterBiography,
+                characterHeight = this.characterHeight,
+                characterBreeds = this.characterBreeds,
+                characterIdeaPoints = null,
+                characterPictureUri = this.characterPictureUri.toString(),
+                characterBonds = this.characterBonds,
+                characterIdeals = this.characterIdeals,
+                //characterSkills = null,
+                //characterJob = null,
+                //characterIdeals = null,
+                //characterHobby = null,
+                characterHealthPoints = null,
+                characterEnergyPoints = null,
+                characterAlignment = null,
+                characterAppearance = characteristics?.find { c -> c.characteristicName == CharacteristicsName.APPEARANCE.toString() },
+                characterConstitution = characteristics?.find { c -> c.characteristicName == CharacteristicsName.CONSTITUTION.toString() },
+                characterDexterity = characteristics?.find { c -> c.characteristicName == CharacteristicsName.DEXTERITY.toString() },
+                characterIntelligence = characteristics?.find { c -> c.characteristicName == CharacteristicsName.INTELLIGENCE?.toString() },
+                characterPower = characteristics?.find { c -> c.characteristicName == CharacteristicsName.POWER.toString() },
+                characterSize = characteristics?.find { c -> c.characteristicName == CharacteristicsName.SIZE.toString() },
+                characterStrength = characteristics?.find { c -> c.characteristicName == CharacteristicsName.STRENGTH.toString() }
+            )
+
+
+
+        try {
+            if (characterId == null) {
+
+                Log.d("CHARACTER", "INSERT")
+
+                characterId = characterRepository.insertOne(character)
+                Log.d("CHARACTER", "character $character")
+            } else {
+                Log.d("CHARACTER", "UPDATE")
+                Log.d("CHARACTER", "character $character ")
+                characterRepository.updateOne(character)
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            throw e
+        }
+
+        Log.d("RESULT", character.toString())
+
+        val searchResult = characterRepository.findOneById(characterId)
+
+        Log.d("ideals", "$searchResult")
+
+        return characterId
     }
 
     fun saveHeight(characterHeight: String) {
@@ -117,5 +287,15 @@ class NewCharacterViewModel(
         }
     }
 
+    fun addIdeal(domainModel: DomainIdeal) {
+        characterIdeals.add(domainModel)
+    }
 
+    fun removeIdeal(domainModel: DomainIdeal) {
+        if (!characterIdeals.isNullOrEmpty()) {
+            if (characterIdeals.contains(domainModel)) {
+                characterIdeals.remove(domainModel)
+            }
+        }
+    }
 }

@@ -1,6 +1,5 @@
 package com.uldskull.rolegameassistant
 
-import com.uldskull.rolegameassistant.infrastructure.repositories.characteristic.CharacteristicRepositoryImpl
 import kotlinx.coroutines.runBlocking
 import org.koin.core.inject
 

@@ -14,9 +14,12 @@ Activity for a new skill creation.
  Logs "start" when it is created.
  */
 class NewSkillActivity : AppCompatActivity() {
+    companion object {
+        private const val TAG = "NewSkillActivity"
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d(NEW_SKILL_ACTIVTY.name, "Start")
+        Log.d(TAG, "onCreate")
         setContentView(R.layout.activity_new_skill)
     }
 }

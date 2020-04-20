@@ -44,6 +44,26 @@
         app:layout_constraintEnd_toStartOf="@id/chk_ideal"
         app:layout_constraintStart_toEndOf="@id/img_alignment" />
 
+    <TextView
+        android:id="@+id/tv_idealGoodPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="100"
+        android:textColor="@android:color/holo_green_light"
+        app:layout_constraintEnd_toEndOf="@id/tv_ideal"
+        app:layout_constraintStart_toStartOf="@id/tv_ideal"
+        app:layout_constraintTop_toBottomOf="@id/tv_ideal" />
+
+    <TextView
+        android:id="@+id/tv_idealEvilPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="50"
+        android:textColor="@android:color/holo_red_light"
+        app:layout_constraintEnd_toEndOf="@id/tv_ideal"
+        app:layout_constraintStart_toStartOf="@id/tv_ideal"
+        app:layout_constraintTop_toBottomOf="@id/tv_idealGoodPoints" />
+
     <CheckBox
         style="@style/myCheckBox"
         android:layout_width="wrap_content"
@@ -53,7 +73,8 @@
         android:id="@+id/chk_ideal"
         android:layout_height="match_parent"
         android:minHeight="45dp"
-        app:layout_constraintBottom_toBottomOf="@id/tv_ideal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_weight="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tv_ideal" />

@@ -20,4 +20,9 @@ abstract class CustomRecyclerViewAdapter internal constructor(
 
         return this
     }
+
+    /**
+     * Selected row index.
+     */
+    var rowIndex: Int = -1
 }

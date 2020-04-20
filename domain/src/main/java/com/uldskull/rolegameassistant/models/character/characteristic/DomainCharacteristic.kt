@@ -9,5 +9,5 @@ package com.uldskull.rolegameassistant.models.character.characteristic
  **/
 open class DomainCharacteristic(
     val characteristicId: Long?,
-    val characteristicName: String
+    val characteristicName: String?
 )

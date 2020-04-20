@@ -125,13 +125,13 @@
                 <TableRow>
 
                     <TextView
-                        android:id="@+id/tv_subtitle_race"
+                        android:id="@+id/tv_subtitle_breed"
                         style="@style/TextViewSubTitle"
                         android:layout_gravity="center_vertical"
-                        android:text="Race : " />
+                        android:text="Breed : " />
 
                     <FrameLayout
-                        android:id="@+id/container_race"
+                        android:id="@+id/container_breed"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_span="3"
@@ -148,12 +148,12 @@
                         android:layout_span="3">
 
                         <ImageButton
-                            android:id="@+id/btn_addRace"
+                            android:id="@+id/btn_addBreed"
                             style="@style/myCornerRadiusButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/mybutton"
-                            android:contentDescription="Add race."
+                            android:contentDescription="Add breed."
                             android:padding="8dp"
                             android:src="@drawable/ic_add_black_24dp"
                             app:layout_constraintEnd_toEndOf="parent"

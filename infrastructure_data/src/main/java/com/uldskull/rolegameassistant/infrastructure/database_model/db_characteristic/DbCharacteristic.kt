@@ -19,7 +19,7 @@ import com.uldskull.rolegameassistant.models.character.characteristic.DomainChar
 open class DbCharacteristic(
     @PrimaryKey(autoGenerate = true)
     val characteristicId: Long?,
-    val characteristicName: String
+    val characteristicName: String?
 ) : DbEntity<DomainCharacteristic> {
     /**
      * Converts a Database model entity into a domain model.
@@ -35,10 +35,10 @@ open class DbCharacteristic(
         /**
          * Converts a domain model into a database model entity.
          */
-        override fun from(domainModel: DomainCharacteristic): DbCharacteristic {
+        override fun from(domainModel: DomainCharacteristic?): DbCharacteristic {
             return DbCharacteristic(
-                characteristicId = domainModel.characteristicId,
-                characteristicName = domainModel.characteristicName
+                characteristicId = domainModel?.characteristicId,
+                characteristicName = domainModel?.characteristicName
             )
         }
     }

@@ -61,3 +61,7 @@ object MaterialVersions {
 object KotlinxVersions {
     const val coroutines = "1.3.5"
 }
+
+object GoogleVersions {
+    const val gson = "2.8.6"
+}

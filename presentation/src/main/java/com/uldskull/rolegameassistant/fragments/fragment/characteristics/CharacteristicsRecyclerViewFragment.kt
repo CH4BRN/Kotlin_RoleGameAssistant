@@ -18,8 +18,11 @@ import com.uldskull.rolegameassistant.fragments.adapter.ABILITIES_RECYCLER_VIEW_
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
-import com.uldskull.rolegameassistant.viewmodels.CharacteristicViewModel
-import kotlinx.android.synthetic.main.fragment_recyclerview_abilities.*
+import com.uldskull.rolegameassistant.fragments.fragment.characteristics.adapters.CharacteristicsAdapter
+import com.uldskull.rolegameassistant.fragments.fragment.characteristics.adapters.CharacteristicsDisabledAdapter
+import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollCharacteristic
+import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
+import kotlinx.android.synthetic.main.fragment_recyclerview_characteristics.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
@@ -28,8 +31,11 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  **/
 class CharacteristicsRecyclerViewFragment(activity: Activity) :
     CustomRecyclerViewFragment(activity) {
-    /** ViewModel for abilities **/
-    private val characteristicViewModel: CharacteristicViewModel by sharedViewModel()
+
+    private var editable: Boolean = false
+
+    /** ViewModel for characteristics **/
+    private val characteristicsViewModel: CharacteristicsViewModel by sharedViewModel()
 
     /** Adapter for abilities recycler view **/
     private var characteristicsAdapter: CharacteristicsAdapter? = null
@@ -51,11 +57,10 @@ class CharacteristicsRecyclerViewFragment(activity: Activity) :
         return initializeView(inflater, container)
     }
 
-
     /** Initialize the view **/
     override fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = inflater.inflate(
-            R.layout.fragment_recyclerview_abilities, container, false
+            R.layout.fragment_recyclerview_characteristics, container, false
         )
         return initialRootView
     }
@@ -75,7 +80,14 @@ class CharacteristicsRecyclerViewFragment(activity: Activity) :
     private fun setButtonRoll() {
         if (btn_roll != null) {
             btn_roll.setOnClickListener {
-                Log.d(this.javaClass.simpleName, "Roll")
+                Log.d(TAG, "Roll")
+                populateRandomRollCharacteristics()
+                if (!editable) {
+                    characteristicsRecyclerView?.adapter = characteristicsDisabledAdapter
+
+                } else {
+                    characteristicsRecyclerView?.adapter = characteristicsAdapter
+                }
             }
         }
     }
@@ -87,8 +99,15 @@ class CharacteristicsRecyclerViewFragment(activity: Activity) :
     private fun setButtonUsePoints() {
         if (btn_use_point != null) {
             btn_use_point.setOnClickListener {
-                Log.d(this.javaClass.simpleName, "Use points")
-                characteristicsRecyclerView?.adapter = characteristicsAdapter
+                Log.d(TAG, "Use points")
+                if (editable) {
+                    characteristicsRecyclerView?.adapter = characteristicsDisabledAdapter
+                    editable = false
+                } else {
+                    characteristicsRecyclerView?.adapter = characteristicsAdapter
+                    editable = true
+                }
+
                 setRecyclerViewLayoutManager()
             }
         }
@@ -106,37 +125,31 @@ class CharacteristicsRecyclerViewFragment(activity: Activity) :
      * Start ViewModel's collection observation.
      */
     override fun startObservation() {
-        this.characteristicViewModel.result?.observe(this, Observer { characteristics ->
-            kotlin.run {
-                characteristics?.let {
-                    Log.d(
-                        "abilitiesDisabledADAPTER", when (characteristicsDisabledAdapter) {
-                            null -> "Is null"
-                            else -> "Is not null"
-                        }
-                    )
-                    characteristicsDisabledAdapter?.setAbilities(it)
-
-                    Log.d("ABILITIES IT SIZE : ", it.size.toString())
-                }
-                characteristics?.let {
-                    Log.d(
-                        "abilitiesADAPTER", when (characteristicsAdapter) {
-                            null -> "Is null"
-                            else -> "Is not null"
-                        }
-                    )
-                    characteristicsAdapter?.setAbilities(it)
-
-                    Log.d("ABILITIES IT SIZE : ", it.size.toString())
-                }
-
+        characteristicsViewModel.observedCharacteristics?.observe(
+            this, Observer {
+                Log.d(TAG, "observedCharacteristics changed size ${it.size}")
+                characteristicsViewModel?.displayedCharacteristics  = it as MutableList<DomainRollCharacteristic>
+                characteristicsDisabledAdapter?.setCharacteristics(characteristicsViewModel?.displayedCharacteristics)
+                characteristicsAdapter?.setCharacteristics(characteristicsViewModel?.displayedCharacteristics)
             }
-        })
+        )
+    }
+
+    fun populateRandomRollCharacteristics() {
+        characteristicsViewModel.populateRandomRollCharacteristics()
+        characteristicsDisabledAdapter?.setCharacteristics(characteristicsViewModel.displayedCharacteristics)
+        Log.d(TAG, "item count = ${characteristicsDisabledAdapter?.itemCount.toString()}")
+        characteristicsAdapter?.setCharacteristics(characteristicsViewModel.displayedCharacteristics)
+        characteristicsRecyclerView?.adapter = characteristicsDisabledAdapter
+
     }
 
     /** Set recycler view adapter   **/
     override fun setRecyclerViewAdapter() {
+        var checkedBreedList = characteristicsViewModel.characterBreeds.filter { b ->
+            b.breedChecked
+        }
+        characteristicsViewModel.calculateBreedBonuses(checkedBreedList)
         setRecyclerViewDisabledAdapter()
     }
 
@@ -144,8 +157,15 @@ class CharacteristicsRecyclerViewFragment(activity: Activity) :
      * Set Disabled recyclerview adapter
      */
     private fun setRecyclerViewDisabledAdapter() {
-        characteristicsDisabledAdapter = CharacteristicsDisabledAdapter(activity as Context)
-        characteristicsAdapter = CharacteristicsAdapter(activity as Context)
+        characteristicsDisabledAdapter =
+            CharacteristicsDisabledAdapter(
+                activity as Context
+            )
+
+        characteristicsAdapter =
+            CharacteristicsAdapter(
+                activity as Context
+            )
         characteristicsRecyclerView?.adapter = characteristicsDisabledAdapter
     }
 
@@ -160,6 +180,7 @@ class CharacteristicsRecyclerViewFragment(activity: Activity) :
 
 
     companion object : CustomCompanion() {
+        private const val TAG = "CharacteristicRecyclerViewFragment"
         @JvmStatic
         override fun newInstance(activity: Activity): CharacteristicsRecyclerViewFragment {
             val fragment = CharacteristicsRecyclerViewFragment(activity)

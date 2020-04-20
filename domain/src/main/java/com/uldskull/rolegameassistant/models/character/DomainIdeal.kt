@@ -9,8 +9,17 @@ package com.uldskull.rolegameassistant.models.character
  **/
 
 class DomainIdeal(
-    val idealId: Long,
-    val idealName: String,
-    val idealGoodPoints: Int,
-    val idealEvilPoints: Int
-)
+    val idealId: Long?,
+    val idealName: String?,
+    val idealGoodPoints: Int?,
+    val idealEvilPoints: Int?,
+    var isChecked: Boolean
+) {
+    override fun toString(): String {
+        return "id : $idealId\n" +
+                "Name : $idealName\n" +
+                "Good : ${idealGoodPoints.toString()}\n" +
+                "Evil : ${idealEvilPoints.toString()}\n" +
+                "Checked : $isChecked \n"
+    }
+}

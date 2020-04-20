@@ -8,14 +8,14 @@ package com.uldskull.rolegameassistant.models.character
  *   TODO: Fill class use.
  **/
 class DomainFilledSkill(
-    filledSkillId: Long,
-    filledSkillName: String,
-    filledSkillDescription: String,
-    val filledSkillBase: Int,
-    val filledSkillTensValue: Int = 0,
-    val filledSkillUnitsValue: Int = 0,
-    val filledSkillTotal: Int,
-    val filledSkillMax: Int
+    filledSkillId: Long?,
+    filledSkillName: String?,
+    filledSkillDescription: String?,
+    val filledSkillBase: Int?,
+    val filledSkillTensValue: Int? = 0,
+    val filledSkillUnitsValue: Int? = 0,
+    val filledSkillTotal: Int?,
+    val filledSkillMax: Int?
 ) : DomainSkill(
     skillId = filledSkillId,
     skillName = filledSkillName,

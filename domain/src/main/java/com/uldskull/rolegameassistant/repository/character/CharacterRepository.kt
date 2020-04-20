@@ -3,11 +3,19 @@
 
 package com.uldskull.rolegameassistant.repository.character
 
-import com.uldskull.rolegameassistant.models.character.DomainCharacter
+import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
+import com.uldskull.rolegameassistant.models.character.character.DomainCharacterWithIdeals
 import com.uldskull.rolegameassistant.repository.GenericRepository
 
 /**
  *   Interface "CharacterRepository" :
  *   Contract to allow character persistence.
  **/
-interface CharacterRepository<T>:GenericRepository<T, DomainCharacter>
+interface CharacterRepository<T> : GenericRepository<T, DomainCharacter> {
+    /**
+     * Find the corresponding character with all its ideals
+     */
+    fun findOneWithIdeals(id: Long?): DomainCharacterWithIdeals?
+
+
+}
