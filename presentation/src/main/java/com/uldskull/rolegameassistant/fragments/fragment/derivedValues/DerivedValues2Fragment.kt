@@ -52,6 +52,7 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
         setSizePlusStrength()
         setDamageBonus()
         setAlignmentScore()
+        setCthulhuMythScore()
 
         setDamageBonusSpinner()
         setAlignmentPicture()
@@ -159,9 +160,31 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
                         e.printStackTrace()
                         throw e
                     }
-
                 }
+            }
+        })
+    }
 
+    private fun setCthulhuMythPointsListener(){
+        et_cthulhuMyth.addTextChangedListener(object :TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if(!s.isNullOrEmpty()){
+                    try {
+                        derivedValuesViewModel.cthulhuMythScore = s.toString().toInt()
+                        derivedValuesViewModel.cthulhuMythScoreEditTextHasChanged = true
+                    }catch (e:Exception){
+                        Log.e(TAG, "et_cthulhuMyth FAILED")
+                        e.printStackTrace()
+                        throw e
+                    }
+                }
             }
 
         })
@@ -193,6 +216,12 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
                 DerivedValuesViewModel.DamageBonus.values()
             )
             spinner_damageBonus.adapter = adapter
+        }
+    }
+
+    private fun setCthulhuMythScore(){
+        if(et_cthulhuMyth != null){
+            et_cthulhuMyth?.setText(derivedValuesViewModel.cthulhuMythScore.toString())
         }
     }
 

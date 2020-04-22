@@ -62,6 +62,7 @@ class DerivedValues1Fragment(activity: Activity) : CustomFragment(activity) {
         setIdeaScore()
         setSanityScore()
         setLuckScore()
+        setKnowScore()
 
     }
 
@@ -70,7 +71,7 @@ class DerivedValues1Fragment(activity: Activity) : CustomFragment(activity) {
      */
     private fun setBreedHealthBonusScore() {
         Log.d(TAG, "setBreedHealthBonusScore")
-        if (et_breedHealthBonus != null) {
+        if (et_breedHealthBonus != null && !derivedValuesViewModel.breedBonusEditTextHasChanged) {
             derivedValuesViewModel.calculateBreedsHealthBonus(characteristicsViewModel.getCheckedBreeds())
             et_breedHealthBonus.setText(derivedValuesViewModel.breedHealthBonus!!.toString())
         }
@@ -134,6 +135,16 @@ class DerivedValues1Fragment(activity: Activity) : CustomFragment(activity) {
                 derivedValuesViewModel.calculateBaseHealth(listOf(size, constitution))
                 et_baseHealthPoints.setText(derivedValuesViewModel.baseHealth.toString())
 
+            }
+        }
+    }
+
+    private fun setKnowScore(){
+        if(et_knowPoints != null && !derivedValuesViewModel.knowEditTextHasChanged){
+            var education = characteristicsViewModel.getEducation()
+            if(education != null){
+                derivedValuesViewModel.calculateKnowPoints(education)
+                et_knowPoints.setText(derivedValuesViewModel.knowScore.toString())
             }
         }
     }

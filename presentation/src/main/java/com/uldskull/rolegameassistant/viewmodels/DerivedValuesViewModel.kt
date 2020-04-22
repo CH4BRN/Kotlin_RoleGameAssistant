@@ -19,6 +19,10 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
         private const val TAG = "DerivedValuesViewModel"
     }
 
+    var knowScore: Int? = 0
+    var knowEditTextHasChanged: Boolean = false
+    var cthulhuMythScoreEditTextHasChanged: Boolean = false
+    var cthulhuMythScore: Int? = 99
     var selectedDamageBonusIndex: Int? = 0
 
     enum class DamageBonus(value: String) {
@@ -209,6 +213,14 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
         }
         breedHealthBonus = bonus
         return breedHealthBonus!!
+    }
+
+    fun calculateKnowPoints(education: DomainRollCharacteristic):Int? {
+        Log.d(TAG, "calculateKnowPoints")
+        if (education?.characteristicTotal != null) {
+            knowScore = education.characteristicTotal!! * 5
+        }
+        return knowScore
     }
 
 
