@@ -52,10 +52,9 @@ class BreedCharacteristicsViewModel(
     }
 
     fun saveOneBreedCharacteristic(domainBreedCharacteristic: DomainBreedCharacteristic): Long? {
-        var result: Long? = null
         Log.d(TAG, "saveOneBreedCharacteristic")
 
-        result = breedCharacteristicRepositoryImpl.insertOne(domainBreedCharacteristic)
+        var result: Long? = breedCharacteristicRepositoryImpl.insertOne(domainBreedCharacteristic)
         Log.d("CharacteristicViewModel", "saved $result")
         return result
     }
@@ -71,10 +70,9 @@ class BreedCharacteristicsViewModel(
 
         synchronized(lock) {
             Log.d(TAG, "saveAllBreedCharacteristics")
-            var result: List<Long>? = null
             Log.d(TAG, "saveAllBreedCharacteristics")
 
-            result = breedCharacteristicRepositoryImpl.insertAll(domainBreedCharacteristics)
+            var result: List<Long>? = breedCharacteristicRepositoryImpl.insertAll(domainBreedCharacteristics)
             Log.d(TAG, "INSERTED $result")
 
             lock.notifyAll()

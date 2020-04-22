@@ -48,7 +48,7 @@ class BondsRecyclerViewFragment(activity: Activity) :
         return initializeView(inflater, container)
     }
 
-    override fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
+    override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         Log.d(TAG, "initializeView")
         initialRootView = layoutInflater.inflate(
             R.layout.fragment_recyclerview_bonds, container, false
@@ -64,7 +64,7 @@ class BondsRecyclerViewFragment(activity: Activity) :
         Log.d(TAG, "Item pressed for $domainModel")
 
         Log.d(TAG, "viewmodel bonds size before =" + bondsViewModel.bonds.value?.size)
-        val deleteResult = bondsViewModel.deleteBond(domainModel)
+        bondsViewModel.deleteBond(domainModel)
         Log.d(TAG, "viewmodel bonds size after =" + bondsViewModel.bonds.value?.size)
         bondsRecyclerView?.requestFocus()
         Log.d(TAG, "Adapter size : ${bondsAdapter?.itemCount}")

@@ -61,8 +61,8 @@ class CharacteristicsRecyclerViewFragment(activity: Activity) :
     }
 
     /** Initialize the view **/
-    override fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
-        initialRootView = inflater.inflate(
+    override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
+        initialRootView = layoutInflater.inflate(
             R.layout.fragment_recyclerview_characteristics, container, false
         )
         return initialRootView
@@ -140,9 +140,9 @@ class CharacteristicsRecyclerViewFragment(activity: Activity) :
         characteristicsViewModel.observedCharacteristics?.observe(
             this, Observer {
                 Log.d(TAG, "observedCharacteristics changed size ${it.size}")
-                characteristicsViewModel?.displayedCharacteristics  = it as MutableList<DomainRollCharacteristic>
-                characteristicsDisabledAdapter?.setCharacteristics(characteristicsViewModel?.displayedCharacteristics)
-                characteristicsAdapter?.setCharacteristics(characteristicsViewModel?.displayedCharacteristics)
+                characteristicsViewModel.displayedCharacteristics  = it as MutableList<DomainRollCharacteristic>
+                characteristicsDisabledAdapter?.setCharacteristics(characteristicsViewModel.displayedCharacteristics)
+                characteristicsAdapter?.setCharacteristics(characteristicsViewModel.displayedCharacteristics)
             }
         )
     }

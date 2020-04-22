@@ -59,10 +59,10 @@ class IdealsFragment(activity: Activity) : CustomFragment(activity) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setButtonAddIdeal(view)
+        setButtonAddIdeal()
     }
 
-    private fun setButtonAddIdeal(view: View) {
+    private fun setButtonAddIdeal() {
         if (btn_addIdeal != null) {
             btn_addIdeal?.setOnClickListener {
                 val intent = Intent(activity, NewIdealActivity::class.java)

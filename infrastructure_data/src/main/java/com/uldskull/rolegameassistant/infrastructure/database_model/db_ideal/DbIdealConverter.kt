@@ -12,24 +12,24 @@ import com.google.gson.Gson
  **/
 class DbIdealConverter {
     @TypeConverter
-    fun convertIdealListToString(ideals: List<DbIdeal>): String {
-        var idealsArray = arrayOfNulls<DbIdeal>(ideals.size)
-        for (index in idealsArray.indices) {
-            idealsArray[index] = ideals[index]
-        }
-
+    fun convertIdealListToString(ideals: List<DbIdeal?>?): String {
         var str = ""
+        if(ideals != null){
+            var idealsArray = arrayOfNulls<DbIdeal>(ideals?.size)
+            for (index in idealsArray.indices) {
+                idealsArray[index] = ideals[index]
+            }
+            var gson = Gson()
+            for (index in idealsArray.indices) {
+                var jsonString = gson.toJson(idealsArray[index])
 
-        var gson = Gson()
-
-        for (index in idealsArray.indices) {
-            var jsonString = gson.toJson(idealsArray[index])
-
-            str += jsonString
-            if (index < idealsArray.size - 1) {
-                str += strSeparator
+                str += jsonString
+                if (index < idealsArray.size - 1) {
+                    str += strSeparator
+                }
             }
         }
+
         return str
     }
 

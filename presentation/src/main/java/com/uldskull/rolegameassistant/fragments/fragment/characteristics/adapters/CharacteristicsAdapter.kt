@@ -59,8 +59,7 @@ open class CharacteristicsAdapter internal constructor(
     /** ViewHolder life-cycle   **/
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacteristicsViewHolder {
         Log.d(TAG, "onCreateViewHolder")
-        var roll: Int? = 0
-        var bonus: Int? = 0
+
         val itemView = inflater.inflate(R.layout.recyclerview_item_characteristic, parent, false)
         itemView.et_characteristicRoll.inputType = InputType.TYPE_CLASS_NUMBER
 

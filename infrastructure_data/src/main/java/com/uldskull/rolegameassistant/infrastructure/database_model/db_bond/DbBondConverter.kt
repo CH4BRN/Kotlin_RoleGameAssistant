@@ -12,22 +12,24 @@ import com.google.gson.Gson
  **/
 class DbBondConverter {
     @TypeConverter
-    fun convertBondListToString(bonds: List<DbBond>): String {
-        var bondsArray = arrayOfNulls<DbBond>(bonds.size)
-        for (i in bondsArray.indices) {
-            bondsArray[i] = bonds[i]
-        }
-
+    fun convertBondListToString(bonds: List<DbBond?>?): String {
         var str = ""
+        if(bonds != null){
+            var bondsArray = arrayOfNulls<DbBond>(bonds?.size)
+            for (i in bondsArray.indices) {
+                bondsArray[i] = bonds[i]
+            }
 
-        var gson: Gson = Gson()
-        for (i in bondsArray.indices) {
-            var jsonString = gson.toJson(bondsArray[i])
-            str += jsonString
-            if (i < bondsArray.size - 1) {
-                str += strSeparator
+            var gson: Gson = Gson()
+            for (i in bondsArray.indices) {
+                var jsonString = gson.toJson(bondsArray[i])
+                str += jsonString
+                if (i < bondsArray.size - 1) {
+                    str += strSeparator
+                }
             }
         }
+
         return str
     }
 

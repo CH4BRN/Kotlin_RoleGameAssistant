@@ -16,6 +16,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.CharactersViewModel
+import com.uldskull.rolegameassistant.viewmodels.DerivedValuesViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import kotlinx.android.synthetic.main.fragment_navigation_bar.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -40,6 +41,8 @@ class NavigationBarFragment(activity: Activity) : CustomFragment(activity) {
      * Characters view model.
      */
     private val charactersViewModel: CharactersViewModel by sharedViewModel()
+
+    private val derivedValuesViewModel:DerivedValuesViewModel by sharedViewModel()
 
 
     /**
@@ -106,7 +109,11 @@ class NavigationBarFragment(activity: Activity) : CustomFragment(activity) {
     private fun doSave() {
         Log.d(TAG, "doSave")
         var insertedId =
-            newCharacterViewModel.saveCharacter(characteristicsViewModel.displayedCharacteristics)
+            newCharacterViewModel.saveCharacter(
+                characteristicsViewModel.displayedCharacteristics,
+                derivedValuesViewModel.ideaScore,
+                derivedValuesViewModel.totalHealth,
+                derivedValuesViewModel.energyPoints)
         var result = charactersViewModel.findOneById(insertedId)
         Log.d(TAG, "$result")
 

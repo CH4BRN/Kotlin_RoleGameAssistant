@@ -43,7 +43,7 @@ class NewCharacterViewModel(
     /**
      * Character's bonds
      */
-    var characterBonds: MutableList<DomainBond>? = mutableListOf()
+    var characterBonds: MutableList<DomainBond?>? = mutableListOf()
 
     /**
      * Character's ideals
@@ -57,8 +57,8 @@ class NewCharacterViewModel(
         }
 
     fun calculateCharacterAlignment(): Int {
-        var alignment = 0
-        if (characterIdeals != null && characterIdeals.isNotEmpty()) {
+        var alignment: Int
+        if (characterIdeals.isNotEmpty()) {
             alignment = 0
             characterIdeals.forEach {
                 var evilPoints = 0
@@ -106,7 +106,10 @@ class NewCharacterViewModel(
      */
     var characterName: String? = ""
         set(value) {
-            Log.d("NewCharacterViewModel CharacterName", value)
+            if (value != null) {
+                Log.d("NewCharacterViewModel CharacterName", value!!)
+            }
+
             field = value
         }
     /**
@@ -144,7 +147,7 @@ class NewCharacterViewModel(
      */
     fun saveAge(characterAge: String) {
         Log.d("NewCharacterViewModel", "age = $characterAge")
-        if (characterAge != null && characterAge.isNotEmpty()) {
+        if (characterAge.isNotEmpty()) {
             try {
                 this.characterAge = characterAge.toInt()
             } catch (e: Exception) {
@@ -153,26 +156,164 @@ class NewCharacterViewModel(
         }
     }
 
+    var currentCharacter: DomainCharacter? = null
 
-    fun saveCharacter(characteristics: List<DomainRollCharacteristic>?): Long? {
-        if (!characterName.isNullOrEmpty()) {
-            Log.d("NewCharacterViewModel _ saveCharacterName", characterName)
+    var selectedCharacter: DomainCharacter? = null
+
+
+    fun saveCharacter(
+        characteristics: List<DomainRollCharacteristic?>?,
+        ideaScore: Int?,
+        healthScore: Int?,
+        energyScore: Int?
+    ): Long? {
+
+        if (currentCharacter == null) {
+            currentCharacter = emptyCharacter()
         }
-        if (!characterAge?.toString().isNullOrEmpty()) {
-            Log.d("NewCharacterViewModel _ saveCharacterAge", characterAge?.toString())
+        setId()
+        setName()
+        setAge()
+        setGender()
+        setBiography()
+        setAlignment()
+        setHeight()
+        setBreeds()
+        setPictureUri()
+        setBonds()
+        setIdeals()
+        setCharacteristics(characteristics)
+        if (ideaScore != null) {
+            currentCharacter?.characterIdeaPoints = ideaScore
         }
-        if (!characterGender.isNullOrEmpty()) {
-            Log.d("NewCharacterViewModel _ saveCharacterGender", characterGender)
+        if (healthScore != null) {
+            currentCharacter?.characterHealthPoints = healthScore
         }
-        if (!characterBiography.isNullOrEmpty()) {
-            Log.d("NewCharacterViewModel _ saveCharacterBiography", characterBiography)
+        if (energyScore != null) {
+            currentCharacter?.characterEnergyPoints = energyScore
         }
-        if (!characterHeight?.toString().isNullOrEmpty()) {
-            Log.d("NewCharacterViewModel _ saveCharacterHeight", characterHeight?.toString())
+
+        /*
+
+        var character =
+            DomainCharacter(
+                //characterSkills = null,
+                //characterJob = null,
+                //characterIdeals = null,
+                //characterHobby = null,
+        )
+*/
+
+
+        try {
+            if (currentCharacter?.characterId == null) {
+                Log.d("CHARACTER", "INSERT")
+                characterId = characterRepository.insertOne(currentCharacter)
+                Log.d("CHARACTER", "character $currentCharacter")
+            } else {
+                Log.d("CHARACTER", "UPDATE")
+                Log.d("CHARACTER", "character $currentCharacter ")
+                characterRepository.updateOne(currentCharacter)
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            throw e
         }
+
+        Log.d("RESULT", currentCharacter.toString())
+
+        val searchResult = characterRepository.findOneById(characterId)
+
+        Log.d("ideals", "$searchResult")
+
+        return characterId
+    }
+
+    private fun setId() {
+        if (characterId != null) {
+            currentCharacter?.characterId = characterId
+        }
+    }
+
+    private fun setCharacteristics(characteristics: List<DomainRollCharacteristic?>?) {
+        if (!characteristics.isNullOrEmpty()) {
+            characteristics.forEach {
+                Log.d(
+                    TAG,
+                    "Char : " + it?.characteristicName + " " + it?.characteristicTotal
+                )
+            }
+            currentCharacter?.characterConstitution =
+                characteristics.find { c -> c?.characteristicName == CharacteristicsName.CONSTITUTION.characteristicName }
+            currentCharacter?.characterAppearance =
+                characteristics.find { c -> c?.characteristicName == CharacteristicsName.APPEARANCE.characteristicName }
+            currentCharacter?.characterDexterity =
+                characteristics.find { c -> c?.characteristicName == CharacteristicsName.DEXTERITY.characteristicName }
+            currentCharacter?.characterIntelligence =
+                characteristics.find { c -> c?.characteristicName == CharacteristicsName.INTELLIGENCE.characteristicName }
+
+            var power =
+                characteristics.find { c -> c?.characteristicName == CharacteristicsName.POWER.characteristicName }
+            if (power != null) {
+                currentCharacter?.characterPower = power!!
+            }
+
+
+            currentCharacter?.characterSize =
+                characteristics?.find { c -> c?.characteristicName == CharacteristicsName.SIZE.characteristicName }
+            currentCharacter?.characterStrength =
+                characteristics?.find { c -> c?.characteristicName == CharacteristicsName.STRENGTH.characteristicName }
+        }
+    }
+
+    private fun setIdeals() {
+        if (!characterIdeals.isNullOrEmpty()) {
+            characterIdeals.forEach {
+                if (it?.idealName != null) {
+                    Log.d(
+                        "NewCharacterViewModel _ savecharacterIdeals",
+                        it?.idealName!!
+                    )
+                }
+
+            }
+            currentCharacter?.characterIdeals = characterIdeals
+        }
+    }
+
+    private fun setBonds() {
+        if (!characterBonds.isNullOrEmpty()) {
+            characterBonds?.forEach {
+                if (it?.bondTitle != null) {
+                    Log.d(
+                        "NewCharacterViewModel _ savecharacterBonds",
+                        it?.bondTitle
+                    )
+                }
+            }
+
+            currentCharacter?.characterBonds = characterBonds
+        }
+    }
+
+    private fun setPictureUri() {
+        if (!characterPictureUri?.toString().isNullOrEmpty()) {
+            Log.d(
+                "NewCharacterViewModel _ savecharacterPictureUri",
+                characterPictureUri?.toString()
+
+            )
+            currentCharacter?.characterPictureUri = characterPictureUri.toString()
+        }
+    }
+
+    private fun setBreeds() {
         if (characterBreeds != null) {
+            currentCharacter?.characterBreeds = mutableListOf()
             characterBreeds!!.forEach {
                 var breed = breedsRepository.findOneWithChildren(it.breedId)
+                currentCharacter?.characterBreeds?.add(breed?.breed)
                 Log.d("NewCharacterViewModel _ saveCharacterBreed", breed?.breed?.breedName)
 
                 breed?.characteristics?.forEach {
@@ -184,96 +325,74 @@ class NewCharacterViewModel(
             }
 
         }
-        if (!characterPictureUri?.toString().isNullOrEmpty()) {
-            Log.d(
-                "NewCharacterViewModel _ savecharacterPictureUri",
-                characterPictureUri?.toString()
-            )
+    }
+
+    private fun setHeight() {
+        if (!characterHeight?.toString().isNullOrEmpty()) {
+            Log.d("NewCharacterViewModel _ saveCharacterHeight", characterHeight?.toString())
+            currentCharacter?.characterHeight = characterHeight
         }
+    }
 
-        if (!characterBonds.isNullOrEmpty()) {
-            characterBonds?.forEach {
-                Log.d(
-                    "NewCharacterViewModel _ savecharacterBonds",
-                    it.bondTitle
-                )
-            }
+    private fun setAlignment() {
+        if (characterAlignment != null) {
+            Log.d(TAG, "CharacterAlignment $characterAlignment")
+            currentCharacter?.characterAlignment = characterAlignment
         }
+    }
 
-        if (!characterIdeals.isNullOrEmpty()) {
-            characterIdeals.forEach {
-                Log.d(
-                    "NewCharacterViewModel _ savecharacterIdeals",
-                    it?.idealName
-                )
-            }
+    private fun setBiography() {
+        if (!characterBiography.isNullOrEmpty()) {
+            Log.d(TAG, "CharacterBiography $characterBiography")
+            currentCharacter?.characterBiography = characterBiography
         }
+    }
 
-        if (!characteristics.isNullOrEmpty()) {
-            characteristics.forEach {
-                Log.d(
-                    TAG,
-                    "Char : " + it.characteristicName + " " + it.characteristicTotal
-                )
-            }
+    private fun setGender() {
+        if (!characterGender.isNullOrEmpty()) {
+            Log.d(TAG, "CharacterGender $characterGender")
+            currentCharacter?.characterGender = characterGender
         }
+    }
 
-        var character =
-            DomainCharacter(
-                characterId = characterId,
-                characterName = this.characterName,
-                characterAge = this.characterAge,
-                characterGender = this.characterGender,
-                characterBiography = this.characterBiography,
-                characterHeight = this.characterHeight,
-                characterBreeds = this.characterBreeds,
-                characterIdeaPoints = null,
-                characterPictureUri = this.characterPictureUri.toString(),
-                characterBonds = this.characterBonds,
-                characterIdeals = this.characterIdeals,
-                //characterSkills = null,
-                //characterJob = null,
-                //characterIdeals = null,
-                //characterHobby = null,
-                characterHealthPoints = null,
-                characterEnergyPoints = null,
-                characterAlignment = null,
-                characterAppearance = characteristics?.find { c -> c.characteristicName == CharacteristicsName.APPEARANCE.toString() },
-                characterConstitution = characteristics?.find { c -> c.characteristicName == CharacteristicsName.CONSTITUTION.toString() },
-                characterDexterity = characteristics?.find { c -> c.characteristicName == CharacteristicsName.DEXTERITY.toString() },
-                characterIntelligence = characteristics?.find { c -> c.characteristicName == CharacteristicsName.INTELLIGENCE?.toString() },
-                characterPower = characteristics?.find { c -> c.characteristicName == CharacteristicsName.POWER.toString() },
-                characterSize = characteristics?.find { c -> c.characteristicName == CharacteristicsName.SIZE.toString() },
-                characterStrength = characteristics?.find { c -> c.characteristicName == CharacteristicsName.STRENGTH.toString() }
-            )
-
-
-
-        try {
-            if (characterId == null) {
-
-                Log.d("CHARACTER", "INSERT")
-
-                characterId = characterRepository.insertOne(character)
-                Log.d("CHARACTER", "character $character")
-            } else {
-                Log.d("CHARACTER", "UPDATE")
-                Log.d("CHARACTER", "character $character ")
-                characterRepository.updateOne(character)
-            }
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-            throw e
+    private fun setAge() {
+        if (!characterAge?.toString().isNullOrEmpty()) {
+            Log.d(TAG, "CharacterAge ${characterAge?.toString()}")
+            currentCharacter?.characterAge = characterAge
         }
+    }
 
-        Log.d("RESULT", character.toString())
+    private fun setName() {
+        if (!characterName.isNullOrEmpty()) {
+            Log.d(TAG, "Name : $characterName")
+            currentCharacter?.characterName = characterName
+        }
+    }
 
-        val searchResult = characterRepository.findOneById(characterId)
-
-        Log.d("ideals", "$searchResult")
-
-        return characterId
+    private fun emptyCharacter(): DomainCharacter {
+        return DomainCharacter(
+            characterId = null,
+            characterAppearance = null,
+            characterConstitution = null,
+            characterDexterity = null,
+            characterIntelligence = null,
+            characterPower = null,
+            characterSize = null,
+            characterStrength = null,
+            characterIdeals = null,
+            characterBonds = null,
+            characterPictureUri = null,
+            characterHeight = null,
+            characterGender = null,
+            characterAlignment = null,
+            characterEnergyPoints = null,
+            characterHealthPoints = null,
+            characterIdeaPoints = null,
+            characterBiography = null,
+            characterAge = null,
+            characterName = null,
+            characterBreeds = null
+        )
     }
 
     fun saveHeight(characterHeight: String) {
@@ -286,6 +405,7 @@ class NewCharacterViewModel(
             }
         }
     }
+
 
     fun addIdeal(domainModel: DomainIdeal) {
         characterIdeals.add(domainModel)

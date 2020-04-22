@@ -61,9 +61,9 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
     /**
      * Initialize the view corresponding to this fragment class
      */
-    override fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
+    override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         Log.d(TAG, "initializeView")
-        initialRootView = inflater.inflate(
+        initialRootView = layoutInflater.inflate(
             R.layout.fragment_basic_info, container, false
         )
         return initialRootView

@@ -87,6 +87,12 @@ class CharacteristicsViewModel(
         private const val TAG = "CharacteristicViewModel"
     }
 
+    fun getCheckedBreeds(): List<DomainBreed> {
+        if (!characterBreeds.isNullOrEmpty()) {
+            return characterBreeds.filter { b -> b.breedChecked }
+        } else return emptyList()
+
+    }
 
     private val lock = java.lang.Object()
     var characterBreeds: MutableList<DomainBreed> = mutableListOf()
@@ -220,7 +226,7 @@ class CharacteristicsViewModel(
         }
 
         var total = finalRoll
-        if (bonus != null && finalRoll != null) {
+        if (bonus != null) {
             total = finalRoll + bonus
         }
 
@@ -236,6 +242,16 @@ class CharacteristicsViewModel(
 
     }
 
+    fun getIntelligence(): DomainRollCharacteristic? {
+        var intelligence =
+            displayedCharacteristics?.find { c -> c.characteristicName == CharacteristicsName.INTELLIGENCE.toString() }
+        Log.d(TAG, "INTELLIGENCE : $intelligence")
+
+        return intelligence
+    }
+
+
+
     private fun displayBonuses() {
         Log.d(
             TAG, "Bonuses : \n" +
@@ -249,7 +265,7 @@ class CharacteristicsViewModel(
         )
     }
 
-    var observedCharacteristics = rollCharacteristicRepositoryImpl?.getAll()
+    var observedCharacteristics = rollCharacteristicRepositoryImpl.getAll()
 
     private fun initializeBonuses() {
         appearanceBonus = 0
@@ -282,7 +298,7 @@ class CharacteristicsViewModel(
         Log.d(TAG, "refreshDataFromRepository")
         viewModelScope.launch {
             try {
-                observedCharacteristics = rollCharacteristicRepositoryImpl?.getAll()
+                observedCharacteristics = rollCharacteristicRepositoryImpl.getAll()
 
             } catch (e: Exception) {
                 Log.e(TAG, "refreshData FAILED")
@@ -388,6 +404,12 @@ class CharacteristicsViewModel(
         }
         displayBonuses()
     }
+    fun getConstitution(): DomainRollCharacteristic? {
+        var constitution =
+            displayedCharacteristics?.find { c -> c.characteristicName == CharacteristicsName.CONSTITUTION.toString() }
+        Log.d(TAG, "CONSTITUTION : $constitution")
+        return constitution
+    }
 
     fun getStrength(): DomainRollCharacteristic? {
         return displayedCharacteristics?.find { c -> c.characteristicName == CharacteristicsName.STRENGTH.characteristicName }
@@ -400,6 +422,7 @@ class CharacteristicsViewModel(
     fun getPower(): DomainRollCharacteristic? {
         return displayedCharacteristics?.find { c -> c.characteristicName == CharacteristicsName.POWER.characteristicName }
     }
+
 
 
 }

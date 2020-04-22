@@ -51,7 +51,10 @@ class CharacteristicsFragment(activity: Activity) : CustomFragment(activity) {
         Log.d(TAG, "startCharacteristicsObservation")
         return Observer { newCharacteristics ->
             newCharacteristics.forEach {
-                Log.d(TAG, it.characteristicName)
+                if (it.characteristicName != null) {
+                    Log.d(TAG, it.characteristicName!!)
+                }
+
             }
         }
     }
