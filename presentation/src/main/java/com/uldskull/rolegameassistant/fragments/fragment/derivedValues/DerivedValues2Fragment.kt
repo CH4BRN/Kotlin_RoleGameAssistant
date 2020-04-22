@@ -24,7 +24,6 @@ import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.DerivedValuesViewModel
 import com.uldskull.rolegameassistant.viewmodels.IdealsViewModel
 import kotlinx.android.synthetic.main.fragment_derived_values_2.*
-import kotlinx.android.synthetic.main.recyclerview_item_ideal.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
@@ -52,19 +51,51 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
         setEnergyPoints()
         setSizePlusStrength()
         setDamageBonus()
-        enableOrDisableEditTexts()
-        enableOrDisableDamageBonusSpinner()
-        setBtnEditClickListener()
         setAlignmentScore()
 
         setDamageBonusSpinner()
+        setAlignmentPicture()
+
+        enableOrDisableEditTexts()
+        enableOrDisableDamageBonusSpinner()
+
+        setBtnEditClickListener()
         setEnergyPointsTextListener()
         setSizePlusStrengthTextListener()
-        setDamageBonusSpinnerSelectionChangedListsner()
-        setAlignmentPicture()
+        setDamageBonusSpinnerSelectionChangedListener()
+
+        if (et_alignmentPoints != null) {
+            et_alignmentPoints.addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(s: Editable?) {
+                    setAlignmentPicture()
+                }
+
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    if (!s.isNullOrEmpty()) {
+                        if (s.toString() != "-") {
+                            try {
+                                idealsViewModel.alignmentScore = s.toString().toInt()
+                            } catch (e: Exception) {
+                                Log.e(TAG, "et_alignmentPoints FAILED")
+                                e.printStackTrace()
+                                throw e
+                            }
+                        }
+                    }
+                }
+            })
+        }
     }
 
-    private fun setDamageBonusSpinnerSelectionChangedListsner() {
+    private fun setDamageBonusSpinnerSelectionChangedListener() {
         spinner_damageBonus.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
@@ -77,7 +108,7 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
             ) {
                 derivedValuesViewModel.selectedDamageBonusIndex = position
                 derivedValuesViewModel.damageBonus =
-                    DerivedValuesViewModel.DamageBonus.values().get(position)
+                    DerivedValuesViewModel.DamageBonus.values()[position]
             }
 
         }
@@ -112,13 +143,14 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
     private fun setEnergyPointsTextListener() {
         et_energyPoints.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
+                setAlignmentPicture()
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (!s.isNullOrBlank()) {
+                if (!s.isNullOrEmpty()) {
                     try {
                         derivedValuesViewModel.energyPoints = s.toString().toInt()
                         derivedValuesViewModel.energyPointsEdiTextHasChanged = true
@@ -144,11 +176,11 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
             )
             spinner_damageBonus.post(object : Runnable {
                 override fun run() {
-                    spinner_damageBonus.setSelection(derivedValuesViewModel.selectedDamageBonusIndex!!)
+                    if(derivedValuesViewModel.selectedDamageBonusIndex != null){
+                        spinner_damageBonus.setSelection(derivedValuesViewModel.selectedDamageBonusIndex!!)
+                    }
                 }
-
             })
-
         }
     }
 
@@ -171,22 +203,26 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
         }
     }
 
-    private fun setAlignmentPicture(){
+    private fun setAlignmentPicture() {
         Log.d(TAG, "setAlignmentPicture")
-        if(derivedValues_img_alignment != null){
-            when{
+        if (derivedValues_img_alignment != null) {
+            var imgResId: Int
+            when {
                 idealsViewModel.alignmentScore < -25 -> {
                     Log.d(TAG, "${idealsViewModel.alignmentScore} Evil")
-                }
-                idealsViewModel.alignmentScore in -25..25 ->{
-                    Log.d(TAG, "${idealsViewModel.alignmentScore} Neutral")
+                    imgResId = R.drawable.evil_icon
                 }
                 idealsViewModel.alignmentScore > 25 -> {
                     Log.d(TAG, "${idealsViewModel.alignmentScore} Good")
+                    imgResId = R.drawable.good_icon
                 }
+                else -> {
+                    Log.d(TAG, "${idealsViewModel.alignmentScore} Neutral")
+                    imgResId = R.drawable.neutral_icon
 
-
+                }
             }
+            derivedValues_img_alignment.setImageResource(imgResId)
         }
     }
 
@@ -243,12 +279,14 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
     private fun setEnergyPoints() {
         Log.d(TAG, "setEnergyPoints")
         if (et_energyPoints != null) {
-            var points = derivedValuesViewModel.calculateEnergyPoints(
-                characteristicsViewModel.getPower()
+            var power = characteristicsViewModel.getPower()
+            Log.d(TAG, "power = ${power}")
+            derivedValuesViewModel.calculateEnergyPoints(
+                power
             ).toString()
-            Log.d(TAG, points)
+            Log.d(TAG, "${derivedValuesViewModel.energyPoints}")
             et_energyPoints.setText(
-                points
+                "${derivedValuesViewModel.energyPoints}"
             )
         }
     }
