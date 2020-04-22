@@ -8,6 +8,8 @@ import com.uldskull.rolegameassistant.infrastructure.dao.breed.DbBreedDao
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbBreedCharacteristicDao
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbRollCharacteristicsDao
 import com.uldskull.rolegameassistant.infrastructure.dao.ideal.DbIdealsDao
+import com.uldskull.rolegameassistant.infrastructure.dao.job.DbOccupationsDao
+import com.uldskull.rolegameassistant.infrastructure.database_model.DbOccupation
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.DbBreed
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbBreedCharacteristic
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbRollCharacteristic
@@ -23,6 +25,24 @@ class DatabaseUtils {
     companion object {
 
         private const val TAG = "DatabaseUtils"
+
+        fun populateOccupations(occupationsDao: DbOccupationsDao) {
+            Log.d(TAG, "populateJobs")
+            var dbJobs = listOf(
+                DbOccupation(
+                    jobId = null,
+                    jobName = "Accountant",
+                    jobDescription = "Income: Upper Lower to Middle class\n" +
+                            "Contacts: Other accountants\n" +
+                            "Skills: Accounting, Accounting, Accounting, Reputation\n" +
+                            "Special:"
+                )
+            )
+            var result = occupationsDao.insertJobs(dbJobs)
+            result.forEach {
+                Log.d("Insert result", it.toString())
+            }
+        }
 
         fun populateRollCharacteristics(rollCharacteristicsDao: DbRollCharacteristicsDao) {
             Log.d(TAG, "populateRollCharacteristics")
@@ -89,6 +109,15 @@ class DatabaseUtils {
                     characteristicTotal = 0,
                     characteristicRoll = 0,
                     characteristicRollRule = "3D6"
+                ),
+                DbRollCharacteristic(
+                    characteristicId = null,
+                    characteristicMax = 24,
+                    characteristicName = CharacteristicsName.EDUCATION.toString(),
+                    characteristicBonus = 0,
+                    characteristicTotal = 0,
+                    characteristicRoll = 0,
+                    characteristicRollRule = "3D6+6"
                 )
 
             )

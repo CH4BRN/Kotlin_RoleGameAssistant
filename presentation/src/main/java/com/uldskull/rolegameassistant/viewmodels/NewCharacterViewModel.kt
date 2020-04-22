@@ -391,7 +391,8 @@ class NewCharacterViewModel(
             characterBiography = null,
             characterAge = null,
             characterName = null,
-            characterBreeds = null
+            characterBreeds = null,
+            characterEducation = null
         )
     }
 

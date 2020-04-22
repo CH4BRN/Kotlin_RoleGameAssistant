@@ -18,7 +18,9 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
 
         private const val TAG = "DerivedValuesViewModel"
     }
+
     var selectedDamageBonusIndex: Int? = 0
+
     enum class DamageBonus(value: String) {
         Minus1D6("-1D6"),
         Minus1D4("-1D4"),
@@ -36,19 +38,27 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
         plus10D6("+10D6")
     }
 
-    var healthEditTextHasChanged: Boolean = false
+    var baseHealthEditTextHasChanged: Boolean = false
     var breedBonusEditTextHasChanged: Boolean = false
-    var totalHealthEditTextHasChanged: Boolean = false
+        set(value) {
+            Log.d(TAG, "totalHealthEditTextHasChanged = ${value}")
+            field = value
+        }
     var ideaEditTextHasChanged: Boolean = false
-    var chanceEditTextHasChanged: Boolean = false
-    var energyPointsEdiTextHasChanged:Boolean = false
-    var sizePlusStrengthEditTextHasChanged:Boolean = false
-    var damageBonusSpinnerSelectionHasChanged:Boolean = false
-    var alignmentEditTextHasChanged:Boolean = false
+    var sanityEditTextHasChanged: Boolean = false
+    var luckEditTextHasChanged: Boolean = false
+    var energyPointsEdiTextHasChanged: Boolean = false
+    var sizePlusStrengthEditTextHasChanged: Boolean = false
+    var damageBonusSpinnerSelectionHasChanged: Boolean = false
+    var alignmentEditTextHasChanged: Boolean = false
     /**
      * Character's base health
      */
     var baseHealth: Int = 0
+        set(value) {
+            Log.d(TAG, "baseHealth = $value")
+            field = value
+        }
     /**
      * Character's breed's health bonus
      */
@@ -68,7 +78,9 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
     /**
      * Character's chance score
      */
-    var chanceScore: Int = 0
+    var sanityScore: Int = 0
+
+    var luckScore: Int = 0
 
     var energyPoints: Int = 0
 
@@ -146,11 +158,18 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
     /**
      * Calculate character's chance score
      */
-    fun calculateChanceScore(power: DomainRollCharacteristic?): Int {
+    fun calculateSanityScore(power: DomainRollCharacteristic?): Int {
         if (power?.characteristicTotal != null) {
-            chanceScore = power.characteristicTotal!! * 5
+            sanityScore = power.characteristicTotal!! * 5
         }
-        return chanceScore
+        return sanityScore
+    }
+
+    fun calculateLuckScore(power: DomainRollCharacteristic?): Int {
+        if (power?.characteristicTotal != null) {
+            luckScore = power.characteristicTotal!! * 5
+        }
+        return luckScore
     }
 
     /**
@@ -174,9 +193,9 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
      * Calculate character's total health.
      */
     fun calculateTotalHealth(): Int {
-        if (breedHealthBonus != null) {
-            totalHealth = baseHealth + breedHealthBonus!!
-        }
+        Log.d(TAG, "base health : ${baseHealth}\nbreed health bonus : ${breedHealthBonus}")
+        totalHealth = baseHealth + breedHealthBonus!!
+
         return totalHealth
     }
 

@@ -9,7 +9,7 @@ val NEW_BREED_ACTIVITY = NewBreedActivity::class.java
 val CHARACTER_SEARCH_ACTIVTY = CharacterSearchActivity::class.java
 val MAIN_ACTIVITY = MainActivity::class.java
 val NEW_SKILL_ACTIVTY = NewSkillActivity::class.java
-val NEW_JOB_ACTIVITY = NewJobActivity::class.java
+val NEW_JOB_ACTIVITY = NewOccupationActivity::class.java
 
 /** DomainCharacter search activity java class    **/
 val CHARACTER_SEARCH_ACTIVITY: Class<CharacterSearchActivity> =

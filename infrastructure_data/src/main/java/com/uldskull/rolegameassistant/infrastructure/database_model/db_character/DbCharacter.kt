@@ -55,7 +55,9 @@ class DbCharacter(
     @Embedded(prefix = "con")
     val characterConstitution: DbRollCharacteristic?,
     @Embedded(prefix = "app")
-    val characterAppearance: DbRollCharacteristic?
+    val characterAppearance: DbRollCharacteristic?,
+    @Embedded(prefix = "edu")
+    val characterEducation:DbRollCharacteristic?
 
 
 ) : DbEntity<DomainCharacter> {
@@ -110,7 +112,8 @@ class DbCharacter(
             characterIntelligence = this.characterIntelligence?.toDomain(),
             characterDexterity = this.characterDexterity?.toDomain(),
             characterConstitution = this.characterConstitution?.toDomain(),
-            characterAppearance = this.characterAppearance?.toDomain()
+            characterAppearance = this.characterAppearance?.toDomain(),
+            characterEducation = this.characterEducation?.toDomain()
         )
     }
 
@@ -158,7 +161,8 @@ class DbCharacter(
                 characterIntelligence = DbRollCharacteristic.from(domainModel?.characterIntelligence),
                 characterPower = DbRollCharacteristic.from(domainModel?.characterPower),
                 characterSize = DbRollCharacteristic.from(domainModel?.characterSize),
-                characterStrength = DbRollCharacteristic.from(domainModel?.characterStrength)
+                characterStrength = DbRollCharacteristic.from(domainModel?.characterStrength),
+                characterEducation = DbRollCharacteristic.from(domainModel?.characterEducation)
             )
 
 

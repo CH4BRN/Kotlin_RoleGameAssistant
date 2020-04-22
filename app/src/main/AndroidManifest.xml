@@ -52,7 +52,7 @@
             android:configChanges="orientation|screenSize" />
 
         <activity
-            android:name=".activities.NewJobActivity"
+            android:name=".activities.NewOccupationActivity"
             android:configChanges="orientation|screenSize" />
 
 

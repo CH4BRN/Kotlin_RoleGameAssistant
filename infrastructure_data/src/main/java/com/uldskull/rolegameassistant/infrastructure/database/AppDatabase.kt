@@ -17,10 +17,13 @@ import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbBreedC
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbCharacteristicDao
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbRollCharacteristicsDao
 import com.uldskull.rolegameassistant.infrastructure.dao.ideal.DbIdealsDao
+import com.uldskull.rolegameassistant.infrastructure.dao.job.DbOccupationsDao
 import com.uldskull.rolegameassistant.infrastructure.database.DatabaseUtils.Companion.populateBreed
 import com.uldskull.rolegameassistant.infrastructure.database.DatabaseUtils.Companion.populateBreedCharacteristics
 import com.uldskull.rolegameassistant.infrastructure.database.DatabaseUtils.Companion.populateIdeals
+import com.uldskull.rolegameassistant.infrastructure.database.DatabaseUtils.Companion.populateOccupations
 import com.uldskull.rolegameassistant.infrastructure.database.DatabaseUtils.Companion.populateRollCharacteristics
+import com.uldskull.rolegameassistant.infrastructure.database_model.DbOccupation
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_bond.DbBondConverter
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.DbBreed
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.DbBreedConverter
@@ -44,7 +47,8 @@ Abstract class for room database
         DbCharacteristic::class,
         DbBreedCharacteristic::class,
         DbRollCharacteristic::class,
-        DbIdeal::class],
+        DbIdeal::class,
+        DbOccupation::class],
     version = 1
 )
 @TypeConverters(
@@ -89,6 +93,11 @@ abstract class AppDatabase : RoomDatabase() {
      */
     abstract fun dbIdealsDao(): DbIdealsDao
 
+    /**
+     * Database Jobs DAO
+     */
+    abstract fun dbOccupationsDao():DbOccupationsDao
+
 
     private class AppDatabaseCallback : RoomDatabase.Callback() {
         override fun onOpen(db: SupportSQLiteDatabase) {
@@ -99,6 +108,7 @@ abstract class AppDatabase : RoomDatabase() {
                     populateBreedCharacteristics(database.dbBreedCharacteristicDao())
                     populateIdeals(database.dbIdealsDao())
                     populateRollCharacteristics(database.dbRollCharacteristicsDao())
+                    populateOccupations(database.dbOccupationsDao())
                 }
             }
         }

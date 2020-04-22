@@ -98,10 +98,9 @@ class CharacteristicsRecyclerViewFragment(activity: Activity) :
 
     private fun setEditTextChangedToFalse() {
         derivedValuesViewModel.breedBonusEditTextHasChanged = false
-        derivedValuesViewModel.chanceEditTextHasChanged = false
-        derivedValuesViewModel.healthEditTextHasChanged = false
+        derivedValuesViewModel.sanityEditTextHasChanged = false
+        derivedValuesViewModel.baseHealthEditTextHasChanged = false
         derivedValuesViewModel.ideaEditTextHasChanged = false
-        derivedValuesViewModel.totalHealthEditTextHasChanged = false
     }
 
     /**

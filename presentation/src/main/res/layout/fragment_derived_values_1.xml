@@ -29,24 +29,23 @@
                 <TextView
                     style="@style/TextViewSubTitle"
                     android:layout_column="1"
-                    android:text="HP : (SIZ + CON) /2 ="
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:text="BASE HP (SIZ + CON) /2 :" />
 
                 <EditText
-                    android:id="@+id/et_healthPoints"
+                    android:id="@+id/et_baseHealthPoints"
                     android:layout_column="2"
                     android:layout_weight="4"
                     android:hint="0"
                     android:inputType="number" />
             </TableRow>
-
             <TableRow>
 
                 <TextView
                     style="@style/TextViewSubTitle"
                     android:layout_column="1"
-                    android:text=" + BREED BONUS ="
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:text=" + BREED BONUS :" />
 
                 <EditText
                     android:id="@+id/et_breedHealthBonus"
@@ -61,15 +60,8 @@
                 <TextView
                     style="@style/TextViewSubTitle"
                     android:layout_column="1"
-                    android:text="TOTAL ="
-                    android:layout_weight="1"/>
-
-                <EditText
-                    android:id="@+id/et_totalHealth"
-                    android:layout_column="2"
-                    android:layout_weight="4"
-                    android:hint="0"
-                    android:inputType="number" />
+                    android:layout_weight="1"
+                    android:text="= " />
             </TableRow>
 
             <TableRow>
@@ -77,8 +69,26 @@
                 <TextView
                     style="@style/TextViewSubTitle"
                     android:layout_column="1"
-                    android:text="IDEA : (INT * 5) ="
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:text="TOTAL HP :" />
+
+                <TextView
+                    android:id="@+id/et_totalHealthPoints"
+                    android:layout_column="2"
+                    android:layout_weight="4"
+                    android:hint="0"/>
+            </TableRow>
+            <View
+                android:layout_marginVertical="16dp"
+                style="@style/Divider.Horizontal" />
+
+            <TableRow>
+
+                <TextView
+                    style="@style/TextViewSubTitle"
+                    android:layout_column="1"
+                    android:layout_weight="1"
+                    android:text="IDEA (INT * 5) :" />
 
                 <EditText
                     android:id="@+id/et_ideaPoints"
@@ -87,24 +97,45 @@
                     android:hint="0"
                     android:inputType="number" />
             </TableRow>
-
+            <View
+                android:layout_marginVertical="16dp"
+                style="@style/Divider.Horizontal" />
             <TableRow>
 
                 <TextView
                     style="@style/TextViewSubTitle"
                     android:layout_column="1"
-                    android:text="CHANCE : (POU * 5) ="
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:text="SANITY (POW * 5) : " />
 
                 <EditText
-                    android:id="@+id/et_chancePoints"
+                    android:id="@+id/et_sanityPoints"
                     android:layout_column="2"
                     android:layout_weight="4"
                     android:hint="0"
                     android:inputType="number" />
             </TableRow>
+            <View
+                android:layout_marginVertical="16dp"
+                style="@style/Divider.Horizontal" />
+            <TableRow>
 
+                <TextView
+                    style="@style/TextViewSubTitle"
+                    android:layout_column="1"
+                    android:layout_weight="1"
+                    android:text="LUCK (POW * 5) : " />
 
+                <EditText
+                    android:id="@+id/et_luckPoints"
+                    android:layout_column="2"
+                    android:layout_weight="4"
+                    android:hint="0"
+                    android:inputType="number" />
+            </TableRow>
+            <View
+                android:layout_marginVertical="16dp"
+                style="@style/Divider.Horizontal" />
 
         </TableLayout>
 

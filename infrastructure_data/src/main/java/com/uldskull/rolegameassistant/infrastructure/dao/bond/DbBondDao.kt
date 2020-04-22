@@ -6,6 +6,10 @@ package com.uldskull.rolegameassistant.infrastructure.dao.bond
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
+import com.uldskull.rolegameassistant.infrastructure.dao.DELETE_FROM
+import com.uldskull.rolegameassistant.infrastructure.dao.LIKE
+import com.uldskull.rolegameassistant.infrastructure.dao.SELECT_ALL_FROM
+import com.uldskull.rolegameassistant.infrastructure.dao.WHERE
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_bond.DbBond
 
 /**
@@ -22,10 +26,10 @@ interface DbBondDao {
     fun insertBonds(dbBonds: List<DbBond>): List<Long>
 
     //  READ
-    @Query("SELECT * FROM ${DatabaseValues.TABLE_NAME_BOND}")
+    @Query("$SELECT_ALL_FROM ${DatabaseValues.TABLE_NAME_BOND}")
     fun getBonds(): LiveData<List<DbBond>>
 
-    @Query("SELECT * FROM ${DatabaseValues.TABLE_NAME_BOND} WHERE bondId LIKE :id")
+    @Query("$SELECT_ALL_FROM ${DatabaseValues.TABLE_NAME_BOND} $WHERE bondId $LIKE :id")
     fun getBondById(id: Long?): DbBond
 
     //  UPDATE
@@ -36,6 +40,6 @@ interface DbBondDao {
     @Delete
     fun deleteBonds(vararg bonds: DbBond): Int
 
-    @Query("DELETE FROM ${DatabaseValues.TABLE_NAME_BOND}")
+    @Query("$DELETE_FROM ${DatabaseValues.TABLE_NAME_BOND}")
     fun deleteAllBonds(): Int
 }

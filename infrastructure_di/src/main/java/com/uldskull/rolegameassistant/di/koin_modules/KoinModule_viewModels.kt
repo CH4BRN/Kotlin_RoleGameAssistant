@@ -75,4 +75,11 @@ val viewModelModule = module {
             application = get()
         )
     }
+    //  Jobs ViewModel
+    viewModel {
+        JobsViewModel(
+            application = get(),
+            occupationsRepositoryImpl = get()
+        )
+    }
 }

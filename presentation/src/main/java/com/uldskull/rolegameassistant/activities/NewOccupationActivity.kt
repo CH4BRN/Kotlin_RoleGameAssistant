@@ -12,7 +12,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.bars.NavigationBarFragm
  *   Class "NewJobActivity" :
  *   Handle job creation.
  **/
-class NewJobActivity : CustomActivity() {
+class NewOccupationActivity : CustomActivity() {
     companion object {
         private const val TAG = "NewJobActivity"
     }

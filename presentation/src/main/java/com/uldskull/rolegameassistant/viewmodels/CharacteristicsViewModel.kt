@@ -82,6 +82,12 @@ class CharacteristicsViewModel(
             field = value
             Log.d(TAG, "appearanceBonus AFTER $field")
         }
+    var educationBonus: Int = 0
+        set(value) {
+            Log.d(TAG, "educationBonus BEFORE $field")
+            field = value
+            Log.d(TAG, "educationBonus AFTER $field")
+        }
 
     companion object {
         private const val TAG = "CharacteristicViewModel"
@@ -158,6 +164,13 @@ class CharacteristicsViewModel(
                 rollRule = "3D6"
             )
         )
+        newList.add(
+            getDiceRollCharacteristic(
+                name = CharacteristicsName.EDUCATION,
+                bonus = educationBonus,
+                rollRule = "3D6+3"
+            )
+        )
 
         observedCharacteristics?.value = newList
 
@@ -223,6 +236,14 @@ class CharacteristicsViewModel(
                 }
                 finalRoll += 6
             }
+            CharacteristicsName.EDUCATION.characteristicName
+            -> {
+                println("EDUCATION")
+                diceServiceImpl.getMultipleDiceRollWithANumberOfFace(arrayListOf(6, 6, 6)).forEach{
+                    finalRoll+= it
+                }
+                finalRoll += 3
+            }
         }
 
         var total = finalRoll
@@ -250,18 +271,27 @@ class CharacteristicsViewModel(
         return intelligence
     }
 
+    fun getEducation():DomainRollCharacteristic?{
+        var education =
+            displayedCharacteristics?.find { c -> c.characteristicName == CharacteristicsName.EDUCATION.characteristicName }
+        Log.d(TAG, "EDUCATION : $education")
+
+        return education
+    }
 
 
     private fun displayBonuses() {
         Log.d(
             TAG, "Bonuses : \n" +
-                    "\tapp : $appearanceBonus" +
-                    "\tcon : $constitutionBonus" +
-                    "\tdex : $dexterityBonus" +
-                    "\tint : $intelligenceBonus" +
-                    "\tpow : $powerBonus" +
-                    "\tsiz : $sizeBonus" +
-                    "\tstr : $strengthBonus"
+                    "\tapp : $appearanceBonus\n" +
+                    "\tcon : $constitutionBonus\n" +
+                    "\tdex : $dexterityBonus\n" +
+                    "\tint : $intelligenceBonus\n" +
+                    "\tpow : $powerBonus\n" +
+                    "\tsiz : $sizeBonus\n" +
+                    "\tstr : $strengthBonus\n" +
+                    "\tedu : $educationBonus"
+
         )
     }
 
@@ -275,12 +305,10 @@ class CharacteristicsViewModel(
         powerBonus = 0
         sizeBonus = 0
         strengthBonus = 0
+        educationBonus = 0
     }
 
-    /**
-     * All rollCharacteristics from the repository
-     */
-    // var rollCharacteristics: MutableList<DomainRollCharacteristic> //= rollCharacteristics()
+
 
     /**
      * Initialize the ViewModel
@@ -364,6 +392,7 @@ class CharacteristicsViewModel(
                         CharacteristicsName.INTELLIGENCE.characteristicName -> intelligenceBonus += bonus
                         CharacteristicsName.DEXTERITY.characteristicName -> dexterityBonus += bonus
                         CharacteristicsName.CONSTITUTION.characteristicName -> constitutionBonus += bonus
+                        CharacteristicsName.EDUCATION.characteristicName -> educationBonus += bonus
                     }
                 }
             }
@@ -396,6 +425,9 @@ class CharacteristicsViewModel(
                     CharacteristicsName.CONSTITUTION.characteristicName -> {
                         newCharacteristic.characteristicBonus = constitutionBonus
                     }
+                    CharacteristicsName.EDUCATION.characteristicName -> {
+                        newCharacteristic.characteristicBonus = educationBonus
+                    }
                 }
                 Log.d(TAG, "Characteristic after : $newCharacteristic")
                 displayedCharacteristics!![index] = newCharacteristic
@@ -404,6 +436,7 @@ class CharacteristicsViewModel(
         }
         displayBonuses()
     }
+
     fun getConstitution(): DomainRollCharacteristic? {
         var constitution =
             displayedCharacteristics?.find { c -> c.characteristicName == CharacteristicsName.CONSTITUTION.toString() }
@@ -422,6 +455,7 @@ class CharacteristicsViewModel(
     fun getPower(): DomainRollCharacteristic? {
         return displayedCharacteristics?.find { c -> c.characteristicName == CharacteristicsName.POWER.characteristicName }
     }
+
 
 
 
