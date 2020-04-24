@@ -77,7 +77,7 @@ val viewModelModule = module {
     }
     //  Jobs ViewModel
     viewModel {
-        JobsViewModel(
+        OccupationsViewModel(
             application = get(),
             occupationsRepositoryImpl = get()
         )

@@ -1,11 +1,13 @@
 // File DbFilledSkill.kt
 // @Author pierre.antoine - 13/02/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.infrastructure.database_model
+package com.uldskull.rolegameassistant.infrastructure.database_model.db_skill
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.uldskull.rolegameassistant.models.character.DomainFilledSkill
+import com.uldskull.rolegameassistant.infrastructure.database_model.DbCompanion
+import com.uldskull.rolegameassistant.infrastructure.database_model.DbEntity
+import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
 
 
 /**
@@ -41,7 +43,8 @@ class DbFilledSkill(
         )
     }
 
-    companion object : DbCompanion<DomainFilledSkill, DbFilledSkill> {
+    companion object :
+        DbCompanion<DomainFilledSkill, DbFilledSkill> {
         /**
          * Converts a domain model into a database model entity.
          */

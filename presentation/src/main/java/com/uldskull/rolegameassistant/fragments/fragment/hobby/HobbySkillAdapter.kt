@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.models.character.DomainFilledSkill
+import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
 
 /**
  *   Class "HobbySkillAdapter" :

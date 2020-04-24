@@ -48,11 +48,7 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d(TAG, "onViewCreated")
-        setEnergyPoints()
-        setSizePlusStrength()
-        setDamageBonus()
-        setAlignmentScore()
-        setCthulhuMythScore()
+        setScores()
 
         setDamageBonusSpinner()
         setAlignmentPicture()
@@ -60,39 +56,59 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
         enableOrDisableEditTexts()
         enableOrDisableDamageBonusSpinner()
 
+        setListeners()
+    }
+
+    private fun setListeners() {
         setBtnEditClickListener()
-        setEnergyPointsTextListener()
-        setSizePlusStrengthTextListener()
+        setEnergyPointsTextChangedListener()
+        setSizePlusStrengthTextChangedListener()
         setDamageBonusSpinnerSelectionChangedListener()
+        setCthulhuMythPointsTextChangedListener()
+        setAlignmentPointsTextChangedListener()
+    }
 
+    private fun setScores() {
+        setEnergyPointsScore()
+        setSizePlusStrengthScore()
+        setDamageBonusScore()
+        setAlignmentScore()
+        setCthulhuMythScore()
+    }
+
+    private fun setAlignmentPointsTextChangedListener() {
         if (et_alignmentPoints != null) {
-            et_alignmentPoints.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(s: Editable?) {
-                    setAlignmentPicture()
-                }
+            et_alignmentPoints.addTextChangedListener(alignmentPointsTextWatcher())
+        }
+    }
 
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-                }
+    private fun alignmentPointsTextWatcher(): TextWatcher {
+        return object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                setAlignmentPicture()
+            }
 
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    if (!s.isNullOrEmpty()) {
-                        if (s.toString() != "-") {
-                            try {
-                                idealsViewModel.alignmentScore = s.toString().toInt()
-                            } catch (e: Exception) {
-                                Log.e(TAG, "et_alignmentPoints FAILED")
-                                e.printStackTrace()
-                                throw e
-                            }
+            override fun beforeTextChanged(
+                s: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (!s.isNullOrEmpty()) {
+                    if (s.toString() != "-") {
+                        try {
+                            idealsViewModel.alignmentScore = s.toString().toInt()
+                        } catch (e: Exception) {
+                            Log.e(TAG, "et_alignmentPoints FAILED")
+                            e.printStackTrace()
+                            throw e
                         }
                     }
                 }
-            })
+            }
         }
     }
 
@@ -115,7 +131,7 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
         }
     }
 
-    private fun setSizePlusStrengthTextListener() {
+    private fun setSizePlusStrengthTextChangedListener() {
         et_sizePlusStrength.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
 
@@ -141,7 +157,7 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
         })
     }
 
-    private fun setEnergyPointsTextListener() {
+    private fun setEnergyPointsTextChangedListener() {
         et_energyPoints.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 setAlignmentPicture()
@@ -165,8 +181,8 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
         })
     }
 
-    private fun setCthulhuMythPointsListener(){
-        et_cthulhuMyth.addTextChangedListener(object :TextWatcher{
+    private fun setCthulhuMythPointsTextChangedListener() {
+        et_cthulhuMyth.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
 
             }
@@ -175,11 +191,11 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if(!s.isNullOrEmpty()){
+                if (!s.isNullOrEmpty()) {
                     try {
                         derivedValuesViewModel.cthulhuMythScore = s.toString().toInt()
                         derivedValuesViewModel.cthulhuMythScoreEditTextHasChanged = true
-                    }catch (e:Exception){
+                    } catch (e: Exception) {
                         Log.e(TAG, "et_cthulhuMyth FAILED")
                         e.printStackTrace()
                         throw e
@@ -190,7 +206,7 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
         })
     }
 
-    private fun setDamageBonus() {
+    private fun setDamageBonusScore() {
         Log.d(TAG, "setDamageBonus")
         if (spinner_damageBonus != null && derivedValuesViewModel.selectedDamageBonusIndex != null) {
             Log.d(
@@ -199,7 +215,7 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
             )
             spinner_damageBonus.post(object : Runnable {
                 override fun run() {
-                    if(derivedValuesViewModel.selectedDamageBonusIndex != null){
+                    if (derivedValuesViewModel.selectedDamageBonusIndex != null) {
                         spinner_damageBonus.setSelection(derivedValuesViewModel.selectedDamageBonusIndex!!)
                     }
                 }
@@ -219,8 +235,8 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
         }
     }
 
-    private fun setCthulhuMythScore(){
-        if(et_cthulhuMyth != null){
+    private fun setCthulhuMythScore() {
+        if (et_cthulhuMyth != null) {
             et_cthulhuMyth?.setText(derivedValuesViewModel.cthulhuMythScore.toString())
         }
     }
@@ -235,19 +251,18 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
     private fun setAlignmentPicture() {
         Log.d(TAG, "setAlignmentPicture")
         if (derivedValues_img_alignment != null) {
-            var imgResId: Int
-            when {
+            val imgResId: Int = when {
                 idealsViewModel.alignmentScore < -25 -> {
                     Log.d(TAG, "${idealsViewModel.alignmentScore} Evil")
-                    imgResId = R.drawable.evil_icon
+                    R.drawable.evil_icon
                 }
                 idealsViewModel.alignmentScore > 25 -> {
                     Log.d(TAG, "${idealsViewModel.alignmentScore} Good")
-                    imgResId = R.drawable.good_icon
+                    R.drawable.good_icon
                 }
                 else -> {
                     Log.d(TAG, "${idealsViewModel.alignmentScore} Neutral")
-                    imgResId = R.drawable.neutral_icon
+                    R.drawable.neutral_icon
 
                 }
             }
@@ -256,7 +271,7 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
     }
 
 
-    private fun setSizePlusStrength() {
+    private fun setSizePlusStrengthScore() {
 
         if (et_sizePlusStrength != null) {
             var sizePlusStrengthValue = derivedValuesViewModel.calculateSizePlusStrength(
@@ -295,6 +310,7 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
     private fun enableOrDisableEditTexts() {
         if (et_energyPoints != null) {
             editTextEnabling(et_energyPoints)
+            et_energyPoints.requestFocus()
         }
         if (et_sizePlusStrength != null) {
             editTextEnabling(et_sizePlusStrength)
@@ -303,9 +319,13 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
         if (et_alignmentPoints != null) {
             editTextEnabling(et_alignmentPoints)
         }
+
+        if (et_cthulhuMyth != null) {
+            editTextEnabling(et_cthulhuMyth)
+        }
     }
 
-    private fun setEnergyPoints() {
+    private fun setEnergyPointsScore() {
         Log.d(TAG, "setEnergyPoints")
         if (et_energyPoints != null) {
             var power = characteristicsViewModel.getPower()

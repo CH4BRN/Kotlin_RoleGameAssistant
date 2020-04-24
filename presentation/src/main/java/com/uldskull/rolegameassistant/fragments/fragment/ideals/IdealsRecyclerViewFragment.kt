@@ -112,9 +112,9 @@ class IdealsRecyclerViewFragment(activity: Activity) :
         var gotIdeals: MutableList<DomainIdeal> = mutableListOf()
         if (idealsViewModel.displayedIdeals.isEmpty()) {
             Log.d(TAG, "displayedIdeals == null or empty")
-            observedIdeals?.observe(this, Observer { it ->
+            observedIdeals?.observe(this, Observer { domainIdeals ->
                 Log.d(TAG, "observe")
-                it.forEach {
+                domainIdeals.forEach {
                     Log.d(TAG, "Got ideal : $it")
                     gotIdeals.add(it)
                 }

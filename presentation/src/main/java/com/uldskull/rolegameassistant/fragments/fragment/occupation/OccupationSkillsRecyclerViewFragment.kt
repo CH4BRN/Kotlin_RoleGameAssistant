@@ -1,7 +1,7 @@
 // File JobSkillsRecyclerViewFragment.kt
 // @Author pierre.antoine - 05/03/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.fragments.fragment.job
+package com.uldskull.rolegameassistant.fragments.fragment.occupation
 
 import android.app.Activity
 import android.content.Context
@@ -24,9 +24,9 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  *   Class "JobSkillsRecyclerViewFragment" :
  *   TODO: Fill class use.
  **/
-class JobSkillsRecyclerViewFragment(activity: Activity) : CustomRecyclerViewFragment(activity) {
+class OccupationSkillsRecyclerViewFragment(activity: Activity) : CustomRecyclerViewFragment(activity) {
 
-    private var jobSkillsAdapter: JobSkillsAdapter? = null
+    private var occupationSkillsAdapter: OccupationSkillsAdapter? = null
 
     private lateinit var skillsViewModel: SkillsViewModel
 
@@ -74,7 +74,7 @@ class JobSkillsRecyclerViewFragment(activity: Activity) : CustomRecyclerViewFrag
     override fun startObservation() {
         this.skillsViewModel.jobSkills.observe(this, Observer { skills ->
             kotlin.run {
-                skills?.let { jobSkillsAdapter?.setJobSkills(it) }
+                skills?.let { occupationSkillsAdapter?.setJobSkills(it) }
             }
         })
     }
@@ -90,20 +90,20 @@ class JobSkillsRecyclerViewFragment(activity: Activity) : CustomRecyclerViewFrag
 
 
     override fun setRecyclerViewAdapter() {
-        jobSkillsAdapter =
-            JobSkillsAdapter(
+        occupationSkillsAdapter =
+            OccupationSkillsAdapter(
                 activity as Context
             )
-        jobSkillRecyclerView?.adapter = jobSkillsAdapter
+        jobSkillRecyclerView?.adapter = occupationSkillsAdapter
     }
 
 
     companion object : CustomCompanion() {
 
         @JvmStatic
-        override fun newInstance(activity: Activity): JobSkillsRecyclerViewFragment {
+        override fun newInstance(activity: Activity): OccupationSkillsRecyclerViewFragment {
             val fragment =
-                JobSkillsRecyclerViewFragment(
+                OccupationSkillsRecyclerViewFragment(
                     activity
                 )
             val args = Bundle()

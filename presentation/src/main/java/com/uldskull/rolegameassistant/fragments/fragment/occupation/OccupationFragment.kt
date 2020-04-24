@@ -1,7 +1,7 @@
 // File JobFragment.kt
 // @Author pierre.antoine - 05/03/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.fragments.fragment.job
+package com.uldskull.rolegameassistant.fragments.fragment.occupation
 
 import android.app.Activity
 import android.content.Intent
@@ -24,7 +24,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
  *   Class "JobFragment" :
  *   TODO: Fill class use.
  **/
-class JobFragment(activity: Activity) : CustomFragment(activity) {
+class OccupationFragment(activity: Activity) : CustomFragment(activity) {
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = layoutInflater.inflate(
             R.layout.fragment_job, container, false
@@ -73,9 +73,9 @@ class JobFragment(activity: Activity) : CustomFragment(activity) {
 
     companion object : CustomCompanion() {
         @JvmStatic
-        override fun newInstance(activity: Activity): JobFragment {
+        override fun newInstance(activity: Activity): OccupationFragment {
             val fragment =
-                JobFragment(
+                OccupationFragment(
                     activity
                 )
             val args = Bundle()
@@ -84,7 +84,7 @@ class JobFragment(activity: Activity) : CustomFragment(activity) {
             fragment.arguments = args
             (activity as NewCharacterActivity).replaceFragment(
                 R.id.container_jobSkills,
-                JobSkillsRecyclerViewFragment.newInstance(
+                OccupationSkillsRecyclerViewFragment.newInstance(
                     activity
                 )
             )

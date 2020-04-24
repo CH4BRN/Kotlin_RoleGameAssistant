@@ -105,7 +105,6 @@ class DerivedValues1Fragment(activity: Activity) : CustomFragment(activity) {
         Log.d(TAG, "setSanityScore")
         if (et_sanityPoints != null && !derivedValuesViewModel.sanityEditTextHasChanged) {
             derivedValuesViewModel.calculateSanityScore(characteristicsViewModel.getPower())
-
             et_sanityPoints.setText(derivedValuesViewModel.sanityScore.toString())
 
         }
@@ -115,7 +114,6 @@ class DerivedValues1Fragment(activity: Activity) : CustomFragment(activity) {
         Log.d(TAG, "setLuckScore")
         if (et_luckPoints != null && !derivedValuesViewModel.luckEditTextHasChanged) {
             derivedValuesViewModel.calculateLuckScore(characteristicsViewModel.getPower())
-
             et_luckPoints.setText(derivedValuesViewModel.luckScore.toString())
         }
     }
@@ -142,6 +140,7 @@ class DerivedValues1Fragment(activity: Activity) : CustomFragment(activity) {
     private fun setKnowScore(){
         if(et_knowPoints != null && !derivedValuesViewModel.knowEditTextHasChanged){
             var education = characteristicsViewModel.getEducation()
+            Log.d(TAG, "education : $education")
             if(education != null){
                 derivedValuesViewModel.calculateKnowPoints(education)
                 et_knowPoints.setText(derivedValuesViewModel.knowScore.toString())
@@ -234,7 +233,6 @@ class DerivedValues1Fragment(activity: Activity) : CustomFragment(activity) {
                     }
                 }
             }
-
         })
     }
 
@@ -258,7 +256,6 @@ class DerivedValues1Fragment(activity: Activity) : CustomFragment(activity) {
                     }
                 }
             }
-
         })
     }
 
@@ -285,6 +282,30 @@ class DerivedValues1Fragment(activity: Activity) : CustomFragment(activity) {
                 }
                 setTotalHealthScore()
             }
+        })
+    }
+
+    private fun setKnowPointsListener(){
+        et_knowPoints.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+                derivedValuesViewModel.knowScoreEditTextHasChanged = true
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if(!s.isNullOrEmpty()){
+                    try {
+                        Log.d(TAG, "et_knowPoints ${s}")
+                        derivedValuesViewModel.knowScore = s.toString().toInt()
+                    }catch (e:Exception){
+                        Log.e(TAG, "et_knowPoints FAILED")
+                        e.printStackTrace()
+                        throw e
+                    }
+                }
+            }
 
         })
     }
@@ -307,7 +328,6 @@ class DerivedValues1Fragment(activity: Activity) : CustomFragment(activity) {
              */
             override fun afterTextChanged(s: Editable?) {
                 derivedValuesViewModel.baseHealthEditTextHasChanged = true
-
             }
 
             /**
@@ -355,6 +375,7 @@ class DerivedValues1Fragment(activity: Activity) : CustomFragment(activity) {
     private fun editTextsEnabling() {
         if (et_baseHealthPoints != null) {
             editTextEnabling(et_baseHealthPoints)
+            et_baseHealthPoints.requestFocus()
         }
         if (et_breedHealthBonus != null) {
             editTextEnabling(et_breedHealthBonus)
@@ -367,6 +388,9 @@ class DerivedValues1Fragment(activity: Activity) : CustomFragment(activity) {
         }
         if (et_luckPoints != null) {
             editTextEnabling(et_luckPoints)
+        }
+        if(et_knowPoints != null){
+            editTextEnabling(et_knowPoints)
         }
 
     }

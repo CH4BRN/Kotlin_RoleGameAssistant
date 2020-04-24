@@ -8,8 +8,8 @@ import com.uldskull.rolegameassistant.infrastructure.dao.breed.DbBreedDao
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbBreedCharacteristicDao
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbRollCharacteristicsDao
 import com.uldskull.rolegameassistant.infrastructure.dao.ideal.DbIdealsDao
-import com.uldskull.rolegameassistant.infrastructure.dao.job.DbOccupationsDao
-import com.uldskull.rolegameassistant.infrastructure.database_model.DbOccupation
+import com.uldskull.rolegameassistant.infrastructure.dao.occupation.DbOccupationsDao
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupation.DbOccupation
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.DbBreed
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbBreedCharacteristic
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbRollCharacteristic
@@ -27,20 +27,27 @@ class DatabaseUtils {
         private const val TAG = "DatabaseUtils"
 
         fun populateOccupations(occupationsDao: DbOccupationsDao) {
-            Log.d(TAG, "populateJobs")
-            var dbJobs = listOf(
+            Log.d(TAG, "populateOccupations")
+            var dbOccupations = listOf(
                 DbOccupation(
-                    jobId = null,
-                    jobName = "Accountant",
-                    jobDescription = "Income: Upper Lower to Middle class\n" +
+                    occupationName = "Accountant",
+                    occupationDescription = "Income: Upper Lower to Middle class\n" +
                             "Contacts: Other accountants\n" +
                             "Skills: Accounting, Accounting, Accounting, Reputation\n" +
                             "Special:"
+                ),
+                DbOccupation(
+                    occupationName = "Acrobat",
+                    occupationDescription = "Income: Lower to Lower Middle class\n" +
+                            "Contacts: Amateur athletic circles, sports writers, circuses, and carnivals\n" +
+                            "Skills: Bargain, Climb, Dodge, Jump, Other Language, Throw, plus possible employment skills\n" +
+                            "Special: +1 STR and +1 DEX, or +2 DEX"
                 )
             )
-            var result = occupationsDao.insertJobs(dbJobs)
+            var result = occupationsDao.insertJobs(dbOccupations)
+
             result.forEach {
-                Log.d("Insert result", it.toString())
+                Log.d(TAG, "Insert result ${it.toString()}")
             }
         }
 
@@ -48,75 +55,35 @@ class DatabaseUtils {
             Log.d(TAG, "populateRollCharacteristics")
             var dbRollCharacteristics = listOf(
                 DbRollCharacteristic(
-                    characteristicId = null,
-                    characteristicMax = 24,
                     characteristicName = CharacteristicsName.APPEARANCE.toString(),
-                    characteristicBonus = 0,
-                    characteristicTotal = 0,
-                    characteristicRoll = 0,
                     characteristicRollRule = "3D6"
                 ),
                 DbRollCharacteristic(
-                    characteristicId = null,
-                    characteristicMax = 24,
                     characteristicName = CharacteristicsName.CONSTITUTION.toString(),
-                    characteristicBonus = 0,
-                    characteristicTotal = 0,
-                    characteristicRoll = 0,
                     characteristicRollRule = "3D6"
                 ),
                 DbRollCharacteristic(
-                    characteristicId = null,
-                    characteristicMax = 24,
                     characteristicName = CharacteristicsName.INTELLIGENCE.toString(),
-                    characteristicBonus = 0,
-                    characteristicTotal = 0,
-                    characteristicRoll = 0,
                     characteristicRollRule = "2D6+6"
                 ),
                 DbRollCharacteristic(
-                    characteristicId = null,
-                    characteristicMax = 24,
                     characteristicName = CharacteristicsName.SIZE.toString(),
-                    characteristicBonus = 0,
-                    characteristicTotal = 0,
-                    characteristicRoll = 0,
                     characteristicRollRule = "2D6+6"
                 ),
                 DbRollCharacteristic(
-                    characteristicId = null,
-                    characteristicMax = 24,
                     characteristicName = CharacteristicsName.DEXTERITY.toString(),
-                    characteristicBonus = 0,
-                    characteristicTotal = 0,
-                    characteristicRoll = 0,
                     characteristicRollRule = "3D6"
                 ),
                 DbRollCharacteristic(
-                    characteristicId = null,
-                    characteristicMax = 24,
                     characteristicName = CharacteristicsName.STRENGTH.toString(),
-                    characteristicBonus = 0,
-                    characteristicTotal = 0,
-                    characteristicRoll = 0,
                     characteristicRollRule = "3D6"
                 ),
                 DbRollCharacteristic(
-                    characteristicId = null,
-                    characteristicMax = 24,
                     characteristicName = CharacteristicsName.POWER.toString(),
-                    characteristicBonus = 0,
-                    characteristicTotal = 0,
-                    characteristicRoll = 0,
                     characteristicRollRule = "3D6"
                 ),
                 DbRollCharacteristic(
-                    characteristicId = null,
-                    characteristicMax = 24,
                     characteristicName = CharacteristicsName.EDUCATION.toString(),
-                    characteristicBonus = 0,
-                    characteristicTotal = 0,
-                    characteristicRoll = 0,
                     characteristicRollRule = "3D6+6"
                 )
 

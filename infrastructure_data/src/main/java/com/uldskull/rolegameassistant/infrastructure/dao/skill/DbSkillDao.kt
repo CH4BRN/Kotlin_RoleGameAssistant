@@ -1,7 +1,7 @@
 // File SkillDao.kt
 // @Author pierre.antoine - 13/02/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.infrastructure.dao
+package com.uldskull.rolegameassistant.infrastructure.dao.skill
 
 import androidx.room.Dao
 
@@ -10,4 +10,4 @@ import androidx.room.Dao
  *   Allows interactions with database.
  **/
 @Dao
-interface SkillDao
+interface DbSkillDao

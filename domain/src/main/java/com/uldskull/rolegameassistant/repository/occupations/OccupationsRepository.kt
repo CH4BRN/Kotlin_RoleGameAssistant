@@ -3,7 +3,8 @@
 
 package com.uldskull.rolegameassistant.repository.occupations
 
-import com.uldskull.rolegameassistant.models.character.DomainOccupation
+import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
+import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupationWithSkills
 import com.uldskull.rolegameassistant.repository.GenericRepository
 
 /**
@@ -12,4 +13,7 @@ import com.uldskull.rolegameassistant.repository.GenericRepository
  **/
 interface OccupationsRepository<T> :
 GenericRepository<T, DomainOccupation>{
+    fun insertOccupationAndSkillCross(occupationId:Long?, skillId:Long):Long
+    fun findOneWithChildren(occupationId: Long?):DomainOccupationWithSkills
+
 }

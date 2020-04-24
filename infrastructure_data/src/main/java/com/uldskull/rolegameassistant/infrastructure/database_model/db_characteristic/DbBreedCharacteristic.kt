@@ -17,7 +17,7 @@ import com.uldskull.rolegameassistant.models.character.characteristic.DomainBree
 @Entity(tableName = DatabaseValues.TABLE_NAME_BREED_CHARACTERISTICS)
 class DbBreedCharacteristic(
     @PrimaryKey(autoGenerate = true)
-    val characteristicId: Long?,
+    val characteristicId: Long? = null,
     val characteristicName: String?,
     var characteristicBonus: Int = 0,
     val characteristicBreedId: Long?
@@ -47,7 +47,6 @@ class DbBreedCharacteristic(
                 characteristicName = domainModel.characteristicName,
                 characteristicBreedId = domainModel.characteristicBreedId
             )
-
         }
     }
 }

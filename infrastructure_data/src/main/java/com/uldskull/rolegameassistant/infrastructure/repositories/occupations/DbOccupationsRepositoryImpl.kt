@@ -6,9 +6,13 @@ package com.uldskull.rolegameassistant.infrastructure.repositories.occupations
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import com.uldskull.rolegameassistant.infrastructure.dao.job.DbOccupationsDao
-import com.uldskull.rolegameassistant.infrastructure.database_model.DbOccupation
-import com.uldskull.rolegameassistant.models.character.DomainOccupation
+import com.uldskull.rolegameassistant.infrastructure.dao.occupation.DbOccupationDbSkillDao
+import com.uldskull.rolegameassistant.infrastructure.dao.occupation.DbOccupationsDao
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupation.DbOccupation
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupation.DbOccupationAndDbSkillCrossRef
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupation.DbOccupationWithDbSkills
+import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
+import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupationWithSkills
 import com.uldskull.rolegameassistant.repository.occupations.OccupationsRepository
 
 /**
@@ -16,20 +20,21 @@ import com.uldskull.rolegameassistant.repository.occupations.OccupationsReposito
  *   TODO: Fill class use.
  **/
 class DbOccupationsRepositoryImpl(
-    private val dbJobDao: DbOccupationsDao
+    private val dbOccupationDao: DbOccupationsDao,
+    private val dbOccupationDbSkillDao: DbOccupationDbSkillDao
 ) :
     OccupationsRepository<LiveData<List<DomainOccupation>>> {
     companion object {
-        private const val TAG = "DbJobsRepositoryImpl"
+        private const val TAG = "DbOccupationsRepositoryImpl"
     }
 
     private fun List<DbOccupation>.asDomainModel(): List<DomainOccupation> {
         Log.d(TAG, "asDomainModel")
         return map {
             DomainOccupation(
-                occupationId = it.jobId,
-                occupationDescription = it.jobDescription,
-                occupationName = it.jobName
+                occupationId = it.occupationId,
+                occupationDescription = it.occupationDescription,
+                occupationName = it.occupationName
             )
         }
     }
@@ -39,7 +44,7 @@ class DbOccupationsRepositoryImpl(
         Log.d(TAG, "getAll")
         try {
             //  Transforms the DbJobs into DomainJobs
-            return Transformations.map(dbJobDao.getJobs()) {
+            return Transformations.map(dbOccupationDao.getJobs()) {
                 it.asDomainModel()
             }
         } catch (e: Exception) {
@@ -54,7 +59,7 @@ class DbOccupationsRepositoryImpl(
         Log.d(TAG, "findOneById")
         var result: DbOccupation
         try {
-            result = dbJobDao.getJobById(id)
+            result = dbOccupationDao.getJobById(id)
         } catch (e: Exception) {
             Log.e(TAG, "findOneById FAILED")
             e.printStackTrace()
@@ -68,7 +73,7 @@ class DbOccupationsRepositoryImpl(
         Log.d(TAG, "insertAll")
         if ((all != null) && (all.isNotEmpty())) {
             try {
-                val result = dbJobDao.insertJobs(all.map { r ->
+                val result = dbOccupationDao.insertJobs(all.map { r ->
                     DbOccupation.from(
                         r
                     )
@@ -91,7 +96,7 @@ class DbOccupationsRepositoryImpl(
         Log.d(TAG, "insertOne")
         return if (one != null) {
             try {
-                val result = dbJobDao.insertJob(DbOccupation.from(one))
+                val result = dbOccupationDao.insertJob(DbOccupation.from(one))
                 Log.d(TAG, "insertOne RESULT = $result")
                 result
             } catch (e: Exception) {
@@ -108,7 +113,7 @@ class DbOccupationsRepositoryImpl(
     override fun deleteAll(): Int {
         Log.d(TAG, "deleteAll")
         try {
-            return dbJobDao.deleteAllJobs()
+            return dbOccupationDao.deleteAllJobs()
         } catch (e: Exception) {
             Log.e(TAG, "deleteAll FAILED")
             e.printStackTrace()
@@ -119,6 +124,46 @@ class DbOccupationsRepositoryImpl(
     /**  Update one entity  **/
     override fun updateOne(one: DomainOccupation?): Int? {
         Log.d(TAG, "updateOne")
-        return dbJobDao.updateJob(DbOccupation.from(one))
+        return dbOccupationDao.updateJob(DbOccupation.from(one))
     }
+
+    override fun insertOccupationAndSkillCross(occupationId: Long?, skillId: Long): Long {
+        Log.d(TAG, "insertOccupationAndSkillCross")
+        return try {
+            dbOccupationDbSkillDao?.insertCross(
+                DbOccupationAndDbSkillCrossRef(
+                    occupationId = occupationId,
+                    skillId = skillId
+                )
+            )
+        } catch (e: Exception) {
+            Log.e(TAG, "insertOccupationAndSkillCross FAILED")
+            e.printStackTrace()
+            throw e
+        }
+    }
+
+    override fun findOneWithChildren(occupationId: Long?): DomainOccupationWithSkills {
+        var result: DbOccupationWithDbSkills = try {
+            dbOccupationDbSkillDao.getOccupationWithSkills(occupationId)
+
+        } catch (e: Exception) {
+            Log.e(TAG, "findOneWithChildren FAILED")
+            e.printStackTrace()
+            throw e
+        }
+        Log.d(TAG, "$result")
+
+        var occupation = result?.occupation
+        var skills = result?.skills
+        var occupationWithSkills = DomainOccupationWithSkills(
+            occupation = occupation.toDomain(),
+            skills = skills.map { s -> s.toDomain() }
+        )
+
+        return occupationWithSkills
+
+
+    }
+
 }

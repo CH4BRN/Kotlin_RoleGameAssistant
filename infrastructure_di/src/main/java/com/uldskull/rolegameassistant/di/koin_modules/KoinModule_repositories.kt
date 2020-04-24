@@ -14,7 +14,7 @@ import com.uldskull.rolegameassistant.infrastructure.repositories.characteristic
 import com.uldskull.rolegameassistant.infrastructure.repositories.ideal.DbIdealsRepositoryImpl
 import com.uldskull.rolegameassistant.infrastructure.repositories.occupations.DbOccupationsRepositoryImpl
 import com.uldskull.rolegameassistant.models.character.DomainIdeal
-import com.uldskull.rolegameassistant.models.character.DomainOccupation
+import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
 import com.uldskull.rolegameassistant.models.character.breed.DomainBreed
 import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainBreedCharacteristic

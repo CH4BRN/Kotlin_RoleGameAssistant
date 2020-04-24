@@ -17,13 +17,13 @@ import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbBreedC
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbCharacteristicDao
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbRollCharacteristicsDao
 import com.uldskull.rolegameassistant.infrastructure.dao.ideal.DbIdealsDao
-import com.uldskull.rolegameassistant.infrastructure.dao.job.DbOccupationsDao
+import com.uldskull.rolegameassistant.infrastructure.dao.occupation.DbOccupationsDao
 import com.uldskull.rolegameassistant.infrastructure.database.DatabaseUtils.Companion.populateBreed
 import com.uldskull.rolegameassistant.infrastructure.database.DatabaseUtils.Companion.populateBreedCharacteristics
 import com.uldskull.rolegameassistant.infrastructure.database.DatabaseUtils.Companion.populateIdeals
 import com.uldskull.rolegameassistant.infrastructure.database.DatabaseUtils.Companion.populateOccupations
 import com.uldskull.rolegameassistant.infrastructure.database.DatabaseUtils.Companion.populateRollCharacteristics
-import com.uldskull.rolegameassistant.infrastructure.database_model.DbOccupation
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupation.DbOccupation
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_bond.DbBondConverter
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.DbBreed
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.DbBreedConverter

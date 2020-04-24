@@ -1,7 +1,9 @@
 // File DomainFilledSkill.kt
 // @Author pierre.antoine - 23/03/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.models.character
+package com.uldskull.rolegameassistant.models.character.skill
+
+import com.uldskull.rolegameassistant.models.character.DomainSkill
 
 /**
  *   Class "DomainFilledSkill" :

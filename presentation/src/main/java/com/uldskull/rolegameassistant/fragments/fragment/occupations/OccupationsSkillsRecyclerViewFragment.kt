@@ -1,7 +1,7 @@
 // File SkillsRecyclerViewFragment.kt
 // @Author pierre.antoine - 29/01/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.fragments.fragment.jobs
+package com.uldskull.rolegameassistant.fragments.fragment.occupations
 
 import android.app.Activity
 import android.content.Context
@@ -28,7 +28,7 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  *   Class "SkillsRecyclerViewFragment" :
  *   Manage skill's RecyclerView fragment.
  **/
-class JobsSkillsRecyclerViewFragment(activity: Activity) : CustomRecyclerViewFragment(activity) {
+class OccupationsSkillsRecyclerViewFragment(activity: Activity) : CustomRecyclerViewFragment(activity) {
 
     /** ViewModel for skills    **/
     private lateinit var skillsViewModel: SkillsViewModel
@@ -117,9 +117,9 @@ class JobsSkillsRecyclerViewFragment(activity: Activity) : CustomRecyclerViewFra
         @JvmStatic
         override fun newInstance(
             activity: Activity
-        ): JobsSkillsRecyclerViewFragment {
+        ): OccupationsSkillsRecyclerViewFragment {
             val fragment =
-                JobsSkillsRecyclerViewFragment(activity)
+                OccupationsSkillsRecyclerViewFragment(activity)
             val args = Bundle()
 
             args.putInt(KEY_POSITION, JOBS_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION)

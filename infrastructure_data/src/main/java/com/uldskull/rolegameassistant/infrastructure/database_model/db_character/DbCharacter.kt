@@ -25,7 +25,7 @@ import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
 @Entity(tableName = DatabaseValues.TABLE_NAME_CHARACTER)
 class DbCharacter(
     @PrimaryKey(autoGenerate = true)
-    val characterId: Long?,
+    val characterId: Long? = null,
     val characterName: String?,
     val characterAge: Int?,
     val characterBiography: String?,

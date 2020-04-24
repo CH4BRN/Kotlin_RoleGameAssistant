@@ -19,6 +19,7 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
         private const val TAG = "DerivedValuesViewModel"
     }
 
+    var knowScoreEditTextHasChanged: Boolean = false
     var knowScore: Int? = 0
     var knowEditTextHasChanged: Boolean = false
     var cthulhuMythScoreEditTextHasChanged: Boolean = false

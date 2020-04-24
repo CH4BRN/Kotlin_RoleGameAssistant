@@ -13,9 +13,3 @@ open class DomainSkill(
     val skillDescription: String?
 )
 
-class DomainJobSkill(
-    skillId: Long?,
-    skillName: String?,
-    skillDescription: String?,
-    var skillJobId:Long? = null
-)

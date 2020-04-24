@@ -6,7 +6,7 @@ package com.uldskull.rolegameassistant.viewmodels
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.uldskull.rolegameassistant.models.character.DomainFilledSkill
+import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
 
 /**
  *   Class "SkillsViewModel" :
