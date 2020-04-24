@@ -31,7 +31,7 @@ class DbOccupationWithDbSkills (
                 childrenSkills += "\n" + dbOccupationSkill.skillName
             }
         }
-        return occupation.occupationName + "\n"
+        return occupation.occupationName + childrenSkills
 
     }
 }

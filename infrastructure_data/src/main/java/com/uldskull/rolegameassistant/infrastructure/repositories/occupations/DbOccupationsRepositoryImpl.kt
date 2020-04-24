@@ -96,7 +96,7 @@ class DbOccupationsRepositoryImpl(
         Log.d(TAG, "insertOne")
         return if (one != null) {
             try {
-                val result = dbOccupationDao.insertJob(DbOccupation.from(one))
+                val result = dbOccupationDao.insertOccupation(DbOccupation.from(one))
                 Log.d(TAG, "insertOne RESULT = $result")
                 result
             } catch (e: Exception) {
@@ -130,12 +130,17 @@ class DbOccupationsRepositoryImpl(
     override fun insertOccupationAndSkillCross(occupationId: Long?, skillId: Long): Long {
         Log.d(TAG, "insertOccupationAndSkillCross")
         return try {
-            dbOccupationDbSkillDao?.insertCross(
-                DbOccupationAndDbSkillCrossRef(
-                    occupationId = occupationId,
-                    skillId = skillId
+            if(occupationId != null && skillId != null){
+                dbOccupationDbSkillDao?.insertCross(
+                    DbOccupationAndDbSkillCrossRef(
+                        occupationId = occupationId,
+                        skillId = skillId
+                    )
                 )
-            )
+            }else{
+                -1
+            }
+
         } catch (e: Exception) {
             Log.e(TAG, "insertOccupationAndSkillCross FAILED")
             e.printStackTrace()

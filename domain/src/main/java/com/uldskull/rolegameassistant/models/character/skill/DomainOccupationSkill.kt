@@ -12,8 +12,7 @@ import com.uldskull.rolegameassistant.models.character.DomainSkill
 class DomainOccupationSkill(
     skillId: Long?,
     skillName: String?,
-    skillDescription: String?,
-    var skillOccupationId:Long? = null
+    skillDescription: String?
 ) : DomainSkill(
     skillId = skillId,
     skillDescription = skillDescription,

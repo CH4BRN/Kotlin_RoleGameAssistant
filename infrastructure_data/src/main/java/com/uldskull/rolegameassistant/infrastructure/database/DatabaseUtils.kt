@@ -8,12 +8,17 @@ import com.uldskull.rolegameassistant.infrastructure.dao.breed.DbBreedDao
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbBreedCharacteristicDao
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbRollCharacteristicsDao
 import com.uldskull.rolegameassistant.infrastructure.dao.ideal.DbIdealsDao
+import com.uldskull.rolegameassistant.infrastructure.dao.occupation.DbOccupationDbSkillDao
 import com.uldskull.rolegameassistant.infrastructure.dao.occupation.DbOccupationsDao
-import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupation.DbOccupation
+import com.uldskull.rolegameassistant.infrastructure.dao.skill.DbOccupationSkillDao
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.DbBreed
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbBreedCharacteristic
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbRollCharacteristic
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_ideal.DbIdeal
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupation.DbOccupation
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupation.DbOccupationAndDbSkillCrossRef
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupation.DbOccupationWithDbSkills
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_skill.DbOccupationSkill
 import com.uldskull.rolegameassistant.models.character.characteristic.CharacteristicsName
 
 /**
@@ -25,6 +30,97 @@ class DatabaseUtils {
     companion object {
 
         private const val TAG = "DatabaseUtils"
+
+        fun populateSkillsAndOccupations(
+            occupationsDao: DbOccupationsDao,
+            occupationSkillDao: DbOccupationSkillDao,
+            occupationWithSkillDao: DbOccupationDbSkillDao
+        ) {
+
+            var occupationId = occupationsDao.insertOccupation(
+                DbOccupation(
+                    occupationName = "Accountant",
+                    occupationDescription = "Income: Upper Lower to Middle class\n" +
+                            "Contacts: Other accountants\n" +
+                            "Skills: Accounting, Accounting, Accounting, Reputation\n" +
+                            "Special:"
+                )
+            )
+            Log.d(TAG, "occupation id : ${occupationId}")
+
+            var skillId = occupationSkillDao.insertOccupationSkill(
+                DbOccupationSkill(
+                    skillName = "Accounting ",
+                    skillDescription = " rants understanding of accountancy procedures, and reveals " +
+                            "the financial functioning of a business or person. Inspecting the" +
+                            "books, one might detect cheated employees, siphoned-off funds, payment" +
+                            " of bribes or blackmail, and whether or not the financial condition is " +
+                            "better or worse than claimed. Looking through old accounts, one could " +
+                            "see how money was gained or lost in the past (grain, slave-trading," +
+                            " whiskey-running, etc.) and to whom and for what payment was made."
+                )
+            )
+            Log.d(TAG, "skill id : ${skillId}")
+
+            var crossId = occupationWithSkillDao.insertCross(
+                DbOccupationAndDbSkillCrossRef(
+                    occupationId = occupationId,
+                    skillId = skillId
+                )
+            )
+            Log.d(TAG, "crossID : ${crossId}")
+
+            skillId = occupationSkillDao.insertOccupationSkill(
+                DbOccupationSkill(
+                    skillName = "Anthropology  ",
+                    skillDescription = "Enables the user to identify and understand an individual’s" +
+                            " way of life from his behavior. If the skill-user observes another " +
+                            "culture from within for a time, or works from accurate records concerning " +
+                            "an extinct culture, he or she may make simple predictions about that " +
+                            "culture’s ways and morals, even though the evidence may be incomplete." +
+                            " Studying the culture for a month or more, the anthropologist begins " +
+                            "to understand how the culture functions and, in combination with " +
+                            "Psychology, may predict the actions and beliefs of representatives." +
+                            " Essentially useful only with existing human cultures."
+                )
+            )
+            Log.d(TAG, "skill id : ${skillId}")
+
+            crossId = occupationWithSkillDao.insertCross(
+                DbOccupationAndDbSkillCrossRef(
+                    occupationId = occupationId,
+                    skillId = skillId
+                )
+            )
+            Log.d(TAG, "crossID : ${crossId}")
+
+            var result = occupationWithSkillDao.getOccupationsWithSkills()
+
+            result.forEach { dbOccupationWithDbSkills: DbOccupationWithDbSkills ->
+                Log.d(TAG, "$dbOccupationWithDbSkills")
+            }
+
+        }
+
+        fun populateSkills(occupationSkillDao: DbOccupationSkillDao) {
+            Log.d(TAG, "populateSkills")
+            var dbSkills = listOf(
+                DbOccupationSkill(
+                    skillName = "Accounting ",
+                    skillDescription = " rants understanding of accountancy procedures, and reveals " +
+                            "the financial functioning of a business or person. Inspecting the" +
+                            "books, one might detect cheated employees, siphoned-off funds, payment" +
+                            " of bribes or blackmail, and whether or not the financial condition is " +
+                            "better or worse than claimed. Looking through old accounts, one could " +
+                            "see how money was gained or lost in the past (grain, slave-trading," +
+                            " whiskey-running, etc.) and to whom and for what payment was made."
+                )
+            )
+            var result = occupationSkillDao.insertOccupationSkills(dbSkills)
+            result.forEach { id ->
+                Log.d(TAG, "insert id $id")
+            }
+        }
 
         fun populateOccupations(occupationsDao: DbOccupationsDao) {
             Log.d(TAG, "populateOccupations")

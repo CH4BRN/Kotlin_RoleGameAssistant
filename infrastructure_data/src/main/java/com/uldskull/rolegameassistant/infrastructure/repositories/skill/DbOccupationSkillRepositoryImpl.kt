@@ -30,8 +30,7 @@ class DbOccupationSkillRepositoryImpl(
             DomainOccupationSkill(
                 skillId = it.skillId,
                 skillName = it.skillName,
-                skillDescription = it.skillDescription,
-                skillOccupationId = it.skillOccupationId
+                skillDescription = it.skillDescription
             )
         }
     }

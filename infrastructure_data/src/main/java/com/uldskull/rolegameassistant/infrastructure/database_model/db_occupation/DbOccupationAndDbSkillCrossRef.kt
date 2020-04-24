@@ -15,7 +15,7 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.DbOccupation
 @Entity(primaryKeys = [DbOccupation_id, DbOccupationSkill_id])
 data class DbOccupationAndDbSkillCrossRef(
     @NonNull
-    val occupationId: Long?,
+    val occupationId: Long,
     @NonNull
-    val skillId: Long?
+    val skillId: Long
 )

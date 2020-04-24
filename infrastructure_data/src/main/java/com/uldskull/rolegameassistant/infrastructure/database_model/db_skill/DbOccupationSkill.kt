@@ -4,6 +4,7 @@
 package com.uldskull.rolegameassistant.infrastructure.database_model.db_skill
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbCompanion
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbEntity
@@ -15,10 +16,10 @@ import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSki
  **/
 @Entity(tableName = DatabaseValues.TABLE_NAME_OCCUPATION_SKILL)
 class DbOccupationSkill(
+    @PrimaryKey(autoGenerate = true)
     var skillId: Long? = null,
     var skillName: String?,
-    var skillDescription: String?,
-    var skillOccupationId: Long? = null
+    var skillDescription: String?
 ) : DbEntity<DomainOccupationSkill> {
     /**
      * Converts a Database model entity into a domain model.
@@ -26,7 +27,6 @@ class DbOccupationSkill(
     override fun toDomain(): DomainOccupationSkill {
         return DomainOccupationSkill(
             skillId = this.skillId,
-            skillOccupationId = this.skillOccupationId,
             skillDescription = this.skillDescription,
             skillName = this.skillName
         )
@@ -40,8 +40,7 @@ class DbOccupationSkill(
             return DbOccupationSkill(
                 skillId = domainModel?.skillId,
                 skillName = domainModel?.skillName,
-                skillDescription = domainModel?.skillDescription,
-                skillOccupationId = domainModel?.skillOccupationId
+                skillDescription = domainModel?.skillDescription
             )
         }
     }

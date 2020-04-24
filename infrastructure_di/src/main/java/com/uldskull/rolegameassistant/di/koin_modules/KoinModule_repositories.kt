@@ -68,6 +68,7 @@ val repositoriesModule = module {
 
     single<OccupationsRepository<LiveData<List<DomainOccupation>>>> {
         DbOccupationsRepositoryImpl(
+            get(),
             get()
         )
     }

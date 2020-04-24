@@ -17,7 +17,7 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupatio
 interface DbOccupationsDao {
     //  CREATE
     @Insert
-    fun insertJob(dbOccupation: DbOccupation): Long
+    fun insertOccupation(dbOccupation: DbOccupation): Long
 
     @Insert
     fun insertJobs(dbOccupations: List<DbOccupation>): List<Long>

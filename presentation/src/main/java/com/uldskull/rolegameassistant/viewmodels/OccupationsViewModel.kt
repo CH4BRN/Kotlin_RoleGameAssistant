@@ -9,6 +9,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
+import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupationWithSkills
 import com.uldskull.rolegameassistant.repository.occupations.OccupationsRepository
 import kotlinx.coroutines.launch
 import kotlin.concurrent.thread
@@ -48,6 +49,17 @@ class OccupationsViewModel(
             observedOccupations = occupationsRepositoryImpl.getAll()
         }
         return observedOccupations
+    }
+
+    private fun findOneWithChildren(id: Long?): DomainOccupationWithSkills? {
+        Log.d(TAG, "findOneWithChildren")
+        return try {
+            occupationsRepositoryImpl?.findOneWithChildren(id)
+        } catch (e: Exception) {
+            Log.e(TAG, "findOneWithChildren FAILED")
+            e.printStackTrace()
+            throw e
+        }
     }
 
     var observedOccupations = occupationsRepositoryImpl.getAll()

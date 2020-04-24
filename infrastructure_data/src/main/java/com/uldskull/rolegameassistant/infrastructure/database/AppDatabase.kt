@@ -17,13 +17,16 @@ import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbBreedC
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbCharacteristicDao
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbRollCharacteristicsDao
 import com.uldskull.rolegameassistant.infrastructure.dao.ideal.DbIdealsDao
+import com.uldskull.rolegameassistant.infrastructure.dao.occupation.DbOccupationDbSkillDao
 import com.uldskull.rolegameassistant.infrastructure.dao.occupation.DbOccupationsDao
+import com.uldskull.rolegameassistant.infrastructure.dao.skill.DbOccupationSkillDao
 import com.uldskull.rolegameassistant.infrastructure.database.DatabaseUtils.Companion.populateBreed
 import com.uldskull.rolegameassistant.infrastructure.database.DatabaseUtils.Companion.populateBreedCharacteristics
 import com.uldskull.rolegameassistant.infrastructure.database.DatabaseUtils.Companion.populateIdeals
 import com.uldskull.rolegameassistant.infrastructure.database.DatabaseUtils.Companion.populateOccupations
 import com.uldskull.rolegameassistant.infrastructure.database.DatabaseUtils.Companion.populateRollCharacteristics
-import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupation.DbOccupation
+import com.uldskull.rolegameassistant.infrastructure.database.DatabaseUtils.Companion.populateSkills
+import com.uldskull.rolegameassistant.infrastructure.database.DatabaseUtils.Companion.populateSkillsAndOccupations
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_bond.DbBondConverter
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.DbBreed
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.DbBreedConverter
@@ -33,6 +36,9 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_character
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbRollCharacteristic
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_ideal.DbIdeal
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_ideal.DbIdealConverter
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupation.DbOccupation
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupation.DbOccupationAndDbSkillCrossRef
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_skill.DbOccupationSkill
 import kotlin.concurrent.thread
 
 /**
@@ -48,7 +54,9 @@ Abstract class for room database
         DbBreedCharacteristic::class,
         DbRollCharacteristic::class,
         DbIdeal::class,
-        DbOccupation::class],
+        DbOccupation::class,
+        DbOccupationSkill::class,
+        DbOccupationAndDbSkillCrossRef::class],
     version = 1
 )
 @TypeConverters(
@@ -94,9 +102,19 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun dbIdealsDao(): DbIdealsDao
 
     /**
-     * Database Jobs DAO
+     * Database Occupations DAO
      */
-    abstract fun dbOccupationsDao():DbOccupationsDao
+    abstract fun dbOccupationsDao(): DbOccupationsDao
+
+    /**
+     * Database Occupation skilss DAO
+     */
+    abstract fun dbOccupationSkillDao(): DbOccupationSkillDao
+
+    /**
+     * Database Occupations with skills DAO
+     */
+    abstract fun dbOccupationsWithSkillsDao(): DbOccupationDbSkillDao
 
 
     private class AppDatabaseCallback : RoomDatabase.Callback() {
@@ -108,7 +126,12 @@ abstract class AppDatabase : RoomDatabase() {
                     populateBreedCharacteristics(database.dbBreedCharacteristicDao())
                     populateIdeals(database.dbIdealsDao())
                     populateRollCharacteristics(database.dbRollCharacteristicsDao())
-                    populateOccupations(database.dbOccupationsDao())
+                    //populateOccupations(database.dbOccupationsDao())
+                    //populateSkills(database.dbOccupationSkillDao())
+                    populateSkillsAndOccupations(
+                        occupationsDao = database.dbOccupationsDao(),
+                        occupationSkillDao = database.dbOccupationSkillDao(),
+                        occupationWithSkillDao = database.dbOccupationsWithSkillsDao())
                 }
             }
         }
