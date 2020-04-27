@@ -193,16 +193,7 @@ class NewCharacterViewModel(
             currentCharacter?.characterEnergyPoints = energyScore
         }
 
-        /*
 
-        var character =
-            DomainCharacter(
-                //characterSkills = null,
-                //characterJob = null,
-                //characterIdeals = null,
-                //characterHobby = null,
-        )
-*/
 
 
         try {

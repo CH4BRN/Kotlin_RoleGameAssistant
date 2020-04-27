@@ -19,7 +19,9 @@ class DbOccupation(
     @PrimaryKey(autoGenerate = true)
     val occupationId: Long?= null,
     val occupationName: String?,
-    val occupationDescription: String?
+    var occupationIncome:String?,
+    var occupationContacts:String?,
+    var occupationSpecial:String?
 ) : DbEntity<DomainOccupation> {
     /**
      * Converts a Database model entity into a domain model.
@@ -27,8 +29,10 @@ class DbOccupation(
     override fun toDomain(): DomainOccupation {
         return DomainOccupation(
             occupationId = occupationId,
-            occupationDescription = occupationDescription,
-            occupationName = occupationName
+            occupationName = occupationName,
+            occupationContacts = occupationContacts,
+            occupationIncome = occupationIncome,
+            occupationSpecial = occupationSpecial
         )
     }
 
@@ -41,7 +45,9 @@ class DbOccupation(
             return DbOccupation(
                 occupationId = domainModel?.activityId,
                 occupationName = domainModel?.activityName,
-                occupationDescription = domainModel?.activityDescription
+                occupationSpecial = domainModel?.occupationSpecial,
+                occupationIncome = domainModel?.occupationIncome,
+                occupationContacts = domainModel?.occupationContacts
             )
         }
 

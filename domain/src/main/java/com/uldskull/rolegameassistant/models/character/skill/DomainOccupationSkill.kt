@@ -10,9 +10,10 @@ import com.uldskull.rolegameassistant.models.character.DomainSkill
  *   TODO: Fill class use.
  **/
 class DomainOccupationSkill(
-    skillId: Long?,
-    skillName: String?,
-    skillDescription: String?
+    skillId: Long? = null,
+    skillName: String? = "",
+    skillDescription: String? = "",
+    val skillIsChecked: Boolean? = false
 ) : DomainSkill(
     skillId = skillId,
     skillDescription = skillDescription,

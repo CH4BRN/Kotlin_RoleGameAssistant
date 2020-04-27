@@ -15,7 +15,7 @@ import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.activities.NewSkillActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
-import com.uldskull.rolegameassistant.fragments.adapter.JOB_FRAGMENT_POSITION
+import com.uldskull.rolegameassistant.fragments.adapter.OCCUPATION_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
@@ -27,7 +27,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 class OccupationFragment(activity: Activity) : CustomFragment(activity) {
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = layoutInflater.inflate(
-            R.layout.fragment_job, container, false
+            R.layout.fragment_occupation, container, false
         )
         return initialRootView
     }
@@ -67,7 +67,7 @@ class OccupationFragment(activity: Activity) : CustomFragment(activity) {
     override fun onResume() {
         super.onResume()
         Log.d("JobFragment_1", NewCharacterActivity.progression.value.toString())
-        NewCharacterActivity.progression.value = JOB_FRAGMENT_POSITION
+        NewCharacterActivity.progression.value = OCCUPATION_FRAGMENT_POSITION
         Log.d("JobFragment_2", NewCharacterActivity.progression.value.toString())
     }
 
@@ -80,7 +80,7 @@ class OccupationFragment(activity: Activity) : CustomFragment(activity) {
                 )
             val args = Bundle()
 
-            args.putInt(KEY_POSITION, JOB_FRAGMENT_POSITION)
+            args.putInt(KEY_POSITION, OCCUPATION_FRAGMENT_POSITION)
             fragment.arguments = args
             (activity as NewCharacterActivity).replaceFragment(
                 R.id.container_jobSkills,

@@ -26,11 +26,11 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  **/
 class OccupationSkillsRecyclerViewFragment(activity: Activity) : CustomRecyclerViewFragment(activity) {
 
-    private var occupationSkillsAdapter: OccupationSkillsAdapter? = null
+    private var occupationsSkillsAdapter: OccupationsSkillsAdapter? = null
 
     private lateinit var skillsViewModel: SkillsViewModel
 
-    private var jobSkillRecyclerView: RecyclerView? = null
+    private var occupationsSkillsRecyclerView: RecyclerView? = null
 
     /**
      * Initialize the initial root view.
@@ -62,7 +62,7 @@ class OccupationSkillsRecyclerViewFragment(activity: Activity) : CustomRecyclerV
 
     /** Initialize recycler view    **/
     override fun initializeRecyclerView() {
-        jobSkillRecyclerView = activity.findViewById(R.id.recycler_view_jobSkills)
+        occupationsSkillsRecyclerView = activity.findViewById(R.id.recyclerView_occupationsSkills)
                 as RecyclerView?
         setRecyclerViewAdapter()
         setRecyclerViewLayoutManager()
@@ -72,16 +72,12 @@ class OccupationSkillsRecyclerViewFragment(activity: Activity) : CustomRecyclerV
      * Start ViewModel's collection observation.
      */
     override fun startObservation() {
-        this.skillsViewModel.jobSkills.observe(this, Observer { skills ->
-            kotlin.run {
-                skills?.let { occupationSkillsAdapter?.setJobSkills(it) }
-            }
-        })
+
     }
 
     /** Set recycler view layout manager    **/
     override fun setRecyclerViewLayoutManager() {
-        jobSkillRecyclerView?.layoutManager = LinearLayoutManager(
+        occupationsSkillsRecyclerView?.layoutManager = LinearLayoutManager(
             activity,
             LinearLayoutManager.VERTICAL,
             false
@@ -90,11 +86,11 @@ class OccupationSkillsRecyclerViewFragment(activity: Activity) : CustomRecyclerV
 
 
     override fun setRecyclerViewAdapter() {
-        occupationSkillsAdapter =
-            OccupationSkillsAdapter(
+        occupationsSkillsAdapter =
+            OccupationsSkillsAdapter(
                 activity as Context
             )
-        jobSkillRecyclerView?.adapter = occupationSkillsAdapter
+        occupationsSkillsRecyclerView?.adapter = occupationsSkillsAdapter
     }
 
 

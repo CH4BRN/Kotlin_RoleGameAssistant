@@ -57,10 +57,10 @@ class CharacterPagerAdapter(fm: FragmentManager, val activity: Activity) :
             DERIVED_VALUES_2_FRAGMENT_POSITION -> DerivedValues2Fragment.newInstance(
                 activity
             )
-            JOBS_FRAGMENT_POSITION -> OccupationsFragment.newInstance(
+            OCCUPATIONS_FRAGMENT_POSITION -> OccupationsFragment.newInstance(
                 activity
             )
-            JOB_FRAGMENT_POSITION -> OccupationFragment.newInstance(
+            OCCUPATION_FRAGMENT_POSITION -> OccupationFragment.newInstance(
                 activity
             )
             HOBBIES_FRAGMENT_POSITION -> HobbiesFragment.newInstance(

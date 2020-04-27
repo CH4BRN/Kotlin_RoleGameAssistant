@@ -8,7 +8,7 @@
 
     <TextView
         style="@style/TextViewSubTitle"
-        android:id="@+id/tv_jobSkillName"
+        android:id="@+id/tv_occupationSkillName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="3"
@@ -17,7 +17,7 @@
         android:text="Skill 1" />
 
     <TextView
-        android:id="@+id/tv_jobSkillBase"
+        android:id="@+id/tv_occupationSkillBase"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -30,14 +30,14 @@
         android:text=" + " />
 
     <TextView
-        android:id="@+id/tv_jobSkillAddTens"
+        android:id="@+id/tv_occupationSkillAddTens"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0.5"
         android:text="1" />
 
     <TextView
-        android:id="@+id/tv_jobSkillAddUnits"
+        android:id="@+id/tv_occupationSkillAddUnits"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0.5"
@@ -50,7 +50,7 @@
         android:text=" / " />
 
     <TextView
-        android:id="@+id/tv_jobSkillTotal"
+        android:id="@+id/tv_occupationSkillTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"

@@ -9,10 +9,8 @@ package com.uldskull.rolegameassistant.models.character
  **/
 class DomainHobby(
     hobbyId: Long,
-    hobbyName: String,
-    hobbyDescription: String
+    hobbyName: String
 ) : DomainActivity(
     activityId = hobbyId,
-    activityName = hobbyName,
-    activityDescription = hobbyDescription
+    activityName = hobbyName
 )

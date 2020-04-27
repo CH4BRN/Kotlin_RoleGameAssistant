@@ -33,8 +33,10 @@ class DbOccupationsRepositoryImpl(
         return map {
             DomainOccupation(
                 occupationId = it.occupationId,
-                occupationDescription = it.occupationDescription,
-                occupationName = it.occupationName
+                occupationName = it.occupationName,
+                occupationSpecial = it.occupationSpecial,
+                occupationIncome = it.occupationIncome,
+                occupationContacts = it.occupationContacts
             )
         }
     }
@@ -130,14 +132,14 @@ class DbOccupationsRepositoryImpl(
     override fun insertOccupationAndSkillCross(occupationId: Long?, skillId: Long): Long {
         Log.d(TAG, "insertOccupationAndSkillCross")
         return try {
-            if(occupationId != null && skillId != null){
-                dbOccupationDbSkillDao?.insertCross(
+            if (occupationId != null && skillId != null) {
+                dbOccupationDbSkillDao.insertCross(
                     DbOccupationAndDbSkillCrossRef(
                         occupationId = occupationId,
                         skillId = skillId
                     )
                 )
-            }else{
+            } else {
                 -1
             }
 
@@ -159,8 +161,8 @@ class DbOccupationsRepositoryImpl(
         }
         Log.d(TAG, "$result")
 
-        var occupation = result?.occupation
-        var skills = result?.skills
+        var occupation = result.occupation
+        var skills = result.skills
         var occupationWithSkills = DomainOccupationWithSkills(
             occupation = occupation.toDomain(),
             skills = skills.map { s -> s.toDomain() }

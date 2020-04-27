@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
 import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupationWithSkills
+import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSkill
 import com.uldskull.rolegameassistant.repository.occupations.OccupationsRepository
 import kotlinx.coroutines.launch
 import kotlin.concurrent.thread
@@ -51,10 +52,14 @@ class OccupationsViewModel(
         return observedOccupations
     }
 
-    private fun findOneWithChildren(id: Long?): DomainOccupationWithSkills? {
+    fun findOneWithChildren(id: Long?): DomainOccupationWithSkills? {
         Log.d(TAG, "findOneWithChildren")
-        return try {
-            occupationsRepositoryImpl?.findOneWithChildren(id)
+        try {
+            var occupationWithSkills =occupationsRepositoryImpl?.findOneWithChildren(id)
+            if(occupationWithSkills != null){
+                this.selectedOccupation = occupationWithSkills.occupation
+            }
+            return occupationWithSkills
         } catch (e: Exception) {
             Log.e(TAG, "findOneWithChildren FAILED")
             e.printStackTrace()
@@ -62,6 +67,7 @@ class OccupationsViewModel(
         }
     }
 
+    var selectedOccupation: DomainOccupation? = null
     var observedOccupations = occupationsRepositoryImpl.getAll()
     var displayedOccupations = mutableListOf<DomainOccupation?>()
 // TODO : Fill class.

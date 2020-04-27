@@ -57,7 +57,7 @@ class BreedsRecyclerViewFragment(activity: Activity) :
      */
     override fun initializeRecyclerView() {
         Log.d(TAG, "initializeRecyclerView")
-        breedsRecyclerView = activity.findViewById(R.id.recycler_view_breeds)
+        breedsRecyclerView = activity.findViewById(R.id.recyclerView_breeds)
                 as RecyclerView?
         setRecyclerViewAdapter()
         setRecyclerViewLayoutManager()
@@ -120,7 +120,7 @@ class BreedsRecyclerViewFragment(activity: Activity) :
      */
     override fun itemPressed(domainModel: DomainBreed?) {
         Log.d(TAG, "itemPressed")
-        recycler_view_breeds?.requestFocus()
+        recyclerView_breeds?.requestFocus()
         Log.d(
             TAG,
             "checked breed = " + breedsViewModel.displayedBreeds.filter { b -> b.breedChecked }.size

@@ -12,11 +12,12 @@ import com.uldskull.rolegameassistant.models.character.DomainActivity
 class DomainOccupation(
     var occupationId: Long?,
     var occupationName: String?,
-    var occupationDescription: String?
+    var occupationIncome:String?,
+    var occupationContacts:String?,
+    var occupationSpecial:String?
 ) : DomainActivity(
     activityId = occupationId,
-    activityName = occupationName,
-    activityDescription = occupationDescription
+    activityName = occupationName
 ) {
     override fun toString(): String {
         return "Name : $occupationName\n" +

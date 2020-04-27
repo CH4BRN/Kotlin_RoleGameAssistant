@@ -9,6 +9,5 @@ package com.uldskull.rolegameassistant.models.character
  **/
 abstract class DomainActivity(
     val activityId: Long?,
-    val activityName: String?,
-    val activityDescription: String?
+    val activityName: String?
 )

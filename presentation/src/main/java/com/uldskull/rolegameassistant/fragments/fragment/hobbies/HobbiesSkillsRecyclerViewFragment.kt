@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
-import com.uldskull.rolegameassistant.fragments.fragment.skills.JobsSkillsAdapter
+import com.uldskull.rolegameassistant.fragments.fragment.occupations.OccupationSkillsAdapter
 import com.uldskull.rolegameassistant.viewmodels.SkillsViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -29,7 +29,7 @@ class HobbiesSkillsRecyclerViewFragment(activity: Activity) :
     private lateinit var skillsViewModel: SkillsViewModel
 
     /** Adapter for skills recycler view    **/
-    private var skillsAdapter: JobsSkillsAdapter? = null
+    private var skillsAdapter: OccupationSkillsAdapter? = null
 
     /**  RecyclerView for skills  **/
     private var skillsRecyclerView: RecyclerView? = null
@@ -58,7 +58,7 @@ class HobbiesSkillsRecyclerViewFragment(activity: Activity) :
 
     override fun setRecyclerViewAdapter() {
         skillsAdapter =
-            JobsSkillsAdapter(
+            OccupationSkillsAdapter(
                 activity as Context
             )
         skillsRecyclerView?.adapter = skillsAdapter

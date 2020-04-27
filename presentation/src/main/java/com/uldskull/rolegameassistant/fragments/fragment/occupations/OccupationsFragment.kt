@@ -17,14 +17,16 @@ import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NEW_JOB_ACTIVITY
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
-import com.uldskull.rolegameassistant.fragments.adapter.JOBS_FRAGMENT_POSITION
+import com.uldskull.rolegameassistant.fragments.adapter.OCCUPATIONS_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.REQUEST_CODE_JOBS_NEW_JOB
 import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
+import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupationWithSkills
 import com.uldskull.rolegameassistant.viewmodels.OccupationsViewModel
-import kotlinx.android.synthetic.main.fragment_jobs.*
+import com.uldskull.rolegameassistant.viewmodels.SkillsViewModel
+import kotlinx.android.synthetic.main.fragment_occupations.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
@@ -34,10 +36,11 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 class OccupationsFragment(activity: Activity) : CustomFragment(activity) {
 
     private val occupationsViewModel: OccupationsViewModel by sharedViewModel()
+    private val skillsViewModel: SkillsViewModel by sharedViewModel()
 
     fun startObservation() {
         Log.d(TAG, "startObservation")
-        var gotOccupations: MutableList<DomainOccupation?> = mutableListOf()
+        var gotOccupations: MutableList<DomainOccupation?>
         this.occupationsViewModel.observedOccupations?.observe(this, Observer { domainOccupations ->
             kotlin.run {
                 domainOccupations?.let {
@@ -59,7 +62,7 @@ class OccupationsFragment(activity: Activity) : CustomFragment(activity) {
     }
 
     private fun setSpinnerAdapter() {
-        occupationsAdapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        occupationsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner_occupations?.adapter = occupationsAdapter
     }
 
@@ -69,7 +72,7 @@ class OccupationsFragment(activity: Activity) : CustomFragment(activity) {
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         Log.d(TAG, "initializeView")
         initialRootView = layoutInflater.inflate(
-            R.layout.fragment_jobs, container, false
+            R.layout.fragment_occupations, container, false
         )
         return initialRootView
     }
@@ -90,10 +93,10 @@ class OccupationsFragment(activity: Activity) : CustomFragment(activity) {
 
         setButtonAddJob()
         startObservation()
-        setSpinnerOccupationsOnItemSelecteListener()
+        setSpinnerOccupationsOnItemSelectedListener()
     }
 
-    private fun setSpinnerOccupationsOnItemSelecteListener() {
+    private fun setSpinnerOccupationsOnItemSelectedListener() {
         spinner_occupations.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             /**
              * Callback method to be invoked when the selection disappears from this
@@ -127,15 +130,44 @@ class OccupationsFragment(activity: Activity) : CustomFragment(activity) {
                 position: Int,
                 id: Long
             ) {
+                Log.d(TAG, "onItemSelected")
                 var occupation = occupationsViewModel.displayedOccupations[position]
-                if(occupation!= null){
+                if (occupation != null) {
                     Log.d(TAG, "Occupation $occupation")
+                    loadOccupationDescription(occupation)
+                    loadOccupationsSkills(occupation)
                 }
-
-
             }
 
         }
+    }
+
+    private fun loadOccupationDescription(occupation: DomainOccupation) {
+        Log.d(TAG, "loadOccupationDescription")
+        var result: DomainOccupationWithSkills? =
+            occupationsViewModel.findOneWithChildren(occupation.occupationId)
+        Log.d(TAG, "result : ${result}")
+        if (fragmentOccupations_tv_occupationIncomeValue != null) {
+            fragmentOccupations_tv_occupationIncomeValue!!.text =
+                result?.occupation?.occupationIncome
+        }
+        if (fragmentOccupations_tv_occupationContactsValue != null) {
+            fragmentOccupations_tv_occupationContactsValue!!.text =
+                result?.occupation?.occupationContacts
+        }
+        if (fragmentOccupations_tv_occupationSpecialValue != null) {
+            fragmentOccupations_tv_occupationSpecialValue!!.text =
+                result?.occupation?.occupationSpecial
+        }
+    }
+
+    fun loadOccupationsSkills(occupation: DomainOccupation) {
+        Log.d(TAG, "loadOccupationsSkills")
+        var result: DomainOccupationWithSkills? =
+            occupationsViewModel.findOneWithChildren(occupation.occupationId)
+        Log.d(TAG, "result : ${result}")
+        skillsViewModel.observedOccupationsSkills.value = result?.skills?.toMutableList()
+
     }
 
     /**
@@ -143,8 +175,8 @@ class OccupationsFragment(activity: Activity) : CustomFragment(activity) {
      */
     private fun setButtonAddJob() {
         Log.d(TAG, "setButtonAddJob")
-        if (btn_addJob != null) {
-            btn_addJob!!.setOnClickListener {
+        if (btn_addOccupation != null) {
+            btn_addOccupation!!.setOnClickListener {
                 val intent = Intent(activity, NEW_JOB_ACTIVITY)
                 startActivityForResult(intent, REQUEST_CODE_JOBS_NEW_JOB)
             }
@@ -168,7 +200,7 @@ class OccupationsFragment(activity: Activity) : CustomFragment(activity) {
     fun onResume() {
         super.onResume()
         Log.i(TAG, NewCharacterActivity.progression.value.toString())
-        NewCharacterActivity.progression.value = JOBS_FRAGMENT_POSITION
+        NewCharacterActivity.progression.value = OCCUPATIONS_FRAGMENT_POSITION
         Log.i(TAG, NewCharacterActivity.progression.value.toString())
     }
 
@@ -183,10 +215,10 @@ class OccupationsFragment(activity: Activity) : CustomFragment(activity) {
                 )
             val args = Bundle()
 
-            args.putInt(KEY_POSITION, JOBS_FRAGMENT_POSITION)
+            args.putInt(KEY_POSITION, OCCUPATIONS_FRAGMENT_POSITION)
             fragment.arguments = args
             (activity as NewCharacterActivity).replaceFragment(
-                R.id.container_jobs,
+                R.id.container_recyclerView_occupationsSkills,
                 OccupationsSkillsRecyclerViewFragment.newInstance(
                     activity
                 )

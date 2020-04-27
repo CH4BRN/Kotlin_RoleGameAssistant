@@ -19,8 +19,10 @@ class DbOccupationSkill(
     @PrimaryKey(autoGenerate = true)
     var skillId: Long? = null,
     var skillName: String?,
-    var skillDescription: String?
+    var skillDescription: String?,
+    var skillIsChecked: Boolean? = false
 ) : DbEntity<DomainOccupationSkill> {
+
     /**
      * Converts a Database model entity into a domain model.
      */
@@ -28,7 +30,8 @@ class DbOccupationSkill(
         return DomainOccupationSkill(
             skillId = this.skillId,
             skillDescription = this.skillDescription,
-            skillName = this.skillName
+            skillName = this.skillName,
+            skillIsChecked = this.skillIsChecked
         )
     }
 
@@ -40,8 +43,10 @@ class DbOccupationSkill(
             return DbOccupationSkill(
                 skillId = domainModel?.skillId,
                 skillName = domainModel?.skillName,
-                skillDescription = domainModel?.skillDescription
-            )
+                skillDescription = domainModel?.skillDescription,
+                skillIsChecked = domainModel?.skillIsChecked
+
+                )
         }
     }
 }

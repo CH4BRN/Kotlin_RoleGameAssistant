@@ -7,7 +7,7 @@
     tools:context="com.uldskull.rolegameassistant.fragments.fragment.basicinfo.breed.BreedsRecyclerViewFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_breeds"
+        android:id="@+id/recyclerView_breeds"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

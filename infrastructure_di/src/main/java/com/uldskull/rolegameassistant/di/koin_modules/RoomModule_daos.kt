@@ -1,6 +1,6 @@
 // RoomModule_daos.kt created by UldSkull - 15/02/2020
 
-package com.uldskull.rolegameassistant.di
+package com.uldskull.rolegameassistant.di.koin_modules
 
 import com.uldskull.rolegameassistant.infrastructure.database.AppDatabase
 import org.koin.dsl.module
@@ -22,6 +22,7 @@ val roomModule = module {
     //  OCCUPATIONS
     single { AppDatabase.getDatabase(get()).dbOccupationsDao() }
     single { AppDatabase.getDatabase(get ()).dbOccupationSkillDao() }
+    single { AppDatabase.getDatabase(get()).dbOccupationsWithSkillsDao() }
 
 
 
