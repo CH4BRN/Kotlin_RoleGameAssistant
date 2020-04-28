@@ -17,7 +17,7 @@ import com.uldskull.rolegameassistant.models.character.DomainBond
 @Entity(tableName = DatabaseValues.TABLE_NAME_BOND)
 class DbBond(
     @PrimaryKey(autoGenerate = true)
-    val bondId: Long?,
+    val bondId: Long? = null,
     val bondTitle: String?,
     val bondValue: String?
 ) : DbEntity<DomainBond> {

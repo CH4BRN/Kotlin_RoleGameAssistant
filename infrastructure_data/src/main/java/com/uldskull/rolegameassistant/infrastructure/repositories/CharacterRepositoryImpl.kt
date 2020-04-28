@@ -48,22 +48,23 @@ class CharacterRepositoryImpl(
                 characterAge = it.characterAge,
                 characterGender = it.characterGender,
                 characterBiography = it.characterBiography,
-                characterBreeds = it.characterBreeds?.map { dbBreed -> dbBreed?.toDomain() },
+                characterBreeds = it.characterBreeds?.map { dbBreed -> dbBreed?.toDomain() }?.toMutableList(),
                 characterHealthPoints = it.characterHealthPoints,
                 characterIdeaPoints = it.characterIdeaPoints,
                 characterAlignment = it.characterAlignment,
                 characterEnergyPoints = it.characterEnergyPoints,
                 characterHeight = it.characterHeight,
                 characterPictureUri = it.characterPictureUri,
-                characterBonds = it.characterBonds?.map { dbBond -> dbBond?.toDomain() },
-                characterIdeals = it.characterIdeals?.map { dbIdeal -> dbIdeal?.toDomain() },
+                characterBonds = it.characterBonds?.map { dbBond -> dbBond?.toDomain() }?.toMutableList(),
+                characterIdeals = it.characterIdeals?.map { dbIdeal -> dbIdeal?.toDomain() }?.toMutableList(),
                 characterStrength = it.characterStrength?.toDomain(),
                 characterSize = it.characterSize?.toDomain(),
-                characterPower = it.characterPower.toDomain(),
+                characterPower = it.characterPower?.toDomain(),
                 characterIntelligence = it.characterIntelligence?.toDomain(),
                 characterDexterity = it.characterDexterity?.toDomain(),
                 characterConstitution = it.characterConstitution?.toDomain(),
-                characterAppearance = it.characterAppearance?.toDomain()
+                characterAppearance = it.characterAppearance?.toDomain(),
+                characterEducation = it.characterEducation?.toDomain()
             )
         }
     }
@@ -131,7 +132,6 @@ class CharacterRepositoryImpl(
 
         return null
     }
-
 
 
 }

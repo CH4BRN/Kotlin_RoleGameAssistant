@@ -61,9 +61,9 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
     /**
      * Initialize the view corresponding to this fragment class
      */
-    override fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
+    override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         Log.d(TAG, "initializeView")
-        initialRootView = inflater.inflate(
+        initialRootView = layoutInflater.inflate(
             R.layout.fragment_basic_info, container, false
         )
         return initialRootView
@@ -389,13 +389,13 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
             fragment.arguments = args
 
             (activity as NewCharacterActivity).replaceFragment(
-                R.id.container_picture,
+                R.id.basicInfo_container_picture,
                 PictureFragment.newInstance(
                     activity
                 )
             )
             activity.replaceFragment(
-                R.id.container_breed,
+                R.id.basicInfo_container_breed,
                 BreedsRecyclerViewFragment.newInstance(
                     activity
                 )

@@ -52,7 +52,7 @@ class NewCharacterActivity :
     private fun setCharacterPageAdapter() {
         Log.d(TAG, "setCharacterPageAdapter")
         //  Serialize the view pager.
-        viewPager = findViewById(R.id.viewPager)
+        viewPager = findViewById(R.id.activityNewCharacter_viewPager)
 
         //  Set the viewPager adapter.
         viewPager.adapter = CharacterPagerAdapter(supportFragmentManager, this)
@@ -78,7 +78,7 @@ class NewCharacterActivity :
     private fun updateProgressBarFragment(progression: Int) {
         Log.d(TAG, "updateProgressBarFragment")
         this.replaceFragment(
-            R.id.container_progressBar,
+            R.id.activityNewCharacter_container_progressBar,
             ProgressBarFragment.newInstance(this, progression)
         )
     }
@@ -89,7 +89,7 @@ class NewCharacterActivity :
     private fun loadNavigationBarFragment() {
         Log.d(TAG, "loadNavigationBarFragment")
         this.replaceFragment(
-            R.id.container_navigationBar,
+            R.id.activityNewIdeal_container_navigationBar,
             NavigationBarFragment.newInstance(this)
         )
     }

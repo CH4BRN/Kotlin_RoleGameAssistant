@@ -32,7 +32,7 @@ class BreedCharacteristicsViewModel(
     var breedCharacteristics = breedCharacteristicRepositoryImpl.getAll()
 
     private fun findAllBreedCharacteristics(): LiveData<List<DomainBreedCharacteristic>>? {
-        Log.d("testInsert", "findAllBreedCharacteristics")
+        Log.d(TAG, "findAllBreedCharacteristics")
         thread(start = true) {
             breedCharacteristics = breedCharacteristicRepositoryImpl.getAll()
         }
@@ -52,11 +52,10 @@ class BreedCharacteristicsViewModel(
     }
 
     fun saveOneBreedCharacteristic(domainBreedCharacteristic: DomainBreedCharacteristic): Long? {
-        var result: Long? = null
         Log.d(TAG, "saveOneBreedCharacteristic")
 
-        result = breedCharacteristicRepositoryImpl.insertOne(domainBreedCharacteristic)
-        Log.d("CharacteristicViewModel", "saved $result")
+        var result: Long? = breedCharacteristicRepositoryImpl.insertOne(domainBreedCharacteristic)
+        Log.d(TAG, "saved $result")
         return result
     }
 
@@ -71,10 +70,9 @@ class BreedCharacteristicsViewModel(
 
         synchronized(lock) {
             Log.d(TAG, "saveAllBreedCharacteristics")
-            var result: List<Long>? = null
             Log.d(TAG, "saveAllBreedCharacteristics")
 
-            result = breedCharacteristicRepositoryImpl.insertAll(domainBreedCharacteristics)
+            var result: List<Long>? = breedCharacteristicRepositoryImpl.insertAll(domainBreedCharacteristics)
             Log.d(TAG, "INSERTED $result")
 
             lock.notifyAll()
@@ -88,5 +86,4 @@ class BreedCharacteristicsViewModel(
         }
         return 0
     }
-// TODO : Fill class.
 }

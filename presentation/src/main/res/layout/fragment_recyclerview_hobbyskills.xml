@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
 
-            tools:context="com.uldskull.rolegameassistant.fragments.fragment.jobs.JobsSkillsRecyclerViewFragment">
+            tools:context="com.uldskull.rolegameassistant.fragments.fragment.occupations.OccupationsSkillsRecyclerViewFragment">
 
             <LinearLayout
                 android:id="@+id/container_hobbySkillsHeader"

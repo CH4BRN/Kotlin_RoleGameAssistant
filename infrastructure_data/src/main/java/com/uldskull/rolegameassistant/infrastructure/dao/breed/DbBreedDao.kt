@@ -6,6 +6,7 @@ package com.uldskull.rolegameassistant.infrastructure.dao.breed
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
+import com.uldskull.rolegameassistant.infrastructure.dao.SELECT_ALL_FROM
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.DbBreed
 
 /**
@@ -22,10 +23,10 @@ interface DbBreedDao {
     fun insertBreeds(dbBreeds: List<DbBreed>): List<Long>
 
     //  READ
-    @Query("SELECT * FROM ${DatabaseValues.TABLE_NAME_BREED}")
+    @Query("$SELECT_ALL_FROM ${DatabaseValues.TABLE_NAME_BREED}")
     fun getBreeds(): LiveData<List<DbBreed>>
 
-    @Query("SELECT * FROM ${DatabaseValues.TABLE_NAME_BREED} WHERE breedId LIKE :id")
+    @Query("$SELECT_ALL_FROM ${DatabaseValues.TABLE_NAME_BREED} WHERE breedId LIKE :id")
     fun getBreedById(id: Long?): DbBreed
 
     //  UPDATE

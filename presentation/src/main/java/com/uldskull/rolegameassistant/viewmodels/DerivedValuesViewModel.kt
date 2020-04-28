@@ -15,12 +15,20 @@ import com.uldskull.rolegameassistant.models.character.characteristic.DomainRoll
  **/
 class DerivedValuesViewModel(application: Application) : AndroidViewModel(application) {
     companion object {
+
         private const val TAG = "DerivedValuesViewModel"
     }
 
+    var knowScoreEditTextHasChanged: Boolean = false
+    var knowScore: Int? = 0
+    var knowEditTextHasChanged: Boolean = false
+    var cthulhuMythScoreEditTextHasChanged: Boolean = false
+    var cthulhuMythScore: Int? = 99
+    var selectedDamageBonusIndex: Int? = 0
+
     enum class DamageBonus(value: String) {
-        minus1D6("-1D6"),
-        minus1D4("-1D4"),
+        Minus1D6("-1D6"),
+        Minus1D4("-1D4"),
         none("nothing"),
         plus1D4("+1D4"),
         plus1D6("+1D6"),
@@ -35,10 +43,27 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
         plus10D6("+10D6")
     }
 
+    var baseHealthEditTextHasChanged: Boolean = false
+    var breedBonusEditTextHasChanged: Boolean = false
+        set(value) {
+            Log.d(TAG, "totalHealthEditTextHasChanged = ${value}")
+            field = value
+        }
+    var ideaEditTextHasChanged: Boolean = false
+    var sanityEditTextHasChanged: Boolean = false
+    var luckEditTextHasChanged: Boolean = false
+    var energyPointsEdiTextHasChanged: Boolean = false
+    var sizePlusStrengthEditTextHasChanged: Boolean = false
+    var damageBonusSpinnerSelectionHasChanged: Boolean = false
+    var alignmentEditTextHasChanged: Boolean = false
     /**
      * Character's base health
      */
     var baseHealth: Int = 0
+        set(value) {
+            Log.d(TAG, "baseHealth = $value")
+            field = value
+        }
     /**
      * Character's breed's health bonus
      */
@@ -58,13 +83,15 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
     /**
      * Character's chance score
      */
-    var chanceScore: Int = 0
+    var sanityScore: Int = 0
+
+    var luckScore: Int = 0
 
     var energyPoints: Int = 0
 
     var sizePlusStrengthScore: Int = 0
 
-    var damageBonus: DamageBonus? = DamageBonus.minus1D6
+    var damageBonus: DamageBonus? = DamageBonus.none
 
 
     /**
@@ -81,35 +108,46 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
     /**
      * Calculate size plus strength for damage bonus
      */
-    fun calculateSizePlusStrength(characteristics: List<DomainRollCharacteristic>): Int {
-
+    fun calculateSizePlusStrength(characteristics: List<DomainRollCharacteristic?>): Int {
+        Log.d(TAG, "calculateSizePlusStrength")
         characteristics.forEach {
-            if (it.characteristicTotal != null) {
-                sizePlusStrengthScore += it.characteristicTotal!!
+            if (it?.characteristicTotal != null) {
+                sizePlusStrengthScore += it?.characteristicTotal!!
             }
         }
-        damageBonus = calculateDamageBonus()
+        calculateDamageBonus()
         return sizePlusStrengthScore
     }
 
-    fun calculateDamageBonus(): DamageBonus {
-        when (sizePlusStrengthScore) {
-            in 2..12 -> return DamageBonus.minus1D6
-            in 13..16 -> return DamageBonus.minus1D4
-            in 17..24 -> return DamageBonus.none
-            in 25..32 -> return DamageBonus.plus1D4
-            in 33..40 -> return DamageBonus.plus1D6
-            in 41..56 -> return DamageBonus.plus2D6
-            in 57..72 -> return DamageBonus.plus3D6
-            in 73..88 -> return DamageBonus.plus4D6
-            in 89..104 -> return DamageBonus.plus5D6
-            in 105..120 -> return DamageBonus.plus6D6
-            in 121..136 -> return DamageBonus.plus7D6
-            in 137..152 -> return DamageBonus.plus8D6
-            in 153..168 -> return DamageBonus.plus9D6
-            in 169..184 -> return DamageBonus.plus10D6
-            else -> return DamageBonus.none
+    fun calculateDamageBonus(): Int {
+        Log.d(TAG, "calculateDamageBonus")
+        Log.d(TAG, "Selected damage bonus index $selectedDamageBonusIndex")
+        Log.d(TAG, "sizePlusStrengthScore = $sizePlusStrengthScore")
+
+        for (index in 0..DamageBonus.values().indices.last) {
+            Log.d(TAG, "$index ${DamageBonus.values()[index].name}")
         }
+
+        when (sizePlusStrengthScore) {
+            in 2..12 -> selectedDamageBonusIndex = 0
+            in 13..16 -> selectedDamageBonusIndex = 1
+            in 17..24 -> selectedDamageBonusIndex = 2
+            in 25..32 -> selectedDamageBonusIndex = 3
+            in 33..40 -> selectedDamageBonusIndex = 4
+            in 41..56 -> selectedDamageBonusIndex = 5
+            in 57..72 -> selectedDamageBonusIndex = 6
+            in 73..88 -> selectedDamageBonusIndex = 7
+            in 89..104 -> selectedDamageBonusIndex = 8
+            in 105..120 -> selectedDamageBonusIndex = 9
+            in 121..136 -> selectedDamageBonusIndex = 10
+            in 137..152 -> selectedDamageBonusIndex = 11
+            in 153..168 -> selectedDamageBonusIndex = 12
+            in 169..184 -> selectedDamageBonusIndex = 13
+            else -> selectedDamageBonusIndex = 2
+        }
+        Log.d(TAG, "Selected damage bonus index ${selectedDamageBonusIndex}")
+        damageBonus = DamageBonus.values()[selectedDamageBonusIndex!!]
+        return selectedDamageBonusIndex!!
     }
 
     /**
@@ -125,17 +163,25 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
     /**
      * Calculate character's chance score
      */
-    fun calculateChanceScore(power: DomainRollCharacteristic?): Int {
+    fun calculateSanityScore(power: DomainRollCharacteristic?): Int {
         if (power?.characteristicTotal != null) {
-            chanceScore = power.characteristicTotal!! * 5
+            sanityScore = power.characteristicTotal!! * 5
         }
-        return chanceScore
+        return sanityScore
+    }
+
+    fun calculateLuckScore(power: DomainRollCharacteristic?): Int {
+        if (power?.characteristicTotal != null) {
+            luckScore = power.characteristicTotal!! * 5
+        }
+        return luckScore
     }
 
     /**
      * Calculate character's base health
      */
     fun calculateBaseHealth(rollCharacteristics: List<DomainRollCharacteristic>): Int {
+        Log.d(TAG, "calculate base health")
         var hp = 0
         rollCharacteristics.forEach {
             Log.d(TAG, "${it.characteristicName} - ${it.characteristicTotal}")
@@ -152,9 +198,9 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
      * Calculate character's total health.
      */
     fun calculateTotalHealth(): Int {
-        if (baseHealth != null && breedHealthBonus != null) {
-            totalHealth = baseHealth + breedHealthBonus!!
-        }
+        Log.d(TAG, "base health : ${baseHealth}\nbreed health bonus : ${breedHealthBonus}")
+        totalHealth = baseHealth + breedHealthBonus!!
+
         return totalHealth
     }
 
@@ -168,6 +214,14 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
         }
         breedHealthBonus = bonus
         return breedHealthBonus!!
+    }
+
+    fun calculateKnowPoints(education: DomainRollCharacteristic):Int? {
+        Log.d(TAG, "calculateKnowPoints")
+        if (education?.characteristicTotal != null) {
+            knowScore = education.characteristicTotal!! * 5
+        }
+        return knowScore
     }
 
 

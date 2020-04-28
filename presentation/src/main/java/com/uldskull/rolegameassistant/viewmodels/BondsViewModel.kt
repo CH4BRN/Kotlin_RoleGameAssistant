@@ -14,7 +14,7 @@ import com.uldskull.rolegameassistant.models.character.DomainBond
  *   ViewModel class for bonds.
  **/
 class BondsViewModel(application: Application) : AndroidViewModel(application) {
-    fun addBond(): MutableList<DomainBond>? {
+    fun addBond(): MutableList<DomainBond?>? {
         Log.d("Bond", "add bond")
         val bond = DomainBond(
             bondId = null,
@@ -67,7 +67,7 @@ class BondsViewModel(application: Application) : AndroidViewModel(application) {
     fun bondValueIsInitialized(): Boolean = ::currentBondValue.isInitialized
     fun bondTitleIsInitialized(): Boolean = ::currentBondTitle.isInitialized
     /** bonds to display   **/
-    var bonds = MutableLiveData<MutableList<DomainBond>>()
+    var bonds = MutableLiveData<MutableList<DomainBond?>>()
 
     init {
         bonds.value = mutableListOf()

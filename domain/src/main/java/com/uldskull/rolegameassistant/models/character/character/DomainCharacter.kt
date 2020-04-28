@@ -14,26 +14,27 @@ Model class for domain character.
  */
 open class DomainCharacter(
     var characterId: Long?,
-    val characterName: String?,
-    val characterAge: Int?,
-    val characterGender: String?,
-    val characterBiography: String?,
-    val characterBreeds: List<DomainBreed?>?,
-    val characterBonds: List<DomainBond?>?,
-    val characterIdeals: List<DomainIdeal?>?,
-    val characterHealthPoints: Int?,
-    val characterIdeaPoints: Int?,
-    val characterAlignment: Int?,
-    val characterEnergyPoints: Int?,
-    val characterHeight: Int?,
-    val characterPictureUri: String?,
+    var characterName: String?,
+    var characterAge: Int?,
+    var characterGender: String?,
+    var characterBiography: String?,
+    var characterBreeds: MutableList<DomainBreed?>?,
+    var characterBonds: MutableList<DomainBond?>?,
+    var characterIdeals: MutableList<DomainIdeal?>?,
+    var characterHealthPoints: Int?,
+    var characterIdeaPoints: Int?,
+    var characterAlignment: Int?,
+    var characterEnergyPoints: Int?,
+    var characterHeight: Int?,
+    var characterPictureUri: String?,
     var characterConstitution: DomainRollCharacteristic?,
     var characterStrength: DomainRollCharacteristic?,
     var characterPower: DomainRollCharacteristic?,
     var characterDexterity: DomainRollCharacteristic?,
     var characterSize: DomainRollCharacteristic?,
     var characterIntelligence: DomainRollCharacteristic?,
-    var characterAppearance: DomainRollCharacteristic?
+    var characterAppearance: DomainRollCharacteristic?,
+    var characterEducation:DomainRollCharacteristic?
 
 
 ) {
@@ -65,7 +66,8 @@ open class DomainCharacter(
                 "dex : $characterDexterity\n" +
                 "siz : $characterSize\n" +
                 "int : $characterIntelligence\n" +
-                "app : $characterAppearance"
+                "app : $characterAppearance\n"+
+                "edu : $characterEducation"
     }
 }
 

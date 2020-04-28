@@ -48,8 +48,6 @@ class PictureFragment(val context: Activity) : CustomFragment(context) {
     /** Select image from the gallery   **/
     private fun selectImageAlbum() {
         Log.d(TAG, "selectImageAlbum")
-        if (isActivityNull()) return
-
         val galleryIntent = getPickImageIntent()
         startActivityForResult(
             galleryIntent,
@@ -165,20 +163,12 @@ class PictureFragment(val context: Activity) : CustomFragment(context) {
         return resultCode == Activity.RESULT_OK
     }
 
-    /** Is activity null    **/
-    private fun isActivityNull(): Boolean {
-        Log.d(TAG, "isActivityNull")
-        if (activity == null) {
-            return true
-        }
-        return false
-    }
 
 
     /** Initialize the view corresponding to this fragment class    **/
-    override fun initializeView(inflater: LayoutInflater, container: ViewGroup?): View? {
+    override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         Log.d(TAG, "initializeView")
-        initialRootView = inflater.inflate(
+        initialRootView = layoutInflater.inflate(
             R.layout.fragment_picture, container, false
         )
         return initialRootView

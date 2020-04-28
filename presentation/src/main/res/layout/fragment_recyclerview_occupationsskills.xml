@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/ParentLinearLayout">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+
+
+            tools:context="com.uldskull.rolegameassistant.fragments.fragment.occupations.OccupationsSkillsRecyclerViewFragment">
+
+
+            <LinearLayout
+                android:id="@+id/layout_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    style="@style/TextViewSubTitle"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Skills :  " />
+
+            </LinearLayout>
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/nestedScrollView_occupationsSkills"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/layout_title">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:nestedScrollingEnabled="false"
+                    android:paddingLeft="16dp"
+                    android:id="@+id/recyclerView_occupationsSkills"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@id/layout_title" />
+
+            </androidx.core.widget.NestedScrollView>
+
+
+            <ImageButton
+                android:src="@drawable/ic_add_black_24dp"
+                android:id="@+id/btn_jobs_addSkill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/mybutton"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/nestedScrollView_occupationsSkills"
+                android:contentDescription="Add skill." />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

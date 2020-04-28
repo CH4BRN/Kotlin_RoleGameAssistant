@@ -59,10 +59,10 @@ class IdealsFragment(activity: Activity) : CustomFragment(activity) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setButtonAddIdeal(view)
+        setButtonAddIdeal()
     }
 
-    private fun setButtonAddIdeal(view: View) {
+    private fun setButtonAddIdeal() {
         if (btn_addIdeal != null) {
             btn_addIdeal?.setOnClickListener {
                 val intent = Intent(activity, NewIdealActivity::class.java)
@@ -83,7 +83,7 @@ class IdealsFragment(activity: Activity) : CustomFragment(activity) {
             args.putInt(KEY_POSITION, IDEALS_FRAGMENT_POSITION)
             fragment.arguments = args
             (activity as NewCharacterActivity).replaceFragment(
-                R.id.container_ideals,
+                R.id.fragmentIdeals_container_ideals,
                 IdealsRecyclerViewFragment.newInstance(
                     activity
                 )

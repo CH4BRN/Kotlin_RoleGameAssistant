@@ -20,7 +20,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_title">
 
         <FrameLayout
-            android:id="@+id/container_characteristics"
+            android:id="@+id/fragmentCharacteristics_container_characteristics"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>

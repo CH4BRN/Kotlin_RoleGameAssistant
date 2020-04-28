@@ -48,9 +48,16 @@ class IdealsViewModel(
             }
         }
     }
+    var alignmentScore:Int = 0
+    set(value){
+        field = value
+    }
+    get(){
+        return field
+    }
 
     fun calculateAlignmentScore(): Int {
-        var alignmentScore = 0
+        alignmentScore = 0
         displayedIdeals.filter { i -> i.isChecked }.forEach {
             if (it.idealGoodPoints != null) {
                 alignmentScore += it.idealGoodPoints!!

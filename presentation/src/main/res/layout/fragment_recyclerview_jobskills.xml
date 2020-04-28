@@ -13,7 +13,7 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/container_jobSkillsHeader"
+                android:id="@+id/container_occupationSkillsHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -21,7 +21,7 @@
 
                 <TextView
                     style="@style/TextViewSubTitle"
-                    android:id="@+id/tv_jobSkillName"
+                    android:id="@+id/tv_occupationSkillName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
@@ -29,7 +29,7 @@
 
                 <TextView
                     style="@style/TextViewSubTitle"
-                    android:id="@+id/tv_jobSkillBase"
+                    android:id="@+id/tv_occupationSkillBase"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -37,7 +37,7 @@
 
                 <TextView
                     style="@style/TextViewSubTitle"
-                    android:id="@+id/tv_jobSkillAddTens"
+                    android:id="@+id/tv_occupationSkillAddTens"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -52,7 +52,7 @@
 
                 <TextView
                     style="@style/TextViewSubTitle"
-                    android:id="@+id/tv_jobSkillTotal"
+                    android:id="@+id/tv_occupationSkillTotal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -64,7 +64,7 @@
                 android:id="@+id/recycler_view_jobSkills"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/container_jobSkillsHeader" />
+                app:layout_constraintTop_toBottomOf="@id/container_occupationSkillsHeader" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

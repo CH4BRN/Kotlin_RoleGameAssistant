@@ -66,10 +66,6 @@ class CharacterSearchFragment(activity: Activity) : CustomFragment(activity) {
 
             args.putInt(KEY_POSITION, CHARACTER_SEARCH_FRAGMENT_POSITION)
             fragment.arguments = args
-
-
-
-
             return fragment
         }
     }

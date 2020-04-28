@@ -57,7 +57,7 @@ class BreedsRecyclerViewFragment(activity: Activity) :
      */
     override fun initializeRecyclerView() {
         Log.d(TAG, "initializeRecyclerView")
-        breedsRecyclerView = activity.findViewById(R.id.recycler_view_breeds)
+        breedsRecyclerView = activity.findViewById(R.id.recyclerView_breeds)
                 as RecyclerView?
         setRecyclerViewAdapter()
         setRecyclerViewLayoutManager()
@@ -118,17 +118,17 @@ class BreedsRecyclerViewFragment(activity: Activity) :
     /**
      * Called by the adapter when a breed is pressed.
      */
-    override fun itemPressed(domainBreed: DomainBreed?) {
+    override fun itemPressed(domainModel: DomainBreed?) {
         Log.d(TAG, "itemPressed")
-        recycler_view_breeds?.requestFocus()
+        recyclerView_breeds?.requestFocus()
         Log.d(
             TAG,
             "checked breed = " + breedsViewModel.displayedBreeds.filter { b -> b.breedChecked }.size
         )
-        if (domainBreed != null) {
+        if (domainModel != null) {
             Log.d(
                 TAG,
-                "${domainBreed.breedName} is not null  and is ${when (domainBreed.breedChecked) {
+                "${domainModel.breedName} is not null  and is ${when (domainModel.breedChecked) {
                     true -> "checked"
                     else -> "not checked"
                 }

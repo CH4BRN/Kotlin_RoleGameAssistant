@@ -16,8 +16,8 @@ import com.uldskull.rolegameassistant.fragments.fragment.derivedValues.DerivedVa
 import com.uldskull.rolegameassistant.fragments.fragment.hobbies.HobbiesFragment
 import com.uldskull.rolegameassistant.fragments.fragment.hobby.HobbyFragment
 import com.uldskull.rolegameassistant.fragments.fragment.ideals.IdealsFragment
-import com.uldskull.rolegameassistant.fragments.fragment.job.JobFragment
-import com.uldskull.rolegameassistant.fragments.fragment.jobs.JobsFragment
+import com.uldskull.rolegameassistant.fragments.fragment.occupation.OccupationFragment
+import com.uldskull.rolegameassistant.fragments.fragment.occupations.OccupationsFragment
 
 /**
  *   Class "CharacterPagerAdapter" :
@@ -57,10 +57,10 @@ class CharacterPagerAdapter(fm: FragmentManager, val activity: Activity) :
             DERIVED_VALUES_2_FRAGMENT_POSITION -> DerivedValues2Fragment.newInstance(
                 activity
             )
-            JOBS_FRAGMENT_POSITION -> JobsFragment.newInstance(
+            OCCUPATIONS_FRAGMENT_POSITION -> OccupationsFragment.newInstance(
                 activity
             )
-            JOB_FRAGMENT_POSITION -> JobFragment.newInstance(
+            OCCUPATION_FRAGMENT_POSITION -> OccupationFragment.newInstance(
                 activity
             )
             HOBBIES_FRAGMENT_POSITION -> HobbiesFragment.newInstance(

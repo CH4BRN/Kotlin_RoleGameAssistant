@@ -11,6 +11,10 @@ class DiceServiceImpl(
     private val getOneDiceRollUseCase: GetOneDiceRollUseCase
 ) : DiceService {
 
+    companion object {
+        private const val TAG = "DiceServiceImpl"
+    }
+
     override fun getOneDiceRollWithANumberOfFace(numberOfFace: Int): Int {
         return getOneDiceRollUseCase.execute(numberOfFace)
     }
@@ -18,15 +22,17 @@ class DiceServiceImpl(
     override fun getMultipleDiceRollWithANumberOfFace(numberOfFaces: ArrayList<Int>): ArrayList<Int> {
         var list: ArrayList<Int>? = null
 
-        for (i in 1 until when (numberOfFaces.size) {
+        for (i in 0 until when (numberOfFaces.size) {
             0 or 1 -> 2
             else -> numberOfFaces.size
-        }
-        ) {
+        }){
             if (list == null) {
                 list = ArrayList()
             }
-            list.add(getOneDiceRollUseCase.execute(numberOfFaces[i]))
+
+            var result = getOneDiceRollUseCase.execute(numberOfFaces[i])
+
+            list.add(result)
         }
         return list!!
     }

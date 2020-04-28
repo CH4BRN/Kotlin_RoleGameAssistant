@@ -33,7 +33,7 @@ class BondsAdapter internal constructor(
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
     /** Bonds list **/
-    private var bonds = emptyList<DomainBond>()
+    private var bonds = emptyList<DomainBond?>()
 
     /** Inner class to display **/
     inner class BondsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -88,8 +88,8 @@ class BondsAdapter internal constructor(
     override fun onBindViewHolder(holder: BondsViewHolder, position: Int) {
         Log.d(TAG, "onBindViewHolder")
         val current = bonds[position]
-        holder.bondTitleItemView.text = current.bondTitle
-        holder.bondValueItemView.text = current.bondValue
+        holder.bondTitleItemView.text = current?.bondTitle
+        holder.bondValueItemView.text = current?.bondValue
 
 
         holder.bondDeleteItemView.setOnClickListener {
@@ -110,9 +110,9 @@ class BondsAdapter internal constructor(
     /**
      * Set the displayed bonds.
      */
-    fun setBonds(bonds: List<DomainBond>) {
+    fun setBonds(bonds: List<DomainBond?>) {
         Log.d(TAG, "setBonds")
-        this.bonds = bonds
+        this.bonds = bonds.sortedBy { b -> b?.bondTitle }
         notifyDataSetChanged()
     }
 }

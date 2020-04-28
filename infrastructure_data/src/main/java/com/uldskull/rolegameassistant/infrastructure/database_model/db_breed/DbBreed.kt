@@ -15,7 +15,7 @@ import com.uldskull.rolegameassistant.models.character.breed.DomainBreed
 @Entity(tableName = DatabaseValues.TABLE_NAME_BREED)
 class DbBreed(
     @PrimaryKey(autoGenerate = true)
-    val breedId: Long?,
+    val breedId: Long? = null,
     val breedName: String?,
     var breedDescription: String?,
     var breedHealthBonus: Int?

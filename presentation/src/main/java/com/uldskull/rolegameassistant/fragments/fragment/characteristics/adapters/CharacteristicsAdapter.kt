@@ -42,6 +42,7 @@ open class CharacteristicsAdapter internal constructor(
 
     /** Custom ViewHolder   **/
     inner class CharacteristicsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val rollRuleItemView: TextView = itemView.findViewById<TextView>(R.id.tv_characteristicRollRule)
         //  Get the ability's name edit text.
         val characteristicNameItemView: TextView =
             itemView.findViewById<TextView>(R.id.et_characteristicName)
@@ -58,8 +59,7 @@ open class CharacteristicsAdapter internal constructor(
     /** ViewHolder life-cycle   **/
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacteristicsViewHolder {
         Log.d(TAG, "onCreateViewHolder")
-        var roll: Int? = 0
-        var bonus: Int? = 0
+
         val itemView = inflater.inflate(R.layout.recyclerview_item_characteristic, parent, false)
         itemView.et_characteristicRoll.inputType = InputType.TYPE_CLASS_NUMBER
 
@@ -79,6 +79,7 @@ open class CharacteristicsAdapter internal constructor(
         holder.bonusItemView.setText(current.characteristicBonus.toString())
         holder.abilityRollItemView.setText(current.characteristicRoll.toString())
         holder.totalItemView.text = current.characteristicTotal.toString()
+        holder.rollRuleItemView.setText(current.characteristicRollRule)
 
         holder.abilityRollItemView.addTextChangedListener {
             val stringRoll = holder.abilityRollItemView.text.toString()
@@ -128,7 +129,7 @@ open class CharacteristicsAdapter internal constructor(
     internal fun setCharacteristics(domainCharacteristics: List<DomainRollCharacteristic>?) {
         Log.d(TAG, "setCharacteristics")
         if (domainCharacteristics != null) {
-            this.rollCharacteristics = domainCharacteristics
+            this.rollCharacteristics = domainCharacteristics.sortedBy { c -> c.characteristicName }
         }
 
         Log.d(TAG, "rollCharacteristics size = " + this.rollCharacteristics.size.toString())

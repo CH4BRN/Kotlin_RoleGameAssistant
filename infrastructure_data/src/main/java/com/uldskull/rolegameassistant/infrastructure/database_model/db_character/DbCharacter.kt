@@ -25,7 +25,7 @@ import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
 @Entity(tableName = DatabaseValues.TABLE_NAME_CHARACTER)
 class DbCharacter(
     @PrimaryKey(autoGenerate = true)
-    val characterId: Long?,
+    val characterId: Long? = null,
     val characterName: String?,
     val characterAge: Int?,
     val characterBiography: String?,
@@ -47,7 +47,7 @@ class DbCharacter(
     @Embedded(prefix = "siz")
     val characterSize: DbRollCharacteristic?,
     @Embedded(prefix = "pow")
-    val characterPower: DbRollCharacteristic,
+    val characterPower: DbRollCharacteristic?,
     @Embedded(prefix = "int")
     val characterIntelligence: DbRollCharacteristic?,
     @Embedded(prefix = "dex")
@@ -55,7 +55,9 @@ class DbCharacter(
     @Embedded(prefix = "con")
     val characterConstitution: DbRollCharacteristic?,
     @Embedded(prefix = "app")
-    val characterAppearance: DbRollCharacteristic?
+    val characterAppearance: DbRollCharacteristic?,
+    @Embedded(prefix = "edu")
+    val characterEducation:DbRollCharacteristic?
 
 
 ) : DbEntity<DomainCharacter> {
@@ -65,24 +67,24 @@ class DbCharacter(
      * Converts a Database model entity into a domain model.
      */
     override fun toDomain(): DomainCharacter {
-        var domainBonds: List<DomainBond?>
+        var domainBonds: MutableList<DomainBond?>
         if (!this.characterBonds.isNullOrEmpty()) {
-            domainBonds = this.characterBonds.map { dbBond -> dbBond?.toDomain() }
+            domainBonds = this.characterBonds.map { dbBond -> dbBond?.toDomain() }.toMutableList()
         } else {
-            domainBonds = emptyList()
+            domainBonds = mutableListOf()
         }
 
-        var domainIdeals: List<DomainIdeal?>
+        var domainIdeals: MutableList<DomainIdeal?>
         if (!this.characterIdeals.isNullOrEmpty()) {
-            domainIdeals = this.characterIdeals.map { dbIdeal -> dbIdeal?.toDomain() }
+            domainIdeals = this.characterIdeals.map { dbIdeal -> dbIdeal?.toDomain() }.toMutableList()
         } else {
-            domainIdeals = emptyList()
+            domainIdeals = mutableListOf()
         }
-        var domainBreeds: List<DomainBreed?>
+        var domainBreeds: MutableList<DomainBreed?>
         if (!this.characterBreeds.isNullOrEmpty()) {
-            domainBreeds = this.characterBreeds.map { dbBreed -> dbBreed?.toDomain() }
+            domainBreeds = this.characterBreeds.map { dbBreed -> dbBreed?.toDomain() }.toMutableList()
         } else {
-            domainBreeds = emptyList()
+            domainBreeds = mutableListOf()
         }
 
         return DomainCharacter(
@@ -106,13 +108,12 @@ class DbCharacter(
             characterPictureUri = this.characterPictureUri,
             characterStrength = this.characterStrength?.toDomain(),
             characterSize = this.characterSize?.toDomain(),
-            characterPower = this.characterPower.toDomain(),
+            characterPower = this.characterPower?.toDomain(),
             characterIntelligence = this.characterIntelligence?.toDomain(),
             characterDexterity = this.characterDexterity?.toDomain(),
             characterConstitution = this.characterConstitution?.toDomain(),
-            characterAppearance = this.characterAppearance?.toDomain()
-
-
+            characterAppearance = this.characterAppearance?.toDomain(),
+            characterEducation = this.characterEducation?.toDomain()
         )
     }
 
@@ -160,7 +161,8 @@ class DbCharacter(
                 characterIntelligence = DbRollCharacteristic.from(domainModel?.characterIntelligence),
                 characterPower = DbRollCharacteristic.from(domainModel?.characterPower),
                 characterSize = DbRollCharacteristic.from(domainModel?.characterSize),
-                characterStrength = DbRollCharacteristic.from(domainModel?.characterStrength)
+                characterStrength = DbRollCharacteristic.from(domainModel?.characterStrength),
+                characterEducation = DbRollCharacteristic.from(domainModel?.characterEducation)
             )
 
 

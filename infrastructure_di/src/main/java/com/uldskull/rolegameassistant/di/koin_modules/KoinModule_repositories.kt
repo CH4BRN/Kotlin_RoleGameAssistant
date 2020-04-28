@@ -12,7 +12,9 @@ import com.uldskull.rolegameassistant.infrastructure.repositories.characteristic
 import com.uldskull.rolegameassistant.infrastructure.repositories.characteristic.DbCharacteristicRepositoryImpl
 import com.uldskull.rolegameassistant.infrastructure.repositories.characteristic.DbRollCharacteristicRepositoryImpl
 import com.uldskull.rolegameassistant.infrastructure.repositories.ideal.DbIdealsRepositoryImpl
+import com.uldskull.rolegameassistant.infrastructure.repositories.occupations.DbOccupationsRepositoryImpl
 import com.uldskull.rolegameassistant.models.character.DomainIdeal
+import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
 import com.uldskull.rolegameassistant.models.character.breed.DomainBreed
 import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainBreedCharacteristic
@@ -24,6 +26,7 @@ import com.uldskull.rolegameassistant.repository.characteristic.BreedCharacteris
 import com.uldskull.rolegameassistant.repository.characteristic.CharacteristicRepository
 import com.uldskull.rolegameassistant.repository.characteristic.RollCharacteristicRepository
 import com.uldskull.rolegameassistant.repository.ideal.IdealsRepository
+import com.uldskull.rolegameassistant.repository.occupations.OccupationsRepository
 import org.koin.dsl.module
 
 val repositoriesModule = module {
@@ -59,6 +62,13 @@ val repositoriesModule = module {
 
     single<IdealsRepository<LiveData<List<DomainIdeal>>>> {
         DbIdealsRepositoryImpl(
+            get()
+        )
+    }
+
+    single<OccupationsRepository<LiveData<List<DomainOccupation>>>> {
+        DbOccupationsRepositoryImpl(
+            get(),
             get()
         )
     }

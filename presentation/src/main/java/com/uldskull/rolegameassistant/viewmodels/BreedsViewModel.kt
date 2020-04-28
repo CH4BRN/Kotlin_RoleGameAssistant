@@ -91,9 +91,8 @@ class BreedsViewModel(
     }
 
     fun saveOne(domainBreed: DomainBreed): Long? {
-        var result: Long? = null
         Log.d(TAG, "saveOne")
-        result = breedRepositoryImpl.insertOne(domainBreed)
+        var result: Long? = breedRepositoryImpl.insertOne(domainBreed)
         Log.d(TAG, "INSERTED $result")
         return result
     }
@@ -101,10 +100,9 @@ class BreedsViewModel(
     private val lock = java.lang.Object()
 
     fun saveAll(domainBreed: List<DomainBreed>): List<Long>? = synchronized(lock) {
-        var result: List<Long>? = emptyList()
         Log.d(TAG, "saveAll")
 
-        result = breedRepositoryImpl.insertAll(domainBreed)
+        var result: List<Long>? = breedRepositoryImpl.insertAll(domainBreed)
         Log.d(TAG, "INSERTED $result")
         lock.notifyAll()
         return result

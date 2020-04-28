@@ -17,14 +17,16 @@ import com.uldskull.rolegameassistant.models.character.characteristic.DomainRoll
 @Entity(tableName = DatabaseValues.TABLE_NAME_ROLL_CHARACTERISTICS)
 class DbRollCharacteristic(
     @PrimaryKey(autoGenerate = true)
-    val characteristicId: Long?,
+    val characteristicId: Long? = null,
     val characteristicName: String?,
-    val characteristicBonus: Int?,
-    val characteristicMax: Int?,
-    val characteristicRoll: Int?,
-    val characteristicTotal: Int?
+    val characteristicBonus: Int? = 0,
+    val characteristicMax: Int? = 24,
+    val characteristicRoll: Int? = 0,
+    val characteristicTotal: Int? = 0,
+    val characteristicRollRule: String?
 ) :
     DbEntity<DomainRollCharacteristic> {
+
 
     companion object : DbCompanion<DomainRollCharacteristic, DbRollCharacteristic> {
         /**
@@ -38,7 +40,8 @@ class DbRollCharacteristic(
                 characteristicTotal = domainModel?.characteristicTotal,
                 characteristicBonus = domainModel?.characteristicBonus,
                 characteristicName = domainModel?.characteristicName,
-                characteristicMax = domainModel?.characteristicMax
+                characteristicMax = domainModel?.characteristicMax,
+                characteristicRollRule = domainModel?.characteristicRollRule
 
             )
         }
@@ -55,7 +58,8 @@ class DbRollCharacteristic(
             characteristicBonus = this.characteristicBonus,
             characteristicRoll = this.characteristicRoll,
             characteristicTotal = this.characteristicTotal,
-            characteristicMax = this.characteristicMax
+            characteristicMax = this.characteristicMax,
+            characteristicRollRule = this.characteristicRollRule
         )
     }
 }

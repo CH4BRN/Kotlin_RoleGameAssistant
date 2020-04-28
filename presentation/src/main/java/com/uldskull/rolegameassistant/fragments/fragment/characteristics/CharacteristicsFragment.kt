@@ -51,7 +51,10 @@ class CharacteristicsFragment(activity: Activity) : CustomFragment(activity) {
         Log.d(TAG, "startCharacteristicsObservation")
         return Observer { newCharacteristics ->
             newCharacteristics.forEach {
-                Log.d(TAG, it.characteristicName)
+                if (it.characteristicName != null) {
+                    Log.d(TAG, it.characteristicName!!)
+                }
+
             }
         }
     }
@@ -89,7 +92,7 @@ class CharacteristicsFragment(activity: Activity) : CustomFragment(activity) {
             args.putInt(KEY_POSITION, ABILITIES_FRAGMENT_POSITION)
             fragment.arguments = args
             (activity as NewCharacterActivity).replaceFragment(
-                R.id.container_characteristics,
+                R.id.fragmentCharacteristics_container_characteristics,
                 CharacteristicsRecyclerViewFragment.newInstance(activity)
             )
 

@@ -18,7 +18,7 @@ import com.uldskull.rolegameassistant.models.character.characteristic.DomainChar
 @Entity(tableName = DatabaseValues.TABLE_NAME_CHARACTERISTICS)
 open class DbCharacteristic(
     @PrimaryKey(autoGenerate = true)
-    val characteristicId: Long?,
+    val characteristicId: Long? = null,
     val characteristicName: String?
 ) : DbEntity<DomainCharacteristic> {
     /**

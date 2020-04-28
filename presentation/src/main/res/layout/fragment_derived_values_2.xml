@@ -21,7 +21,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_title">
 
+
         <TableLayout
+            android:paddingBottom="64dp"
+            android:id="@+id/derivedValues_mainLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -30,69 +33,151 @@
                 <TextView
 
                     style="@style/TextViewSubTitle"
-                    android:layout_column="1"
+                    android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:text="PE = PO = " />
+                    android:text="ENERGY = PO : " />
 
                 <EditText
                     android:id="@+id/et_energyPoints"
-                    android:layout_column="2"
-                    android:layout_weight="4"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:hint="0"
                     android:inputType="number" />
             </TableRow>
+
+            <View
+                style="@style/Divider.Horizontal"
+                android:layout_marginVertical="8dp" />
+
             <TableRow>
 
                 <TextView
-
                     style="@style/TextViewSubTitle"
-                    android:layout_column="1"
+                    android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:text="TAI + FOR = " />
+                    android:text="SIZ + STR :" />
 
                 <EditText
                     android:id="@+id/et_sizePlusStrength"
-                    android:layout_column="2"
-                    android:layout_weight="4"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:hint="0"
                     android:inputType="number" />
             </TableRow>
+
             <TableRow>
 
                 <TextView
 
                     style="@style/TextViewSubTitle"
-                    android:layout_column="1"
                     android:layout_weight="1"
-                    android:text="Damage bonus = " />
+                    android:text=" = " />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    style="@style/TextViewSubTitle"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="Damage bonus : " />
+
+                <Spinner
+                    android:id="@+id/spinner_damageBonus"
+                    android:layout_width="0dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_weight="1" />
+
+            </TableRow>
+
+            <View
+                style="@style/Divider.Horizontal"
+                android:layout_marginVertical="8dp" />
+
+
+            <TableRow>
+
+                <TextView
+                    style="@style/TextViewSubTitle"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="Alignment : " />
 
                 <EditText
-                    android:id="@+id/et_damageBonus"
-                    android:layout_column="2"
-                    android:layout_weight="4"
+                    android:id="@+id/et_alignmentPoints"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:hint="0"
-                    android:inputType="number" />
+                    android:inputType="number|numberSigned" />
             </TableRow>
 
 
+            <ImageView
+                android:id="@+id/derivedValues_img_alignment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="Alignment picture"
+                android:minWidth="80dp"
+                android:minHeight="80dp"
+                android:src="@drawable/good_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/scrollView_derivedValues2" />
+
+            <View
+                style="@style/Divider.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/derivedValues_img_alignment" />
+
+
+            <TableRow>
+
+                <TextView
+                    style="@style/TextViewSubTitle"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="Cthulhu myth : " />
+
+                <EditText
+                    android:id="@+id/et_cthulhuMyth"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:hint="0"
+                    android:inputType="number|numberSigned" />
+            </TableRow>
+
+            <View
+                android:id="@+id/divider_bottom"
+                style="@style/Divider.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintTop_toBottomOf="@id/derivedValues_mainLayout" />
+
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent">
+
+                    <ImageButton
+                        android:id="@+id/btn_edit"
+                        style="@style/myCornerRadiusButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginRight="8dp"
+                        android:background="@drawable/mybutton"
+                        android:contentDescription="Edit derived values manually."
+                        android:padding="4dp"
+                        android:src="@drawable/ic_pencil"
+                        android:text="Use points"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
         </TableLayout>
 
     </ScrollView>
-
-    <ImageButton
-        android:id="@+id/btn_edit"
-        style="@style/myCornerRadiusButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="8dp"
-        android:background="@drawable/mybutton"
-        android:contentDescription="Edit derived values manually."
-        android:padding="4dp"
-        android:src="@drawable/ic_pencil"
-        android:text="Use points"
-        app:layout_constraintEnd_toEndOf="@id/scrollView_derivedValues2"
-        app:layout_constraintTop_toBottomOf="@id/scrollView_derivedValues2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

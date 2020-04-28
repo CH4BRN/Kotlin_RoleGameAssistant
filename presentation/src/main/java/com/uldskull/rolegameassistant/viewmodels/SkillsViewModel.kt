@@ -4,9 +4,11 @@
 package com.uldskull.rolegameassistant.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.uldskull.rolegameassistant.models.character.DomainFilledSkill
+import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSkill
 
 /**
  *   Class "SkillsViewModel" :
@@ -15,27 +17,15 @@ import com.uldskull.rolegameassistant.models.character.DomainFilledSkill
  *   screen rotations.
  **/
 class SkillsViewModel(application: Application) : AndroidViewModel(application) {
-
-    /** Skills to display   **/
-    var jobSkills = MutableLiveData<List<DomainFilledSkill>>()
-    var hobbiesSkills = MutableLiveData<List<DomainFilledSkill>>()
-    var hobbySkills = MutableLiveData<List<DomainFilledSkill>>()
-
-    init {
-
-        hobbiesSkills.value = listOf(
-            DomainFilledSkill(
-                filledSkillName = "SKILL",
-                filledSkillMax = 24,
-                filledSkillDescription = "Its a skill.",
-                filledSkillBase = 0,
-                filledSkillTensValue = 0,
-                filledSkillUnitsValue = 0,
-                filledSkillId = 0,
-                filledSkillTotal = 0
-            )
-        )
-
-
+    companion object{
+        private const val TAG = "SkillsViewModel"
     }
+
+    var observedOccupationsSkills = MutableLiveData<List<DomainOccupationSkill?>>()
+    set(value){
+        Log.d(TAG, "new observedOccupationsSkills")
+    }
+    var hobbiesSkills = MutableLiveData<List<DomainOccupationSkill?>>()
+    var hobbySkills = MutableLiveData<List<DomainOccupationSkill?>>()
+
 }

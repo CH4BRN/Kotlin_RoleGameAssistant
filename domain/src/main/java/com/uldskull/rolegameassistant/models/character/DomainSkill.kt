@@ -12,3 +12,4 @@ open class DomainSkill(
     val skillName: String?,
     val skillDescription: String?
 )
+
