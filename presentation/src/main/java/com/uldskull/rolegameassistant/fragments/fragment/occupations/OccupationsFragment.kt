@@ -46,20 +46,28 @@ class OccupationsFragment(activity: Activity) : CustomFragment(activity) {
                 domainOccupations?.let {
                     Log.d(TAG, "observedOccupations has changed.")
                     gotOccupations = domainOccupations.toMutableList()
-
                     occupationsViewModel.displayedOccupations = gotOccupations
                 }
+
+                var occupationList =
+                    occupationsViewModel.displayedOccupations.map { occupation -> occupation?.occupationName }
+                        .toMutableList()
+
+                occupationList?.add(0, CHOOSE_OCCUPATION)
+
                 occupationsAdapter =
                     ArrayAdapter(
                         activity,
                         android.R.layout.simple_spinner_item,
-                        occupationsViewModel.displayedOccupations.map { o -> o?.activityName }
+                        occupationList
                     )
 
                 setSpinnerAdapter()
             }
         })
     }
+
+    private val CHOOSE_OCCUPATION = "Choose Occupation"
 
     private fun setSpinnerAdapter() {
         occupationsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -94,6 +102,23 @@ class OccupationsFragment(activity: Activity) : CustomFragment(activity) {
         setButtonAddJob()
         startObservation()
         setSpinnerOccupationsOnItemSelectedListener()
+        setSpinnerOccupationCurrentSelectedOccupation()
+    }
+
+    private fun setSpinnerOccupationCurrentSelectedOccupation() {
+        Log.d(TAG, "Selected occupation : ${occupationsViewModel?.selectedOccupation}")
+        if (occupationsViewModel?.selectedOccupation != null) {
+            var occupation = occupationsViewModel?.selectedOccupation
+            if (occupation != null) {
+                Log.d(
+                    TAG,
+                    "selectedOccupationIndex ${occupationsViewModel.selectedOccupationIndex}"
+                )
+                spinner_occupations?.setSelection(occupationsViewModel.selectedOccupationIndex+1)
+                loadOccupationDescription(occupation)
+                loadOccupationsSkills(occupation)
+            }
+        }
     }
 
     private fun setSpinnerOccupationsOnItemSelectedListener() {
@@ -106,7 +131,6 @@ class OccupationsFragment(activity: Activity) : CustomFragment(activity) {
              * @param parent The AdapterView that now contains no selected item.
              */
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
             /**
@@ -131,14 +155,24 @@ class OccupationsFragment(activity: Activity) : CustomFragment(activity) {
                 id: Long
             ) {
                 Log.d(TAG, "onItemSelected")
-                var occupation = occupationsViewModel.displayedOccupations[position]
-                if (occupation != null) {
-                    Log.d(TAG, "Occupation $occupation")
-                    loadOccupationDescription(occupation)
-                    loadOccupationsSkills(occupation)
+
+                var test = false
+                if (parent != null && (parent.getItemAtPosition(position) != null)) {
+                    test = parent!!.getItemAtPosition(position)!! == CHOOSE_OCCUPATION
+                }
+
+                if (test) {
+                    //  Do nothing.
+                } else {
+                    var occupation = occupationsViewModel.displayedOccupations[position - 1]
+                    occupationsViewModel.selectedOccupation = occupation
+                    if (occupationsViewModel.selectedOccupation != null) {
+                        Log.d(TAG, "Occupation $occupationsViewModel.selectedOccupation")
+                        loadOccupationDescription(occupationsViewModel.selectedOccupation!!)
+                        loadOccupationsSkills(occupationsViewModel.selectedOccupation!!)
+                    }
                 }
             }
-
         }
     }
 
@@ -146,18 +180,30 @@ class OccupationsFragment(activity: Activity) : CustomFragment(activity) {
         Log.d(TAG, "loadOccupationDescription")
         var result: DomainOccupationWithSkills? =
             occupationsViewModel.findOneWithChildren(occupation.occupationId)
-        Log.d(TAG, "result : ${result}")
-        if (fragmentOccupations_tv_occupationIncomeValue != null) {
-            fragmentOccupations_tv_occupationIncomeValue!!.text =
-                result?.occupation?.occupationIncome
+        Log.d(TAG, "result : $result")
+        loadIncome(result)
+        loadContacts(result)
+        loadSpecial(result)
+    }
+
+    private fun loadSpecial(result: DomainOccupationWithSkills?) {
+        if (fragmentOccupations_tv_occupationSpecialValue != null) {
+            fragmentOccupations_tv_occupationSpecialValue!!.text =
+                result?.occupation?.occupationSpecial
         }
+    }
+
+    private fun loadContacts(result: DomainOccupationWithSkills?) {
         if (fragmentOccupations_tv_occupationContactsValue != null) {
             fragmentOccupations_tv_occupationContactsValue!!.text =
                 result?.occupation?.occupationContacts
         }
-        if (fragmentOccupations_tv_occupationSpecialValue != null) {
-            fragmentOccupations_tv_occupationSpecialValue!!.text =
-                result?.occupation?.occupationSpecial
+    }
+
+    private fun loadIncome(result: DomainOccupationWithSkills?) {
+        if (fragmentOccupations_tv_occupationIncomeValue != null) {
+            fragmentOccupations_tv_occupationIncomeValue!!.text =
+                result?.occupation?.occupationIncome
         }
     }
 
@@ -195,13 +241,12 @@ class OccupationsFragment(activity: Activity) : CustomFragment(activity) {
      * tied to [Activity.onResume] of the containing
      * Activity's lifecycle.
      */
-    override
-
-    fun onResume() {
+    override fun onResume() {
         super.onResume()
         Log.i(TAG, NewCharacterActivity.progression.value.toString())
         NewCharacterActivity.progression.value = OCCUPATIONS_FRAGMENT_POSITION
         Log.i(TAG, NewCharacterActivity.progression.value.toString())
+        setSpinnerOccupationCurrentSelectedOccupation()
     }
 
     companion object : CustomCompanion() {
