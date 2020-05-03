@@ -4,7 +4,6 @@
 package com.uldskull.rolegameassistant.fragments.fragment.ideals
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.LayoutInflater
@@ -101,28 +100,12 @@ class IdealsAdapter internal constructor(
         val idealGoodPoints = current.idealGoodPoints
         val idealEvilPoints = current.idealEvilPoints
         setAlignmentIcon(idealEvilPoints, idealGoodPoints, holder)
-        holder.idealCheckedItemView.setOnClickListener {
-            Log.d(
-                "ideal", current.idealName +
-                        when (holder.idealCheckedItemView.isChecked) {
-                            true -> " is checked"
-                            else -> " is unchecked"
-                        }
-            )
-            when (holder.idealCheckedItemView.isChecked) {
-                true -> {
-                    current.isChecked = true
-                }
-                else -> {
-                    current.isChecked = false
-                }
+        holder.idealCheckedItemView?.setOnCheckedChangeListener { _, isChecked ->
+            kotlin.run {
+                current.isChecked = isChecked
+                this.buttonListener.itemPressed(current)
             }
-
-            this.buttonListener.itemPressed(current)
-
         }
-
-
     }
 
     private fun setAlignmentIcon(
@@ -148,12 +131,13 @@ class IdealsAdapter internal constructor(
             }
         }
     }
+
     /**
      * Set the displayed bonds.
      */
     fun setIdeals(ideals: List<DomainIdeal>) {
         Log.d(TAG, "ideals size =" + ideals.size.toString())
-        this.ideals =  ideals.sortedBy { i -> i.idealName }
+        this.ideals = ideals.sortedBy { i -> i.idealName }
         notifyDataSetChanged()
     }
 }

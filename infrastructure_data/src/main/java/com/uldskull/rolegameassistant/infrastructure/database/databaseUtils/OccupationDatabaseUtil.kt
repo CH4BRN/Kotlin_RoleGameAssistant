@@ -17,7 +17,7 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_skill.DbO
  *   TODO: Fill class use.
  **/
 class OccupationDatabaseUtil {
-    companion object{
+    companion object {
 
         private const val TAG = "OccupationDatabaseUtil"
 
@@ -25,16 +25,27 @@ class OccupationDatabaseUtil {
             occupationsDao: DbOccupationsDao,
             occupationSkillDao: DbOccupationSkillDao,
             occupationWithSkillDao: DbOccupationDbSkillDao
-        ){
-            insertAccountant(occupationsDao, occupationSkillDao, occupationWithSkillDao )
+        ) {
+            insertChooseOccupation(occupationsDao)
+            insertAccountant(occupationsDao, occupationSkillDao, occupationWithSkillDao)
             insertAcrobat(occupationsDao, occupationSkillDao, occupationWithSkillDao)
+        }
+
+        private fun insertChooseOccupation(occupationsDao: DbOccupationsDao) {
+            Log.d(TAG, "insertChoseOccupation")
+            var occupationId = occupationsDao.insertOccupation(
+                DbOccupation(
+                    occupationName = "Choose occupation"
+                )
+            )
+            Log.d(TAG, "occupation id : ${occupationId}")
         }
 
         private fun insertAcrobat(
             occupationsDao: DbOccupationsDao,
             occupationSkillDao: DbOccupationSkillDao,
             occupationWithSkillDao: DbOccupationDbSkillDao
-        ){
+        ) {
             Log.d(TAG, "insertAcrobat")
             var occupationId = occupationsDao.insertOccupation(
                 DbOccupation(

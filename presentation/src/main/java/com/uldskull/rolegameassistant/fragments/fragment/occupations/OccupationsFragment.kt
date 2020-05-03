@@ -4,6 +4,7 @@
 package com.uldskull.rolegameassistant.fragments.fragment.occupations
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -12,10 +13,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ImageButton
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NEW_JOB_ACTIVITY
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
+import com.uldskull.rolegameassistant.activities.NewSkillActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
 import com.uldskull.rolegameassistant.fragments.adapter.OCCUPATIONS_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
@@ -25,7 +30,6 @@ import com.uldskull.rolegameassistant.fragments.fragment.REQUEST_CODE_JOBS_NEW_J
 import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
 import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupationWithSkills
 import com.uldskull.rolegameassistant.viewmodels.OccupationsViewModel
-import com.uldskull.rolegameassistant.viewmodels.SkillsViewModel
 import kotlinx.android.synthetic.main.fragment_occupations.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -35,90 +39,23 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  **/
 class OccupationsFragment(activity: Activity) : CustomFragment(activity) {
 
+    //  VIEWMODELS
     private val occupationsViewModel: OccupationsViewModel by sharedViewModel()
-    private val skillsViewModel: SkillsViewModel by sharedViewModel()
 
-    fun startObservation() {
-        Log.d(TAG, "startObservation")
-        var gotOccupations: MutableList<DomainOccupation?>
-        this.occupationsViewModel.observedOccupations?.observe(this, Observer { domainOccupations ->
-            kotlin.run {
-                domainOccupations?.let {
-                    Log.d(TAG, "observedOccupations has changed.")
-                    gotOccupations = domainOccupations.toMutableList()
-                    occupationsViewModel.displayedOccupations = gotOccupations
-                }
+    //  ADAPTER
+    /// Occupation's spinner
+    var occupationsAdapter: ArrayAdapter<String?> = ArrayAdapter(
+        activity,
+        android.R.layout.simple_spinner_item
+    )
 
-                var occupationList =
-                    occupationsViewModel.displayedOccupations.map { occupation -> occupation?.occupationName }
-                        .toMutableList()
+    //  SPINNER
 
-                occupationList?.add(0, CHOOSE_OCCUPATION)
 
-                occupationsAdapter =
-                    ArrayAdapter(
-                        activity,
-                        android.R.layout.simple_spinner_item,
-                        occupationList
-                    )
-
-                setSpinnerAdapter()
-            }
-        })
-    }
-
-    private val CHOOSE_OCCUPATION = "Choose Occupation"
 
     private fun setSpinnerAdapter() {
         occupationsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner_occupations?.adapter = occupationsAdapter
-    }
-
-    /**
-     * Initialize the initial root view.
-     */
-    override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
-        Log.d(TAG, "initializeView")
-        initialRootView = layoutInflater.inflate(
-            R.layout.fragment_occupations, container, false
-        )
-        return initialRootView
-    }
-
-    /**
-     * Called immediately after [.onCreateView]
-     * has returned, but before any saved state has been restored in to the view.
-     * This gives subclasses a chance to initialize themselves once
-     * they know their view hierarchy has been completely created.  The fragment's
-     * view hierarchy is not however attached to its parent at this point.
-     * @param view The View returned by [.onCreateView].
-     * @param savedInstanceState If non-null, this fragment is being re-constructed
-     * from a previous saved state as given here.
-     */
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.d(TAG, "onViewCreated")
-        super.onViewCreated(view, savedInstanceState)
-
-        setButtonAddJob()
-        startObservation()
-        setSpinnerOccupationsOnItemSelectedListener()
-        setSpinnerOccupationCurrentSelectedOccupation()
-    }
-
-    private fun setSpinnerOccupationCurrentSelectedOccupation() {
-        Log.d(TAG, "Selected occupation : ${occupationsViewModel?.selectedOccupation}")
-        if (occupationsViewModel?.selectedOccupation != null) {
-            var occupation = occupationsViewModel?.selectedOccupation
-            if (occupation != null) {
-                Log.d(
-                    TAG,
-                    "selectedOccupationIndex ${occupationsViewModel.selectedOccupationIndex}"
-                )
-                spinner_occupations?.setSelection(occupationsViewModel.selectedOccupationIndex+1)
-                loadOccupationDescription(occupation)
-                loadOccupationsSkills(occupation)
-            }
-        }
     }
 
     private fun setSpinnerOccupationsOnItemSelectedListener() {
@@ -131,6 +68,7 @@ class OccupationsFragment(activity: Activity) : CustomFragment(activity) {
              * @param parent The AdapterView that now contains no selected item.
              */
             override fun onNothingSelected(parent: AdapterView<*>?) {
+                Log.d(TAG, "onNothingSelected")
             }
 
             /**
@@ -156,65 +94,235 @@ class OccupationsFragment(activity: Activity) : CustomFragment(activity) {
             ) {
                 Log.d(TAG, "onItemSelected")
 
-                var test = false
-                if (parent != null && (parent.getItemAtPosition(position) != null)) {
-                    test = parent!!.getItemAtPosition(position)!! == CHOOSE_OCCUPATION
-                }
+                Log.d(TAG, "position : $position")
 
-                if (test) {
-                    //  Do nothing.
+                if (position == 0) {
+                    emptyOccupationTextViews()
                 } else {
-                    var occupation = occupationsViewModel.displayedOccupations[position - 1]
-                    occupationsViewModel.selectedOccupation = occupation
-                    if (occupationsViewModel.selectedOccupation != null) {
-                        Log.d(TAG, "Occupation $occupationsViewModel.selectedOccupation")
-                        loadOccupationDescription(occupationsViewModel.selectedOccupation!!)
-                        loadOccupationsSkills(occupationsViewModel.selectedOccupation!!)
+                    var occupation = occupationsViewModel.displayedOccupations[position]
+                    if (occupation != null) {
+                        occupationsViewModel.selectedOccupation?.value = occupation
+                        //  Sets the selected occupation index
+                        occupationsViewModel?.selectedOccupationIndex?.value = position
+
                     }
                 }
             }
         }
     }
 
-    private fun loadOccupationDescription(occupation: DomainOccupation) {
-        Log.d(TAG, "loadOccupationDescription")
-        var result: DomainOccupationWithSkills? =
-            occupationsViewModel.findOneWithChildren(occupation.occupationId)
-        Log.d(TAG, "result : $result")
-        loadIncome(result)
-        loadContacts(result)
-        loadSpecial(result)
+
+
+
+
+
+
+    fun startObservation() {
+        Log.d(TAG, "startObservation")
+        observeOccupations()
+        observeSelectedOccupation()
+        observeOccupationIncome()
+        observeOccupationContact()
+        //  Observes selected occupation special
+        observeSelectedOccupationSpecial()
+        observeSelectedOccupationIndex()
+
     }
 
-    private fun loadSpecial(result: DomainOccupationWithSkills?) {
-        if (fragmentOccupations_tv_occupationSpecialValue != null) {
-            fragmentOccupations_tv_occupationSpecialValue!!.text =
-                result?.occupation?.occupationSpecial
+    private fun observeSelectedOccupationIndex() {
+        Log.d(TAG, "observeSelectedOccupationIndex")
+        if (this.occupationsViewModel.selectedOccupationIndex != null) {
+            this.occupationsViewModel.selectedOccupationIndex?.observe(
+                this,
+                Observer { selectedOccupationIndex: Int ->
+                    kotlin.run {
+                        Log.d(
+                            TAG,
+                            "selectedOccupationIndex has changed : \n$selectedOccupationIndex"
+                        )
+                        spinner_occupations.setSelection(selectedOccupationIndex)
+                    }
+                })
         }
     }
 
-    private fun loadContacts(result: DomainOccupationWithSkills?) {
-        if (fragmentOccupations_tv_occupationContactsValue != null) {
-            fragmentOccupations_tv_occupationContactsValue!!.text =
-                result?.occupation?.occupationContacts
+    /**
+     * Observes the selected occupation special.
+     */
+    private fun observeSelectedOccupationSpecial() {
+        Log.d(TAG, "observeSelectedOccupationSpecial()")
+        if (this.occupationsViewModel?.selectedOccupationSpecial != null) {
+            this.occupationsViewModel?.selectedOccupationSpecial?.observe(
+                this,
+                Observer { selectedOccupationSpecial: String ->
+                    kotlin.run {
+                        fragmentOccupations_tv_occupationSpecialValue.text =
+                            selectedOccupationSpecial
+                    }
+                })
         }
     }
 
-    private fun loadIncome(result: DomainOccupationWithSkills?) {
-        if (fragmentOccupations_tv_occupationIncomeValue != null) {
-            fragmentOccupations_tv_occupationIncomeValue!!.text =
-                result?.occupation?.occupationIncome
+
+    /**
+     * Observes occupation from the repository.
+     */
+    private fun observeOccupations() {
+        var gotOccupations: MutableList<DomainOccupation?>
+        this.occupationsViewModel.observedOccupations?.observe(this, Observer { domainOccupations ->
+            kotlin.run {
+                domainOccupations?.let {
+                    Log.d(TAG, "observedOccupations has changed")
+                    gotOccupations = domainOccupations.toMutableList()
+                    occupationsViewModel.displayedOccupations = gotOccupations
+                }
+
+                var occupationList =
+                    occupationsViewModel.displayedOccupations.map { occupation -> occupation?.occupationName }
+                        .toMutableList()
+                occupationsAdapter =
+                    ArrayAdapter(
+                        activity,
+                        android.R.layout.simple_spinner_item,
+                        occupationList
+                    )
+
+                setSpinnerAdapter()
+            }
+        })
+    }
+
+    private fun observeSelectedOccupation() {
+
+        occupationsViewModel?.selectedOccupation?.observe(
+            this,
+            Observer { domainOccupation: DomainOccupation ->
+                kotlin.run {
+
+                    //  Sets the occupation income
+                    occupationsViewModel?.selectedOccupationIncome?.value =
+                        domainOccupation?.occupationIncome
+                    //  Sets the occupation contacts.
+                    occupationsViewModel?.selectedOccupationContacts?.value =
+                        domainOccupation?.occupationContacts
+                    //  Sets the occupation special.
+                    occupationsViewModel?.selectedOccupationSpecial?.value =
+                        domainOccupation?.occupationSpecial
+                    Log.d(TAG, "selectedOccupation : $domainOccupation")
+
+
+                }
+            })
+    }
+
+
+    private fun observeOccupationContact() {
+        if (this.occupationsViewModel.selectedOccupationContacts != null) {
+            this.occupationsViewModel.selectedOccupationContacts!!.observe(
+                this,
+                Observer { contacts ->
+                    run {
+                        Log.d(TAG, "selectedOccupationContacts has changed : \n$contacts")
+                        fragmentOccupations_tv_occupationContactsValue.text = contacts
+                    }
+                })
         }
     }
 
-    fun loadOccupationsSkills(occupation: DomainOccupation) {
-        Log.d(TAG, "loadOccupationsSkills")
-        var result: DomainOccupationWithSkills? =
-            occupationsViewModel.findOneWithChildren(occupation.occupationId)
-        Log.d(TAG, "result : ${result}")
-        skillsViewModel.observedOccupationsSkills.value = result?.skills?.toMutableList()
-
+    private fun observeOccupationIncome() {
+        if (this.occupationsViewModel.selectedOccupationIncome != null) {
+            this.occupationsViewModel.selectedOccupationIncome!!.observe(this, Observer { income ->
+                kotlin.run {
+                    Log.d(TAG, "selectedOccupationIncome has changed \n$income")
+                    fragmentOccupations_tv_occupationIncomeValue.text = income
+                }
+            })
+        }
     }
+
+
+    /**
+     * Initialize the initial root view.
+     */
+    override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
+        Log.d(TAG, "initializeView")
+        initialRootView = layoutInflater.inflate(
+            R.layout.fragment_occupations, container, false
+        )
+        return initialRootView
+    }
+
+    /**
+     * Fragment life-cycle : Called when the view is created.
+     */
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        Log.d(TAG, "onCreateView")
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    /**
+     * Called to do initial creation of a fragment.  This is called after
+     * [.onAttach] and before
+     * [.onCreateView].
+     *
+     *
+     * Note that this can be called while the fragment's activity is
+     * still in the process of being created.  As such, you can not rely
+     * on things like the activity's content view hierarchy being initialized
+     * at this point.  If you want to do work once the activity itself is
+     * created, see [.onActivityCreated].
+     *
+     *
+     * Any restored child fragments will be created before the base
+     * `Fragment.onCreate` method returns.
+     *
+     * @param savedInstanceState If the fragment is being re-created from
+     * a previous saved state, this is the state.
+     */
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        Log.d(TAG, "onCreate")
+    }
+
+    /**
+     * Called immediately after [.onCreateView]
+     * has returned, but before any saved state has been restored in to the view.
+     * This gives subclasses a chance to initialize themselves once
+     * they know their view hierarchy has been completely created.  The fragment's
+     * view hierarchy is not however attached to its parent at this point.
+     * @param view The View returned by [.onCreateView].
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     */
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Log.d(TAG, "onViewCreated")
+        super.onViewCreated(view, savedInstanceState)
+
+        var selectedOccupationIndex = occupationsViewModel?.selectedOccupationIndex?.value
+        if (selectedOccupationIndex != null) {
+            Log.d(TAG, "selectedOccupationIndex :$selectedOccupationIndex")
+            spinner_occupations.setSelection(selectedOccupationIndex)
+        }
+        setButtonAddJob()
+        startObservation()
+        setSpinnerOccupationsOnItemSelectedListener()
+        //  setSpinnerOccupationCurrentSelectedOccupation()
+    }
+
+
+
+
+    private fun emptyOccupationTextViews() {
+        fragmentOccupations_tv_occupationIncomeValue.text = ""
+        fragmentOccupations_tv_occupationContactsValue.text = ""
+        fragmentOccupations_tv_occupationSpecialValue.text = ""
+    }
+
 
     /**
      * Set the add job button.
@@ -229,11 +337,6 @@ class OccupationsFragment(activity: Activity) : CustomFragment(activity) {
         }
     }
 
-    var occupationsAdapter: ArrayAdapter<String?> = ArrayAdapter(
-        activity,
-        android.R.layout.simple_spinner_item, emptyList()
-    )
-
 
     /**
      * Called when the fragment is visible to the user and actively running.
@@ -243,11 +346,13 @@ class OccupationsFragment(activity: Activity) : CustomFragment(activity) {
      */
     override fun onResume() {
         super.onResume()
+        Log.d(TAG, "onResume")
+
         Log.i(TAG, NewCharacterActivity.progression.value.toString())
         NewCharacterActivity.progression.value = OCCUPATIONS_FRAGMENT_POSITION
         Log.i(TAG, NewCharacterActivity.progression.value.toString())
-        setSpinnerOccupationCurrentSelectedOccupation()
     }
+
 
     companion object : CustomCompanion() {
         private const val TAG = "OccupationsFragment"
@@ -259,15 +364,14 @@ class OccupationsFragment(activity: Activity) : CustomFragment(activity) {
                     activity
                 )
             val args = Bundle()
+            (activity as NewCharacterActivity).replaceFragment(
+                R.id.container_recyclerView_occupationsSkills,
+                OccupationsSkillsRecyclerViewFragment.newInstance(activity)
+            )
 
             args.putInt(KEY_POSITION, OCCUPATIONS_FRAGMENT_POSITION)
             fragment.arguments = args
-            (activity as NewCharacterActivity).replaceFragment(
-                R.id.container_recyclerView_occupationsSkills,
-                OccupationsSkillsRecyclerViewFragment.newInstance(
-                    activity
-                )
-            )
+
 
             return fragment
         }

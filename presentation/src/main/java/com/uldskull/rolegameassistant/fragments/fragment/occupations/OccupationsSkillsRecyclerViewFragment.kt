@@ -1,125 +1,126 @@
-// File SkillsRecyclerViewFragment.kt
-// @Author pierre.antoine - 29/01/2020 - No copyright.
+// File OccupationsSkillsRecyclerView.kt
+// @Author pierre.antoine - 02/05/2020 - No copyright.
 
 package com.uldskull.rolegameassistant.fragments.fragment.occupations
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.NewSkillActivity
-import com.uldskull.rolegameassistant.fragments.adapter.JOBS_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION
-import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
-import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
-import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
+import com.uldskull.rolegameassistant.fragments.adapter.OCCUPATIONS_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION
+import com.uldskull.rolegameassistant.fragments.fragment.*
+import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
+import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupationWithSkills
 import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSkill
-import com.uldskull.rolegameassistant.viewmodels.SkillsViewModel
+import com.uldskull.rolegameassistant.viewmodels.OccupationsViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
- *   Class "SkillsRecyclerViewFragment" :
- *   Manage skill's RecyclerView fragment.
+ *   Class "OccupationsSkillsRecyclerView" :
+ *   TODO: Fill class use.
  **/
-class OccupationsSkillsRecyclerViewFragment(activity: Activity) : CustomRecyclerViewFragment(activity) {
-    /** Recycler view for skills   **/
+class OccupationsSkillsRecyclerViewFragment(activity: Activity) :
+    CustomRecyclerViewFragment(activity),
+    AdapterButtonListener<DomainOccupationSkill> {
+
+    companion object : CustomCompanion() {
+        private const val TAG = "OccupationsSkillsRecyclerView"
+        override fun newInstance(activity: Activity): CustomFragment {
+            Log.d(TAG, "newInstance")
+            val fragment =
+                OccupationsSkillsRecyclerViewFragment(
+                    activity
+                )
+            val args = Bundle()
+            args.putInt(KEY_POSITION, OCCUPATIONS_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION)
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
+    //  VIEWMODELS
+    private val occupationsViewModel: OccupationsViewModel by sharedViewModel()
     private var occupationsSkillsRecyclerView: RecyclerView? = null
-    set(value){
-        Log.d(TAG, "set occupationsSkillsRecyclerView")
-        field = value
-    }
-    /** ViewModel for skills    **/
-    private val skillsViewModel: SkillsViewModel by sharedViewModel()
-    /** Adapter for skills recycler view    **/
-    private var skillsAdapter: OccupationSkillsAdapter? = null
-    set(value){
-        Log.d(TAG, "set skillsAdapter ${value?.skills?.size}")
-        field = value
-    }
+    /*    get() {
+
+            field?.adapter = occupationsViewModel.occupationsSkillsAdapter
+            return field
+        }*/
 
     /**
      * Initialize the recycler view.
      */
     override fun initializeRecyclerView() {
         Log.d(TAG, "initializeRecyclerView")
-        occupationsSkillsRecyclerView = activity.findViewById(R.id.recyclerView_occupationsSkills)
-                as RecyclerView?
-        setRecyclerViewAdapter()
-        setRecyclerViewLayoutManager()
+        layoutManager = LinearLayoutManager(
+            activity,
+            LinearLayoutManager.VERTICAL,
+            false
+        )
+        occupationsSkillsRecyclerView =
+            activity?.findViewById<RecyclerView>(R.id.recyclerView_occupationsSkills)
+
     }
+
+    var occupationsSkillsAdapter: OccupationsSkillsAdapter? =
+        OccupationsSkillsAdapter(
+            activity as Context,
+            this
+        )
+
 
     /**
      * Start ViewModel's collection observation.
      */
     override fun startObservation() {
-        Log.d(TAG, "startObservation")
+        observeSelectedOccupation()
         observeOccupationsSkills()
     }
 
-    private fun observeOccupationsSkills() {
-        skillsViewModel?.observedOccupationsSkills.observe(
+    private fun observeSelectedOccupation() {
+        occupationsViewModel?.selectedOccupation?.observe(
             this,
-            Observer { domainOccupationSkills ->
-                Log.d(TAG, "Observed skills has changed. ${domainOccupationSkills.size}")
-                Log.d(TAG, "Set adapter skills")
-                if(skillsAdapter == null){
-                    Log.d(TAG, "Adapter is null")
-                    skillsAdapter = OccupationSkillsAdapter(
-                        activity as Context
-                    )
+            Observer { domainOccupation: DomainOccupation ->
+                kotlin.run {
+                    Log.d(TAG, "observeSelectedOccupation $domainOccupation")
+
+                    var index =
+                        this.occupationsViewModel?.displayedOccupations?.indexOfFirst { o ->
+                            o?.occupationId == domainOccupation?.occupationId
+                        }
+                    Log.d(TAG, "new selected index : $index\n " +
+                            "old selected index : ${occupationsViewModel?.selectedOccupationIndex?.value}")
+                    if (index == occupationsViewModel?.selectedOccupationIndex?.value) {
+                        Log.d(TAG, "do nothing")
+                        //  Do nothing
+                    } else {
+                        var occupationWithSkills: DomainOccupationWithSkills? =
+                            occupationsViewModel.findOneWithChildren(domainOccupation.occupationId)
+                        Log.d(TAG, "\n$occupationWithSkills")
+
+                        occupationsViewModel.observedOccupationsSkills?.value =
+                            occupationWithSkills?.skills
+                    }
                 }
-                Log.d(TAG, "setSkills = ${domainOccupationSkills?.size}")
-                skillsAdapter?.setSkills(domainOccupationSkills)
-                Log.d(TAG, "skillsAdapter skills size : ${skillsAdapter?.skills?.size}")
-                if(occupationsSkillsRecyclerView == null){
-                    Log.d(TAG, "occupationsSkillsRecyclerView is null")
-                    occupationsSkillsRecyclerView = activity?.findViewById(R.id.recyclerView_occupationsSkills)
-                }
-                occupationsSkillsRecyclerView?.adapter = skillsAdapter
-                Log.d(TAG, "recyclerView adapter list size : ${occupationsSkillsRecyclerView?.adapter?.itemCount}")
-                occupationsSkillsRecyclerView?.layoutManager = LinearLayoutManager(
-                    activity,
-                    LinearLayoutManager.VERTICAL,
-                    false
-                )
             })
     }
 
-    /** Fragment life-cycle  **/
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        Log.d(TAG, "onCreateView")
-        return initializeView(inflater, container)
-    }
-
-    /** Initialize the view **/
-    override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
-        Log.d(TAG, "initializeView")
-        initialRootView = layoutInflater.inflate(
-            R.layout.fragment_recyclerview_occupationsskills, container, false
-        )
-        return initialRootView
-    }
-
-
-    /** Set recycler view layout manager    **/
-    override fun setRecyclerViewLayoutManager() {
-        Log.d(TAG, "setRecyclerViewLayoutManager")
-        occupationsSkillsRecyclerView?.layoutManager = LinearLayoutManager(
-            activity,
-            LinearLayoutManager.VERTICAL,
-            false
+    private fun observeOccupationsSkills() {
+        occupationsViewModel?.observedOccupationsSkills?.observe(
+            this, Observer { domainOccupationsSkills: List<DomainOccupationSkill?> ->
+                kotlin.run {
+                    Log.d(TAG, "observeOccupationsSkills")
+                    occupationsSkillsAdapter?.setOccupationsSkills(domainOccupationsSkills)
+                    occupationsSkillsRecyclerView?.adapter = occupationsSkillsAdapter
+                }
+            }
         )
     }
 
@@ -127,38 +128,58 @@ class OccupationsSkillsRecyclerViewFragment(activity: Activity) : CustomRecycler
      * Set the recycler view adapter.
      */
     override fun setRecyclerViewAdapter() {
-
+        Log.d(TAG, "setRecyclerViewAdapter")
+        occupationsSkillsAdapter =
+            OccupationsSkillsAdapter(
+                activity as Context,
+                this
+            )
+        occupationsSkillsAdapter?.setOccupationsSkills(emptyList())
+        occupationsSkillsRecyclerView?.adapter = occupationsSkillsAdapter
     }
 
+    private var layoutManager: LinearLayoutManager? = null
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        Log.d(TAG, "onViewCreated")
-        val btnAddSkills = view.findViewById<ImageButton>(R.id.btn_jobs_addSkill)
-        btnAddSkills.setOnClickListener {
-            val intent = Intent(activity, NewSkillActivity::class.java)
-            startActivity(intent)
-        }
+    /**
+     * Set the RecyclerView's layout manager.
+     */
+    override fun setRecyclerViewLayoutManager() {
+        Log.d(TAG, "setRecyclerViewLayoutManager")
+        layoutManager = LinearLayoutManager(
+            activity,
+            LinearLayoutManager.VERTICAL,
+            false
+        )
+        occupationsSkillsRecyclerView?.layoutManager = layoutManager
     }
 
+    /**
+     * Initialize the initial root view.
+     */
+    override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
+        initialRootView = layoutInflater.inflate(
+            R.layout.fragment_recyclerview_occupationsskills, container, false
+        )
+        return initialRootView
+    }
 
-    companion object : CustomCompanion() {
-        private const val TAG = "OccupationsSkillsRecyclerViewFragment"
+    /**
+     * Called when a recyclerview cell is pressed
+     */
+    override fun itemPressed(domainModel: DomainOccupationSkill?) {
+        Log.d(TAG, "itemPressed")
+        if (domainModel != null) {
+            var temp = occupationsViewModel.observedOccupationsSkills?.value?.toMutableList()
+            Log.d(TAG, "skills size : ${temp?.size}")
+            var index = temp?.indexOfFirst { s -> s?.skillId == domainModel?.skillId }
+            if (index != null) {
+                temp?.removeAt(index)
 
-        @JvmStatic
-        override fun newInstance(
-            activity: Activity
-        ): OccupationsSkillsRecyclerViewFragment {
-            Log.d(TAG, "newInstance")
-            val fragment =
-                OccupationsSkillsRecyclerViewFragment(activity)
-            val args = Bundle()
+                Log.d(TAG, "skills size : ${temp?.size}")
+                temp?.add(index, domainModel)
+            }
 
-            args.putInt(KEY_POSITION, JOBS_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION)
-            fragment.arguments = args
-            return fragment
+            occupationsViewModel.observedOccupationsSkills?.value = temp
         }
-
-
     }
 }

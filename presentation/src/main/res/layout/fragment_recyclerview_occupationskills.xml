@@ -61,10 +61,21 @@
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_jobSkills"
+                android:id="@+id/recycler_view_occupationSkills"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/container_occupationSkillsHeader" />
+            <ImageButton
+                android:src="@drawable/ic_add_black_24dp"
+                android:id="@+id/btn_occupation_addSkill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/mybutton"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recycler_view_occupationSkills"
+                android:contentDescription="Add skill." />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

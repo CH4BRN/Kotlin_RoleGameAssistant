@@ -4,9 +4,7 @@
 package com.uldskull.rolegameassistant.viewmodels
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSkill
 
@@ -17,15 +15,12 @@ import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSki
  *   screen rotations.
  **/
 class SkillsViewModel(application: Application) : AndroidViewModel(application) {
-    companion object{
+    companion object {
         private const val TAG = "SkillsViewModel"
     }
 
-    var observedOccupationsSkills = MutableLiveData<List<DomainOccupationSkill?>>()
-    set(value){
-        Log.d(TAG, "new observedOccupationsSkills")
-    }
     var hobbiesSkills = MutableLiveData<List<DomainOccupationSkill?>>()
     var hobbySkills = MutableLiveData<List<DomainOccupationSkill?>>()
+
 
 }
