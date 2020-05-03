@@ -13,9 +13,16 @@ class DomainOccupationSkill(
     skillId: Long? = null,
     skillName: String? = "",
     skillDescription: String? = "",
-    val skillIsChecked: Boolean? = false
+    var skillIsChecked: Boolean? = false
 ) : DomainSkill(
     skillId = skillId,
     skillDescription = skillDescription,
     skillName = skillName
-)
+) {
+    override fun toString(): String {
+        return "OCCUPATION SKILLS : \n" +
+                "id : $skillId\n" +
+                "name : $skillName\n" +
+                "isChecked : $skillIsChecked\n"
+    }
+}

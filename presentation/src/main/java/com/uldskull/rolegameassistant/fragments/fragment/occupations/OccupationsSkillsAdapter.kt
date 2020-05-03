@@ -1,7 +1,7 @@
 // File JobSkillsAdapter.kt
 // @Author pierre.antoine - 05/03/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.fragments.fragment.occupation
+package com.uldskull.rolegameassistant.fragments.fragment.occupations
 
 import android.content.Context
 import android.util.Log
@@ -12,6 +12,7 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
 import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSkill
 
 
@@ -20,9 +21,10 @@ import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSki
  *   TODO: Fill class use.
  **/
 class OccupationsSkillsAdapter internal constructor(
-    context: Context
-) : RecyclerView.Adapter<OccupationsSkillsAdapter.JobSkillsViewHolder>() {
-    companion object{
+    context: Context,
+    private val buttonListener: AdapterButtonListener<DomainOccupationSkill>
+) : RecyclerView.Adapter<OccupationsSkillsAdapter.OccupationsSkillsViewHolder>() {
+    companion object {
         private const val TAG = "OccupationsSkillsAdapter"
     }
 
@@ -30,7 +32,7 @@ class OccupationsSkillsAdapter internal constructor(
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
 
     /**  Inner class to display  **/
-    inner class JobSkillsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class OccupationsSkillsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var tvOccupationSkillName: TextView? = itemView.findViewById(R.id.tv_occupationsSkillName)
         var tvOccupationSkillDescription: TextView? =
             itemView.findViewById(R.id.tv_occupationsSkillDescription)
@@ -39,10 +41,10 @@ class OccupationsSkillsAdapter internal constructor(
     }
 
     /**  Skills list  **/
-    private var jobSkills = emptyList<DomainOccupationSkill?>()
+    private var occupationSkills = emptyList<DomainOccupationSkill?>()
 
     /**
-     * Called when RecyclerView needs a new [JobSkillsViewHolder] of the given type to represent
+     * Called when RecyclerView needs a new [OccupationsSkillsViewHolder] of the given type to represent
      * an item.
      *
      *
@@ -67,10 +69,10 @@ class OccupationsSkillsAdapter internal constructor(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): JobSkillsViewHolder {
+    ): OccupationsSkillsViewHolder {
         val itemView =
-            layoutInflater.inflate(R.layout.recyclerview_item_occupationskill, parent, false)
-        return JobSkillsViewHolder(itemView)
+            layoutInflater.inflate(R.layout.recyclerview_item_occupationsskill, parent, false)
+        return OccupationsSkillsViewHolder(itemView)
 
     }
 
@@ -80,12 +82,12 @@ class OccupationsSkillsAdapter internal constructor(
      * @return The total number of items in this adapter.
      */
     override fun getItemCount(): Int {
-        return jobSkills.size
+        return occupationSkills.size
     }
 
     /**
      * Called by RecyclerView to display the data at the specified position. This method should
-     * update the contents of the [JobSkillsViewHolder.itemView] to reflect the item at the given
+     * update the contents of the [OccupationsSkillsViewHolder.itemView] to reflect the item at the given
      * position.
      *
      *
@@ -94,7 +96,7 @@ class OccupationsSkillsAdapter internal constructor(
      * invalidated or the new position cannot be determined. For this reason, you should only
      * use the `position` parameter while acquiring the related data item inside
      * this method and should not keep a copy of it. If you need the position of an item later
-     * on (e.g. in a click listener), use [JobSkillsViewHolder.getAdapterPosition] which will
+     * on (e.g. in a click listener), use [OccupationsSkillsViewHolder.getAdapterPosition] which will
      * have the updated adapter position.
      *
      * Override [.onBindViewHolder] instead if Adapter can
@@ -104,18 +106,30 @@ class OccupationsSkillsAdapter internal constructor(
      * item at the given position in the data set.
      * @param position The position of the item within the adapter's data set.
      */
-    override fun onBindViewHolder(holder: JobSkillsViewHolder, position: Int) {
-        val current = jobSkills[position]
+    override fun onBindViewHolder(holder: OccupationsSkillsViewHolder, position: Int) {
+        val current = occupationSkills[position]
         holder.tvOccupationSkillName?.text = current?.skillName
         Log.d(TAG, "Skills is checked : ${current?.skillIsChecked}")
         holder.cbOccupationSkillIsChecked?.isChecked = current?.skillIsChecked!!
+        holder.cbOccupationSkillIsChecked?.setOnCheckedChangeListener() { _, isChecked ->
+            kotlin.run {
+                Log.d(TAG, "isChecked : $isChecked")
+                current.skillIsChecked = isChecked
+                Log.d(TAG, "${occupationSkills[position]}")
+                this.buttonListener.itemPressed(current)
+            }
+
+        }
         holder.tvOccupationSkillDescription?.text = current?.skillDescription
     }
 
 
-    fun setJobSkills(skills: List<DomainOccupationSkill?>) {
-        this.jobSkills = skills
-        notifyDataSetChanged()
+    fun setOccupationsSkills(skills: List<DomainOccupationSkill?>?) {
+        if (skills != null) {
+            this.occupationSkills = skills
+            notifyDataSetChanged()
+        }
+
     }
 
 }

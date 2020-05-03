@@ -18,10 +18,10 @@ import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupati
 class DbOccupation(
     @PrimaryKey(autoGenerate = true)
     val occupationId: Long?= null,
-    val occupationName: String?,
-    var occupationIncome:String?,
-    var occupationContacts:String?,
-    var occupationSpecial:String?
+    val occupationName: String? = "occupation name",
+    var occupationIncome:String? = "occupation income",
+    var occupationContacts:String? = "occupation contacts",
+    var occupationSpecial:String? = "occupation specials"
 ) : DbEntity<DomainOccupation> {
     /**
      * Converts a Database model entity into a domain model.

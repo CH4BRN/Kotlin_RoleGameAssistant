@@ -7,9 +7,11 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
 import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupationWithSkills
+import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSkill
 import com.uldskull.rolegameassistant.repository.occupations.OccupationsRepository
 import kotlinx.coroutines.launch
 import kotlin.concurrent.thread
@@ -54,11 +56,7 @@ class OccupationsViewModel(
     fun findOneWithChildren(id: Long?): DomainOccupationWithSkills? {
         Log.d(TAG, "findOneWithChildren")
         try {
-            var occupationWithSkills = occupationsRepositoryImpl?.findOneWithChildren(id)
-            if (occupationWithSkills != null) {
-                this.selectedOccupation = occupationWithSkills.occupation
-            }
-            return occupationWithSkills
+            return occupationsRepositoryImpl?.findOneWithChildren(id)
         } catch (e: Exception) {
             Log.e(TAG, "findOneWithChildren FAILED")
             e.printStackTrace()
@@ -66,25 +64,14 @@ class OccupationsViewModel(
         }
     }
 
-    var selectedOccupation: DomainOccupation? = null
-        set(value) {
-            Log.d(TAG, "Selected occupation : ${value}")
-            displayedOccupations.forEach() { domainOccupation ->
-                Log.d(TAG, domainOccupation?.occupationName)
-            }
-            if (value != null) {
-                selectedOccupationIndex = displayedOccupations.indexOfFirst { domainOccupation -> domainOccupation?.occupationId == value.occupationId }
-            }
-
-            field = value
-        }
-
-    var selectedOccupationIndex = -1
-        set(value) {
-            Log.d(TAG, "selectedOccupationIndex : ${value}")
-            field = value
-        }
+    var selectedOccupationIncome: MutableLiveData<String>? = MutableLiveData()
+    var selectedOccupationContacts: MutableLiveData<String>? = MutableLiveData()
+    var selectedOccupationSpecial: MutableLiveData<String>? = MutableLiveData()
+    var selectedOccupationIndex: MutableLiveData<Int>? = MutableLiveData()
+    var selectedOccupation: MutableLiveData<DomainOccupation>? = MutableLiveData()
     var observedOccupations = occupationsRepositoryImpl.getAll()
     var displayedOccupations = mutableListOf<DomainOccupation?>()
+    var observedOccupationsSkills: MutableLiveData<List<DomainOccupationSkill?>>? =
+        MutableLiveData()
 // TODO : Fill class.
 }

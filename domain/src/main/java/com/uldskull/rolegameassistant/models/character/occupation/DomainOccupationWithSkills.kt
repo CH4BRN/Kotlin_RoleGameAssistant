@@ -16,10 +16,10 @@ class DomainOccupationWithSkills (
      * Returns a string representation of the object.
      */
     override fun toString(): String {
-        var str = ""
+        var str = "SKILLS : \n"
         skills.forEach(){domainOccupationSkill ->
-            str += domainOccupationSkill?.skillName + "\n"
+            str += "$domainOccupationSkill" + "\n"
         }
-        return "${occupation?.activityName}\n$str"
+        return "DomainOccupationWithSkills : ${occupation}\n$str"
     }
 }

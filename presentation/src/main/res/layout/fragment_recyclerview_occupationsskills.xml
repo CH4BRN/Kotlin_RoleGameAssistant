@@ -48,7 +48,7 @@
 
             <ImageButton
                 android:src="@drawable/ic_add_black_24dp"
-                android:id="@+id/btn_jobs_addSkill"
+                android:id="@+id/btn_occupation_addSkill"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/mybutton"

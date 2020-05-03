@@ -5,6 +5,8 @@ package com.uldskull.rolegameassistant.fragments.adapter
 
 import android.app.Activity
 import android.util.Log
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
@@ -34,6 +36,50 @@ class CharacterPagerAdapter(fm: FragmentManager, val activity: Activity) :
         return 10
 
     }
+
+    /**
+     * Called when the host view is attempting to determine if an item's position
+     * has changed. Returns [.POSITION_UNCHANGED] if the position of the given
+     * item has not changed or [.POSITION_NONE] if the item is no longer present
+     * in the adapter.
+     *
+     *
+     * The default implementation assumes that items will never
+     * change position and always returns [.POSITION_UNCHANGED].
+     *
+     * @param object Object representing an item, previously returned by a call to
+     * [.instantiateItem].
+     * @return object's new position index from [0, [.getCount]),
+     * [.POSITION_UNCHANGED] if the object's position has not changed,
+     * or [.POSITION_NONE] if the item is no longer present.
+     */
+    override fun getItemPosition(`object`: Any): Int {
+        Log.d(TAG, "getItemPosition")
+        return super.getItemPosition(`object`)
+    }
+
+    override fun instantiateItem(container: ViewGroup, position: Int): Any {
+        Log.d(TAG, "instantiateItem")
+        return super.instantiateItem(container, position)
+    }
+
+    /**
+     * Remove a page for the given position.  The adapter is responsible
+     * for removing the view from its container, although it only must ensure
+     * this is done by the time it returns from [.finishUpdate].
+     *
+     * @param container The containing View from which the page will be removed.
+     * @param position The page position to be removed.
+     * @param object The same object that was returned by
+     * [.instantiateItem].
+     *
+     */
+    override fun destroyItem(container: View, position: Int, `object`: Any) {
+        Log.d(TAG, "destroyItem")
+        super.destroyItem(container, position, `object`)
+    }
+
+
 
     /** Instantiate the view    **/
     override fun getItem(position: Int): Fragment {
