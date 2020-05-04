@@ -71,7 +71,7 @@ class OccupationsViewModel(
     var selectedOccupation: MutableLiveData<DomainOccupation>? = MutableLiveData()
     var observedOccupations = occupationsRepositoryImpl.getAll()
     var displayedOccupations = mutableListOf<DomainOccupation?>()
-    var observedOccupationsSkills: MutableLiveData<List<DomainOccupationSkill?>>? =
+    var observedOccupationsSkills: MutableLiveData<List<DomainOccupationSkill>>? =
         MutableLiveData()
 // TODO : Fill class.
 }

@@ -11,7 +11,7 @@ import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSki
  **/
 class DomainOccupationWithSkills (
     var occupation:DomainOccupation?,
-    var skills:List<DomainOccupationSkill?>){
+    var skills:List<DomainOccupationSkill>){
     /**
      * Returns a string representation of the object.
      */

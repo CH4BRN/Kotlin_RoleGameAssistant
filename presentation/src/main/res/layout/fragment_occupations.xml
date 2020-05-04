@@ -118,19 +118,33 @@
             android:layout_width="match_parent"
             android:layout_marginVertical="8dp"
             app:layout_constraintTop_toBottomOf="@id/fragmentOccupations_tv_occupationSpecialValue" />
-
-        <ScrollView
+        <TextView
+            app:layout_constraintTop_toBottomOf="@id/divider_underSpecial"
+            android:id="@+id/tv_subtitleSkills"
+            style="@style/TextViewSubTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/divider_underSpecial">
+            android:text="Skills :  " />
+
 
             <FrameLayout
+                app:layout_constraintTop_toBottomOf="@id/tv_subtitleSkills"
+                app:layout_constraintBottom_toTopOf="@id/btn_occupation_addSkill"
                 android:id="@+id/container_recyclerView_occupationsSkills"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:minHeight="16dp" />
-
-        </ScrollView>
+        <ImageButton
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/btn_occupation_addSkill"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="@drawable/mybutton"
+            android:contentDescription="Add skill."
+            android:padding="8dp"
+            android:src="@drawable/ic_add_black_24dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

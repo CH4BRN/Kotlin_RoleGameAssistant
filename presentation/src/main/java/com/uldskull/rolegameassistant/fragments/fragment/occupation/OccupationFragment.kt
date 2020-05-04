@@ -19,12 +19,17 @@ import com.uldskull.rolegameassistant.fragments.adapter.OCCUPATION_FRAGMENT_POSI
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
+import com.uldskull.rolegameassistant.viewmodels.OccupationsViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
  *   Class "JobFragment" :
  *   TODO: Fill class use.
  **/
 class OccupationFragment(activity: Activity) : CustomFragment(activity) {
+
+    val occupationsViewModel: OccupationsViewModel by sharedViewModel()
+
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = layoutInflater.inflate(
             R.layout.fragment_occupation, container, false
@@ -54,6 +59,9 @@ class OccupationFragment(activity: Activity) : CustomFragment(activity) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val btnAddSkill = view.findViewById<ImageButton>(R.id.btn_job_add_skill)
+
+
+
         btnAddSkill.setOnClickListener {
             val intent = Intent(activity, NewSkillActivity::class.java)
             startActivity(intent)
@@ -69,9 +77,19 @@ class OccupationFragment(activity: Activity) : CustomFragment(activity) {
         Log.d("JobFragment_1", NewCharacterActivity.progression.value.toString())
         NewCharacterActivity.progression.value = OCCUPATION_FRAGMENT_POSITION
         Log.d("JobFragment_2", NewCharacterActivity.progression.value.toString())
+        var skills = occupationsViewModel?.observedOccupationsSkills?.value
+        if (skills != null) {
+            var checkedSkills = skills!!.filter { s ->
+                s.skillIsChecked
+            }
+            Log.d(TAG, "checked skills size : ${checkedSkills.size}")
+        }
     }
 
     companion object : CustomCompanion() {
+
+        private const val TAG = "OccupationFragment"
+
         @JvmStatic
         override fun newInstance(activity: Activity): OccupationFragment {
             val fragment =

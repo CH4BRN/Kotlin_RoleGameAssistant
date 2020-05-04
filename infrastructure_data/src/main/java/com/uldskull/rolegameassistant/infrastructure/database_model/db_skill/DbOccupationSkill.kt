@@ -20,13 +20,14 @@ class DbOccupationSkill(
     var skillId: Long? = null,
     var skillName: String?,
     var skillDescription: String?,
-    var skillIsChecked: Boolean? = false
+    var skillIsChecked: Boolean = false
 ) : DbEntity<DomainOccupationSkill> {
 
     /**
      * Converts a Database model entity into a domain model.
      */
     override fun toDomain(): DomainOccupationSkill {
+
         return DomainOccupationSkill(
             skillId = this.skillId,
             skillDescription = this.skillDescription,
@@ -40,13 +41,18 @@ class DbOccupationSkill(
          * Converts a domain model into a database model entity.
          */
         override fun from(domainModel: DomainOccupationSkill?): DbOccupationSkill {
-            return DbOccupationSkill(
-                skillId = domainModel?.skillId,
-                skillName = domainModel?.skillName,
-                skillDescription = domainModel?.skillDescription,
-                skillIsChecked = domainModel?.skillIsChecked
+            if (domainModel != null) {
+                return DbOccupationSkill(
+                    skillId = domainModel?.skillId,
+                    skillName = domainModel?.skillName,
+                    skillDescription = domainModel?.skillDescription,
+                    skillIsChecked = domainModel?.skillIsChecked
 
                 )
+            } else {
+                throw Exception("domain model is null.")
+            }
+
         }
     }
 }

@@ -13,7 +13,7 @@ class DomainOccupationSkill(
     skillId: Long? = null,
     skillName: String? = "",
     skillDescription: String? = "",
-    var skillIsChecked: Boolean? = false
+    var skillIsChecked: Boolean = false
 ) : DomainSkill(
     skillId = skillId,
     skillDescription = skillDescription,
