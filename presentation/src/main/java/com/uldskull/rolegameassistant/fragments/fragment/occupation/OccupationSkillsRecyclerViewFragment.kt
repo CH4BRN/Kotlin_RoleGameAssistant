@@ -4,6 +4,7 @@
 package com.uldskull.rolegameassistant.fragments.fragment.occupation
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NewSkillActivity
@@ -18,27 +21,45 @@ import com.uldskull.rolegameassistant.fragments.adapter.JOB_SKILLS_RECYCLER_VIEW
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
-import com.uldskull.rolegameassistant.fragments.fragment.occupations.OccupationsSkillsAdapter
-import com.uldskull.rolegameassistant.viewmodels.SkillsViewModel
-import org.koin.androidx.viewmodel.ext.android.getViewModel
+import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
+import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSkill
+import com.uldskull.rolegameassistant.viewmodels.OccupationSkillsViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
  *   Class "JobSkillsRecyclerViewFragment" :
  *   TODO: Fill class use.
  **/
-class OccupationSkillsRecyclerViewFragment(activity: Activity) : CustomRecyclerViewFragment(activity) {
+class OccupationSkillsRecyclerViewFragment(activity: Activity) :
+    CustomRecyclerViewFragment(activity) {
 
 
-    private var occupationsSkillsAdapter: OccupationsSkillsAdapter? = null
+    private var occupationSkillsAdapter: OccupationSkillsAdapter? = null
 
-    private lateinit var skillsViewModel: SkillsViewModel
+    private val occupationSkillsViewModel: OccupationSkillsViewModel by sharedViewModel()
 
-    private var occupationsSkillsRecyclerView: RecyclerView? = null
+    private var occupationSkillsRecyclerView: RecyclerView? = null
 
     override fun onResume() {
         super.onResume()
         Log.d(TAG, "onResume")
+        var skillsToFill =
+            occupationSkillsViewModel?.occupationSkills?.value?.map { domainOccupationSkill ->
+                DomainFilledSkill(
+                    filledSkillMax = domainOccupationSkill?.skillMax,
+                    filledSkillBase = domainOccupationSkill?.skillBase,
+                    filledSkillName = domainOccupationSkill?.skillName
+                )
+            }
+
+        occupationSkillsAdapter?.setOccupationFilledSkills(skillsToFill)
+        Log.d(
+            TAG,
+            "occupationSkillAdapter size : ${occupationSkillsAdapter?.occupationSkills?.size}"
+        )
+        occupationSkillsRecyclerView?.adapter = occupationSkillsAdapter
     }
+
     /**
      * Initialize the initial root view.
      */
@@ -53,6 +74,7 @@ class OccupationSkillsRecyclerViewFragment(activity: Activity) : CustomRecyclerV
         super.onViewCreated(view, savedInstanceState)
         setBtnAddSkillOnClickListener(view)
     }
+
     /**
      * Fragment life-cycle : Called when the view is created.
      */
@@ -67,12 +89,14 @@ class OccupationSkillsRecyclerViewFragment(activity: Activity) : CustomRecyclerV
     /** Fragment life-cycle **/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        skillsViewModel = getViewModel()
     }
 
 
     /** Initialize recycler view    **/
     override fun initializeRecyclerView() {
+        Log.d(TAG, "initializeRecyclerView")
+        occupationSkillsRecyclerView =
+            activity?.findViewById<RecyclerView>(R.id.recycler_view_occupationSkills)
 
         setRecyclerViewAdapter()
         setRecyclerViewLayoutManager()
@@ -82,18 +106,58 @@ class OccupationSkillsRecyclerViewFragment(activity: Activity) : CustomRecyclerV
      * Start ViewModel's collection observation.
      */
     override fun startObservation() {
+        occupationSkillsViewModel?.occupationSkills?.observe(
+            this,
+            Observer { occupationSkills: List<DomainOccupationSkill> ->
+                kotlin.run {
+                    Log.d(TAG, "occupationSkills size : ${occupationSkills?.size}")
+
+                    var skillsToFill =
+                        occupationSkills.map { domainOccupationSkill ->
+                            DomainFilledSkill(
+                                filledSkillMax = domainOccupationSkill?.skillMax,
+                                filledSkillBase = domainOccupationSkill?.skillBase,
+                                filledSkillName = domainOccupationSkill?.skillName
+                            )
+                        }
+
+                    occupationSkillsAdapter?.setOccupationFilledSkills(skillsToFill)
+                    Log.d(
+                        TAG,
+                        "occupationSkillAdapter size : ${occupationSkillsAdapter?.occupationSkills?.size}"
+                    )
+                    occupationSkillsRecyclerView?.adapter = occupationSkillsAdapter
+                }
+
+            })
 
     }
 
     /** Set recycler view layout manager    **/
     override fun setRecyclerViewLayoutManager() {
+        Log.d(TAG, "setRecyclerViewLayoutManager")
+        layoutManager = LinearLayoutManager(
+            activity,
+            LinearLayoutManager.VERTICAL,
+            false
+        )
+        occupationSkillsRecyclerView?.layoutManager = layoutManager
 
     }
 
 
     override fun setRecyclerViewAdapter() {
+        Log.d(TAG, "setRecyclerViewAdapter")
+        occupationSkillsAdapter =
+            OccupationSkillsAdapter(
+                activity as Context
+            )
 
+        occupationSkillsRecyclerView?.adapter = occupationSkillsAdapter
     }
+
+
+    private var layoutManager: LinearLayoutManager? = null
     private fun setBtnAddSkillOnClickListener(view: View) {
         val btnAddSkills = view.findViewById<ImageButton>(R.id.btn_occupation_addSkill)
         btnAddSkills.setOnClickListener {

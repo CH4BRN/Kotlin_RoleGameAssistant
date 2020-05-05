@@ -10,6 +10,6 @@ package com.uldskull.rolegameassistant.models.character
 open class DomainSkill(
     val skillId: Long?,
     val skillName: String?,
-    val skillDescription: String?
+    val skillDescription: String? = ""
 )
 

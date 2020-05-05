@@ -5,6 +5,7 @@ package com.uldskull.rolegameassistant.fragments.fragment.hobbies
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.occupation.OccupationSkillsAdapter
+import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSkill
 import com.uldskull.rolegameassistant.viewmodels.SkillsViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -48,11 +50,7 @@ class HobbiesSkillsRecyclerViewFragment(activity: Activity) :
 
     /** Observe ViewModel's skills  **/
     override fun startObservation() {
-        this.skillsViewModel.hobbiesSkills.observe(this, Observer { skills ->
-            kotlin.run {
-                skills?.let { skillsAdapter?.setSkills(it) }
-            }
-        })
+
 
     }
 
@@ -81,6 +79,9 @@ class HobbiesSkillsRecyclerViewFragment(activity: Activity) :
     }
 
     companion object : CustomCompanion() {
+
+        private const val TAG = "HobbiesSkillsRecyclerViewFragment"
+
         @JvmStatic
         override fun newInstance(
             activity: Activity

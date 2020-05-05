@@ -19,6 +19,8 @@ import com.uldskull.rolegameassistant.fragments.adapter.OCCUPATION_FRAGMENT_POSI
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
+import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
+import com.uldskull.rolegameassistant.viewmodels.OccupationSkillsViewModel
 import com.uldskull.rolegameassistant.viewmodels.OccupationsViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -29,6 +31,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 class OccupationFragment(activity: Activity) : CustomFragment(activity) {
 
     val occupationsViewModel: OccupationsViewModel by sharedViewModel()
+    val occupationSkillsViewModel: OccupationSkillsViewModel by sharedViewModel()
 
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = layoutInflater.inflate(
@@ -60,8 +63,6 @@ class OccupationFragment(activity: Activity) : CustomFragment(activity) {
         super.onViewCreated(view, savedInstanceState)
         val btnAddSkill = view.findViewById<ImageButton>(R.id.btn_job_add_skill)
 
-
-
         btnAddSkill.setOnClickListener {
             val intent = Intent(activity, NewSkillActivity::class.java)
             startActivity(intent)
@@ -83,8 +84,28 @@ class OccupationFragment(activity: Activity) : CustomFragment(activity) {
                 s.skillIsChecked
             }
             Log.d(TAG, "checked skills size : ${checkedSkills.size}")
+            var list: MutableList<DomainFilledSkill> = mutableListOf()
+            checkedSkills?.forEach() { occupationSkill ->
+                kotlin.run {
+                    list.add(
+                        DomainFilledSkill(
+                            filledSkillTensValue = 0,
+                            filledSkillUnitsValue = 0,
+                            filledSkillName = occupationSkill?.skillName,
+                            filledSkillTotal = 0,
+                            filledSkillBase = occupationSkill?.skillBase,
+                            filledSkillMax = occupationSkill?.skillMax
+                        )
+                    )
+                }
+
+            }
+
+            occupationSkillsViewModel.occupationSkills.value = checkedSkills
         }
     }
+
+
 
     companion object : CustomCompanion() {
 

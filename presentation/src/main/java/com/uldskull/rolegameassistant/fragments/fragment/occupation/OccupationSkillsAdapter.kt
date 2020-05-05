@@ -8,11 +8,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSkill
+import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewAdapter
+import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
 
 
 /**
@@ -21,7 +22,7 @@ import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSki
  **/
 class OccupationSkillsAdapter internal constructor(
     context: Context
-) : RecyclerView.Adapter<OccupationSkillsAdapter.OccupationSkillsViewHolder>() {
+) : CustomRecyclerViewAdapter(context) {
     companion object {
         private const val TAG = "OccupationSkillsAdapter"
     }
@@ -30,7 +31,7 @@ class OccupationSkillsAdapter internal constructor(
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
     /** Skills list **/
-    var skills = emptyList<DomainOccupationSkill?>()
+    var occupationSkills = emptyList<DomainFilledSkill?>()
         set(value) {
             Log.d(TAG, "skills : ${value.size}")
             field = value
@@ -38,32 +39,99 @@ class OccupationSkillsAdapter internal constructor(
 
     /** Custom view-holder  **/
     inner class OccupationSkillsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var layoutOccupationSkill: LinearLayout? = itemView?.findViewById(R.id.occupationSkill_row)
+        var tvOccupationSkillName: TextView? = itemView?.findViewById(R.id.tv_occupationSkillName)
+        var tvOccupationSkillBase: TextView? = itemView?.findViewById(R.id.tv_occupationSkillBase)
+        var tvOccupationSkillAdd: TextView? = itemView?.findViewById(R.id.tv_occupationSkillAdd)
+        var tvOccupationSkillTotal: TextView? = itemView?.findViewById(R.id.tv_occupationSkillTotal)
+    }
+
+    /**
+     * Called by RecyclerView to display the data at the specified position. This method should
+     * update the contents of the [ViewHolder.itemView] to reflect the item at the given
+     * position.
+     *
+     *
+     * Note that unlike [android.widget.ListView], RecyclerView will not call this method
+     * again if the position of the item changes in the data set unless the item itself is
+     * invalidated or the new position cannot be determined. For this reason, you should only
+     * use the `position` parameter while acquiring the related data item inside
+     * this method and should not keep a copy of it. If you need the position of an item later
+     * on (e.g. in a click listener), use [ViewHolder.getAdapterPosition] which will
+     * have the updated adapter position.
+     *
+     * Override [.onBindViewHolder] instead if Adapter can
+     * handle efficient partial bind.
+     *
+     * @param holder The ViewHolder which should be updated to represent the contents of the
+     * item at the given position in the data set.
+     * @param position The position of the item within the adapter's data set.
+     */
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        Log.d(TAG, "onBindViewHolder")
+        val occupationSkillViewHolder = holder as OccupationSkillsViewHolder
+        val current = occupationSkills[position]
+        occupationSkillViewHolder?.tvOccupationSkillName?.text = current?.skillName
+
+        var add: Int? = calculateAdd(current)
+        occupationSkillViewHolder?.tvOccupationSkillAdd?.text = add.toString()
+
+        var base: Int? = 0
+        base = current?.filledSkillBase
+
+        occupationSkillViewHolder?.tvOccupationSkillBase?.text =
+            base.toString()
+
+        if (base != null && add != null) {
+            var total = base + add
+
+            occupationSkillViewHolder?.tvOccupationSkillTotal?.text = total.toString()
+        }
+        occupationSkillViewHolder?.layoutOccupationSkill?.setOnClickListener() { view ->
+            rowIndex = position
+            Log.d(TAG, "${occupationSkills[position]}")
+        }
+    }
+
+    private fun calculateAdd(current: DomainFilledSkill?): Int? {
+        var add: Int? = 0
 
 
+        if (current?.filledSkillTensValue != null && current?.filledSkillUnitsValue != null) {
+            var tens = current?.filledSkillTensValue.toString()
+            var units = current?.filledSkillUnitsValue.toString()
+
+            try {
+                add = "$tens$units".toInt()
+
+            } catch (e: IllegalArgumentException) {
+                Log.e(TAG, "add conversion failed")
+                e.printStackTrace()
+                throw e
+            }
+        }
+        return add
     }
 
     /** ViewHolder life-cycle **/
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OccupationSkillsViewHolder {
-        val itemView = inflater.inflate(R.layout.recyclerview_item_occupationsskill, parent, false)
+        val itemView = inflater.inflate(R.layout.recyclerview_item_occupationskill, parent, false)
         return OccupationSkillsViewHolder(itemView)
     }
 
-    /** ViewHolder life-cycle   **/
-    override fun onBindViewHolder(holder: OccupationSkillsViewHolder, position: Int) {
-        val current = skills[position]
-
-    }
 
     /** Set the list containing skills to display   **/
-    internal fun setSkills(skills: List<DomainOccupationSkill?>?) {
+    internal fun setOccupationFilledSkills(skills: List<DomainFilledSkill?>?) {
         Log.d(TAG, "setSkills")
-        if(skills != null){
-            this.skills = skills
+        if (skills != null) {
+            this.occupationSkills = skills
             notifyDataSetChanged()
         }
 
     }
 
     /** Number of item ine the list **/
-    override fun getItemCount(): Int = skills.size
+    override fun getItemCount(): Int = occupationSkills.size
+
+
 }

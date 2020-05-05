@@ -10,16 +10,14 @@ import com.uldskull.rolegameassistant.models.character.DomainSkill
  *   TODO: Fill class use.
  **/
 class DomainFilledSkill(
-    filledSkillId: Long?,
+    filledSkillId: Long? = null,
     filledSkillName: String?,
-    filledSkillDescription: String?,
     val filledSkillBase: Int?,
     val filledSkillTensValue: Int? = 0,
     val filledSkillUnitsValue: Int? = 0,
-    val filledSkillTotal: Int?,
-    val filledSkillMax: Int?
+    val filledSkillTotal: Int? = 0,
+    val filledSkillMax: Int? = 0
 ) : DomainSkill(
     skillId = filledSkillId,
-    skillName = filledSkillName,
-    skillDescription = filledSkillDescription
+    skillName = filledSkillName
 )

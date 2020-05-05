@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/occupationSkill_row"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="16dp"
@@ -7,8 +8,8 @@
     android:orientation="horizontal">
 
     <TextView
-        style="@style/TextViewSubTitle"
         android:id="@+id/tv_occupationSkillName"
+        style="@style/TextViewSubTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="3"
@@ -30,18 +31,12 @@
         android:text=" + " />
 
     <TextView
-        android:id="@+id/tv_occupationSkillAddTens"
+        android:id="@+id/tv_occupationSkillAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0.5"
+        android:layout_weight="1"
         android:text="1" />
 
-    <TextView
-        android:id="@+id/tv_occupationSkillAddUnits"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.5"
-        android:text="5" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -54,6 +49,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="150" />
+        android:text="0" />
 
 </LinearLayout>

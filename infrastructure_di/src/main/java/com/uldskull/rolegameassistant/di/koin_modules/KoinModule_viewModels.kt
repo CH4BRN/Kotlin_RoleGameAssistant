@@ -82,4 +82,10 @@ val viewModelModule = module {
             occupationsRepositoryImpl = get()
         )
     }
+    //  Occupation skills ViewModel
+    viewModel {
+        OccupationSkillsViewModel(
+            application = get()
+        )
+    }
 }

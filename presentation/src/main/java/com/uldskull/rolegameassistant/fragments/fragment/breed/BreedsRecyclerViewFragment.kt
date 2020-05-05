@@ -1,7 +1,7 @@
 // File BreedsRecyclerViewFragment.kt
 // @Author pierre.antoine - 26/03/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.fragments.fragment.basicinfo.breed
+package com.uldskull.rolegameassistant.fragments.fragment.breed
 
 import android.app.Activity
 import android.content.Context

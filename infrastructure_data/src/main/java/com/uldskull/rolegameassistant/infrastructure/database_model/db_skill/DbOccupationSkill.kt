@@ -20,8 +20,10 @@ class DbOccupationSkill(
     var skillId: Long? = null,
     var skillName: String?,
     var skillDescription: String?,
-    var skillIsChecked: Boolean = false
-) : DbEntity<DomainOccupationSkill> {
+    var skillIsChecked: Boolean = false,
+    var skillBase: Int? = 0,
+    var skillMax: Int? = 0
+    ) : DbEntity<DomainOccupationSkill> {
 
     /**
      * Converts a Database model entity into a domain model.
@@ -32,7 +34,9 @@ class DbOccupationSkill(
             skillId = this.skillId,
             skillDescription = this.skillDescription,
             skillName = this.skillName,
-            skillIsChecked = this.skillIsChecked
+            skillIsChecked = this.skillIsChecked,
+            skillBase = this.skillBase,
+            skillMax = this.skillMax
         )
     }
 
@@ -46,7 +50,9 @@ class DbOccupationSkill(
                     skillId = domainModel?.skillId,
                     skillName = domainModel?.skillName,
                     skillDescription = domainModel?.skillDescription,
-                    skillIsChecked = domainModel?.skillIsChecked
+                    skillIsChecked = domainModel?.skillIsChecked,
+                    skillMax = domainModel?.skillMax,
+                    skillBase = domainModel?.skillBase
 
                 )
             } else {
