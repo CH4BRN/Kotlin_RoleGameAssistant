@@ -23,7 +23,6 @@ import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
-import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSkill
 import com.uldskull.rolegameassistant.viewmodels.OccupationSkillsViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -52,7 +51,7 @@ class OccupationSkillsRecyclerViewFragment(activity: Activity) :
                     filledSkillName = domainOccupationSkill?.skillName,
                     filledSkillTensValue = domainOccupationSkill?.filledSkillTensValue,
                     filledSkillTotal = domainOccupationSkill?.filledSkillTotal,
-                    filledSkillUnitsValue = domainOccupationSkill?.filledSkillTotal,
+                    filledSkillUnitsValue = domainOccupationSkill?.filledSkillUnitsValue,
                     filledSkillId = domainOccupationSkill?.skillId
                 )
             }
@@ -111,11 +110,22 @@ class OccupationSkillsRecyclerViewFragment(activity: Activity) :
      * Start ViewModel's collection observation.
      */
     override fun startObservation() {
+        observeCheckedSkills()
+
+    }
+
+    private fun observeCheckedSkills() {
         occupationSkillsViewModel?.checkedOccupationSkills?.observe(
             this,
             Observer { occupationSkills: List<DomainFilledSkill> ->
                 kotlin.run {
                     Log.d(TAG, "occupationSkills size : ${occupationSkills?.size}")
+
+                    occupationSkills?.forEach { filledSkill ->
+                        kotlin.run {
+                            Log.d(TAG + "valid", "filledSkill : ${filledSkill}")
+                        }
+                    }
 
                     var skillsToFill =
                         occupationSkills.map { domainOccupationSkill ->
@@ -129,6 +139,11 @@ class OccupationSkillsRecyclerViewFragment(activity: Activity) :
                                 filledSkillTotal = domainOccupationSkill?.filledSkillTotal
                             )
                         }
+                    skillsToFill?.forEach { filledSkill ->
+                        kotlin.run {
+                            Log.d(TAG + "valid", "skillsToFill : ${filledSkill}")
+                        }
+                    }
 
                     occupationSkillsAdapter?.setOccupationFilledSkills(skillsToFill)
                     Log.d(
@@ -137,9 +152,7 @@ class OccupationSkillsRecyclerViewFragment(activity: Activity) :
                     )
                     occupationSkillsRecyclerView?.adapter = occupationSkillsAdapter
                 }
-
             })
-
     }
 
     /** Set recycler view layout manager    **/

@@ -92,7 +92,6 @@ class OccupationSkillsAdapter internal constructor(
         occupationSkillViewHolder?.tvOccupationSkillBase?.text =
             base.toString()
         rowIndex = position
-        //  For default check in first item
 
 
         occupationSkillViewHolder.layoutOccupationSkill?.setOnClickListener {
@@ -114,13 +113,17 @@ class OccupationSkillsAdapter internal constructor(
     private fun calculateAdd(current: DomainFilledSkill?): Int? {
         var add: Int? = 0
 
+        Log.d(TAG, "current : $current")
 
         if (current?.filledSkillTensValue != null && current?.filledSkillUnitsValue != null) {
             var tens = current?.filledSkillTensValue.toString()
+            Log.d(TAG, "tens : $tens")
             var units = current?.filledSkillUnitsValue.toString()
+            Log.d(TAG, "units : $units")
 
             try {
                 add = "$tens$units".toInt()
+                Log.d(TAG, "add : $add")
 
             } catch (e: IllegalArgumentException) {
                 Log.e(TAG, "add conversion failed")
@@ -142,6 +145,11 @@ class OccupationSkillsAdapter internal constructor(
     internal fun setOccupationFilledSkills(skills: List<DomainFilledSkill?>?) {
         Log.d(TAG, "setSkills")
         if (skills != null) {
+            skills.forEach{
+                skill -> kotlin.run {
+                Log.d(TAG, "skill : $skill")
+            }
+            }
             this.occupationSkills = skills
             notifyDataSetChanged()
         }
