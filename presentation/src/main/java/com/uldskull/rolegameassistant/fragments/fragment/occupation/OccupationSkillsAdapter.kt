@@ -28,18 +28,21 @@ class OccupationSkillsAdapter internal constructor(
     companion object {
         private const val TAG = "OccupationSkillsAdapter"
     }
-
-    /** Inflater    **/
+    /**
+     * Inflater
+     */
     private val inflater: LayoutInflater = LayoutInflater.from(context)
-
-    /** Skills list **/
+    /**
+     * Skills list
+     */
     var occupationSkills = emptyList<DomainFilledSkill?>()
         set(value) {
             Log.d(TAG, "skills : ${value.size}")
             field = value
         }
-
-    /** Custom view-holder  **/
+    /**
+     * Custom view-holder
+     */
     inner class OccupationSkillsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var layoutOccupationSkill: LinearLayout? = itemView?.findViewById(R.id.occupationSkill_row)
         var tvOccupationSkillName: TextView? = itemView?.findViewById(R.id.tv_occupationSkillName)
@@ -51,9 +54,10 @@ class OccupationSkillsAdapter internal constructor(
             itemView?.findViewById(R.id.tv_occupationSkillSeparator)
 
     }
-
-    var selectedItem = -1
-
+    /**
+     *   Selected item index
+     */
+    private var selectedItemIndex = -1
     /**
      * Called by RecyclerView to display the data at the specified position. This method should
      * update the contents of the [ViewHolder.itemView] to reflect the item at the given
@@ -81,7 +85,7 @@ class OccupationSkillsAdapter internal constructor(
         var current = occupationSkills[position] ?: return
         occupationSkillViewHolder?.tvOccupationSkillName?.text = current!!.skillName
         Log.d(TAG, "${occupationSkills[position]}")
-        occupationSkills[position]?.skillIsSelected = (position == selectedItem)
+        occupationSkills[position]?.skillIsSelected = (position == selectedItemIndex)
         Log.d(TAG, "${occupationSkills[position]}")
         var add: Int? = calculateAdd(current)
         occupationSkillViewHolder?.tvOccupationSkillAdd?.text = add.toString()
@@ -108,8 +112,9 @@ class OccupationSkillsAdapter internal constructor(
 
 
     }
-
-
+    /**
+     * Calculates a skill's add value.
+     */
     private fun calculateAdd(current: DomainFilledSkill?): Int? {
         var add: Int? = 0
 
@@ -133,30 +138,32 @@ class OccupationSkillsAdapter internal constructor(
         }
         return add
     }
-
-    /** ViewHolder life-cycle **/
+    /**
+     * ViewHolder life-cycle
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OccupationSkillsViewHolder {
         val itemView = inflater.inflate(R.layout.recyclerview_item_occupationskill, parent, false)
         return OccupationSkillsViewHolder(itemView)
     }
-
-
-    /** Set the list containing skills to display   **/
+    /**
+     * Set the list containing skills to display
+     */
     internal fun setOccupationFilledSkills(skills: List<DomainFilledSkill?>?) {
         Log.d(TAG, "setSkills")
         if (skills != null) {
-            skills.forEach{
-                skill -> kotlin.run {
-                Log.d(TAG, "skill : $skill")
-            }
+            skills.forEach { skill ->
+                kotlin.run {
+                    Log.d(TAG, "skill : $skill")
+                }
             }
             this.occupationSkills = skills
             notifyDataSetChanged()
         }
 
     }
-
-    /** Number of item ine the list **/
+    /**
+     * Number of item ine the list *
+     */
     override fun getItemCount(): Int = occupationSkills.size
 
 

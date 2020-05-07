@@ -65,3 +65,7 @@ object KotlinxVersions {
 object GoogleVersions {
     const val gson = "2.8.6"
 }
+
+object DokkaVersion {
+    const val dokka = "0.10.1"
+}

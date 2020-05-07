@@ -43,12 +43,6 @@
             app:layout_constraintTop_toBottomOf="@id/container_occupationSkills">
 
             <TextView
-                android:id="@+id/tv_jobPoints_hundreds"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1" />
-
-            <TextView
                 android:id="@+id/tv_occupationPoints_tens"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

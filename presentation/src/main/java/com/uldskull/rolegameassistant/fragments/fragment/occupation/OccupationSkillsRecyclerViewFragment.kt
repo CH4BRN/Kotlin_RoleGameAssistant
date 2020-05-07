@@ -27,18 +27,24 @@ import com.uldskull.rolegameassistant.viewmodels.OccupationSkillsViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
- *   Class "JobSkillsRecyclerViewFragment" :
- *   TODO: Fill class use.
+ *   Class "OccupationSkills recyclerView fragment" :
+ *   Fragment to display occupation skills.
  **/
 class OccupationSkillsRecyclerViewFragment(activity: Activity) :
     CustomRecyclerViewFragment(activity), AdapterButtonListener<DomainFilledSkill> {
-
-
+    /**
+     * Occupation skills adapter.
+     */
     private var occupationSkillsAdapter: OccupationSkillsAdapter? = null
-
+    /**
+     * Occupation skills viewModel.
+     */
     private val occupationSkillsViewModel: OccupationSkillsViewModel by sharedViewModel()
-
+    /**
+     * Occupation skills recyclerView
+     */
     private var occupationSkillsRecyclerView: RecyclerView? = null
+
 
     override fun onResume() {
         super.onResume()

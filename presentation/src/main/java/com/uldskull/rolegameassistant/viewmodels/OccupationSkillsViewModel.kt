@@ -5,11 +5,8 @@ package com.uldskull.rolegameassistant.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
-import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSkill
-import com.uldskull.rolegameassistant.repository.skill.OccupationSkillRepository
 
 /**
  *   Class "OccupationSkillsViewModel" :
@@ -22,10 +19,13 @@ class OccupationSkillsViewModel(
         private const val TAG = "OccupationSkillsViewModel"
     }
 
+    var occupationSkillsPointsToSpend = MutableLiveData<Int>()
     private val lock = java.lang.Object()
 
     var checkedOccupationSkills = MutableLiveData<List<DomainFilledSkill>>()
     var currentOccupationSkill = MutableLiveData<DomainFilledSkill>()
+
+    var occupationSkillsTotalPointsToSpend = MutableLiveData<Int>()
 
 
 }

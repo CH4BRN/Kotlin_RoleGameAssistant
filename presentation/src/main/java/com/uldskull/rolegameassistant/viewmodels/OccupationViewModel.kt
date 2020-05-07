@@ -5,6 +5,7 @@ package com.uldskull.rolegameassistant.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 
 /**
  *   Class "OccupationViewModel" :
@@ -18,5 +19,8 @@ class OccupationViewModel(
         private const val TAG = "OccupationViewModel"
     }
 
-
+    var tensValue=MutableLiveData<Int>()
+    var tensFixedValue:Int = 0
+    var unitsValue=MutableLiveData<Int>()
+    var unitsFixedValue:Int = 0
 }

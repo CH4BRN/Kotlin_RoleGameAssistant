@@ -24,39 +24,100 @@ import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
 import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSkill
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.OccupationSkillsViewModel
+import com.uldskull.rolegameassistant.viewmodels.OccupationViewModel
 import com.uldskull.rolegameassistant.viewmodels.OccupationsViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
- *   Class "JobFragment" :
- *   TODO: Fill class use.
+ *   Class "OccupationFragment" :
+ *   "Occupation" fragment to set occupation's skills values.
  **/
 class OccupationFragment(activity: Activity) : CustomFragment(activity) {
 
+    /**
+     * TextView that shows occupation's skills score to spend.
+     */
+    private var textViewTotalOccupationPoints: TextView? = null
+    /**
+     * Units to add to a skill
+     */
     private var unitsValue: Int? = null
+    /**
+     * Tens to add to a skill
+     */
     private var tensValue: Int? = null
+    /**
+     * Value list for spinners
+     */
     var valuesList = listOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
-
+    /**
+     * Occupations view model.
+     */
     private val occupationsViewModel: OccupationsViewModel by sharedViewModel()
+    /**
+     * Occupation view model
+     */
+    private val occupationViewModel: OccupationViewModel by sharedViewModel()
+    /**
+     * Occupation skills view model.
+     */
     private val occupationSkillsViewModel: OccupationSkillsViewModel by sharedViewModel()
-    val characteristicsViewModel: CharacteristicsViewModel by sharedViewModel()
-    var textViewSelectedSkill: TextView? = null
-    var spinnerTensValue: Spinner? = null
-    var spinnerUnitsValue: Spinner? = null
-    var tensAdapter: ArrayAdapter<Int>? = null
-    var unitAdapter: ArrayAdapter<Int>? = null
-    var buttonValidateAddValueToSkill: ImageButton? = null
-    var buttonAddSkill: ImageButton? = null
+    /**
+     * Characteristic view model.
+     */
+    private val characteristicsViewModel: CharacteristicsViewModel by sharedViewModel()
+    /**
+     * Selected skill text view.
+     */
+    private var textViewSelectedSkill: TextView? = null
+    /**
+     * Tens value spinner
+     */
+    private var spinnerTensValue: Spinner? = null
+    /**
+     * Tens value text view
+     */
+    private var textViewTensValue: TextView? = null
+    /**
+     * Units value spinner
+     */
+    private var spinnerUnitsValue: Spinner? = null
+    /**
+     * Units value text view
+     */
+    private var textViewUnitsValue: TextView? = null
+    /**
+     * Tens value adapter
+     */
+    private var tensAdapter: ArrayAdapter<Int>? = null
+    /**
+     * Units value adapter
+     */
+    private var unitAdapter: ArrayAdapter<Int>? = null
+    /**
+     * button that validates the addition of value to a skill
+     */
+    private var buttonValidateAddValueToSkill: ImageButton? = null
+    /**
+     * Button to add a skill
+     */
+    private var buttonAddSkill: ImageButton? = null
 
-
+    /**
+     * Initializes the view.
+     */
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         Log.d(TAG, "initializeView")
+        //  inflate the corresponding fragment.
         initialRootView = layoutInflater.inflate(
             R.layout.fragment_occupation, container, false
         )
         return initialRootView
     }
 
+    /**
+     * Fragment life-cycle.
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -66,32 +127,65 @@ class OccupationFragment(activity: Activity) : CustomFragment(activity) {
         return initializeView(inflater, container)
     }
 
+    /**
+     * Sets the spinners adapters
+     */
     private fun setSpinnerAdapter() {
         Log.d(TAG, "setSpinnerAdapter")
-        setTensAdapter()
-        spinnerTensValue?.adapter = tensAdapter
-        setUnitsAdapter()
+        setTensSpinnerAdapter()
+        setUnitsSpinnerAdapter()
+    }
+
+    /**
+     * Sets units spinner adapter.
+     */
+    private fun setUnitsSpinnerAdapter() {
+        //  Initialize the units adapter
+        initializeUnitsAdapter()
+        //  Set the units spinner adapter.
         spinnerUnitsValue?.adapter = unitAdapter
     }
 
-    private fun setUnitsAdapter() {
+    /**
+     * Sets tens spinner adapter.
+     */
+    private fun setTensSpinnerAdapter() {
+        //  Initialize the tens adapter
+        initializeTensAdapter()
+        //  Set the tens spinner adapter.
+        spinnerTensValue?.adapter = tensAdapter
+    }
+
+    /**
+     * Initializes the units adapter.
+     */
+    private fun initializeUnitsAdapter() {
+        //  Instantiate the adapter with the values.
         unitAdapter = ArrayAdapter(
             activity,
             android.R.layout.simple_spinner_item,
             valuesList
         )
-        Log.d(TAG, "tens spinner is null : ${spinnerTensValue == null}")
-        Log.d(TAG, "tens spinner count : ${spinnerTensValue?.adapter?.count}")
+        //  Check if the spinner was correctly initialized.
+        if (unitAdapter == null) {
+            throw Exception("spinner is null")
+        }
     }
 
-    private fun setTensAdapter() {
+    /**
+     * Initializes the tens adapter.
+     */
+    private fun initializeTensAdapter() {
+        //  Instantiate the adapter with the values.
         tensAdapter = ArrayAdapter(
             activity,
             android.R.layout.simple_spinner_item,
             valuesList
         )
-        Log.d(TAG, "tens adapter is null : ${tensAdapter == null}")
-        Log.d(TAG, "tens adapter item count : ${tensAdapter?.count}")
+        //  Check if the spinner was correctly initialized.
+        if (tensAdapter == null) {
+            throw Exception("spinner is null")
+        }
     }
 
     /**
@@ -108,27 +202,154 @@ class OccupationFragment(activity: Activity) : CustomFragment(activity) {
         Log.d(TAG, "onViewCreated")
         super.onViewCreated(view, savedInstanceState)
         deserializeWidgets(view)
-        setButtonAddSkillOnClickListener(buttonAddSkill)
-
         observeCurrentOccupationSkill()
-
-        setButtonValidateOnClickListener()
+        setListeners()
         setSpinnerAdapter()
+        disableTheValidateButton()
+        setOccupationSkillsPointsTextView()
+        observeOccupationTotalPointsToSpend()
+
+        observeOccupationSkillsPointsToSpend()
+
+        observeTensValue()
+
+        observeUnitsValue()
+
+    }
+
+    private fun observeUnitsValue() {
+        occupationViewModel?.unitsValue.observe(this, Observer { units ->
+            if (units == null) {
+                // do nothing
+            } else {
+                textViewUnitsValue?.text = units.toString()
+            }
+
+        })
+    }
+
+    private fun observeTensValue() {
+        occupationViewModel?.tensValue.observe(this, Observer { tens ->
+            if (tens == null) {
+                //  Do nothing
+            } else {
+                textViewTensValue?.text = tens.toString()
+            }
+
+        })
+    }
+
+    private fun observeOccupationSkillsPointsToSpend() {
+        occupationSkillsViewModel?.occupationSkillsPointsToSpend.observe(this, Observer { score ->
+            kotlin.run {
+
+                var stringScore = score.toString()
+                var scoreArray = stringScore.split("")
+                scoreArray.forEach {
+                    Log.d(TAG, "score : $it")
+                }
+
+
+                var tens: Int = (score / 10)
+                Log.d(TAG, "Tens : $tens")
+
+
+                if (tens != null) {
+                    occupationViewModel?.tensValue.value = tens
+                    occupationViewModel?.tensFixedValue = tens
+                }
+
+
+                var units: Int = (score - (tens * 10))
+                Log.d(TAG, "Units : $units")
+
+                if (units != null) {
+                    occupationViewModel?.unitsValue.value = units
+                    occupationViewModel?.unitsFixedValue = units
+                }
+
+                textViewUnitsValue?.text = units.toString()
+
+
+            }
+        })
+    }
+
+    private fun observeOccupationTotalPointsToSpend() {
+        occupationSkillsViewModel?.occupationSkillsTotalPointsToSpend.observe(
+            this,
+            Observer { score ->
+                kotlin.run {
+                    textViewTotalOccupationPoints?.text = score.toString()
+                }
+            })
+    }
+
+    /**
+     * Set the occupation skills points to spend tew view.
+     */
+    private fun setOccupationSkillsPointsTextView() {
+
+        var occupationScore = characteristicsViewModel?.getOccupationSkillsScore()
+        occupationSkillsViewModel?.occupationSkillsTotalPointsToSpend.value = occupationScore
+        occupationSkillsViewModel?.occupationSkillsPointsToSpend.value = occupationScore
+    }
+
+    /**
+     * Sets the widgets listeners
+     */
+    private fun setListeners() {
+        setButtonsListeners()
+        setSpinnerListeners()
+    }
+
+    /**
+     * Disables the validate button.
+     */
+    private fun disableTheValidateButton() {
+        buttonValidateAddValueToSkill?.isEnabled = false
+    }
+
+    /**
+     * Sets the spinners listeners.
+     */
+    private fun setSpinnerListeners() {
         setTensSpinnerOnItemSelectedListener()
         setUnitsSpinnerOnItemSelectedListener()
-        buttonValidateAddValueToSkill?.isEnabled = false
-
-
     }
 
+    /**
+     * Sets buttons listeners.
+     */
+    private fun setButtonsListeners() {
+        setButtonAddSkillOnClickListener()
+        setButtonValidateOnClickListener()
+    }
+
+    /**
+     * Deserialize widgets
+     */
     private fun deserializeWidgets(view: View) {
-        buttonAddSkill = view.findViewById<ImageButton>(R.id.btn_occupation_add_skill)
-        buttonValidateAddValueToSkill = view.findViewById(R.id.btn_validateSkillPoints)
-        textViewSelectedSkill = view.findViewById(R.id.tv_selectedSkill)
-        spinnerTensValue = view.findViewById(R.id.spinner_skill_tens)
-        spinnerUnitsValue = view.findViewById(R.id.spinner_skill_units)
+        Log.d(TAG, "deserializeWidgets")
+        try {
+            buttonAddSkill = view.findViewById<ImageButton>(R.id.btn_occupation_add_skill)
+            buttonValidateAddValueToSkill = view.findViewById(R.id.btn_validateSkillPoints)
+            textViewSelectedSkill = view.findViewById(R.id.tv_selectedSkill)
+            spinnerTensValue = view.findViewById(R.id.spinner_skill_tens)
+            spinnerUnitsValue = view.findViewById(R.id.spinner_skill_units)
+            textViewTotalOccupationPoints = view.findViewById(R.id.tv_totalOccupationPoints)
+            textViewTensValue = view.findViewById(R.id.tv_occupationPoints_tens)
+            textViewUnitsValue = view.findViewById(R.id.tv_occupationPoints_units)
+        } catch (e: Exception) {
+            Log.e(TAG, "deserialization failed")
+            e.printStackTrace()
+            throw e
+        }
     }
 
+    /**
+     * Sets the units's spinner selection listener.
+     */
     private fun setUnitsSpinnerOnItemSelectedListener() {
         Log.d(TAG, "setUnitsSpinnerOnItemSelectedListener")
         spinnerUnitsValue?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -165,11 +386,18 @@ class OccupationFragment(activity: Activity) : CustomFragment(activity) {
                 id: Long
             ) {
                 unitsValue = this@OccupationFragment.valuesList[position]
+
+
+                occupationViewModel?.unitsValue.value =
+                    occupationViewModel?.unitsFixedValue.minus(unitsValue!!)
             }
 
         }
     }
 
+    /**
+     * Sets the tens's spinner selection listener
+     */
     private fun setTensSpinnerOnItemSelectedListener() {
         Log.d(TAG, "setTensSpinnerOnItemSelectedListener")
         spinnerTensValue?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -206,12 +434,17 @@ class OccupationFragment(activity: Activity) : CustomFragment(activity) {
                 id: Long
             ) {
                 tensValue = valuesList[position]
+
+                occupationViewModel?.tensValue.value =
+                    occupationViewModel?.tensFixedValue.minus(tensValue!!)
             }
 
         }
     }
 
-
+    /**
+     * Sets the validate button's click listener.
+     */
     private fun setButtonValidateOnClickListener() {
         Log.d(TAG + "valid", "setButtonValidateOnClickListener")
         buttonValidateAddValueToSkill?.setOnClickListener {
@@ -247,10 +480,10 @@ class OccupationFragment(activity: Activity) : CustomFragment(activity) {
             var filledSkills =
                 occupationSkillsViewModel.checkedOccupationSkills.value?.toMutableList()
             Log.d(TAG + "valid", "filledSkills size : ${filledSkills?.size}")
-            filledSkills?.forEach {
-                skill -> kotlin.run {
-                Log.d(TAG, "skill : $skill")
-            }
+            filledSkills?.forEach { skill ->
+                kotlin.run {
+                    Log.d(TAG, "skill : $skill")
+                }
             }
             if (filledSkills != null && index != null) {
                 Log.d(TAG + "valid", "filledSkill at index $index : ${filledSkills[index]}")
@@ -266,6 +499,9 @@ class OccupationFragment(activity: Activity) : CustomFragment(activity) {
         }
     }
 
+    /**
+     * Observes the current occupation_skill.
+     */
     private fun observeCurrentOccupationSkill() {
         Log.d(TAG, "observeCurrentOccupationSkill")
         this.occupationSkillsViewModel.currentOccupationSkill.observe(
@@ -299,8 +535,10 @@ class OccupationFragment(activity: Activity) : CustomFragment(activity) {
             })
     }
 
-
-    private fun setButtonAddSkillOnClickListener(btnAddSkill: ImageButton?) {
+    /**
+     * Sets the add skill button's click listener.
+     */
+    private fun setButtonAddSkillOnClickListener() {
         Log.d(TAG, "setButtonAddSkillOnClickListener")
         buttonAddSkill?.setOnClickListener {
             val intent = Intent(activity, NewSkillActivity::class.java)
@@ -352,7 +590,6 @@ class OccupationFragment(activity: Activity) : CustomFragment(activity) {
             )
         }
     }
-
 
     companion object : CustomCompanion() {
 

@@ -88,4 +88,10 @@ val viewModelModule = module {
             application = get()
         )
     }
+    //  Occupation ViewModel
+    viewModel {
+        OccupationViewModel(
+            application = get()
+        )
+    }
 }

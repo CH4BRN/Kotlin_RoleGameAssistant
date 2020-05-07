@@ -7,11 +7,15 @@ import GoogleVersions.gson
 import KoinVersion.koinAndroid
 import KotlinxVersions.coroutines
 import RoomVersions.room
+import DokkaVersion.dokka
 
 /** File Dependencies.kt
  *   @Author pierre.antoine - 27/01/2020 - No copyright.
  **/
 
+object DokkaDependencies {
+    const val Dokka = "org.jetbrains.dokka:dokka-gradle-plugin:${dokka}"
+}
 
 object RoomDependencies {
     const val RoomRuntime = "androidx.room:room-runtime:${room}"
