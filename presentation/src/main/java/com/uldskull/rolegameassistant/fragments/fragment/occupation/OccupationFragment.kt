@@ -211,34 +211,29 @@ class OccupationFragment(activity: Activity) : CustomFragment(activity) {
 
         observeOccupationSkillsPointsToSpend()
 
-        observeTensValue()
+        observeOccupationPointsValue()
 
 
     }
 
 
-    private fun observeTensValue() {
+    private fun observeOccupationPointsValue() {
         occupationViewModel?.observableOccupationPointsValue.observe(this, Observer { tens ->
             if (tens == null) {
                 //  Do nothing
             } else {
                 textViewOccupationPointsValue?.text = tens.toString()
             }
-
         })
     }
 
     private fun observeOccupationSkillsPointsToSpend() {
         occupationSkillsViewModel?.occupationSkillsPointsToSpend.observe(this, Observer { score ->
             kotlin.run {
-
-
                 if (score != null) {
                     occupationViewModel?.observableOccupationPointsValue.value = score
                     occupationViewModel?.totalOccupationsPointsFixedValue = score
                 }
-
-
             }
         })
     }
@@ -356,7 +351,7 @@ class OccupationFragment(activity: Activity) : CustomFragment(activity) {
                 if (unitsValue != null) {
                     if (tensValue != null) {
                         occupationViewModel?.observableOccupationPointsValue.value =
-                            occupationViewModel?.totalOccupationsPointsFixedValue.minus(unitsValue!! + (tensValue!!*10))
+                            occupationViewModel?.totalOccupationsPointsFixedValue.minus(unitsValue!! + (tensValue!! * 10))
                     } else {
                         occupationViewModel?.observableOccupationPointsValue.value =
                             occupationViewModel?.totalOccupationsPointsFixedValue.minus(unitsValue!!)
@@ -409,7 +404,7 @@ class OccupationFragment(activity: Activity) : CustomFragment(activity) {
                 if (tensValue != null) {
                     if (unitsValue != null) {
                         occupationViewModel?.observableOccupationPointsValue.value =
-                            occupationViewModel?.totalOccupationsPointsFixedValue.minus(unitsValue!! + (tensValue!!*10))
+                            occupationViewModel?.totalOccupationsPointsFixedValue.minus(unitsValue!! + (tensValue!! * 10))
                     } else {
                         occupationViewModel?.observableOccupationPointsValue.value =
                             occupationViewModel?.totalOccupationsPointsFixedValue.minus(tensValue!!)
@@ -557,9 +552,34 @@ class OccupationFragment(activity: Activity) : CustomFragment(activity) {
                     )
                 }
             }
-            if (list.size != occupationSkillsViewModel.checkedOccupationSkills.value?.size) {
+
+
+            var finalList = mutableListOf<DomainFilledSkill>()
+            var checked = occupationSkillsViewModel.checkedOccupationSkills.value
+            if(checked == null){
                 occupationSkillsViewModel.checkedOccupationSkills.value = list
             }
+            else  {
+                list.forEach { newSkill ->
+                    kotlin.run {
+                        checked.forEach { oldSKill ->
+                            kotlin.run {
+                                if (newSkill.skillId == oldSKill.skillId) {
+                                    finalList.add(oldSKill)
+                                }
+                            }
+                        }
+                        if (!finalList.any { s -> s.skillId == newSkill.skillId }) {
+                            finalList.add(newSkill)
+                        }
+
+                    }
+                }
+                occupationSkillsViewModel.checkedOccupationSkills.value = finalList
+            }
+
+
+
 
             Log.d(
                 TAG,

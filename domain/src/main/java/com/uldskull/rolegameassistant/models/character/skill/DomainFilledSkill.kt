@@ -11,8 +11,8 @@ import com.uldskull.rolegameassistant.models.character.DomainSkill
  **/
 class DomainFilledSkill(
     filledSkillId: Long? = null,
-    filledSkillName: String?,
-    val filledSkillBase: Int?,
+    filledSkillName: String? = "",
+    val filledSkillBase: Int? = 0,
     var filledSkillTensValue: Int? = 0,
     var filledSkillUnitsValue: Int? = 0,
     val filledSkillTotal: Int? = 0,

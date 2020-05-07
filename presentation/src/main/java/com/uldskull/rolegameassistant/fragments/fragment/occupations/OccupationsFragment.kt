@@ -29,6 +29,8 @@ import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.REQUEST_CODE_JOBS_NEW_JOB
 import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
 import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupationWithSkills
+import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
+import com.uldskull.rolegameassistant.viewmodels.OccupationSkillsViewModel
 import com.uldskull.rolegameassistant.viewmodels.OccupationsViewModel
 import kotlinx.android.synthetic.main.fragment_occupations.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -41,6 +43,7 @@ class OccupationsFragment(activity: Activity) : CustomFragment(activity) {
 
     //  VIEWMODELS
     private val occupationsViewModel: OccupationsViewModel by sharedViewModel()
+    private val occupationSkillsViewModel:OccupationSkillsViewModel by sharedViewModel()
 
     //  ADAPTER
     /// Occupation's spinner
@@ -102,6 +105,8 @@ class OccupationsFragment(activity: Activity) : CustomFragment(activity) {
                         occupationsViewModel.selectedOccupation?.value = occupation
                         //  Sets the selected occupation index
                         occupationsViewModel?.selectedOccupationIndex?.value = position
+                        occupationSkillsViewModel?.currentOccupationSkill?.value = DomainFilledSkill()
+                        occupationSkillsViewModel?.checkedOccupationSkills?.value = emptyList()
 
                     }
                 }

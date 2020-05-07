@@ -50,16 +50,21 @@ class OccupationSkillsRecyclerViewFragment(activity: Activity) :
         super.onResume()
         Log.d(TAG, "onResume")
         var skillsToFill =
-            occupationSkillsViewModel?.checkedOccupationSkills?.value?.map { domainOccupationSkill ->
-                DomainFilledSkill(
-                    filledSkillMax = domainOccupationSkill?.filledSkillMax,
-                    filledSkillBase = domainOccupationSkill?.filledSkillBase,
-                    filledSkillName = domainOccupationSkill?.skillName,
-                    filledSkillTensValue = domainOccupationSkill?.filledSkillTensValue,
-                    filledSkillTotal = domainOccupationSkill?.filledSkillTotal,
-                    filledSkillUnitsValue = domainOccupationSkill?.filledSkillUnitsValue,
-                    filledSkillId = domainOccupationSkill?.skillId
-                )
+            occupationSkillsViewModel?.checkedOccupationSkills?.value?.mapNotNull { domainOccupationSkill ->
+                if (domainOccupationSkill == null) {
+                    return@mapNotNull null
+                } else {
+                    DomainFilledSkill(
+                        filledSkillMax = domainOccupationSkill?.filledSkillMax,
+                        filledSkillBase = domainOccupationSkill?.filledSkillBase,
+                        filledSkillName = domainOccupationSkill?.skillName,
+                        filledSkillTensValue = domainOccupationSkill?.filledSkillTensValue,
+                        filledSkillTotal = domainOccupationSkill?.filledSkillTotal,
+                        filledSkillUnitsValue = domainOccupationSkill?.filledSkillUnitsValue,
+                        filledSkillId = domainOccupationSkill?.skillId
+                    )
+                }
+
             }
 
         occupationSkillsAdapter?.setOccupationFilledSkills(skillsToFill)
