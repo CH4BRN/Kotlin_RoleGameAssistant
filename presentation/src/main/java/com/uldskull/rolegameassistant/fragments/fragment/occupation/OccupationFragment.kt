@@ -77,7 +77,7 @@ class OccupationFragment(activity: Activity) : CustomFragment(activity) {
     /**
      * Tens value text view
      */
-    private var textViewTensValue: TextView? = null
+    private var textViewOccupationPointsValue: TextView? = null
     /**
      * Units value spinner
      */
@@ -213,27 +213,16 @@ class OccupationFragment(activity: Activity) : CustomFragment(activity) {
 
         observeTensValue()
 
-        observeUnitsValue()
 
     }
 
-    private fun observeUnitsValue() {
-        occupationViewModel?.unitsValue.observe(this, Observer { units ->
-            if (units == null) {
-                // do nothing
-            } else {
-                textViewUnitsValue?.text = units.toString()
-            }
-
-        })
-    }
 
     private fun observeTensValue() {
-        occupationViewModel?.tensValue.observe(this, Observer { tens ->
+        occupationViewModel?.observableOccupationPointsValue.observe(this, Observer { tens ->
             if (tens == null) {
                 //  Do nothing
             } else {
-                textViewTensValue?.text = tens.toString()
+                textViewOccupationPointsValue?.text = tens.toString()
             }
 
         })
@@ -243,32 +232,11 @@ class OccupationFragment(activity: Activity) : CustomFragment(activity) {
         occupationSkillsViewModel?.occupationSkillsPointsToSpend.observe(this, Observer { score ->
             kotlin.run {
 
-                var stringScore = score.toString()
-                var scoreArray = stringScore.split("")
-                scoreArray.forEach {
-                    Log.d(TAG, "score : $it")
+
+                if (score != null) {
+                    occupationViewModel?.observableOccupationPointsValue.value = score
+                    occupationViewModel?.totalOccupationsPointsFixedValue = score
                 }
-
-
-                var tens: Int = (score / 10)
-                Log.d(TAG, "Tens : $tens")
-
-
-                if (tens != null) {
-                    occupationViewModel?.tensValue.value = tens
-                    occupationViewModel?.tensFixedValue = tens
-                }
-
-
-                var units: Int = (score - (tens * 10))
-                Log.d(TAG, "Units : $units")
-
-                if (units != null) {
-                    occupationViewModel?.unitsValue.value = units
-                    occupationViewModel?.unitsFixedValue = units
-                }
-
-                textViewUnitsValue?.text = units.toString()
 
 
             }
@@ -338,8 +306,7 @@ class OccupationFragment(activity: Activity) : CustomFragment(activity) {
             spinnerTensValue = view.findViewById(R.id.spinner_skill_tens)
             spinnerUnitsValue = view.findViewById(R.id.spinner_skill_units)
             textViewTotalOccupationPoints = view.findViewById(R.id.tv_totalOccupationPoints)
-            textViewTensValue = view.findViewById(R.id.tv_occupationPoints_tens)
-            textViewUnitsValue = view.findViewById(R.id.tv_occupationPoints_units)
+            textViewOccupationPointsValue = view.findViewById(R.id.tv_occupationPoints)
         } catch (e: Exception) {
             Log.e(TAG, "deserialization failed")
             e.printStackTrace()
@@ -386,12 +353,16 @@ class OccupationFragment(activity: Activity) : CustomFragment(activity) {
                 id: Long
             ) {
                 unitsValue = this@OccupationFragment.valuesList[position]
-
-
-                occupationViewModel?.unitsValue.value =
-                    occupationViewModel?.unitsFixedValue.minus(unitsValue!!)
+                if (unitsValue != null) {
+                    if (tensValue != null) {
+                        occupationViewModel?.observableOccupationPointsValue.value =
+                            occupationViewModel?.totalOccupationsPointsFixedValue.minus(unitsValue!! + (tensValue!!*10))
+                    } else {
+                        occupationViewModel?.observableOccupationPointsValue.value =
+                            occupationViewModel?.totalOccupationsPointsFixedValue.minus(unitsValue!!)
+                    }
+                }
             }
-
         }
     }
 
@@ -435,10 +406,16 @@ class OccupationFragment(activity: Activity) : CustomFragment(activity) {
             ) {
                 tensValue = valuesList[position]
 
-                occupationViewModel?.tensValue.value =
-                    occupationViewModel?.tensFixedValue.minus(tensValue!!)
+                if (tensValue != null) {
+                    if (unitsValue != null) {
+                        occupationViewModel?.observableOccupationPointsValue.value =
+                            occupationViewModel?.totalOccupationsPointsFixedValue.minus(unitsValue!! + (tensValue!!*10))
+                    } else {
+                        occupationViewModel?.observableOccupationPointsValue.value =
+                            occupationViewModel?.totalOccupationsPointsFixedValue.minus(tensValue!!)
+                    }
+                }
             }
-
         }
     }
 

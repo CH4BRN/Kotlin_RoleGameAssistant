@@ -19,8 +19,6 @@ class OccupationViewModel(
         private const val TAG = "OccupationViewModel"
     }
 
-    var tensValue=MutableLiveData<Int>()
-    var tensFixedValue:Int = 0
-    var unitsValue=MutableLiveData<Int>()
-    var unitsFixedValue:Int = 0
+    var observableOccupationPointsValue=MutableLiveData<Int>()
+    var totalOccupationsPointsFixedValue:Int = 0
 }
