@@ -10,9 +10,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.adapter.CharacterPagerAdapter
+import com.uldskull.rolegameassistant.fragments.viewPager.adapter.CharacterPagerAdapter
 import com.uldskull.rolegameassistant.fragments.fragment.bars.NavigationBarFragment
 import com.uldskull.rolegameassistant.fragments.fragment.bars.ProgressBarFragment
+import com.uldskull.rolegameassistant.fragments.viewPager.LockableViewPager
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -52,7 +53,7 @@ class NewCharacterActivity :
     private fun setCharacterPageAdapter() {
         Log.d(TAG, "setCharacterPageAdapter")
         //  Serialize the view pager.
-        viewPager = findViewById(R.id.activityNewCharacter_viewPager)
+        viewPager = findViewById(R.id.activityNewCharacter_viewPager) as LockableViewPager
 
         //  Set the viewPager adapter.
         viewPager.adapter = CharacterPagerAdapter(supportFragmentManager, this)

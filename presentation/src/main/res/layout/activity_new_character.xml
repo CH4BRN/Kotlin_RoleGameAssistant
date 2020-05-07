@@ -6,7 +6,7 @@
 
     >
 
-    <androidx.viewpager.widget.ViewPager
+    <com.uldskull.rolegameassistant.fragments.viewPager.LockableViewPager
         android:id="@+id/activityNewCharacter_viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"

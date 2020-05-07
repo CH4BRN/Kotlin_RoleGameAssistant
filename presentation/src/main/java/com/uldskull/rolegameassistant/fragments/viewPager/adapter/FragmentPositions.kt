@@ -2,7 +2,7 @@
  *   @Author pierre.antoine - 02/03/2020 - No copyright.
  **/
 
-package com.uldskull.rolegameassistant.fragments.adapter
+package com.uldskull.rolegameassistant.fragments.viewPager.adapter
 
 const val BASIC_INFO_FRAGMENT_POSITION = 0
 const val BONDS_FRAGMENT_POSITION = 1

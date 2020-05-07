@@ -1,7 +1,7 @@
 // File CharacterPagerAdapter.kt
 // @Author pierre.antoine - 29/01/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.fragments.adapter
+package com.uldskull.rolegameassistant.fragments.viewPager.adapter
 
 import android.app.Activity
 import android.util.Log
