@@ -12,6 +12,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewAdapter
 import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
 
@@ -21,7 +22,8 @@ import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
  *   Adapter for skills recycler view.
  **/
 class OccupationSkillsAdapter internal constructor(
-    context: Context
+    context: Context,
+    private val buttonListener: AdapterButtonListener<DomainFilledSkill>
 ) : CustomRecyclerViewAdapter(context) {
     companion object {
         private const val TAG = "OccupationSkillsAdapter"
@@ -44,7 +46,13 @@ class OccupationSkillsAdapter internal constructor(
         var tvOccupationSkillBase: TextView? = itemView?.findViewById(R.id.tv_occupationSkillBase)
         var tvOccupationSkillAdd: TextView? = itemView?.findViewById(R.id.tv_occupationSkillAdd)
         var tvOccupationSkillTotal: TextView? = itemView?.findViewById(R.id.tv_occupationSkillTotal)
+        var tvOccupationSkillPlus: TextView? = itemView?.findViewById(R.id.tv_occupationSkillPlus)
+        var tvOccupationSkillSeparator: TextView? =
+            itemView?.findViewById(R.id.tv_occupationSkillSeparator)
+
     }
+
+    var selectedItem = -1
 
     /**
      * Called by RecyclerView to display the data at the specified position. This method should
@@ -70,28 +78,38 @@ class OccupationSkillsAdapter internal constructor(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         Log.d(TAG, "onBindViewHolder")
         val occupationSkillViewHolder = holder as OccupationSkillsViewHolder
-        val current = occupationSkills[position]
-        occupationSkillViewHolder?.tvOccupationSkillName?.text = current?.skillName
-
+        var current = occupationSkills[position] ?: return
+        occupationSkillViewHolder?.tvOccupationSkillName?.text = current!!.skillName
+        Log.d(TAG, "${occupationSkills[position]}")
+        occupationSkills[position]?.skillIsSelected = (position == selectedItem)
+        Log.d(TAG, "${occupationSkills[position]}")
         var add: Int? = calculateAdd(current)
         occupationSkillViewHolder?.tvOccupationSkillAdd?.text = add.toString()
 
         var base: Int? = 0
-        base = current?.filledSkillBase
+        base = current!!.filledSkillBase
 
         occupationSkillViewHolder?.tvOccupationSkillBase?.text =
             base.toString()
+        rowIndex = position
+        //  For default check in first item
+
+
+        occupationSkillViewHolder.layoutOccupationSkill?.setOnClickListener {
+            Log.d(TAG, "$current")
+            current.skillIsSelected = true
+            this.buttonListener.itemPressed(current)
+        }
+
 
         if (base != null && add != null) {
             var total = base + add
-
             occupationSkillViewHolder?.tvOccupationSkillTotal?.text = total.toString()
         }
-        occupationSkillViewHolder?.layoutOccupationSkill?.setOnClickListener() { view ->
-            rowIndex = position
-            Log.d(TAG, "${occupationSkills[position]}")
-        }
+
+
     }
+
 
     private fun calculateAdd(current: DomainFilledSkill?): Int? {
         var add: Int? = 0

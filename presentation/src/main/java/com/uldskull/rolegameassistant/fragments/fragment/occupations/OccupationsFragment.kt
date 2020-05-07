@@ -49,8 +49,6 @@ class OccupationsFragment(activity: Activity) : CustomFragment(activity) {
         android.R.layout.simple_spinner_item
     )
 
-    //  SPINNER
-
 
 
     private fun setSpinnerAdapter() {

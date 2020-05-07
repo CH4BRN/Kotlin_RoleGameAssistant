@@ -114,6 +114,8 @@ class BreedsAdapter internal constructor(
         breedsViewHolder.breedNameItemView.text = current.breedName
         breedsViewHolder.breedDescriptionItemView.text = current.breedDescription
 
+
+
         breedsViewHolder.breedItemLayout.setOnClickListener {
             rowIndex = position
             Log.d(TAG, "${breeds[position]}")

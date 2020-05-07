@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NewSkillActivity
 import com.uldskull.rolegameassistant.fragments.adapter.JOB_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION
+import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
@@ -31,7 +32,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   TODO: Fill class use.
  **/
 class OccupationSkillsRecyclerViewFragment(activity: Activity) :
-    CustomRecyclerViewFragment(activity) {
+    CustomRecyclerViewFragment(activity), AdapterButtonListener<DomainFilledSkill> {
 
 
     private var occupationSkillsAdapter: OccupationSkillsAdapter? = null
@@ -44,11 +45,15 @@ class OccupationSkillsRecyclerViewFragment(activity: Activity) :
         super.onResume()
         Log.d(TAG, "onResume")
         var skillsToFill =
-            occupationSkillsViewModel?.occupationSkills?.value?.map { domainOccupationSkill ->
+            occupationSkillsViewModel?.checkedOccupationSkills?.value?.map { domainOccupationSkill ->
                 DomainFilledSkill(
-                    filledSkillMax = domainOccupationSkill?.skillMax,
-                    filledSkillBase = domainOccupationSkill?.skillBase,
-                    filledSkillName = domainOccupationSkill?.skillName
+                    filledSkillMax = domainOccupationSkill?.filledSkillMax,
+                    filledSkillBase = domainOccupationSkill?.filledSkillBase,
+                    filledSkillName = domainOccupationSkill?.skillName,
+                    filledSkillTensValue = domainOccupationSkill?.filledSkillTensValue,
+                    filledSkillTotal = domainOccupationSkill?.filledSkillTotal,
+                    filledSkillUnitsValue = domainOccupationSkill?.filledSkillTotal,
+                    filledSkillId = domainOccupationSkill?.skillId
                 )
             }
 
@@ -106,18 +111,22 @@ class OccupationSkillsRecyclerViewFragment(activity: Activity) :
      * Start ViewModel's collection observation.
      */
     override fun startObservation() {
-        occupationSkillsViewModel?.occupationSkills?.observe(
+        occupationSkillsViewModel?.checkedOccupationSkills?.observe(
             this,
-            Observer { occupationSkills: List<DomainOccupationSkill> ->
+            Observer { occupationSkills: List<DomainFilledSkill> ->
                 kotlin.run {
                     Log.d(TAG, "occupationSkills size : ${occupationSkills?.size}")
 
                     var skillsToFill =
                         occupationSkills.map { domainOccupationSkill ->
                             DomainFilledSkill(
-                                filledSkillMax = domainOccupationSkill?.skillMax,
-                                filledSkillBase = domainOccupationSkill?.skillBase,
-                                filledSkillName = domainOccupationSkill?.skillName
+                                filledSkillMax = domainOccupationSkill?.filledSkillMax,
+                                filledSkillBase = domainOccupationSkill?.filledSkillBase,
+                                filledSkillName = domainOccupationSkill?.skillName,
+                                filledSkillId = domainOccupationSkill?.skillId,
+                                filledSkillUnitsValue = domainOccupationSkill?.filledSkillUnitsValue,
+                                filledSkillTensValue = domainOccupationSkill?.filledSkillTensValue,
+                                filledSkillTotal = domainOccupationSkill?.filledSkillTotal
                             )
                         }
 
@@ -150,7 +159,8 @@ class OccupationSkillsRecyclerViewFragment(activity: Activity) :
         Log.d(TAG, "setRecyclerViewAdapter")
         occupationSkillsAdapter =
             OccupationSkillsAdapter(
-                activity as Context
+                activity as Context,
+                this
             )
 
         occupationSkillsRecyclerView?.adapter = occupationSkillsAdapter
@@ -182,5 +192,13 @@ class OccupationSkillsRecyclerViewFragment(activity: Activity) :
             return fragment
         }
 
+    }
+
+    /**
+     * Called when a recyclerview cell is pressed
+     */
+    override fun itemPressed(domainModel: DomainFilledSkill?) {
+        Log.d(TAG, "item pressed for $domainModel")
+        occupationSkillsViewModel?.currentOccupationSkill.value = domainModel
     }
 }

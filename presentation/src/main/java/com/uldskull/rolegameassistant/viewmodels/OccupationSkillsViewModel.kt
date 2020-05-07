@@ -7,6 +7,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
 import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSkill
 import com.uldskull.rolegameassistant.repository.skill.OccupationSkillRepository
 
@@ -23,6 +24,8 @@ class OccupationSkillsViewModel(
 
     private val lock = java.lang.Object()
 
-    var occupationSkills = MutableLiveData<List<DomainOccupationSkill>>()
+    var checkedOccupationSkills = MutableLiveData<List<DomainFilledSkill>>()
+    var currentOccupationSkill = MutableLiveData<DomainFilledSkill>()
+
 
 }
