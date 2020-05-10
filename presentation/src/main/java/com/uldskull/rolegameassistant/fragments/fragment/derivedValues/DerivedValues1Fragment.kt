@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.DERIVED_VALUES_1_FRAGMENT_POSITION
@@ -63,6 +64,7 @@ class DerivedValues1Fragment(activity: Activity) : CustomFragment(activity) {
         setSanityScore()
         setLuckScore()
         setKnowScore()
+
 
     }
 
@@ -178,7 +180,14 @@ class DerivedValues1Fragment(activity: Activity) : CustomFragment(activity) {
         setEditTextsListeners()
         setBtnEditClickListener()
         Log.d(TAG, "set health points")
+        observeViewPagerLocker()
 
+    }
+
+    private fun observeViewPagerLocker() {
+        newCharacterViewModel?.viewPagerLocker?.observe(this, Observer { locker ->
+            Log.d(TAG, "viewPagerLocker : $locker")
+        })
     }
 
     private fun setEditTextsListeners() {

@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import androidx.viewpager.widget.ViewPager
 
+
 /**
  *   Class "LockableViewPager" :
  *   Custom viewpager that allows or not to swipe between fragments.
@@ -15,12 +16,15 @@ import androidx.viewpager.widget.ViewPager
 class LockableViewPager : ViewPager {
     constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet)
 
+
+    companion object {
+        private const val TAG = "LockableViewPager"
+    }
+
     /**
      * Is swiping enabled ?
      */
-    private var swipeEnabled = true
-
-
+    private var swipeEnabled = false
 
 
     /**
@@ -58,10 +62,13 @@ class LockableViewPager : ViewPager {
     override fun onTouchEvent(event: MotionEvent): Boolean {
         return when (swipeEnabled) {
             true -> super.onTouchEvent(event)
-            false -> false
+            false -> //  Do nothing.
+                return false
         }
     }
-    /**
+
+
+/*    *//**
      * Implement this method to intercept all touch screen motion events.  This
      * allows you to watch events as they are dispatched to your children, and
      * take ownership of the current gesture at any point.
@@ -97,15 +104,17 @@ class LockableViewPager : ViewPager {
      * them dispatched to this ViewGroup through onTouchEvent().
      * The current target will receive an ACTION_CANCEL event, and no further
      * messages will be delivered here.
-     */
+     *//*
     override fun onInterceptTouchEvent(event: MotionEvent): Boolean {
         return when (swipeEnabled) {
             true -> super.onInterceptTouchEvent(event)
-            false -> false
+            false -> swipeEnabled
         }
-    }
+    }*/
 
-    fun setSwipePagingEnabled(swipeEnabled: Boolean) {
+
+    fun setSwipeEnabled(swipeEnabled: Boolean) {
         this.swipeEnabled = swipeEnabled
     }
+
 }
