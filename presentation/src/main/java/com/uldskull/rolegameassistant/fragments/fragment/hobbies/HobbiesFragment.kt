@@ -9,9 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.NewCharacterActivity
+import com.uldskull.rolegameassistant.activities.newCharacter.NewCharacterActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
-import com.uldskull.rolegameassistant.fragments.adapter.HOBBIES_FRAGMENT_POSITION
+import com.uldskull.rolegameassistant.fragments.viewPager.adapter.HOBBIES_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
@@ -27,6 +27,22 @@ class HobbiesFragment(activity: Activity) : CustomFragment(activity) {
             R.layout.fragment_hobbies, container, false
         )
         return initialRootView
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        loadHobbiesSkillRecyclerView()
+
+    }
+
+    private fun loadHobbiesSkillRecyclerView() {
+        var transaction = childFragmentManager.beginTransaction()
+        transaction.replace(
+            R.id.container_hobbiesSkills,
+            HobbiesSkillsRecyclerViewFragment.newInstance(
+                activity
+            )
+        ).commit()
     }
 
     /**
@@ -50,12 +66,7 @@ class HobbiesFragment(activity: Activity) : CustomFragment(activity) {
 
             args.putInt(KEY_POSITION, HOBBIES_FRAGMENT_POSITION)
             fragment.arguments = args
-            (activity as NewCharacterActivity).replaceFragment(
-                R.id.container_hobbiesSkills,
-                HobbiesSkillsRecyclerViewFragment.newInstance(
-                    activity
-                )
-            )
+
 
 
             return fragment

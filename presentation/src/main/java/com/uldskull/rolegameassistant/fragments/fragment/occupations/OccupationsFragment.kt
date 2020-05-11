@@ -4,7 +4,6 @@
 package com.uldskull.rolegameassistant.fragments.fragment.occupations
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -13,22 +12,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.ImageButton
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NEW_JOB_ACTIVITY
-import com.uldskull.rolegameassistant.activities.NewCharacterActivity
-import com.uldskull.rolegameassistant.activities.NewSkillActivity
+import com.uldskull.rolegameassistant.activities.newCharacter.NewCharacterActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
-import com.uldskull.rolegameassistant.fragments.adapter.OCCUPATIONS_FRAGMENT_POSITION
+import com.uldskull.rolegameassistant.fragments.viewPager.adapter.OCCUPATIONS_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.REQUEST_CODE_JOBS_NEW_JOB
 import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
-import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupationWithSkills
+import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
+import com.uldskull.rolegameassistant.viewmodels.OccupationSkillsViewModel
 import com.uldskull.rolegameassistant.viewmodels.OccupationsViewModel
 import kotlinx.android.synthetic.main.fragment_occupations.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -41,6 +37,7 @@ class OccupationsFragment(activity: Activity) : CustomFragment(activity) {
 
     //  VIEWMODELS
     private val occupationsViewModel: OccupationsViewModel by sharedViewModel()
+    private val occupationSkillsViewModel:OccupationSkillsViewModel by sharedViewModel()
 
     //  ADAPTER
     /// Occupation's spinner
@@ -48,8 +45,6 @@ class OccupationsFragment(activity: Activity) : CustomFragment(activity) {
         activity,
         android.R.layout.simple_spinner_item
     )
-
-    //  SPINNER
 
 
 
@@ -104,6 +99,8 @@ class OccupationsFragment(activity: Activity) : CustomFragment(activity) {
                         occupationsViewModel.selectedOccupation?.value = occupation
                         //  Sets the selected occupation index
                         occupationsViewModel?.selectedOccupationIndex?.value = position
+                        occupationSkillsViewModel?.currentOccupationSkill?.value = DomainFilledSkill()
+                        occupationSkillsViewModel?.checkedOccupationSkills?.value = emptyList()
 
                     }
                 }
@@ -308,6 +305,13 @@ class OccupationsFragment(activity: Activity) : CustomFragment(activity) {
             Log.d(TAG, "selectedOccupationIndex :$selectedOccupationIndex")
             spinner_occupations.setSelection(selectedOccupationIndex)
         }
+
+        var transaction =  childFragmentManager.beginTransaction()
+        transaction.replace(R.id.container_recyclerView_occupationsSkills,
+            OccupationsSkillsRecyclerViewFragment.newInstance(activity)
+        ).commit()
+
+
         setButtonAddJob()
         startObservation()
         setSpinnerOccupationsOnItemSelectedListener()
@@ -364,10 +368,7 @@ class OccupationsFragment(activity: Activity) : CustomFragment(activity) {
                     activity
                 )
             val args = Bundle()
-            (activity as NewCharacterActivity).replaceFragment(
-                R.id.container_recyclerView_occupationsSkills,
-                OccupationsSkillsRecyclerViewFragment.newInstance(activity)
-            )
+
 
             args.putInt(KEY_POSITION, OCCUPATIONS_FRAGMENT_POSITION)
             fragment.arguments = args

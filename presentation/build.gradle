@@ -30,17 +30,22 @@ dependencies {
 
     implementation AndroidXDependencies.Appcompat
     implementation AndroidXDependencies.CoreKtx
+    implementation AndroidXDependencies.LegacySupportV4
+    implementation AndroidXDependencies.Recyclerview
+    implementation AndroidXDependencies.LifecycleViewmodelKtx
+    implementation AndroidXDependencies.ViewPager2
     implementation KoinDependencies.KoinAndroid
     implementation KoinDependencies.KoinCore
     implementation KoinDependencies.KoinAndroidxScope
     implementation KoinDependencies.KoinAndroidxViewmodel
-    implementation AndroidXDependencies.Recyclerview
+
     implementation project(ProjectsDependencies.domain)
-    implementation AndroidXDependencies.LifecycleViewmodelKtx
+
     implementation KotlinXDependencies.kotlinxCoroutinesCore
     implementation KotlinXDependencies.kotlinxCoroutinesAndroid
 
-    implementation AndroidXDependencies.LegacySupportV4
+
+
     testImplementation TestDependencies.junitJunit
     androidTestImplementation TestDependencies.Junit
     androidTestImplementation TestDependencies.EspressoCore

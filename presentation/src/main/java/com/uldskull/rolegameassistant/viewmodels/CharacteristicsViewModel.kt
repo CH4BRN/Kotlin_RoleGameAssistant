@@ -32,7 +32,9 @@ class CharacteristicsViewModel(
     private val breedsRepository: BreedsRepository<LiveData<List<DomainBreed>>>,
     private val diceServiceImpl: DiceService
 ) : AndroidViewModel(application) {
-
+    /**
+     * Displayed characteristics
+     */
     var displayedCharacteristics: MutableList<DomainRollCharacteristic>? = mutableListOf()
         set(value) {
             Log.d(TAG, "displayedCharacteristics size : ${value?.size}")
@@ -40,48 +42,72 @@ class CharacteristicsViewModel(
         }
 
 
+    /**
+     * Constitution bonus
+     */
     var constitutionBonus: Int = 0
         set(value) {
             Log.d(TAG, "constitutionBonus BEFORE $field")
             field = value
             Log.d(TAG, "constitutionBonus AFTER $field")
         }
+    /**
+     * Intelligence bonus
+     */
     var intelligenceBonus: Int = 0
         set(value) {
             Log.d(TAG, "intelligenceBonus BEFORE $field")
             field = value
             Log.d(TAG, "intelligenceBonus AFTER $field")
         }
+    /**
+     * Size bonus
+     */
     var sizeBonus: Int = 0
         set(value) {
             Log.d(TAG, "sizeBonus BEFORE $field")
             field = value
             Log.d(TAG, "sizeBonus AFTER $field")
         }
+    /**
+     * Dexterity bonus.
+     */
     var dexterityBonus: Int = 0
         set(value) {
             Log.d(TAG, "dexterityBonus BEFORE $field")
             field = value
             Log.d(TAG, "dexterityBonus AFTER $field")
         }
+    /**
+     * Strength bonus.
+     */
     var strengthBonus: Int = 0
         set(value) {
             Log.d(TAG, "strengthBonus BEFORE $field")
             field = value
             Log.d(TAG, "strengthBonus AFTER $field")
         }
+    /**
+     * Power bonus
+     */
     var powerBonus: Int = 0
         set(value) {
             Log.d(TAG, "powerBonus BEFORE $field")
             field = value
             Log.d(TAG, "powerBonus AFTER $field")
         }
+    /**
+     * Appearance bonus.
+     */
     var appearanceBonus: Int = 0
         set(value) {
             Log.d(TAG, "appearanceBonus BEFORE $field")
             field = value
             Log.d(TAG, "appearanceBonus AFTER $field")
         }
+    /**
+     * Education bonus.
+     */
     var educationBonus: Int = 0
         set(value) {
             Log.d(TAG, "educationBonus BEFORE $field")
@@ -93,14 +119,23 @@ class CharacteristicsViewModel(
         private const val TAG = "CharacteristicViewModel"
     }
 
+    /**
+     * Get the checked breed.
+     */
     fun getCheckedBreeds(): List<DomainBreed> {
-        if (!characterBreeds.isNullOrEmpty()) {
-            return characterBreeds.filter { b -> b.breedChecked }
-        } else return emptyList()
+        return if (!characterBreeds.isNullOrEmpty()) {
+            characterBreeds.filter { b -> b.breedChecked }
+        } else emptyList()
 
     }
 
+    /**
+     * Lock object for multi-threading
+     */
     private val lock = java.lang.Object()
+    /**
+     * Character breeds
+     */
     var characterBreeds: MutableList<DomainBreed> = mutableListOf()
         set(value) {
             Log.d(TAG, "set characterBreeds")
@@ -113,67 +148,102 @@ class CharacteristicsViewModel(
         }
 
 
+    /**
+     * Populates the roll characteristics with dice rolls
+     */
     fun populateRandomRollCharacteristics() {
         var newList: MutableList<DomainRollCharacteristic> = mutableListOf()
         newList.add(
-            getDiceRollCharacteristic(
-                name = CharacteristicsName.CONSTITUTION,
-                bonus = constitutionBonus,
-                rollRule = "3D6"
-            )
+            getConstitutionDiceRolledCharacteristic()
         )
         newList.add(
-            getDiceRollCharacteristic(
-                name = CharacteristicsName.STRENGTH,
-                bonus = strengthBonus,
-                rollRule = "3D6"
-            )
+            getStrengthDiceRolledCharacteristic()
         )
         newList.add(
-            getDiceRollCharacteristic(
-                name = CharacteristicsName.POWER,
-                bonus = powerBonus,
-                rollRule = "3D6"
-            )
+            getPowerDiceRolledCharacteristic()
         )
         newList.add(
-            getDiceRollCharacteristic(
-                name = CharacteristicsName.DEXTERITY,
-                bonus = dexterityBonus,
-                rollRule = "3D6"
-            )
+            getDexterityDiceRolledCharacteristic()
         )
         newList.add(
-            getDiceRollCharacteristic(
-                name = CharacteristicsName.SIZE,
-                bonus = sizeBonus,
-                rollRule = "2D6+6"
-            )
+            getSizeDiceRolledCharacteristic()
         )
         newList.add(
-            getDiceRollCharacteristic(
-                name = CharacteristicsName.INTELLIGENCE,
-                bonus = intelligenceBonus,
-                rollRule = "2D6+6"
-            )
+            getIntelligenceDiceRolledCharacteristic()
         )
         newList.add(
-            getDiceRollCharacteristic(
-                name = CharacteristicsName.APPEARANCE,
-                bonus = appearanceBonus,
-                rollRule = "3D6"
-            )
+            getAppearanceDiceRolledCharacteristic()
         )
         newList.add(
-            getDiceRollCharacteristic(
-                name = CharacteristicsName.EDUCATION,
-                bonus = educationBonus,
-                rollRule = "3D6+3"
-            )
+            getEducationDiceRolledCharacteristic()
         )
 
         observedCharacteristics?.value = newList
 
+    }
+
+    private fun getConstitutionDiceRolledCharacteristic(): DomainRollCharacteristic {
+        return getDiceRollCharacteristic(
+            name = CharacteristicsName.CONSTITUTION,
+            bonus = constitutionBonus,
+            rollRule = "3D6"
+        )
+    }
+
+    private fun getStrengthDiceRolledCharacteristic(): DomainRollCharacteristic {
+        return getDiceRollCharacteristic(
+            name = CharacteristicsName.STRENGTH,
+            bonus = strengthBonus,
+            rollRule = "3D6"
+        )
+    }
+
+    private fun getPowerDiceRolledCharacteristic(): DomainRollCharacteristic {
+        return getDiceRollCharacteristic(
+            name = CharacteristicsName.POWER,
+            bonus = powerBonus,
+            rollRule = "3D6"
+        )
+    }
+
+    private fun getDexterityDiceRolledCharacteristic(): DomainRollCharacteristic {
+        return getDiceRollCharacteristic(
+            name = CharacteristicsName.DEXTERITY,
+            bonus = dexterityBonus,
+            rollRule = "3D6"
+        )
+    }
+
+    private fun getSizeDiceRolledCharacteristic(): DomainRollCharacteristic {
+        return getDiceRollCharacteristic(
+            name = CharacteristicsName.SIZE,
+            bonus = sizeBonus,
+            rollRule = "2D6+6"
+        )
+    }
+
+    private fun getIntelligenceDiceRolledCharacteristic(): DomainRollCharacteristic {
+        return getDiceRollCharacteristic(
+            name = CharacteristicsName.INTELLIGENCE,
+            bonus = intelligenceBonus,
+            rollRule = "2D6+6"
+        )
+    }
+
+    private fun getAppearanceDiceRolledCharacteristic(): DomainRollCharacteristic {
+        return getDiceRollCharacteristic(
+            name = CharacteristicsName.APPEARANCE,
+            bonus = appearanceBonus,
+            rollRule = "3D6"
+        )
+    }
+
+    private fun getEducationDiceRolledCharacteristic(): DomainRollCharacteristic {
+        return getDiceRollCharacteristic(
+            name = CharacteristicsName.EDUCATION,
+            bonus = educationBonus,
+            rollRule = "3D6+3"
+        )
     }
 
     fun getDiceRollCharacteristic(
@@ -187,7 +257,6 @@ class CharacteristicsViewModel(
         when (name.characteristicName) {
             CharacteristicsName.STRENGTH.characteristicName
             -> {
-                println("STRENGTH")
                 diceServiceImpl.getMultipleDiceRollWithANumberOfFace(arrayListOf(6, 6, 6)).forEach {
                     finalRoll += it
                 }
@@ -239,8 +308,8 @@ class CharacteristicsViewModel(
             CharacteristicsName.EDUCATION.characteristicName
             -> {
                 println("EDUCATION")
-                diceServiceImpl.getMultipleDiceRollWithANumberOfFace(arrayListOf(6, 6, 6)).forEach{
-                    finalRoll+= it
+                diceServiceImpl.getMultipleDiceRollWithANumberOfFace(arrayListOf(6, 6, 6)).forEach {
+                    finalRoll += it
                 }
                 finalRoll += 3
             }
@@ -271,12 +340,26 @@ class CharacteristicsViewModel(
         return intelligence
     }
 
-    fun getEducation():DomainRollCharacteristic?{
+    fun getEducation(): DomainRollCharacteristic? {
         var education =
             displayedCharacteristics?.find { c -> c.characteristicName == CharacteristicsName.EDUCATION.characteristicName }
         Log.d(TAG, "EDUCATION : $education")
 
         return education
+    }
+
+    /**
+     * Get occupation skills score
+     */
+    fun getOccupationSkillsScore(): Int {
+        var score = 0
+
+        var education = getEducation()
+        var educationScore = education?.characteristicTotal
+        if (educationScore != null) {
+            score = educationScore * 20
+        }
+        return score
     }
 
 
@@ -307,7 +390,6 @@ class CharacteristicsViewModel(
         strengthBonus = 0
         educationBonus = 0
     }
-
 
 
     /**
@@ -398,43 +480,51 @@ class CharacteristicsViewModel(
             }
         }
 
+        assignsBonusForAllCharacteristics()
+        displayBonuses()
+    }
+
+    private fun assignsBonusForAllCharacteristics() {
         if (displayedCharacteristics != null) {
             for (index in 0 until displayedCharacteristics!!.size) {
 
                 var newCharacteristic: DomainRollCharacteristic = displayedCharacteristics!![index]
                 Log.d(TAG, "Characteristic before : $newCharacteristic")
-                when (newCharacteristic.characteristicName) {
-                    CharacteristicsName.APPEARANCE.characteristicName -> {
-                        newCharacteristic.characteristicBonus = appearanceBonus
-                    }
-                    CharacteristicsName.POWER.characteristicName -> {
-                        newCharacteristic.characteristicBonus = powerBonus
-                    }
-                    CharacteristicsName.STRENGTH.characteristicName -> {
-                        newCharacteristic.characteristicBonus = strengthBonus
-                    }
-                    CharacteristicsName.DEXTERITY.characteristicName -> {
-                        newCharacteristic.characteristicBonus = dexterityBonus
-                    }
-                    CharacteristicsName.SIZE.characteristicName -> {
-                        newCharacteristic.characteristicBonus = sizeBonus
-                    }
-                    CharacteristicsName.INTELLIGENCE.characteristicName -> {
-                        newCharacteristic.characteristicBonus = intelligenceBonus
-                    }
-                    CharacteristicsName.CONSTITUTION.characteristicName -> {
-                        newCharacteristic.characteristicBonus = constitutionBonus
-                    }
-                    CharacteristicsName.EDUCATION.characteristicName -> {
-                        newCharacteristic.characteristicBonus = educationBonus
-                    }
-                }
+                assignsBonus(newCharacteristic)
                 Log.d(TAG, "Characteristic after : $newCharacteristic")
                 displayedCharacteristics!![index] = newCharacteristic
             }
             observedCharacteristics?.value = displayedCharacteristics
         }
-        displayBonuses()
+    }
+
+    private fun assignsBonus(newCharacteristic: DomainRollCharacteristic) {
+        when (newCharacteristic.characteristicName) {
+            CharacteristicsName.APPEARANCE.characteristicName -> {
+                newCharacteristic.characteristicBonus = appearanceBonus
+            }
+            CharacteristicsName.POWER.characteristicName -> {
+                newCharacteristic.characteristicBonus = powerBonus
+            }
+            CharacteristicsName.STRENGTH.characteristicName -> {
+                newCharacteristic.characteristicBonus = strengthBonus
+            }
+            CharacteristicsName.DEXTERITY.characteristicName -> {
+                newCharacteristic.characteristicBonus = dexterityBonus
+            }
+            CharacteristicsName.SIZE.characteristicName -> {
+                newCharacteristic.characteristicBonus = sizeBonus
+            }
+            CharacteristicsName.INTELLIGENCE.characteristicName -> {
+                newCharacteristic.characteristicBonus = intelligenceBonus
+            }
+            CharacteristicsName.CONSTITUTION.characteristicName -> {
+                newCharacteristic.characteristicBonus = constitutionBonus
+            }
+            CharacteristicsName.EDUCATION.characteristicName -> {
+                newCharacteristic.characteristicBonus = educationBonus
+            }
+        }
     }
 
     fun getConstitution(): DomainRollCharacteristic? {
@@ -455,8 +545,6 @@ class CharacteristicsViewModel(
     fun getPower(): DomainRollCharacteristic? {
         return displayedCharacteristics?.find { c -> c.characteristicName == CharacteristicsName.POWER.characteristicName }
     }
-
-
 
 
 }

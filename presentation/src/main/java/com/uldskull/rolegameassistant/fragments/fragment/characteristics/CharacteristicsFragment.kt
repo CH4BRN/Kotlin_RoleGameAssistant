@@ -11,12 +11,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.NewCharacterActivity
+import com.uldskull.rolegameassistant.activities.newCharacter.NewCharacterActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
-import com.uldskull.rolegameassistant.fragments.adapter.ABILITIES_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
+import com.uldskull.rolegameassistant.fragments.viewPager.adapter.ABILITIES_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainCharacteristic
 import com.uldskull.rolegameassistant.viewmodels.BreedCharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
@@ -43,6 +43,30 @@ class CharacteristicsFragment(activity: Activity) : CustomFragment(activity) {
         breedCharacteristicsViewModel.breedCharacteristics?.observe(this, characteristicObserver)
         return initializeView(inflater, container)
     }
+
+    /**
+     * Called immediately after [.onCreateView]
+     * has returned, but before any saved state has been restored in to the view.
+     * This gives subclasses a chance to initialize themselves once
+     * they know their view hierarchy has been completely created.  The fragment's
+     * view hierarchy is not however attached to its parent at this point.
+     * @param view The View returned by [.onCreateView].
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     */
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        loadCharacteristicsRecyclerView()
+    }
+
+    private fun loadCharacteristicsRecyclerView() {
+        var transaction = childFragmentManager.beginTransaction()
+        transaction.replace(
+            R.id.fragmentCharacteristics_container_characteristics,
+            CharacteristicsRecyclerViewFragment.newInstance(activity)
+        ).commit()
+    }
+
 
     /**
      * Start characteristics observation
@@ -91,10 +115,7 @@ class CharacteristicsFragment(activity: Activity) : CustomFragment(activity) {
 
             args.putInt(KEY_POSITION, ABILITIES_FRAGMENT_POSITION)
             fragment.arguments = args
-            (activity as NewCharacterActivity).replaceFragment(
-                R.id.fragmentCharacteristics_container_characteristics,
-                CharacteristicsRecyclerViewFragment.newInstance(activity)
-            )
+
 
             return fragment
         }

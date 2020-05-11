@@ -53,7 +53,6 @@ class IdealsAdapter internal constructor(
         Log.d("IdealsAdapter", "onCreateViewHolder")
         val itemView = layoutInflater.inflate(R.layout.recyclerview_item_ideal, parent, false)
 
-
         return IdealsViewHolder(itemView)
     }
 

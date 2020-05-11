@@ -8,6 +8,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.uldskull.rolegameassistant.models.character.DomainBond
 import com.uldskull.rolegameassistant.models.character.DomainIdeal
 import com.uldskull.rolegameassistant.models.character.breed.DomainBreed
@@ -35,6 +36,7 @@ class NewCharacterViewModel(
     private val characteristicRepository: BreedCharacteristicRepository<LiveData<List<DomainBreedCharacteristic>>>,
     private val idealsRepository: IdealsRepository<LiveData<List<DomainIdeal>>>
 ) : AndroidViewModel(application) {
+
 
     companion object {
         private const val TAG = "NewCharacterViewModel"

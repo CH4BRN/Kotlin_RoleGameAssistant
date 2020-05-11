@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.uldskull.rolegameassistant.fragments.fragment.basicinfo.breed.BreedsRecyclerViewFragment">
+    tools:context=".fragments.fragment.breed.BreedsRecyclerViewFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_breeds"

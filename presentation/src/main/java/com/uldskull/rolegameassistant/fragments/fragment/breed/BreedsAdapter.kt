@@ -1,7 +1,7 @@
 // File RacesAdapter.kt
 // @Author pierre.antoine - 26/03/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.fragments.fragment.basicinfo.breed
+package com.uldskull.rolegameassistant.fragments.fragment.breed
 
 import android.content.Context
 import android.graphics.Color
@@ -41,10 +41,10 @@ class BreedsAdapter internal constructor(
      * View holder for races
      */
     inner class BreedsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val raceItemLayout: LinearLayout =
+        val breedItemLayout: LinearLayout =
             itemView.findViewById<LinearLayout>(R.id.breed_item_linear_layout)
-        val raceNameItemView: TextView = itemView.findViewById(R.id.tv_breedName)
-        val raceDescriptionItemView: TextView = itemView.findViewById(R.id.tv_breedDescription)
+        val breedNameItemView: TextView = itemView.findViewById(R.id.tv_breedName)
+        val breedDescriptionItemView: TextView = itemView.findViewById(R.id.tv_breedDescription)
     }
 
     /**
@@ -111,10 +111,12 @@ class BreedsAdapter internal constructor(
         Log.d(TAG, "onBindViewHolder")
         val breedsViewHolder = holder as BreedsViewHolder
         val current = breeds[position]
-        breedsViewHolder.raceNameItemView.text = current.breedName
-        breedsViewHolder.raceDescriptionItemView.text = current.breedDescription
+        breedsViewHolder.breedNameItemView.text = current.breedName
+        breedsViewHolder.breedDescriptionItemView.text = current.breedDescription
 
-        breedsViewHolder.raceItemLayout.setOnClickListener {
+
+
+        breedsViewHolder.breedItemLayout.setOnClickListener {
             rowIndex = position
             Log.d(TAG, "${breeds[position]}")
             breeds[position].breedChecked = !breeds[position].breedChecked
@@ -124,11 +126,11 @@ class BreedsAdapter internal constructor(
         }
 
         if (current.breedChecked) {
-            breedsViewHolder.raceItemLayout.setBackgroundColor(Color.parseColor("#D98B43"))
-            breedsViewHolder.raceNameItemView.setTextColor(Color.parseColor("#ffffff"))
+            breedsViewHolder.breedItemLayout.setBackgroundColor(Color.parseColor("#D98B43"))
+            breedsViewHolder.breedNameItemView.setTextColor(Color.parseColor("#ffffff"))
         } else {
-            breedsViewHolder.raceItemLayout.setBackgroundColor(Color.parseColor("#ffffff"))
-            breedsViewHolder.raceNameItemView.setTextColor(Color.parseColor("#C02942"))
+            breedsViewHolder.breedItemLayout.setBackgroundColor(Color.parseColor("#ffffff"))
+            breedsViewHolder.breedNameItemView.setTextColor(Color.parseColor("#C02942"))
         }
     }
 

@@ -3,12 +3,10 @@
 package com.uldskull.rolegameassistant.fragments.fragment.hobbies
 
 import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
@@ -48,20 +46,11 @@ class HobbiesSkillsRecyclerViewFragment(activity: Activity) :
 
     /** Observe ViewModel's skills  **/
     override fun startObservation() {
-        this.skillsViewModel.hobbiesSkills.observe(this, Observer { skills ->
-            kotlin.run {
-                skills?.let { skillsAdapter?.setSkills(it) }
-            }
-        })
+
 
     }
 
     override fun setRecyclerViewAdapter() {
-        skillsAdapter =
-            OccupationSkillsAdapter(
-                activity as Context
-            )
-        skillsRecyclerView?.adapter = skillsAdapter
     }
 
     override fun setRecyclerViewLayoutManager() {
@@ -81,6 +70,9 @@ class HobbiesSkillsRecyclerViewFragment(activity: Activity) :
     }
 
     companion object : CustomCompanion() {
+
+        private const val TAG = "HobbiesSkillsRecyclerViewFragment"
+
         @JvmStatic
         override fun newInstance(
             activity: Activity

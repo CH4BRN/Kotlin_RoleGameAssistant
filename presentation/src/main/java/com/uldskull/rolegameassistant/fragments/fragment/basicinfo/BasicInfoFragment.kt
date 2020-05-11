@@ -14,14 +14,14 @@ import android.view.View
 import android.view.ViewGroup
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NEW_BREED_ACTIVITY
-import com.uldskull.rolegameassistant.activities.NewCharacterActivity
+import com.uldskull.rolegameassistant.activities.newCharacter.NewCharacterActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
-import com.uldskull.rolegameassistant.fragments.adapter.BASIC_INFO_FRAGMENT_POSITION
+import com.uldskull.rolegameassistant.fragments.viewPager.adapter.BASIC_INFO_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.REQUEST_CODE_BASIC_INFO_NEW_BREED
-import com.uldskull.rolegameassistant.fragments.fragment.basicinfo.breed.BreedsRecyclerViewFragment
+import com.uldskull.rolegameassistant.fragments.fragment.breed.BreedsRecyclerViewFragment
 import com.uldskull.rolegameassistant.viewmodels.BreedsViewModel
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel

@@ -1,7 +1,7 @@
 // File BreedsRecyclerViewFragment.kt
 // @Author pierre.antoine - 26/03/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.fragments.fragment.basicinfo.breed
+package com.uldskull.rolegameassistant.fragments.fragment.breed
 
 import android.app.Activity
 import android.content.Context
@@ -14,7 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.adapter.BREED_RECYCLER_VIEW_FRAGMENT_POSITION
+import com.uldskull.rolegameassistant.fragments.viewPager.adapter.BREED_RECYCLER_VIEW_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment

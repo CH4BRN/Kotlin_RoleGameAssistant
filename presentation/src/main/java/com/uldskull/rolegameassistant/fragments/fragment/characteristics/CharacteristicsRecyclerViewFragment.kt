@@ -14,15 +14,16 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.adapter.ABILITIES_RECYCLER_VIEW_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.characteristics.adapters.CharacteristicsAdapter
 import com.uldskull.rolegameassistant.fragments.fragment.characteristics.adapters.CharacteristicsDisabledAdapter
+import com.uldskull.rolegameassistant.fragments.viewPager.adapter.ABILITIES_RECYCLER_VIEW_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollCharacteristic
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.DerivedValuesViewModel
+import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import kotlinx.android.synthetic.main.fragment_recyclerview_characteristics.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -40,6 +41,8 @@ class CharacteristicsRecyclerViewFragment(activity: Activity) :
 
     private val derivedValuesViewModel: DerivedValuesViewModel by sharedViewModel()
 
+    private val newCharacterViewModel:NewCharacterViewModel by sharedViewModel()
+
     /** Adapter for abilities recycler view **/
     private var characteristicsAdapter: CharacteristicsAdapter? = null
 
@@ -56,8 +59,12 @@ class CharacteristicsRecyclerViewFragment(activity: Activity) :
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         return initializeView(inflater, container)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
     }
 
     /** Initialize the view **/
@@ -92,8 +99,10 @@ class CharacteristicsRecyclerViewFragment(activity: Activity) :
                 } else {
                     characteristicsRecyclerView?.adapter = characteristicsAdapter
                 }
+
             }
         }
+
     }
 
     private fun setEditTextChangedToFalse() {
@@ -139,7 +148,8 @@ class CharacteristicsRecyclerViewFragment(activity: Activity) :
         characteristicsViewModel.observedCharacteristics?.observe(
             this, Observer {
                 Log.d(TAG, "observedCharacteristics changed size ${it.size}")
-                characteristicsViewModel.displayedCharacteristics  = it as MutableList<DomainRollCharacteristic>
+                characteristicsViewModel.displayedCharacteristics =
+                    it as MutableList<DomainRollCharacteristic>
                 characteristicsDisabledAdapter?.setCharacteristics(characteristicsViewModel.displayedCharacteristics)
                 characteristicsAdapter?.setCharacteristics(characteristicsViewModel.displayedCharacteristics)
             }

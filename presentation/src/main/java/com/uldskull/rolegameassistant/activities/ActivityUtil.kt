@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+
 import androidx.fragment.app.FragmentTransaction
 import com.uldskull.rolegameassistant.activities.Tag.TAG
 
@@ -20,7 +21,7 @@ inline fun FragmentManager.doTransaction(func: FragmentTransaction.() -> Unit) {
 
 fun AppCompatActivity.replaceFragment(frameId: Int, fragment: Fragment) {
     Log.d(TAG, "replaceFragment")
-    supportFragmentManager.doTransaction { replace(frameId, fragment) }
+        supportFragmentManager.doTransaction { replace(frameId, fragment) }
 }
 
 fun AppCompatActivity.addFragment(frameId: Int, fragment: Fragment) {

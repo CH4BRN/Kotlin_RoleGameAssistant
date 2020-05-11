@@ -13,6 +13,8 @@ class DomainOccupationSkill(
     skillId: Long? = null,
     skillName: String? = "",
     skillDescription: String? = "",
+    var skillBase:Int? = 0,
+    var skillMax:Int? = 150,
     var skillIsChecked: Boolean = false
 ) : DomainSkill(
     skillId = skillId,

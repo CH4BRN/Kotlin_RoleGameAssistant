@@ -33,10 +33,10 @@ class OccupationsSkillsAdapter internal constructor(
 
     /**  Inner class to display  **/
     inner class OccupationsSkillsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var tvOccupationSkillName: TextView? = itemView.findViewById(R.id.tv_occupationsSkillName)
-        var tvOccupationSkillDescription: TextView? =
+        var tvOccupationsSkillName: TextView? = itemView.findViewById(R.id.tv_occupationsSkillName)
+        var tvOccupationsSkillDescription: TextView? =
             itemView.findViewById(R.id.tv_occupationsSkillDescription)
-        var cbOccupationSkillIsChecked: CheckBox? =
+        var cbOccupationsSkillIsChecked: CheckBox? =
             itemView.findViewById(R.id.cb_occupationsSkillIsChecked)
     }
 
@@ -108,10 +108,10 @@ class OccupationsSkillsAdapter internal constructor(
      */
     override fun onBindViewHolder(holder: OccupationsSkillsViewHolder, position: Int) {
         val current = occupationSkills[position]
-        holder.tvOccupationSkillName?.text = current?.skillName
+        holder.tvOccupationsSkillName?.text = current?.skillName
         Log.d(TAG, "Skills is checked : ${current?.skillIsChecked}")
-        holder.cbOccupationSkillIsChecked?.isChecked = current?.skillIsChecked!!
-        holder.cbOccupationSkillIsChecked?.setOnCheckedChangeListener() { _, isChecked ->
+        holder.cbOccupationsSkillIsChecked?.isChecked = current?.skillIsChecked!!
+        holder.cbOccupationsSkillIsChecked?.setOnCheckedChangeListener() { _, isChecked ->
             kotlin.run {
                 Log.d(TAG, "isChecked : $isChecked")
                 current.skillIsChecked = isChecked
@@ -120,7 +120,7 @@ class OccupationsSkillsAdapter internal constructor(
             }
 
         }
-        holder.tvOccupationSkillDescription?.text = current?.skillDescription
+        holder.tvOccupationsSkillDescription?.text = current?.skillDescription
     }
 
 

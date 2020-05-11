@@ -64,7 +64,9 @@ class OccupationDatabaseUtil {
                             "purchase the item and, for each 2% difference between the price and\n" +
                             " the asking price, he or she must subtract 1 percentile from his \n" +
                             "Bargain skill. The seller will not take a loss, no matter how good\n" +
-                            " the bargaining. The keeper usually determines the bottom-line secretly."
+                            " the bargaining. The keeper usually determines the bottom-line secretly.",
+                    skillBase = 5
+
                 )
             )
             Log.d(TAG, "skill id : ${skillId}")
@@ -111,7 +113,8 @@ class OccupationDatabaseUtil {
                             " of bribes or blackmail, and whether or not the financial condition is " +
                             "better or worse than claimed. Looking through old accounts, one could " +
                             "see how money was gained or lost in the past (grain, slave-trading," +
-                            " whiskey-running, etc.) and to whom and for what payment was made."
+                            " whiskey-running, etc.) and to whom and for what payment was made.",
+                    skillBase = 10
                 )
             )
             Log.d(TAG, "skill id : ${skillId}")
@@ -135,7 +138,8 @@ class OccupationDatabaseUtil {
                             " Studying the culture for a month or more, the anthropologist begins " +
                             "to understand how the culture functions and, in combination with " +
                             "Psychology, may predict the actions and beliefs of representatives." +
-                            " Essentially useful only with existing human cultures."
+                            " Essentially useful only with existing human cultures.",
+                    skillBase = 1
                 )
             )
             Log.d(TAG, "skill id : ${skillId}")

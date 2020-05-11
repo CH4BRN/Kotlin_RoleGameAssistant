@@ -36,7 +36,6 @@ class DbFilledSkill(
             filledSkillTensValue = this.filledSkillTensValue,
             filledSkillUnitsValue = this.filledSkillUnitsValue,
             filledSkillBase = this.filledSkillBase,
-            filledSkillDescription = this.filledSkillDescription,
             filledSkillMax = this.filledSkillMax,
             filledSkillName = this.filledSkillName,
             filledSkillTotal = this.filledSkillTotal
