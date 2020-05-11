@@ -13,7 +13,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.NewCharacterActivity
+import com.uldskull.rolegameassistant.activities.newCharacter.NewCharacterActivity
 import com.uldskull.rolegameassistant.activities.NewSkillActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.OCCUPATION_FRAGMENT_POSITION
@@ -208,12 +208,17 @@ class OccupationFragment(activity: Activity) : CustomFragment(activity) {
         disableTheValidateButton()
         setOccupationSkillsPointsTextView()
         observeOccupationTotalPointsToSpend()
-
         observeOccupationSkillsPointsToSpend()
-
         observeOccupationPointsValue()
+        loadOccupationSkillsRecyclerView()
+    }
 
-
+    private fun loadOccupationSkillsRecyclerView() {
+        var transaction = childFragmentManager.beginTransaction()
+        transaction.replace(
+            R.id.container_occupationSkills,
+            OccupationSkillsRecyclerViewFragment.newInstance(activity)
+        ).commit()
     }
 
 
@@ -577,10 +582,6 @@ class OccupationFragment(activity: Activity) : CustomFragment(activity) {
                 }
                 occupationSkillsViewModel.checkedOccupationSkills.value = finalList
             }
-
-
-
-
             Log.d(
                 TAG,
                 "checkedOccupationSkills size : ${occupationSkillsViewModel.checkedOccupationSkills.value?.size}"
@@ -602,12 +603,7 @@ class OccupationFragment(activity: Activity) : CustomFragment(activity) {
 
             args.putInt(KEY_POSITION, OCCUPATION_FRAGMENT_POSITION)
             fragment.arguments = args
-            (activity as NewCharacterActivity).replaceFragment(
-                R.id.container_occupationSkills,
-                OccupationSkillsRecyclerViewFragment.newInstance(
-                    activity
-                )
-            )
+
 
             return fragment
         }

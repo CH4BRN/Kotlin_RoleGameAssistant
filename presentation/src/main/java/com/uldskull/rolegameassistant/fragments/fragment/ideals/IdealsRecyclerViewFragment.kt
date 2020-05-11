@@ -65,7 +65,6 @@ class IdealsRecyclerViewFragment(activity: Activity) :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate")
-
     }
 
 

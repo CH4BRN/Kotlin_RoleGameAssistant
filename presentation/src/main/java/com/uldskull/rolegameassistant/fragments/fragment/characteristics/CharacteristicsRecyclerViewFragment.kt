@@ -14,7 +14,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.NewCharacterActivity
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
@@ -83,7 +82,6 @@ class CharacteristicsRecyclerViewFragment(activity: Activity) :
         initializeRecyclerView()
         setButtonUsePoints()
         setButtonRoll()
-        newCharacterViewModel?.viewPagerLocker?.value = false
     }
 
     /**
@@ -102,7 +100,6 @@ class CharacteristicsRecyclerViewFragment(activity: Activity) :
                     characteristicsRecyclerView?.adapter = characteristicsAdapter
                 }
 
-                newCharacterViewModel?.viewPagerLocker?.value = true
             }
         }
 

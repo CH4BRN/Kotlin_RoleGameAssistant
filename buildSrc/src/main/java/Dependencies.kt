@@ -1,13 +1,16 @@
 import AndroidVersions.AppcompatV7
+import AndroidXVersions.appcompat
 import AndroidXVersions.constraintLayout
 import AndroidXVersions.coreCoreKtx
 import AndroidXVersions.legacySupport
 import AndroidXVersions.lifecycle_version
+import AndroidXVersions.viewPager2
 import GoogleVersions.gson
 import KoinVersion.koinAndroid
 import KotlinxVersions.coroutines
 import RoomVersions.room
 import DokkaVersion.dokka
+import MaterialVersions.Material
 
 /** File Dependencies.kt
  *   @Author pierre.antoine - 27/01/2020 - No copyright.
@@ -56,17 +59,17 @@ object AndroidDependencies {
 
 object MaterialDependencies {
     const val material =
-        "com.google.android.material:material:${MaterialVersions.Material}"
+        "com.google.android.material:material:$Material"
 }
 
 
 object AndroidXDependencies {
     const val Appcompat =
-        "androidx.appcompat:appcompat:${AndroidXVersions.Appcompat}"
+        "androidx.appcompat:appcompat:${appcompat}"
     const val CoreKtx = "androidx.core:core-ktx:${coreCoreKtx}"
     const val ConstraintLayout =
         "androidx.constraintlayout:constraintlayout:${constraintLayout}"
-    const val Recyclerview = "androidx.recyclerview:recyclerview:${AndroidXVersions.Appcompat}"
+    const val Recyclerview = "androidx.recyclerview:recyclerview:${appcompat}"
 
 
     const val LifecycleLivedataKtx =
@@ -75,6 +78,8 @@ object AndroidXDependencies {
         "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 
     const val LegacySupportV4 = "androidx.legacy:legacy-support-v4:${legacySupport}"
+
+    const val ViewPager2 = "androidx.viewpager2:viewpager2:${viewPager2}"
 
 }
 

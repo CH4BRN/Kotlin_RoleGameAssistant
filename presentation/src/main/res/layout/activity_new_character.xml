@@ -6,7 +6,14 @@
     android:layout_height="match_parent">
 
 
-    <com.uldskull.rolegameassistant.fragments.viewPager.LockableViewPager
+    <!--   <com.uldskull.rolegameassistant.fragments.viewPager.LockableViewPager
+           android:id="@+id/activityNewCharacter_viewPager"
+           android:layout_width="match_parent"
+           android:layout_height="0dp"
+           app:layout_constraintBottom_toTopOf="@id/activityNewCharacter_container_navigation"
+           app:layout_constraintTop_toTopOf="parent" />-->
+
+    <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/activityNewCharacter_viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -37,11 +44,11 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <View
+ <!--   <View
         android:id="@+id/touch_layer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clickable="true" />
+        android:clickable="true" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

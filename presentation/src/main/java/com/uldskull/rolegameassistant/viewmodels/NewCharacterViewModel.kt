@@ -37,7 +37,6 @@ class NewCharacterViewModel(
     private val idealsRepository: IdealsRepository<LiveData<List<DomainIdeal>>>
 ) : AndroidViewModel(application) {
 
-    var viewPagerLocker = MutableLiveData<Boolean>()
 
     companion object {
         private const val TAG = "NewCharacterViewModel"

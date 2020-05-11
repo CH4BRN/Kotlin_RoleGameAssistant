@@ -11,7 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.NewCharacterActivity
+import com.uldskull.rolegameassistant.activities.newCharacter.NewCharacterActivity
 import com.uldskull.rolegameassistant.activities.NewIdealActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.IDEALS_FRAGMENT_POSITION
@@ -59,7 +59,18 @@ class IdealsFragment(activity: Activity) : CustomFragment(activity) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        loadIdealsRecyclerView()
         setButtonAddIdeal()
+    }
+
+    private fun loadIdealsRecyclerView() {
+        var transaction = childFragmentManager.beginTransaction()
+        transaction.replace(
+            R.id.fragmentIdeals_container_ideals,
+            IdealsRecyclerViewFragment.newInstance(
+                activity
+            )
+        ).commit()
     }
 
     private fun setButtonAddIdeal() {
@@ -82,12 +93,6 @@ class IdealsFragment(activity: Activity) : CustomFragment(activity) {
 
             args.putInt(KEY_POSITION, IDEALS_FRAGMENT_POSITION)
             fragment.arguments = args
-            (activity as NewCharacterActivity).replaceFragment(
-                R.id.fragmentIdeals_container_ideals,
-                IdealsRecyclerViewFragment.newInstance(
-                    activity
-                )
-            )
 
             return fragment
         }

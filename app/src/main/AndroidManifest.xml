@@ -27,7 +27,7 @@
         </activity>
 
         <activity
-            android:name="com.uldskull.rolegameassistant.activities.NewCharacterActivity"
+            android:name="com.uldskull.rolegameassistant.activities.newCharacter.NewCharacterActivity"
             android:configChanges="orientation|screenSize">
 
 

@@ -15,7 +15,7 @@ import android.widget.ArrayAdapter
 import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NEW_JOB_ACTIVITY
-import com.uldskull.rolegameassistant.activities.NewCharacterActivity
+import com.uldskull.rolegameassistant.activities.newCharacter.NewCharacterActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.OCCUPATIONS_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
@@ -305,6 +305,13 @@ class OccupationsFragment(activity: Activity) : CustomFragment(activity) {
             Log.d(TAG, "selectedOccupationIndex :$selectedOccupationIndex")
             spinner_occupations.setSelection(selectedOccupationIndex)
         }
+
+        var transaction =  childFragmentManager.beginTransaction()
+        transaction.replace(R.id.container_recyclerView_occupationsSkills,
+            OccupationsSkillsRecyclerViewFragment.newInstance(activity)
+        ).commit()
+
+
         setButtonAddJob()
         startObservation()
         setSpinnerOccupationsOnItemSelectedListener()
@@ -361,10 +368,7 @@ class OccupationsFragment(activity: Activity) : CustomFragment(activity) {
                     activity
                 )
             val args = Bundle()
-            (activity as NewCharacterActivity).replaceFragment(
-                R.id.container_recyclerView_occupationsSkills,
-                OccupationsSkillsRecyclerViewFragment.newInstance(activity)
-            )
+
 
             args.putInt(KEY_POSITION, OCCUPATIONS_FRAGMENT_POSITION)
             fragment.arguments = args

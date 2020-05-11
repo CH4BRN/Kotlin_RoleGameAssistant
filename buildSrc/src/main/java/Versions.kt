@@ -26,11 +26,12 @@ object MockitoVersions {
 }
 
 object AndroidXVersions {
-    const val Appcompat = "1.1.0"
+    const val appcompat = "1.1.0"
     const val coreCoreKtx = "1.1.0"
     const val constraintLayout = "1.1.3"
     const val lifecycle_version = "2.2.0"
     const val legacySupport = "1.0.0"
+    const val viewPager2 = "1.0.0"
 }
 
 object AndroidSupportVersions {
