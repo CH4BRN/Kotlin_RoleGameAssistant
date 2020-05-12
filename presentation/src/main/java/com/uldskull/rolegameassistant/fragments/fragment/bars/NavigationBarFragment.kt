@@ -25,7 +25,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   Class "NavigationBarFragment" :
  *   Fragment that displays the navigation bar.
  **/
-class NavigationBarFragment(activity: Activity) : CustomFragment(activity) {
+class NavigationBarFragment() : CustomFragment() {
 
     /**
      * New character view model.
@@ -42,7 +42,7 @@ class NavigationBarFragment(activity: Activity) : CustomFragment(activity) {
      */
     private val charactersViewModel: CharactersViewModel by sharedViewModel()
 
-    private val derivedValuesViewModel:DerivedValuesViewModel by sharedViewModel()
+    private val derivedValuesViewModel: DerivedValuesViewModel by sharedViewModel()
 
 
     /**
@@ -58,30 +58,33 @@ class NavigationBarFragment(activity: Activity) : CustomFragment(activity) {
 
     private fun displayBackConfirmation() {
         Log.d(TAG, "displayBackConfirmation")
-        val confirmDialog = AlertDialog.Builder(activity)
+        if(activity != null){
+            val confirmDialog = AlertDialog.Builder(activity!!)
 
-        confirmDialog.setTitle("Go back? : ")
-        val confirmDialogItems = arrayOf(
-            "Go back.",
-            "No, continue."
-        )
+            confirmDialog.setTitle("Go back? : ")
+            val confirmDialogItems = arrayOf(
+                "Go back.",
+                "No, continue."
+            )
 
-        confirmDialog.setItems(
-            confirmDialogItems
-        ) { _, which ->
-            /**
-             * This method will be invoked when a button in the dialog is clicked.
-             *
-             * @param which the button that was clicked (ex.
-             * [DialogInterface.BUTTON_POSITIVE]) or the position
-             * of the item clicked
-             */
-            when (which) {
-                0 -> activity.onBackPressed()
+            confirmDialog.setItems(
+                confirmDialogItems
+            ) { _, which ->
+                /**
+                 * This method will be invoked when a button in the dialog is clicked.
+                 *
+                 * @param which the button that was clicked (ex.
+                 * [DialogInterface.BUTTON_POSITIVE]) or the position
+                 * of the item clicked
+                 */
+                when (which) {
+                    0 -> activity?.onBackPressed()
+                }
+
             }
-
+            confirmDialog.show()
         }
-        confirmDialog.show()
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -113,7 +116,8 @@ class NavigationBarFragment(activity: Activity) : CustomFragment(activity) {
                 characteristicsViewModel.displayedCharacteristics,
                 derivedValuesViewModel.ideaScore,
                 derivedValuesViewModel.totalHealth,
-                derivedValuesViewModel.energyPoints)
+                derivedValuesViewModel.energyPoints
+            )
         var result = charactersViewModel.findOneById(insertedId)
         Log.d(TAG, "$result")
 
@@ -123,9 +127,9 @@ class NavigationBarFragment(activity: Activity) : CustomFragment(activity) {
         private const val TAG = "NavigationBarFragment"
         override fun newInstance(activity: Activity): CustomFragment {
             Log.d(TAG, "newInstance")
-            return NavigationBarFragment(
-                activity
-            )
+            val fragment = NavigationBarFragment()
+            fragment.activity = activity
+            return fragment
         }
 
     }

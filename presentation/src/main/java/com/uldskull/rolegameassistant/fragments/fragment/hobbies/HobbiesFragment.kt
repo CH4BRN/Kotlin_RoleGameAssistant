@@ -21,7 +21,7 @@ Class "HobbiesFragment"
 
 TODO: Describe class utility.
  */
-class HobbiesFragment(activity: Activity) : CustomFragment(activity) {
+class HobbiesFragment() : CustomFragment() {
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = layoutInflater.inflate(
             R.layout.fragment_hobbies, container, false
@@ -36,32 +36,26 @@ class HobbiesFragment(activity: Activity) : CustomFragment(activity) {
     }
 
     private fun loadHobbiesSkillRecyclerView() {
-        var transaction = childFragmentManager.beginTransaction()
-        transaction.replace(
-            R.id.container_hobbiesSkills,
-            HobbiesSkillsRecyclerViewFragment.newInstance(
-                activity
-            )
-        ).commit()
+        if(activity != null){
+            var transaction = childFragmentManager.beginTransaction()
+            transaction.replace(
+                R.id.container_hobbiesSkills,
+                HobbiesSkillsRecyclerViewFragment.newInstance(
+                    activity!!
+                )
+            ).commit()
+        }
+
     }
 
-    /**
-     * Called when the focus return on this view
-     */
-    override fun onResume() {
-        super.onResume()
-        Log.d("HobbiesFragment_1", NewCharacterActivity.progression.value.toString())
-        NewCharacterActivity.progression.value = HOBBIES_FRAGMENT_POSITION
-        Log.d("HobbiesFragment_2", NewCharacterActivity.progression.value.toString())
-    }
+
 
     companion object : CustomCompanion() {
         @JvmStatic
         override fun newInstance(activity: Activity): HobbiesFragment {
             val fragment =
-                HobbiesFragment(
-                    activity
-                )
+                HobbiesFragment()
+            fragment.activity = activity
             val args = Bundle()
 
             args.putInt(KEY_POSITION, HOBBIES_FRAGMENT_POSITION)

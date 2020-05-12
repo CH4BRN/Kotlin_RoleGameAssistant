@@ -6,25 +6,22 @@ package com.uldskull.rolegameassistant.fragments.fragment.hobby
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.newCharacter.NewCharacterActivity
 import com.uldskull.rolegameassistant.activities.NewSkillActivity
-import com.uldskull.rolegameassistant.activities.replaceFragment
-import com.uldskull.rolegameassistant.fragments.viewPager.adapter.HOBBY_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
+import com.uldskull.rolegameassistant.fragments.viewPager.adapter.HOBBY_FRAGMENT_POSITION
 
 /**
  *   Class "HobbyFragment" :
  *   TODO: Fill class use.
  **/
-class HobbyFragment(activity: Activity) : CustomFragment(activity) {
+class HobbyFragment() : CustomFragment() {
     /**
      * Initialize the initial root view.
      */
@@ -50,31 +47,24 @@ class HobbyFragment(activity: Activity) : CustomFragment(activity) {
     }
 
     private fun loadHobbySkillsRecyclerViewFragment() {
-        var transaction = childFragmentManager.beginTransaction()
-        transaction.replace(
-            R.id.container_hobbySkills,
-            HobbySkillsRecyclerViewFragment.newInstance(activity)
-        ).commit()
+        if (activity != null) {
+            var transaction = childFragmentManager.beginTransaction()
+            transaction.replace(
+                R.id.container_hobbySkills,
+                HobbySkillsRecyclerViewFragment.newInstance(activity!!)
+            ).commit()
+        }
+
     }
 
-    /**
-     * Called when the focus return on this view
-     */
-    override fun onResume() {
-        super.onResume()
-        Log.d("HobbyFragment_1", NewCharacterActivity.progression.value.toString())
-        NewCharacterActivity.progression.value = HOBBY_FRAGMENT_POSITION
-        Log.d("HobbyFragment_2", NewCharacterActivity.progression.value.toString())
-    }
 
     companion object : CustomCompanion() {
         @JvmStatic
         override fun newInstance(activity: Activity): HobbyFragment {
             val fragment =
-                HobbyFragment(
-                    activity
-                )
+                HobbyFragment()
 
+            fragment.activity = activity
             val args = Bundle()
 
             args.putInt(KEY_POSITION, HOBBY_FRAGMENT_POSITION)

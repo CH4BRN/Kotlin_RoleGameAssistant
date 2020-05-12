@@ -14,11 +14,11 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.viewPager.adapter.IDEAL_RECYCLER_VIEW_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
+import com.uldskull.rolegameassistant.fragments.viewPager.adapter.IDEAL_RECYCLER_VIEW_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.models.character.DomainIdeal
 import com.uldskull.rolegameassistant.viewmodels.IdealsViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
@@ -28,8 +28,8 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   Class "IdealsRecyclerViewFragment" :
  *   TODO: Fill class use.
  **/
-class IdealsRecyclerViewFragment(activity: Activity) :
-    CustomRecyclerViewFragment(activity),
+class IdealsRecyclerViewFragment() :
+    CustomRecyclerViewFragment(),
     AdapterButtonListener<DomainIdeal> {
 
     /** ViewModel for bonds    **/
@@ -95,7 +95,7 @@ class IdealsRecyclerViewFragment(activity: Activity) :
      */
     override fun initializeRecyclerView() {
         Log.d(TAG, "initializeRecyclerView")
-        idealsRecyclerView = activity.findViewById(R.id.recycler_view_ideals)
+        idealsRecyclerView = activity?.findViewById(R.id.recycler_view_ideals)
                 as RecyclerView?
         setRecyclerViewAdapter()
         setRecyclerViewLayoutManager()
@@ -134,10 +134,11 @@ class IdealsRecyclerViewFragment(activity: Activity) :
     /** Set recycler view adapter   **/
     override fun setRecyclerViewAdapter() {
         Log.d(TAG, "setRecyclerViewAdapter")
-        idealsAdapter = IdealsAdapter(activity as Context, this)
-
-        idealsAdapter?.setIdeals(idealsViewModel.displayedIdeals)
-        idealsRecyclerView?.adapter = idealsAdapter
+        if (activity != null) {
+            idealsAdapter = IdealsAdapter(activity as Context, this)
+            idealsAdapter?.setIdeals(idealsViewModel.displayedIdeals)
+            idealsRecyclerView?.adapter = idealsAdapter
+        }
     }
 
     companion object : CustomCompanion() {
@@ -146,7 +147,8 @@ class IdealsRecyclerViewFragment(activity: Activity) :
         @JvmStatic
         override fun newInstance(activity: Activity): IdealsRecyclerViewFragment {
             Log.d(TAG, "newInstance")
-            val fragment = IdealsRecyclerViewFragment(activity)
+            val fragment = IdealsRecyclerViewFragment()
+            fragment?.activity = activity
             val args = Bundle()
 
             args.putInt(KEY_POSITION, IDEAL_RECYCLER_VIEW_FRAGMENT_POSITION)

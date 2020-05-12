@@ -21,8 +21,8 @@ Class "HobbiesSkillsRecyclerViewFragment"
 
 Manage hobbies's skill's recyclerview fragmet.
  */
-class HobbiesSkillsRecyclerViewFragment(activity: Activity) :
-    CustomRecyclerViewFragment(activity) {
+class HobbiesSkillsRecyclerViewFragment() :
+    CustomRecyclerViewFragment() {
     /** ViewModel for skills  **/
     private lateinit var skillsViewModel: SkillsViewModel
 
@@ -39,9 +39,10 @@ class HobbiesSkillsRecyclerViewFragment(activity: Activity) :
     }
 
     override fun initializeRecyclerView() {
-        skillsRecyclerView =
-            activity.findViewById(R.id.recycler_view_hobbiesSkills) as RecyclerView?
-
+        if(activity != null){
+            skillsRecyclerView =
+                activity!!.findViewById(R.id.recycler_view_hobbiesSkills) as RecyclerView?
+        }
     }
 
     /** Observe ViewModel's skills  **/
@@ -78,9 +79,9 @@ class HobbiesSkillsRecyclerViewFragment(activity: Activity) :
             activity: Activity
         ): HobbiesSkillsRecyclerViewFragment {
 
-            return HobbiesSkillsRecyclerViewFragment(
-                activity
-            )
+            val fragment = HobbiesSkillsRecyclerViewFragment()
+            fragment.activity = activity
+            return fragment
         }
     }
 

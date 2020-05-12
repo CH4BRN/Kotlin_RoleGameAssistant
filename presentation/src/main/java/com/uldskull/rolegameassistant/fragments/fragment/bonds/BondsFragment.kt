@@ -11,15 +11,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.newCharacter.NewCharacterActivity
-import com.uldskull.rolegameassistant.activities.replaceFragment
-import com.uldskull.rolegameassistant.fragments.viewPager.adapter.BONDS_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
+import com.uldskull.rolegameassistant.fragments.viewPager.adapter.BONDS_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.viewmodels.BondsViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
+import com.uldskull.rolegameassistant.viewmodels.ProgressionBarViewModel
 import kotlinx.android.synthetic.main.fragment_bonds.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -27,7 +27,10 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   Class "BondFragment" :
  *   TODO: Fill class use.
  **/
-class BondsFragment(activity: Activity) : CustomFragment(activity) {
+class BondsFragment() : CustomFragment() {
+    /**
+     * Activity lifecycle
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,18 +40,31 @@ class BondsFragment(activity: Activity) : CustomFragment(activity) {
         return initializeView(inflater, container)
     }
 
+    /**
+     * Bond's value max characters
+     */
     private val bondValueMaxCharacters = 380
 
+    /**
+     * Bond's ViewModel
+     */
     private val bondsViewModel: BondsViewModel by sharedViewModel()
 
+    /**
+     * New character's ViewModel
+     */
     private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
 
-    override fun onResume() {
-        super.onResume()
-        Log.d(TAG, "onResume")
-        NewCharacterActivity.progression.value = BONDS_FRAGMENT_POSITION
+    /**
+     * Progression bar's ViewModel
+     */
+    private val progressionBarViewModel: ProgressionBarViewModel by sharedViewModel()
 
-    }
+    /**
+     * Add bond button
+     */
+    private var buttonAddBond: ImageButton? = null
+
 
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         Log.d(TAG, "initializeView")
@@ -58,32 +74,66 @@ class BondsFragment(activity: Activity) : CustomFragment(activity) {
         return initialRootView
     }
 
+    /**
+     * Fragment lifecycle
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d(TAG, "onViewCreated")
-        btn_addBond?.isEnabled = false
+        initializeAddBondButton(view)
         tv_remainingCharactersValue.text = bondValueMaxCharacters.toString()
 
-        setBondTitleTextChangedListener()
-        setBondValueTextChangedListener()
+        setTextChangedListeners()
         setAddBondButtonListener()
 
-        etBondTitle.setText("")
-        etBondValue.setText("")
+        resetBondDisplay()
+
+        loadBondsRecyclerView()
 
     }
 
-     private fun setAddBondButtonListener() {
+    private fun initializeAddBondButton(view: View) {
+        buttonAddBond = view.findViewById(R.id.btn_addBond)
+        btn_addBond?.isEnabled = false
+    }
+
+    private fun setTextChangedListeners() {
+        setBondTitleTextChangedListener()
+        setBondValueTextChangedListener()
+    }
+
+    private fun resetBondDisplay() {
+        etBondTitle.setText("")
+        etBondValue.setText("")
+    }
+
+    /**
+     * Sets the bonds recycler view.
+     */
+    private fun loadBondsRecyclerView() {
+        if(activity!=null){
+            var transaction = childFragmentManager.beginTransaction()
+            transaction.replace(
+                R.id.fragmentBonds_container_bonds,
+                BondsRecyclerViewFragment.newInstance(activity!!)
+            ).commit()
+        }
+
+    }
+
+    /**
+     * Sets the "add bond" button listener.
+     */
+    private fun setAddBondButtonListener() {
         btn_addBond.setOnClickListener {
             Log.d(TAG, "setOnClickListener")
             var titleText = etBondTitle.text
             var valueText = etBondValue.text
-            if(titleText.isNullOrEmpty() ){
+            if (titleText.isNullOrEmpty()) {
                 etBondTitle.error = "Title is required."
-            }else if(valueText.isNullOrEmpty()){
+            } else if (valueText.isNullOrEmpty()) {
                 etBondValue.error = "Value is required."
-            }
-            else{
+            } else {
                 newCharacterViewModel.characterBonds = bondsViewModel.addBond()
             }
 
@@ -91,6 +141,9 @@ class BondsFragment(activity: Activity) : CustomFragment(activity) {
         }
     }
 
+    /**
+     * Sets the Bond's value text changed listener
+     */
     private fun setBondValueTextChangedListener() {
         etBondValue.addTextChangedListener(object : TextWatcher {
             /**
@@ -198,17 +251,12 @@ class BondsFragment(activity: Activity) : CustomFragment(activity) {
             Log.d(TAG, "newInstance")
             val fragment =
                 BondsFragment(
-                    activity
                 )
-
+            fragment.activity = activity
             val args = Bundle()
 
             args.putInt(KEY_POSITION, BONDS_FRAGMENT_POSITION)
             fragment.arguments = args
-            (activity as NewCharacterActivity).replaceFragment(
-                R.id.fragmentBonds_container_bonds,
-                BondsRecyclerViewFragment.newInstance(activity)
-            )
 
             return fragment
         }

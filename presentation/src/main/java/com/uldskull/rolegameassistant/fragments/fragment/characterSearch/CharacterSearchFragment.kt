@@ -9,17 +9,17 @@ import androidx.fragment.app.Fragment
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.CharacterSearchActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
-import com.uldskull.rolegameassistant.fragments.viewPager.adapter.CHARACTER_SEARCH_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
+import com.uldskull.rolegameassistant.fragments.viewPager.adapter.CHARACTER_SEARCH_FRAGMENT_POSITION
 
 /**
  * A simple [Fragment] subclass.
  * Use the [CharacterSearchFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class CharacterSearchFragment(activity: Activity) : CustomFragment(activity) {
+class CharacterSearchFragment() : CustomFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,12 +31,15 @@ class CharacterSearchFragment(activity: Activity) : CustomFragment(activity) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as CharacterSearchActivity).replaceFragment(
-            R.id.container_recycler_view_characters,
-            CharacterRecyclerViewFragment.newInstance(
-                activity
+        if (activity != null) {
+            (activity as CharacterSearchActivity).replaceFragment(
+                R.id.container_recycler_view_characters,
+                CharacterRecyclerViewFragment.newInstance(
+                    activity!!
+                )
             )
-        )
+        }
+
     }
 
     /**
@@ -49,7 +52,7 @@ class CharacterSearchFragment(activity: Activity) : CustomFragment(activity) {
         return initialRootView
     }
 
-    companion object : CustomCompanion(){
+    companion object : CustomCompanion() {
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
@@ -60,8 +63,9 @@ class CharacterSearchFragment(activity: Activity) : CustomFragment(activity) {
         override fun newInstance(activity: Activity): CharacterSearchFragment {
             val fragment =
                 CharacterSearchFragment(
-                    activity
+
                 )
+            fragment.activity = activity
             val args = Bundle()
 
             args.putInt(KEY_POSITION, CHARACTER_SEARCH_FRAGMENT_POSITION)

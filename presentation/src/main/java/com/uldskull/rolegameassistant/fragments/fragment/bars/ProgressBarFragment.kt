@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_progress_bar.*
  *   Fragment class used to display a progress bar.
  *   The progression is bound to a field into the view model.
  **/
-class ProgressBarFragment(val progression: Int = 0, activity: Activity) : CustomFragment(activity) {
+class ProgressBarFragment(val progression: Int = 0) : CustomFragment() {
 
 
     /** Fragment lifecycle  **/
@@ -59,19 +59,21 @@ class ProgressBarFragment(val progression: Int = 0, activity: Activity) : Custom
         @JvmStatic
         override fun newInstance(activity: Activity): CustomFragment {
             Log.d(TAG, "newInstance")
-            return ProgressBarFragment(
-                progression = 0,
-                activity = activity
+            val fragment = ProgressBarFragment(
+                progression = 0
             )
+            fragment.activity = activity
+            return fragment
         }
 
         @JvmStatic
         fun newInstance(activity: Activity, progression: Int): CustomFragment {
             Log.d(TAG, "newInstance")
-            return ProgressBarFragment(
-                progression = progression,
-                activity = activity
+            val fragment = ProgressBarFragment(
+                progression = progression
             )
+            fragment.activity = activity
+            return fragment
         }
     }
 

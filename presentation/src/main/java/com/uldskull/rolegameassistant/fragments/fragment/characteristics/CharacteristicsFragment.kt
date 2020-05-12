@@ -20,15 +20,26 @@ import com.uldskull.rolegameassistant.fragments.viewPager.adapter.ABILITIES_FRAG
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainCharacteristic
 import com.uldskull.rolegameassistant.viewmodels.BreedCharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
+import com.uldskull.rolegameassistant.viewmodels.ProgressionBarViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
  *   Class "AbilitiesFragment" :
  *   Display
  **/
-class CharacteristicsFragment(activity: Activity) : CustomFragment(activity) {
+class CharacteristicsFragment() : CustomFragment() {
+    /**
+     * Characteristic's ViewModel.
+     */
     private val characteristicsViewModel: CharacteristicsViewModel by sharedViewModel()
+    /**
+     * Breed Characteristic's ViewModel.
+     */
     private val breedCharacteristicsViewModel: BreedCharacteristicsViewModel by sharedViewModel()
+    /**
+     * Progression bar's ViewModel
+     */
+    private val progressionBarViewModel:ProgressionBarViewModel by sharedViewModel()
     /**
      * Called when the view is created
      */
@@ -60,11 +71,14 @@ class CharacteristicsFragment(activity: Activity) : CustomFragment(activity) {
     }
 
     private fun loadCharacteristicsRecyclerView() {
-        var transaction = childFragmentManager.beginTransaction()
-        transaction.replace(
-            R.id.fragmentCharacteristics_container_characteristics,
-            CharacteristicsRecyclerViewFragment.newInstance(activity)
-        ).commit()
+        if(activity != null){
+            var transaction = childFragmentManager.beginTransaction()
+            transaction.replace(
+                R.id.fragmentCharacteristics_container_characteristics,
+                CharacteristicsRecyclerViewFragment.newInstance(activity!!)
+            ).commit()
+        }
+
     }
 
 
@@ -98,7 +112,7 @@ class CharacteristicsFragment(activity: Activity) : CustomFragment(activity) {
     override fun onResume() {
         Log.d(TAG, "onResume")
         super.onResume()
-        NewCharacterActivity.progression.value = ABILITIES_FRAGMENT_POSITION
+        progressionBarViewModel.progression.value = ABILITIES_FRAGMENT_POSITION
     }
 
     companion object : CustomCompanion() {
@@ -108,9 +122,8 @@ class CharacteristicsFragment(activity: Activity) : CustomFragment(activity) {
         override fun newInstance(activity: Activity): CharacteristicsFragment {
             Log.d(TAG, "newInstance")
             val fragment =
-                CharacteristicsFragment(
-                    activity
-                )
+                CharacteristicsFragment()
+            fragment.activity = activity
             val args = Bundle()
 
             args.putInt(KEY_POSITION, ABILITIES_FRAGMENT_POSITION)

@@ -31,8 +31,8 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   Class "AbilitiesRecyclerViewFragment" :
  *   Manage abilities's RecyclerView fragment.
  **/
-class CharacteristicsRecyclerViewFragment(activity: Activity) :
-    CustomRecyclerViewFragment(activity) {
+class CharacteristicsRecyclerViewFragment() :
+    CustomRecyclerViewFragment() {
 
     private var editable: Boolean = false
 
@@ -135,7 +135,7 @@ class CharacteristicsRecyclerViewFragment(activity: Activity) :
 
     /** Initialize recycler view    **/
     override fun initializeRecyclerView() {
-        characteristicsRecyclerView = activity.findViewById(R.id.recycler_view_abilities)
+        characteristicsRecyclerView = activity?.findViewById(R.id.recycler_view_abilities)
                 as RecyclerView?
         setRecyclerViewAdapter()
         setRecyclerViewLayoutManager()
@@ -178,16 +178,19 @@ class CharacteristicsRecyclerViewFragment(activity: Activity) :
      * Set Disabled recyclerview adapter
      */
     private fun setRecyclerViewDisabledAdapter() {
-        characteristicsDisabledAdapter =
-            CharacteristicsDisabledAdapter(
-                activity as Context
-            )
+        if(activity != null){
+            characteristicsDisabledAdapter =
+                CharacteristicsDisabledAdapter(
+                    activity as Context
+                )
 
-        characteristicsAdapter =
-            CharacteristicsAdapter(
-                activity as Context
-            )
-        characteristicsRecyclerView?.adapter = characteristicsDisabledAdapter
+            characteristicsAdapter =
+                CharacteristicsAdapter(
+                    activity as Context
+                )
+            characteristicsRecyclerView?.adapter = characteristicsDisabledAdapter
+        }
+
     }
 
     /** Set recycler view layout manager    **/
@@ -200,11 +203,13 @@ class CharacteristicsRecyclerViewFragment(activity: Activity) :
     }
 
 
+
     companion object : CustomCompanion() {
         private const val TAG = "CharacteristicRecyclerViewFragment"
         @JvmStatic
         override fun newInstance(activity: Activity): CharacteristicsRecyclerViewFragment {
-            val fragment = CharacteristicsRecyclerViewFragment(activity)
+            val fragment = CharacteristicsRecyclerViewFragment()
+            fragment.activity = activity
             val args = Bundle()
 
             args.putInt(KEY_POSITION, ABILITIES_RECYCLER_VIEW_FRAGMENT_POSITION)
@@ -212,7 +217,6 @@ class CharacteristicsRecyclerViewFragment(activity: Activity) :
 
             return fragment
         }
-
 
     }
 }
