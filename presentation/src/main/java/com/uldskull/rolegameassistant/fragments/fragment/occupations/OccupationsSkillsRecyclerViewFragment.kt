@@ -26,8 +26,8 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   Class "OccupationsSkillsRecyclerView" :
  *   TODO: Fill class use.
  **/
-class OccupationsSkillsRecyclerViewFragment(activity: Activity) :
-    CustomRecyclerViewFragment(activity),
+class OccupationsSkillsRecyclerViewFragment() :
+    CustomRecyclerViewFragment(),
     AdapterButtonListener<DomainOccupationSkill> {
 
     companion object : CustomCompanion() {
@@ -35,9 +35,8 @@ class OccupationsSkillsRecyclerViewFragment(activity: Activity) :
         override fun newInstance(activity: Activity): CustomFragment {
             Log.d(TAG, "newInstance")
             val fragment =
-                OccupationsSkillsRecyclerViewFragment(
-                    activity
-                )
+                OccupationsSkillsRecyclerViewFragment()
+            fragment.activity = activity
             val args = Bundle()
             args.putInt(KEY_POSITION, OCCUPATIONS_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION)
             fragment.arguments = args
@@ -61,11 +60,22 @@ class OccupationsSkillsRecyclerViewFragment(activity: Activity) :
         setRecyclerViewLayoutManager()
     }
 
-    var occupationsSkillsAdapter: OccupationsSkillsAdapter? =
-        OccupationsSkillsAdapter(
-            activity as Context,
-            this
-        )
+    var occupationsSkillsAdapter: OccupationsSkillsAdapter? = null
+
+    fun initializeOccupationsSkillsAdapter(){
+        if(activity != null){
+            OccupationsSkillsAdapter(
+                activity as Context,
+                this
+            )
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initializeOccupationsSkillsAdapter()
+    }
+
 
 
     /**

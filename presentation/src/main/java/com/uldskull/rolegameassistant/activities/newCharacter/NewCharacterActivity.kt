@@ -15,6 +15,7 @@ import com.uldskull.rolegameassistant.activities.replaceFragment
 import com.uldskull.rolegameassistant.fragments.fragment.bars.NavigationBarFragment
 import com.uldskull.rolegameassistant.fragments.fragment.bars.ProgressBarFragment
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
+import com.uldskull.rolegameassistant.viewmodels.ProgressionBarViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**
@@ -31,6 +32,8 @@ class NewCharacterActivity :
     /** ViewModel for new character activity    **/
     private lateinit var newCharacterViewModel: NewCharacterViewModel
 
+    private lateinit var progressionBarViewModel: ProgressionBarViewModel
+
     /** SupportFragmentManager  **/
     private val fragmentManager = supportFragmentManager
 
@@ -45,6 +48,7 @@ class NewCharacterActivity :
 
         //  Get the ViewModels by DI
         newCharacterViewModel = getViewModel()
+        progressionBarViewModel = getViewModel()
 
 
         //  Observe the progression
@@ -67,12 +71,71 @@ class NewCharacterActivity :
         val pagerAdapter = FragmentAdapter(this)
         viewPager?.adapter = pagerAdapter
 
+
+
+        viewPager?.registerOnPageChangeCallback(object:ViewPager2.OnPageChangeCallback(){
+            /**
+             * Called when the scroll state changes. Useful for discovering when the user begins
+             * dragging, when a fake drag is started, when the pager is automatically settling to the
+             * current page, or when it is fully stopped/idle. `state` can be one of [ ][.SCROLL_STATE_IDLE], [.SCROLL_STATE_DRAGGING] or [.SCROLL_STATE_SETTLING].
+             */
+            override fun onPageScrollStateChanged(state: Int) {
+                Log.d("DEBUG", "onPageScrollStateChanged \n" +
+                        "\t state : $state")
+                super.onPageScrollStateChanged(state)
+            }
+
+            /**
+             * This method will be invoked when the current page is scrolled, either as part
+             * of a programmatically initiated smooth scroll or a user initiated touch scroll.
+             *
+             * @param position Position index of the first page currently being displayed.
+             * Page position+1 will be visible if positionOffset is nonzero.
+             * @param positionOffset Value from [0, 1) indicating the offset from the page at position.
+             * @param positionOffsetPixels Value in pixels indicating the offset from position.
+             */
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+                Log.d("DEBUG", "onPageScrolled \n" +
+                        "\tposition : $position\n" +
+                        "\tpositionOffset : $positionOffset\n" +
+                        "\tpositionOffsetPixels : $positionOffsetPixels\n" +
+                        "\tviewPager?.scrollState : ${viewPager?.scrollState}")
+                if(position == 3){
+                    Log.d("DEBUG", "Characteristics")
+                }
+
+                if(positionOffset > 0.5){
+                    Log.d("DEBUG", "Scroll to left")
+                }else if(positionOffset < 0.5){
+                    Log.d("DEBUG", "Scroll to right")
+                }
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+            }
+
+            /**
+             * This method will be invoked when a new page becomes selected. Animation is not
+             * necessarily complete.
+             *
+             * @param position Position index of the new selected page.
+             */
+            override fun onPageSelected(position: Int) {
+                Log.d("DEBUG" , "onPageSelected\n" +
+                        "\tposition : $position")
+                progressionBarViewModel.progression.value = position
+                super.onPageSelected(position)
+            }
+        })
+
     }
 
     /** Observe view pager progression  **/
     private fun observeProgression() {
         Log.d(TAG, "observeProgression")
-        progression.observe(
+        progressionBarViewModel.progression.observe(
             this, Observer { progression ->
                 kotlin.run {
                     updateProgressBarFragment(progression)
@@ -107,7 +170,6 @@ class NewCharacterActivity :
 
         private const val TAG = "NewCharacterActivity"
         /** ViewPager progression   **/
-        var progression = MutableLiveData<Int>()
     }
 
 
@@ -115,18 +177,10 @@ class NewCharacterActivity :
     override fun lockViewPager(swipeIsEnabled: Boolean) {
         Log.d(TAG, "lockViewPager = $swipeIsEnabled")
         this.isSwipeEnabled = swipeIsEnabled
+
     }
 
     private var isSwipeEnabled: Boolean = true
-
-    /*   private fun setCharacterLockableViewPager() {
-       //  Serialize the view pager.
-       lockableViewPager = findViewById<LockableViewPager>(R.id.activityNewCharacter_viewPager)
-
-       //  Set the viewPager adapter.
-       lockableViewPager.adapter = CharacterPagerAdapter(supportFragmentManager, this)
-   }*/
-
 
     //  [OVERLAY]
     /**

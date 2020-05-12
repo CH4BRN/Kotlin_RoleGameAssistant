@@ -17,7 +17,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
  * Use the [BlankFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class BlankFragment(activity: Activity) : CustomFragment(activity) {
+class BlankFragment() : CustomFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,9 +51,9 @@ class BlankFragment(activity: Activity) : CustomFragment(activity) {
         @JvmStatic
         override fun newInstance(activity: Activity): CustomFragment {
             Log.d(TAG, "newInstance")
-            return BlankFragment(
-                activity
-            )
+            val fragment = BlankFragment()
+            fragment.activity = activity
+            return fragment
         }
     }
 }

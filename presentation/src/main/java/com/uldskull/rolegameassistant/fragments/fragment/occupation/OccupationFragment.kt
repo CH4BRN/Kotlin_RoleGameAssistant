@@ -13,13 +13,11 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.newCharacter.NewCharacterActivity
 import com.uldskull.rolegameassistant.activities.NewSkillActivity
-import com.uldskull.rolegameassistant.activities.replaceFragment
-import com.uldskull.rolegameassistant.fragments.viewPager.adapter.OCCUPATION_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
+import com.uldskull.rolegameassistant.fragments.viewPager.adapter.OCCUPATION_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
 import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSkill
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
@@ -32,7 +30,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   Class "OccupationFragment" :
  *   "Occupation" fragment to set occupation's skills values.
  **/
-class OccupationFragment(activity: Activity) : CustomFragment(activity) {
+class OccupationFragment() : CustomFragment() {
 
     /**
      * TextView that shows occupation's skills score to spend.
@@ -160,32 +158,38 @@ class OccupationFragment(activity: Activity) : CustomFragment(activity) {
      * Initializes the units adapter.
      */
     private fun initializeUnitsAdapter() {
-        //  Instantiate the adapter with the values.
-        unitAdapter = ArrayAdapter(
-            activity,
-            android.R.layout.simple_spinner_item,
-            valuesList
-        )
-        //  Check if the spinner was correctly initialized.
-        if (unitAdapter == null) {
-            throw Exception("spinner is null")
+        if (activity != null) {
+            //  Instantiate the adapter with the values.
+            unitAdapter = ArrayAdapter(
+                activity!!,
+                android.R.layout.simple_spinner_item,
+                valuesList
+            )
+            //  Check if the spinner was correctly initialized.
+            if (unitAdapter == null) {
+                throw Exception("spinner is null")
+            }
         }
+
     }
 
     /**
      * Initializes the tens adapter.
      */
     private fun initializeTensAdapter() {
-        //  Instantiate the adapter with the values.
-        tensAdapter = ArrayAdapter(
-            activity,
-            android.R.layout.simple_spinner_item,
-            valuesList
-        )
-        //  Check if the spinner was correctly initialized.
-        if (tensAdapter == null) {
-            throw Exception("spinner is null")
+        if (activity != null) {
+            //  Instantiate the adapter with the values.
+            tensAdapter = ArrayAdapter(
+                activity!!,
+                android.R.layout.simple_spinner_item,
+                valuesList
+            )
+            //  Check if the spinner was correctly initialized.
+            if (tensAdapter == null) {
+                throw Exception("spinner is null")
+            }
         }
+
     }
 
     /**
@@ -214,11 +218,14 @@ class OccupationFragment(activity: Activity) : CustomFragment(activity) {
     }
 
     private fun loadOccupationSkillsRecyclerView() {
-        var transaction = childFragmentManager.beginTransaction()
-        transaction.replace(
-            R.id.container_occupationSkills,
-            OccupationSkillsRecyclerViewFragment.newInstance(activity)
-        ).commit()
+        if (activity != null) {
+            var transaction = childFragmentManager.beginTransaction()
+            transaction.replace(
+                R.id.container_occupationSkills,
+                OccupationSkillsRecyclerViewFragment.newInstance(activity!!)
+            ).commit()
+        }
+
     }
 
 
@@ -530,9 +537,7 @@ class OccupationFragment(activity: Activity) : CustomFragment(activity) {
     override fun onResume() {
         Log.d(TAG, "onResume")
         super.onResume()
-        Log.d("JobFragment_1", NewCharacterActivity.progression.value.toString())
-        NewCharacterActivity.progression.value = OCCUPATION_FRAGMENT_POSITION
-        Log.d("JobFragment_2", NewCharacterActivity.progression.value.toString())
+
         var skills: List<DomainOccupationSkill>? =
             occupationsViewModel.observedOccupationsSkills?.value
         if (skills != null) {
@@ -561,10 +566,9 @@ class OccupationFragment(activity: Activity) : CustomFragment(activity) {
 
             var finalList = mutableListOf<DomainFilledSkill>()
             var checked = occupationSkillsViewModel.checkedOccupationSkills.value
-            if(checked == null){
+            if (checked == null) {
                 occupationSkillsViewModel.checkedOccupationSkills.value = list
-            }
-            else  {
+            } else {
                 list.forEach { newSkill ->
                     kotlin.run {
                         checked.forEach { oldSKill ->
@@ -596,9 +600,8 @@ class OccupationFragment(activity: Activity) : CustomFragment(activity) {
         @JvmStatic
         override fun newInstance(activity: Activity): OccupationFragment {
             val fragment =
-                OccupationFragment(
-                    activity
-                )
+                OccupationFragment()
+            fragment.activity = activity
             val args = Bundle()
 
             args.putInt(KEY_POSITION, OCCUPATION_FRAGMENT_POSITION)

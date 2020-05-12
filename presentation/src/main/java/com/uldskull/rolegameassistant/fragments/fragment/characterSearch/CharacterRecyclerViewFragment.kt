@@ -27,8 +27,8 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   Class "CharacterRecycerViewFragment" :
  *   TODO: Fill class use.
  **/
-class CharacterRecyclerViewFragment(activity: Activity) :
-    CustomRecyclerViewFragment(activity),
+class CharacterRecyclerViewFragment() :
+    CustomRecyclerViewFragment(),
     AdapterButtonListener<DomainCharacter> {
 
     /**
@@ -52,8 +52,9 @@ class CharacterRecyclerViewFragment(activity: Activity) :
     companion object : CustomCompanion() {
         override fun newInstance(activity: Activity): CharacterRecyclerViewFragment {
             Log.d("CharacterRecyclerViewFragment", "newInstance")
-            val fragment = CharacterRecyclerViewFragment(activity)
+            val fragment = CharacterRecyclerViewFragment()
             val args = Bundle()
+            fragment.activity = activity
 
             args.putInt(KEY_POSITION, CHARACTERS_RECYCLER_VIEW_FRAGMENT_POSITION)
             fragment.arguments = args
@@ -66,7 +67,7 @@ class CharacterRecyclerViewFragment(activity: Activity) :
      * Initialize the recycler view.
      */
     override fun initializeRecyclerView() {
-        characterRecyclerView = activity.findViewById<RecyclerView>(R.id.recycler_view_characters)
+        characterRecyclerView = activity?.findViewById<RecyclerView>(R.id.recycler_view_characters)
 
         setRecyclerViewAdapter()
         setRecyclerViewLayoutManager()

@@ -27,8 +27,8 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   Class "BondsRecyclerViewFragment" :
  *   TODO: Fill class use.
  **/
-class BondsRecyclerViewFragment(activity: Activity) :
-    CustomRecyclerViewFragment(activity), AdapterButtonListener<DomainBond> {
+class BondsRecyclerViewFragment() :
+    CustomRecyclerViewFragment(), AdapterButtonListener<DomainBond> {
     /** ViewModel for bonds    **/
     private val bondsViewModel: BondsViewModel by sharedViewModel()
 
@@ -85,7 +85,7 @@ class BondsRecyclerViewFragment(activity: Activity) :
      */
     override fun initializeRecyclerView() {
         Log.d(TAG, "initializeRecyclerView")
-        bondsRecyclerView = activity.findViewById(R.id.recycler_view_bonds)
+        bondsRecyclerView = activity?.findViewById(R.id.recycler_view_bonds)
                 as RecyclerView?
     }
 
@@ -105,11 +105,14 @@ class BondsRecyclerViewFragment(activity: Activity) :
     /** Set recycler view adapter   **/
     override fun setRecyclerViewAdapter() {
         Log.d(TAG, "setRecyclerViewAdapter")
-        bondsAdapter = BondsAdapter(
-            activity as Context,
-            this
-        )
-        bondsRecyclerView?.adapter = bondsAdapter
+        if(activity != null){
+            bondsAdapter = BondsAdapter(
+                activity as Context,
+                this
+            )
+            bondsRecyclerView?.adapter = bondsAdapter
+        }
+
     }
 
 
@@ -119,7 +122,8 @@ class BondsRecyclerViewFragment(activity: Activity) :
         @JvmStatic
         override fun newInstance(activity: Activity): BondsRecyclerViewFragment {
             Log.d(TAG, "newInstance")
-            val fragment = BondsRecyclerViewFragment(activity)
+            val fragment = BondsRecyclerViewFragment()
+            fragment.activity = activity
             val args = Bundle()
 
             args.putInt(KEY_POSITION, BONDS_RECYCLER_VIEW_FRAGMENT_POSITION)

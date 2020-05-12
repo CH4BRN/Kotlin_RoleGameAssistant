@@ -14,12 +14,11 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.newCharacter.NewCharacterActivity
-import com.uldskull.rolegameassistant.fragments.viewPager.adapter.DERIVED_VALUES_2_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.EditTextUtil.Companion.editTextEnabling
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
+import com.uldskull.rolegameassistant.fragments.viewPager.adapter.DERIVED_VALUES_2_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.DerivedValuesViewModel
 import com.uldskull.rolegameassistant.viewmodels.IdealsViewModel
@@ -30,7 +29,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   Class "DerivedValues2Fragment" :
  *   TODO("COMMENT")
  **/
-class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
+class DerivedValues2Fragment() : CustomFragment() {
 
     private val idealsViewModel: IdealsViewModel by sharedViewModel()
     private val characteristicsViewModel: CharacteristicsViewModel by sharedViewModel()
@@ -226,12 +225,15 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
     private fun setDamageBonusSpinner() {
         if (spinner_damageBonus != null) {
 
-            val adapter = ArrayAdapter<DerivedValuesViewModel.DamageBonus>(
-                activity,
-                android.R.layout.simple_spinner_item,
-                DerivedValuesViewModel.DamageBonus.values()
-            )
-            spinner_damageBonus.adapter = adapter
+            if (activity != null) {
+                val adapter = ArrayAdapter<DerivedValuesViewModel.DamageBonus>(
+                    activity!!,
+                    android.R.layout.simple_spinner_item,
+                    DerivedValuesViewModel.DamageBonus.values()
+                )
+                spinner_damageBonus.adapter = adapter
+            }
+
         }
     }
 
@@ -340,17 +342,6 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
         }
     }
 
-    /**
-     * Called when the focus return on this view
-     */
-    override fun onResume() {
-        super.onResume()
-        Log.d(TAG, "onResume")
-
-
-        NewCharacterActivity.progression.value = DERIVED_VALUES_2_FRAGMENT_POSITION
-
-    }
 
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         Log.d(TAG, "initializeView")
@@ -367,9 +358,8 @@ class DerivedValues2Fragment(activity: Activity) : CustomFragment(activity) {
         override fun newInstance(activity: Activity): DerivedValues2Fragment {
             Log.d(TAG, "newInstance")
             val fragment =
-                DerivedValues2Fragment(
-                    activity
-                )
+                DerivedValues2Fragment()
+            fragment.activity = activity
 
             val args = Bundle()
             args.putInt(KEY_POSITION, DERIVED_VALUES_2_FRAGMENT_POSITION)

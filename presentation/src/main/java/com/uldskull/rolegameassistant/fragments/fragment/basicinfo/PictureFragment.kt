@@ -18,8 +18,8 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.viewPager.adapter.PICTURE_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.*
+import com.uldskull.rolegameassistant.fragments.viewPager.adapter.PICTURE_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import kotlinx.android.synthetic.main.fragment_picture.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -28,7 +28,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   Class "PictureFragment" :
  *   Handle character's picture
  **/
-class PictureFragment(val context: Activity) : CustomFragment(context) {
+class PictureFragment() : CustomFragment() {
 
 
     /** View model for new character    **/
@@ -41,6 +41,8 @@ class PictureFragment(val context: Activity) : CustomFragment(context) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        activity = requireActivity()
+        Log.d("DEBUG $TAG", "Activity is null ? ${activity == null}")
         Log.d(TAG, "onCreateView")
         return initializeView(inflater, container)
     }
@@ -57,30 +59,33 @@ class PictureFragment(val context: Activity) : CustomFragment(context) {
 
     private fun selectPicture() {
         Log.d(TAG, "selectPicture")
-        val pictureDialog = AlertDialog.Builder(context)
+        if (context != null) {
+            val pictureDialog = AlertDialog.Builder(context!!)
 
-        pictureDialog.setTitle("Select action : ")
-        val pictureDialogItems = arrayOf(
-            "Select photo from gallery",
-            "Select photo from camera"
-        )
+            pictureDialog.setTitle("Select action : ")
+            val pictureDialogItems = arrayOf(
+                "Select photo from gallery",
+                "Select photo from camera"
+            )
 
-        pictureDialog.setItems(
-            pictureDialogItems
-        ) { _, which ->
-            /**
-             * This method will be invoked when a button in the dialog is clicked.
-             *
-             * @param which the button that was clicked (ex.
-             * [DialogInterface.BUTTON_POSITIVE]) or the position
-             * of the item clicked
-             */
-            when (which) {
-                0 -> choosePhotoFromGallery()
-                1 -> takePhotoFromCamera()
+            pictureDialog.setItems(
+                pictureDialogItems
+            ) { _, which ->
+                /**
+                 * This method will be invoked when a button in the dialog is clicked.
+                 *
+                 * @param which the button that was clicked (ex.
+                 * [DialogInterface.BUTTON_POSITIVE]) or the position
+                 * of the item clicked
+                 */
+                when (which) {
+                    0 -> choosePhotoFromGallery()
+                    1 -> takePhotoFromCamera()
+                }
             }
+            pictureDialog.show()
         }
-        pictureDialog.show()
+
     }
 
     private fun takePhotoFromCamera() {
@@ -164,7 +169,6 @@ class PictureFragment(val context: Activity) : CustomFragment(context) {
     }
 
 
-
     /** Initialize the view corresponding to this fragment class    **/
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         Log.d(TAG, "initializeView")
@@ -178,9 +182,12 @@ class PictureFragment(val context: Activity) : CustomFragment(context) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.d(TAG, "onViewCreated")
         super.onViewCreated(view, savedInstanceState)
-        val imageButton = activity.findViewById<ImageButton>(R.id.img_btn_characterPicture)
+        val imageButton = activity?.findViewById<ImageButton>(R.id.img_btn_characterPicture)
 
         setImageButtonListener(imageButton)
+
+        Log.d("DEBUG $TAG", "activity is null ? ${activity == null}")
+        Log.d("DEBUG $TAG", "$activity")
     }
 
     /** Set image button listener       **/
@@ -192,6 +199,13 @@ class PictureFragment(val context: Activity) : CustomFragment(context) {
         }
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        Log.d("DEBUG", "onActivityCreated")
+        super.onActivityCreated(savedInstanceState)
+        activity = getActivity()
+        Log.d("DEBUG", "activity is null ? ${activity == null}")
+    }
+
     companion object : CustomCompanion() {
         private const val TAG = "PictureFragment"
 
@@ -200,8 +214,9 @@ class PictureFragment(val context: Activity) : CustomFragment(context) {
             Log.d(TAG, "newInstance")
             val fragment =
                 PictureFragment(
-                    activity
+
                 )
+            fragment.activity = activity
             val args = Bundle()
 
             args.putInt(KEY_POSITION, PICTURE_FRAGMENT_POSITION)

@@ -24,8 +24,8 @@ Class "HobbySkillsRecyclerViewFragment"
 
 TODO: Describe class utility.
  */
-class HobbySkillsRecyclerViewFragment(activity: Activity) :
-    CustomRecyclerViewFragment(activity) {
+class HobbySkillsRecyclerViewFragment() :
+    CustomRecyclerViewFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +41,7 @@ class HobbySkillsRecyclerViewFragment(activity: Activity) :
      * Initialize the recycler view.
      */
     override fun initializeRecyclerView() {
-        hobbySkillRecyclerView = activity.findViewById(R.id.recycler_view_hobbySkills)
+        hobbySkillRecyclerView = activity?.findViewById(R.id.recycler_view_hobbySkills)
                 as RecyclerView?
         startObservation()
         setRecyclerViewAdapter()
@@ -101,7 +101,8 @@ class HobbySkillsRecyclerViewFragment(activity: Activity) :
         override fun newInstance(
             activity: Activity
         ): HobbySkillsRecyclerViewFragment {
-            val fragment = HobbySkillsRecyclerViewFragment(activity)
+            val fragment = HobbySkillsRecyclerViewFragment()
+            fragment.activity = activity
             val args = Bundle()
 
             args.putInt(KEY_POSITION, HOBBIES_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION)

@@ -94,4 +94,11 @@ val viewModelModule = module {
             application = get()
         )
     }
+
+    //  Progression bar ViewModel
+    viewModel {
+        ProgressionBarViewModel(
+            application = get()
+        )
+    }
 }

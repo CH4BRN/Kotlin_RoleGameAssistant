@@ -15,7 +15,13 @@ import androidx.fragment.app.Fragment
  *   Class "CustomFragment" :
  *   Abstract class for custom fragment.
  **/
-abstract class CustomFragment(val activity: Activity) : Fragment() {
+abstract class CustomFragment() : Fragment() {
+
+    var activity:Activity? = null
+
+    companion object{
+        private const val TAG = "CustomFragment"
+    }
     /**
      * Initial root view.
      */
@@ -53,11 +59,8 @@ abstract class CustomFragment(val activity: Activity) : Fragment() {
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d(javaClass.simpleName.capitalize(), ONCREATE)
+        Log.d(TAG, "onCreate")
     }
-
-
-    private val ONCREATE = "OnCreate"
 
     /**
      * Initialize the initial root view.

@@ -29,7 +29,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   Class "DerivedValues1Fragment" :
  *   Fragment that handle derived values 1
  **/
-class DerivedValues1Fragment(activity: Activity) : CustomFragment(activity) {
+class DerivedValues1Fragment : CustomFragment() {
 
     private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
 
@@ -57,7 +57,6 @@ class DerivedValues1Fragment(activity: Activity) : CustomFragment(activity) {
     override fun onResume() {
         super.onResume()
         Log.d(TAG, "onResume")
-        NewCharacterActivity.progression.value = DERIVED_VALUES_1_FRAGMENT_POSITION
         setBaseHealthPoints()
         setBreedHealthBonusScore()
         setTotalHealthScore()
@@ -409,8 +408,9 @@ class DerivedValues1Fragment(activity: Activity) : CustomFragment(activity) {
 
             val fragment =
                 DerivedValues1Fragment(
-                    activity
+
                 )
+            fragment.activity = activity
 
             val args = Bundle()
 

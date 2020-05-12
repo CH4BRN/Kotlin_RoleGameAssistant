@@ -29,8 +29,8 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   Class "BreedsRecyclerViewFragment" :
  *   TODO: Fill class use.
  **/
-class BreedsRecyclerViewFragment(activity: Activity) :
-    CustomRecyclerViewFragment(activity),
+class BreedsRecyclerViewFragment() :
+    CustomRecyclerViewFragment(),
     AdapterButtonListener<DomainBreed> {
     /**
      * Recycler view for races.
@@ -57,7 +57,7 @@ class BreedsRecyclerViewFragment(activity: Activity) :
      */
     override fun initializeRecyclerView() {
         Log.d(TAG, "initializeRecyclerView")
-        breedsRecyclerView = activity.findViewById(R.id.recyclerView_breeds)
+        breedsRecyclerView = activity?.findViewById(R.id.recyclerView_breeds)
                 as RecyclerView?
         setRecyclerViewAdapter()
         setRecyclerViewLayoutManager()
@@ -151,8 +151,9 @@ class BreedsRecyclerViewFragment(activity: Activity) :
             Log.d(TAG, "newInstance")
             val fragment =
                 BreedsRecyclerViewFragment(
-                    activity
+
                 )
+            fragment.activity = activity
             val args = Bundle()
 
             args.putInt(KEY_POSITION, BREED_RECYCLER_VIEW_FRAGMENT_POSITION)

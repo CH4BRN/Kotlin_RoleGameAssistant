@@ -30,8 +30,8 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   Class "OccupationSkills recyclerView fragment" :
  *   Fragment to display occupation skills.
  **/
-class OccupationSkillsRecyclerViewFragment(activity: Activity) :
-    CustomRecyclerViewFragment(activity), AdapterButtonListener<DomainFilledSkill> {
+class OccupationSkillsRecyclerViewFragment() :
+    CustomRecyclerViewFragment(), AdapterButtonListener<DomainFilledSkill> {
     /**
      * Occupation skills adapter.
      */
@@ -205,9 +205,8 @@ class OccupationSkillsRecyclerViewFragment(activity: Activity) :
         @JvmStatic
         override fun newInstance(activity: Activity): OccupationSkillsRecyclerViewFragment {
             val fragment =
-                OccupationSkillsRecyclerViewFragment(
-                    activity
-                )
+                OccupationSkillsRecyclerViewFragment()
+            fragment.activity = activity
             val args = Bundle()
 
             args.putInt(KEY_POSITION, JOB_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION)

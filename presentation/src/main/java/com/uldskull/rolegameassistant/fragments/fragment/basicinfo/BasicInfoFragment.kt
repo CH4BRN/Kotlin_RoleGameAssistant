@@ -14,17 +14,16 @@ import android.view.View
 import android.view.ViewGroup
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NEW_BREED_ACTIVITY
-import com.uldskull.rolegameassistant.activities.newCharacter.NewCharacterActivity
-import com.uldskull.rolegameassistant.activities.replaceFragment
-import com.uldskull.rolegameassistant.fragments.viewPager.adapter.BASIC_INFO_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.REQUEST_CODE_BASIC_INFO_NEW_BREED
 import com.uldskull.rolegameassistant.fragments.fragment.breed.BreedsRecyclerViewFragment
+import com.uldskull.rolegameassistant.fragments.viewPager.adapter.BASIC_INFO_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.viewmodels.BreedsViewModel
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
+import com.uldskull.rolegameassistant.viewmodels.ProgressionBarViewModel
 import kotlinx.android.synthetic.main.fragment_basic_info.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -33,14 +32,14 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   Class "BasicInfoFragment" :
  *   Fragment to fill information concerning basic info.
  **/
-class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
+class BasicInfoFragment() : CustomFragment() {
     /**
      * ViewModel for new character
      */
     private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
     private val breedsViewModel: BreedsViewModel by sharedViewModel()
     private val characteristicsViewModel: CharacteristicsViewModel by sharedViewModel()
-
+    private val progressionBarViewModel: ProgressionBarViewModel by sharedViewModel()
 
 
     /**
@@ -74,9 +73,9 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
      */
     override fun onResume() {
         super.onResume()
-        Log.d(TAG, "Progression before : " + NewCharacterActivity.progression.value.toString())
-        NewCharacterActivity.progression.value = BASIC_INFO_FRAGMENT_POSITION
-        Log.d(TAG, "Progression after : " + NewCharacterActivity.progression.value.toString())
+        Log.d(TAG, "Progression before : " + progressionBarViewModel.progression.value.toString())
+        progressionBarViewModel.progression.value = BASIC_INFO_FRAGMENT_POSITION
+        Log.d(TAG, "Progression after : " + progressionBarViewModel.progression.value.toString())
     }
 
     /**
@@ -87,9 +86,35 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
         super.onViewCreated(view, savedInstanceState)
         setButtonAddBreed()
         setEditTextListeners()
+        activity = requireActivity()
+        Log.d("DEBUG $TAG", "activity is null ? ${activity == null}")
+        if (activity != null) {
+            Log.d("DEBUG $TAG", "activity is not null}")
+            try{
+                val transaction = childFragmentManager.beginTransaction()
+                transaction.replace(
+                    R.id.basicInfo_container_picture,
+                    PictureFragment.newInstance(
+                        activity!!
+                    )
+                ).commit()
+            }catch (e:Exception){
+                throw e
+            }
 
-        // testInsert()
+        }
+
+        if (activity != null) {
+            val transaction = childFragmentManager.beginTransaction()
+            transaction.replace(
+                R.id.basicInfo_container_breed,
+                BreedsRecyclerViewFragment.newInstance(
+                    activity!!
+                )
+            ).commit()
+        }
     }
+
 
 
     /**
@@ -380,26 +405,16 @@ class BasicInfoFragment(activity: Activity) : CustomFragment(activity) {
         override fun newInstance(activity: Activity): BasicInfoFragment {
             Log.d(TAG, "newInstance")
             val fragment =
-                BasicInfoFragment(
-                    activity
-                )
+                BasicInfoFragment()
+            fragment.activity = activity
             val args = Bundle()
 
             args.putInt(KEY_POSITION, BASIC_INFO_FRAGMENT_POSITION)
             fragment.arguments = args
 
-            (activity as NewCharacterActivity).replaceFragment(
-                R.id.basicInfo_container_picture,
-                PictureFragment.newInstance(
-                    activity
-                )
-            )
-            activity.replaceFragment(
-                R.id.basicInfo_container_breed,
-                BreedsRecyclerViewFragment.newInstance(
-                    activity
-                )
-            )
+
+
+
             return fragment
         }
     }
