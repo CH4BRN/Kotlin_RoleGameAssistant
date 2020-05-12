@@ -10,7 +10,7 @@ import android.view.View
 /**
  * Abstract class for custom recycler view fragment.
  */
-abstract class CustomRecyclerViewFragment() : CustomFragment() {
+abstract class CustomRecyclerViewFragment : CustomFragment() {
     /**
      * Initialize the recycler view.
      */

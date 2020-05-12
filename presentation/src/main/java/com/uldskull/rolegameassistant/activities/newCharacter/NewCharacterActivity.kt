@@ -106,6 +106,7 @@ class NewCharacterActivity :
                         "\tviewPager?.scrollState : ${viewPager?.scrollState}")
                 if(position == 3){
                     Log.d("DEBUG", "Characteristics")
+                    viewPager?.
                 }
 
                 if(positionOffset > 0.5){

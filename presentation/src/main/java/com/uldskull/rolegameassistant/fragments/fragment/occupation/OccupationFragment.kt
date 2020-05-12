@@ -21,9 +21,9 @@ import com.uldskull.rolegameassistant.fragments.viewPager.adapter.OCCUPATION_FRA
 import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
 import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSkill
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
-import com.uldskull.rolegameassistant.viewmodels.OccupationSkillsViewModel
+import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationSkillsViewModel
 import com.uldskull.rolegameassistant.viewmodels.OccupationViewModel
-import com.uldskull.rolegameassistant.viewmodels.OccupationsViewModel
+import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationsViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**

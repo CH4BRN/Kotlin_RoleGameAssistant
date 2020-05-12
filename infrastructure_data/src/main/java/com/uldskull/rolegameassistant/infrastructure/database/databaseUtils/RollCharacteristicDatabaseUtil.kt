@@ -60,5 +60,4 @@ class RollCharacteristicDatabaseUtil {
             }
         }
     }
-// TODO : Fill class.
 }

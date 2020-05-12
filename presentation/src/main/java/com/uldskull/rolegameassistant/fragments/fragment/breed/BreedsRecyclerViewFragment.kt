@@ -20,7 +20,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.models.character.breed.DomainBreed
-import com.uldskull.rolegameassistant.viewmodels.BreedsViewModel
+import com.uldskull.rolegameassistant.viewmodels.breeds.BreedsViewModel
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
 import kotlinx.android.synthetic.main.fragment_recyclerview_breeds.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel

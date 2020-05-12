@@ -19,7 +19,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.*
 import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
 import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupationWithSkills
 import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSkill
-import com.uldskull.rolegameassistant.viewmodels.OccupationsViewModel
+import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationsViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**

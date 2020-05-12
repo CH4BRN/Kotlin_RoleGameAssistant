@@ -1,7 +1,7 @@
 // File BreedsViewModel.kt
 // @Author pierre.antoine - 26/03/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.viewmodels
+package com.uldskull.rolegameassistant.viewmodels.breeds
 
 import android.app.Application
 import android.util.Log

@@ -20,7 +20,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.REQUEST_CODE_BASIC_INFO_NEW_BREED
 import com.uldskull.rolegameassistant.fragments.fragment.breed.BreedsRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.BASIC_INFO_FRAGMENT_POSITION
-import com.uldskull.rolegameassistant.viewmodels.BreedsViewModel
+import com.uldskull.rolegameassistant.viewmodels.breeds.BreedsViewModel
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.ProgressionBarViewModel

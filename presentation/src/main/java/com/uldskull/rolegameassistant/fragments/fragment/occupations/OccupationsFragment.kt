@@ -22,8 +22,8 @@ import com.uldskull.rolegameassistant.fragments.fragment.REQUEST_CODE_JOBS_NEW_J
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.OCCUPATIONS_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
 import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
-import com.uldskull.rolegameassistant.viewmodels.OccupationSkillsViewModel
-import com.uldskull.rolegameassistant.viewmodels.OccupationsViewModel
+import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationSkillsViewModel
+import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationsViewModel
 import kotlinx.android.synthetic.main.fragment_occupations.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 

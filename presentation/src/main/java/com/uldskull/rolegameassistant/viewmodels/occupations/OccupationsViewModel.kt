@@ -1,7 +1,7 @@
 // File JobsViewModel.kt
 // @Author pierre.antoine - 04/03/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.viewmodels
+package com.uldskull.rolegameassistant.viewmodels.occupations
 
 import android.app.Application
 import android.util.Log

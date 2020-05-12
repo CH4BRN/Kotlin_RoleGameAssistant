@@ -23,7 +23,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
-import com.uldskull.rolegameassistant.viewmodels.OccupationSkillsViewModel
+import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationSkillsViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**

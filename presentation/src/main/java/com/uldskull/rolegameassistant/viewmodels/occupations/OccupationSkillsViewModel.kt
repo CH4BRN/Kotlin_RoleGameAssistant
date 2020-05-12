@@ -1,7 +1,7 @@
 // File OccupationSkillsViewModel.kt
 // @Author pierre.antoine - 23/04/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.viewmodels
+package com.uldskull.rolegameassistant.viewmodels.occupations
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
