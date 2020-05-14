@@ -7,7 +7,7 @@ package com.uldskull.rolegameassistant.activities.newCharacter
  *   Interface "LockTheViewPager" :
  *   TODO: Fill interface use.
  **/
-interface SwipeActivator {
+interface AddEndFragment {
 
-    fun lockViewPager(isLocked:Boolean)
+    fun addEndFragment()
 }

@@ -14,14 +14,14 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.viewPager.adapter.BREED_RECYCLER_VIEW_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
+import com.uldskull.rolegameassistant.fragments.viewPager.adapter.BREED_RECYCLER_VIEW_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.models.character.breed.DomainBreed
-import com.uldskull.rolegameassistant.viewmodels.breeds.BreedsViewModel
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
+import com.uldskull.rolegameassistant.viewmodels.breeds.BreedsViewModel
 import kotlinx.android.synthetic.main.fragment_recyclerview_breeds.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -84,12 +84,15 @@ class BreedsRecyclerViewFragment() :
      */
     override fun setRecyclerViewAdapter() {
         Log.d(TAG, "setRecyclerViewAdapter")
-        breedsAdapter =
-            BreedsAdapter(
-                activity as Context,
-                this
-            )
-        breedsRecyclerView?.adapter = breedsAdapter
+        if (activity != null) {
+            breedsAdapter =
+                BreedsAdapter(
+                    activity as Context,
+                    this
+                )
+            breedsRecyclerView?.adapter = breedsAdapter
+        }
+
     }
 
     /**

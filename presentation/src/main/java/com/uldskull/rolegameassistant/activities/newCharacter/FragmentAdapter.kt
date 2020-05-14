@@ -6,7 +6,6 @@ package com.uldskull.rolegameassistant.activities.newCharacter
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.uldskull.rolegameassistant.fragments.fragment.basicinfo.BasicInfoFragment
 import com.uldskull.rolegameassistant.fragments.fragment.bonds.BondsFragment
@@ -18,16 +17,16 @@ import com.uldskull.rolegameassistant.fragments.fragment.hobby.HobbyFragment
 import com.uldskull.rolegameassistant.fragments.fragment.ideals.IdealsFragment
 import com.uldskull.rolegameassistant.fragments.fragment.occupation.OccupationFragment
 import com.uldskull.rolegameassistant.fragments.fragment.occupations.OccupationsFragment
-import com.uldskull.rolegameassistant.fragments.viewPager.adapter.*
 
 /**
  *   Class "FragmentAdapter" :
  *   TODO: Fill class use.
  **/
 class FragmentAdapter(val activity: AppCompatActivity) : FragmentStateAdapter(activity) {
-    companion object{
+    companion object {
         private const val TAG = "FragmentAdapter"
     }
+
     /**
      * Returns the total number of items in the data set held by the adapter.
      *
@@ -35,8 +34,46 @@ class FragmentAdapter(val activity: AppCompatActivity) : FragmentStateAdapter(ac
      */
     override fun getItemCount(): Int {
         Log.d(TAG, "getCount")
-        return 10
+        return fragmentList.size
     }
+
+
+    var fragmentList = mutableListOf<Fragment>(
+        BasicInfoFragment.newInstance(
+            activity
+        ),
+        BondsFragment.newInstance(
+            activity
+        ),
+        IdealsFragment.newInstance(
+            activity
+        ),
+        CharacteristicsFragment.newInstance(
+            activity
+        )/*,
+        DerivedValues1Fragment.newInstance(
+            activity
+        ),
+        DerivedValues1Fragment.newInstance(
+            activity
+        ),
+        DerivedValues2Fragment.newInstance(
+            activity
+        ),
+        OccupationsFragment.newInstance(
+            activity
+        ),
+        OccupationFragment.newInstance(
+            activity
+        ),
+        HobbiesFragment.newInstance(
+            activity
+        ),
+        HobbyFragment.newInstance(
+            activity
+        )*/
+
+    )
 
     /**
      * Provide a new Fragment associated with the specified position.
@@ -53,7 +90,8 @@ class FragmentAdapter(val activity: AppCompatActivity) : FragmentStateAdapter(ac
      */
     override fun createFragment(position: Int): Fragment {
         Log.d(TAG, "getItem")
-        return when (position) {
+        return fragmentList[position]
+        /*when (position) {
             BASIC_INFO_FRAGMENT_POSITION -> BasicInfoFragment.newInstance(
                 activity
             )
@@ -84,8 +122,6 @@ class FragmentAdapter(val activity: AppCompatActivity) : FragmentStateAdapter(ac
             HOBBY_FRAGMENT_POSITION -> HobbyFragment.newInstance(
                 activity
             )
-            else -> BasicInfoFragment.newInstance(activity)
-        }
+            else -> BasicInfoFragment.newInstance(activity)*/
     }
-// TODO : Fill class.
 }

@@ -3,17 +3,24 @@
 
 package com.uldskull.rolegameassistant.activities.newCharacter
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
-import android.view.MotionEvent
+import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.replaceFragment
 import com.uldskull.rolegameassistant.fragments.fragment.bars.NavigationBarFragment
 import com.uldskull.rolegameassistant.fragments.fragment.bars.ProgressBarFragment
+import com.uldskull.rolegameassistant.fragments.fragment.derivedValues.DerivedValues1Fragment
+import com.uldskull.rolegameassistant.fragments.fragment.derivedValues.DerivedValues2Fragment
+import com.uldskull.rolegameassistant.fragments.fragment.hobbies.HobbiesFragment
+import com.uldskull.rolegameassistant.fragments.fragment.hobby.HobbyFragment
+import com.uldskull.rolegameassistant.fragments.fragment.occupation.OccupationFragment
+import com.uldskull.rolegameassistant.fragments.fragment.occupations.OccupationsFragment
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.ProgressionBarViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -23,11 +30,12 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  *   Used to handle new character creation
  **/
 class NewCharacterActivity :
-    SwipeActivator,
+    AddEndFragment,
     AppCompatActivity() {
 
 
     private var viewPager: ViewPager2? = null
+    private var pagerAdapter: FragmentAdapter? = null
 
     /** ViewModel for new character activity    **/
     private lateinit var newCharacterViewModel: NewCharacterViewModel
@@ -37,7 +45,6 @@ class NewCharacterActivity :
     /** SupportFragmentManager  **/
     private val fragmentManager = supportFragmentManager
 
-
     /** Activity life cycle
      * @param savedInstanceState the transmitted bundle**/
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,10 +53,7 @@ class NewCharacterActivity :
 
         setContentView(R.layout.activity_new_character)
 
-        //  Get the ViewModels by DI
-        newCharacterViewModel = getViewModel()
-        progressionBarViewModel = getViewModel()
-
+        loadViewModels()
 
         //  Observe the progression
         this.observeProgression()
@@ -61,6 +65,22 @@ class NewCharacterActivity :
         this.updateProgressBarFragment(0)
     }
 
+    val okButtonClick = { dialog: DialogInterface, which: Int -> }
+
+    fun characteristicsAlert() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Before continuing ...")
+        builder.setMessage("Characteristics are necessary for the following steps.")
+        builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = okButtonClick))
+        builder.show()
+    }
+
+    private fun loadViewModels() {
+        //  Get the ViewModels by DI
+        newCharacterViewModel = getViewModel()
+        progressionBarViewModel = getViewModel()
+    }
+
     /** Set character page adapter  **/
     private fun setCharacterPagerAdapter() {
         Log.d(TAG, "setCharacterPageAdapter")
@@ -68,21 +88,30 @@ class NewCharacterActivity :
 
         //  Instantiate a ViewPager2 and a PagerAdapter.
         viewPager = findViewById<ViewPager2>(R.id.activityNewCharacter_viewPager)
-        val pagerAdapter = FragmentAdapter(this)
+        pagerAdapter = FragmentAdapter(this)
         viewPager?.adapter = pagerAdapter
 
 
 
-        viewPager?.registerOnPageChangeCallback(object:ViewPager2.OnPageChangeCallback(){
+        viewPager?.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             /**
              * Called when the scroll state changes. Useful for discovering when the user begins
              * dragging, when a fake drag is started, when the pager is automatically settling to the
              * current page, or when it is fully stopped/idle. `state` can be one of [ ][.SCROLL_STATE_IDLE], [.SCROLL_STATE_DRAGGING] or [.SCROLL_STATE_SETTLING].
              */
             override fun onPageScrollStateChanged(state: Int) {
-                Log.d("DEBUG", "onPageScrollStateChanged \n" +
-                        "\t state : $state")
+                Log.d(
+                    "DEBUG",
+                    "onPageScrollStateChanged \n" +
+                            "\t state : $state"
+                )
+                Log.d(
+                    "DEBUG",
+                    " fragmentList size = ${pagerAdapter?.fragmentList?.size.toString()}"
+                )
+
                 super.onPageScrollStateChanged(state)
+
             }
 
             /**
@@ -99,21 +128,20 @@ class NewCharacterActivity :
                 positionOffset: Float,
                 positionOffsetPixels: Int
             ) {
-                Log.d("DEBUG", "onPageScrolled \n" +
-                        "\tposition : $position\n" +
-                        "\tpositionOffset : $positionOffset\n" +
-                        "\tpositionOffsetPixels : $positionOffsetPixels\n" +
-                        "\tviewPager?.scrollState : ${viewPager?.scrollState}")
-                if(position == 3){
-                    Log.d("DEBUG", "Characteristics")
-                    viewPager?.
+                Log.d(
+                    "DEBUG", "onPageScrolled : \n" +
+                            "\tposition : $position\n" +
+                            "\tpositionO : $positionOffset\n" +
+                            "\tpositionOP : $positionOffsetPixels"
+                )
+                if (position == 3 && pagerAdapter?.fragmentList?.size == 4 && viewPager?.scrollState == 1) {
+                    Log.d("DEBUG", "Situation")
+                    characteristicsAlert()
+
                 }
 
-                if(positionOffset > 0.5){
-                    Log.d("DEBUG", "Scroll to left")
-                }else if(positionOffset < 0.5){
-                    Log.d("DEBUG", "Scroll to right")
-                }
+
+
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
             }
 
@@ -124,9 +152,12 @@ class NewCharacterActivity :
              * @param position Position index of the new selected page.
              */
             override fun onPageSelected(position: Int) {
-                Log.d("DEBUG" , "onPageSelected\n" +
-                        "\tposition : $position")
+                Log.d(
+                    "DEBUG", "onPageSelected\n" +
+                            "\tposition : $position"
+                )
                 progressionBarViewModel.progression.value = position
+
                 super.onPageSelected(position)
             }
         })
@@ -173,186 +204,39 @@ class NewCharacterActivity :
         /** ViewPager progression   **/
     }
 
-
-    //  [LOCKABLE VIEWPAGER]
-    override fun lockViewPager(swipeIsEnabled: Boolean) {
-        Log.d(TAG, "lockViewPager = $swipeIsEnabled")
-        this.isSwipeEnabled = swipeIsEnabled
-
+    /**
+     * Add the end of the fragment list
+     */
+    override fun addEndFragment() {
+        pagerAdapter?.fragmentList?.add(
+            DerivedValues1Fragment.newInstance(
+                this
+            )
+        )
+        pagerAdapter?.fragmentList?.add(
+            DerivedValues2Fragment.newInstance(
+                this
+            )
+        )
+        pagerAdapter?.fragmentList?.add(
+            OccupationsFragment.newInstance(
+                this
+            )
+        )
+        pagerAdapter?.fragmentList?.add(
+            OccupationFragment.newInstance(
+                this
+            )
+        )
+        pagerAdapter?.fragmentList?.add(
+            HobbiesFragment.newInstance(
+                this
+            )
+        )
+        pagerAdapter?.fragmentList?.add(
+            HobbyFragment.newInstance(
+                this
+            )
+        )
     }
-
-    private var isSwipeEnabled: Boolean = true
-
-    //  [OVERLAY]
-    /**
-     * Initialize overlay view
-     */
-    /*  private fun initializeOverlay() {
-          var touchLayer =
-              deserializeOverlayView()
-
-          setOverlayOnTouchListener(touchLayer)
-          initializeGestureDetector()
-      }*/
-
-    /*  private fun initializeGestureDetector() {
-          gestureDetector = GestureDetector(this, object : GestureDetector.OnGestureListener {
-              */
-    /**
-     * The user has performed a down [MotionEvent] and not performed
-     * a move or up yet. This event is commonly used to provide visual
-     * feedback to the user to let them know that their action has been
-     * recognized i.e. highlight an element.
-     *
-     * @param e The down motion event
-     *//*
-            override fun onShowPress(e: MotionEvent?) {
-                Log.d(TAG, "onShowPress")
-            }
-
-            */
-    /**
-     * Notified when a tap occurs with the up [MotionEvent]
-     * that triggered it.
-     *
-     * @param e The up motion event that completed the first tap
-     * @return true if the event is consumed, else false
-     *//*
-            override fun onSingleTapUp(e: MotionEvent?): Boolean {
-                Log.d(TAG, "onSingleTapUp")
-                return true
-            }
-
-            */
-    /**
-     * Notified when a tap occurs with the down [MotionEvent]
-     * that triggered it. This will be triggered immediately for
-     * every down event. All other events should be preceded by this.
-     *
-     * @param e The down motion event.
-     *//*
-            override fun onDown(e: MotionEvent?): Boolean {
-                Log.d(TAG, "onDown")
-                return true
-            }
-
-            */
-    /**
-     * Notified of a fling event when it occurs with the initial on down [MotionEvent]
-     * and the matching up [MotionEvent]. The calculated velocity is supplied along
-     * the x and y axis in pixels per second.
-     *
-     * @param e1 The first down motion event that started the fling.
-     * @param e2 The move motion event that triggered the current onFling.
-     * @param velocityX The velocity of this fling measured in pixels per second
-     * along the x axis.
-     * @param velocityY The velocity of this fling measured in pixels per second
-     * along the y axis.
-     * @return true if the event is consumed, else false
-     *//*
-            override fun onFling(
-                e1: MotionEvent?,
-                e2: MotionEvent?,
-                velocityX: Float,
-                velocityY: Float
-            ): Boolean {
-                Log.d("DEBUG", "onFling = ${e1?.x} and ${e2?.x}")
-                if (e1 != null && e2 != null) {
-                    Log.d("DEBUG", "Swipe")
-                    if (e1.x < e2.x) {
-                        var fragmentPosition = lockableViewPager?.currentItem
-                        lockableViewPager.setCurrentItem(fragmentPosition - 1, true)
-                        isSwipeEnabled = true
-                    }
-                }
-
-                return true
-            }
-
-            */
-    /**
-     * Notified when a scroll occurs with the initial on down [MotionEvent] and the
-     * current move [MotionEvent]. The distance in x and y is also supplied for
-     * convenience.
-     *
-     * @param e1 The first down motion event that started the scrolling.
-     * @param e2 The move motion event that triggered the current onScroll.
-     * @param distanceX The distance along the X axis that has been scrolled since the last
-     * call to onScroll. This is NOT the distance between `e1`
-     * and `e2`.
-     * @param distanceY The distance along the Y axis that has been scrolled since the last
-     * call to onScroll. This is NOT the distance between `e1`
-     * and `e2`.
-     * @return true if the event is consumed, else false
-     *//*
-            override fun onScroll(
-                e1: MotionEvent?,
-                e2: MotionEvent?,
-                distanceX: Float,
-                distanceY: Float
-            ): Boolean {
-                Log.d(TAG, "onScroll")
-                return true
-            }
-
-            */
-    /**
-     * Notified when a long press occurs with the initial on down [MotionEvent]
-     * that trigged it.
-     *
-     * @param e The initial on down motion event that started the longpress.
-     *//*
-            override fun onLongPress(e: MotionEvent?) {
-                Log.d(TAG, "onLongPress")
-
-            }
-
-        })
-    }*/
-
-    // var originalX = 2000f
-
-    // var gestureDetector: GestureDetector? = null
-
-    /**
-     * Sets overlay view onTouchListener
-     */
-    /* private fun setOverlayOnTouchListener(touchLayer: View?) {
-         touchLayer?.setOnTouchListener(object : OverlayTouchListener() {
-             */
-    /**
-     * Called when a touch event is dispatched to a view. This allows listeners to
-     * get a chance to respond before the target view.
-     *
-     * @param v The view the touch event has been dispatched to.
-     * @param event The MotionEvent object containing full information about
-     * the event.
-     * @return True if the listener has consumed the event, false otherwise.
-     *//*
-            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-                Log.d(TAG, "onTouch")
-                if (event != null) {
-                    Log.d(TAG, "event is not null")
-                    //  Check the swiping direction and ViewPager.isSwipeEnabled
-                    if (isSwipeEnabled) {
-                        Log.d(TAG, "isSwipeEnabled == true")
-                        lockableViewPager?.onTouchEvent(event)
-                    } else {
-                        Log.d("DEBUG", "Handled by the gesture detector")
-                        gestureDetector?.onTouchEvent(event)
-                    }
-                }
-                return true
-            }
-        })
-    }*/
-
-
-    /*   private fun deserializeOverlayView(): View? {
-           var touchLayer =
-               this.findViewById<View>(R.id.touch_layer)
-           Log.d(TAG, "is touch layer null ? :${touchLayer == null}")
-           return touchLayer
-       }*/
-
 }

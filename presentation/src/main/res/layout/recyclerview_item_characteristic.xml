@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android" >
+    android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -10,62 +11,71 @@
         android:paddingLeft="4dp"
         android:paddingRight="4dp">
 
-        <TextView
-            android:id="@+id/et_characteristicName"
-            android:layout_width="wrap_content"
+        <LinearLayout
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:hint="ability"
-            android:maxWidth="40dp"
-            android:maxLines="1"
-            android:gravity="left"
-            android:minWidth="35dp"
-            android:singleLine="true"
-            android:textSize="16sp" />
+            android:layout_width="0dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/et_characteristicName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:hint="ability"
+                android:maxLines="1"
+                android:minWidth="35dp"
+                android:singleLine="true"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_characteristicRollRule"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:hint="1D6"
+                android:paddingLeft="8dp" />
+        </LinearLayout>
+
 
         <EditText
-            android:gravity="center_horizontal"
-            android:minWidth="12dp"
             android:id="@+id/et_characteristicRoll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center_horizontal"
             android:hint="0"
             android:inputType="none"
-            android:maxLength="2"
             android:maxWidth="15dp"
+            android:maxLength="2"
+            android:minWidth="12dp"
             android:textSize="24sp" />
 
         <EditText
-            android:gravity="center_horizontal"
-            android:minWidth="12dp"
             android:id="@+id/et_characteristicBonus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center_horizontal"
             android:hint="0"
             android:inputType="number"
             android:maxWidth="15dp"
+            android:minWidth="12dp"
             android:textSize="24sp" />
 
         <TextView
-            android:gravity="center_horizontal"
-            android:minWidth="12dp"
             android:id="@+id/tv_characteristicTotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center_horizontal"
             android:hint="0"
             android:maxWidth="15dp"
+            android:minWidth="12dp"
             android:textSize="24sp" />
 
 
     </LinearLayout>
-    <TextView
-        android:paddingLeft="8dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_characteristicRollRule"
-        android:hint="1D6"/>
+
 </LinearLayout>
 

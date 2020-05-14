@@ -47,7 +47,7 @@ class DerivedValues1Fragment : CustomFragment() {
         savedInstanceState: Bundle?
     ): View? {
         Log.d(TAG, "onCreateView")
-        (activity as NewCharacterActivity).lockViewPager(false)
+
         return initializeView(inflater, container)
     }
 
