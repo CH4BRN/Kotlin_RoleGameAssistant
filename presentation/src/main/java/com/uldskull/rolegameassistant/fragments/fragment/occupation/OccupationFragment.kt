@@ -490,7 +490,7 @@ class OccupationFragment() : CustomFragment() {
         Log.d(TAG, "observeCurrentOccupationSkill")
         this.occupationSkillsViewModel.currentOccupationSkill.observe(
             this,
-            Observer { domainFilledSkill: DomainFilledSkill ->
+            Observer { domainFilledSkill: DomainFilledSkill? ->
                 kotlin.run {
                     if (domainFilledSkill == null) {
                         spinnerUnitsValue?.isEnabled = false
@@ -502,15 +502,15 @@ class OccupationFragment() : CustomFragment() {
                         buttonValidateAddValueToSkill?.isEnabled = true
                     }
                     Log.d(TAG, "observed : ${domainFilledSkill}")
-                    textViewSelectedSkill?.text = domainFilledSkill.skillName
+                    textViewSelectedSkill?.text = domainFilledSkill?.skillName
                     var tensIndex =
-                        valuesList.findLast { v -> v == domainFilledSkill.filledSkillTensValue }
+                        valuesList.findLast { v -> v == domainFilledSkill?.filledSkillTensValue }
                     Log.d(TAG + "valid", "tensIndex : $tensIndex")
                     if (tensIndex != null) {
                         spinnerTensValue?.setSelection(tensIndex)
                     }
                     var unitsIndex =
-                        valuesList.findLast { value: Int -> value == domainFilledSkill.filledSkillUnitsValue }
+                        valuesList.findLast { value: Int -> value == domainFilledSkill?.filledSkillUnitsValue }
                     Log.d(TAG + "valid", "unitsIndex : $unitsIndex")
                     if (unitsIndex != null) {
                         spinnerUnitsValue?.setSelection(unitsIndex)

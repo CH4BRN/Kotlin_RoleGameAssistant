@@ -14,8 +14,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.viewPager.adapter.OCCUPATIONS_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.*
+import com.uldskull.rolegameassistant.fragments.viewPager.adapter.OCCUPATIONS_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
 import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupationWithSkills
 import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSkill
@@ -56,16 +56,16 @@ class OccupationsSkillsRecyclerViewFragment() :
         occupationsSkillsRecyclerView =
             activity?.findViewById<RecyclerView>(R.id.recyclerView_occupationsSkills)
 
-       setRecyclerViewAdapter()
+        setRecyclerViewAdapter()
         setRecyclerViewLayoutManager()
     }
 
     var occupationsSkillsAdapter: OccupationsSkillsAdapter? = null
 
-    fun initializeOccupationsSkillsAdapter(){
-        if(activity != null){
+    fun initializeOccupationsSkillsAdapter() {
+        if (activity != null) {
             OccupationsSkillsAdapter(
-                activity as Context,
+                activity!! as Context,
                 this
             )
         }
@@ -75,7 +75,6 @@ class OccupationsSkillsRecyclerViewFragment() :
         super.onViewCreated(view, savedInstanceState)
         initializeOccupationsSkillsAdapter()
     }
-
 
 
     /**
@@ -138,13 +137,15 @@ class OccupationsSkillsRecyclerViewFragment() :
      */
     override fun setRecyclerViewAdapter() {
         Log.d(TAG, "setRecyclerViewAdapter")
-        occupationsSkillsAdapter =
-            OccupationsSkillsAdapter(
-                activity as Context,
-                this
-            )
-        occupationsSkillsAdapter?.setOccupationsSkills(occupationsViewModel?.observedOccupationsSkills?.value)
-        occupationsSkillsRecyclerView?.adapter = occupationsSkillsAdapter
+        if (activity != null) {
+            occupationsSkillsAdapter =
+                OccupationsSkillsAdapter(
+                    activity!! as Context,
+                    this
+                )
+            occupationsSkillsAdapter?.setOccupationsSkills(occupationsViewModel?.observedOccupationsSkills?.value)
+            occupationsSkillsRecyclerView?.adapter = occupationsSkillsAdapter
+        }
     }
 
     private var layoutManager: LinearLayoutManager? = null

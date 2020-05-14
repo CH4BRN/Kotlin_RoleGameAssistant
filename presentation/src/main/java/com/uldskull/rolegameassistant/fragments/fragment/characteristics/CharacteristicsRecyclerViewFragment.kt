@@ -14,7 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.newCharacter.NewCharacterActivity
+import com.uldskull.rolegameassistant.activities.newCharacter.CharacterActivity
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
@@ -100,7 +100,7 @@ class CharacteristicsRecyclerViewFragment() :
                 } else {
                     characteristicsRecyclerView?.adapter = characteristicsAdapter
                 }
-                (activity as NewCharacterActivity).addEndFragment()
+                (activity as CharacterActivity).addEndFragment()
 
             }
         }

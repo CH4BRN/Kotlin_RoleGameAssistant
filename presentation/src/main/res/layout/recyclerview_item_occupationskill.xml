@@ -6,7 +6,6 @@
     android:paddingTop="16dp"
     android:paddingBottom="8dp"
     android:orientation="horizontal"
-    android:background="@drawable/my_recycler_view_selector"
     >
 
 

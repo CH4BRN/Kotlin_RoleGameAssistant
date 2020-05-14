@@ -10,7 +10,7 @@ import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
 
 /**
  *   Class "OccupationSkillsViewModel" :
- *   TODO: Fill class use.
+ *   Occupation skills view m
  **/
 class OccupationSkillsViewModel(
     application: Application
@@ -19,11 +19,14 @@ class OccupationSkillsViewModel(
         private const val TAG = "OccupationSkillsViewModel"
     }
 
+    /**
+     * Observable points to spend
+     */
     var occupationSkillsPointsToSpend = MutableLiveData<Int>()
     private val lock = java.lang.Object()
 
     var checkedOccupationSkills = MutableLiveData<List<DomainFilledSkill>>()
-    var currentOccupationSkill = MutableLiveData<DomainFilledSkill>()
+    var currentOccupationSkill = MutableLiveData<DomainFilledSkill?>()
 
     var occupationSkillsTotalPointsToSpend = MutableLiveData<Int>()
 

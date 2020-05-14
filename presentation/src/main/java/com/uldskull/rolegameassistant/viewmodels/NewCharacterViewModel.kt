@@ -106,14 +106,10 @@ class NewCharacterViewModel(
     /**
      * Character name.
      */
-    var characterName: String? = ""
-        set(value) {
-            if (value != null) {
-                Log.d("NewCharacterViewModel CharacterName", value!!)
-            }
+    var characterName = MutableLiveData<String>()
 
-            field = value
-        }
+
+
     /**
      * Character age.
      */
@@ -194,10 +190,6 @@ class NewCharacterViewModel(
         if (energyScore != null) {
             currentCharacter?.characterEnergyPoints = energyScore
         }
-
-
-
-
         try {
             if (currentCharacter?.characterId == null) {
                 Log.d("CHARACTER", "INSERT")
@@ -356,9 +348,9 @@ class NewCharacterViewModel(
     }
 
     private fun setName() {
-        if (!characterName.isNullOrEmpty()) {
+        if (!characterName.value.isNullOrEmpty()) {
             Log.d(TAG, "Name : $characterName")
-            currentCharacter?.characterName = characterName
+            currentCharacter?.characterName = characterName.value
         }
     }
 

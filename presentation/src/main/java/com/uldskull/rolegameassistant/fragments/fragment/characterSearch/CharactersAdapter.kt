@@ -4,6 +4,7 @@
 package com.uldskull.rolegameassistant.fragments.fragment.characterSearch
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.activities.newCharacter.CharacterActivity
 import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewAdapter
 import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
@@ -22,7 +24,7 @@ import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
  *   Adapter that populates the character recycler view.
  **/
 class CharactersAdapter internal constructor(
-    context: Context,
+    val context: Context,
     private val buttonListener: AdapterButtonListener<DomainCharacter>
 ) : CustomRecyclerViewAdapter(context) {
 
@@ -113,6 +115,8 @@ class CharactersAdapter internal constructor(
             rowIndex = position
             buttonListener.itemPressed(characters[position])
             notifyDataSetChanged()
+            val intent = Intent(context, CharacterActivity::class.java)
+            context.startActivity(intent)
         }
 
         if (rowIndex == position) {

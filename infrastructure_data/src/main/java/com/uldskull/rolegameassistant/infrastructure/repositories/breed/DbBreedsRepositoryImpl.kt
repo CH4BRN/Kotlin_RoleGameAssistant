@@ -63,9 +63,9 @@ class DbBreedsRepositoryImpl(
         Log.d(TAG, "insertAll")
         if ((all != null) && (all.isNotEmpty())) {
             try {
-                val result = dbBreedDao.insertBreeds(all.map { r ->
+                val result = dbBreedDao.insertBreeds(all.map { result ->
                     DbBreed.from(
-                        r
+                        result
                     )
                 })
                 Log.d(TAG, "insertAll RESULT = ${result.size}")

@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
@@ -25,7 +26,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   Class "NavigationBarFragment" :
  *   Fragment that displays the navigation bar.
  **/
-class NavigationBarFragment() : CustomFragment() {
+class NavigationBarFragment : CustomFragment() {
 
     /**
      * New character view model.
@@ -44,7 +45,7 @@ class NavigationBarFragment() : CustomFragment() {
 
     private val derivedValuesViewModel: DerivedValuesViewModel by sharedViewModel()
 
-
+    private var isSavingEnabled: Boolean = false
     /**
      * Initialize the initial root view.
      */
@@ -58,7 +59,7 @@ class NavigationBarFragment() : CustomFragment() {
 
     private fun displayBackConfirmation() {
         Log.d(TAG, "displayBackConfirmation")
-        if(activity != null){
+        if (activity != null) {
             val confirmDialog = AlertDialog.Builder(activity!!)
 
             confirmDialog.setTitle("Go back? : ")
@@ -93,6 +94,16 @@ class NavigationBarFragment() : CustomFragment() {
 
         setBackButton()
         setSaveButton()
+
+        observeCharacterName()
+    }
+
+    private fun observeCharacterName() {
+        newCharacterViewModel.characterName.observe(this, Observer { name ->
+            run {
+                isSavingEnabled = !(name.isNullOrBlank() || name.isNullOrEmpty())
+            }
+        })
     }
 
     private fun setBackButton() {
@@ -105,12 +116,36 @@ class NavigationBarFragment() : CustomFragment() {
     private fun setSaveButton() {
         Log.d(TAG, "setSaveButton")
         btn_save.setOnClickListener {
-            doSave()
+            if (isSavingEnabled) {
+                doSave()
+            }else{
+                displayNameAlertDialog()
+            }
         }
     }
 
+    /**
+     * Displays alert dialog for characteristics
+     */
+    fun displayNameAlertDialog() {
+        if(activity != null){
+            val builder = AlertDialog.Builder(activity!!)
+            builder.setTitle("Before continuing ...")
+            builder.setMessage("Name is necessary to save.")
+            builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = okButtonClick))
+            builder.show()
+        }
+
+    }
+
+    /**
+     * Called when the user clicks on the ok button into the name alert dialog
+     */
+    val okButtonClick = { dialog: DialogInterface, which: Int -> }
+
     private fun doSave() {
         Log.d(TAG, "doSave")
+
         var insertedId =
             newCharacterViewModel.saveCharacter(
                 characteristicsViewModel.displayedCharacteristics,
@@ -120,8 +155,8 @@ class NavigationBarFragment() : CustomFragment() {
             )
         var result = charactersViewModel.findOneById(insertedId)
         Log.d(TAG, "$result")
-
     }
+
 
     companion object : CustomCompanion() {
         private const val TAG = "NavigationBarFragment"

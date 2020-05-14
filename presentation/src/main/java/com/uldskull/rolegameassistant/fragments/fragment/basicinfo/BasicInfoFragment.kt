@@ -256,7 +256,7 @@ class BasicInfoFragment() : CustomFragment() {
              * ended up.
              */
             override fun afterTextChanged(s: Editable?) {
-                newCharacterViewModel.characterName = s.toString()
+                newCharacterViewModel.characterName.value = s.toString()
             }
 
             /**

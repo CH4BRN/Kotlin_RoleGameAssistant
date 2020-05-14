@@ -4,7 +4,7 @@
 
 package com.uldskull.rolegameassistant.activities
 
-import com.uldskull.rolegameassistant.activities.newCharacter.NewCharacterActivity
+import com.uldskull.rolegameassistant.activities.newCharacter.CharacterActivity
 
 val NEW_IDEAL_ACTIVITY = NewIdealActivity::class.java
 val NEW_BREED_ACTIVITY = NewBreedActivity::class.java
@@ -17,5 +17,5 @@ val NEW_JOB_ACTIVITY = NewOccupationActivity::class.java
 val CHARACTER_SEARCH_ACTIVITY: Class<CharacterSearchActivity> =
     CharacterSearchActivity::class.java
 /** New character activity java class   **/
-val NEW_CHARACTER_ACTIVITY: Class<NewCharacterActivity> =
-    NewCharacterActivity::class.java
+val CHARACTER_ACTIVITY: Class<CharacterActivity> =
+    CharacterActivity::class.java

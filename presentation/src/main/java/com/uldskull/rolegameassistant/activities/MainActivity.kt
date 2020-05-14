@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "getNewCharacterIntent")
         return Intent(
             this,
-            NEW_CHARACTER_ACTIVITY
+            CHARACTER_ACTIVITY
         )
     }
 

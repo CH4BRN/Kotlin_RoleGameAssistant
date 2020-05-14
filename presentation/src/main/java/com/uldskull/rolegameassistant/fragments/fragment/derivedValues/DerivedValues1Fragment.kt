@@ -11,9 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.newCharacter.NewCharacterActivity
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.DERIVED_VALUES_1_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment

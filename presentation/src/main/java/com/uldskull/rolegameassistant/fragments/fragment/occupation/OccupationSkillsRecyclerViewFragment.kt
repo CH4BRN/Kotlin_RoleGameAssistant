@@ -181,13 +181,16 @@ class OccupationSkillsRecyclerViewFragment() :
 
     override fun setRecyclerViewAdapter() {
         Log.d(TAG, "setRecyclerViewAdapter")
-        occupationSkillsAdapter =
-            OccupationSkillsAdapter(
-                activity as Context,
-                this
-            )
+        if(activity != null){
+            occupationSkillsAdapter =
+                OccupationSkillsAdapter(
+                    activity!! as Context,
+                    this
+                )
 
-        occupationSkillsRecyclerView?.adapter = occupationSkillsAdapter
+            occupationSkillsRecyclerView?.adapter = occupationSkillsAdapter
+        }
+
     }
 
 
@@ -221,7 +224,12 @@ class OccupationSkillsRecyclerViewFragment() :
      * Called when a recyclerview cell is pressed
      */
     override fun itemPressed(domainModel: DomainFilledSkill?) {
-        Log.d(TAG, "item pressed for $domainModel")
-        occupationSkillsViewModel?.currentOccupationSkill.value = domainModel
+        Log.d("DEBUG", "item pressed for $domainModel")
+        if(domainModel?.skillIsSelected != null){
+            occupationSkillsViewModel?.currentOccupationSkill.value = domainModel
+        }else{
+            occupationSkillsViewModel?.currentOccupationSkill.value = null
+        }
+
     }
 }

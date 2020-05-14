@@ -29,7 +29,7 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  *   Class "NewCharacterActivity" :
  *   Used to handle new character creation
  **/
-class NewCharacterActivity :
+class CharacterActivity :
     AddEndFragment,
     AppCompatActivity() {
 
@@ -65,8 +65,14 @@ class NewCharacterActivity :
         this.updateProgressBarFragment(0)
     }
 
+    /**
+     * Called when the user clicks on the ok button into the characteristics alert dialog
+     */
     val okButtonClick = { dialog: DialogInterface, which: Int -> }
 
+    /**
+     * Displays alert dialog for characteristics
+     */
     fun characteristicsAlert() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Before continuing ...")
