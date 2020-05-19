@@ -59,7 +59,7 @@ class BondsRecyclerViewFragment() :
     /**
      * Called when a recyclerview cell is pressed
      */
-    override fun itemPressed(domainModel: DomainBond?) {
+    override fun itemPressed(domainModel: DomainBond?, position:Int?) {
 
         Log.d(TAG, "Item pressed for $domainModel")
 

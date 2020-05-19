@@ -176,7 +176,7 @@ class OccupationsSkillsRecyclerViewFragment() :
     /**
      * Called when a recyclerview cell is pressed
      */
-    override fun itemPressed(domainModel: DomainOccupationSkill?) {
+    override fun itemPressed(domainModel: DomainOccupationSkill?, position:Int?) {
         Log.d(TAG, "itemPressed")
         if (domainModel != null) {
             var temp = occupationsViewModel.observedOccupationsSkills?.value?.toMutableList()

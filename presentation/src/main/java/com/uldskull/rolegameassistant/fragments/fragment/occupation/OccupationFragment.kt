@@ -211,10 +211,10 @@ class OccupationFragment() : CustomFragment() {
         setSpinnerAdapter()
         disableTheValidateButton()
         setOccupationSkillsPointsTextView()
-        observeOccupationTotalPointsToSpend()
-        observeOccupationSkillsPointsToSpend()
-        observeOccupationPointsValue()
         loadOccupationSkillsRecyclerView()
+        occupationViewModel?.observableSpentOccupationPoints?.observe(this, Observer {
+            Log.d("DEBUG", "observableSpentOccupationPoints : $it")
+        })
     }
 
     private fun loadOccupationSkillsRecyclerView() {
@@ -225,40 +225,13 @@ class OccupationFragment() : CustomFragment() {
                 OccupationSkillsRecyclerViewFragment.newInstance(activity!!)
             ).commit()
         }
-
     }
 
 
-    private fun observeOccupationPointsValue() {
-        occupationViewModel?.observableOccupationPointsValue.observe(this, Observer { tens ->
-            if (tens == null) {
-                //  Do nothing
-            } else {
-                textViewOccupationPointsValue?.text = tens.toString()
-            }
-        })
-    }
 
-    private fun observeOccupationSkillsPointsToSpend() {
-        occupationSkillsViewModel?.occupationSkillsPointsToSpend.observe(this, Observer { score ->
-            kotlin.run {
-                if (score != null) {
-                    occupationViewModel?.observableOccupationPointsValue.value = score
-                    occupationViewModel?.totalOccupationsPointsFixedValue = score
-                }
-            }
-        })
-    }
 
-    private fun observeOccupationTotalPointsToSpend() {
-        occupationSkillsViewModel?.occupationSkillsTotalPointsToSpend.observe(
-            this,
-            Observer { score ->
-                kotlin.run {
-                    textViewTotalOccupationPoints?.text = score.toString()
-                }
-            })
-    }
+
+
 
     /**
      * Set the occupation skills points to spend tew view.
@@ -267,7 +240,7 @@ class OccupationFragment() : CustomFragment() {
 
         var occupationScore = characteristicsViewModel?.getOccupationSkillsScore()
         occupationSkillsViewModel?.occupationSkillsTotalPointsToSpend.value = occupationScore
-        occupationSkillsViewModel?.occupationSkillsPointsToSpend.value = occupationScore
+
     }
 
     /**
@@ -373,6 +346,8 @@ class OccupationFragment() : CustomFragment() {
         }
     }
 
+    var lastTensValue:Int? = null
+    var lastUnit:Int? = null
     /**
      * Sets the tens's spinner selection listener
      */
@@ -411,17 +386,31 @@ class OccupationFragment() : CustomFragment() {
                 position: Int,
                 id: Long
             ) {
-                tensValue = valuesList[position]
 
-                if (tensValue != null) {
-                    if (unitsValue != null) {
-                        occupationViewModel?.observableOccupationPointsValue.value =
-                            occupationViewModel?.totalOccupationsPointsFixedValue.minus(unitsValue!! + (tensValue!! * 10))
-                    } else {
-                        occupationViewModel?.observableOccupationPointsValue.value =
-                            occupationViewModel?.totalOccupationsPointsFixedValue.minus(tensValue!!)
-                    }
+                var newTensValue = valuesList[position] * 10
+                var oldTotalValue = occupationViewModel?.observableSpentOccupationPoints?.value
+                var initialTotalValue:Int = 0
+                //  subtracts last value to the total
+                if(oldTotalValue != null && oldTotalValue != 0 && lastTensValue != null){
+                    initialTotalValue =  oldTotalValue - lastTensValue!!*10
                 }
+                var newTotalValue:Int?
+                //  adds the new tens to the
+                newTotalValue = initialTotalValue + newTensValue
+
+                Log.d("DEBUG",
+                    "\n" +
+                            "\tnewTotalValue : $newTotalValue" +
+                            "\n" +
+                            "\tinitialTotalValue : $initialTotalValue" +
+                            "\n" +
+                            "\toldTotalValue : $oldTotalValue" +
+                            "")
+                occupationViewModel?.observableSpentOccupationPoints?.value = newTotalValue
+
+
+
+
             }
         }
     }

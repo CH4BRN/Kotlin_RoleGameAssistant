@@ -121,6 +121,9 @@ class OccupationSkillsAdapter internal constructor(
         var tvOccupationSkillSeparator: TextView? =
             itemView?.findViewById(R.id.tv_occupationSkillSeparator)
 
+        /**
+         * Bind the view holder
+         */
         fun bind(skill: DomainFilledSkill?) {
             tvOccupationSkillName?.text = skill?.skillName
             var base: Int? = 0
@@ -172,6 +175,9 @@ class OccupationSkillsAdapter internal constructor(
 
     }
 
+    /**
+     * Get selected item.
+     */
     fun getSelected(): DomainFilledSkill? {
         if (checkedPosition != -1) {
             return occupationSkills[checkedPosition]
@@ -179,12 +185,7 @@ class OccupationSkillsAdapter internal constructor(
         return null
     }
 
-    /**
-     *   Selected item index
-     */
-    private var selectedItemIndex = -1
 
-    private var previousSelectedItemIndex = -1
 
     /**
      * Calculates a skill's add value.

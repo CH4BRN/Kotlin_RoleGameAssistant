@@ -161,7 +161,7 @@ class IdealsRecyclerViewFragment() :
     /**
      * Called when a recyclerview cell is pressed
      */
-    override fun itemPressed(domainModel: DomainIdeal?) {
+    override fun itemPressed(domainModel: DomainIdeal?, position:Int?) {
         Log.d(TAG, "itemPressed")
         if (domainModel != null) {
             if (domainModel.isChecked) {

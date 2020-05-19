@@ -121,7 +121,7 @@ class CharacterRecyclerViewFragment() :
     /**
      * Called when a recyclerview cell is pressed
      */
-    override fun itemPressed(domainModel: DomainCharacter?) {
+    override fun itemPressed(domainModel: DomainCharacter?, position:Int?) {
         Log.d("TEST PRESS", "Button pressed for ${domainModel?.characterName}")
         this.charactersViewModel.selectedCharacter = domainModel
     }

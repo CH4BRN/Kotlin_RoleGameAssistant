@@ -21,4 +21,7 @@ class OccupationViewModel(
 
     var observableOccupationPointsValue=MutableLiveData<Int>()
     var totalOccupationsPointsFixedValue:Int = 0
+    var observableSpentOccupationPoints=MutableLiveData<Int>()
+
+    var observableSpentOccupationPointsArray=MutableLiveData<ArrayList<Int>>()
 }

@@ -121,7 +121,7 @@ class BreedsRecyclerViewFragment() :
     /**
      * Called by the adapter when a breed is pressed.
      */
-    override fun itemPressed(domainModel: DomainBreed?) {
+    override fun itemPressed(domainModel: DomainBreed?, position:Int?) {
         Log.d(TAG, "itemPressed")
         recyclerView_breeds?.requestFocus()
         Log.d(

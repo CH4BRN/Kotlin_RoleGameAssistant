@@ -23,6 +23,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
+import com.uldskull.rolegameassistant.viewmodels.OccupationViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationSkillsViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -40,6 +41,8 @@ class OccupationSkillsRecyclerViewFragment() :
      * Occupation skills viewModel.
      */
     private val occupationSkillsViewModel: OccupationSkillsViewModel by sharedViewModel()
+
+    private val occupationViewModel:OccupationViewModel by sharedViewModel()
     /**
      * Occupation skills recyclerView
      */
@@ -220,16 +223,30 @@ class OccupationSkillsRecyclerViewFragment() :
 
     }
 
+
+
     /**
      * Called when a recyclerview cell is pressed
      */
-    override fun itemPressed(domainModel: DomainFilledSkill?) {
+    override fun itemPressed(domainModel: DomainFilledSkill?, position: Int?) {
         Log.d("DEBUG", "item pressed for $domainModel")
+        TODO("Implements spent points with list")
+        var spent = occupationViewModel?.observableSpentOccupationPoints?.value
+        if(position != null && spent!= null){
+            occupationViewModel?.observableSpentOccupationPointsArray?.value?.set(position, spent)
+        }
+
         if(domainModel?.skillIsSelected != null){
             occupationSkillsViewModel?.currentOccupationSkill.value = domainModel
         }else{
             occupationSkillsViewModel?.currentOccupationSkill.value = null
         }
+        var totalSpent:Int? = 0
+        occupationViewModel?.observableSpentOccupationPointsArray?.value?.forEach{
+            value -> kotlin.run { totalSpent?.plus(value) }
+        }
 
-    }
+        occupationViewModel?.observableSpentOccupationPoints.value = totalSpent
+
+        occupationViewModel?.observableSpentOccupationPoints?.value = spent    }
 }
