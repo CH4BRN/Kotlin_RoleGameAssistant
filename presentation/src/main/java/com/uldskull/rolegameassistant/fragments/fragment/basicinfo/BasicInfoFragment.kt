@@ -17,10 +17,7 @@ import android.widget.ImageButton
 import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NEW_BREED_ACTIVITY
-import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
-import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
-import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
-import com.uldskull.rolegameassistant.fragments.fragment.REQUEST_CODE_BASIC_INFO_NEW_BREED
+import com.uldskull.rolegameassistant.fragments.fragment.*
 import com.uldskull.rolegameassistant.fragments.fragment.breed.BreedsRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.BASIC_INFO_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
@@ -79,12 +76,17 @@ class BasicInfoFragment() : CustomFragment() {
     /**
      * Edit text for biography
      */
-    private var editTextBiography: EditText? = null
+    private var editTextCharacterBiography: EditText? = null
 
     /**
      * Edit text for height
      */
-    private var editTextHeight: EditText? = null
+    private var editTextCharacterHeight: EditText? = null
+
+    /**
+     * EditText for weight
+     */
+    private var editTextCharacterWeight: EditText? = null
 
     /**
      * Fragment Lifecycle
@@ -114,9 +116,7 @@ class BasicInfoFragment() : CustomFragment() {
      */
     override fun onResume() {
         super.onResume()
-        Log.d(TAG, "Progression before : " + progressionBarViewModel.progression.value.toString())
         progressionBarViewModel.progression.value = BASIC_INFO_FRAGMENT_POSITION
-        Log.d(TAG, "Progression after : " + progressionBarViewModel.progression.value.toString())
     }
 
     /**
@@ -159,13 +159,21 @@ class BasicInfoFragment() : CustomFragment() {
      * Deserialize fragment's widgets.
      */
     private fun deserializeWidgets() {
-        editTextCharacterName = view?.findViewById(R.id.et_name)
-        editTextCharacterAge = view?.findViewById(R.id.et_age)
-        editTextCharacterGender = view?.findViewById<EditText>(R.id.et_gender)
-        editTextBiography = view?.findViewById(R.id.et_biography)
+        deserializeEditTexts()
         buttonAddBreed = view?.findViewById<ImageButton>(R.id.btn_addBreed)
-        editTextHeight = view?.findViewById(R.id.et_height)
 
+    }
+
+    /**
+     * Deserialize edit texts
+     */
+    private fun deserializeEditTexts() {
+        editTextCharacterName = view?.findViewById(R.id.et_characterName)
+        editTextCharacterAge = view?.findViewById(R.id.et_characterAge)
+        editTextCharacterGender = view?.findViewById<EditText>(R.id.et_CharacterGender)
+        editTextCharacterBiography = view?.findViewById(R.id.et_CharacterBiography)
+        editTextCharacterHeight = view?.findViewById(R.id.et_CharacterHeight)
+        editTextCharacterWeight = view?.findViewById(R.id.et_CharacterWeight)
     }
 
     /**
@@ -195,13 +203,39 @@ class BasicInfoFragment() : CustomFragment() {
      */
     private fun startObservation() {
         Log.d("DEBUG $TAG", "startObservation")
-       if(newCharacterViewModel?.selectedCharacter != null){
-           var character = newCharacterViewModel?.selectedCharacter
-           newCharacterViewModel?.currentCharacter = character
-           Log.d("DEBUG $TAG","${newCharacterViewModel?.selectedCharacter}" )
-           editTextCharacterName?.setText(character?.characterName)
-       }
+        newCharacterViewModel?.selectedCharacter?.observe(
+            this,
+            Observer { character: DomainCharacter? ->
+                kotlin.run {
+                    Log.d("DEBUG $TAG", "${newCharacterViewModel?.selectedCharacter.value}")
 
+                    newCharacterViewModel?.currentCharacter = character
+
+                    if (character?.characterName != null) {
+                        editTextCharacterName?.setText(character?.characterName)
+                    }
+
+                    if (character?.characterAge != null) {
+                        editTextCharacterAge?.setText(character?.characterAge?.toString())
+                    }
+
+                    if (character?.characterGender != null) {
+                        editTextCharacterGender?.setText(character?.characterGender)
+                    }
+
+                    if (character?.characterBiography != null) {
+                        editTextCharacterBiography?.setText(character?.characterBiography)
+                    }
+
+                    if (character?.characterHeight != null) {
+                        editTextCharacterHeight?.setText(character?.characterHeight?.toString())
+                    }
+
+                    if (character?.characterWeight != null) {
+                        editTextCharacterWeight?.setText(character?.characterWeight?.toString())
+                    }
+                }
+            })
     }
 
 
@@ -223,7 +257,18 @@ class BasicInfoFragment() : CustomFragment() {
         setGenderTextChangedListener()
         setBiographyTextChangedListener()
         setHeightTextChangedListener()
+        setWeightTextChangedListener()
 
+    }
+
+    private fun setWeightTextChangedListener() {
+        Log.d(TAG, "setWeightTextChangedListener")
+        editTextCharacterWeight?.addTextChangedListener(object : CustomTextWatcher() {
+            override fun afterTextChanged(s: Editable?) {
+                newCharacterViewModel?.characterWeight?.value = s.toString().toInt()
+            }
+
+        })
     }
 
     /**
@@ -231,7 +276,7 @@ class BasicInfoFragment() : CustomFragment() {
      */
     private fun setGenderTextChangedListener() {
         Log.d(TAG, "setGenderTextChangedListener")
-        editTextCharacterGender?.addTextChangedListener(object : TextWatcher {
+        editTextCharacterGender?.addTextChangedListener(object : CustomTextWatcher() {
             /**
              * This method is called to notify you that, somewhere within
              * `s`, the text has been changed.
@@ -249,32 +294,6 @@ class BasicInfoFragment() : CustomFragment() {
             override fun afterTextChanged(gender: Editable?) {
                 newCharacterViewModel.characterGender = gender?.toString()
             }
-
-            /**
-             * This method is called to notify you that, within `s`,
-             * the `count` characters beginning at `start`
-             * are about to be replaced by new text with length `after`.
-             * It is an error to attempt to make changes to `s` from
-             * this callback.
-             */
-            override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
-            ) {
-            }
-
-            /**
-             * This method is called to notify you that, within `s`,
-             * the `count` characters beginning at `start`
-             * have just replaced old text that had length `before`.
-             * It is an error to attempt to make changes to `s` from
-             * this callback.
-             */
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
         })
     }
 
@@ -283,51 +302,10 @@ class BasicInfoFragment() : CustomFragment() {
      */
     private fun setAgeTextChangedListener() {
         Log.d(TAG, "setAgeTextChangedListener")
-        editTextCharacterAge?.addTextChangedListener(object : TextWatcher {
-            /**
-             * This method is called to notify you that, somewhere within
-             * `s`, the text has been changed.
-             * It is legitimate to make further changes to `s` from
-             * this callback, but be careful not to get yourself into an infinite
-             * loop, because any changes you make will cause this method to be
-             * called again recursively.
-             * (You are not told where the change took place because other
-             * afterTextChanged() methods may already have made other changes
-             * and invalidated the offsets.  But if you need to know here,
-             * you can use [Spannable.setSpan] in [.onTextChanged]
-             * to mark your place and then look up from here where the span
-             * ended up.
-             */
+        editTextCharacterAge?.addTextChangedListener(object : CustomTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
                 newCharacterViewModel.saveAge(s.toString())
             }
-
-            /**
-             * This method is called to notify you that, within `s`,
-             * the `count` characters beginning at `start`
-             * are about to be replaced by new text with length `after`.
-             * It is an error to attempt to make changes to `s` from
-             * this callback.
-             */
-            override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
-            ) {
-            }
-
-
-            /**
-             * This method is called to notify you that, within `s`,
-             * the `count` characters beginning at `start`
-             * have just replaced old text that had length `before`.
-             * It is an error to attempt to make changes to `s` from
-             * this callback.
-             */
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
         })
     }
 
@@ -336,49 +314,10 @@ class BasicInfoFragment() : CustomFragment() {
      */
     private fun setNameTextChangedListener() {
         Log.d(TAG, "setNameTextCHangedListener")
-        et_name?.addTextChangedListener(object : TextWatcher {
-            /**
-             * This method is called to notify you that, somewhere within
-             * `s`, the text has been changed.
-             * It is legitimate to make further changes to `s` from
-             * this callback, but be careful not to get yourself into an infinite
-             * loop, because any changes you make will cause this method to be
-             * called again recursively.
-             * (You are not told where the change took place because other
-             * afterTextChanged() methods may already have made other changes
-             * and invalidated the offsets.  But if you need to know here,
-             * you can use [Spannable.setSpan] in [.onTextChanged]
-             * to mark your place and then look up from here where the span
-             * ended up.
-             */
+        et_characterName?.addTextChangedListener(object : CustomTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
                 Log.d("DEBUG$TAG", "name : ${s.toString()}")
                 newCharacterViewModel.characterName.value = s.toString()
-            }
-
-            /**
-             * This method is called to notify you that, within `s`,
-             * the `count` characters beginning at `start`
-             * are about to be replaced by new text with length `after`.
-             * It is an error to attempt to make changes to `s` from
-             * this callback.
-             */
-            override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
-            ) {
-            }
-
-            /**
-             * This method is called to notify you that, within `s`,
-             * the `count` characters beginning at `start`
-             * have just replaced old text that had length `before`.
-             * It is an error to attempt to make changes to `s` from
-             * this callback.
-             */
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }
         })
     }
@@ -388,47 +327,10 @@ class BasicInfoFragment() : CustomFragment() {
      */
     private fun setBiographyTextChangedListener() {
         Log.d(TAG, "setBiographyTextChangedListener")
-        editTextBiography?.addTextChangedListener(object : TextWatcher {
-            /**
-             * This method is called to notify you that, somewhere within
-             * `s`, the text has been changed.
-             * It is legitimate to make further changes to `s` from
-             * this callback, but be careful not to get yourself into an infinite
-             * loop, because any changes you make will cause this method to be
-             * called again recursively.
-             * (You are not told where the change took place because other
-             * afterTextChanged() methods may already have made other changes
-             * and invalidated the offsets.  But if you need to know here,
-             * you can use [Spannable.setSpan] in [.onTextChanged]
-             * to mark your place and then look up from here where the span
-             * ended up.
-             */
+        editTextCharacterBiography?.addTextChangedListener(object : CustomTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
                 newCharacterViewModel.characterBiography = s.toString()
             }
-
-            /**
-             * This method is called to notify you that, within `s`,
-             * the `count` characters beginning at `start`
-             * are about to be replaced by new text with length `after`.
-             * It is an error to attempt to make changes to `s` from
-             * this callback.
-             */
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-            }
-
-            /**
-             * This method is called to notify you that, within `s`,
-             * the `count` characters beginning at `start`
-             * have just replaced old text that had length `before`.
-             * It is an error to attempt to make changes to `s` from
-             * this callback.
-             */
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-            }
-
         })
     }
 
@@ -437,44 +339,11 @@ class BasicInfoFragment() : CustomFragment() {
      */
     private fun setHeightTextChangedListener() {
         Log.d(TAG, "setHeightTextChangedListener")
-        et_height?.addTextChangedListener(object : TextWatcher {
-            /**
-             * This method is called to notify you that, somewhere within
-             * `s`, the text has been changed.
-             * It is legitimate to make further changes to `s` from
-             * this callback, but be careful not to get yourself into an infinite
-             * loop, because any changes you make will cause this method to be
-             * called again recursively.
-             * (You are not told where the change took place because other
-             * afterTextChanged() methods may already have made other changes
-             * and invalidated the offsets.  But if you need to know here,
-             * you can use [Spannable.setSpan] in [.onTextChanged]
-             * to mark your place and then look up from here where the span
-             * ended up.
-             */
+        et_CharacterHeight?.addTextChangedListener(object : CustomTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
                 Log.d(TAG, "afterTextChanged")
                 newCharacterViewModel.saveHeight(s.toString())
             }
-
-            /**
-             * This method is called to notify you that, within `s`,
-             * the `count` characters beginning at `start`
-             * are about to be replaced by new text with length `after`.
-             * It is an error to attempt to make changes to `s` from
-             * this callback.
-             */
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            /**
-             * This method is called to notify you that, within `s`,
-             * the `count` characters beginning at `start`
-             * have just replaced old text that had length `before`.
-             * It is an error to attempt to make changes to `s` from
-             * this callback.
-             */
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
         })
     }
 

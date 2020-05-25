@@ -37,7 +37,9 @@ class NewCharacterViewModel(
     private val idealsRepository: IdealsRepository<LiveData<List<DomainIdeal>>>
 ) : AndroidViewModel(application) {
 
-
+    /**
+     * Companion object
+     */
     companion object {
         private const val TAG = "NewCharacterViewModel"
     }
@@ -52,6 +54,9 @@ class NewCharacterViewModel(
      */
     var characterIdeals: MutableList<DomainIdeal?> = mutableListOf()
 
+    /**
+     * Character's alignment
+     */
     var characterAlignment: Int = 0
         get() {
             field = calculateCharacterAlignment()
@@ -110,6 +115,11 @@ class NewCharacterViewModel(
      */
     var characterName = MutableLiveData<String>()
 
+    /**
+     * Observable character weight
+     */
+    var characterWeight = MutableLiveData<Int>()
+
 
     /**
      * Character age.
@@ -160,7 +170,7 @@ class NewCharacterViewModel(
 
     var currentCharacter: DomainCharacter? = null
 
-    var selectedCharacter: DomainCharacter? = null
+    var selectedCharacter = MutableLiveData<DomainCharacter>()
 
 
     fun saveCharacter(
@@ -175,6 +185,7 @@ class NewCharacterViewModel(
         }
         setId()
         setName()
+        setWeight()
         setAge()
         setGender()
         setBiography()
@@ -348,6 +359,14 @@ class NewCharacterViewModel(
         }
     }
 
+    private fun setWeight(){
+        if(characterWeight.value != null){
+            Log.d("DEBUG$TAG", "Character weight = ${characterWeight?.value?.toString()}")
+            currentCharacter?.characterWeight = characterWeight?.value
+
+        }
+    }
+
     private fun setName() {
         if (!characterName.value.isNullOrEmpty()) {
             Log.d(TAG, "Name : $characterName")
@@ -378,7 +397,8 @@ class NewCharacterViewModel(
             characterAge = null,
             characterName = null,
             characterBreeds = null,
-            characterEducation = null
+            characterEducation = null,
+            characterWeight = null
         )
     }
 

@@ -15,6 +15,7 @@ import android.widget.ImageButton
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
+import com.uldskull.rolegameassistant.fragments.fragment.CustomTextWatcher
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.BONDS_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.viewmodels.BondsViewModel
@@ -145,35 +146,7 @@ class BondsFragment() : CustomFragment() {
      * Sets the Bond's value text changed listener
      */
     private fun setBondValueTextChangedListener() {
-        etBondValue.addTextChangedListener(object : TextWatcher {
-            /**
-             * This method is called to notify you that, somewhere within
-             * `s`, the text has been changed.
-             * It is legitimate to make further changes to `s` from
-             * this callback, but be careful not to get yourself into an infinite
-             * loop, because any changes you make will cause this method to be
-             * called again recursively.
-             * (You are not told where the change took place because other
-             * afterTextChanged() methods may already have made other changes
-             * and invalidated the offsets.  But if you need to know here,
-             * you can use [Spannable.setSpan] in [.onTextChanged]
-             * to mark your place and then look up from here where the span
-             * ended up.
-             */
-            override fun afterTextChanged(s: Editable?) {
-
-            }
-
-            /**
-             * This method is called to notify you that, within `s`,
-             * the `count` characters beginning at `start`
-             * are about to be replaced by new text with length `after`.
-             * It is an error to attempt to make changes to `s` from
-             * this callback.
-             */
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
+        etBondValue.addTextChangedListener(object : CustomTextWatcher() {
             /**
              * This method is called to notify you that, within `s`,
              * the `count` characters beginning at `start`
@@ -199,7 +172,7 @@ class BondsFragment() : CustomFragment() {
     }
 
     private fun setBondTitleTextChangedListener() {
-        etBondTitle?.addTextChangedListener(object : TextWatcher {
+        etBondTitle?.addTextChangedListener(object : CustomTextWatcher() {
             /**
              * This method is called to notify you that, somewhere within
              * `s`, the text has been changed.
@@ -220,27 +193,6 @@ class BondsFragment() : CustomFragment() {
                     btn_addBond.isEnabled = true
                 }
             }
-
-            /**
-             * This method is called to notify you that, within `s`,
-             * the `count` characters beginning at `start`
-             * are about to be replaced by new text with length `after`.
-             * It is an error to attempt to make changes to `s` from
-             * this callback.
-             */
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            /**
-             * This method is called to notify you that, within `s`,
-             * the `count` characters beginning at `start`
-             * have just replaced old text that had length `before`.
-             * It is an error to attempt to make changes to `s` from
-             * this callback.
-             */
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
         })
     }
 

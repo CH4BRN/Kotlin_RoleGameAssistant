@@ -76,7 +76,7 @@ class CharacterActivity :
         }
         val character: DomainCharacter? = Gson().fromJson(jsonCharacter, DomainCharacter::class.java)
         Log.d("DEBUG $TAG", "$character")
-        newCharacterViewModel.selectedCharacter = character
+        newCharacterViewModel.selectedCharacter?.value = character
 
     }
 

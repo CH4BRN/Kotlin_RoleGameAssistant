@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
+import com.uldskull.rolegameassistant.fragments.fragment.CustomTextWatcher
 import com.uldskull.rolegameassistant.fragments.fragment.EditTextUtil.Companion.editTextEnabling
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.DERIVED_VALUES_2_FRAGMENT_POSITION
@@ -81,18 +82,10 @@ class DerivedValues2Fragment() : CustomFragment() {
         }
     }
 
-    private fun alignmentPointsTextWatcher(): TextWatcher {
-        return object : TextWatcher {
+    private fun alignmentPointsTextWatcher(): CustomTextWatcher {
+        return object : CustomTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
                 setAlignmentPicture()
-            }
-
-            override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
-            ) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -131,14 +124,7 @@ class DerivedValues2Fragment() : CustomFragment() {
     }
 
     private fun setSizePlusStrengthTextChangedListener() {
-        et_sizePlusStrength.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-            }
+        et_sizePlusStrength.addTextChangedListener(object : CustomTextWatcher() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (!s.isNullOrBlank()) {
@@ -157,12 +143,9 @@ class DerivedValues2Fragment() : CustomFragment() {
     }
 
     private fun setEnergyPointsTextChangedListener() {
-        et_energyPoints.addTextChangedListener(object : TextWatcher {
+        et_energyPoints.addTextChangedListener(object : CustomTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
                 setAlignmentPicture()
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -181,14 +164,7 @@ class DerivedValues2Fragment() : CustomFragment() {
     }
 
     private fun setCthulhuMythPointsTextChangedListener() {
-        et_cthulhuMyth.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
+        et_cthulhuMyth.addTextChangedListener(object : CustomTextWatcher() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (!s.isNullOrEmpty()) {
                     try {
@@ -201,7 +177,6 @@ class DerivedValues2Fragment() : CustomFragment() {
                     }
                 }
             }
-
         })
     }
 

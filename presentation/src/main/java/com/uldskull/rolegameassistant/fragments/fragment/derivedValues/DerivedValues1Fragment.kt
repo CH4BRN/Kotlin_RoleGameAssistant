@@ -15,6 +15,7 @@ import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.DERIVED_VALUES_1_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
+import com.uldskull.rolegameassistant.fragments.fragment.CustomTextWatcher
 import com.uldskull.rolegameassistant.fragments.fragment.EditTextUtil.Companion.editTextEnabling
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
@@ -137,11 +138,11 @@ class DerivedValues1Fragment : CustomFragment() {
         }
     }
 
-    private fun setKnowScore(){
-        if(et_knowPoints != null && !derivedValuesViewModel.knowEditTextHasChanged){
+    private fun setKnowScore() {
+        if (et_knowPoints != null && !derivedValuesViewModel.knowEditTextHasChanged) {
             var education = characteristicsViewModel.getEducation()
             Log.d(TAG, "education : $education")
-            if(education != null){
+            if (education != null) {
                 derivedValuesViewModel.calculateKnowPoints(education)
                 et_knowPoints.setText(derivedValuesViewModel.knowScore.toString())
             }
@@ -182,7 +183,6 @@ class DerivedValues1Fragment : CustomFragment() {
     }
 
 
-
     private fun setEditTextsListeners() {
         setBaseHealthPointListener()
         setBreedBonusListener()
@@ -192,12 +192,9 @@ class DerivedValues1Fragment : CustomFragment() {
     }
 
     private fun setSanityListener() {
-        et_sanityPoints.addTextChangedListener(object : TextWatcher {
+        et_sanityPoints.addTextChangedListener(object : CustomTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
                 derivedValuesViewModel.sanityEditTextHasChanged = true
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -216,12 +213,9 @@ class DerivedValues1Fragment : CustomFragment() {
     }
 
     private fun setLuckListener() {
-        et_luckPoints.addTextChangedListener(object : TextWatcher {
+        et_luckPoints.addTextChangedListener(object : CustomTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
                 derivedValuesViewModel.luckEditTextHasChanged = true
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -239,12 +233,9 @@ class DerivedValues1Fragment : CustomFragment() {
     }
 
     private fun setIdeaListener() {
-        et_ideaPoints.addTextChangedListener(object : TextWatcher {
+        et_ideaPoints.addTextChangedListener(object : CustomTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
                 derivedValuesViewModel.ideaEditTextHasChanged = true
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -263,12 +254,9 @@ class DerivedValues1Fragment : CustomFragment() {
 
 
     private fun setBreedBonusListener() {
-        et_breedHealthBonus.addTextChangedListener(object : TextWatcher {
+        et_breedHealthBonus.addTextChangedListener(object : CustomTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
                 derivedValuesViewModel.breedBonusEditTextHasChanged = true
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -287,21 +275,18 @@ class DerivedValues1Fragment : CustomFragment() {
         })
     }
 
-    private fun setKnowPointsListener(){
-        et_knowPoints.addTextChangedListener(object : TextWatcher{
+    private fun setKnowPointsListener() {
+        et_knowPoints.addTextChangedListener(object : CustomTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
                 derivedValuesViewModel.knowScoreEditTextHasChanged = true
             }
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if(!s.isNullOrEmpty()){
+                if (!s.isNullOrEmpty()) {
                     try {
                         Log.d(TAG, "et_knowPoints ${s}")
                         derivedValuesViewModel.knowScore = s.toString().toInt()
-                    }catch (e:Exception){
+                    } catch (e: Exception) {
                         Log.e(TAG, "et_knowPoints FAILED")
                         e.printStackTrace()
                         throw e
@@ -313,42 +298,11 @@ class DerivedValues1Fragment : CustomFragment() {
     }
 
     private fun setBaseHealthPointListener() {
-        et_baseHealthPoints.addTextChangedListener(object : TextWatcher {
-            /**
-             * This method is called to notify you that, somewhere within
-             * `s`, the text has been changed.
-             * It is legitimate to make further changes to `s` from
-             * this callback, but be careful not to get yourself into an infinite
-             * loop, because any changes you make will cause this method to be
-             * called again recursively.
-             * (You are not told where the change took place because other
-             * afterTextChanged() methods may already have made other changes
-             * and invalidated the offsets.  But if you need to know here,
-             * you can use [Spannable.setSpan] in [.onTextChanged]
-             * to mark your place and then look up from here where the span
-             * ended up.
-             */
+        et_baseHealthPoints.addTextChangedListener(object : CustomTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
                 derivedValuesViewModel.baseHealthEditTextHasChanged = true
             }
 
-            /**
-             * This method is called to notify you that, within `s`,
-             * the `count` characters beginning at `start`
-             * are about to be replaced by new text with length `after`.
-             * It is an error to attempt to make changes to `s` from
-             * this callback.
-             */
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            /**
-             * This method is called to notify you that, within `s`,
-             * the `count` characters beginning at `start`
-             * have just replaced old text that had length `before`.
-             * It is an error to attempt to make changes to `s` from
-             * this callback.
-             */
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (!s.isNullOrBlank()) {
                     try {
@@ -362,7 +316,6 @@ class DerivedValues1Fragment : CustomFragment() {
                     setTotalHealthScore()
                 }
             }
-
         })
     }
 
@@ -391,7 +344,7 @@ class DerivedValues1Fragment : CustomFragment() {
         if (et_luckPoints != null) {
             editTextEnabling(et_luckPoints)
         }
-        if(et_knowPoints != null){
+        if (et_knowPoints != null) {
             editTextEnabling(et_knowPoints)
         }
 

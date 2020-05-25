@@ -34,7 +34,8 @@ open class DomainCharacter(
     var characterSize: DomainRollCharacteristic?,
     var characterIntelligence: DomainRollCharacteristic?,
     var characterAppearance: DomainRollCharacteristic?,
-    var characterEducation:DomainRollCharacteristic?
+    var characterEducation:DomainRollCharacteristic?,
+    var characterWeight:Int?
 
 
 ) {
@@ -67,7 +68,8 @@ open class DomainCharacter(
                 "siz : $characterSize\n" +
                 "int : $characterIntelligence\n" +
                 "app : $characterAppearance\n"+
-                "edu : $characterEducation"
+                "edu : $characterEducation\n" +
+                "wei : $characterWeight"
     }
 }
 

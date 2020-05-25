@@ -42,6 +42,7 @@ class DbCharacter(
     val characterGender: String?,
     val characterHeight: Int?,
     val characterPictureUri: String?,
+    val characterWeight:Int?,
     @Embedded(prefix = "str")
     val characterStrength: DbRollCharacteristic?,
     @Embedded(prefix = "siz")
@@ -113,7 +114,8 @@ class DbCharacter(
             characterDexterity = this.characterDexterity?.toDomain(),
             characterConstitution = this.characterConstitution?.toDomain(),
             characterAppearance = this.characterAppearance?.toDomain(),
-            characterEducation = this.characterEducation?.toDomain()
+            characterEducation = this.characterEducation?.toDomain(),
+            characterWeight = this.characterWeight
         )
     }
 
@@ -162,10 +164,9 @@ class DbCharacter(
                 characterPower = DbRollCharacteristic.from(domainModel?.characterPower),
                 characterSize = DbRollCharacteristic.from(domainModel?.characterSize),
                 characterStrength = DbRollCharacteristic.from(domainModel?.characterStrength),
-                characterEducation = DbRollCharacteristic.from(domainModel?.characterEducation)
+                characterEducation = DbRollCharacteristic.from(domainModel?.characterEducation),
+                characterWeight = domainModel?.characterWeight
             )
-
-
         }
     }
 }

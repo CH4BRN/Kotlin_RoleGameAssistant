@@ -64,7 +64,8 @@ class CharacterRepositoryImpl(
                 characterDexterity = it.characterDexterity?.toDomain(),
                 characterConstitution = it.characterConstitution?.toDomain(),
                 characterAppearance = it.characterAppearance?.toDomain(),
-                characterEducation = it.characterEducation?.toDomain()
+                characterEducation = it.characterEducation?.toDomain(),
+                characterWeight = it.characterWeight
             )
         }
     }
