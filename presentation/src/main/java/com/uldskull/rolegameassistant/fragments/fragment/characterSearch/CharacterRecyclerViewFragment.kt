@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.activities.CharacterTransmission
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.CHARACTERS_RECYCLER_VIEW_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
@@ -21,6 +22,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragm
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
 import com.uldskull.rolegameassistant.viewmodels.CharactersViewModel
+import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
@@ -31,15 +33,21 @@ class CharacterRecyclerViewFragment() :
     CustomRecyclerViewFragment(),
     AdapterButtonListener<DomainCharacter> {
 
+    private var characterTransmitter:CharacterTransmission? = null
     /**
      * Character recycler view
      */
     private var characterRecyclerView: RecyclerView? = null
 
     /**
-     * Viewmodel that manage characters.
+     * Viewmodel that manages characters.
      */
     private val charactersViewModel: CharactersViewModel by sharedViewModel()
+
+    /**
+     * ViewModel for character creation/edition
+     */
+    private val newCharacterViewModel:NewCharacterViewModel by sharedViewModel()
 
     /**
      * Adapter for character's recycler view.
@@ -55,6 +63,8 @@ class CharacterRecyclerViewFragment() :
             val fragment = CharacterRecyclerViewFragment()
             val args = Bundle()
             fragment.activity = activity
+            fragment.characterTransmitter = activity as CharacterTransmission
+
 
             args.putInt(KEY_POSITION, CHARACTERS_RECYCLER_VIEW_FRAGMENT_POSITION)
             fragment.arguments = args
@@ -90,19 +100,25 @@ class CharacterRecyclerViewFragment() :
      * Set the recycler view adapter.
      */
     override fun setRecyclerViewAdapter() {
-        charactersAdapter = CharactersAdapter(activity as Context, this)
-        characterRecyclerView?.adapter = charactersAdapter
+        if (activity != null) {
+            charactersAdapter = CharactersAdapter(activity as Context, this)
+            characterRecyclerView?.adapter = charactersAdapter
+        }
+
     }
 
     /**
      * Set the RecyclerView's layout manager.
      */
     override fun setRecyclerViewLayoutManager() {
-        characterRecyclerView?.layoutManager = LinearLayoutManager(
-            activity,
-            LinearLayoutManager.VERTICAL,
-            false
-        )
+        if (activity != null) {
+            characterRecyclerView?.layoutManager = LinearLayoutManager(
+                activity,
+                LinearLayoutManager.VERTICAL,
+                false
+            )
+        }
+
     }
 
     /**
@@ -116,13 +132,11 @@ class CharacterRecyclerViewFragment() :
     }
 
 
-
-
     /**
      * Called when a recyclerview cell is pressed
      */
-    override fun itemPressed(domainModel: DomainCharacter?, position:Int?) {
-        Log.d("TEST PRESS", "Button pressed for ${domainModel?.characterName}")
-        this.charactersViewModel.selectedCharacter = domainModel
+    override fun itemPressed(domainModel: DomainCharacter?, position: Int?) {
+        Log.d("DEBUG", "Button pressed for $domainModel")
+        characterTransmitter?.transmitCharacter(domainModel)
     }
 }

@@ -20,9 +20,9 @@ import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
  *   Class "SkillsAdapter" :
  *   Adapter for skills recycler view.
  **/
-class OccupationSkillsAdapter internal constructor(
+class OccupationSkillsAdapter constructor(
     val context: Context,
-    private val buttonListener: AdapterButtonListener<DomainFilledSkill>
+    private val occupationSkillsRecyclerViewFragment_buttonListener: AdapterButtonListener<DomainFilledSkill>
 ) : RecyclerView.Adapter<OccupationSkillsAdapter.OccupationSkillsViewHolder>() {
     //: CustomRecyclerViewAdapter(context)
     companion object {
@@ -162,7 +162,8 @@ class OccupationSkillsAdapter internal constructor(
                 itemView.background =
                     context.getDrawable(R.drawable.my_recycler_view_selected_cell_background)
                 tvOccupationSkillName?.setTextColor(context.getColor(R.color.colorPrimary))
-                buttonListener.itemPressed(occupationSkills[adapterPosition])
+
+                occupationSkillsRecyclerViewFragment_buttonListener.itemPressed(occupationSkills[adapterPosition], adapterPosition)
                 // tvOccupationSkillTotal?.visibility = View.VISIBLE
                 if (checkedPosition != adapterPosition) {
                     notifyItemChanged(checkedPosition)

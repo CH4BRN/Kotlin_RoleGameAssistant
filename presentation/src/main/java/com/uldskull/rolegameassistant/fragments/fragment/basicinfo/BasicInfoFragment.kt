@@ -12,6 +12,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.ImageButton
+import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NEW_BREED_ACTIVITY
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
@@ -20,13 +23,13 @@ import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.REQUEST_CODE_BASIC_INFO_NEW_BREED
 import com.uldskull.rolegameassistant.fragments.fragment.breed.BreedsRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.BASIC_INFO_FRAGMENT_POSITION
-import com.uldskull.rolegameassistant.viewmodels.breeds.BreedsViewModel
+import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.ProgressionBarViewModel
+import com.uldskull.rolegameassistant.viewmodels.breeds.BreedsViewModel
 import kotlinx.android.synthetic.main.fragment_basic_info.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-
 
 /**
  *   Class "BasicInfoFragment" :
@@ -34,13 +37,54 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  **/
 class BasicInfoFragment() : CustomFragment() {
     /**
+     * Button to add breed.
+     */
+    private var buttonAddBreed: ImageButton? = null
+
+    /**
      * ViewModel for new character
      */
     private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
+
+    /**
+     * ViewModel for breeds.
+     */
     private val breedsViewModel: BreedsViewModel by sharedViewModel()
+
+    /**
+     * ViewModel for characteristics
+     */
     private val characteristicsViewModel: CharacteristicsViewModel by sharedViewModel()
+
+    /**
+     * ViewModel for progression bar.
+     */
     private val progressionBarViewModel: ProgressionBarViewModel by sharedViewModel()
 
+    /**
+     * edit text for character name
+     */
+    private var editTextCharacterName: EditText? = null
+
+    /**
+     * Edit text for character age.
+     */
+    private var editTextCharacterAge: EditText? = null
+
+    /**
+     * Edit text for gender.
+     */
+    private var editTextCharacterGender: EditText? = null
+
+    /**
+     * Edit text for biography
+     */
+    private var editTextBiography: EditText? = null
+
+    /**
+     * Edit text for height
+     */
+    private var editTextHeight: EditText? = null
 
     /**
      * Fragment Lifecycle
@@ -51,11 +95,8 @@ class BasicInfoFragment() : CustomFragment() {
         savedInstanceState: Bundle?
     ): View? {
         Log.d(TAG, "onCreateView")
-
-
         return initializeView(inflater, container)
     }
-
 
     /**
      * Initialize the view corresponding to this fragment class
@@ -79,18 +120,13 @@ class BasicInfoFragment() : CustomFragment() {
     }
 
     /**
-     * Fragment Lifecycle
+     * Load picture fragment
      */
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.d(TAG, "onViewCreated")
-        super.onViewCreated(view, savedInstanceState)
-        setButtonAddBreed()
-        setEditTextListeners()
-        activity = requireActivity()
-        Log.d("DEBUG $TAG", "activity is null ? ${activity == null}")
+    private fun loadPictureFragment() {
+        Log.d(TAG, "Load picture fragment")
         if (activity != null) {
             Log.d("DEBUG $TAG", "activity is not null}")
-            try{
+            try {
                 val transaction = childFragmentManager.beginTransaction()
                 transaction.replace(
                     R.id.basicInfo_container_picture,
@@ -98,12 +134,16 @@ class BasicInfoFragment() : CustomFragment() {
                         activity!!
                     )
                 ).commit()
-            }catch (e:Exception){
+            } catch (e: Exception) {
                 throw e
             }
-
         }
+    }
 
+    /**
+     * Load breeds RecyclerView fragment.
+     */
+    private fun loadBreedsRecyclerViewFragment() {
         if (activity != null) {
             val transaction = childFragmentManager.beginTransaction()
             transaction.replace(
@@ -115,7 +155,63 @@ class BasicInfoFragment() : CustomFragment() {
         }
     }
 
+    /**
+     * Deserialize fragment's widgets.
+     */
+    private fun deserializeWidgets() {
+        editTextCharacterName = view?.findViewById(R.id.et_name)
+        editTextCharacterAge = view?.findViewById(R.id.et_age)
+        editTextCharacterGender = view?.findViewById<EditText>(R.id.et_gender)
+        editTextBiography = view?.findViewById(R.id.et_biography)
+        buttonAddBreed = view?.findViewById<ImageButton>(R.id.btn_addBreed)
+        editTextHeight = view?.findViewById(R.id.et_height)
 
+    }
+
+    /**
+     * Fragment Lifecycle
+     */
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Log.d(TAG, "onViewCreated")
+        super.onViewCreated(view, savedInstanceState)
+        activity = requireActivity()
+        Log.d("DEBUG $TAG", "activity is null ? ${activity == null}")
+        deserializeWidgets()
+        setButtonAddBreed()
+        initializeListeners()
+        loadChildrenFragments()
+        startObservation()
+    }
+
+    /**
+     * Initialize miscellaneous listeners.
+     */
+    private fun initializeListeners() {
+        setEditTextListeners()
+    }
+
+    /**
+     * Start values observation.
+     */
+    private fun startObservation() {
+        Log.d("DEBUG $TAG", "startObservation")
+       if(newCharacterViewModel?.selectedCharacter != null){
+           var character = newCharacterViewModel?.selectedCharacter
+           newCharacterViewModel?.currentCharacter = character
+           Log.d("DEBUG $TAG","${newCharacterViewModel?.selectedCharacter}" )
+           editTextCharacterName?.setText(character?.characterName)
+       }
+
+    }
+
+
+    /**
+     * Load children fragments.
+     */
+    private fun loadChildrenFragments() {
+        loadPictureFragment()
+        loadBreedsRecyclerViewFragment()
+    }
 
     /**
      * Set edit text listeners
@@ -135,7 +231,7 @@ class BasicInfoFragment() : CustomFragment() {
      */
     private fun setGenderTextChangedListener() {
         Log.d(TAG, "setGenderTextChangedListener")
-        et_gender?.addTextChangedListener(object : TextWatcher {
+        editTextCharacterGender?.addTextChangedListener(object : TextWatcher {
             /**
              * This method is called to notify you that, somewhere within
              * `s`, the text has been changed.
@@ -150,8 +246,8 @@ class BasicInfoFragment() : CustomFragment() {
              * to mark your place and then look up from here where the span
              * ended up.
              */
-            override fun afterTextChanged(s: Editable?) {
-                newCharacterViewModel.characterGender = s?.toString()
+            override fun afterTextChanged(gender: Editable?) {
+                newCharacterViewModel.characterGender = gender?.toString()
             }
 
             /**
@@ -187,7 +283,7 @@ class BasicInfoFragment() : CustomFragment() {
      */
     private fun setAgeTextChangedListener() {
         Log.d(TAG, "setAgeTextChangedListener")
-        et_age?.addTextChangedListener(object : TextWatcher {
+        editTextCharacterAge?.addTextChangedListener(object : TextWatcher {
             /**
              * This method is called to notify you that, somewhere within
              * `s`, the text has been changed.
@@ -256,6 +352,7 @@ class BasicInfoFragment() : CustomFragment() {
              * ended up.
              */
             override fun afterTextChanged(s: Editable?) {
+                Log.d("DEBUG$TAG", "name : ${s.toString()}")
                 newCharacterViewModel.characterName.value = s.toString()
             }
 
@@ -291,7 +388,7 @@ class BasicInfoFragment() : CustomFragment() {
      */
     private fun setBiographyTextChangedListener() {
         Log.d(TAG, "setBiographyTextChangedListener")
-        et_biography?.addTextChangedListener(object : TextWatcher {
+        editTextBiography?.addTextChangedListener(object : TextWatcher {
             /**
              * This method is called to notify you that, somewhere within
              * `s`, the text has been changed.
@@ -335,6 +432,9 @@ class BasicInfoFragment() : CustomFragment() {
         })
     }
 
+    /**
+     * Set height EditText text changed listener.
+     */
     private fun setHeightTextChangedListener() {
         Log.d(TAG, "setHeightTextChangedListener")
         et_height?.addTextChangedListener(object : TextWatcher {
@@ -383,8 +483,8 @@ class BasicInfoFragment() : CustomFragment() {
      */
     private fun setButtonAddBreed() {
         Log.d(TAG, "setButtonAddBreed")
-        if (btn_addBreed != null) {
-            btn_addBreed?.setOnClickListener {
+        if (buttonAddBreed != null) {
+            buttonAddBreed?.setOnClickListener {
                 val intent = Intent(activity, NEW_BREED_ACTIVITY)
                 startActivityForResult(
                     intent,
@@ -394,8 +494,13 @@ class BasicInfoFragment() : CustomFragment() {
         }
     }
 
-
+    /**
+     * Companion object.
+     */
     companion object : CustomCompanion() {
+        /**
+         * Fragments tag.
+         */
         private const val TAG = "BasicInfoFragment"
 
         /**
@@ -411,9 +516,6 @@ class BasicInfoFragment() : CustomFragment() {
 
             args.putInt(KEY_POSITION, BASIC_INFO_FRAGMENT_POSITION)
             fragment.arguments = args
-
-
-
 
             return fragment
         }

@@ -6,11 +6,11 @@ package com.uldskull.rolegameassistant.activities.newCharacter
 import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
+import com.google.gson.Gson
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.replaceFragment
 import com.uldskull.rolegameassistant.fragments.fragment.bars.NavigationBarFragment
@@ -21,6 +21,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.hobbies.HobbiesFragment
 import com.uldskull.rolegameassistant.fragments.fragment.hobby.HobbyFragment
 import com.uldskull.rolegameassistant.fragments.fragment.occupation.OccupationFragment
 import com.uldskull.rolegameassistant.fragments.fragment.occupations.OccupationsFragment
+import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.ProgressionBarViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -32,10 +33,15 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 class CharacterActivity :
     AddEndFragment,
     AppCompatActivity() {
-
-
+    /**
+     * ViewPager2 to display fragments
+     */
     private var viewPager: ViewPager2? = null
-    private var pagerAdapter: FragmentAdapter? = null
+
+    /**
+     * Custom fragment adapter
+     */
+    private var fragmentAdapter: FragmentAdapter? = null
 
     /** ViewModel for new character activity    **/
     private lateinit var newCharacterViewModel: NewCharacterViewModel
@@ -50,11 +56,10 @@ class CharacterActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate")
-
+        //  Set the view
         setContentView(R.layout.activity_new_character)
-
+        //  load view models
         loadViewModels()
-
         //  Observe the progression
         this.observeProgression()
         //  Set the character page adapter
@@ -63,6 +68,16 @@ class CharacterActivity :
         this.loadNavigationBarFragment()
         //  Update the progress bar
         this.updateProgressBarFragment(0)
+
+        var jsonCharacter:String? = null
+        val extras:Bundle? = intent.extras
+        if(extras != null){
+            jsonCharacter = extras.getString("selectedCharacter")
+        }
+        val character: DomainCharacter? = Gson().fromJson(jsonCharacter, DomainCharacter::class.java)
+        Log.d("DEBUG $TAG", "$character")
+        newCharacterViewModel.selectedCharacter = character
+
     }
 
     /**
@@ -94,8 +109,8 @@ class CharacterActivity :
 
         //  Instantiate a ViewPager2 and a PagerAdapter.
         viewPager = findViewById<ViewPager2>(R.id.activityNewCharacter_viewPager)
-        pagerAdapter = FragmentAdapter(this)
-        viewPager?.adapter = pagerAdapter
+        fragmentAdapter = FragmentAdapter(this)
+        viewPager?.adapter = fragmentAdapter
 
 
 
@@ -113,7 +128,7 @@ class CharacterActivity :
                 )
                 Log.d(
                     "DEBUG",
-                    " fragmentList size = ${pagerAdapter?.fragmentList?.size.toString()}"
+                    " fragmentList size = ${fragmentAdapter?.fragmentList?.size.toString()}"
                 )
 
                 super.onPageScrollStateChanged(state)
@@ -140,7 +155,7 @@ class CharacterActivity :
                             "\tpositionO : $positionOffset\n" +
                             "\tpositionOP : $positionOffsetPixels"
                 )
-                if (position == 3 && pagerAdapter?.fragmentList?.size == 4 && viewPager?.scrollState == 1) {
+                if (position == 3 && fragmentAdapter?.fragmentList?.size == 4 && viewPager?.scrollState == 1) {
                     Log.d("DEBUG", "Situation")
                     characteristicsAlert()
 
@@ -206,7 +221,7 @@ class CharacterActivity :
 
     companion object {
 
-        private const val TAG = "NewCharacterActivity"
+        private const val TAG = "CharacterActivity"
         /** ViewPager progression   **/
     }
 
@@ -214,32 +229,32 @@ class CharacterActivity :
      * Add the end of the fragment list
      */
     override fun addEndFragment() {
-        pagerAdapter?.fragmentList?.add(
+        fragmentAdapter?.fragmentList?.add(
             DerivedValues1Fragment.newInstance(
                 this
             )
         )
-        pagerAdapter?.fragmentList?.add(
+        fragmentAdapter?.fragmentList?.add(
             DerivedValues2Fragment.newInstance(
                 this
             )
         )
-        pagerAdapter?.fragmentList?.add(
+        fragmentAdapter?.fragmentList?.add(
             OccupationsFragment.newInstance(
                 this
             )
         )
-        pagerAdapter?.fragmentList?.add(
+        fragmentAdapter?.fragmentList?.add(
             OccupationFragment.newInstance(
                 this
             )
         )
-        pagerAdapter?.fragmentList?.add(
+        fragmentAdapter?.fragmentList?.add(
             HobbiesFragment.newInstance(
                 this
             )
         )
-        pagerAdapter?.fragmentList?.add(
+        fragmentAdapter?.fragmentList?.add(
             HobbyFragment.newInstance(
                 this
             )

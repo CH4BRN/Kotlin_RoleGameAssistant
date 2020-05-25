@@ -12,16 +12,10 @@ import androidx.lifecycle.MutableLiveData
  *   TODO: Fill class use.
  **/
 class OccupationViewModel(
-    application:Application
+    application: Application
 ) : AndroidViewModel(application) {
 
-    companion object{
+    companion object {
         private const val TAG = "OccupationViewModel"
     }
-
-    var observableOccupationPointsValue=MutableLiveData<Int>()
-    var totalOccupationsPointsFixedValue:Int = 0
-    var observableSpentOccupationPoints=MutableLiveData<Int>()
-
-    var observableSpentOccupationPointsArray=MutableLiveData<ArrayList<Int>>()
 }

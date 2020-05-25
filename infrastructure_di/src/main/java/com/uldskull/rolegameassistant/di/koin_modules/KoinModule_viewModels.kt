@@ -105,4 +105,11 @@ val viewModelModule = module {
             application = get()
         )
     }
+
+    //  Points to spend ViewModel
+    viewModel {
+        PointsToSpendViewModel(
+            application = get()
+        )
+    }
 }

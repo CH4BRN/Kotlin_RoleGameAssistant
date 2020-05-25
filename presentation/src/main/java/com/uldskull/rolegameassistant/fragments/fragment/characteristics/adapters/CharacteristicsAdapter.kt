@@ -34,7 +34,7 @@ open class CharacteristicsAdapter internal constructor(
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
     /** Abilities list  **/
-    private var rollCharacteristics = emptyList<DomainRollCharacteristic>()
+    private var rollCharacteristics = mutableListOf<DomainRollCharacteristic>()
 
     fun getCharacteristics(): List<DomainRollCharacteristic> {
         return rollCharacteristics
@@ -94,6 +94,7 @@ open class CharacteristicsAdapter internal constructor(
                     current.characteristicRoll!! + current.characteristicBonus!!
 
                 holder.totalItemView.text = current.characteristicTotal.toString()
+                rollCharacteristics[position] = current
 
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -129,7 +130,7 @@ open class CharacteristicsAdapter internal constructor(
     internal fun setCharacteristics(domainCharacteristics: List<DomainRollCharacteristic>?) {
         Log.d(TAG, "setCharacteristics")
         if (domainCharacteristics != null) {
-            this.rollCharacteristics = domainCharacteristics.sortedBy { c -> c.characteristicName }
+            this.rollCharacteristics = domainCharacteristics.sortedBy { c -> c.characteristicName }.toMutableList()
         }
 
         Log.d(TAG, "rollCharacteristics size = " + this.rollCharacteristics.size.toString())

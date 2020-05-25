@@ -24,6 +24,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragm
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
 import com.uldskull.rolegameassistant.viewmodels.OccupationViewModel
+import com.uldskull.rolegameassistant.viewmodels.PointsToSpendViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationSkillsViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -32,7 +33,13 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   Fragment to display occupation skills.
  **/
 class OccupationSkillsRecyclerViewFragment() :
-    CustomRecyclerViewFragment(), AdapterButtonListener<DomainFilledSkill> {
+    CustomRecyclerViewFragment(),
+    AdapterButtonListener<DomainFilledSkill> {
+    /**
+     * Current skill position
+     */
+    private var currentSkillPosition: Int? = 0
+
     /**
      * Occupation skills adapter.
      */
@@ -43,6 +50,8 @@ class OccupationSkillsRecyclerViewFragment() :
     private val occupationSkillsViewModel: OccupationSkillsViewModel by sharedViewModel()
 
     private val occupationViewModel:OccupationViewModel by sharedViewModel()
+
+    private val pointsToSpendViewModel:PointsToSpendViewModel by sharedViewModel()
     /**
      * Occupation skills recyclerView
      */
@@ -153,6 +162,11 @@ class OccupationSkillsRecyclerViewFragment() :
                                 filledSkillTotal = domainOccupationSkill?.filledSkillTotal
                             )
                         }
+                    var size = skillsToFill?.size
+                    if(size != null){
+                        pointsToSpendViewModel?.observableSpentOccupationTensPointsArray.value = arrayOfNulls(skillsToFill.size!!)
+                    }
+
                     skillsToFill?.forEach { filledSkill ->
                         kotlin.run {
                             Log.d(TAG + "valid", "skillsToFill : ${filledSkill}")
@@ -181,6 +195,17 @@ class OccupationSkillsRecyclerViewFragment() :
 
     }
 
+    /**
+     * Called when a recyclerview cell is pressed
+     */
+    override fun itemPressed(domainModel: DomainFilledSkill?, position: Int?) {
+        Log.d("DEBUG", "item pressed for $domainModel \n\tat position $position")
+        pointsToSpendViewModel?.observableCurrentOccupationSkillPosition.value = position
+        occupationSkillsViewModel?.currentOccupationSkill.value = domainModel
+
+
+
+    }
 
     override fun setRecyclerViewAdapter() {
         Log.d(TAG, "setRecyclerViewAdapter")
@@ -190,7 +215,6 @@ class OccupationSkillsRecyclerViewFragment() :
                     activity!! as Context,
                     this
                 )
-
             occupationSkillsRecyclerView?.adapter = occupationSkillsAdapter
         }
 
@@ -225,28 +249,5 @@ class OccupationSkillsRecyclerViewFragment() :
 
 
 
-    /**
-     * Called when a recyclerview cell is pressed
-     */
-    override fun itemPressed(domainModel: DomainFilledSkill?, position: Int?) {
-        Log.d("DEBUG", "item pressed for $domainModel")
-        TODO("Implements spent points with list")
-        var spent = occupationViewModel?.observableSpentOccupationPoints?.value
-        if(position != null && spent!= null){
-            occupationViewModel?.observableSpentOccupationPointsArray?.value?.set(position, spent)
-        }
 
-        if(domainModel?.skillIsSelected != null){
-            occupationSkillsViewModel?.currentOccupationSkill.value = domainModel
-        }else{
-            occupationSkillsViewModel?.currentOccupationSkill.value = null
-        }
-        var totalSpent:Int? = 0
-        occupationViewModel?.observableSpentOccupationPointsArray?.value?.forEach{
-            value -> kotlin.run { totalSpent?.plus(value) }
-        }
-
-        occupationViewModel?.observableSpentOccupationPoints.value = totalSpent
-
-        occupationViewModel?.observableSpentOccupationPoints?.value = spent    }
 }

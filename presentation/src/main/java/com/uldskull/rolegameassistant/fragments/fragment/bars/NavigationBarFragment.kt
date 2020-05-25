@@ -43,6 +43,9 @@ class NavigationBarFragment : CustomFragment() {
      */
     private val charactersViewModel: CharactersViewModel by sharedViewModel()
 
+    /**
+     * Derived values ViewModel
+     */
     private val derivedValuesViewModel: DerivedValuesViewModel by sharedViewModel()
 
     private var isSavingEnabled: Boolean = false

@@ -58,7 +58,7 @@ class NewCharacterViewModel(
             return field
         }
 
-    fun calculateCharacterAlignment(): Int {
+    private fun calculateCharacterAlignment(): Int {
         var alignment: Int
         if (characterIdeals.isNotEmpty()) {
             alignment = 0
@@ -95,6 +95,7 @@ class NewCharacterViewModel(
             Log.d("NewCharacterViewModel characterId", value.toString())
             field = value
         }
+
     /**
      * Character height
      */
@@ -103,11 +104,11 @@ class NewCharacterViewModel(
             Log.d("NewCharacterViewModel characterHeight", value.toString())
             field = value
         }
+
     /**
      * Character name.
      */
     var characterName = MutableLiveData<String>()
-
 
 
     /**
@@ -118,6 +119,7 @@ class NewCharacterViewModel(
             Log.d("NewCharacterViewModel characterAge", value.toString())
             field = value
         }
+
     /**
      * Character gender.
      */
@@ -126,6 +128,7 @@ class NewCharacterViewModel(
             Log.d("NewCharacterViewModel characterGender", value)
             field = value
         }
+
     /**
      * Character biography.
      */
@@ -134,6 +137,7 @@ class NewCharacterViewModel(
             Log.d("NewCharacterViewModel characterBiography", value.toString())
             field = value
         }
+
     /**
      * Character breed.
      */
@@ -194,6 +198,7 @@ class NewCharacterViewModel(
             if (currentCharacter?.characterId == null) {
                 Log.d("CHARACTER", "INSERT")
                 characterId = characterRepository.insertOne(currentCharacter)
+                currentCharacter?.characterId = characterId
                 Log.d("CHARACTER", "character $currentCharacter")
             } else {
                 Log.d("CHARACTER", "UPDATE")
@@ -208,11 +213,7 @@ class NewCharacterViewModel(
 
         Log.d("RESULT", currentCharacter.toString())
 
-        val searchResult = characterRepository.findOneById(characterId)
-
-        Log.d("ideals", "$searchResult")
-
-        return characterId
+        return currentCharacter?.characterId
     }
 
     private fun setId() {

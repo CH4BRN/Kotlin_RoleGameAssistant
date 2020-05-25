@@ -113,10 +113,12 @@ class CharactersAdapter internal constructor(
 
         charactersViewHolder.characterItemLayout.setOnClickListener {
             rowIndex = position
+            Log.d("DEBUG", "onBindViewHolder - OnClick - ${characters[position]} ")
+            //  Send the character to the RecyclerView fragment
             buttonListener.itemPressed(characters[position])
+
             notifyDataSetChanged()
-            val intent = Intent(context, CharacterActivity::class.java)
-            context.startActivity(intent)
+
         }
 
         if (rowIndex == position) {

@@ -2,24 +2,29 @@ package com.uldskull.rolegameassistant.fragments.fragment.characterSearch
 
 import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.CharacterSearchActivity
+import com.uldskull.rolegameassistant.activities.CharacterTransmission
 import com.uldskull.rolegameassistant.activities.replaceFragment
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.CHARACTER_SEARCH_FRAGMENT_POSITION
+import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
 
 /**
  * A simple [Fragment] subclass.
  * Use the [CharacterSearchFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class CharacterSearchFragment() : CustomFragment() {
+class CharacterSearchFragment : CustomFragment(), CharacterTransmission {
+
+    private var characterTransmitter: CharacterTransmission? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,16 +66,19 @@ class CharacterSearchFragment() : CustomFragment() {
          */
         @JvmStatic
         override fun newInstance(activity: Activity): CharacterSearchFragment {
-            val fragment =
-                CharacterSearchFragment(
-
-                )
+            val fragment =CharacterSearchFragment()
             fragment.activity = activity
+            fragment.characterTransmitter = activity as CharacterTransmission
             val args = Bundle()
 
             args.putInt(KEY_POSITION, CHARACTER_SEARCH_FRAGMENT_POSITION)
             fragment.arguments = args
             return fragment
         }
+    }
+
+    override fun transmitCharacter(domainCharacter: DomainCharacter?) {
+        Log.d("DEBUG", "Character $domainCharacter")
+        characterTransmitter?.transmitCharacter(domainCharacter)
     }
 }

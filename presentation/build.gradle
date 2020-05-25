@@ -38,6 +38,7 @@ dependencies {
     implementation KoinDependencies.KoinCore
     implementation KoinDependencies.KoinAndroidxScope
     implementation KoinDependencies.KoinAndroidxViewmodel
+    implementation GoogleDependencies.Gson
 
     implementation project(ProjectsDependencies.domain)
 
