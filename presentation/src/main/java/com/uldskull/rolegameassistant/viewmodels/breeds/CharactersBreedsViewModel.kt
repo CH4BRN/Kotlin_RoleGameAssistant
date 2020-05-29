@@ -24,7 +24,7 @@ class CharactersBreedsViewModel(
     var observedCharactersBreeds: LiveData<List<DomainCharactersBreed>>? =
         charactersBreedRepositoryImpl.getAll()
 
-    var selectedCharactersBreed:MutableList<DomainCharactersBreed> = mutableListOf()
+    var selectedCharactersBreed: MutableList<DomainCharactersBreed> = mutableListOf()
 
     companion object {
         private const val TAG = "CharactersBreedsViewModel"
@@ -100,6 +100,16 @@ class CharactersBreedsViewModel(
         Log.d(TAG, "findBreedWithId result" + result?.charactersBreedId)
 
         return result
+    }
+
+    fun updateBreed(breed: DomainCharactersBreed): Int? {
+        Log.d("DEBUG$TAG", "updateBreed")
+        if (breed != null) {
+            return charactersBreedRepositoryImpl.updateOne(breed)
+        } else {
+            return 0
+        }
+
     }
 
 }

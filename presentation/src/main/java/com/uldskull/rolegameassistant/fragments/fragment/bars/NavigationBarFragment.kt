@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
+import com.uldskull.rolegameassistant.models.character.character.DomainCharacterWithBreeds
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.CharactersViewModel
 import com.uldskull.rolegameassistant.viewmodels.DerivedValuesViewModel
@@ -178,9 +179,24 @@ class NavigationBarFragment : CustomFragment() {
             Log.d("DEBUG$TAG", "Breed after = $it")
         }
 
-        charactersBreedsViewModel?.saveAll(charactersBreedsViewModel?.selectedCharactersBreed)
+        var cWb:DomainCharacterWithBreeds? = newCharacterViewModel?.getCharacterWithBreeds(insertedId)
+        Log.d("DEBUG$TAG", "CWB : $cWb")
+        if(cWb?.breeds != null){
+            charactersBreedsViewModel?.selectedCharactersBreed?.forEach {domainCharactersBreed ->
+                if(cWb!!.breeds.any(){b -> b.displayedBreedId == domainCharactersBreed?.displayedBreedId}){
+                    charactersBreedsViewModel?.updateBreed(domainCharactersBreed)
+                }else{
+                    charactersBreedsViewModel?.saveOne(domainCharactersBreed)
+                }
+            }
+        }else{
+            charactersBreedsViewModel?.saveAll(charactersBreedsViewModel?.selectedCharactersBreed)
+        }
 
-        var cWb = newCharacterViewModel?.getCharacterWithBreeds(insertedId)
+
+
+
+        cWb = newCharacterViewModel?.getCharacterWithBreeds(insertedId)
         Log.d("DEBUG$TAG", "CWB : $cWb")
 
 

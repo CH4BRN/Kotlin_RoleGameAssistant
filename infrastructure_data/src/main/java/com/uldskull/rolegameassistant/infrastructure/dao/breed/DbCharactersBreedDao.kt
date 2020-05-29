@@ -15,10 +15,10 @@ Interface "DbCharacterBreedDao"
 @Dao
 interface DbCharactersBreedDao {
     //  CREATE
-    @Insert
-    fun insertCharactersbreed(dbCharactersBreed: DbCharactersBreed): Long
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertCharactersBreed(dbCharactersBreed: DbCharactersBreed): Long
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCharactersBreeds(dbCharactersBreeds: List<DbCharactersBreed>): List<Long>
 
     //  READ

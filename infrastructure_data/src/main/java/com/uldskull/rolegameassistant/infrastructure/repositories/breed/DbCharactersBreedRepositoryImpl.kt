@@ -96,7 +96,7 @@ class DbCharactersBreedRepositoryImpl(
         Log.d("DEBUG$TAG", "insertOne")
         return if (one != null) {
             try {
-                val result = dbCharactersBreedDao.insertCharactersbreed(DbCharactersBreed.from(one))
+                val result = dbCharactersBreedDao.insertCharactersBreed(DbCharactersBreed.from(one))
                 Log.d(TAG, "insertOne RESULT = $result")
                 result
             } catch (e: Exception) {

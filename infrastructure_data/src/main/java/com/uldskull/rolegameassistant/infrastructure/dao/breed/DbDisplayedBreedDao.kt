@@ -16,10 +16,10 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.dis
 @Dao
 interface DbDisplayedBreedDao {
     //  CREATE
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertBreed(dbDisplayedBreed: DbDisplayedBreed): Long
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertBreeds(dbDisplayedBreeds: List<DbDisplayedBreed>): List<Long>
 
     //  READ
