@@ -37,8 +37,13 @@ class DbIdeal(
     }
 
     override fun toString(): String {
-        return "id : $idealId\nName : $idealName\nGood : ${idealGoodPoints.toString()}\nEvil : ${idealEvilPoints.toString()}"
+        return "DbIdeal(\n" +
+                "\tidealId=$idealId,\n" +
+                "\t idealName=$idealName, \n" +
+                "\tidealGoodPoints=$idealGoodPoints, \n" +
+                "\tidealEvilPoints=$idealEvilPoints)"
     }
+
 
     companion object :
         DbCompanion<DomainIdeal, DbIdeal> {

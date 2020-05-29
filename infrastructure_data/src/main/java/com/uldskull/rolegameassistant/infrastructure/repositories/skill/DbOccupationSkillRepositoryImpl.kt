@@ -36,7 +36,7 @@ class DbOccupationSkillRepositoryImpl(
     }
 
     /** Get all entities    */
-    override fun getAll(): LiveData<List<DomainOccupationSkill>>? {
+    override fun getAll(): LiveData<List<DomainOccupationSkill>> {
         Log.d(TAG, "getAll")
         try {
             return Transformations.map(dbOccupationSkillDao.getOccupationSkills()) {

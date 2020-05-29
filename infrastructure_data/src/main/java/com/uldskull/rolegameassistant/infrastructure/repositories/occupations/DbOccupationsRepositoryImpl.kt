@@ -42,7 +42,7 @@ class DbOccupationsRepositoryImpl(
     }
 
     /** Get all entities    */
-    override fun getAll(): LiveData<List<DomainOccupation>>? {
+    override fun getAll(): LiveData<List<DomainOccupation>> {
         Log.d(TAG, "getAll")
         try {
             //  Transforms the DbJobs into DomainJobs

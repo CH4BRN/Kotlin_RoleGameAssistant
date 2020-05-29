@@ -19,7 +19,7 @@ import kotlin.concurrent.thread
  **/
 class CharactersViewModel(
     application: Application,
-    private val characterRepository: CharacterRepository<LiveData<List<DomainCharacter>>>
+    private val characterRepository: CharacterRepository<LiveData<List<DomainCharacter?>?>>
 ) : AndroidViewModel(application) {
 
     companion object {
@@ -37,18 +37,19 @@ class CharactersViewModel(
     /**
      * List of characters
      */
-    var characters = characterRepository.getAll()
+    var characters:LiveData<List<DomainCharacter?>?>? = characterRepository.getAll()
 
     /**
      * Refresh the characters list
      */
     private fun refreshDataFromRepository() {
-        Log.d(TAG, "refreshDataFromRepository")
+        Log.d("DEBUG$TAG", "refreshDataFromRepository")
         viewModelScope.launch {
             try {
                 characters = findAll()
                 Log.d(TAG, "characters size ${characters?.value?.size}")
             } catch (e: Exception) {
+                Log.e("Error", "${e.stackTrace}")
                 throw e
             }
         }
@@ -57,7 +58,7 @@ class CharactersViewModel(
     /**
      * Find all the characters in using the repository
      */
-    private fun findAll(): LiveData<List<DomainCharacter>>? {
+    private fun findAll(): LiveData<List<DomainCharacter?>?>? {
         Log.d(TAG, "findAll")
         thread(start = true) {
             characters = characterRepository.getAll()

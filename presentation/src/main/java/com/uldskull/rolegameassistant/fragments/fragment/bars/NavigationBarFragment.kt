@@ -19,6 +19,7 @@ import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.CharactersViewModel
 import com.uldskull.rolegameassistant.viewmodels.DerivedValuesViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
+import com.uldskull.rolegameassistant.viewmodels.breeds.CharactersBreedsViewModel
 import kotlinx.android.synthetic.main.fragment_navigation_bar.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -32,6 +33,11 @@ class NavigationBarFragment : CustomFragment() {
      * New character view model.
      */
     private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
+
+    /**
+     * Character's breed view model
+     */
+    private val charactersBreedsViewModel: CharactersBreedsViewModel by sharedViewModel()
 
     /**
      * Characteristics view model.
@@ -49,6 +55,7 @@ class NavigationBarFragment : CustomFragment() {
     private val derivedValuesViewModel: DerivedValuesViewModel by sharedViewModel()
 
     private var isSavingEnabled: Boolean = false
+
     /**
      * Initialize the initial root view.
      */
@@ -121,7 +128,7 @@ class NavigationBarFragment : CustomFragment() {
         btn_save.setOnClickListener {
             if (isSavingEnabled) {
                 doSave()
-            }else{
+            } else {
                 displayNameAlertDialog()
             }
         }
@@ -131,11 +138,14 @@ class NavigationBarFragment : CustomFragment() {
      * Displays alert dialog for characteristics
      */
     fun displayNameAlertDialog() {
-        if(activity != null){
+        if (activity != null) {
             val builder = AlertDialog.Builder(activity!!)
             builder.setTitle("Before continuing ...")
             builder.setMessage("Name is necessary to save.")
-            builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = okButtonClick))
+            builder.setPositiveButton(
+                "OK",
+                DialogInterface.OnClickListener(function = okButtonClick)
+            )
             builder.show()
         }
 
@@ -156,6 +166,25 @@ class NavigationBarFragment : CustomFragment() {
                 derivedValuesViewModel.totalHealth,
                 derivedValuesViewModel.energyPoints
             )
+
+        charactersBreedsViewModel?.selectedCharactersBreed?.forEach {
+            Log.d("DEBUG$TAG", "Breed before = $it")
+        }
+
+        charactersBreedsViewModel?.selectedCharactersBreed?.map {
+            it.characterId = insertedId
+        }
+        charactersBreedsViewModel?.selectedCharactersBreed?.forEach {
+            Log.d("DEBUG$TAG", "Breed after = $it")
+        }
+
+        charactersBreedsViewModel?.saveAll(charactersBreedsViewModel?.selectedCharactersBreed)
+
+        var cWb = newCharacterViewModel?.getCharacterWithBreeds(insertedId)
+        Log.d("DEBUG$TAG", "CWB : $cWb")
+
+
+
         var result = charactersViewModel.findOneById(insertedId)
         Log.d(TAG, "$result")
     }

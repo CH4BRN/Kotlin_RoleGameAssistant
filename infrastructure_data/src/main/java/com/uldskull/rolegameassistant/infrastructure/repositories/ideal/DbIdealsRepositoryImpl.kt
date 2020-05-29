@@ -23,7 +23,7 @@ class DbIdealsRepositoryImpl(
     }
 
     /** Get all entities    */
-    override fun getAll(): LiveData<List<DomainIdeal>>? {
+    override fun getAll(): LiveData<List<DomainIdeal>> {
         Log.d(TAG, "getAll")
         try {
             var ideals = dbIdealDao.getIdeals()

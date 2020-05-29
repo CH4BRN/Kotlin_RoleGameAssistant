@@ -33,7 +33,8 @@ class CharacterRecyclerViewFragment() :
     CustomRecyclerViewFragment(),
     AdapterButtonListener<DomainCharacter> {
 
-    private var characterTransmitter:CharacterTransmission? = null
+    private var characterTransmitter: CharacterTransmission? = null
+
     /**
      * Character recycler view
      */
@@ -47,7 +48,7 @@ class CharacterRecyclerViewFragment() :
     /**
      * ViewModel for character creation/edition
      */
-    private val newCharacterViewModel:NewCharacterViewModel by sharedViewModel()
+    private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
 
     /**
      * Adapter for character's recycler view.
@@ -87,13 +88,18 @@ class CharacterRecyclerViewFragment() :
      * Start ViewModel's collection observation.
      */
     override fun startObservation() {
-        this.charactersViewModel.characters?.observe(this, Observer { characters ->
-            kotlin.run {
-                characters.let {
-                    charactersAdapter?.setCharacters(it)
+        this.charactersViewModel.characters?.observe(
+            this,
+            Observer { characters: List<DomainCharacter?>? ->
+                kotlin.run {
+                    characters?.let { it: List<DomainCharacter?>? ->
+                        if (it != null) {
+                            charactersAdapter?.setCharacters(it)
+                        }
+
+                    }
                 }
-            }
-        })
+            })
     }
 
     /**

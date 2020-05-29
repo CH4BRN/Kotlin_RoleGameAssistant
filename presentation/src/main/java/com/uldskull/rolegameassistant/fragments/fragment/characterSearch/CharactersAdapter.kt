@@ -31,7 +31,7 @@ class CharactersAdapter internal constructor(
     /**
      * Character list
      */
-    private var characters: List<DomainCharacter> = emptyList()
+    private var characters: List<DomainCharacter?>? = emptyList()
 
     /**
      * Layout inflater
@@ -81,7 +81,12 @@ class CharactersAdapter internal constructor(
      * @return The total number of items in this adapter.
      */
     override fun getItemCount(): Int {
-        return characters.size
+        return if(characters == null){
+            0
+        } else{
+            characters!!.size
+        }
+
     }
 
     /**
@@ -107,36 +112,39 @@ class CharactersAdapter internal constructor(
      */
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val charactersViewHolder = holder as CharactersViewHolder
-        val current = characters[position]
-        charactersViewHolder.characterNameItemView.text = current.characterName
-        Log.d("test", "\nCurrent character : $current")
+        if(characters != null){
+            val current = characters!![position]
+            charactersViewHolder.characterNameItemView.text = current?.characterName
+            Log.d("test", "\nCurrent character : $current")
 
-        charactersViewHolder.characterItemLayout.setOnClickListener {
-            rowIndex = position
-            Log.d("DEBUG", "onBindViewHolder - OnClick - ${characters[position]} ")
-            //  Send the character to the RecyclerView fragment
-            buttonListener.itemPressed(characters[position])
+            charactersViewHolder.characterItemLayout.setOnClickListener {
+                rowIndex = position
+                Log.d("DEBUG", "onBindViewHolder - OnClick - ${characters!![position]} ")
+                //  Send the character to the RecyclerView fragment
+                buttonListener.itemPressed(characters!![position])
 
-            notifyDataSetChanged()
+                notifyDataSetChanged()
 
+            }
+
+            if (rowIndex == position) {
+                charactersViewHolder.characterItemLayout.setBackgroundColor(Color.parseColor("#D98B43"))
+                charactersViewHolder.characterNameItemView.setTextColor(Color.parseColor("#ffffff"))
+            } else {
+                charactersViewHolder.characterItemLayout.setBackgroundColor(Color.parseColor("#ffffff"))
+                charactersViewHolder.characterNameItemView.setTextColor(Color.parseColor("#C02942"))
+            }
         }
 
-        if (rowIndex == position) {
-            charactersViewHolder.characterItemLayout.setBackgroundColor(Color.parseColor("#D98B43"))
-            charactersViewHolder.characterNameItemView.setTextColor(Color.parseColor("#ffffff"))
-        } else {
-            charactersViewHolder.characterItemLayout.setBackgroundColor(Color.parseColor("#ffffff"))
-            charactersViewHolder.characterNameItemView.setTextColor(Color.parseColor("#C02942"))
-        }
     }
 
 
     /**
      * Set the character list content
      */
-    internal fun setCharacters(domainCharacters: List<DomainCharacter>) {
+    internal fun setCharacters(domainCharacters: List<DomainCharacter?>?) {
         this.characters = domainCharacters
-        Log.d(this.javaClass.simpleName, "Characters size = " + this.characters.size.toString())
+        Log.d(this.javaClass.simpleName, "Characters size = " + this.characters?.size.toString())
         notifyDataSetChanged()
     }
 }

@@ -7,7 +7,7 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
-import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.DbBreedWithCharacteristics
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.displayedBreeds.DbDisplayedBreedWithCharacteristics
 
 /**
  *   Class "DbBreedWithDbBonusCharacteristicsDao" :
@@ -17,11 +17,11 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.DbB
 interface DbBreedWithDbCharacteristicsDao {
 
     @Transaction
-    @Query("SELECT * FROM ${DatabaseValues.TABLE_NAME_BREED}")
-    fun getBreedsWithCharacteristics(): List<DbBreedWithCharacteristics>
+    @Query("SELECT * FROM ${DatabaseValues.TABLE_NAME_DISPLAYED_BREED}")
+    fun getBreedsWithCharacteristics(): List<DbDisplayedBreedWithCharacteristics>
 
     @Transaction
-    @Query("SELECT * FROM ${DatabaseValues.TABLE_NAME_BREED} WHERE breedId LIKE :id")
-    fun getBreedWithCharacteristics(id: Long?): DbBreedWithCharacteristics
+    @Query("SELECT * FROM ${DatabaseValues.TABLE_NAME_DISPLAYED_BREED} WHERE breedId LIKE :id")
+    fun getBreedWithCharacteristics(id: Long?): DbDisplayedBreedWithCharacteristics
 
 }

@@ -1,0 +1,42 @@
+// File DbBreedDao.kt
+// @Author pierre.antoine - 26/03/2020 - No copyright.
+
+package com.uldskull.rolegameassistant.infrastructure.dao.breed
+
+import androidx.lifecycle.LiveData
+import androidx.room.*
+import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
+import com.uldskull.rolegameassistant.infrastructure.dao.SELECT_ALL_FROM
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.displayedBreeds.DbDisplayedBreed
+
+/**
+ *   Interface "DbBreedDao" :
+ *   DbBreed database interactions.
+ **/
+@Dao
+interface DbDisplayedBreedDao {
+    //  CREATE
+    @Insert
+    fun insertBreed(dbDisplayedBreed: DbDisplayedBreed): Long
+
+    @Insert
+    fun insertBreeds(dbDisplayedBreeds: List<DbDisplayedBreed>): List<Long>
+
+    //  READ
+    @Query("$SELECT_ALL_FROM ${DatabaseValues.TABLE_NAME_DISPLAYED_BREED}")
+    fun getBreeds(): LiveData<List<DbDisplayedBreed>>
+
+    @Query("$SELECT_ALL_FROM ${DatabaseValues.TABLE_NAME_DISPLAYED_BREED} WHERE breedId LIKE :id")
+    fun getBreedById(id: Long?): DbDisplayedBreed
+
+    //  UPDATE
+    @Update
+    fun updateBreed(vararg displayedBreeds: DbDisplayedBreed): Int
+
+    //  DELETE
+    @Delete
+    fun deleteBreeds(vararg displayedBreeds: DbDisplayedBreed): Int
+
+    @Query("DELETE FROM ${DatabaseValues.TABLE_NAME_DISPLAYED_BREED}")
+    fun deleteAllBreeds(): Int
+}

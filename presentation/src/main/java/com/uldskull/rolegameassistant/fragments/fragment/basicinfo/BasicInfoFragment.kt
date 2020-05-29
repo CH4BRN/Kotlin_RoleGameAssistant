@@ -7,7 +7,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -20,11 +19,12 @@ import com.uldskull.rolegameassistant.activities.NEW_BREED_ACTIVITY
 import com.uldskull.rolegameassistant.fragments.fragment.*
 import com.uldskull.rolegameassistant.fragments.fragment.breed.BreedsRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.BASIC_INFO_FRAGMENT_POSITION
+import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
 import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.ProgressionBarViewModel
-import com.uldskull.rolegameassistant.viewmodels.breeds.BreedsViewModel
+import com.uldskull.rolegameassistant.viewmodels.breeds.DisplayedBreedsViewModel
 import kotlinx.android.synthetic.main.fragment_basic_info.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -33,6 +33,13 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   Fragment to fill information concerning basic info.
  **/
 class BasicInfoFragment() : CustomFragment() {
+
+    private var displayedBreeds: MutableList<DomainDisplayedBreed?>? = mutableListOf()
+    set(value) {
+        Log.d("DEBUG$TAG", "breeds list size = ${value?.size}")
+        field = value
+    }
+
     /**
      * Button to add breed.
      */
@@ -46,7 +53,7 @@ class BasicInfoFragment() : CustomFragment() {
     /**
      * ViewModel for breeds.
      */
-    private val breedsViewModel: BreedsViewModel by sharedViewModel()
+    private val displayedBreedsViewModel: DisplayedBreedsViewModel by sharedViewModel()
 
     /**
      * ViewModel for characteristics
@@ -101,6 +108,30 @@ class BasicInfoFragment() : CustomFragment() {
     }
 
     /**
+     * Fragment Lifecycle
+     */
+    override fun onResume() {
+        super.onResume()
+        progressionBarViewModel.progression.value = BASIC_INFO_FRAGMENT_POSITION
+    }
+
+    /**
+     * Fragment Lifecycle
+     */
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Log.d(TAG, "onViewCreated")
+        super.onViewCreated(view, savedInstanceState)
+        activity = requireActivity()
+        Log.d("DEBUG $TAG", "activity is null ? ${activity == null}")
+        deserializeWidgets()
+        setButtonAddBreed()
+        initializeListeners()
+        startObservation()
+        loadChildrenFragments()
+
+    }
+
+    /**
      * Initialize the view corresponding to this fragment class
      */
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
@@ -109,14 +140,6 @@ class BasicInfoFragment() : CustomFragment() {
             R.layout.fragment_basic_info, container, false
         )
         return initialRootView
-    }
-
-    /**
-     * Fragment Lifecycle
-     */
-    override fun onResume() {
-        super.onResume()
-        progressionBarViewModel.progression.value = BASIC_INFO_FRAGMENT_POSITION
     }
 
     /**
@@ -146,11 +169,23 @@ class BasicInfoFragment() : CustomFragment() {
     private fun loadBreedsRecyclerViewFragment() {
         if (activity != null) {
             val transaction = childFragmentManager.beginTransaction()
+
+            var fragment =  BreedsRecyclerViewFragment.newInstance(
+                activity!!
+            )
+
+            Log.d("DEBUG$TAG", "breeds size then : ${this.displayedBreeds?.size}")
+
+            displayedBreeds?.forEach { newBreed ->
+                if(newBreed != null){
+                    displayedBreedsViewModel?.observedDisplayedBreeds?.value?.find { it.breedId == newBreed?.breedId }?.breedChecked = newBreed?.breedChecked
+                }
+            }
+
+
             transaction.replace(
                 R.id.basicInfo_container_breed,
-                BreedsRecyclerViewFragment.newInstance(
-                    activity!!
-                )
+               fragment
             ).commit()
         }
     }
@@ -161,7 +196,6 @@ class BasicInfoFragment() : CustomFragment() {
     private fun deserializeWidgets() {
         deserializeEditTexts()
         buttonAddBreed = view?.findViewById<ImageButton>(R.id.btn_addBreed)
-
     }
 
     /**
@@ -174,21 +208,6 @@ class BasicInfoFragment() : CustomFragment() {
         editTextCharacterBiography = view?.findViewById(R.id.et_CharacterBiography)
         editTextCharacterHeight = view?.findViewById(R.id.et_CharacterHeight)
         editTextCharacterWeight = view?.findViewById(R.id.et_CharacterWeight)
-    }
-
-    /**
-     * Fragment Lifecycle
-     */
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.d(TAG, "onViewCreated")
-        super.onViewCreated(view, savedInstanceState)
-        activity = requireActivity()
-        Log.d("DEBUG $TAG", "activity is null ? ${activity == null}")
-        deserializeWidgets()
-        setButtonAddBreed()
-        initializeListeners()
-        loadChildrenFragments()
-        startObservation()
     }
 
     /**
@@ -234,10 +253,11 @@ class BasicInfoFragment() : CustomFragment() {
                     if (character?.characterWeight != null) {
                         editTextCharacterWeight?.setText(character?.characterWeight?.toString())
                     }
+
+
                 }
             })
     }
-
 
     /**
      * Load children fragments.
@@ -261,13 +281,15 @@ class BasicInfoFragment() : CustomFragment() {
 
     }
 
+    /**
+     * Set weight EditText text changed listener
+     */
     private fun setWeightTextChangedListener() {
         Log.d(TAG, "setWeightTextChangedListener")
         editTextCharacterWeight?.addTextChangedListener(object : CustomTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
                 newCharacterViewModel?.characterWeight?.value = s.toString().toInt()
             }
-
         })
     }
 
@@ -277,20 +299,6 @@ class BasicInfoFragment() : CustomFragment() {
     private fun setGenderTextChangedListener() {
         Log.d(TAG, "setGenderTextChangedListener")
         editTextCharacterGender?.addTextChangedListener(object : CustomTextWatcher() {
-            /**
-             * This method is called to notify you that, somewhere within
-             * `s`, the text has been changed.
-             * It is legitimate to make further changes to `s` from
-             * this callback, but be careful not to get yourself into an infinite
-             * loop, because any changes you make will cause this method to be
-             * called again recursively.
-             * (You are not told where the change took place because other
-             * afterTextChanged() methods may already have made other changes
-             * and invalidated the offsets.  But if you need to know here,
-             * you can use [Spannable.setSpan] in [.onTextChanged]
-             * to mark your place and then look up from here where the span
-             * ended up.
-             */
             override fun afterTextChanged(gender: Editable?) {
                 newCharacterViewModel.characterGender = gender?.toString()
             }

@@ -4,7 +4,8 @@ package com.uldskull.rolegameassistant.di.koin_modules
 
 import com.uldskull.rolegameassistant.viewmodels.*
 import com.uldskull.rolegameassistant.viewmodels.breeds.BreedCharacteristicsViewModel
-import com.uldskull.rolegameassistant.viewmodels.breeds.BreedsViewModel
+import com.uldskull.rolegameassistant.viewmodels.breeds.CharactersBreedsViewModel
+import com.uldskull.rolegameassistant.viewmodels.breeds.DisplayedBreedsViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationSkillsViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -18,7 +19,7 @@ val viewModelModule = module {
             application = get(),
             diceService = get(),
             characterRepository = get(),
-            breedsRepository = get(),
+            displayedBreedsRepository = get(),
             characteristicRepository = get(),
             idealsRepository = get()
         )
@@ -28,16 +29,16 @@ val viewModelModule = module {
         CharacteristicsViewModel(
             application = get(),
             characteristicRepositoryImpl = get(),
-            rollCharacteristicRepositoryImpl = get(),
+            rollsCharacteristicRepositoryImpl = get(),
             diceServiceImpl = get(),
-            breedsRepository = get()
+            displayedBreedsRepository = get()
         )
     }
     //  Breed Characteristics ViewModel
     viewModel {
         BreedCharacteristicsViewModel(
             application = get(),
-            breedCharacteristicRepositoryImpl = get()
+            breedsCharacteristicRepositoryImpl = get()
         )
     }
     //  Skills ViewModel
@@ -59,11 +60,19 @@ val viewModelModule = module {
             idealsRepositoryImpl = get()
         )
     }
-    //  Breeds ViewModel
+    //  Displayed breeds ViewModel
     viewModel {
-        BreedsViewModel(
+        DisplayedBreedsViewModel(
             application = get(),
-            breedRepositoryImpl = get()
+            displayedBreedRepositoryImpl = get()
+        )
+    }
+
+    //  Character's breeds ViewModel
+    viewModel {
+        CharactersBreedsViewModel(
+            application = get(),
+            charactersBreedRepositoryImpl = get()
         )
     }
     //  Characters ViewModel

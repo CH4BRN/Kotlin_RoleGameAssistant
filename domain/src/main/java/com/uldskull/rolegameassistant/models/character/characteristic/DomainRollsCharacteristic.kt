@@ -7,7 +7,7 @@ package com.uldskull.rolegameassistant.models.character.characteristic
  *   Class "DomainRollCharacteristic" :
  *   TODO: Fill class use.
  **/
-class DomainRollCharacteristic(
+class DomainRollsCharacteristic(
     val characteristicId: Long?,
     val characteristicName: String?,
     var characteristicBonus: Int?,

@@ -10,9 +10,11 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues.DATABASE_NAME
-import com.uldskull.rolegameassistant.infrastructure.dao.breed.DbBreedDao
+import com.uldskull.rolegameassistant.infrastructure.dao.breed.DbDisplayedBreedDao
 import com.uldskull.rolegameassistant.infrastructure.dao.breed.DbBreedWithDbCharacteristicsDao
+import com.uldskull.rolegameassistant.infrastructure.dao.breed.DbCharactersBreedDao
 import com.uldskull.rolegameassistant.infrastructure.dao.character.DbCharacterDao
+import com.uldskull.rolegameassistant.infrastructure.dao.character.DbCharacterWithDbCharactersBreedDao
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbBreedCharacteristicDao
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbCharacteristicDao
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbRollCharacteristicsDao
@@ -26,8 +28,9 @@ import com.uldskull.rolegameassistant.infrastructure.database.databaseUtils.Idea
 import com.uldskull.rolegameassistant.infrastructure.database.databaseUtils.OccupationDatabaseUtil.Companion.insertOccupations
 import com.uldskull.rolegameassistant.infrastructure.database.databaseUtils.RollCharacteristicDatabaseUtil.Companion.populateRollCharacteristics
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_bond.DbBondConverter
-import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.DbBreed
-import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.DbBreedConverter
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.characterBreeds.DbCharactersBreed
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.displayedBreeds.DbDisplayedBreed
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.displayedBreeds.DbDisplayedBreedConverter
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_character.DbCharacter
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbBreedCharacteristic
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbCharacteristic
@@ -47,7 +50,8 @@ Abstract class for room database
 @Database(
     entities = [
         DbCharacter::class,
-        DbBreed::class,
+        DbDisplayedBreed::class,
+        DbCharactersBreed::class,
         DbCharacteristic::class,
         DbBreedCharacteristic::class,
         DbRollCharacteristic::class,
@@ -60,7 +64,7 @@ Abstract class for room database
 @TypeConverters(
     DbBondConverter::class,
     DbIdealConverter::class,
-    DbBreedConverter::class
+    DbDisplayedBreedConverter::class
 )
 abstract class AppDatabase : RoomDatabase() {
 
@@ -75,19 +79,29 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun dbBreedCharacteristicDao(): DbBreedCharacteristicDao
 
     /**
+     * Database character's breed DAO
+     */
+    abstract fun dbCharactersBreedDao():DbCharactersBreedDao
+
+    /**
      * Database roll characteristic DAO
      */
     abstract fun dbRollCharacteristicsDao(): DbRollCharacteristicsDao
 
     /**
-     * Database Breed DAO
+     * Database displayed Breed DAO
      */
-    abstract fun dbBreedDao(): DbBreedDao
+    abstract fun dbDisplayedBreedDao(): DbDisplayedBreedDao
 
     /**
      * Database Character DAO
      */
     abstract fun dbCharacterDao(): DbCharacterDao
+
+    /**
+     * Database Character with breeds DAO
+     */
+    abstract fun dbCharacterWithBreedsDao():DbCharacterWithDbCharactersBreedDao
 
     /**
      * Database Breed with characteristics DAO
@@ -120,7 +134,7 @@ abstract class AppDatabase : RoomDatabase() {
             super.onOpen(db)
             INSTANCE?.let { database ->
                 thread(true) {
-                    populateBreed(database.dbBreedDao())
+                    populateBreed(database.dbDisplayedBreedDao())
                     populateBreedCharacteristics(database.dbBreedCharacteristicDao())
                     populateIdeals(database.dbIdealsDao())
                     populateRollCharacteristics(database.dbRollCharacteristicsDao())

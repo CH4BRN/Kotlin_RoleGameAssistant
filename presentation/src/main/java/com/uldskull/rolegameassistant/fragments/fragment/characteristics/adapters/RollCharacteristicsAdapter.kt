@@ -4,7 +4,7 @@
 package com.uldskull.rolegameassistant.fragments.fragment.characteristics.adapters
 
 import android.content.Context
-import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollCharacteristic
+import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollsCharacteristic
 
 /**
  *   Class "RollCharacteristicsAdapter" :
@@ -12,7 +12,7 @@ import com.uldskull.rolegameassistant.models.character.characteristic.DomainRoll
  **/
 class RollCharacteristicsAdapter(
     context: Context,
-    val givenCharacteristics: List<DomainRollCharacteristic>?
+    val givenCharacteristics: List<DomainRollsCharacteristic>?
 ) : CharacteristicsAdapter(context) {
 
     init {

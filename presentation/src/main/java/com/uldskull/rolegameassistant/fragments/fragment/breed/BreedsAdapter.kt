@@ -14,8 +14,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
+import com.uldskull.rolegameassistant.fragments.fragment.AdapterListTransmitter
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewAdapter
-import com.uldskull.rolegameassistant.models.character.breed.DomainBreed
+import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
 
 /**
  *   Class "RacesAdapter" :
@@ -23,7 +24,8 @@ import com.uldskull.rolegameassistant.models.character.breed.DomainBreed
  **/
 class BreedsAdapter internal constructor(
     context: Context,
-    private val buttonListener: AdapterButtonListener<DomainBreed>
+    private val buttonListener: AdapterButtonListener<DomainDisplayedBreed>,
+    private val listTransmitter: AdapterListTransmitter<DomainDisplayedBreed>
 ) : CustomRecyclerViewAdapter(context) {
 
     companion object {
@@ -33,7 +35,7 @@ class BreedsAdapter internal constructor(
     /**
      * Races list
      */
-    private var breeds: MutableList<DomainBreed> = mutableListOf()
+    private var displayedBreeds: MutableList<DomainDisplayedBreed> = mutableListOf()
     /** Inflater    **/
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
@@ -83,7 +85,7 @@ class BreedsAdapter internal constructor(
      */
     override fun getItemCount(): Int {
         // Log.d(TAG, "getItemCount")
-        return breeds.size
+        return displayedBreeds.size
     }
 
     /**
@@ -110,38 +112,54 @@ class BreedsAdapter internal constructor(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         Log.d(TAG, "onBindViewHolder")
         val breedsViewHolder = holder as BreedsViewHolder
-        val current = breeds[position]
+        val current = displayedBreeds[position]
+        Log.d("$TAG", "Current : $current")
         breedsViewHolder.breedNameItemView.text = current.breedName
         breedsViewHolder.breedDescriptionItemView.text = current.breedDescription
-
-
-
         breedsViewHolder.breedItemLayout.setOnClickListener {
             rowIndex = position
-            Log.d(TAG, "${breeds[position]}")
-            breeds[position].breedChecked = !breeds[position].breedChecked
-            Log.d(TAG, "${breeds[position]}")
-            buttonListener.itemPressed(breeds[position])
+            Log.d(TAG, "${displayedBreeds[position]}")
+            displayedBreeds[position].breedChecked = !displayedBreeds[position].breedChecked
+            Log.d(TAG, "${displayedBreeds[position]}")
+            buttonListener.itemPressed(displayedBreeds[position])
+            listTransmitter.transmitList(displayedBreeds)
             notifyDataSetChanged()
         }
 
         if (current.breedChecked) {
+            Log.d("DEBUG$TAG", "Breed : ${current.breedName} is checked")
             breedsViewHolder.breedItemLayout.setBackgroundColor(Color.parseColor("#D98B43"))
             breedsViewHolder.breedNameItemView.setTextColor(Color.parseColor("#ffffff"))
         } else {
+            Log.d("DEBUG$TAG", "Breed : ${current.breedName} is not checked")
             breedsViewHolder.breedItemLayout.setBackgroundColor(Color.parseColor("#ffffff"))
             breedsViewHolder.breedNameItemView.setTextColor(Color.parseColor("#C02942"))
         }
     }
 
+
+
     /**
      * Set the races list content.
      */
-    internal fun setBreeds(domainBreeds: MutableList<DomainBreed>) {
+    internal fun setBreeds(domainDisplayedBreeds: MutableList<DomainDisplayedBreed?>?) {
         Log.d(TAG, "setBreeds")
-        domainBreeds.sortBy { b -> b.breedName }
-        this.breeds = domainBreeds
-        Log.d(TAG, "Breeds size = " + this.breeds.size.toString())
+        domainDisplayedBreeds?.forEach {
+            Log.d("DEBUG$TAG", "breed checked : ${it?.breedChecked}")
+        }
+        domainDisplayedBreeds?.sortBy { b -> b?.breedName }
+        domainDisplayedBreeds?.forEach {
+            if(it != null){
+                if(this.displayedBreeds.contains(it)){
+                    var index = displayedBreeds.lastIndexOf(it)
+                    this.displayedBreeds.set(index, it)
+                }else{
+                    this.displayedBreeds.add(it)
+                }
+            }
+
+        }
+        Log.d(TAG, "Breeds size = " + this.displayedBreeds.size.toString())
         notifyDataSetChanged()
     }
 }

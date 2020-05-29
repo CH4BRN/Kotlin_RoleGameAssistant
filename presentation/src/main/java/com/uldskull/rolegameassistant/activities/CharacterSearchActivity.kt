@@ -63,6 +63,5 @@ class CharacterSearchActivity : CustomActivity(), CharacterTransmission {
         val intent = Intent(this, CharacterActivity::class.java)
         intent.putExtra("selectedCharacter", Gson().toJson(domainCharacter))
         this.startActivity(intent)
-
     }
 }

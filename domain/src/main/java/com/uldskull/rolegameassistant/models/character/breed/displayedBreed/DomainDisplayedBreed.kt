@@ -1,13 +1,13 @@
 // File DomainRace.kt
 // @Author pierre.antoine - 23/03/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.models.character.breed
+package com.uldskull.rolegameassistant.models.character.breed.displayedBreed
 
 /**
  *   Class "DomainBreed" :
  *   Represents one breed
  **/
-class DomainBreed(
+class DomainDisplayedBreed(
     val breedId: Long?,
     val breedName: String?,
     val breedDescription: String?,

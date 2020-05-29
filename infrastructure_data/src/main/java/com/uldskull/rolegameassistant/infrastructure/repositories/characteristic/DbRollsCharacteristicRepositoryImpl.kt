@@ -8,24 +8,24 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbRollCharacteristicsDao
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbRollCharacteristic
-import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollCharacteristic
-import com.uldskull.rolegameassistant.repository.characteristic.RollCharacteristicRepository
+import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollsCharacteristic
+import com.uldskull.rolegameassistant.repository.characteristic.RollsCharacteristicRepository
 
 /**
  *   Class "DbRollCharacteristicRepositoryImpl" :
  *   TODO: Fill class use.
  **/
-class DbRollCharacteristicRepositoryImpl(
+class DbRollsCharacteristicRepositoryImpl(
     private val dbRollCharacteristicsDao: DbRollCharacteristicsDao
 ) :
-    RollCharacteristicRepository<LiveData<List<DomainRollCharacteristic>>> {
+    RollsCharacteristicRepository<LiveData<List<DomainRollsCharacteristic>>> {
 
     companion object {
         private const val TAG = "DbRollCharacteristicRepositoryImpl"
     }
 
     /** Get all entities    */
-    override fun getAll(): LiveData<List<DomainRollCharacteristic>>? {
+    override fun getAll(): LiveData<List<DomainRollsCharacteristic>> {
         Log.d(TAG, "getAll")
         try {
             return Transformations.map(dbRollCharacteristicsDao.getRollCharacteristics()) {
@@ -38,10 +38,10 @@ class DbRollCharacteristicRepositoryImpl(
         }
     }
 
-    private fun List<DbRollCharacteristic>.asDomainModel(): List<DomainRollCharacteristic> {
+    private fun List<DbRollCharacteristic>.asDomainModel(): List<DomainRollsCharacteristic> {
         Log.d(TAG, "asDomainModel")
         return map {
-            DomainRollCharacteristic(
+            DomainRollsCharacteristic(
                 characteristicId = it.characteristicId,
                 characteristicName = it.characteristicName,
                 characteristicBonus = it.characteristicBonus,
@@ -54,7 +54,7 @@ class DbRollCharacteristicRepositoryImpl(
     }
 
     /** Get one entity by its id    */
-    override fun findOneById(id: Long?): DomainRollCharacteristic? {
+    override fun findOneById(id: Long?): DomainRollsCharacteristic? {
         Log.d(TAG, "findOndById")
         var result: DbRollCharacteristic
         try {
@@ -67,7 +67,7 @@ class DbRollCharacteristicRepositoryImpl(
     }
 
     /** Insert a list of entity - it should return long[] or List<Long>.*/
-    override fun insertAll(all: List<DomainRollCharacteristic>?): List<Long>? {
+    override fun insertAll(all: List<DomainRollsCharacteristic>?): List<Long>? {
         Log.d(TAG, "insertAll")
         if ((all != null) && (all.isNotEmpty())) {
             try {
@@ -90,7 +90,7 @@ class DbRollCharacteristicRepositoryImpl(
     }
 
     /** Insert one entity  -  it can return a long, which is the new rowId for the inserted item.*/
-    override fun insertOne(one: DomainRollCharacteristic?): Long? {
+    override fun insertOne(one: DomainRollsCharacteristic?): Long? {
         Log.d(TAG, "insertOne")
         return if (one != null) {
             try {
@@ -126,7 +126,7 @@ class DbRollCharacteristicRepositoryImpl(
     }
 
     /**  Update one entity  **/
-    override fun updateOne(one: DomainRollCharacteristic?): Int? {
+    override fun updateOne(one: DomainRollsCharacteristic?): Int? {
         Log.d(TAG, "updateOne")
         try {
             dbRollCharacteristicsDao.updateRollCharacteristic(DbRollCharacteristic.from(one))

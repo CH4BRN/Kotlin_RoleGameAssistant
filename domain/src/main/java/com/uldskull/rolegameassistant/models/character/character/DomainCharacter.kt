@@ -4,8 +4,8 @@ package com.uldskull.rolegameassistant.models.character.character
 
 import com.uldskull.rolegameassistant.models.character.DomainBond
 import com.uldskull.rolegameassistant.models.character.DomainIdeal
-import com.uldskull.rolegameassistant.models.character.breed.DomainBreed
-import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollCharacteristic
+import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
+import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollsCharacteristic
 
 /**
 Class "DomainCharacter"
@@ -18,7 +18,6 @@ open class DomainCharacter(
     var characterAge: Int?,
     var characterGender: String?,
     var characterBiography: String?,
-    var characterBreeds: MutableList<DomainBreed?>?,
     var characterBonds: MutableList<DomainBond?>?,
     var characterIdeals: MutableList<DomainIdeal?>?,
     var characterHealthPoints: Int?,
@@ -27,49 +26,42 @@ open class DomainCharacter(
     var characterEnergyPoints: Int?,
     var characterHeight: Int?,
     var characterPictureUri: String?,
-    var characterConstitution: DomainRollCharacteristic?,
-    var characterStrength: DomainRollCharacteristic?,
-    var characterPower: DomainRollCharacteristic?,
-    var characterDexterity: DomainRollCharacteristic?,
-    var characterSize: DomainRollCharacteristic?,
-    var characterIntelligence: DomainRollCharacteristic?,
-    var characterAppearance: DomainRollCharacteristic?,
-    var characterEducation:DomainRollCharacteristic?,
-    var characterWeight:Int?
+    var characterConstitution: DomainRollsCharacteristic?,
+    var characterStrength: DomainRollsCharacteristic?,
+    var characterPower: DomainRollsCharacteristic?,
+    var characterDexterity: DomainRollsCharacteristic?,
+    var characterSize: DomainRollsCharacteristic?,
+    var characterIntelligence: DomainRollsCharacteristic?,
+    var characterAppearance: DomainRollsCharacteristic?,
+    var characterEducation: DomainRollsCharacteristic?,
+    var characterWeight: Int?
 
 
 ) {
     override fun toString(): String {
-        var bondsList: String = ""
-        var idealsList: String = ""
-
-        characterBonds?.forEach { bond ->
-            bondsList += "\t" + bond?.bondTitle.toString() + "\n"
-        }
-
-        characterIdeals?.forEach { ideal ->
-            idealsList += "\t" + ideal?.idealName.toString() + "\n"
-        }
-
-        return "\n" +
-                "nam : ${characterName}\n" +
-                "id : ${characterId}\n" +
-                "age : ${characterAge}\n" +
-                "gen : ${characterGender}\n" +
-                "bio : ${characterBiography}\n" +
-                "bre : ${characterBreeds?.size}\n" +
-                "pic : $characterPictureUri\n" +
-                "bon : \n$bondsList\n" +
-                "ide : \n$idealsList\n" +
-                "con : $characterConstitution\n" +
-                "str : $characterStrength\n" +
-                "pow : $characterPower\n" +
-                "dex : $characterDexterity\n" +
-                "siz : $characterSize\n" +
-                "int : $characterIntelligence\n" +
-                "app : $characterAppearance\n"+
-                "edu : $characterEducation\n" +
-                "wei : $characterWeight"
+        return "DomainCharacter(\n" +
+                "characterId=$characterId, \n" +
+                "characterName=$characterName, \n" +
+                "characterAge=$characterAge, \n" +
+                "characterGender=$characterGender, \n" +
+                "characterBiography=$characterBiography, \n" +
+                "characterBonds=$characterBonds, \n" +
+                "characterIdeals=$characterIdeals, \n" +
+                "characterHealthPoints=$characterHealthPoints, \n" +
+                "characterIdeaPoints=$characterIdeaPoints, \n" +
+                "characterAlignment=$characterAlignment, \n" +
+                "characterEnergyPoints=$characterEnergyPoints, \n" +
+                "characterHeight=$characterHeight, \n" +
+                "characterPictureUri=$characterPictureUri,\n" +
+                "characterConstitution=$characterConstitution, \n" +
+                "characterStrength=$characterStrength, \n" +
+                "characterPower=$characterPower, \n" +
+                "characterDexterity=$characterDexterity, \n" +
+                "characterSize=$characterSize, \n" +
+                "characterIntelligence=$characterIntelligence, \n" +
+                "characterAppearance=$characterAppearance, \n" +
+                "characterEducation=$characterEducation, \n" +
+                "characterWeight=$characterWeight)"
     }
 }
 

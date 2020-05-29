@@ -14,7 +14,7 @@ import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollCharacteristic
+import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollsCharacteristic
 import kotlinx.android.synthetic.main.recyclerview_item_characteristic.view.*
 
 
@@ -34,9 +34,9 @@ open class CharacteristicsAdapter internal constructor(
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
     /** Abilities list  **/
-    private var rollCharacteristics = mutableListOf<DomainRollCharacteristic>()
+    private var rollCharacteristics = mutableListOf<DomainRollsCharacteristic>()
 
-    fun getCharacteristics(): List<DomainRollCharacteristic> {
+    fun getCharacteristics(): List<DomainRollsCharacteristic> {
         return rollCharacteristics
     }
 
@@ -127,7 +127,7 @@ open class CharacteristicsAdapter internal constructor(
     }
 
     /** Set the list containing domainAbilities to display   **/
-    internal fun setCharacteristics(domainCharacteristics: List<DomainRollCharacteristic>?) {
+    internal fun setCharacteristics(domainCharacteristics: List<DomainRollsCharacteristic>?) {
         Log.d(TAG, "setCharacteristics")
         if (domainCharacteristics != null) {
             this.rollCharacteristics = domainCharacteristics.sortedBy { c -> c.characteristicName }.toMutableList()

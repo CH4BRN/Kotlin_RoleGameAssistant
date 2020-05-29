@@ -3,14 +3,14 @@
 
 package com.uldskull.rolegameassistant.useCases.breeds
 
-import com.uldskull.rolegameassistant.models.character.breed.DomainBreed
+import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
 
 /**
  *   Class "BreedsServiceImpl" :
  *   TODO: Fill class use.
  **/
 class BreedsServiceImpl : BreedsService {
-    override fun getAllBreeds(): List<DomainBreed> {
+    override fun getAllBreeds(): List<DomainDisplayedBreed> {
         TODO("Not implemented.")
     }
 // TODO : Fill class.

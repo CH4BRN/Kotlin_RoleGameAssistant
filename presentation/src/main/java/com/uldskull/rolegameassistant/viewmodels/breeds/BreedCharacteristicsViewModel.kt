@@ -8,8 +8,8 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import com.uldskull.rolegameassistant.models.character.characteristic.DomainBreedCharacteristic
-import com.uldskull.rolegameassistant.repository.characteristic.BreedCharacteristicRepository
+import com.uldskull.rolegameassistant.models.character.characteristic.DomainBreedsCharacteristic
+import com.uldskull.rolegameassistant.repository.characteristic.BreedsCharacteristicRepository
 import kotlinx.coroutines.launch
 import kotlin.concurrent.thread
 
@@ -19,7 +19,7 @@ import kotlin.concurrent.thread
  **/
 class BreedCharacteristicsViewModel(
     application: Application,
-    private val breedCharacteristicRepositoryImpl: BreedCharacteristicRepository<LiveData<List<DomainBreedCharacteristic>>>
+    private val breedsCharacteristicRepositoryImpl: BreedsCharacteristicRepository<LiveData<List<DomainBreedsCharacteristic>>>
 ) : AndroidViewModel(application) {
 
     companion object {
@@ -29,12 +29,12 @@ class BreedCharacteristicsViewModel(
     }
 
     private val lock = java.lang.Object()
-    var breedCharacteristics = breedCharacteristicRepositoryImpl.getAll()
+    var breedCharacteristics = breedsCharacteristicRepositoryImpl.getAll()
 
-    private fun findAllBreedCharacteristics(): LiveData<List<DomainBreedCharacteristic>>? {
+    private fun findAllBreedCharacteristics(): LiveData<List<DomainBreedsCharacteristic>>? {
         Log.d(TAG, "findAllBreedCharacteristics")
         thread(start = true) {
-            breedCharacteristics = breedCharacteristicRepositoryImpl.getAll()
+            breedCharacteristics = breedsCharacteristicRepositoryImpl.getAll()
         }
         return breedCharacteristics
     }
@@ -51,28 +51,28 @@ class BreedCharacteristicsViewModel(
         }
     }
 
-    fun saveOneBreedCharacteristic(domainBreedCharacteristic: DomainBreedCharacteristic): Long? {
+    fun saveOneBreedCharacteristic(domainBreedsCharacteristic: DomainBreedsCharacteristic): Long? {
         Log.d(TAG, "saveOneBreedCharacteristic")
 
-        var result: Long? = breedCharacteristicRepositoryImpl.insertOne(domainBreedCharacteristic)
+        var result: Long? = breedsCharacteristicRepositoryImpl.insertOne(domainBreedsCharacteristic)
         Log.d(TAG, "saved $result")
         return result
     }
 
-    fun findBreedCharacteristicWithId(breedCharacteristicId: Long?): DomainBreedCharacteristic? {
+    fun findBreedCharacteristicWithId(breedCharacteristicId: Long?): DomainBreedsCharacteristic? {
         Log.d(TAG, "findCharacteristicWithId with id : $breedCharacteristicId")
 
-        var result = breedCharacteristicRepositoryImpl.findOneById(breedCharacteristicId)
+        var result = breedsCharacteristicRepositoryImpl.findOneById(breedCharacteristicId)
         return result
     }
 
-    fun saveAllBreedCharacteristics(domainBreedCharacteristics: List<DomainBreedCharacteristic>): List<Long>? =
+    fun saveAllBreedCharacteristics(domainBreedsCharacteristics: List<DomainBreedsCharacteristic>): List<Long>? =
 
         synchronized(lock) {
             Log.d(TAG, "saveAllBreedCharacteristics")
             Log.d(TAG, "saveAllBreedCharacteristics")
 
-            var result: List<Long>? = breedCharacteristicRepositoryImpl.insertAll(domainBreedCharacteristics)
+            var result: List<Long>? = breedsCharacteristicRepositoryImpl.insertAll(domainBreedsCharacteristics)
             Log.d(TAG, "INSERTED $result")
 
             lock.notifyAll()
@@ -82,7 +82,7 @@ class BreedCharacteristicsViewModel(
     fun deleteAllBreedCharacteristics(): Int? {
         Log.d(TAG, "deleteAllBreedCharacteristics")
         thread(start = true) {
-            breedCharacteristicRepositoryImpl.deleteAll()
+            breedsCharacteristicRepositoryImpl.deleteAll()
         }
         return 0
     }

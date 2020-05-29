@@ -37,12 +37,14 @@
                     <TextView
                         android:id="@+id/tv_subtitle_name"
                         style="@style/TextViewSubTitle"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:text="Name : " />
 
                     <EditText
                         android:id="@+id/et_characterName"
-                        android:layout_width="match_parent"
-                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_weight="3"
                         android:hint="Name ... "
                         android:inputType="text" />
                 </TableRow>
@@ -52,13 +54,14 @@
                     <TextView
                         android:id="@+id/tv_subtitle_age"
                         style="@style/TextViewSubTitle"
-                        android:text="Age : " />
+                        android:text="Age : "
+                        android:layout_weight="1"
+                        android:layout_width="0dp"/>
 
                     <EditText
+                        android:layout_width="0dp"
                         android:id="@+id/et_characterAge"
-
                         android:layout_weight="1"
-
                         android:hint="Age ... "
                         android:inputType="number" />
 
@@ -66,13 +69,13 @@
                         android:id="@+id/tv_subtitle_gender"
                         style="@style/TextViewSubTitle"
                         android:layout_weight="1"
+                        android:layout_width="0dp"
                         android:text="Gender : " />
 
                     <EditText
+                        android:layout_width="0dp"
                         android:id="@+id/et_CharacterGender"
-                        android:layout_span="3"
                         android:layout_weight="1"
-
                         android:hint="Gender ... "
                         android:inputType="text" />
 
@@ -82,15 +85,17 @@
                 <TableRow style="@style/Row">
 
                     <TextView
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
                         android:id="@+id/tv_subtitle_biography"
                         style="@style/TextViewSubTitle"
                         android:text="Biography : " />
 
                     <EditText
                         android:id="@+id/et_CharacterBiography"
-                        android:layout_span="3"
-                        android:layout_weight="1"
-                        android:hint="@string/lorem_ipsum_short"
+                        android:layout_weight="3"
+                        android:layout_width="0dp"
+                        android:hint="\nLet's type a biography ... \n"
                         android:inputType="textMultiLine" />
                 </TableRow>
                 <TableRow style="@style/Row">
@@ -99,11 +104,14 @@
 
                         android:id="@+id/tv_subtitle_height"
                         style="@style/TextViewSubTitle"
-                        android:text="Height :" />
+                        android:text="Height :"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"/>
 
                     <EditText
                         android:id="@+id/et_CharacterHeight"
                         android:layout_weight="1"
+                        android:layout_width="0dp"
                         android:hint="1"
                         android:inputType="number" />
 
@@ -111,11 +119,13 @@
                         android:id="@+id/tv_subtitle_weight"
                         style="@style/TextViewSubTitle"
                         android:layout_weight="1"
+                        android:layout_width="0dp"
                         android:text="Weight : " />
 
                     <EditText
                         android:id="@+id/et_CharacterWeight"
                         android:layout_weight="1"
+                        android:layout_width="0dp"
                         android:hint="50"
                         android:inputType="number" />
 
@@ -128,16 +138,15 @@
                         android:id="@+id/tv_subtitle_breed"
                         style="@style/TextViewSubTitle"
                         android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
                         android:text="Breed : " />
 
                     <FrameLayout
                         android:id="@+id/basicInfo_container_breed"
-                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_span="3"
-                        android:layout_weight="1" />
-
-
+                        android:layout_weight="3"
+                        android:layout_width="0dp" />
                 </TableRow>
 
                 <TableRow style="@style/Row">

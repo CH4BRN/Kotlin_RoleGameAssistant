@@ -21,7 +21,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.characteristics.adapters.CharacteristicsAdapter
 import com.uldskull.rolegameassistant.fragments.fragment.characteristics.adapters.CharacteristicsDisabledAdapter
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.ABILITIES_RECYCLER_VIEW_FRAGMENT_POSITION
-import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollCharacteristic
+import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollsCharacteristic
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.DerivedValuesViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
@@ -151,7 +151,7 @@ class CharacteristicsRecyclerViewFragment() :
             this, Observer {
                 Log.d(TAG, "observedCharacteristics changed size ${it.size}")
                 characteristicsViewModel.displayedCharacteristics =
-                    it as MutableList<DomainRollCharacteristic>
+                    it as MutableList<DomainRollsCharacteristic>
                 characteristicsDisabledAdapter?.setCharacteristics(characteristicsViewModel.displayedCharacteristics)
                 characteristicsAdapter?.setCharacteristics(characteristicsViewModel.displayedCharacteristics)
             }
@@ -169,7 +169,7 @@ class CharacteristicsRecyclerViewFragment() :
 
     /** Set recycler view adapter   **/
     override fun setRecyclerViewAdapter() {
-        var checkedBreedList = characteristicsViewModel.characterBreeds.filter { b ->
+        var checkedBreedList = characteristicsViewModel.characterDisplayedBreeds?.filter { b ->
             b.breedChecked
         }
         characteristicsViewModel.calculateBreedBonuses(checkedBreedList)

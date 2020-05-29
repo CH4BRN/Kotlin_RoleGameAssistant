@@ -8,8 +8,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbBreedCharacteristicDao
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbBreedCharacteristic
-import com.uldskull.rolegameassistant.models.character.characteristic.DomainBreedCharacteristic
-import com.uldskull.rolegameassistant.repository.characteristic.BreedCharacteristicRepository
+import com.uldskull.rolegameassistant.models.character.characteristic.DomainBreedsCharacteristic
+import com.uldskull.rolegameassistant.repository.characteristic.BreedsCharacteristicRepository
 
 /**
  *   Class "DbBreedCharacteristicRepositoryImpl" :
@@ -18,13 +18,13 @@ import com.uldskull.rolegameassistant.repository.characteristic.BreedCharacteris
 class DbBreedsCharacteristicRepositoryImpl(
     private val dbBreedCharacteristicDao: DbBreedCharacteristicDao
 ) :
-    BreedCharacteristicRepository<LiveData<List<DomainBreedCharacteristic>>> {
+    BreedsCharacteristicRepository<LiveData<List<DomainBreedsCharacteristic>>> {
     companion object {
         private const val TAG = "DbBreedsCharacteristicRepositoryImpl"
     }
 
     /** Get all entities    */
-    override fun getAll(): LiveData<List<DomainBreedCharacteristic>>? {
+    override fun getAll(): LiveData<List<DomainBreedsCharacteristic>> {
         Log.d(TAG, "getAll")
         try {
             return Transformations.map(dbBreedCharacteristicDao.getBreedCharacteristics()) {
@@ -36,10 +36,10 @@ class DbBreedsCharacteristicRepositoryImpl(
         }
     }
 
-    private fun List<DbBreedCharacteristic>.asDomainModel(): List<DomainBreedCharacteristic> {
+    private fun List<DbBreedCharacteristic>.asDomainModel(): List<DomainBreedsCharacteristic> {
         Log.d(TAG, "asDomainModel")
         return map {
-            DomainBreedCharacteristic(
+            DomainBreedsCharacteristic(
                 characteristicName = it.characteristicName,
                 characteristicBreedId = it.characteristicBreedId,
                 characteristicId = it.characteristicId,
@@ -49,7 +49,7 @@ class DbBreedsCharacteristicRepositoryImpl(
     }
 
     /** Get one entity by its id    */
-    override fun findOneById(id: Long?): DomainBreedCharacteristic? {
+    override fun findOneById(id: Long?): DomainBreedsCharacteristic? {
         Log.d(TAG, "findOneById")
         var result: DbBreedCharacteristic
         try {
@@ -62,7 +62,7 @@ class DbBreedsCharacteristicRepositoryImpl(
     }
 
     /** Insert a list of entity - it should return long[] or List<Long>.*/
-    override fun insertAll(all: List<DomainBreedCharacteristic>?): List<Long>? {
+    override fun insertAll(all: List<DomainBreedsCharacteristic>?): List<Long>? {
         Log.d(TAG, "insertAll")
         if ((all != null) && (all.isNotEmpty())) {
             try {
@@ -85,7 +85,7 @@ class DbBreedsCharacteristicRepositoryImpl(
     }
 
     /** Insert one entity  -  it can return a long, which is the new rowId for the inserted item.*/
-    override fun insertOne(one: DomainBreedCharacteristic?): Long? {
+    override fun insertOne(one: DomainBreedsCharacteristic?): Long? {
         Log.d(TAG, "insertOne $one")
         return if (one != null) {
             try {
@@ -120,7 +120,7 @@ class DbBreedsCharacteristicRepositoryImpl(
     }
 
     /**  Update one entity  **/
-    override fun updateOne(one: DomainBreedCharacteristic?): Int? {
+    override fun updateOne(one: DomainBreedsCharacteristic?): Int? {
         Log.d(TAG, "updateOne")
         try {
             dbBreedCharacteristicDao.updateBreedCharacteristic(DbBreedCharacteristic.from(one))

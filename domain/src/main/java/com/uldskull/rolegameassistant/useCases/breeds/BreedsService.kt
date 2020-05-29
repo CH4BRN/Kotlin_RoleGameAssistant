@@ -3,7 +3,7 @@
 
 package com.uldskull.rolegameassistant.useCases.breeds
 
-import com.uldskull.rolegameassistant.models.character.breed.DomainBreed
+import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
 
 /**
  *   Interface "BreedsService" :
@@ -11,6 +11,6 @@ import com.uldskull.rolegameassistant.models.character.breed.DomainBreed
  **/
 interface BreedsService {
 
-    fun getAllBreeds(): List<DomainBreed>
+    fun getAllBreeds(): List<DomainDisplayedBreed>
 // TODO : Fill interface.
 }

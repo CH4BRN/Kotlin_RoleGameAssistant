@@ -6,8 +6,11 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.uldskull.rolegameassistant.infrastructure.dao.character.DbCharacterDao
+import com.uldskull.rolegameassistant.infrastructure.dao.character.DbCharacterWithDbCharactersBreedDao
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_character.DbCharacter
+import com.uldskull.rolegameassistant.models.character.breed.charactersBreed.DomainCharactersBreed
 import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
+import com.uldskull.rolegameassistant.models.character.character.DomainCharacterWithBreeds
 import com.uldskull.rolegameassistant.models.character.character.DomainCharacterWithIdeals
 import com.uldskull.rolegameassistant.repository.character.CharacterRepository
 
@@ -17,20 +20,21 @@ Class "CharacterRepositoryImpl"
 Insert and get Character from database.
  */
 class CharacterRepositoryImpl(
-    private val dbCharacterDao: DbCharacterDao
+    private val dbCharacterDao: DbCharacterDao,
+    private val dbCharacterWithDbCharactersBreedDao: DbCharacterWithDbCharactersBreedDao
 ) :
-    CharacterRepository<LiveData<List<DomainCharacter>>> {
+    CharacterRepository<LiveData<List<DomainCharacter?>?>> {
 
     companion object {
         private const val TAG = "CharacterRepositoryImpl"
     }
 
     /** Get all entities    */
-    override fun getAll(): LiveData<List<DomainCharacter>>? {
+    override fun getAll(): LiveData<List<DomainCharacter?>?> {
         Log.d(TAG, "getAll")
         return try {
             Transformations.map(dbCharacterDao.getCharacters()) {
-                return@map it.asDomainModel()
+                return@map it?.asDomainModel()
             }
         } catch (e: Exception) {
             Log.e(TAG, "getAll FAILED")
@@ -39,33 +43,36 @@ class CharacterRepositoryImpl(
         }
     }
 
-    private fun List<DbCharacter>.asDomainModel(): List<DomainCharacter> {
+    private fun List<DbCharacter?>.asDomainModel(): List<DomainCharacter?>? {
         Log.d(TAG, "asDomainModel")
+
+
         return map {
             DomainCharacter(
-                characterId = it.characterId,
-                characterName = it.characterName,
-                characterAge = it.characterAge,
-                characterGender = it.characterGender,
-                characterBiography = it.characterBiography,
-                characterBreeds = it.characterBreeds?.map { dbBreed -> dbBreed?.toDomain() }?.toMutableList(),
-                characterHealthPoints = it.characterHealthPoints,
-                characterIdeaPoints = it.characterIdeaPoints,
-                characterAlignment = it.characterAlignment,
-                characterEnergyPoints = it.characterEnergyPoints,
-                characterHeight = it.characterHeight,
-                characterPictureUri = it.characterPictureUri,
-                characterBonds = it.characterBonds?.map { dbBond -> dbBond?.toDomain() }?.toMutableList(),
-                characterIdeals = it.characterIdeals?.map { dbIdeal -> dbIdeal?.toDomain() }?.toMutableList(),
-                characterStrength = it.characterStrength?.toDomain(),
-                characterSize = it.characterSize?.toDomain(),
-                characterPower = it.characterPower?.toDomain(),
-                characterIntelligence = it.characterIntelligence?.toDomain(),
-                characterDexterity = it.characterDexterity?.toDomain(),
-                characterConstitution = it.characterConstitution?.toDomain(),
-                characterAppearance = it.characterAppearance?.toDomain(),
-                characterEducation = it.characterEducation?.toDomain(),
-                characterWeight = it.characterWeight
+                characterId = it?.characterId,
+                characterName = it?.characterName,
+                characterAge = it?.characterAge,
+                characterGender = it?.characterGender,
+                characterBiography = it?.characterBiography,
+                characterHealthPoints = it?.characterHealthPoints,
+                characterIdeaPoints = it?.characterIdeaPoints,
+                characterAlignment = it?.characterAlignment,
+                characterEnergyPoints = it?.characterEnergyPoints,
+                characterHeight = it?.characterHeight,
+                characterPictureUri = it?.characterPictureUri,
+                characterBonds = it?.characterBonds?.map { dbBond -> dbBond?.toDomain() }
+                    ?.toMutableList(),
+                characterIdeals = it?.characterIdeals?.map { dbIdeal -> dbIdeal?.toDomain() }
+                    ?.toMutableList(),
+                characterStrength = it?.characterStrength?.toDomain(),
+                characterSize = it?.characterSize?.toDomain(),
+                characterPower = it?.characterPower?.toDomain(),
+                characterIntelligence = it?.characterIntelligence?.toDomain(),
+                characterDexterity = it?.characterDexterity?.toDomain(),
+                characterConstitution = it?.characterConstitution?.toDomain(),
+                characterAppearance = it?.characterAppearance?.toDomain(),
+                characterEducation = it?.characterEducation?.toDomain(),
+                characterWeight = it?.characterWeight
             )
         }
     }
@@ -132,6 +139,29 @@ class CharacterRepositoryImpl(
         Log.d(TAG, "findOneWithIdeals")
 
         return null
+    }
+
+    /**
+     * Find the corresponding character with all its breeds
+     */
+    override fun findOneWithBreeds(id: Long?): DomainCharacterWithBreeds? {
+        Log.d("DEBUG$TAG", "findOneWithBreeds")
+
+        var characterWithBreeds = dbCharacterWithDbCharactersBreedDao?.getCharacterWithBreeds(id)
+        Log.d("DEBUG$TAG", "$characterWithBreeds")
+
+        var dbBreeds = characterWithBreeds?.childrenBreeds
+        var domainBreeds: MutableList<DomainCharactersBreed> = mutableListOf()
+
+        dbBreeds.forEach {
+            domainBreeds?.add(it.toDomain())
+        }
+
+
+        return DomainCharacterWithBreeds(
+            character = characterWithBreeds?.parentCharacter?.toDomain(),
+            breeds = domainBreeds
+        )
     }
 
 

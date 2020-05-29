@@ -6,8 +6,8 @@ package com.uldskull.rolegameassistant.viewmodels
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import com.uldskull.rolegameassistant.models.character.breed.DomainBreed
-import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollCharacteristic
+import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
+import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollsCharacteristic
 
 /**
  *   Class "DerivedValuesViewModel" :
@@ -97,7 +97,7 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
     /**
      * Calculate energy points
      */
-    fun calculateEnergyPoints(power: DomainRollCharacteristic?): Int {
+    fun calculateEnergyPoints(power: DomainRollsCharacteristic?): Int {
         energyPoints = if (power?.characteristicTotal != null) {
             Log.d(TAG, "power = ${power.characteristicTotal}")
             power.characteristicTotal!!
@@ -108,7 +108,7 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
     /**
      * Calculate size plus strength for damage bonus
      */
-    fun calculateSizePlusStrength(characteristics: List<DomainRollCharacteristic?>): Int {
+    fun calculateSizePlusStrength(characteristics: List<DomainRollsCharacteristic?>): Int {
         Log.d(TAG, "calculateSizePlusStrength")
         characteristics.forEach {
             if (it?.characteristicTotal != null) {
@@ -153,7 +153,7 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
     /**
      * Calculate character's idea score
      */
-    fun calculateIdeaScore(intelligence: DomainRollCharacteristic?): Int {
+    fun calculateIdeaScore(intelligence: DomainRollsCharacteristic?): Int {
         if (intelligence?.characteristicTotal != null) {
             ideaScore = intelligence.characteristicTotal!! * 5
         }
@@ -163,14 +163,14 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
     /**
      * Calculate character's chance score
      */
-    fun calculateSanityScore(power: DomainRollCharacteristic?): Int {
+    fun calculateSanityScore(power: DomainRollsCharacteristic?): Int {
         if (power?.characteristicTotal != null) {
             sanityScore = power.characteristicTotal!! * 5
         }
         return sanityScore
     }
 
-    fun calculateLuckScore(power: DomainRollCharacteristic?): Int {
+    fun calculateLuckScore(power: DomainRollsCharacteristic?): Int {
         if (power?.characteristicTotal != null) {
             luckScore = power.characteristicTotal!! * 5
         }
@@ -180,10 +180,10 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
     /**
      * Calculate character's base health
      */
-    fun calculateBaseHealth(rollCharacteristics: List<DomainRollCharacteristic>): Int {
+    fun calculateBaseHealth(rollsCharacteristics: List<DomainRollsCharacteristic>): Int {
         Log.d(TAG, "calculate base health")
         var hp = 0
-        rollCharacteristics.forEach {
+        rollsCharacteristics.forEach {
             Log.d(TAG, "${it.characteristicName} - ${it.characteristicTotal}")
 
             if (it.characteristicTotal != null) {
@@ -204,10 +204,10 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
         return totalHealth
     }
 
-    fun calculateBreedsHealthBonus(breeds: List<DomainBreed>): Int {
+    fun calculateBreedsHealthBonus(displayedBreeds: List<DomainDisplayedBreed>): Int {
         Log.d(TAG, "calculateBreedsHealthBonus")
         var bonus: Int = 0
-        breeds.forEach {
+        displayedBreeds.forEach {
             if (it.breedHealthBonus != null) {
                 bonus += it.breedHealthBonus!!
             }
@@ -216,7 +216,7 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
         return breedHealthBonus!!
     }
 
-    fun calculateKnowPoints(education: DomainRollCharacteristic):Int? {
+    fun calculateKnowPoints(education: DomainRollsCharacteristic):Int? {
         Log.d(TAG, "calculateKnowPoints")
         if (education?.characteristicTotal != null) {
             knowScore = education.characteristicTotal!! * 5

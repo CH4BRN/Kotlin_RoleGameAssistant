@@ -11,14 +11,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.uldskull.rolegameassistant.models.character.DomainBond
 import com.uldskull.rolegameassistant.models.character.DomainIdeal
-import com.uldskull.rolegameassistant.models.character.breed.DomainBreed
+import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
 import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
+import com.uldskull.rolegameassistant.models.character.character.DomainCharacterWithBreeds
 import com.uldskull.rolegameassistant.models.character.characteristic.CharacteristicsName
-import com.uldskull.rolegameassistant.models.character.characteristic.DomainBreedCharacteristic
-import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollCharacteristic
-import com.uldskull.rolegameassistant.repository.breed.BreedsRepository
+import com.uldskull.rolegameassistant.models.character.characteristic.DomainBreedsCharacteristic
+import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollsCharacteristic
+import com.uldskull.rolegameassistant.repository.breed.DisplayedBreedsRepository
 import com.uldskull.rolegameassistant.repository.character.CharacterRepository
-import com.uldskull.rolegameassistant.repository.characteristic.BreedCharacteristicRepository
+import com.uldskull.rolegameassistant.repository.characteristic.BreedsCharacteristicRepository
 import com.uldskull.rolegameassistant.repository.ideal.IdealsRepository
 import com.uldskull.rolegameassistant.useCases.diceRoll.DiceService
 
@@ -32,8 +33,8 @@ class NewCharacterViewModel(
     application: Application,
     private val diceService: DiceService,
     private val characterRepository: CharacterRepository<LiveData<List<DomainCharacter>>>,
-    private val breedsRepository: BreedsRepository<LiveData<List<DomainBreed>>>,
-    private val characteristicRepository: BreedCharacteristicRepository<LiveData<List<DomainBreedCharacteristic>>>,
+    private val displayedBreedsRepository: DisplayedBreedsRepository<LiveData<List<DomainDisplayedBreed>>>,
+    private val characteristicRepository: BreedsCharacteristicRepository<LiveData<List<DomainBreedsCharacteristic>>>,
     private val idealsRepository: IdealsRepository<LiveData<List<DomainIdeal>>>
 ) : AndroidViewModel(application) {
 
@@ -151,7 +152,7 @@ class NewCharacterViewModel(
     /**
      * Character breed.
      */
-    var characterBreeds: MutableList<DomainBreed>? = mutableListOf()
+    var characterDisplayedBreeds: MutableList<DomainDisplayedBreed>? = mutableListOf()
 
 
     /**
@@ -174,7 +175,7 @@ class NewCharacterViewModel(
 
 
     fun saveCharacter(
-        characteristics: List<DomainRollCharacteristic?>?,
+        characteristics: List<DomainRollsCharacteristic?>?,
         ideaScore: Int?,
         healthScore: Int?,
         energyScore: Int?
@@ -183,6 +184,7 @@ class NewCharacterViewModel(
         if (currentCharacter == null) {
             currentCharacter = emptyCharacter()
         }
+
         setId()
         setName()
         setWeight()
@@ -191,7 +193,7 @@ class NewCharacterViewModel(
         setBiography()
         setAlignment()
         setHeight()
-        setBreeds()
+
         setPictureUri()
         setBonds()
         setIdeals()
@@ -207,13 +209,13 @@ class NewCharacterViewModel(
         }
         try {
             if (currentCharacter?.characterId == null) {
-                Log.d("CHARACTER", "INSERT")
+                Log.d("DEBUG$TAG", "INSERT")
                 characterId = characterRepository.insertOne(currentCharacter)
                 currentCharacter?.characterId = characterId
-                Log.d("CHARACTER", "character $currentCharacter")
+                Log.d("DEBUG$TAG", "character $currentCharacter")
             } else {
-                Log.d("CHARACTER", "UPDATE")
-                Log.d("CHARACTER", "character $currentCharacter ")
+                Log.d("DEBUG$TAG", "UPDATE")
+                Log.d("DEBUG$TAG", "character $currentCharacter ")
                 characterRepository.updateOne(currentCharacter)
             }
 
@@ -233,7 +235,7 @@ class NewCharacterViewModel(
         }
     }
 
-    private fun setCharacteristics(characteristics: List<DomainRollCharacteristic?>?) {
+    private fun setCharacteristics(characteristics: List<DomainRollsCharacteristic?>?) {
         if (!characteristics.isNullOrEmpty()) {
             characteristics.forEach {
                 Log.d(
@@ -256,7 +258,6 @@ class NewCharacterViewModel(
                 currentCharacter?.characterPower = power!!
             }
 
-
             currentCharacter?.characterSize =
                 characteristics?.find { c -> c?.characteristicName == CharacteristicsName.SIZE.characteristicName }
             currentCharacter?.characterStrength =
@@ -273,7 +274,6 @@ class NewCharacterViewModel(
                         it?.idealName!!
                     )
                 }
-
             }
             currentCharacter?.characterIdeals = characterIdeals
         }
@@ -289,7 +289,6 @@ class NewCharacterViewModel(
                     )
                 }
             }
-
             currentCharacter?.characterBonds = characterBonds
         }
     }
@@ -305,23 +304,11 @@ class NewCharacterViewModel(
         }
     }
 
-    private fun setBreeds() {
-        if (characterBreeds != null) {
-            currentCharacter?.characterBreeds = mutableListOf()
-            characterBreeds!!.forEach {
-                var breed = breedsRepository.findOneWithChildren(it.breedId)
-                currentCharacter?.characterBreeds?.add(breed?.breed)
-                Log.d("NewCharacterViewModel _ saveCharacterBreed", breed?.breed?.breedName)
+    fun getCharacterWithBreeds(id: Long?):DomainCharacterWithBreeds? {
+        var cWb: DomainCharacterWithBreeds? = characterRepository?.findOneWithBreeds(id)
+        Log.d("DEBUG$TAG", "$cWb")
+        return cWb
 
-                breed?.characteristics?.forEach {
-                    Log.d(
-                        "NewCharacterViewModel",
-                        "characteristic : ${it.characteristicName} bonus ${it.characteristicBonus}"
-                    )
-                }
-            }
-
-        }
     }
 
     private fun setHeight() {
@@ -359,8 +346,8 @@ class NewCharacterViewModel(
         }
     }
 
-    private fun setWeight(){
-        if(characterWeight.value != null){
+    private fun setWeight() {
+        if (characterWeight.value != null) {
             Log.d("DEBUG$TAG", "Character weight = ${characterWeight?.value?.toString()}")
             currentCharacter?.characterWeight = characterWeight?.value
 
@@ -396,7 +383,6 @@ class NewCharacterViewModel(
             characterBiography = null,
             characterAge = null,
             characterName = null,
-            characterBreeds = null,
             characterEducation = null,
             characterWeight = null
         )

@@ -9,9 +9,11 @@ import org.koin.dsl.module
 val roomModule = module {
 
     //  BREED
-    single { AppDatabase.getDatabase(get()).dbBreedDao() }
+    single { AppDatabase.getDatabase(get()).dbDisplayedBreedDao() }
+    single { AppDatabase.getDatabase(get()).dbCharactersBreedDao() }
     //  CHARACTER
     single { AppDatabase.getDatabase(get()).dbCharacterDao() }
+    single { AppDatabase.getDatabase(get()).dbCharacterWithBreedsDao() }
     //  CHARACTERISTICS
     single { AppDatabase.getDatabase(get()).dbCharacteristicDao() }
     single { AppDatabase.getDatabase(get()).dbBreedCharacteristicDao() }

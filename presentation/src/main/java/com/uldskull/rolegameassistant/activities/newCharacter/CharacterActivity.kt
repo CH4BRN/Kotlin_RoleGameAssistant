@@ -22,6 +22,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.hobby.HobbyFragment
 import com.uldskull.rolegameassistant.fragments.fragment.occupation.OccupationFragment
 import com.uldskull.rolegameassistant.fragments.fragment.occupations.OccupationsFragment
 import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
+import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.ProgressionBarViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -46,7 +47,11 @@ class CharacterActivity :
     /** ViewModel for new character activity    **/
     private lateinit var newCharacterViewModel: NewCharacterViewModel
 
+    private lateinit var characteristicsViewModel: CharacteristicsViewModel
+
     private lateinit var progressionBarViewModel: ProgressionBarViewModel
+
+    private lateinit var breedsViewModel: CharacteristicsViewModel
 
     /** SupportFragmentManager  **/
     private val fragmentManager = supportFragmentManager
@@ -83,7 +88,7 @@ class CharacterActivity :
     /**
      * Called when the user clicks on the ok button into the characteristics alert dialog
      */
-    val okButtonClick = { dialog: DialogInterface, which: Int -> }
+    private val okButtonClick = { _: DialogInterface, _: Int -> }
 
     /**
      * Displays alert dialog for characteristics
@@ -100,6 +105,11 @@ class CharacterActivity :
         //  Get the ViewModels by DI
         newCharacterViewModel = getViewModel()
         progressionBarViewModel = getViewModel()
+        characteristicsViewModel = getViewModel()
+        Log.d("DEBUG$TAG", "characteristicsViewModel characterBreeds size = ${characteristicsViewModel.characterDisplayedBreeds?.size}")
+        breedsViewModel = getViewModel()
+        Log.d("DEBUG$TAG", "breedsViewModel breeds size = ${breedsViewModel?.characterDisplayedBreeds?.size}")
+
     }
 
     /** Set character page adapter  **/

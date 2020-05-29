@@ -2,7 +2,7 @@
 
 package com.uldskull.rolegameassistant.repository.characteristic
 
-import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollCharacteristic
+import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollsCharacteristic
 import com.uldskull.rolegameassistant.repository.GenericRepository
 
 /**
@@ -16,5 +16,5 @@ import com.uldskull.rolegameassistant.repository.GenericRepository
     these database operations will need to be performed on separate threads from the main
     thread using the AsyncTask class.
  **/
-interface RollCharacteristicRepository<T> :
-    GenericRepository<T, DomainRollCharacteristic>
+interface RollsCharacteristicRepository<T> :
+    GenericRepository<T, DomainRollsCharacteristic>

@@ -14,14 +14,13 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
-import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
-import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
-import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
+import com.uldskull.rolegameassistant.fragments.fragment.*
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.BREED_RECYCLER_VIEW_FRAGMENT_POSITION
-import com.uldskull.rolegameassistant.models.character.breed.DomainBreed
+import com.uldskull.rolegameassistant.models.character.breed.charactersBreed.DomainCharactersBreed
+import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
-import com.uldskull.rolegameassistant.viewmodels.breeds.BreedsViewModel
+import com.uldskull.rolegameassistant.viewmodels.breeds.CharactersBreedsViewModel
+import com.uldskull.rolegameassistant.viewmodels.breeds.DisplayedBreedsViewModel
 import kotlinx.android.synthetic.main.fragment_recyclerview_breeds.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -31,16 +30,22 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  **/
 class BreedsRecyclerViewFragment() :
     CustomRecyclerViewFragment(),
-    AdapterButtonListener<DomainBreed> {
+    AdapterListTransmitter<DomainDisplayedBreed>,
+    AdapterButtonListener<DomainDisplayedBreed> {
     /**
      * Recycler view for races.
      */
     private var breedsRecyclerView: RecyclerView? = null
 
     /**
-     * ViewModel for races
+     * ViewModel for displayed breeds
      */
-    private val breedsViewModel: BreedsViewModel by sharedViewModel()
+    private val displayedBreedsViewModel: DisplayedBreedsViewModel by sharedViewModel()
+
+    /**
+     * ViewModel for Character's breeds.
+     */
+    private val characterBreedsViewModel: CharactersBreedsViewModel by sharedViewModel()
 
     /**
      * ViewModel for characters
@@ -68,12 +73,31 @@ class BreedsRecyclerViewFragment() :
      */
     override fun startObservation() {
         Log.d(TAG, "startObservation")
-        this.breedsViewModel.observedBreeds?.observe(this, Observer { breeds ->
+        //  Observe displayed breeds
+        this.displayedBreedsViewModel.observedDisplayedBreeds?.observe(this, Observer { breeds ->
             kotlin.run {
+                Log.d("DEBUG$TAG", "List changed.")
                 breeds?.let {
-                    breedsViewModel.displayedBreeds = it as MutableList<DomainBreed>
-                    breedsAdapter?.setBreeds(it)
+                    it.forEach {
+                        Log.d("DEBUG$TAG", "is breed checked ${it.breedChecked}")
+                    }
+                    Log.d("DEBUG$TAG", "breeds checked : ${it.filter { b -> b.breedChecked }.size}")
+                    breedsAdapter?.setBreeds(it as MutableList<DomainDisplayedBreed?>)
                     Log.d(TAG, "BREEDS SIZE " + it.size.toString())
+                }
+            }
+        })
+        //  Observe character's breeds.
+        this.characterBreedsViewModel.observedCharactersBreeds?.observe(this, Observer { breeds ->
+            kotlin.run {
+                Log.d("DEBUG$TAG", "Character's breeds changed")
+                breeds?.let {
+                    it.forEach {
+                        Log.d("DEBUG$TAG", "breed number : ${it.charactersBreedId}")
+                        var corresponding =
+                            displayedBreedsViewModel?.findBreedWithId(it?.displayedBreedId)
+                        Log.d("DEBUG$TAG", "Breed : ${corresponding}")
+                    }
                 }
             }
         })
@@ -88,11 +112,11 @@ class BreedsRecyclerViewFragment() :
             breedsAdapter =
                 BreedsAdapter(
                     activity as Context,
+                    this,
                     this
                 )
             breedsRecyclerView?.adapter = breedsAdapter
         }
-
     }
 
     /**
@@ -107,6 +131,7 @@ class BreedsRecyclerViewFragment() :
         )
     }
 
+
     /**
      * Initialize the initial root view.
      */
@@ -118,32 +143,27 @@ class BreedsRecyclerViewFragment() :
         return initialRootView
     }
 
+
     /**
      * Called by the adapter when a breed is pressed.
      */
-    override fun itemPressed(domainModel: DomainBreed?, position:Int?) {
-        Log.d(TAG, "itemPressed")
+    override fun itemPressed(domainDisplayedModel: DomainDisplayedBreed?, position: Int?) {
+        Log.d("DEBUG $TAG", "itemPressed")
         recyclerView_breeds?.requestFocus()
-        Log.d(
-            TAG,
-            "checked breed = " + breedsViewModel.displayedBreeds.filter { b -> b.breedChecked }.size
+
+        var characterBreed = DomainCharactersBreed(
+            displayedBreedId = domainDisplayedModel?.breedId
         )
-        if (domainModel != null) {
-            Log.d(
-                TAG,
-                "${domainModel.breedName} is not null  and is ${when (domainModel.breedChecked) {
-                    true -> "checked"
-                    else -> "not checked"
-                }
-                }"
-            )
+
+        Log.d("DEBUG$TAG", "$domainDisplayedModel")
+
+        if (characterBreedsViewModel?.selectedCharactersBreed.any {
+                it.displayedBreedId == characterBreed?.displayedBreedId
+            }) {
+            characterBreedsViewModel?.selectedCharactersBreed?.remove(characterBreed)
+        } else {
+            characterBreedsViewModel?.selectedCharactersBreed?.add(characterBreed)
         }
-        Log.d(TAG, "Filter")
-        characteristicsViewModel.characterBreeds = breedsViewModel.displayedBreeds
-        Log.d(
-            TAG,
-            "checked breed = " + breedsViewModel.displayedBreeds.filter { b -> b.breedChecked }.size
-        )
     }
 
     companion object : CustomCompanion() {
@@ -153,9 +173,7 @@ class BreedsRecyclerViewFragment() :
         override fun newInstance(activity: Activity): BreedsRecyclerViewFragment {
             Log.d(TAG, "newInstance")
             val fragment =
-                BreedsRecyclerViewFragment(
-
-                )
+                BreedsRecyclerViewFragment()
             fragment.activity = activity
             val args = Bundle()
 
@@ -164,6 +182,15 @@ class BreedsRecyclerViewFragment() :
 
             return fragment
         }
+    }
+
+    override fun transmitList(domainDisplayedModels: List<DomainDisplayedBreed>?) {
+        Log.d("DEBUG$TAG", "The list is : ${domainDisplayedModels?.size} long")
+        Log.d(
+            "DEBUG$TAG",
+            "There are ${domainDisplayedModels?.count { b -> b.breedChecked }} checked breeds."
+        )
+
     }
 
 

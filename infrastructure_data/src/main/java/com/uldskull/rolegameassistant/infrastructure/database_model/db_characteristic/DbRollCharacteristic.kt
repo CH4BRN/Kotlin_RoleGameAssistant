@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbCompanion
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbEntity
-import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollCharacteristic
+import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollsCharacteristic
 
 /**
  *   Class "DbRollCharacteristic" :
@@ -25,14 +25,14 @@ class DbRollCharacteristic(
     val characteristicTotal: Int? = 0,
     val characteristicRollRule: String?
 ) :
-    DbEntity<DomainRollCharacteristic> {
+    DbEntity<DomainRollsCharacteristic> {
 
 
-    companion object : DbCompanion<DomainRollCharacteristic, DbRollCharacteristic> {
+    companion object : DbCompanion<DomainRollsCharacteristic, DbRollCharacteristic> {
         /**
          * Converts a domain model into a database model entity.
          */
-        override fun from(domainModel: DomainRollCharacteristic?): DbRollCharacteristic {
+        override fun from(domainModel: DomainRollsCharacteristic?): DbRollCharacteristic {
 
             return DbRollCharacteristic(
                 characteristicId = domainModel?.characteristicId,
@@ -51,8 +51,8 @@ class DbRollCharacteristic(
     /**
      * Converts a Database model entity into a domain model.
      */
-    override fun toDomain(): DomainRollCharacteristic {
-        return DomainRollCharacteristic(
+    override fun toDomain(): DomainRollsCharacteristic {
+        return DomainRollsCharacteristic(
             characteristicId = this.characteristicId,
             characteristicName = this.characteristicName,
             characteristicBonus = this.characteristicBonus,

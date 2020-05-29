@@ -23,7 +23,7 @@ class DbCharacteristicRepositoryImpl(
         private const val TAG = "DbCharacteristicRepositoryImpl"
     }
     /** Get all entities    */
-    override fun getAll(): MutableLiveData<List<DomainCharacteristic>>? {
+    override fun getAll(): MutableLiveData<List<DomainCharacteristic>> {
         Log.d(TAG, "getAll")
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

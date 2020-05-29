@@ -14,4 +14,5 @@ interface AdapterButtonListener<T> {
      * Called when a recyclerview cell is pressed
      */
     fun itemPressed(domainModel: T?, position:Int? = null)
+
 }

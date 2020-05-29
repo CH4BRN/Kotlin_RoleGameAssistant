@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbCompanion
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbEntity
-import com.uldskull.rolegameassistant.models.character.characteristic.DomainBreedCharacteristic
+import com.uldskull.rolegameassistant.models.character.characteristic.DomainBreedsCharacteristic
 
 /**
  *   Class "DbBonusCharacteristic" :
@@ -21,14 +21,14 @@ class DbBreedCharacteristic(
     val characteristicName: String?,
     var characteristicBonus: Int = 0,
     val characteristicBreedId: Long?
-) : DbEntity<DomainBreedCharacteristic> {
+) : DbEntity<DomainBreedsCharacteristic> {
 
 
     /**
      * Converts a Database model entity into a domain model.
      */
-    override fun toDomain(): DomainBreedCharacteristic {
-        return DomainBreedCharacteristic(
+    override fun toDomain(): DomainBreedsCharacteristic {
+        return DomainBreedsCharacteristic(
             characteristicId = this.characteristicId,
             characteristicName = this.characteristicName,
             characteristicBonus = this.characteristicBonus,
@@ -36,11 +36,11 @@ class DbBreedCharacteristic(
         )
     }
 
-    companion object : DbCompanion<DomainBreedCharacteristic, DbBreedCharacteristic> {
+    companion object : DbCompanion<DomainBreedsCharacteristic, DbBreedCharacteristic> {
         /**
          * Converts a domain model into a database model entity.
          */
-        override fun from(domainModel: DomainBreedCharacteristic?): DbBreedCharacteristic {
+        override fun from(domainModel: DomainBreedsCharacteristic?): DbBreedCharacteristic {
             return DbBreedCharacteristic(
                 characteristicId = domainModel?.characteristicId,
                 characteristicBonus = domainModel?.characteristicBonus!!,

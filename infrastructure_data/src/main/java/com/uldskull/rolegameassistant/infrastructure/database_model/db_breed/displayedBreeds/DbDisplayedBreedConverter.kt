@@ -1,7 +1,7 @@
 // File DbBreedConverter.kt
 // @Author pierre.antoine - 15/04/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.infrastructure.database_model.db_breed
+package com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.displayedBreeds
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
@@ -11,13 +11,13 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_ideal.DbI
  *   Class "DbBreedConverter" :
  *   TODO: Fill class use.
  **/
-class DbBreedConverter {
+class DbDisplayedBreedConverter {
     @TypeConverter
-    fun convertBreedToString(breeds: List<DbBreed?>?): String {
-        if (breeds != null) {
-            val breedsArray = arrayOfNulls<DbBreed>(breeds.size)
+    fun convertBreedToString(displayedBreeds: List<DbDisplayedBreed?>?): String {
+        if (displayedBreeds != null) {
+            val breedsArray = arrayOfNulls<DbDisplayedBreed>(displayedBreeds.size)
             for (index in breedsArray.indices) {
-                breedsArray[index] = breeds[index]
+                breedsArray[index] = displayedBreeds[index]
             }
             var str = ""
             var gson = Gson()
@@ -35,12 +35,12 @@ class DbBreedConverter {
     }
 
     @TypeConverter
-    fun convertStringToList(breedsString: String): List<DbBreed> {
+    fun convertStringToList(breedsString: String): List<DbDisplayedBreed> {
         var breedsArray = breedsString.split(strSeparator)
-        var breeds = ArrayList<DbBreed>()
+        var breeds = ArrayList<DbDisplayedBreed>()
         var gson = Gson()
         for (index in breedsArray.indices) {
-            breeds.add(gson.fromJson(breedsArray[index], DbBreed::class.java))
+            breeds.add(gson.fromJson(breedsArray[index], DbDisplayedBreed::class.java))
         }
         return breeds
     }
