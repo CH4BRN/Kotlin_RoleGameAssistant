@@ -178,7 +178,7 @@ class BasicInfoFragment() : CustomFragment() {
 
             displayedBreeds?.forEach { newBreed ->
                 if(newBreed != null){
-                    displayedBreedsViewModel?.observedDisplayedBreeds?.value?.find { it.breedId == newBreed?.breedId }?.breedChecked = newBreed?.breedChecked
+                    displayedBreedsViewModel?.observedRepositoryBreeds?.value?.find { it.breedId == newBreed?.breedId }?.breedChecked = newBreed?.breedChecked
                 }
             }
 
@@ -253,8 +253,6 @@ class BasicInfoFragment() : CustomFragment() {
                     if (character?.characterWeight != null) {
                         editTextCharacterWeight?.setText(character?.characterWeight?.toString())
                     }
-
-
                 }
             })
     }

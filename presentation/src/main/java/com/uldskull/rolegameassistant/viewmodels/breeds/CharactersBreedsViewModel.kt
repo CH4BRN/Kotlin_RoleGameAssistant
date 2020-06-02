@@ -24,7 +24,7 @@ class CharactersBreedsViewModel(
     var observedCharactersBreeds: LiveData<List<DomainCharactersBreed>>? =
         charactersBreedRepositoryImpl.getAll()
 
-    var selectedCharactersBreed: MutableList<DomainCharactersBreed> = mutableListOf()
+
 
     companion object {
         private const val TAG = "CharactersBreedsViewModel"
@@ -49,6 +49,10 @@ class CharactersBreedsViewModel(
                 throw e
             }
         }
+    }
+
+    fun deleteById(characterId:Long?){
+        var result = charactersBreedRepositoryImpl?.deleteById(characterId)
     }
 
     /**
@@ -77,7 +81,7 @@ class CharactersBreedsViewModel(
     /**
      * Save all character's breeds
      */
-    fun saveAll(domainCharactersBreeds: List<DomainCharactersBreed>): List<Long>? =
+    fun saveAll(domainCharactersBreeds: List<DomainCharactersBreed>?): List<Long>? =
         synchronized(lock) {
             Log.d(TAG, "saveAll")
 
@@ -109,7 +113,6 @@ class CharactersBreedsViewModel(
         } else {
             return 0
         }
-
     }
 
 }

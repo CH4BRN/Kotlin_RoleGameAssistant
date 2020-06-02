@@ -12,4 +12,6 @@ TODO : Describe interface utility.
  **/
 interface CharactersBreedsRepository<T> :
     GenericRepository<T, DomainCharactersBreed> {
+
+    fun deleteById(characterId:Long?)
 }

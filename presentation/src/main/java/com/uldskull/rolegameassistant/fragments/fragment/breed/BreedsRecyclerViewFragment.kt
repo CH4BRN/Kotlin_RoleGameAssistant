@@ -18,7 +18,9 @@ import com.uldskull.rolegameassistant.fragments.fragment.*
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.BREED_RECYCLER_VIEW_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.models.character.breed.charactersBreed.DomainCharactersBreed
 import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
+import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
+import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.breeds.CharactersBreedsViewModel
 import com.uldskull.rolegameassistant.viewmodels.breeds.DisplayedBreedsViewModel
 import kotlinx.android.synthetic.main.fragment_recyclerview_breeds.*
@@ -30,8 +32,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  **/
 class BreedsRecyclerViewFragment() :
     CustomRecyclerViewFragment(),
-    AdapterListTransmitter<DomainDisplayedBreed>,
-    AdapterButtonListener<DomainDisplayedBreed> {
+    AdapterListTransmitter<DomainDisplayedBreed> {
     /**
      * Recycler view for races.
      */
@@ -58,6 +59,11 @@ class BreedsRecyclerViewFragment() :
     private var breedsAdapter: BreedsAdapter? = null
 
     /**
+     * ViewModel for character
+     */
+    private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
+
+    /**
      * Initialize the recycler view.
      */
     override fun initializeRecyclerView() {
@@ -73,32 +79,88 @@ class BreedsRecyclerViewFragment() :
      */
     override fun startObservation() {
         Log.d(TAG, "startObservation")
+        //  Observe repository breeds
+        observeRepositoryBreeds()
+        //  Observe character's breeds.
+        observeSelectedCharacter()
         //  Observe displayed breeds
-        this.displayedBreedsViewModel.observedDisplayedBreeds?.observe(this, Observer { breeds ->
-            kotlin.run {
-                Log.d("DEBUG$TAG", "List changed.")
-                breeds?.let {
-                    it.forEach {
-                        Log.d("DEBUG$TAG", "is breed checked ${it.breedChecked}")
-                    }
-                    Log.d("DEBUG$TAG", "breeds checked : ${it.filter { b -> b.breedChecked }.size}")
-                    breedsAdapter?.setBreeds(it as MutableList<DomainDisplayedBreed?>)
-                    Log.d(TAG, "BREEDS SIZE " + it.size.toString())
+        observeMutableBreedsList()
+    }
+
+    /**
+     * Observe the mutable breeds list that will be displayed.
+     */
+    private fun observeMutableBreedsList() {
+        this.displayedBreedsViewModel?.observedMutableBreeds.observe(
+            this,
+            Observer { domainDisplayedBreeds ->
+                var breedCount = domainDisplayedBreeds?.count()
+                var checkedBreedsCount = domainDisplayedBreeds?.count { b -> b.breedChecked }
+                Log.d("DEBUG$TAG", "checked : $checkedBreedsCount on total : $breedCount")
+
+                if (domainDisplayedBreeds != null) {
+                    this.breedsAdapter?.setBreeds(domainDisplayedBreeds.toMutableList())
                 }
+            })
+    }
+
+    /**
+     * Observe the selected character.
+     */
+    private fun observeSelectedCharacter() {
+        this.newCharacterViewModel?.selectedCharacter?.observe(this, Observer { domainCharacter ->
+            if (domainCharacter != null) {
+                Log.d("DEBUG$TAG", "\nSelected character is : ${domainCharacter.characterName}")
+                observeCharactersSelectedBreeds(domainCharacter)
             }
         })
-        //  Observe character's breeds.
-        this.characterBreedsViewModel.observedCharactersBreeds?.observe(this, Observer { breeds ->
-            kotlin.run {
-                Log.d("DEBUG$TAG", "Character's breeds changed")
-                breeds?.let {
-                    it.forEach {
-                        Log.d("DEBUG$TAG", "breed number : ${it.charactersBreedId}")
+    }
+
+    /**
+     * Observe Character's selected breeds, to display previously selected breeds.
+     */
+    private fun observeCharactersSelectedBreeds(domainCharacter: DomainCharacter?) {
+        characterBreedsViewModel?.observedCharactersBreeds?.observe(
+            this,
+            Observer { domainCharacterBreeds ->
+                domainCharacterBreeds?.forEach { domainCharacterBreed ->
+                    if (domainCharacterBreed.characterId!! == domainCharacter?.characterId) {
                         var corresponding =
-                            displayedBreedsViewModel?.findBreedWithId(it?.displayedBreedId)
-                        Log.d("DEBUG$TAG", "Breed : ${corresponding}")
+                            displayedBreedsViewModel?.findBreedWithId(domainCharacterBreed?.displayedBreedId)
+                        Log.d(
+                            "DEBUG$TAG", "found breed : \n" +
+                                    "$corresponding"
+                        )
+                        var displayedBreeds =
+                            displayedBreedsViewModel?.observedMutableBreeds?.value?.toMutableList()
+                        if (displayedBreeds != null) {
+                            Log.d("DEBUG$TAG", "breeds size = ${displayedBreeds.size}")
+
+                            var found =
+                                displayedBreeds?.find { b -> b.breedId == corresponding?.breedId }
+                            if (found != null) {
+                                Log.d("DEBUG$TAG", "found : $found")
+                                found?.breedChecked = true
+                                var index =
+                                    displayedBreeds?.indexOfFirst { b -> b.breedId == found?.breedId }
+                                displayedBreeds[index] = found
+                            }
+                            displayedBreedsViewModel?.observedMutableBreeds?.value = displayedBreeds
+                        }
+
                     }
                 }
+            })
+    }
+
+    /**
+     * Observe breeds from repository, to load breeds to display.
+     */
+    private fun observeRepositoryBreeds() {
+        this.displayedBreedsViewModel.observedRepositoryBreeds?.observe(this, Observer { breeds ->
+            kotlin.run {
+                Log.d("DEBUG$TAG", "List changed. ${breeds.size}")
+                this.displayedBreedsViewModel.observedMutableBreeds.value = breeds
             }
         })
     }
@@ -112,7 +174,6 @@ class BreedsRecyclerViewFragment() :
             breedsAdapter =
                 BreedsAdapter(
                     activity as Context,
-                    this,
                     this
                 )
             breedsRecyclerView?.adapter = breedsAdapter
@@ -144,28 +205,6 @@ class BreedsRecyclerViewFragment() :
     }
 
 
-    /**
-     * Called by the adapter when a breed is pressed.
-     */
-    override fun itemPressed(domainDisplayedModel: DomainDisplayedBreed?, position: Int?) {
-        Log.d("DEBUG $TAG", "itemPressed")
-        recyclerView_breeds?.requestFocus()
-
-        var characterBreed = DomainCharactersBreed(
-            displayedBreedId = domainDisplayedModel?.breedId
-        )
-
-        Log.d("DEBUG$TAG", "$domainDisplayedModel")
-
-        if (characterBreedsViewModel?.selectedCharactersBreed.any {
-                it.displayedBreedId == characterBreed?.displayedBreedId
-            }) {
-            characterBreedsViewModel?.selectedCharactersBreed?.remove(characterBreed)
-        } else {
-            characterBreedsViewModel?.selectedCharactersBreed?.add(characterBreed)
-        }
-    }
-
     companion object : CustomCompanion() {
         private const val TAG = "BreedsRecyclerViewFragment"
 
@@ -186,11 +225,7 @@ class BreedsRecyclerViewFragment() :
 
     override fun transmitList(domainDisplayedModels: List<DomainDisplayedBreed>?) {
         Log.d("DEBUG$TAG", "The list is : ${domainDisplayedModels?.size} long")
-        Log.d(
-            "DEBUG$TAG",
-            "There are ${domainDisplayedModels?.count { b -> b.breedChecked }} checked breeds."
-        )
-
+        displayedBreedsViewModel?.observedMutableBreeds?.value = domainDisplayedModels
     }
 
 

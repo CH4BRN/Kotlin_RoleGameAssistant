@@ -24,7 +24,6 @@ import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.Doma
  **/
 class BreedsAdapter internal constructor(
     context: Context,
-    private val buttonListener: AdapterButtonListener<DomainDisplayedBreed>,
     private val listTransmitter: AdapterListTransmitter<DomainDisplayedBreed>
 ) : CustomRecyclerViewAdapter(context) {
 
@@ -36,6 +35,7 @@ class BreedsAdapter internal constructor(
      * Races list
      */
     private var displayedBreeds: MutableList<DomainDisplayedBreed> = mutableListOf()
+
     /** Inflater    **/
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
@@ -113,30 +113,29 @@ class BreedsAdapter internal constructor(
         Log.d(TAG, "onBindViewHolder")
         val breedsViewHolder = holder as BreedsViewHolder
         val current = displayedBreeds[position]
-        Log.d("$TAG", "Current : $current")
+        Log.d("$TAG", "Current : ${current.breedName}")
         breedsViewHolder.breedNameItemView.text = current.breedName
         breedsViewHolder.breedDescriptionItemView.text = current.breedDescription
         breedsViewHolder.breedItemLayout.setOnClickListener {
             rowIndex = position
-            Log.d(TAG, "${displayedBreeds[position]}")
+
             displayedBreeds[position].breedChecked = !displayedBreeds[position].breedChecked
-            Log.d(TAG, "${displayedBreeds[position]}")
-            buttonListener.itemPressed(displayedBreeds[position])
+
+            var checkedBreeds = displayedBreeds?.count { b -> b.breedChecked }
+            Log.d("DEBUG$TAG", "Checked : $checkedBreeds")
             listTransmitter.transmitList(displayedBreeds)
             notifyDataSetChanged()
         }
 
         if (current.breedChecked) {
-            Log.d("DEBUG$TAG", "Breed : ${current.breedName} is checked")
             breedsViewHolder.breedItemLayout.setBackgroundColor(Color.parseColor("#D98B43"))
             breedsViewHolder.breedNameItemView.setTextColor(Color.parseColor("#ffffff"))
         } else {
-            Log.d("DEBUG$TAG", "Breed : ${current.breedName} is not checked")
+
             breedsViewHolder.breedItemLayout.setBackgroundColor(Color.parseColor("#ffffff"))
             breedsViewHolder.breedNameItemView.setTextColor(Color.parseColor("#C02942"))
         }
     }
-
 
 
     /**
@@ -144,16 +143,14 @@ class BreedsAdapter internal constructor(
      */
     internal fun setBreeds(domainDisplayedBreeds: MutableList<DomainDisplayedBreed?>?) {
         Log.d(TAG, "setBreeds")
-        domainDisplayedBreeds?.forEach {
-            Log.d("DEBUG$TAG", "breed checked : ${it?.breedChecked}")
-        }
+
         domainDisplayedBreeds?.sortBy { b -> b?.breedName }
         domainDisplayedBreeds?.forEach {
-            if(it != null){
-                if(this.displayedBreeds.contains(it)){
+            if (it != null) {
+                if (this.displayedBreeds.contains(it)) {
                     var index = displayedBreeds.lastIndexOf(it)
                     this.displayedBreeds.set(index, it)
-                }else{
+                } else {
                     this.displayedBreeds.add(it)
                 }
             }

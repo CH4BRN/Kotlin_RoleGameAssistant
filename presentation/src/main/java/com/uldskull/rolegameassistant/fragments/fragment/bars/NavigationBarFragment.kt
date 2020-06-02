@@ -15,12 +15,15 @@ import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
+import com.uldskull.rolegameassistant.models.character.breed.charactersBreed.DomainCharactersBreed
+import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
 import com.uldskull.rolegameassistant.models.character.character.DomainCharacterWithBreeds
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.CharactersViewModel
 import com.uldskull.rolegameassistant.viewmodels.DerivedValuesViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.breeds.CharactersBreedsViewModel
+import com.uldskull.rolegameassistant.viewmodels.breeds.DisplayedBreedsViewModel
 import kotlinx.android.synthetic.main.fragment_navigation_bar.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -38,6 +41,8 @@ class NavigationBarFragment : CustomFragment() {
     /**
      * Character's breed view model
      */
+    private val displayedBreedsViewModel: DisplayedBreedsViewModel by sharedViewModel()
+
     private val charactersBreedsViewModel: CharactersBreedsViewModel by sharedViewModel()
 
     /**
@@ -149,7 +154,19 @@ class NavigationBarFragment : CustomFragment() {
             )
             builder.show()
         }
+    }
 
+
+    fun displaySavedAlertDialog() {
+        if (activity != null) {
+            val builder = AlertDialog.Builder(activity!!)
+            builder.setTitle("Character is saved.")
+            builder.setPositiveButton(
+                "Continue",
+                DialogInterface.OnClickListener(okButtonClick)
+            )
+            builder.show()
+        }
     }
 
     /**
@@ -160,6 +177,46 @@ class NavigationBarFragment : CustomFragment() {
     private fun doSave() {
         Log.d(TAG, "doSave")
 
+        try {
+            var insertedId =
+                saveCharacter()
+
+            var checkedBreeds =
+                getCheckedBreeds()
+            Log.d("DEBUG$TAG", "Checked breeds = ${checkedBreeds?.size}")
+            //  Delete all previously saved breeds.
+            charactersBreedsViewModel?.deleteById(insertedId)
+            //  Save all new selected breeds.
+            charactersBreedsViewModel?.saveAll(checkedBreeds?.map { b ->
+                DomainCharactersBreed(
+                    characterId = insertedId,
+                    displayedBreedId = b.breedId
+                )
+            })
+            var result = charactersViewModel.findOneById(insertedId)
+            Log.d(TAG, "${result?.characterName} saved")
+        } catch (e: Exception) {
+            Log.e("ERROR", "Save failed")
+            e.printStackTrace()
+            throw e
+        }
+        displaySavedAlertDialog()
+
+    }
+
+    /**
+     * Get the checked breeds from the view model
+     */
+    private fun getCheckedBreeds(): List<DomainDisplayedBreed>? {
+        var checkedBreeds =
+            displayedBreedsViewModel.observedMutableBreeds.value?.filter { b -> b.breedChecked }
+        return checkedBreeds
+    }
+
+    /**
+     * Save a character and gets the resulting id
+     */
+    private fun saveCharacter(): Long? {
         var insertedId =
             newCharacterViewModel.saveCharacter(
                 characteristicsViewModel.displayedCharacteristics,
@@ -167,42 +224,7 @@ class NavigationBarFragment : CustomFragment() {
                 derivedValuesViewModel.totalHealth,
                 derivedValuesViewModel.energyPoints
             )
-
-        charactersBreedsViewModel?.selectedCharactersBreed?.forEach {
-            Log.d("DEBUG$TAG", "Breed before = $it")
-        }
-
-        charactersBreedsViewModel?.selectedCharactersBreed?.map {
-            it.characterId = insertedId
-        }
-        charactersBreedsViewModel?.selectedCharactersBreed?.forEach {
-            Log.d("DEBUG$TAG", "Breed after = $it")
-        }
-
-        var cWb:DomainCharacterWithBreeds? = newCharacterViewModel?.getCharacterWithBreeds(insertedId)
-        Log.d("DEBUG$TAG", "CWB : $cWb")
-        if(cWb?.breeds != null){
-            charactersBreedsViewModel?.selectedCharactersBreed?.forEach {domainCharactersBreed ->
-                if(cWb!!.breeds.any(){b -> b.displayedBreedId == domainCharactersBreed?.displayedBreedId}){
-                    charactersBreedsViewModel?.updateBreed(domainCharactersBreed)
-                }else{
-                    charactersBreedsViewModel?.saveOne(domainCharactersBreed)
-                }
-            }
-        }else{
-            charactersBreedsViewModel?.saveAll(charactersBreedsViewModel?.selectedCharactersBreed)
-        }
-
-
-
-
-        cWb = newCharacterViewModel?.getCharacterWithBreeds(insertedId)
-        Log.d("DEBUG$TAG", "CWB : $cWb")
-
-
-
-        var result = charactersViewModel.findOneById(insertedId)
-        Log.d(TAG, "$result")
+        return insertedId
     }
 
 

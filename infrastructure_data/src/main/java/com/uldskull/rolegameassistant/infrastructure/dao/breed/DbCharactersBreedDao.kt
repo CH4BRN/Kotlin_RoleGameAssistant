@@ -38,4 +38,7 @@ interface DbCharactersBreedDao {
 
     @Query("DELETE FROM ${DatabaseValues.TABLE_NAME_CHARACTERS_BREED}")
     fun deleteAllCharactersBreeds(): Int
+
+    @Query("DELETE FROM ${DatabaseValues.TABLE_NAME_CHARACTERS_BREED} WHERE characterId LIKE :id")
+    fun deleteCharacterBreedsById(id:Long?)
 }

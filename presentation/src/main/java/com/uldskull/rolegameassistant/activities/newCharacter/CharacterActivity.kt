@@ -74,15 +74,21 @@ class CharacterActivity :
         //  Update the progress bar
         this.updateProgressBarFragment(0)
 
-        var jsonCharacter:String? = null
-        val extras:Bundle? = intent.extras
-        if(extras != null){
-            jsonCharacter = extras.getString("selectedCharacter")
-        }
-        val character: DomainCharacter? = Gson().fromJson(jsonCharacter, DomainCharacter::class.java)
+        val character: DomainCharacter? = deserializeDomainCharacter()
         Log.d("DEBUG $TAG", "$character")
         newCharacterViewModel.selectedCharacter?.value = character
 
+    }
+
+    private fun deserializeDomainCharacter(): DomainCharacter? {
+        var jsonCharacter: String? = null
+        val extras: Bundle? = intent.extras
+        if (extras != null) {
+            jsonCharacter = extras.getString("selectedCharacter")
+        }
+        val character: DomainCharacter? =
+            Gson().fromJson(jsonCharacter, DomainCharacter::class.java)
+        return character
     }
 
     /**

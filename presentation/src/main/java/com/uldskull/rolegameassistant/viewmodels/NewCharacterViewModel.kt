@@ -171,6 +171,9 @@ class NewCharacterViewModel(
 
     var currentCharacter: DomainCharacter? = null
 
+    /**
+     * Observable character
+     */
     var selectedCharacter = MutableLiveData<DomainCharacter>()
 
 

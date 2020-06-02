@@ -33,7 +33,7 @@ class DisplayedBreedsViewModel(
         Log.d(TAG, "refreshDataFromRepository")
         viewModelScope.launch {
             try {
-                observedDisplayedBreeds = findAll()
+                observedRepositoryBreeds = findAll()
             } catch (e: Exception) {
                 throw e
             }
@@ -72,14 +72,15 @@ class DisplayedBreedsViewModel(
     }
 
 
-    var observedDisplayedBreeds = displayedBreedRepositoryImpl.getAll()
+    var observedRepositoryBreeds = displayedBreedRepositoryImpl.getAll()
+    var observedMutableBreeds = MutableLiveData<List<DomainDisplayedBreed>>()
 
     private fun findAll(): LiveData<List<DomainDisplayedBreed>>? {
         Log.d(TAG, "findAll")
         thread(start = true) {
-            observedDisplayedBreeds = displayedBreedRepositoryImpl.getAll()
+            observedRepositoryBreeds = displayedBreedRepositoryImpl.getAll()
         }
-        return observedDisplayedBreeds
+        return observedRepositoryBreeds
     }
 
     fun saveOne(domainDisplayedBreed: DomainDisplayedBreed): Long? {
