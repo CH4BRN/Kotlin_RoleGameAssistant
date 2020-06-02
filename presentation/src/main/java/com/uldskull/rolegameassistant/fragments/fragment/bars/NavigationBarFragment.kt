@@ -17,11 +17,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.models.character.breed.charactersBreed.DomainCharactersBreed
 import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
-import com.uldskull.rolegameassistant.models.character.character.DomainCharacterWithBreeds
-import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
-import com.uldskull.rolegameassistant.viewmodels.CharactersViewModel
-import com.uldskull.rolegameassistant.viewmodels.DerivedValuesViewModel
-import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
+import com.uldskull.rolegameassistant.viewmodels.*
 import com.uldskull.rolegameassistant.viewmodels.breeds.CharactersBreedsViewModel
 import com.uldskull.rolegameassistant.viewmodels.breeds.DisplayedBreedsViewModel
 import kotlinx.android.synthetic.main.fragment_navigation_bar.*
@@ -39,10 +35,13 @@ class NavigationBarFragment : CustomFragment() {
     private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
 
     /**
-     * Character's breed view model
+     * Displayed breed view model
      */
     private val displayedBreedsViewModel: DisplayedBreedsViewModel by sharedViewModel()
 
+    /**
+     * Character's breeds viewModel.
+     */
     private val charactersBreedsViewModel: CharactersBreedsViewModel by sharedViewModel()
 
     /**
@@ -60,6 +59,14 @@ class NavigationBarFragment : CustomFragment() {
      */
     private val derivedValuesViewModel: DerivedValuesViewModel by sharedViewModel()
 
+    /**
+     * Bonds view model
+     */
+    private val bondsViewModel:BondsViewModel by sharedViewModel()
+
+    /**
+     * Is saving enabled ?
+     */
     private var isSavingEnabled: Boolean = false
 
     /**
@@ -73,7 +80,10 @@ class NavigationBarFragment : CustomFragment() {
         return initialRootView
     }
 
-    private fun displayBackConfirmation() {
+    /**
+     * Displays the "go back" confirmation alert dialog
+     */
+    private fun displayBackConfirmationAlertDialog() {
         Log.d(TAG, "displayBackConfirmation")
         if (activity != null) {
             val confirmDialog = AlertDialog.Builder(activity!!)
@@ -104,16 +114,22 @@ class NavigationBarFragment : CustomFragment() {
 
     }
 
+    /**
+     * Fragment life-cycle
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d(TAG, "onViewCreated")
 
-        setBackButton()
-        setSaveButton()
+        setBackButtonOnClickListener()
+        setSaveButtonOnClickListener()
 
         observeCharacterName()
     }
 
+    /**
+     * Observe the character's name
+     */
     private fun observeCharacterName() {
         newCharacterViewModel.characterName.observe(this, Observer { name ->
             run {
@@ -122,14 +138,20 @@ class NavigationBarFragment : CustomFragment() {
         })
     }
 
-    private fun setBackButton() {
+    /**
+     * Set the back button onClickListener
+     */
+    private fun setBackButtonOnClickListener() {
         Log.d(TAG, "setBackButton")
         btn_back.setOnClickListener {
-            displayBackConfirmation()
+            displayBackConfirmationAlertDialog()
         }
     }
 
-    private fun setSaveButton() {
+    /**
+     * Set the save button OnClickListener
+     */
+    private fun setSaveButtonOnClickListener() {
         Log.d(TAG, "setSaveButton")
         btn_save.setOnClickListener {
             if (isSavingEnabled) {
@@ -143,7 +165,7 @@ class NavigationBarFragment : CustomFragment() {
     /**
      * Displays alert dialog for characteristics
      */
-    fun displayNameAlertDialog() {
+    private fun displayNameAlertDialog() {
         if (activity != null) {
             val builder = AlertDialog.Builder(activity!!)
             builder.setTitle("Before continuing ...")
@@ -157,7 +179,10 @@ class NavigationBarFragment : CustomFragment() {
     }
 
 
-    fun displaySavedAlertDialog() {
+    /**
+     * Displayed the "characters saved" alert dialog
+     */
+    private fun displaySavedAlertDialog() {
         if (activity != null) {
             val builder = AlertDialog.Builder(activity!!)
             builder.setTitle("Character is saved.")
@@ -172,28 +197,28 @@ class NavigationBarFragment : CustomFragment() {
     /**
      * Called when the user clicks on the ok button into the name alert dialog
      */
-    val okButtonClick = { dialog: DialogInterface, which: Int -> }
+    private val okButtonClick = { _: DialogInterface, _: Int -> }
 
+    /**
+     * Do the saving.
+     */
     private fun doSave() {
         Log.d(TAG, "doSave")
 
         try {
-            var insertedId =
+            var bonds = bondsViewModel?.bonds.value
+            Log.d("DEBUG$TAG", "saved bonds = ${bonds?.size}")
+
+            newCharacterViewModel?.characterBonds = bonds
+            val insertedId =
                 saveCharacter()
 
-            var checkedBreeds =
-                getCheckedBreeds()
-            Log.d("DEBUG$TAG", "Checked breeds = ${checkedBreeds?.size}")
-            //  Delete all previously saved breeds.
-            charactersBreedsViewModel?.deleteById(insertedId)
-            //  Save all new selected breeds.
-            charactersBreedsViewModel?.saveAll(checkedBreeds?.map { b ->
-                DomainCharactersBreed(
-                    characterId = insertedId,
-                    displayedBreedId = b.breedId
-                )
-            })
-            var result = charactersViewModel.findOneById(insertedId)
+            saveBreeds(insertedId)
+
+
+
+
+            val result = charactersViewModel.findOneById(insertedId)
             Log.d(TAG, "${result?.characterName} saved")
         } catch (e: Exception) {
             Log.e("ERROR", "Save failed")
@@ -205,26 +230,40 @@ class NavigationBarFragment : CustomFragment() {
     }
 
     /**
+     * Save the characters breeds.
+     */
+    private fun saveBreeds(insertedId: Long?) {
+        val checkedBreeds =
+            getCheckedBreeds()
+        Log.d("DEBUG$TAG", "Checked breeds = ${checkedBreeds?.size}")
+        //  Delete all previously saved breeds.
+        charactersBreedsViewModel.deleteById(insertedId)
+        //  Save all new selected breeds.
+        charactersBreedsViewModel.saveAll(checkedBreeds?.map { b ->
+            DomainCharactersBreed(
+                characterId = insertedId,
+                displayedBreedId = b.breedId
+            )
+        })
+    }
+
+    /**
      * Get the checked breeds from the view model
      */
     private fun getCheckedBreeds(): List<DomainDisplayedBreed>? {
-        var checkedBreeds =
-            displayedBreedsViewModel.observedMutableBreeds.value?.filter { b -> b.breedChecked }
-        return checkedBreeds
+        return displayedBreedsViewModel.observedMutableBreeds.value?.filter { b -> b.breedChecked }
     }
 
     /**
      * Save a character and gets the resulting id
      */
     private fun saveCharacter(): Long? {
-        var insertedId =
-            newCharacterViewModel.saveCharacter(
-                characteristicsViewModel.displayedCharacteristics,
-                derivedValuesViewModel.ideaScore,
-                derivedValuesViewModel.totalHealth,
-                derivedValuesViewModel.energyPoints
-            )
-        return insertedId
+        return newCharacterViewModel.saveCharacter(
+            characteristicsViewModel.displayedCharacteristics,
+            derivedValuesViewModel.ideaScore,
+            derivedValuesViewModel.totalHealth,
+            derivedValuesViewModel.energyPoints
+        )
     }
 
 

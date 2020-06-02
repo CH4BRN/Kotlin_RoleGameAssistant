@@ -12,12 +12,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.CustomTextWatcher
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.BONDS_FRAGMENT_POSITION
+import com.uldskull.rolegameassistant.models.character.DomainBond
 import com.uldskull.rolegameassistant.viewmodels.BondsViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.ProgressionBarViewModel
@@ -84,6 +86,7 @@ class BondsFragment() : CustomFragment() {
         initializeAddBondButton(view)
         tv_remainingCharactersValue.text = bondValueMaxCharacters.toString()
 
+
         setTextChangedListeners()
         setAddBondButtonListener()
 
@@ -93,11 +96,17 @@ class BondsFragment() : CustomFragment() {
 
     }
 
+    /**
+     * Initialize the "add bond" button
+     */
     private fun initializeAddBondButton(view: View) {
         buttonAddBond = view.findViewById(R.id.btn_addBond)
         btn_addBond?.isEnabled = false
     }
 
+    /**
+     * Set the text changed listener
+     */
     private fun setTextChangedListeners() {
         setBondTitleTextChangedListener()
         setBondValueTextChangedListener()
@@ -112,7 +121,7 @@ class BondsFragment() : CustomFragment() {
      * Sets the bonds recycler view.
      */
     private fun loadBondsRecyclerView() {
-        if(activity!=null){
+        if (activity != null) {
             var transaction = childFragmentManager.beginTransaction()
             transaction.replace(
                 R.id.fragmentBonds_container_bonds,
@@ -122,6 +131,7 @@ class BondsFragment() : CustomFragment() {
 
     }
 
+
     /**
      * Sets the "add bond" button listener.
      */
@@ -130,15 +140,30 @@ class BondsFragment() : CustomFragment() {
             Log.d(TAG, "setOnClickListener")
             var titleText = etBondTitle.text
             var valueText = etBondValue.text
-            if (titleText.isNullOrEmpty()) {
-                etBondTitle.error = "Title is required."
-            } else if (valueText.isNullOrEmpty()) {
-                etBondValue.error = "Value is required."
-            } else {
-                newCharacterViewModel.characterBonds = bondsViewModel.addBond()
+            when {
+                titleText.isNullOrEmpty() -> {
+                    etBondTitle.error = "Title is required."
+                }
+                valueText.isNullOrEmpty() -> {
+                    etBondValue.error = "Value is required."
+                }
+                else -> {
+                    try {
+                        var bonds = bondsViewModel?.bonds?.value
+                        if(bonds == null){
+                            bonds = mutableListOf()
+                        }
+                        Log.d("DEBUG$TAG", "bonds size = ${bonds?.size}")
+                        bonds?.add(DomainBond(null, titleText.toString(), valueText?.toString()))
+                        bondsViewModel?.bonds?.value = bonds
+                    } catch (e: Exception) {
+                        Log.e("ERROR", "Adding failed")
+                        e.printStackTrace()
+                        throw e
+                    }
+
+                }
             }
-
-
         }
     }
 
@@ -198,6 +223,7 @@ class BondsFragment() : CustomFragment() {
 
     companion object : CustomCompanion() {
         private const val TAG = "BondsFragment"
+
         @JvmStatic
         override fun newInstance(activity: Activity): BondsFragment {
             Log.d(TAG, "newInstance")

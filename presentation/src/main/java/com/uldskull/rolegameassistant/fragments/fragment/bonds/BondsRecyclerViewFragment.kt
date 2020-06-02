@@ -21,6 +21,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragm
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.models.character.DomainBond
 import com.uldskull.rolegameassistant.viewmodels.BondsViewModel
+import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
@@ -31,6 +32,9 @@ class BondsRecyclerViewFragment() :
     CustomRecyclerViewFragment(), AdapterButtonListener<DomainBond> {
     /** ViewModel for bonds    **/
     private val bondsViewModel: BondsViewModel by sharedViewModel()
+
+    /** ViewModel for character **/
+    private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
 
     /** Adapter for bonds recycler view    **/
     private var bondsAdapter: BondsAdapter? = null
@@ -59,7 +63,7 @@ class BondsRecyclerViewFragment() :
     /**
      * Called when a recyclerview cell is pressed
      */
-    override fun itemPressed(domainModel: DomainBond?, position:Int?) {
+    override fun itemPressed(domainModel: DomainBond?, position: Int?) {
 
         Log.d(TAG, "Item pressed for $domainModel")
 
@@ -96,8 +100,18 @@ class BondsRecyclerViewFragment() :
         Log.d(TAG, "startObservation")
         this.bondsViewModel.bonds.observe(this, Observer { bonds ->
             kotlin.run {
-                bonds?.let { bondsAdapter?.setBonds(it) }
+                if(bonds != null){
+                    Log.d("DEBUG$TAG", "Bonds size : ${bonds.size}")
+                    bonds?.let { bondsAdapter?.setBonds(it) }
+                }
+
             }
+        })
+
+        this.newCharacterViewModel.selectedCharacter.observe(this, Observer {
+            Log.d("DEBUG$TAG", "Character : ${it}")
+            var bonds = it?.characterBonds
+            bondsViewModel?.bonds?.value = bonds
         })
     }
 
@@ -105,7 +119,7 @@ class BondsRecyclerViewFragment() :
     /** Set recycler view adapter   **/
     override fun setRecyclerViewAdapter() {
         Log.d(TAG, "setRecyclerViewAdapter")
-        if(activity != null){
+        if (activity != null) {
             bondsAdapter = BondsAdapter(
                 activity as Context,
                 this
@@ -134,7 +148,6 @@ class BondsRecyclerViewFragment() :
 
 
     }
-
 
 
 }

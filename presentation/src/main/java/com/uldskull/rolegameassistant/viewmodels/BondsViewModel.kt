@@ -21,17 +21,7 @@ class BondsViewModel(application: Application) : AndroidViewModel(application) {
             bondTitle = this.currentBondTitle,
             bondValue = this.currentBondValue
         )
-        Log.d("Bond", "Add bond $bond")
-        try {
-            val bondsValue = bonds.value
-            bondsValue?.add(bond)
 
-            bonds.value = bondsValue
-        } catch (e: Exception) {
-            e.printStackTrace()
-            throw e
-        }
-        Log.d("Bond", "Bond $bond added")
         return bonds.value
     }
 

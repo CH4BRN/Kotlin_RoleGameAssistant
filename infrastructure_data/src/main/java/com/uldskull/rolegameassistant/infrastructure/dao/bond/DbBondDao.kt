@@ -20,7 +20,7 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_bond.DbBo
 interface DbBondDao {
     //  CREATE
     @Insert
-    fun inserBond(dbBond: DbBond): Long
+    fun insertBond(dbBond: DbBond): Long
 
     @Insert
     fun insertBonds(dbBonds: List<DbBond>): List<Long>
