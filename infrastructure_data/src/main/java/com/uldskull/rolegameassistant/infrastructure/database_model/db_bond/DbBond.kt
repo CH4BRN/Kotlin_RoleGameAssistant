@@ -22,6 +22,9 @@ class DbBond(
     val bondValue: String?
 ) : DbEntity<DomainBond> {
 
+    /**
+     * Returns a string representation of the object.
+     */
     override fun toString(): String = "\nBond : $bondTitle\n$bondId"
 
     /**

@@ -64,6 +64,9 @@ class NewCharacterViewModel(
             return field
         }
 
+    /**
+     * Calculate the character alignment from the ideals
+     */
     private fun calculateCharacterAlignment(): Int {
         var alignment: Int
         if (characterIdeals.isNotEmpty()) {
@@ -169,6 +172,9 @@ class NewCharacterViewModel(
         }
     }
 
+    /**
+     * Represents the selected character.
+     */
     var currentCharacter: DomainCharacter? = null
 
     /**
@@ -177,6 +183,9 @@ class NewCharacterViewModel(
     var selectedCharacter = MutableLiveData<DomainCharacter>()
 
 
+    /**
+     * Save a character.
+     */
     fun saveCharacter(
         characteristics: List<DomainRollsCharacteristic?>?,
         ideaScore: Int?,
@@ -232,12 +241,18 @@ class NewCharacterViewModel(
         return currentCharacter?.characterId
     }
 
+    /**
+     * Set character Id
+     */
     private fun setId() {
         if (characterId != null) {
             currentCharacter?.characterId = characterId
         }
     }
 
+    /**
+     * Set characters's characteristics.
+     */
     private fun setCharacteristics(characteristics: List<DomainRollsCharacteristic?>?) {
         if (!characteristics.isNullOrEmpty()) {
             characteristics.forEach {
@@ -268,6 +283,9 @@ class NewCharacterViewModel(
         }
     }
 
+    /**
+     * Set character's ideals.
+     */
     private fun setIdeals() {
         if (!characterIdeals.isNullOrEmpty()) {
             characterIdeals.forEach {
@@ -282,6 +300,9 @@ class NewCharacterViewModel(
         }
     }
 
+    /**
+     * Set character's bonds.
+     */
     private fun setBonds() {
         if (!characterBonds.isNullOrEmpty()) {
             characterBonds?.forEach {
@@ -296,6 +317,9 @@ class NewCharacterViewModel(
         }
     }
 
+    /**
+     * Set character's picture uri
+     */
     private fun setPictureUri() {
         if (!characterPictureUri?.toString().isNullOrEmpty()) {
             Log.d(
@@ -307,6 +331,9 @@ class NewCharacterViewModel(
         }
     }
 
+    /**
+     * Get a character with its breeds.
+     */
     fun getCharacterWithBreeds(id: Long?):DomainCharacterWithBreeds? {
         var cWb: DomainCharacterWithBreeds? = characterRepository?.findOneWithBreeds(id)
         Log.d("DEBUG$TAG", "$cWb")
@@ -314,6 +341,9 @@ class NewCharacterViewModel(
 
     }
 
+    /**
+     * Set character's height.
+     */
     private fun setHeight() {
         if (!characterHeight?.toString().isNullOrEmpty()) {
             Log.d("NewCharacterViewModel _ saveCharacterHeight", characterHeight?.toString())
@@ -321,6 +351,9 @@ class NewCharacterViewModel(
         }
     }
 
+    /**
+     * Set character's alignment.
+     */
     private fun setAlignment() {
         if (characterAlignment != null) {
             Log.d(TAG, "CharacterAlignment $characterAlignment")
@@ -328,6 +361,9 @@ class NewCharacterViewModel(
         }
     }
 
+    /**
+     * Set character's biography.
+     */
     private fun setBiography() {
         if (!characterBiography.isNullOrEmpty()) {
             Log.d(TAG, "CharacterBiography $characterBiography")
@@ -335,6 +371,9 @@ class NewCharacterViewModel(
         }
     }
 
+    /**
+     * Set character's gender.
+     */
     private fun setGender() {
         if (!characterGender.isNullOrEmpty()) {
             Log.d(TAG, "CharacterGender $characterGender")
@@ -342,6 +381,9 @@ class NewCharacterViewModel(
         }
     }
 
+    /**
+     * Set character's age.
+     */
     private fun setAge() {
         if (!characterAge?.toString().isNullOrEmpty()) {
             Log.d(TAG, "CharacterAge ${characterAge?.toString()}")
@@ -349,6 +391,9 @@ class NewCharacterViewModel(
         }
     }
 
+    /**
+     * Set character's weight.
+     */
     private fun setWeight() {
         if (characterWeight.value != null) {
             Log.d("DEBUG$TAG", "Character weight = ${characterWeight?.value?.toString()}")
@@ -357,6 +402,9 @@ class NewCharacterViewModel(
         }
     }
 
+    /**
+     * Set character's name
+     */
     private fun setName() {
         if (!characterName.value.isNullOrEmpty()) {
             Log.d(TAG, "Name : $characterName")
@@ -364,6 +412,9 @@ class NewCharacterViewModel(
         }
     }
 
+    /**
+     * Empty the current character.
+     */
     private fun emptyCharacter(): DomainCharacter {
         return DomainCharacter(
             characterId = null,
@@ -391,6 +442,9 @@ class NewCharacterViewModel(
         )
     }
 
+    /**
+     * Save character's height.
+     */
     fun saveHeight(characterHeight: String) {
         Log.d("NewCharacterViewModel", "height = $characterHeight")
         if (characterHeight != null && characterHeight.isNotEmpty()) {
@@ -403,10 +457,16 @@ class NewCharacterViewModel(
     }
 
 
+    /**
+     * Add a character ideal.
+     */
     fun addIdeal(domainModel: DomainIdeal) {
         characterIdeals.add(domainModel)
     }
 
+    /**
+     * Remove a character's ideal.
+     */
     fun removeIdeal(domainModel: DomainIdeal) {
         if (!characterIdeals.isNullOrEmpty()) {
             if (characterIdeals.contains(domainModel)) {

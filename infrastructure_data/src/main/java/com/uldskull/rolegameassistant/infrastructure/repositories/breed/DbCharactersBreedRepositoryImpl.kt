@@ -133,6 +133,9 @@ class DbCharactersBreedRepositoryImpl(
         }
     }
 
+    /**
+     * Deletes all the breeds corresponding to  a character.
+     */
     override fun deleteById(characterId: Long?) {
         Log.d("DEBUG$TAG", "deleteById")
         try{

@@ -21,15 +21,19 @@ class CharactersBreedsViewModel(
     application: Application,
     private val charactersBreedRepositoryImpl: CharactersBreedsRepository<LiveData<List<DomainCharactersBreed>>>
 ) : AndroidViewModel(application) {
+    /**
+     * Observed character's breeds.
+     */
     var observedCharactersBreeds: LiveData<List<DomainCharactersBreed>>? =
         charactersBreedRepositoryImpl.getAll()
-
-
 
     companion object {
         private const val TAG = "CharactersBreedsViewModel"
     }
 
+    /**
+     * ViewModel initialization.
+     */
     init {
         refreshDataFromRepository()
     }
@@ -51,7 +55,10 @@ class CharactersBreedsViewModel(
         }
     }
 
-    fun deleteById(characterId:Long?){
+    /**
+     * Delete all the character's breeds.
+     */
+    fun deleteById(characterId: Long?) {
         var result = charactersBreedRepositoryImpl?.deleteById(characterId)
     }
 
@@ -76,6 +83,9 @@ class CharactersBreedsViewModel(
         return result
     }
 
+    /**
+     * Lock the thread
+     */
     private val lock = java.lang.Object()
 
     /**
@@ -106,12 +116,15 @@ class CharactersBreedsViewModel(
         return result
     }
 
+    /**
+     * Update da character's breed.
+     */
     fun updateBreed(breed: DomainCharactersBreed): Int? {
         Log.d("DEBUG$TAG", "updateBreed")
-        if (breed != null) {
-            return charactersBreedRepositoryImpl.updateOne(breed)
+        return if (breed != null) {
+            charactersBreedRepositoryImpl.updateOne(breed)
         } else {
-            return 0
+            0
         }
     }
 

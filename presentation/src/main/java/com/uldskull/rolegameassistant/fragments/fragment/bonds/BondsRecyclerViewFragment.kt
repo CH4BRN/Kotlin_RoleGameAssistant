@@ -43,6 +43,9 @@ class BondsRecyclerViewFragment() :
     private var bondsRecyclerView: RecyclerView? = null
 
 
+    /**
+     * Fragment life-cycle.
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -52,6 +55,9 @@ class BondsRecyclerViewFragment() :
         return initializeView(inflater, container)
     }
 
+    /**
+     * Initialize the view.
+     */
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         Log.d(TAG, "initializeView")
         initialRootView = layoutInflater.inflate(
@@ -145,9 +151,5 @@ class BondsRecyclerViewFragment() :
 
             return fragment
         }
-
-
     }
-
-
 }

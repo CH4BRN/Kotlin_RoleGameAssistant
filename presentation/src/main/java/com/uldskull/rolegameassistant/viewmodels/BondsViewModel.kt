@@ -14,16 +14,6 @@ import com.uldskull.rolegameassistant.models.character.DomainBond
  *   ViewModel class for bonds.
  **/
 class BondsViewModel(application: Application) : AndroidViewModel(application) {
-    fun addBond(): MutableList<DomainBond?>? {
-        Log.d("Bond", "add bond")
-        val bond = DomainBond(
-            bondId = null,
-            bondTitle = this.currentBondTitle,
-            bondValue = this.currentBondValue
-        )
-
-        return bonds.value
-    }
 
     /**
      * Delete a bond from the bond list.
@@ -49,13 +39,22 @@ class BondsViewModel(application: Application) : AndroidViewModel(application) {
      * Current bond value
      */
     lateinit var currentBondValue: String
+
     /**
      * Current bond title
      */
     lateinit var currentBondTitle: String
 
+    /**
+     * Is bond value initialized ?
+     */
     fun bondValueIsInitialized(): Boolean = ::currentBondValue.isInitialized
+
+    /**
+     * Is bond title initialized ?
+     */
     fun bondTitleIsInitialized(): Boolean = ::currentBondTitle.isInitialized
+
     /** bonds to display   **/
     var bonds = MutableLiveData<MutableList<DomainBond?>>()
 

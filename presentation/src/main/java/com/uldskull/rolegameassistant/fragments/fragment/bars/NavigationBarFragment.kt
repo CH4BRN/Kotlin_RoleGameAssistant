@@ -212,12 +212,7 @@ class NavigationBarFragment : CustomFragment() {
             newCharacterViewModel?.characterBonds = bonds
             val insertedId =
                 saveCharacter()
-
             saveBreeds(insertedId)
-
-
-
-
             val result = charactersViewModel.findOneById(insertedId)
             Log.d(TAG, "${result?.characterName} saved")
         } catch (e: Exception) {

@@ -28,7 +28,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
  *   Class "BondFragment" :
- *   TODO: Fill class use.
+ *   Fragment that handles bond creation.
  **/
 class BondsFragment() : CustomFragment() {
     /**
@@ -69,6 +69,9 @@ class BondsFragment() : CustomFragment() {
     private var buttonAddBond: ImageButton? = null
 
 
+    /**
+     * Initialize the view
+     */
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         Log.d(TAG, "initializeView")
         initialRootView = layoutInflater.inflate(
@@ -85,15 +88,10 @@ class BondsFragment() : CustomFragment() {
         Log.d(TAG, "onViewCreated")
         initializeAddBondButton(view)
         tv_remainingCharactersValue.text = bondValueMaxCharacters.toString()
-
-
         setTextChangedListeners()
         setAddBondButtonListener()
-
         resetBondDisplay()
-
         loadBondsRecyclerView()
-
     }
 
     /**
@@ -112,6 +110,9 @@ class BondsFragment() : CustomFragment() {
         setBondValueTextChangedListener()
     }
 
+    /**
+     * Reset the bond edit text.
+     */
     private fun resetBondDisplay() {
         etBondTitle.setText("")
         etBondValue.setText("")
@@ -196,6 +197,9 @@ class BondsFragment() : CustomFragment() {
         })
     }
 
+    /**
+     * Initialize Bond title text changed listener
+     */
     private fun setBondTitleTextChangedListener() {
         etBondTitle?.addTextChangedListener(object : CustomTextWatcher() {
             /**
@@ -224,6 +228,9 @@ class BondsFragment() : CustomFragment() {
     companion object : CustomCompanion() {
         private const val TAG = "BondsFragment"
 
+        /**
+         * Get a new instance of the fragment
+         */
         @JvmStatic
         override fun newInstance(activity: Activity): BondsFragment {
             Log.d(TAG, "newInstance")
