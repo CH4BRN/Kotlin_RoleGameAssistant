@@ -30,8 +30,15 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  **/
 class IdealsFragment() : CustomFragment() {
 
-    val idealsViewModel:IdealsViewModel by sharedViewModel()
-    val newCharacterViewModel:NewCharacterViewModel by sharedViewModel()
+    /**
+     * Ideals view model
+     */
+    val idealsViewModel: IdealsViewModel by sharedViewModel()
+
+    /**
+     * New character ViewModel.
+     */
+    val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
 
     /**
      * Called when the view is created
@@ -54,45 +61,69 @@ class IdealsFragment() : CustomFragment() {
         return initialRootView
     }
 
-
+    /**
+     * Fragment life-cycle : called once the view is created
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadIdealsRecyclerView()
         setButtonAddIdeal()
 
-        var gotIdeals = mutableListOf<DomainIdeal>()
+        observeCharactersIdeals()
+        observeRepositoryIdeals()
+    }
 
-
-        idealsViewModel?.characterIdeals?.observe(this, Observer {domainIdeals:List<DomainIdeal?>? ->
-            if(domainIdeals != null){
-
-
-                var mutableIdeals = idealsViewModel?.mutableIdeals?.value
-                if(mutableIdeals == null){
-                    mutableIdeals = mutableListOf()
-                }
-                domainIdeals?.forEach { characterIdeal ->
-                    Log.d("DEBUG$TAG", "characterIdeal ${characterIdeal?.idealName} is checked : ${characterIdeal?.isChecked}")
-                    mutableIdeals?.add(characterIdeal)
-                }
-
-
-                idealsViewModel?.mutableIdeals?.value = mutableIdeals
-
-            }
-        })
-
+    /**
+     * Observe the ideals coming from the repository
+     */
+    private fun observeRepositoryIdeals() {
         idealsViewModel.repositoryIdeals?.observe(this, Observer { domainIdeals ->
-            domainIdeals?.forEach {
-                Log.d("DEBUG$TAG", "repositoryIdeals ${it?.idealName} is checked : ${it?.isChecked}")
+
+            var mutableIdeals = domainIdeals?.toMutableList()
+
+
+            var mutableList = idealsViewModel?.mutableIdeals?.value
+
+            mutableList?.forEach {
+                var index = mutableIdeals?.indexOfFirst { i -> it?.idealId == i.idealId }
+                if (index != null && it != null) {
+                    Log.d("DEBUG$TAG", "Index : $index")
+                    mutableIdeals?.set(index, it)
+                }
             }
-
-            idealsViewModel?.mutableIdeals?.value = domainIdeals.toMutableList()
-
-
+            idealsViewModel?.mutableIdeals?.value = mutableIdeals?.toMutableList()
         })
     }
 
+    /**
+     * Observe the ideals into the current selected character
+     */
+    private fun observeCharactersIdeals() {
+        idealsViewModel?.characterIdeals?.observe(
+            this,
+            Observer { domainIdeals: List<DomainIdeal?>? ->
+                if (domainIdeals != null) {
+                    var mutableIdeals = idealsViewModel?.mutableIdeals?.value
+                    if (mutableIdeals == null) {
+                        mutableIdeals = mutableListOf()
+                    }
+                    domainIdeals?.forEach { characterIdeal ->
+                        Log.d(
+                            "DEBUG$TAG",
+                            "characterIdeal ${characterIdeal?.idealName} is checked : ${characterIdeal?.isChecked}"
+                        )
+                        mutableIdeals?.add(characterIdeal)
+                    }
+
+                    idealsViewModel?.mutableIdeals?.value = mutableIdeals
+
+                }
+            })
+    }
+
+    /**
+     * Load ideals's recycler view.
+     */
     private fun loadIdealsRecyclerView() {
         if (activity != null) {
             var transaction = childFragmentManager.beginTransaction()
@@ -106,6 +137,9 @@ class IdealsFragment() : CustomFragment() {
 
     }
 
+    /**
+     * Set the "add ideal" button.
+     */
     private fun setButtonAddIdeal() {
         if (btn_addIdeal != null) {
             btn_addIdeal?.setOnClickListener {

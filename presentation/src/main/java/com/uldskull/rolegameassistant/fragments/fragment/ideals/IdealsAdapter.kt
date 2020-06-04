@@ -49,7 +49,7 @@ class IdealsAdapter internal constructor(
         var idealAlignmentItemView: ImageView = itemView.findViewById(R.id.img_alignment)
         var idealEvilPoints: TextView = itemView.findViewById(R.id.tv_idealEvilPoints)
         var idealGoodPoints: TextView = itemView.findViewById(R.id.tv_idealGoodPoints)
-        var idealOverlay:View = itemView.findViewById(R.id.ideal_overlay)
+        var idealOverlay: View = itemView.findViewById(R.id.ideal_overlay)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IdealsViewHolder {
@@ -97,9 +97,9 @@ class IdealsAdapter internal constructor(
         holder.idealNameItemView.text = current?.idealName
         holder.idealEvilPoints.text = current?.idealEvilPoints.toString()
         holder.idealGoodPoints.text = current?.idealGoodPoints.toString()
-        if(current != null){
+        if (current != null) {
             Log.d("DEBUG$TAG", "Current is checked : ${current?.isChecked}")
-            if(current!!.isChecked != null){
+            if (current!!.isChecked != null) {
                 holder.idealCheckedItemView.isChecked = current.isChecked!!
             }
 
@@ -110,33 +110,17 @@ class IdealsAdapter internal constructor(
         val idealEvilPoints = current?.idealEvilPoints
         setAlignmentIcon(idealEvilPoints, idealGoodPoints, holder)
 
-
-
-        holder.idealOverlay?.setOnClickListener(object :View.OnClickListener{
-            /**
-             * Called when a view has been clicked.
-             *
-             * @param v The view that was clicked.
-             */
-            override fun onClick(v: View?) {
-                Log.d("DEBUG$TAG", "OVERLAY")
-            }
-
-        })
-
         holder.idealOverlay?.setOnClickListener {
 
             Log.d("DEBUG$TAG", "OVERLAY")
             var checked = current?.isChecked
-            if(checked != null){
+            if (checked != null) {
                 current?.isChecked = !checked
             }
             Log.d("DEBUG$TAG", "current is checked : ${current?.isChecked}")
-            holder.idealCheckedItemView?.isChecked= current?.isChecked!!
+            holder.idealCheckedItemView?.isChecked = current?.isChecked!!
             this.buttonListener.itemPressed(current)
         }
-
-
 
 
     }

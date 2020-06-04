@@ -108,35 +108,54 @@ class IdealsRecyclerViewFragment :
     override fun startObservation() {
         Log.d(TAG, "startObservation")
 
-        var gotIdeals: MutableList<DomainIdeal>? = mutableListOf()
         //  Observe
+        observeSelectedCharacter()
+        observeCharacterIdeals()
+        observeIdealsMutableList()
+    }
 
+    /**
+     * Observe the ideals mutable list.
+     */
+    private fun observeIdealsMutableList() {
+        idealsViewModel?.mutableIdeals?.observe(this, Observer { domainIdealsList ->
+            domainIdealsList?.forEach {
+                Log.d("DEBUG$TAG", "Ideal : ${it?.idealName} is checked : ${it?.isChecked}")
+            }
+            idealsAdapter?.setIdeals(domainIdealsList?.toList())
+        })
+    }
 
+    /**
+     * Observe the character's ideals.
+     */
+    private fun observeCharacterIdeals() {
+        idealsViewModel?.characterIdeals?.observe(
+            this,
+            Observer { domainIdeals: List<DomainIdeal?>? ->
+                if (domainIdeals != null) {
+                    Log.d("DEBUG$TAG", "Character ideals : ${domainIdeals?.size}")
+                    Log.d(
+                        "DEBUG$TAG",
+                        "Mutable ideals : ${idealsViewModel?.mutableIdeals?.value?.size}"
+                    )
+                }
+
+                idealsViewModel?.mutableIdeals?.value = domainIdeals?.toMutableList()
+
+            })
+    }
+
+    /**
+     * Observe the selected character to get its ideals.
+     */
+    private fun observeSelectedCharacter() {
         newCharacterViewModel?.selectedCharacter?.observe(this, Observer { domainCharacter ->
             domainCharacter?.characterIdeals?.forEach {
                 Log.d("DEBUG$TAG", "Character Ideal ${it?.idealName} is checked : ${it?.isChecked}")
             }
             idealsViewModel?.characterIdeals?.value = domainCharacter?.characterIdeals?.toList()
         })
-
-        idealsViewModel?.characterIdeals?.observe(this, Observer {domainIdeals:List<DomainIdeal?>? ->
-            if(domainIdeals != null){
-                Log.d("DEBUG$TAG", "Character ideals : ${domainIdeals?.size}")
-                Log.d("DEBUG$TAG", "Mutable ideals : ${idealsViewModel?.mutableIdeals?.value?.size}")
-            }
-
-
-        })
-
-
-        idealsViewModel?.mutableIdeals?.observe(this, Observer { domainIdealsList ->
-            domainIdealsList?.forEach {
-                Log.d("DEBUG$TAG", "Ideal : ${it?.idealName} is checked : ${it?.isChecked}")
-            }
-            idealsAdapter?.setIdeals(domainIdealsList.toList())
-        })
-
-
     }
 
     /** Set recycler view adapter   **/
@@ -172,19 +191,13 @@ class IdealsRecyclerViewFragment :
     override fun itemPressed(domainModel: DomainIdeal?, position: Int?) {
         Log.d(TAG, "itemPressed")
         if (domainModel != null) {
-            if(domainModel!!.isChecked != null){
+            if (domainModel!!.isChecked != null) {
                 if (domainModel!!.isChecked!!) {
                     Log.d("DEBUG$TAG", "newCharacterViewModel add ${domainModel.idealName}")
                     newCharacterViewModel.addIdeal(domainModel)
                 } else {
                     Log.d("DEBUG$TAG", "newCharacterViewModel remove ${domainModel.idealName}")
                     newCharacterViewModel.removeIdeal(domainModel)
-                }
-                var temp = idealsViewModel.mutableIdeals?.value?.toMutableList()
-                var index = temp?.indexOf(domainModel)
-                if (index != null && index != -1) {
-                    temp?.removeAt(index)
-                    temp?.add(index, domainModel)
                 }
             }
 
