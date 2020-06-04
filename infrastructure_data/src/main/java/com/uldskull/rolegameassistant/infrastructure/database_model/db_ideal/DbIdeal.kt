@@ -20,7 +20,8 @@ class DbIdeal(
     val idealId: Long?,
     val idealName: String?,
     val idealGoodPoints: Int?,
-    val idealEvilPoints: Int?
+    val idealEvilPoints: Int?,
+    var isChecked:Boolean?
 ) : DbEntity<DomainIdeal> {
 
     /**
@@ -31,7 +32,7 @@ class DbIdeal(
             idealId = this.idealId,
             idealGoodPoints = this.idealGoodPoints,
             idealEvilPoints = this.idealEvilPoints,
-            isChecked = false,
+            isChecked = this.isChecked,
             idealName = this.idealName
         )
     }
@@ -56,7 +57,8 @@ class DbIdeal(
                 idealId = domainModel?.idealId,
                 idealName = domainModel?.idealName,
                 idealEvilPoints = domainModel?.idealEvilPoints,
-                idealGoodPoints = domainModel?.idealGoodPoints
+                idealGoodPoints = domainModel?.idealGoodPoints,
+                isChecked = domainModel?.isChecked
 
             )
         }

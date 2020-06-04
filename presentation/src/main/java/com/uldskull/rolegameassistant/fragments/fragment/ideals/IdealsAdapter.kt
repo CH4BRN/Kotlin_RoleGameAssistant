@@ -7,11 +7,13 @@ import android.content.Context
 import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
@@ -36,7 +38,7 @@ class IdealsAdapter internal constructor(
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
 
     /**  Ideals list  **/
-    private var ideals = emptyList<DomainIdeal>()
+    private var ideals = emptyList<DomainIdeal?>()
 
 
     /**  Inner class to display  **/
@@ -47,6 +49,7 @@ class IdealsAdapter internal constructor(
         var idealAlignmentItemView: ImageView = itemView.findViewById(R.id.img_alignment)
         var idealEvilPoints: TextView = itemView.findViewById(R.id.tv_idealEvilPoints)
         var idealGoodPoints: TextView = itemView.findViewById(R.id.tv_idealGoodPoints)
+        var idealOverlay:View = itemView.findViewById(R.id.ideal_overlay)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IdealsViewHolder {
@@ -91,20 +94,51 @@ class IdealsAdapter internal constructor(
         val current = ideals[position]
 
         holder.idealValueItemView.maxWidth = 550
-        holder.idealNameItemView.text = current.idealName
-        holder.idealEvilPoints.text = current.idealEvilPoints.toString()
-        holder.idealGoodPoints.text = current.idealGoodPoints.toString()
-        holder.idealCheckedItemView.isChecked = current.isChecked
-
-        val idealGoodPoints = current.idealGoodPoints
-        val idealEvilPoints = current.idealEvilPoints
-        setAlignmentIcon(idealEvilPoints, idealGoodPoints, holder)
-        holder.idealCheckedItemView?.setOnCheckedChangeListener { _, isChecked ->
-            kotlin.run {
-                current.isChecked = isChecked
-                this.buttonListener.itemPressed(current)
+        holder.idealNameItemView.text = current?.idealName
+        holder.idealEvilPoints.text = current?.idealEvilPoints.toString()
+        holder.idealGoodPoints.text = current?.idealGoodPoints.toString()
+        if(current != null){
+            Log.d("DEBUG$TAG", "Current is checked : ${current?.isChecked}")
+            if(current!!.isChecked != null){
+                holder.idealCheckedItemView.isChecked = current.isChecked!!
             }
+
         }
+
+
+        val idealGoodPoints = current?.idealGoodPoints
+        val idealEvilPoints = current?.idealEvilPoints
+        setAlignmentIcon(idealEvilPoints, idealGoodPoints, holder)
+
+
+
+        holder.idealOverlay?.setOnClickListener(object :View.OnClickListener{
+            /**
+             * Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
+            override fun onClick(v: View?) {
+                Log.d("DEBUG$TAG", "OVERLAY")
+            }
+
+        })
+
+        holder.idealOverlay?.setOnClickListener {
+
+            Log.d("DEBUG$TAG", "OVERLAY")
+            var checked = current?.isChecked
+            if(checked != null){
+                current?.isChecked = !checked
+            }
+            Log.d("DEBUG$TAG", "current is checked : ${current?.isChecked}")
+            holder.idealCheckedItemView?.isChecked= current?.isChecked!!
+            this.buttonListener.itemPressed(current)
+        }
+
+
+
+
     }
 
     private fun setAlignmentIcon(
@@ -134,9 +168,13 @@ class IdealsAdapter internal constructor(
     /**
      * Set the displayed bonds.
      */
-    fun setIdeals(ideals: List<DomainIdeal>) {
-        Log.d(TAG, "ideals size =" + ideals.size.toString())
-        this.ideals = ideals.sortedBy { i -> i.idealName }
+    fun setIdeals(ideals: List<DomainIdeal?>?) {
+        Log.d(TAG, "ideals size =" + ideals?.size.toString())
+        if (ideals != null) {
+            this.ideals = ideals.sortedBy { i -> i?.idealName }
+
+        }
         notifyDataSetChanged()
+
     }
 }

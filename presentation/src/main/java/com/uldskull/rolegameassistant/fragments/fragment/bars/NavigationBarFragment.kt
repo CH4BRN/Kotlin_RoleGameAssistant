@@ -64,6 +64,8 @@ class NavigationBarFragment : CustomFragment() {
      */
     private val bondsViewModel:BondsViewModel by sharedViewModel()
 
+    private val idealsViewModel:IdealsViewModel by sharedViewModel()
+
     /**
      * Is saving enabled ?
      */
@@ -209,11 +211,27 @@ class NavigationBarFragment : CustomFragment() {
             var bonds = bondsViewModel?.bonds.value
             Log.d("DEBUG$TAG", "saved bonds = ${bonds?.size}")
 
+            var characterIdeals = newCharacterViewModel?.characterIdeals
+            characterIdeals?.forEach { Log.d("DEBUG$TAG" ,"characterIdeals ${it?.idealName} is checked : ${it?.isChecked}")}
+            var mutableIdeals = idealsViewModel?.mutableIdeals?.value
+            mutableIdeals?.forEach {
+                Log.d("DEBUG$TAG", "mutableIdeals ${it?.idealName} is checked : ${it?.isChecked}")
+            }
+
+            var characterIdealIdeal = idealsViewModel?.characterIdeals?.value
+            characterIdealIdeal?.forEach {
+                Log.d("DEBUG$TAG", "characterIdealIdeal ${it?.idealName} is checked : ${it?.isChecked}")
+            }
+
+
             newCharacterViewModel?.characterBonds = bonds
             val insertedId =
                 saveCharacter()
             saveBreeds(insertedId)
             val result = charactersViewModel.findOneById(insertedId)
+            result?.characterIdeals?.forEach {
+                Log.d("DEBUG$TAG", "result?.characterIdeals? ${it?.idealName} is checked : ${it?.isChecked}")
+            }
             Log.d(TAG, "${result?.characterName} saved")
         } catch (e: Exception) {
             Log.e("ERROR", "Save failed")
@@ -258,6 +276,7 @@ class NavigationBarFragment : CustomFragment() {
             derivedValuesViewModel.ideaScore,
             derivedValuesViewModel.totalHealth,
             derivedValuesViewModel.energyPoints
+
         )
     }
 

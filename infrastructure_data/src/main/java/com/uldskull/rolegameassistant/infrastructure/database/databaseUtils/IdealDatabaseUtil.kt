@@ -25,13 +25,15 @@ class IdealDatabaseUtil {
                     idealId = null,
                     idealName = "Mean",
                     idealEvilPoints = 200,
-                    idealGoodPoints = 0
+                    idealGoodPoints = 0,
+                    isChecked = false
                 ),
                 DbIdeal(
                     idealId = null,
                     idealName = "Kind",
                     idealEvilPoints = 0,
-                    idealGoodPoints = 200
+                    idealGoodPoints = 200,
+                    isChecked = false
                 )
             )
 

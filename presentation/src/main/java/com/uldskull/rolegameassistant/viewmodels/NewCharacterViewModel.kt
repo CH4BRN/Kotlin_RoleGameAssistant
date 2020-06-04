@@ -291,12 +291,15 @@ class NewCharacterViewModel(
             characterIdeals.forEach {
                 if (it?.idealName != null) {
                     Log.d(
-                        "NewCharacterViewModel _ savecharacterIdeals",
-                        it?.idealName!!
+                        "DEBUG$TAG",
+                        "${it?.idealName!!} is checked ${it.isChecked}"
                     )
                 }
             }
             currentCharacter?.characterIdeals = characterIdeals
+            currentCharacter?.characterIdeals?.forEach {
+                Log.d("DEBUG$TAG", "currentCharacter?.characterIdeals ${it?.idealName} is checked ${it?.isChecked}")
+            }
         }
     }
 

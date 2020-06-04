@@ -7,6 +7,7 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.uldskull.rolegameassistant.models.character.DomainIdeal
 import com.uldskull.rolegameassistant.repository.ideal.IdealsRepository
@@ -29,17 +30,12 @@ class IdealsViewModel(
         refreshDataFromRepository()
     }
 
-    var displayedIdeals: MutableList<DomainIdeal> = mutableListOf()
-        set(value) {
-            field = value
-            Log.d(TAG, "set displayedIdeals size = " + field.size.toString())
-        }
 
     private fun refreshDataFromRepository() {
         viewModelScope.launch {
             Log.d(TAG, "refreshDataFromRepository")
             try {
-                observedIdeals = findAll()
+                repositoryIdeals = findAll()
 
             } catch (e: Exception) {
                 Log.e(TAG, "refreshDataFromRepository FAILED")
@@ -48,21 +44,23 @@ class IdealsViewModel(
             }
         }
     }
-    var alignmentScore:Int = 0
-    set(value){
-        field = value
-    }
-    get(){
-        return field
-    }
+
+    var alignmentScore: Int = 0
+        set(value) {
+            field = value
+        }
+        get() {
+            return field
+        }
 
     fun calculateAlignmentScore(): Int {
         alignmentScore = 0
-        displayedIdeals.filter { i -> i.isChecked }.forEach {
-            if (it.idealGoodPoints != null) {
+        mutableIdeals?.value?.filter { i ->
+            i!=null && i.isChecked!! }?.forEach {
+            if (it?.idealGoodPoints != null) {
                 alignmentScore += it.idealGoodPoints!!
             }
-            if (it.idealEvilPoints != null) {
+            if (it?.idealEvilPoints != null) {
                 alignmentScore -= it.idealEvilPoints!!
             }
         }
@@ -72,13 +70,17 @@ class IdealsViewModel(
 
     private fun findAll(): LiveData<List<DomainIdeal>>? {
         Log.d(TAG, "findAll ideals")
-        observedIdeals = idealsRepositoryImpl.getAll()
+        repositoryIdeals = idealsRepositoryImpl.getAll()
 
-        return observedIdeals
+        return repositoryIdeals
     }
 
     /** Ideals to display   **/
-    var observedIdeals = idealsRepositoryImpl.getAll()
+    var repositoryIdeals = idealsRepositoryImpl.getAll()
+
+    var mutableIdeals: MutableLiveData<MutableList<DomainIdeal?>>? = MutableLiveData()
+
+    var characterIdeals:MutableLiveData<List<DomainIdeal?>>? = MutableLiveData()
 
 
 }

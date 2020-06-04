@@ -129,9 +129,7 @@ class BondsFragment() : CustomFragment() {
                 BondsRecyclerViewFragment.newInstance(activity!!)
             ).commit()
         }
-
     }
-
 
     /**
      * Sets the "add bond" button listener.
@@ -151,7 +149,10 @@ class BondsFragment() : CustomFragment() {
                 else -> {
                     try {
                         var bonds = bondsViewModel?.bonds?.value
-                        if(bonds == null){
+
+
+
+                        if (bonds == null) {
                             bonds = mutableListOf()
                         }
                         Log.d("DEBUG$TAG", "bonds size = ${bonds?.size}")
@@ -162,7 +163,6 @@ class BondsFragment() : CustomFragment() {
                         e.printStackTrace()
                         throw e
                     }
-
                 }
             }
         }
@@ -193,7 +193,6 @@ class BondsFragment() : CustomFragment() {
                     tv_remainingCharactersValue.text = bondValueMaxCharacters.toString()
                 }
             }
-
         })
     }
 
@@ -246,6 +245,4 @@ class BondsFragment() : CustomFragment() {
             return fragment
         }
     }
-
-
 }
