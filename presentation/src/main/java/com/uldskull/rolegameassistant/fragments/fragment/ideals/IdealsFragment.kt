@@ -28,7 +28,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   Class "IdealsFragment" :
  *   Fragment to manage "Ideals" view.
  **/
-class IdealsFragment() : CustomFragment() {
+class IdealsFragment : CustomFragment() {
 
     /**
      * Ideals view model

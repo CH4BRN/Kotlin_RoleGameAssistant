@@ -68,19 +68,7 @@ class CharacteristicsFragment() : CustomFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadCharacteristicsRecyclerView()
-        newCharacterViewModel?.selectedCharacter?.observe(this, Observer {domainCharacter ->
-            if(domainCharacter != null){
-                Log.d("DEBUG$TAG", "${domainCharacter.characterName}")
-                Log.d("DEBUG$TAG", "${domainCharacter.characterAppearance}")
-                Log.d("DEBUG$TAG", "${domainCharacter.characterConstitution}")
-                Log.d("DEBUG$TAG", "${domainCharacter.characterDexterity}")
-                Log.d("DEBUG$TAG", "${domainCharacter.characterEducation}")
-                Log.d("DEBUG$TAG", "${domainCharacter.characterIntelligence}")
-                Log.d("DEBUG$TAG", "${domainCharacter.characterPower}")
-                Log.d("DEBUG$TAG", "${domainCharacter.characterSize}")
-                Log.d("DEBUG$TAG", "${domainCharacter.characterStrength}")
-            }
-        })
+
     }
 
     private fun loadCharacteristicsRecyclerView() {

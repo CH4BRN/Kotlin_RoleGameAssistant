@@ -102,8 +102,8 @@ class CharacteristicsRecyclerViewFragment() :
                 } else {
                     characteristicsRecyclerView?.adapter = characteristicsAdapter
                 }
-                (activity as CharacterActivity).addEndFragment()
-
+                (activity as CharacterActivity).addEndFragments()
+                Log.d("DEBUG$TAG", "${(activity as CharacterActivity).fragmentAdapter?.itemCount}")
             }
         }
 
@@ -151,7 +151,7 @@ class CharacteristicsRecyclerViewFragment() :
     override fun startObservation() {
 
 
-
+        observeCharacteristics()
         observeSelectedCharacter()
     }
 
@@ -170,15 +170,14 @@ class CharacteristicsRecyclerViewFragment() :
                     domainCharacter.characterStrength
                 )
 
-                characteristicList?.forEach {
-                    Log.d("DEBUG$TAG", "$it")
-                }
 
                 characteristicsAdapter?.setCharacteristics(characteristicList)
-                Log.d("DEBUG$TAG", "$characteristicsAdapter")
-                characteristicsRecyclerView?.adapter = characteristicsAdapter
-            }else{
-                observeCharacteristics()
+                characteristicsDisabledAdapter?.setCharacteristics(characteristicList)
+                characteristicsRecyclerView?.adapter = characteristicsDisabledAdapter
+
+                (activity as CharacterActivity).addEndFragments()
+                Log.d("DEBUG$TAG", "${(activity as CharacterActivity).fragmentAdapter?.itemCount}")
+
             }
         })
     }
@@ -186,11 +185,18 @@ class CharacteristicsRecyclerViewFragment() :
     private fun observeCharacteristics() {
         characteristicsViewModel.observedCharacteristics?.observe(
             this, Observer {
-                Log.d(TAG, "observedCharacteristics changed size ${it.size}")
+                Log.d("DEBUG$TAG", "observedCharacteristics changed size ${it.size}")
+
                 characteristicsViewModel.displayedCharacteristics =
                     it as MutableList<DomainRollsCharacteristic>
-                characteristicsDisabledAdapter?.setCharacteristics(characteristicsViewModel.displayedCharacteristics)
-                characteristicsAdapter?.setCharacteristics(characteristicsViewModel.displayedCharacteristics)
+                if (characteristicsDisabledAdapter?.itemCount == 0) {
+                    characteristicsDisabledAdapter?.setCharacteristics(characteristicsViewModel.displayedCharacteristics)
+                }
+                if (characteristicsAdapter?.itemCount == 0) {
+                    characteristicsAdapter?.setCharacteristics(characteristicsViewModel.displayedCharacteristics)
+                }
+
+
             }
         )
     }

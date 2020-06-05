@@ -16,6 +16,8 @@ import android.widget.ImageButton
 import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NEW_BREED_ACTIVITY
+import com.uldskull.rolegameassistant.activities.newCharacter.AddEndFragmentAndUpdateAdapter
+import com.uldskull.rolegameassistant.activities.newCharacter.CharacterActivity
 import com.uldskull.rolegameassistant.fragments.fragment.*
 import com.uldskull.rolegameassistant.fragments.fragment.breed.BreedsRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.BASIC_INFO_FRAGMENT_POSITION
@@ -104,6 +106,7 @@ class BasicInfoFragment() : CustomFragment() {
         savedInstanceState: Bundle?
     ): View? {
         Log.d(TAG, "onCreateView")
+
         return initializeView(inflater, container)
     }
 
@@ -128,6 +131,35 @@ class BasicInfoFragment() : CustomFragment() {
         initializeListeners()
         startObservation()
         loadChildrenFragments()
+        newCharacterViewModel?.selectedCharacter?.observe(this, Observer {
+                domainCharacter ->
+            var areCharacteristicsRolled = true
+
+            if(domainCharacter != null){
+                var characteristicList = listOf(
+                    domainCharacter.characterAppearance,
+                    domainCharacter.characterConstitution,
+                    domainCharacter.characterDexterity,
+                    domainCharacter.characterEducation,
+                    domainCharacter.characterIntelligence,
+                    domainCharacter.characterPower,
+                    domainCharacter.characterSize,
+                    domainCharacter.characterStrength
+                )
+                characteristicList?.forEach {
+                    if(it?.characteristicRoll == 0){
+                        Log.d("DEBUG$TAG", "areCharacteristicRolled = $areCharacteristicsRolled")
+                        areCharacteristicsRolled = false
+                        Log.d("DEBUG$TAG", "areCharacteristicRolled = $areCharacteristicsRolled")
+                    }
+                }
+            }
+
+            if(areCharacteristicsRolled){
+                (activity as AddEndFragmentAndUpdateAdapter).addEndFragmentsAndUpdateAdapter()
+            }
+        })
+
 
     }
 
@@ -286,7 +318,10 @@ class BasicInfoFragment() : CustomFragment() {
         Log.d(TAG, "setWeightTextChangedListener")
         editTextCharacterWeight?.addTextChangedListener(object : CustomTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
-                newCharacterViewModel?.characterWeight?.value = s.toString().toInt()
+                if(!s.isNullOrEmpty() || !s.isNullOrBlank()){
+                    newCharacterViewModel?.characterWeight?.value = s.toString().toInt()
+                }
+
             }
         })
     }

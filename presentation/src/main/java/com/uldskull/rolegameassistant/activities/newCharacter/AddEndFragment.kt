@@ -9,5 +9,5 @@ package com.uldskull.rolegameassistant.activities.newCharacter
  **/
 interface AddEndFragment {
 
-    fun addEndFragment()
+    fun addEndFragments()
 }

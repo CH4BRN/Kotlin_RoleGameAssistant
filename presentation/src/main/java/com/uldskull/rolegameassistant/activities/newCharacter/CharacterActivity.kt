@@ -33,16 +33,17 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  **/
 class CharacterActivity :
     AddEndFragment,
+    AddEndFragmentAndUpdateAdapter,
     AppCompatActivity() {
     /**
      * ViewPager2 to display fragments
      */
-    private var viewPager: ViewPager2? = null
+    var viewPager: ViewPager2? = null
 
     /**
      * Custom fragment adapter
      */
-    private var fragmentAdapter: FragmentAdapter? = null
+    var fragmentAdapter: FragmentAdapter? = null
 
     /** ViewModel for new character activity    **/
     private lateinit var newCharacterViewModel: NewCharacterViewModel
@@ -112,11 +113,18 @@ class CharacterActivity :
         newCharacterViewModel = getViewModel()
         progressionBarViewModel = getViewModel()
         characteristicsViewModel = getViewModel()
-        Log.d("DEBUG$TAG", "characteristicsViewModel characterBreeds size = ${characteristicsViewModel.characterDisplayedBreeds?.size}")
+        Log.d(
+            "DEBUG$TAG",
+            "characteristicsViewModel characterBreeds size = ${characteristicsViewModel.characterDisplayedBreeds?.size}"
+        )
         breedsViewModel = getViewModel()
-        Log.d("DEBUG$TAG", "breedsViewModel breeds size = ${breedsViewModel?.characterDisplayedBreeds?.size}")
+        Log.d(
+            "DEBUG$TAG",
+            "breedsViewModel breeds size = ${breedsViewModel?.characterDisplayedBreeds?.size}"
+        )
 
     }
+
 
     /** Set character page adapter  **/
     private fun setCharacterPagerAdapter() {
@@ -131,25 +139,6 @@ class CharacterActivity :
 
 
         viewPager?.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            /**
-             * Called when the scroll state changes. Useful for discovering when the user begins
-             * dragging, when a fake drag is started, when the pager is automatically settling to the
-             * current page, or when it is fully stopped/idle. `state` can be one of [ ][.SCROLL_STATE_IDLE], [.SCROLL_STATE_DRAGGING] or [.SCROLL_STATE_SETTLING].
-             */
-            override fun onPageScrollStateChanged(state: Int) {
-                Log.d(
-                    "DEBUG",
-                    "onPageScrollStateChanged \n" +
-                            "\t state : $state"
-                )
-                Log.d(
-                    "DEBUG",
-                    " fragmentList size = ${fragmentAdapter?.fragmentList?.size.toString()}"
-                )
-
-                super.onPageScrollStateChanged(state)
-
-            }
 
             /**
              * This method will be invoked when the current page is scrolled, either as part
@@ -171,13 +160,29 @@ class CharacterActivity :
                             "\tpositionO : $positionOffset\n" +
                             "\tpositionOP : $positionOffsetPixels"
                 )
+
+
                 if (position == 3 && fragmentAdapter?.fragmentList?.size == 4 && viewPager?.scrollState == 1) {
+
+                    Log.d("DEBUG$TAG", "Characteristics ${characteristicsViewModel?.getAllCharacteristics()}")
+                    var areCharacteristicsRolled = true
+
+                    characteristicsViewModel?.getAllCharacteristics()?.forEach {
+                        if(it?.characteristicRoll == 0){
+                            areCharacteristicsRolled = false
+                        }
+                    }
+
+                    Log.d("DEBUG$TAG", "areCharacteristicsRolled : $areCharacteristicsRolled")
+
+
                     Log.d("DEBUG", "Situation")
-                    characteristicsAlert()
-
+                    if(!areCharacteristicsRolled)                    {
+                        characteristicsAlert()
+                    }else{
+                        addEndFragments()
+                    }
                 }
-
-
 
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
             }
@@ -244,12 +249,49 @@ class CharacterActivity :
     /**
      * Add the end of the fragment list
      */
-    override fun addEndFragment() {
+    override fun addEndFragments() {
+        Log.d("DEBUG$TAG", "Add end fragments")
+
         fragmentAdapter?.fragmentList?.add(
             DerivedValues1Fragment.newInstance(
                 this
             )
         )
+
+        fragmentAdapter?.fragmentList?.add(
+            DerivedValues2Fragment.newInstance(
+                this
+            )
+        )
+        fragmentAdapter?.fragmentList?.add(
+            OccupationsFragment.newInstance(
+                this
+            )
+        )
+        fragmentAdapter?.fragmentList?.add(
+            OccupationFragment.newInstance(
+                this
+            )
+        )
+        fragmentAdapter?.fragmentList?.add(
+            HobbiesFragment.newInstance(
+                this
+            )
+        )
+        fragmentAdapter?.fragmentList?.add(
+            HobbyFragment.newInstance(
+                this
+            )
+        )
+    }
+
+    override fun addEndFragmentsAndUpdateAdapter() {
+        fragmentAdapter?.fragmentList?.add(
+            DerivedValues1Fragment.newInstance(
+                this
+            )
+        )
+
         fragmentAdapter?.fragmentList?.add(
             DerivedValues2Fragment.newInstance(
                 this

@@ -51,6 +51,7 @@ class CharacteristicsViewModel(
             field = value
             Log.d(TAG, "constitutionBonus AFTER $field")
         }
+
     /**
      * Intelligence bonus
      */
@@ -60,6 +61,7 @@ class CharacteristicsViewModel(
             field = value
             Log.d(TAG, "intelligenceBonus AFTER $field")
         }
+
     /**
      * Size bonus
      */
@@ -69,6 +71,7 @@ class CharacteristicsViewModel(
             field = value
             Log.d(TAG, "sizeBonus AFTER $field")
         }
+
     /**
      * Dexterity bonus.
      */
@@ -78,6 +81,7 @@ class CharacteristicsViewModel(
             field = value
             Log.d(TAG, "dexterityBonus AFTER $field")
         }
+
     /**
      * Strength bonus.
      */
@@ -87,6 +91,7 @@ class CharacteristicsViewModel(
             field = value
             Log.d(TAG, "strengthBonus AFTER $field")
         }
+
     /**
      * Power bonus
      */
@@ -96,6 +101,7 @@ class CharacteristicsViewModel(
             field = value
             Log.d(TAG, "powerBonus AFTER $field")
         }
+
     /**
      * Appearance bonus.
      */
@@ -105,6 +111,7 @@ class CharacteristicsViewModel(
             field = value
             Log.d(TAG, "appearanceBonus AFTER $field")
         }
+
     /**
      * Education bonus.
      */
@@ -133,6 +140,7 @@ class CharacteristicsViewModel(
      * Lock object for multi-threading
      */
     private val lock = java.lang.Object()
+
     /**
      * Character breeds
      */
@@ -146,6 +154,11 @@ class CharacteristicsViewModel(
             calculateBreedBonuses(checked)
             field = value
         }
+
+
+    fun getAllCharacteristics():List<DomainRollsCharacteristic>?{
+        return displayedCharacteristics?.toList()
+    }
 
 
     /**
