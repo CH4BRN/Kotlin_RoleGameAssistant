@@ -18,6 +18,7 @@ import com.uldskull.rolegameassistant.fragments.viewPager.adapter.ABILITIES_FRAG
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainCharacteristic
 import com.uldskull.rolegameassistant.viewmodels.breeds.BreedCharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
+import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.ProgressionBarViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -27,9 +28,10 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  **/
 class CharacteristicsFragment() : CustomFragment() {
     /**
-     * Characteristic's ViewModel.
+     * New character view model
      */
-    private val characteristicsViewModel: CharacteristicsViewModel by sharedViewModel()
+    private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
+
     /**
      * Breed Characteristic's ViewModel.
      */
@@ -66,6 +68,19 @@ class CharacteristicsFragment() : CustomFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadCharacteristicsRecyclerView()
+        newCharacterViewModel?.selectedCharacter?.observe(this, Observer {domainCharacter ->
+            if(domainCharacter != null){
+                Log.d("DEBUG$TAG", "${domainCharacter.characterName}")
+                Log.d("DEBUG$TAG", "${domainCharacter.characterAppearance}")
+                Log.d("DEBUG$TAG", "${domainCharacter.characterConstitution}")
+                Log.d("DEBUG$TAG", "${domainCharacter.characterDexterity}")
+                Log.d("DEBUG$TAG", "${domainCharacter.characterEducation}")
+                Log.d("DEBUG$TAG", "${domainCharacter.characterIntelligence}")
+                Log.d("DEBUG$TAG", "${domainCharacter.characterPower}")
+                Log.d("DEBUG$TAG", "${domainCharacter.characterSize}")
+                Log.d("DEBUG$TAG", "${domainCharacter.characterStrength}")
+            }
+        })
     }
 
     private fun loadCharacteristicsRecyclerView() {
@@ -90,7 +105,6 @@ class CharacteristicsFragment() : CustomFragment() {
                 if (it.characteristicName != null) {
                     Log.d(TAG, it.characteristicName!!)
                 }
-
             }
         }
     }

@@ -42,7 +42,7 @@ class CharacteristicsRecyclerViewFragment() :
 
     private val derivedValuesViewModel: DerivedValuesViewModel by sharedViewModel()
 
-    private val newCharacterViewModel:NewCharacterViewModel by sharedViewModel()
+    private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
 
     /** Adapter for abilities recycler view **/
     private var characteristicsAdapter: CharacteristicsAdapter? = null
@@ -83,6 +83,8 @@ class CharacteristicsRecyclerViewFragment() :
         initializeRecyclerView()
         setButtonUsePoints()
         setButtonRoll()
+
+
     }
 
     /**
@@ -147,6 +149,41 @@ class CharacteristicsRecyclerViewFragment() :
      * Start ViewModel's collection observation.
      */
     override fun startObservation() {
+
+
+
+        observeSelectedCharacter()
+    }
+
+    private fun observeSelectedCharacter() {
+        newCharacterViewModel?.selectedCharacter?.observe(this, Observer { domainCharacter ->
+            if (domainCharacter != null) {
+                Log.d("DEBUG$TAG", "Selected character is :${domainCharacter?.characterName}")
+                var characteristicList = listOf(
+                    domainCharacter.characterAppearance,
+                    domainCharacter.characterConstitution,
+                    domainCharacter.characterDexterity,
+                    domainCharacter.characterEducation,
+                    domainCharacter.characterIntelligence,
+                    domainCharacter.characterPower,
+                    domainCharacter.characterSize,
+                    domainCharacter.characterStrength
+                )
+
+                characteristicList?.forEach {
+                    Log.d("DEBUG$TAG", "$it")
+                }
+
+                characteristicsAdapter?.setCharacteristics(characteristicList)
+                Log.d("DEBUG$TAG", "$characteristicsAdapter")
+                characteristicsRecyclerView?.adapter = characteristicsAdapter
+            }else{
+                observeCharacteristics()
+            }
+        })
+    }
+
+    private fun observeCharacteristics() {
         characteristicsViewModel.observedCharacteristics?.observe(
             this, Observer {
                 Log.d(TAG, "observedCharacteristics changed size ${it.size}")
@@ -180,7 +217,7 @@ class CharacteristicsRecyclerViewFragment() :
      * Set Disabled recyclerview adapter
      */
     private fun setRecyclerViewDisabledAdapter() {
-        if(activity != null){
+        if (activity != null) {
             characteristicsDisabledAdapter =
                 CharacteristicsDisabledAdapter(
                     activity as Context
@@ -205,9 +242,9 @@ class CharacteristicsRecyclerViewFragment() :
     }
 
 
-
     companion object : CustomCompanion() {
         private const val TAG = "CharacteristicRecyclerViewFragment"
+
         @JvmStatic
         override fun newInstance(activity: Activity): CharacteristicsRecyclerViewFragment {
             val fragment = CharacteristicsRecyclerViewFragment()

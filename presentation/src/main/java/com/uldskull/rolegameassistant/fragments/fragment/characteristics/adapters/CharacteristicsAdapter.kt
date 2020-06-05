@@ -30,19 +30,22 @@ open class CharacteristicsAdapter internal constructor(
     }
 
     private var onBind: Boolean = false
+
     /** Inflater    **/
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
     /** Abilities list  **/
-    private var rollCharacteristics = mutableListOf<DomainRollsCharacteristic>()
+    private var rollCharacteristics = mutableListOf<DomainRollsCharacteristic?>()
 
-    fun getCharacteristics(): List<DomainRollsCharacteristic> {
-        return rollCharacteristics
+    fun getCharacteristics(): List<DomainRollsCharacteristic?> {
+        return rollCharacteristics.toList()
     }
 
     /** Custom ViewHolder   **/
     inner class CharacteristicsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val rollRuleItemView: TextView = itemView.findViewById<TextView>(R.id.tv_characteristicRollRule)
+        val rollRuleItemView: TextView =
+            itemView.findViewById<TextView>(R.id.tv_characteristicRollRule)
+
         //  Get the ability's name edit text.
         val characteristicNameItemView: TextView =
             itemView.findViewById<TextView>(R.id.et_characteristicName)
@@ -52,6 +55,7 @@ open class CharacteristicsAdapter internal constructor(
 
         //  Get the bonus' edit text.
         val bonusItemView: EditText = itemView.findViewById(R.id.et_characteristicBonus)
+
         //  Get the total's TextView.
         val totalItemView: TextView = itemView.findViewById(R.id.tv_characteristicTotal)
     }
@@ -75,23 +79,24 @@ open class CharacteristicsAdapter internal constructor(
         Log.d(TAG, "onBindViewHolder")
         onBind = true
         val current = rollCharacteristics[position]
-        holder.characteristicNameItemView.text = current.characteristicName
-        holder.bonusItemView.setText(current.characteristicBonus.toString())
-        holder.abilityRollItemView.setText(current.characteristicRoll.toString())
-        holder.totalItemView.text = current.characteristicTotal.toString()
-        holder.rollRuleItemView.setText(current.characteristicRollRule)
+        holder.characteristicNameItemView.text = current?.characteristicName
+        holder.bonusItemView.setText(current?.characteristicBonus.toString())
+        Log.d("DEBUG$TAG", "current?.characteristicRoll : ${current?.characteristicRoll} ")
+        holder.abilityRollItemView.setText(current?.characteristicRoll.toString())
+        holder.totalItemView.text = current?.characteristicTotal.toString()
+        holder.rollRuleItemView.text = current?.characteristicRollRule
 
         holder.abilityRollItemView.addTextChangedListener {
             val stringRoll = holder.abilityRollItemView.text.toString()
             Log.d(TAG, "StringRoll = $stringRoll")
             try {
                 if (stringRoll.isNotBlank() && stringRoll.isNotEmpty()) {
-                    current.characteristicRoll = stringRoll.toInt()
-                    Log.d(TAG, "Roll : " + current.characteristicRoll.toString())
+                    current?.characteristicRoll = stringRoll.toInt()
+                    Log.d(TAG, "Roll : " + current?.characteristicRoll.toString())
                 } else
-                    current.characteristicRoll = 0
-                current.characteristicTotal =
-                    current.characteristicRoll!! + current.characteristicBonus!!
+                    current?.characteristicRoll = 0
+                current?.characteristicTotal =
+                    current?.characteristicRoll!! + current?.characteristicBonus!!
 
                 holder.totalItemView.text = current.characteristicTotal.toString()
                 rollCharacteristics[position] = current
@@ -107,14 +112,14 @@ open class CharacteristicsAdapter internal constructor(
             // Log.d(TAG, "String bonus $stringBonus")
             try {
                 if (stringBonus.isNotBlank() && stringBonus.isNotEmpty()) {
-                    current.characteristicBonus = stringBonus.toInt()
+                    current?.characteristicBonus = stringBonus.toInt()
                     // Log.d(TAG, "Bonus : " + bonus.toString())
                 } else {
-                    current.characteristicBonus = 0
+                    current?.characteristicBonus = 0
                 }
-                current.characteristicTotal =
-                    current.characteristicRoll!! + current.characteristicBonus!!
-                holder.totalItemView.text = current.characteristicTotal.toString()
+                current?.characteristicTotal =
+                    current?.characteristicRoll!! + current?.characteristicBonus!!
+                holder.totalItemView.text = current?.characteristicTotal.toString()
 
 
             } catch (e: Exception) {
@@ -127,10 +132,11 @@ open class CharacteristicsAdapter internal constructor(
     }
 
     /** Set the list containing domainAbilities to display   **/
-    internal fun setCharacteristics(domainCharacteristics: List<DomainRollsCharacteristic>?) {
+    internal fun setCharacteristics(domainCharacteristics: List<DomainRollsCharacteristic?>?) {
         Log.d(TAG, "setCharacteristics")
         if (domainCharacteristics != null) {
-            this.rollCharacteristics = domainCharacteristics.sortedBy { c -> c.characteristicName }.toMutableList()
+            this.rollCharacteristics =
+                domainCharacteristics.sortedBy { c -> c?.characteristicName }.toMutableList()
         }
 
         Log.d(TAG, "rollCharacteristics size = " + this.rollCharacteristics.size.toString())
@@ -141,5 +147,11 @@ open class CharacteristicsAdapter internal constructor(
     override fun getItemCount(): Int {
         Log.d(TAG, "getItemCount")
         return rollCharacteristics.size
+    }
+
+    override fun toString(): String {
+        return "CharacteristicsAdapter(onBind=$onBind,\n" +
+                " inflater=$inflater,\n" +
+                " rollCharacteristics=$rollCharacteristics)"
     }
 }

@@ -30,10 +30,14 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  **/
 class DerivedValues1Fragment : CustomFragment() {
 
-    private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
-
+    /**
+     * Characteristics view model.
+     */
     private val characteristicsViewModel: CharacteristicsViewModel by sharedViewModel()
 
+    /**
+     * Derived values view model.
+     */
     private val derivedValuesViewModel: DerivedValuesViewModel by sharedViewModel()
 
 

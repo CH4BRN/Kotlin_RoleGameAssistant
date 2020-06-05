@@ -261,21 +261,18 @@ class NewCharacterViewModel(
                     "Char : " + it?.characteristicName + " " + it?.characteristicTotal
                 )
             }
-            currentCharacter?.characterConstitution =
-                characteristics.find { c -> c?.characteristicName == CharacteristicsName.CONSTITUTION.characteristicName }
             currentCharacter?.characterAppearance =
                 characteristics.find { c -> c?.characteristicName == CharacteristicsName.APPEARANCE.characteristicName }
+            currentCharacter?.characterConstitution =
+                characteristics.find { c -> c?.characteristicName == CharacteristicsName.CONSTITUTION.characteristicName }
             currentCharacter?.characterDexterity =
                 characteristics.find { c -> c?.characteristicName == CharacteristicsName.DEXTERITY.characteristicName }
+            currentCharacter?.characterEducation =
+                characteristics.find { c -> c?.characteristicName == CharacteristicsName.EDUCATION.characteristicName }
             currentCharacter?.characterIntelligence =
                 characteristics.find { c -> c?.characteristicName == CharacteristicsName.INTELLIGENCE.characteristicName }
-
-            var power =
+            currentCharacter?.characterPower =
                 characteristics.find { c -> c?.characteristicName == CharacteristicsName.POWER.characteristicName }
-            if (power != null) {
-                currentCharacter?.characterPower = power!!
-            }
-
             currentCharacter?.characterSize =
                 characteristics?.find { c -> c?.characteristicName == CharacteristicsName.SIZE.characteristicName }
             currentCharacter?.characterStrength =
