@@ -10,4 +10,8 @@ package com.uldskull.rolegameassistant.models.character
 abstract class DomainActivity(
     val activityId: Long?,
     val activityName: String?
-)
+) {
+    override fun toString(): String {
+        return "DomainActivity(activityId=$activityId, activityName=$activityName)"
+    }
+}

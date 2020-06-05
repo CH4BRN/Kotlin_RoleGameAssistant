@@ -6,6 +6,7 @@ package com.uldskull.rolegameassistant.infrastructure.database_model.db_characte
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
+import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_BREED_CHARACTERISTICS
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbCompanion
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbEntity
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainBreedsCharacteristic
@@ -14,7 +15,7 @@ import com.uldskull.rolegameassistant.models.character.characteristic.DomainBree
  *   Class "DbBonusCharacteristic" :
  *   TODO: Fill class use.
  **/
-@Entity(tableName = DatabaseValues.TABLE_NAME_BREED_CHARACTERISTICS)
+@Entity(tableName = TABLE_NAME_BREED_CHARACTERISTICS)
 class DbBreedCharacteristic(
     @PrimaryKey(autoGenerate = true)
     val characteristicId: Long? = null,
@@ -34,6 +35,10 @@ class DbBreedCharacteristic(
             characteristicBonus = this.characteristicBonus,
             characteristicBreedId = this.characteristicBreedId
         )
+    }
+
+    override fun toString(): String {
+        return "DbBreedCharacteristic(characteristicId=$characteristicId, characteristicName=$characteristicName, characteristicBonus=$characteristicBonus, characteristicBreedId=$characteristicBreedId)"
     }
 
     companion object : DbCompanion<DomainBreedsCharacteristic, DbBreedCharacteristic> {

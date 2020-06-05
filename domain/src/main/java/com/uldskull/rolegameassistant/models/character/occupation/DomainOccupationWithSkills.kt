@@ -12,14 +12,7 @@ import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSki
 class DomainOccupationWithSkills (
     var occupation:DomainOccupation?,
     var skills:List<DomainOccupationSkill>){
-    /**
-     * Returns a string representation of the object.
-     */
     override fun toString(): String {
-        var str = "SKILLS : \n"
-        skills.forEach(){domainOccupationSkill ->
-            str += "$domainOccupationSkill" + "\n"
-        }
-        return "DomainOccupationWithSkills : ${occupation}\n$str"
+        return "DomainOccupationWithSkills(occupation=$occupation, skills=$skills)"
     }
 }

@@ -6,6 +6,7 @@ package com.uldskull.rolegameassistant.infrastructure.database_model.db_characte
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
+import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_CHARACTERISTICS
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbCompanion
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbEntity
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainCharacteristic
@@ -15,7 +16,7 @@ import com.uldskull.rolegameassistant.models.character.characteristic.DomainChar
  *   Database model to persist Characteristic data.
  **/
 
-@Entity(tableName = DatabaseValues.TABLE_NAME_CHARACTERISTICS)
+@Entity(tableName = TABLE_NAME_CHARACTERISTICS)
 open class DbCharacteristic(
     @PrimaryKey(autoGenerate = true)
     val characteristicId: Long? = null,
@@ -29,6 +30,10 @@ open class DbCharacteristic(
             characteristicId = this.characteristicId,
             characteristicName = this.characteristicName
         )
+    }
+
+    override fun toString(): String {
+        return "DbCharacteristic(characteristicId=$characteristicId, characteristicName=$characteristicName)"
     }
 
     companion object : DbCompanion<DomainCharacteristic, DbCharacteristic> {

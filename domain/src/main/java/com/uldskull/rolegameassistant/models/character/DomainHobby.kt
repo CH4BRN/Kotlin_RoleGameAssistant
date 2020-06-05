@@ -13,4 +13,8 @@ class DomainHobby(
 ) : DomainActivity(
     activityId = hobbyId,
     activityName = hobbyName
-)
+) {
+    override fun toString(): String {
+        return "DomainHobby()"
+    }
+}

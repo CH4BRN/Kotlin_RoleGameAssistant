@@ -6,6 +6,7 @@ package com.uldskull.rolegameassistant.infrastructure.database_model.db_ideal
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
+import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_IDEAL
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbCompanion
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbEntity
 import com.uldskull.rolegameassistant.models.character.DomainIdeal
@@ -14,7 +15,7 @@ import com.uldskull.rolegameassistant.models.character.DomainIdeal
  *   Class "DbIdeal" :
  *   TODO: Fill class use.
  **/
-@Entity(tableName = DatabaseValues.TABLE_NAME_IDEAL)
+@Entity(tableName = TABLE_NAME_IDEAL)
 class DbIdeal(
     @PrimaryKey(autoGenerate = true)
     val idealId: Long?,
@@ -38,11 +39,7 @@ class DbIdeal(
     }
 
     override fun toString(): String {
-        return "DbIdeal(\n" +
-                "\tidealId=$idealId,\n" +
-                "\t idealName=$idealName, \n" +
-                "\tidealGoodPoints=$idealGoodPoints, \n" +
-                "\tidealEvilPoints=$idealEvilPoints)"
+        return "DbIdeal(idealId=$idealId, idealName=$idealName, idealGoodPoints=$idealGoodPoints, idealEvilPoints=$idealEvilPoints, isChecked=$isChecked)"
     }
 
 

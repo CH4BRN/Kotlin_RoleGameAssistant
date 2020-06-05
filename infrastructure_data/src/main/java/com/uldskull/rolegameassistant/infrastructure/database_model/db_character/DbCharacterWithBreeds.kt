@@ -4,6 +4,7 @@ package com.uldskull.rolegameassistant.infrastructure.database_model.db_characte
 
 import androidx.room.Embedded
 import androidx.room.Relation
+import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_CHARACTER_ID
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.characterBreeds.DbCharactersBreed
 
 /**
@@ -15,9 +16,13 @@ data class DbCharacterWithBreeds(
     @Embedded
     val parentCharacter: DbCharacter,
     @Relation(
-        parentColumn = "characterId",
-        entityColumn = "characterId"
+        parentColumn = "$FIELD_CHARACTER_ID",
+        entityColumn = "$FIELD_CHARACTER_ID"
     )
     val childrenBreeds: List<DbCharactersBreed>
 
-)
+) {
+    override fun toString(): String {
+        return "DbCharacterWithBreeds(parentCharacter=$parentCharacter, childrenBreeds=$childrenBreeds)"
+    }
+}

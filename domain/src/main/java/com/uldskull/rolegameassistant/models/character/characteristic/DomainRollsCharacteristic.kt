@@ -16,13 +16,8 @@ class DomainRollsCharacteristic(
     val characteristicMax: Int?,
     val characteristicRollRule:String?
 ) {
-
     override fun toString(): String {
-        return "RollCharacteristic : \n" +
-                "\tname : $characteristicName\n" +
-                "\tbonus : ${characteristicBonus.toString()}\n" +
-                "\troll : ${characteristicRoll.toString()}\n"+
-                "\troll rule : ${characteristicRollRule}\n"
-
+        return "DomainRollsCharacteristic(characteristicId=$characteristicId, characteristicName=$characteristicName, characteristicBonus=$characteristicBonus, characteristicRoll=$characteristicRoll, characteristicTotal=$characteristicTotal, characteristicMax=$characteristicMax, characteristicRollRule=$characteristicRollRule)"
     }
+
 }

@@ -6,8 +6,8 @@ package com.uldskull.rolegameassistant.infrastructure.database_model.db_occupati
 import androidx.room.Embedded
 import androidx.room.Junction
 import androidx.room.Relation
-import com.uldskull.rolegameassistant.infrastructure.database_model.DbOccupationSkill_id
-import com.uldskull.rolegameassistant.infrastructure.database_model.DbOccupation_id
+import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_OCCUPATION_ID
+import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_OCCUPATION_SKILL_ID
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_skill.DbOccupationSkill
 
 /**
@@ -18,20 +18,13 @@ class DbOccupationWithDbSkills (
     @Embedded
     val occupation: DbOccupation,
     @Relation(
-        parentColumn = DbOccupation_id,
-        entityColumn = DbOccupationSkill_id,
+        parentColumn = FIELD_OCCUPATION_ID,
+        entityColumn = FIELD_OCCUPATION_SKILL_ID,
         associateBy = Junction(DbOccupationAndDbSkillCrossRef::class)
     )
     val skills:List<DbOccupationSkill>
 ){
     override fun toString(): String {
-        var childrenSkills:String =""
-        if(!skills.isNullOrEmpty()){
-            skills.forEach {dbOccupationSkill ->
-                childrenSkills += "\n" + dbOccupationSkill.skillName
-            }
-        }
-        return occupation.occupationName + childrenSkills
-
+        return "DbOccupationWithDbSkills(occupation=$occupation, skills=$skills)"
     }
 }

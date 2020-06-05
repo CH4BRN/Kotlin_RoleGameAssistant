@@ -13,9 +13,6 @@ class DomainCharactersBreed(
     var characterId:Long? = null
 ) {
     override fun toString(): String {
-        return "DomainCharactersBreed(\n" +
-                "\tcharactersBreedId=$charactersBreedId," +
-                "\tdisplayedBreedId=$displayedBreedId," +
-                "\tcharacterId=$characterId)"
+        return "DomainCharactersBreed(charactersBreedId=$charactersBreedId, displayedBreedId=$displayedBreedId, characterId=$characterId)"
     }
 }

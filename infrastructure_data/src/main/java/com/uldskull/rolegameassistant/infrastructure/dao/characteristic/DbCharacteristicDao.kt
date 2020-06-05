@@ -6,6 +6,8 @@ package com.uldskull.rolegameassistant.infrastructure.dao.characteristic
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
+import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_BREED_CHARACTERISTIC_ID
+import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_CHARACTERISTICS
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbCharacteristic
 
 /**
@@ -22,10 +24,10 @@ interface DbCharacteristicDao {
     fun insertCharacteristics(dbBreedCharacteristics: List<DbCharacteristic>): List<Long>
 
     //  READ
-    @Query("SELECT * FROM ${DatabaseValues.TABLE_NAME_CHARACTERISTICS}")
+    @Query("SELECT * FROM $TABLE_NAME_CHARACTERISTICS")
     fun getCharacteristics(): LiveData<List<DbCharacteristic>>
 
-    @Query("SELECT * FROM ${DatabaseValues.TABLE_NAME_CHARACTERISTICS} WHERE characteristicId = :id")
+    @Query("SELECT * FROM $TABLE_NAME_CHARACTERISTICS WHERE $FIELD_BREED_CHARACTERISTIC_ID = :id")
     fun getCharacteristicById(id: Long?): DbCharacteristic
 
     //  UPDATE
@@ -36,6 +38,6 @@ interface DbCharacteristicDao {
     @Delete
     fun deleteCharacteristics(vararg dbBreedCharacteristic: DbCharacteristic): Int
 
-    @Query("DELETE FROM ${DatabaseValues.TABLE_NAME_CHARACTERISTICS}")
+    @Query("DELETE FROM $TABLE_NAME_CHARACTERISTICS")
     fun deleteAllCharacteristics(): Int
 }

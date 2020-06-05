@@ -13,7 +13,8 @@ class DomainCharacterWithIdeals(
     val character: DomainCharacter,
     val ideals: List<DomainIdeal>
 ) {
-    override fun toString(): String =
-        "character : ${character.characterName}\n ${ideals.size} ideals"
+    override fun toString(): String {
+        return "DomainCharacterWithIdeals(character=$character, ideals=$ideals)"
+    }
 
 }

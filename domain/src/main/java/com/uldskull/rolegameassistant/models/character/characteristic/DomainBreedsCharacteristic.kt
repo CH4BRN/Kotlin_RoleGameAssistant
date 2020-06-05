@@ -17,7 +17,7 @@ open class DomainBreedsCharacteristic(
     characteristicName
 ) {
     override fun toString(): String {
-        return "\nId : ${characteristicId}\nName : ${characteristicName}\nBreed id : $characteristicBreedId"
+        return "DomainBreedsCharacteristic(characteristicBonus=$characteristicBonus, characteristicBreedId=$characteristicBreedId)"
     }
 }
 

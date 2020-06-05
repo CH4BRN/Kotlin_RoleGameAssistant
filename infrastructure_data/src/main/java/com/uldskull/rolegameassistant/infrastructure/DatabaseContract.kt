@@ -4,15 +4,32 @@
 
 package com.uldskull.rolegameassistant.infrastructure
 
-import com.uldskull.rolegameassistant.infrastructure.DatabaseValues.TABLE_NAME_BREED_CHARACTERISTICS
-import com.uldskull.rolegameassistant.infrastructure.DatabaseValues.TABLE_NAME_OCCUPATION_SKILL
+import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_BREED_CHARACTERISTICS
+import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_OCCUPATION_SKILL
 import com.uldskull.rolegameassistant.infrastructure.dao.DELETE_FROM
 import com.uldskull.rolegameassistant.infrastructure.dao.SELECT_ALL_FROM
 
 object DatabaseValues {
-    const val TABLE_NAME_OCCUPATION_SKILL  = "occupation_skill"
-    const val FIELD_OCCUPATION_SKILL_ID = "skillId"
+
+
     const val DATABASE_NAME = "appdb"
+
+}
+
+object IdFieldName{
+    const val FIELD_OCCUPATION_SKILL_ID = "skillId"
+    const val FIELD_BREED_CHARACTERISTIC_ID = "characteristicId"
+    const val FIELD_BOND_ID = "bondId"
+    const val FIELD_BREED_ID = "breedId"
+    const val FIELD_CHARACTER_BREED_ID = "characterBreedId"
+    const val FIELD_CHARACTER_ID = "characterId"
+    const val FIELD_IDEAL_ID = "idealId"
+    const val FIELD_OCCUPATION_ID = "occupationId"
+    const val FIELD_CHARACTERISTIC_BREED_ID = "characteristicBreedId"
+}
+
+object TableNames{
+    const val TABLE_NAME_OCCUPATION_SKILL  = "occupation_skill"
     const val TABLE_NAME_SKILL = "skill"
     const val TABLE_NAME_HEALTH = "health"
     const val TABLE_NAME_ABILITY_SCORE = "ability_score"
@@ -31,7 +48,6 @@ object DatabaseValues {
     const val TABLE_NAME_CHARACTER = "character"
     const val TABLE_NAME_CHARACTERISTICS = "characteristics"
     const val TABLE_NAME_BREED_CHARACTERISTICS = "breed_characteristics"
-    const val FIELD_BREED_CHARACTERISTIC_ID = "characteristicId"
     const val TABLE_NAME_ROLL_CHARACTERISTICS = "roll_characteristics"
     const val TABLE_NAME_GENDER = "gender"
     const val TABLE_NAME_OCCUPATIONS = "occupations"

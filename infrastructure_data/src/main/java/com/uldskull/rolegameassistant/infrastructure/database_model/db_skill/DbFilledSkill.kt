@@ -42,6 +42,10 @@ class DbFilledSkill(
         )
     }
 
+    override fun toString(): String {
+        return "DbFilledSkill(filledSkillId=$filledSkillId, filledSkillName=$filledSkillName, filledSkillDescription=$filledSkillDescription, filledSkillBase=$filledSkillBase, filledSkillTensValue=$filledSkillTensValue, filledSkillUnitsValue=$filledSkillUnitsValue, filledSkillTotal=$filledSkillTotal, filledSkillMax=$filledSkillMax)"
+    }
+
     companion object :
         DbCompanion<DomainFilledSkill, DbFilledSkill> {
         /**

@@ -6,6 +6,7 @@ package com.uldskull.rolegameassistant.infrastructure.database_model.db_characte
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
+import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_ROLL_CHARACTERISTICS
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbCompanion
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbEntity
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollsCharacteristic
@@ -14,7 +15,7 @@ import com.uldskull.rolegameassistant.models.character.characteristic.DomainRoll
  *   Class "DbRollCharacteristic" :
  *   TODO: Fill class use.
  **/
-@Entity(tableName = DatabaseValues.TABLE_NAME_ROLL_CHARACTERISTICS)
+@Entity(tableName = TABLE_NAME_ROLL_CHARACTERISTICS)
 class DbRollCharacteristic(
     @PrimaryKey(autoGenerate = true)
     val characteristicId: Long? = null,
@@ -61,6 +62,10 @@ class DbRollCharacteristic(
             characteristicMax = this.characteristicMax,
             characteristicRollRule = this.characteristicRollRule
         )
+    }
+
+    override fun toString(): String {
+        return "DbRollCharacteristic(characteristicId=$characteristicId, characteristicName=$characteristicName, characteristicBonus=$characteristicBonus, characteristicMax=$characteristicMax, characteristicRoll=$characteristicRoll, characteristicTotal=$characteristicTotal, characteristicRollRule=$characteristicRollRule)"
     }
 }
 

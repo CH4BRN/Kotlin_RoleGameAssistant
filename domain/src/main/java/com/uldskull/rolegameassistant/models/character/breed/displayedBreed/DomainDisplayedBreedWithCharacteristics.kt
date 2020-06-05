@@ -13,6 +13,7 @@ class DomainDisplayedBreedWithCharacteristics(
     val displayedBreed: DomainDisplayedBreed,
     val characteristics: List<DomainBreedsCharacteristic>
 ) {
-    override fun toString(): String =
-        "breed : ${displayedBreed.breedName}\n ${characteristics.size} characteristics."
+    override fun toString(): String {
+        return "DomainDisplayedBreedWithCharacteristics(displayedBreed=$displayedBreed, characteristics=$characteristics)"
+    }
 }

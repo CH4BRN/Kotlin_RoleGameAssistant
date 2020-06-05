@@ -11,5 +11,9 @@ open class DomainSkill(
     val skillId: Long?,
     val skillName: String?,
     val skillDescription: String? = ""
-)
+) {
+    override fun toString(): String {
+        return "DomainSkill(skillId=$skillId, skillName=$skillName, skillDescription=$skillDescription)"
+    }
+}
 

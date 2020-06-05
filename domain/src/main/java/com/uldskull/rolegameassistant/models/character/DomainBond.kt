@@ -12,6 +12,8 @@ class DomainBond(
     val bondTitle: String?,
     val bondValue: String?
 ) {
-    override fun toString(): String = "Id : $bondId\nTitle : $bondTitle\nValue : $bondValue"
+    override fun toString(): String {
+        return "DomainBond(bondId=$bondId, bondTitle=$bondTitle, bondValue=$bondValue)"
+    }
 
 }

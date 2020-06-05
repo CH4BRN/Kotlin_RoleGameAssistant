@@ -15,8 +15,6 @@ class DomainCharacterWithBreeds(
 
 ) {
     override fun toString(): String {
-        return "DomainCharacterWithBreeds(\n" +
-                "\tcharacter=$character, \n" +
-                "\tbreeds=$breeds)"
+        return "DomainCharacterWithBreeds(character=$character, breeds=$breeds)"
     }
 }

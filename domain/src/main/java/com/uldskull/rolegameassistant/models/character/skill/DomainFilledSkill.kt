@@ -22,13 +22,8 @@ class DomainFilledSkill(
     skillName = filledSkillName
 ) {
     var skillIsSelected: Boolean = false
-
     override fun toString(): String {
-        return "FILLED SKILL : \n" +
-                "\t id : $skillId\n" +
-                "\t name : $skillName\n" +
-                "\t skillIsSelected : $skillIsSelected\n" +
-                "\t filledSkillTensValue : $filledSkillTensValue\n" +
-                "\t filledSkillUnitsValue : $filledSkillUnitsValue"
+        return "DomainFilledSkill(filledSkillBase=$filledSkillBase, filledSkillTensValue=$filledSkillTensValue, filledSkillUnitsValue=$filledSkillUnitsValue, filledSkillTotal=$filledSkillTotal, filledSkillMax=$filledSkillMax, skillIsSelected=$skillIsSelected)"
     }
+
 }

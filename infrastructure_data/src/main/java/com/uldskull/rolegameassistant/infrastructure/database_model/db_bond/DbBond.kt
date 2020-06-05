@@ -6,6 +6,7 @@ package com.uldskull.rolegameassistant.infrastructure.database_model.db_bond
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
+import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_BOND
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbCompanion
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbEntity
 import com.uldskull.rolegameassistant.models.character.DomainBond
@@ -14,7 +15,7 @@ import com.uldskull.rolegameassistant.models.character.DomainBond
  *   Class "DbBond" :
  *   Hold a Bond
  **/
-@Entity(tableName = DatabaseValues.TABLE_NAME_BOND)
+@Entity(tableName = TABLE_NAME_BOND)
 class DbBond(
     @PrimaryKey(autoGenerate = true)
     val bondId: Long? = null,
@@ -22,10 +23,7 @@ class DbBond(
     val bondValue: String?
 ) : DbEntity<DomainBond> {
 
-    /**
-     * Returns a string representation of the object.
-     */
-    override fun toString(): String = "\nBond : $bondTitle\n$bondId"
+
 
     /**
      * Converts a Database model entity into a domain model.
@@ -36,6 +34,10 @@ class DbBond(
             bondTitle = this.bondTitle,
             bondValue = this.bondValue
         )
+    }
+
+    override fun toString(): String {
+        return "DbBond(bondId=$bondId, bondTitle=$bondTitle, bondValue=$bondValue)"
     }
 
     companion object :

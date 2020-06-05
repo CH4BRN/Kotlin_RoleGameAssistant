@@ -6,6 +6,8 @@ package com.uldskull.rolegameassistant.infrastructure.dao.characteristic
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
+import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_BREED_CHARACTERISTIC_ID
+import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_ROLL_CHARACTERISTICS
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbRollCharacteristic
 
 /**
@@ -22,10 +24,10 @@ interface DbRollCharacteristicsDao {
     fun insertRollCharacteristics(dbRollCharacteristics: List<DbRollCharacteristic>): List<Long>
 
     //  READ
-    @Query("SELECT * FROM ${DatabaseValues.TABLE_NAME_ROLL_CHARACTERISTICS}")
+    @Query("SELECT * FROM $TABLE_NAME_ROLL_CHARACTERISTICS")
     fun getRollCharacteristics(): LiveData<List<DbRollCharacteristic>>
 
-    @Query("SELECT * FROM ${DatabaseValues.TABLE_NAME_ROLL_CHARACTERISTICS} WHERE characteristicId LIKE :id")
+    @Query("SELECT * FROM $TABLE_NAME_ROLL_CHARACTERISTICS WHERE $FIELD_BREED_CHARACTERISTIC_ID LIKE :id")
     fun getRollCharacteristicById(id: Long?): DbRollCharacteristic
 
     //  UPDATE
@@ -36,6 +38,6 @@ interface DbRollCharacteristicsDao {
     @Delete
     fun deleteRollCharacteristics(vararg dbRollCharacteristic: DbRollCharacteristic): Int
 
-    @Query("DELETE FROM ${DatabaseValues.TABLE_NAME_ROLL_CHARACTERISTICS}")
+    @Query("DELETE FROM $TABLE_NAME_ROLL_CHARACTERISTICS")
     fun deleteAllRollCharacteristics(): Int
 }

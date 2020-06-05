@@ -8,10 +8,11 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
+import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_OCCUPATION_ID
+import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_OCCUPATIONS
 import com.uldskull.rolegameassistant.infrastructure.dao.LIKE
 import com.uldskull.rolegameassistant.infrastructure.dao.SELECT_ALL_FROM
 import com.uldskull.rolegameassistant.infrastructure.dao.WHERE
-import com.uldskull.rolegameassistant.infrastructure.database_model.DbOccupation_id
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupation.DbOccupationAndDbSkillCrossRef
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupation.DbOccupationWithDbSkills
 
@@ -25,10 +26,10 @@ interface DbOccupationDbSkillDao {
     fun insertCross(dbOccupationAndDbSkillCrossRef: DbOccupationAndDbSkillCrossRef):Long
 
     @Transaction
-    @Query("$SELECT_ALL_FROM ${DatabaseValues.TABLE_NAME_OCCUPATIONS}")
+    @Query("$SELECT_ALL_FROM $TABLE_NAME_OCCUPATIONS")
     fun getOccupationsWithSkills():List<DbOccupationWithDbSkills>
 
     @Transaction
-    @Query("$SELECT_ALL_FROM ${DatabaseValues.TABLE_NAME_OCCUPATIONS} $WHERE $DbOccupation_id $LIKE :id")
+    @Query("$SELECT_ALL_FROM $TABLE_NAME_OCCUPATIONS $WHERE $FIELD_OCCUPATION_ID $LIKE :id")
     fun getOccupationWithSkills(id:Long?):DbOccupationWithDbSkills
 }

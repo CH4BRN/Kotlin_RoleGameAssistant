@@ -7,6 +7,7 @@ package com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.di
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
+import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_DISPLAYED_BREED
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbCompanion
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbEntity
 import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
@@ -14,7 +15,7 @@ import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.Doma
 /**
  * Database model for a breed
  */
-@Entity(tableName = DatabaseValues.TABLE_NAME_DISPLAYED_BREED)
+@Entity(tableName = TABLE_NAME_DISPLAYED_BREED)
 class DbDisplayedBreed(
     @PrimaryKey(autoGenerate = true)
     var breedId: Long? = null,
@@ -36,16 +37,8 @@ class DbDisplayedBreed(
         )
     }
 
-    /**
-     * Returns a string representation of the DbDisplayed Breed
-     */
     override fun toString(): String {
-        return "DbDisplayedBreed(" +
-                "breedId=$breedId, " +
-                "breedName=$breedName, " +
-                "breedDescription=$breedDescription," +
-                " breedHealthBonus=$breedHealthBonus, " +
-                "breedIsChecked=$breedIsChecked)"
+        return "DbDisplayedBreed(breedId=$breedId, breedName=$breedName, breedDescription=$breedDescription, breedHealthBonus=$breedHealthBonus, breedIsChecked=$breedIsChecked)"
     }
 
 

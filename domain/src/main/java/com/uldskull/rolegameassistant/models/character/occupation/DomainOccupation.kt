@@ -20,8 +20,6 @@ class DomainOccupation(
     activityName = occupationName
 ) {
     override fun toString(): String {
-        return "\nOCCUPATION" +
-                "\nName : $occupationName\n" +
-                "id : $occupationId\n"
+        return "DomainOccupation(occupationId=$occupationId, occupationName=$occupationName, occupationIncome=$occupationIncome, occupationContacts=$occupationContacts, occupationSpecial=$occupationSpecial)"
     }
 }

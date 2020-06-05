@@ -10,4 +10,8 @@ package com.uldskull.rolegameassistant.models.character.characteristic
 open class DomainCharacteristic(
     val characteristicId: Long?,
     val characteristicName: String?
-)
+) {
+    override fun toString(): String {
+        return "DomainCharacteristic(characteristicId=$characteristicId, characteristicName=$characteristicName)"
+    }
+}

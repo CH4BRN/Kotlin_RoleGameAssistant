@@ -5,8 +5,7 @@ package com.uldskull.rolegameassistant.infrastructure.dao.skill
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.uldskull.rolegameassistant.infrastructure.DatabaseValues.FIELD_OCCUPATION_SKILL_ID
-import com.uldskull.rolegameassistant.infrastructure.DatabaseValues.TABLE_NAME_OCCUPATION_SKILL
+import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_OCCUPATION_SKILL_ID
 import com.uldskull.rolegameassistant.infrastructure.Queries.DELETE_ALL_OCCUPATION_SKILLS
 import com.uldskull.rolegameassistant.infrastructure.Queries.SELECT_ALL_OCCUPATION_SKILLS
 import com.uldskull.rolegameassistant.infrastructure.dao.LIKE

@@ -39,29 +39,7 @@ open class DomainCharacter(
 
 ) {
     override fun toString(): String {
-        return "DomainCharacter(\n" +
-                "characterId=$characterId, \n" +
-                "characterName=$characterName, \n" +
-                "characterAge=$characterAge, \n" +
-                "characterGender=$characterGender, \n" +
-                "characterBiography=$characterBiography, \n" +
-                "characterBonds=$characterBonds, \n" +
-                "characterIdeals=$characterIdeals, \n" +
-                "characterHealthPoints=$characterHealthPoints, \n" +
-                "characterIdeaPoints=$characterIdeaPoints, \n" +
-                "characterAlignment=$characterAlignment, \n" +
-                "characterEnergyPoints=$characterEnergyPoints, \n" +
-                "characterHeight=$characterHeight, \n" +
-                "characterPictureUri=$characterPictureUri,\n" +
-                "characterConstitution=$characterConstitution, \n" +
-                "characterStrength=$characterStrength, \n" +
-                "characterPower=$characterPower, \n" +
-                "characterDexterity=$characterDexterity, \n" +
-                "characterSize=$characterSize, \n" +
-                "characterIntelligence=$characterIntelligence, \n" +
-                "characterAppearance=$characterAppearance, \n" +
-                "characterEducation=$characterEducation, \n" +
-                "characterWeight=$characterWeight)"
+        return "DomainCharacter(characterId=$characterId, characterName=$characterName, characterAge=$characterAge, characterGender=$characterGender, characterBiography=$characterBiography, characterBonds=$characterBonds, characterIdeals=$characterIdeals, characterHealthPoints=$characterHealthPoints, characterIdeaPoints=$characterIdeaPoints, characterAlignment=$characterAlignment, characterEnergyPoints=$characterEnergyPoints, characterHeight=$characterHeight, characterPictureUri=$characterPictureUri, characterConstitution=$characterConstitution, characterStrength=$characterStrength, characterPower=$characterPower, characterDexterity=$characterDexterity, characterSize=$characterSize, characterIntelligence=$characterIntelligence, characterAppearance=$characterAppearance, characterEducation=$characterEducation, characterWeight=$characterWeight)"
     }
 }
 

@@ -6,6 +6,8 @@ package com.uldskull.rolegameassistant.infrastructure.dao.occupation
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
+import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_OCCUPATION_ID
+import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_OCCUPATIONS
 import com.uldskull.rolegameassistant.infrastructure.dao.SELECT_ALL_FROM
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupation.DbOccupation
 
@@ -23,10 +25,10 @@ interface DbOccupationsDao {
     fun insertJobs(dbOccupations: List<DbOccupation>): List<Long>
 
     //  READ
-    @Query("$SELECT_ALL_FROM ${DatabaseValues.TABLE_NAME_OCCUPATIONS}")
+    @Query("$SELECT_ALL_FROM $TABLE_NAME_OCCUPATIONS")
     fun getJobs(): LiveData<List<DbOccupation>>
 
-    @Query("$SELECT_ALL_FROM ${DatabaseValues.TABLE_NAME_OCCUPATIONS} WHERE occupationId LIKE :id")
+    @Query("$SELECT_ALL_FROM $TABLE_NAME_OCCUPATIONS WHERE $FIELD_OCCUPATION_ID LIKE :id")
     fun getJobById(id: Long?): DbOccupation
 
     //  UPDATE
@@ -37,6 +39,6 @@ interface DbOccupationsDao {
     @Delete
     fun deleteJobs(vararg occupations: DbOccupation): Int
 
-    @Query("DELETE FROM ${DatabaseValues.TABLE_NAME_OCCUPATIONS}")
+    @Query("DELETE FROM $TABLE_NAME_OCCUPATIONS")
     fun deleteAllJobs(): Int
 }

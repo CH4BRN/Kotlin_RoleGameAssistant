@@ -14,11 +14,7 @@ class DomainDisplayedBreed(
     val breedHealthBonus: Int?,
     var breedChecked: Boolean = false
 ) {
-    override fun toString(): String =
-        "\tBREED : \n" +
-                "Id : ${breedId}\n" +
-                "Name : ${breedName}\n" +
-                "Description : ${breedDescription}\n" +
-                "Health bonus : $breedHealthBonus\n" +
-                "Checked : $breedChecked"
+    override fun toString(): String {
+        return "DomainDisplayedBreed(breedId=$breedId, breedName=$breedName, breedDescription=$breedDescription, breedHealthBonus=$breedHealthBonus, breedChecked=$breedChecked)"
+    }
 }

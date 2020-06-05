@@ -6,8 +6,7 @@ package com.uldskull.rolegameassistant.infrastructure.dao.characteristic
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
-import com.uldskull.rolegameassistant.infrastructure.DatabaseValues.FIELD_BREED_CHARACTERISTIC_ID
-import com.uldskull.rolegameassistant.infrastructure.DatabaseValues.TABLE_NAME_BREED_CHARACTERISTICS
+import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_BREED_CHARACTERISTIC_ID
 import com.uldskull.rolegameassistant.infrastructure.Queries.DELETE_ALL_BREED_CHARACTERISTICS
 import com.uldskull.rolegameassistant.infrastructure.Queries.SELECT_ALL_BREED_CHARACTERISTICS
 import com.uldskull.rolegameassistant.infrastructure.dao.LIKE

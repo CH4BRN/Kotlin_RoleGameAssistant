@@ -5,7 +5,7 @@ package com.uldskull.rolegameassistant.infrastructure.database_model.db_occupati
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.uldskull.rolegameassistant.infrastructure.DatabaseValues.TABLE_NAME_OCCUPATIONS
+import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_OCCUPATIONS
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbCompanion
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbEntity
 import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
@@ -34,6 +34,10 @@ class DbOccupation(
             occupationIncome = occupationIncome,
             occupationSpecial = occupationSpecial
         )
+    }
+
+    override fun toString(): String {
+        return "DbOccupation(occupationId=$occupationId, occupationName=$occupationName, occupationIncome=$occupationIncome, occupationContacts=$occupationContacts, occupationSpecial=$occupationSpecial)"
     }
 
     companion object :

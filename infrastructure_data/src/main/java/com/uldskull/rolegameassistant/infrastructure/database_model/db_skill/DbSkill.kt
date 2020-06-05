@@ -36,6 +36,10 @@ open class DbSkill(
         )
     }
 
+    override fun toString(): String {
+        return "DbSkill(skillId=$skillId, skillName=$skillName, skillDescription=$skillDescription)"
+    }
+
     companion object :
         DbCompanion<DomainSkill, DbSkill> {
         /**

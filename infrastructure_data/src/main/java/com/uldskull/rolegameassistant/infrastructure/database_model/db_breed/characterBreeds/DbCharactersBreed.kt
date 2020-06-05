@@ -5,6 +5,7 @@ package com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.ch
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
+import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_CHARACTERS_BREED
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbCompanion
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbEntity
 import com.uldskull.rolegameassistant.models.character.breed.charactersBreed.DomainCharactersBreed
@@ -14,7 +15,7 @@ Class "DbCharacterBreed"
 
 TODO: Describe class utility.
  */
-@Entity(tableName = DatabaseValues.TABLE_NAME_CHARACTERS_BREED)
+@Entity(tableName = TABLE_NAME_CHARACTERS_BREED)
 class DbCharactersBreed(
     @PrimaryKey(autoGenerate = true)
     var characterBreedId: Long? = null,
@@ -31,6 +32,11 @@ class DbCharactersBreed(
             characterId = this.characterId
         )
     }
+
+    override fun toString(): String {
+        return "DbCharactersBreed(characterBreedId=$characterBreedId, displayedBreedId=$displayedBreedId, characterId=$characterId)"
+    }
+
     /**
      * Returns a string representation of the DbCharacterBreed
      */

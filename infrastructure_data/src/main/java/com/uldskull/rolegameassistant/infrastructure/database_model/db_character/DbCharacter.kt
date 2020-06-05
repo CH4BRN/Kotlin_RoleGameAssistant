@@ -7,6 +7,7 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
+import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_CHARACTER
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbCompanion
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbEntity
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_bond.DbBond
@@ -22,7 +23,7 @@ import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
  *   Class "DbCharacter" :
  *   TODO: Fill class use.
  **/
-@Entity(tableName = DatabaseValues.TABLE_NAME_CHARACTER)
+@Entity(tableName =TABLE_NAME_CHARACTER)
 class DbCharacter(
     @PrimaryKey(autoGenerate = true)
     val characterId: Long? = null,
@@ -110,6 +111,10 @@ class DbCharacter(
             characterEducation = this.characterEducation?.toDomain(),
             characterWeight = this.characterWeight
         )
+    }
+
+    override fun toString(): String {
+        return "DbCharacter(characterId=$characterId, characterName=$characterName, characterAge=$characterAge, characterBiography=$characterBiography, characterBonds=$characterBonds, characterHealthPoints=$characterHealthPoints, characterIdeaPoints=$characterIdeaPoints, characterAlignment=$characterAlignment, characterEnergyPoints=$characterEnergyPoints, characterIdeals=$characterIdeals, characterGender=$characterGender, characterHeight=$characterHeight, characterPictureUri=$characterPictureUri, characterWeight=$characterWeight, characterStrength=$characterStrength, characterSize=$characterSize, characterPower=$characterPower, characterIntelligence=$characterIntelligence, characterDexterity=$characterDexterity, characterConstitution=$characterConstitution, characterAppearance=$characterAppearance, characterEducation=$characterEducation)"
     }
 
     companion object :

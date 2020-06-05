@@ -6,6 +6,8 @@ package com.uldskull.rolegameassistant.infrastructure.dao.ideal
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
+import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_IDEAL_ID
+import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_IDEAL
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_ideal.DbIdeal
 
 /**
@@ -23,10 +25,10 @@ interface DbIdealsDao {
     fun insertIdeals(dbIdeals: List<DbIdeal>): List<Long>
 
     //  READ
-    @Query("SELECT * FROM ${DatabaseValues.TABLE_NAME_IDEAL}")
+    @Query("SELECT * FROM $TABLE_NAME_IDEAL")
     fun getIdeals(): LiveData<List<DbIdeal>>
 
-    @Query("SELECT * FROM ${DatabaseValues.TABLE_NAME_IDEAL} WHERE idealId LIKE :id")
+    @Query("SELECT * FROM $TABLE_NAME_IDEAL WHERE $FIELD_IDEAL_ID LIKE :id")
     fun getIdealById(id: Long?): DbIdeal
 
     //  UPDATE
@@ -37,6 +39,6 @@ interface DbIdealsDao {
     @Delete
     fun deleteIdeals(vararg ideal: DbIdeal): Int
 
-    @Query("DELETE FROM ${DatabaseValues.TABLE_NAME_IDEAL}")
+    @Query("DELETE FROM $TABLE_NAME_IDEAL")
     fun deleteAllIdeals(): Int
 }

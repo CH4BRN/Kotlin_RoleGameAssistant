@@ -5,8 +5,8 @@ package com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.di
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import com.uldskull.rolegameassistant.infrastructure.database_model.DbBreedWithCharacteristics_entityColumn
-import com.uldskull.rolegameassistant.infrastructure.database_model.DbBreedWithCharacteristics_parentColumn
+import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_BREED_ID
+import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_CHARACTERISTIC_BREED_ID
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.displayedBreeds.DbDisplayedBreed
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbBreedCharacteristic
 
@@ -18,13 +18,12 @@ data class DbDisplayedBreedWithCharacteristics(
     @Embedded
     val displayedBreed: DbDisplayedBreed,
     @Relation(
-        parentColumn = DbBreedWithCharacteristics_parentColumn,
-        entityColumn = DbBreedWithCharacteristics_entityColumn
+        parentColumn = FIELD_BREED_ID,
+        entityColumn = FIELD_CHARACTERISTIC_BREED_ID
     )
     val characteristics: List<DbBreedCharacteristic>
 ) {
     override fun toString(): String {
-        return "\nDbBreedWithCharacteristics breed : $displayedBreed \n" +
-                "DbBreedWithCharacteristics characteristics size : ${characteristics.size}"
+        return "DbDisplayedBreedWithCharacteristics(displayedBreed=$displayedBreed, characteristics=$characteristics)"
     }
 }
