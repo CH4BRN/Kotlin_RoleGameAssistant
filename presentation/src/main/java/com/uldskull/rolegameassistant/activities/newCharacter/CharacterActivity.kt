@@ -155,7 +155,7 @@ class CharacterActivity :
                 positionOffsetPixels: Int
             ) {
                 Log.d(
-                    "$TAG", "onPageScrolled : \n" +
+                    "DEBUG$TAG", "onPageScrolled : \n" +
                             "\tposition : $position\n" +
                             "\tpositionO : $positionOffset\n" +
                             "\tpositionOP : $positionOffsetPixels"

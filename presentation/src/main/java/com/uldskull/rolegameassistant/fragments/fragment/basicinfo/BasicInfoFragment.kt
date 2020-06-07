@@ -125,40 +125,13 @@ class BasicInfoFragment() : CustomFragment() {
         Log.d(TAG, "onViewCreated")
         super.onViewCreated(view, savedInstanceState)
         activity = requireActivity()
-        Log.d("DEBUG $TAG", "activity is null ? ${activity == null}")
+        Log.d("DEBUG$TAG", "activity is null ? ${activity == null}")
         deserializeWidgets()
         setButtonAddBreed()
         initializeListeners()
         startObservation()
         loadChildrenFragments()
-        newCharacterViewModel?.selectedCharacter?.observe(this, Observer {
-                domainCharacter ->
-            var areCharacteristicsRolled = true
 
-            if(domainCharacter != null){
-                var characteristicList = listOf(
-                    domainCharacter.characterAppearance,
-                    domainCharacter.characterConstitution,
-                    domainCharacter.characterDexterity,
-                    domainCharacter.characterEducation,
-                    domainCharacter.characterIntelligence,
-                    domainCharacter.characterPower,
-                    domainCharacter.characterSize,
-                    domainCharacter.characterStrength
-                )
-                characteristicList?.forEach {
-                    if(it?.characteristicRoll == 0){
-                        Log.d("DEBUG$TAG", "areCharacteristicRolled = $areCharacteristicsRolled")
-                        areCharacteristicsRolled = false
-                        Log.d("DEBUG$TAG", "areCharacteristicRolled = $areCharacteristicsRolled")
-                    }
-                }
-            }
-
-            if(areCharacteristicsRolled){
-                (activity as AddEndFragmentAndUpdateAdapter).addEndFragmentsAndUpdateAdapter()
-            }
-        })
 
 
     }
@@ -253,12 +226,45 @@ class BasicInfoFragment() : CustomFragment() {
      * Start values observation.
      */
     private fun startObservation() {
-        Log.d("DEBUG $TAG", "startObservation")
+        Log.d("DEBUG$TAG", "startObservation")
+        newCharacterViewModel?.selectedCharacter?.observe(this, Observer {
+                domainCharacter ->
+            Log.d("DEBUG$TAG", "Selected character is null : ${domainCharacter == null}")
+
+
+            if(domainCharacter != null){
+                var areCharacteristicsRolled = true
+                var characteristicList = listOf(
+                    domainCharacter.characterAppearance,
+                    domainCharacter.characterConstitution,
+                    domainCharacter.characterDexterity,
+                    domainCharacter.characterEducation,
+                    domainCharacter.characterIntelligence,
+                    domainCharacter.characterPower,
+                    domainCharacter.characterSize,
+                    domainCharacter.characterStrength
+                )
+                characteristicList?.forEach {
+                    if(it?.characteristicRoll == 0){
+                        Log.d("DEBUG$TAG", "areCharacteristicRolled = $areCharacteristicsRolled")
+                        areCharacteristicsRolled = false
+                        Log.d("DEBUG$TAG", "areCharacteristicRolled = $areCharacteristicsRolled")
+                    }
+                }
+
+                if(areCharacteristicsRolled){
+                    (activity as AddEndFragmentAndUpdateAdapter).addEndFragmentsAndUpdateAdapter()
+                }
+            }
+
+
+        })
+
         newCharacterViewModel?.selectedCharacter?.observe(
             this,
             Observer { character: DomainCharacter? ->
                 kotlin.run {
-                    Log.d("DEBUG $TAG", "${newCharacterViewModel?.selectedCharacter.value}")
+                    Log.d("DEBUG$TAG", "${newCharacterViewModel?.selectedCharacter.value}")
 
                     newCharacterViewModel?.currentCharacter = character
 

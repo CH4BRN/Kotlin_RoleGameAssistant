@@ -6,6 +6,8 @@ package com.uldskull.rolegameassistant.viewmodels
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollsCharacteristic
 
@@ -59,19 +61,12 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
     /**
      * Character's base health
      */
-    var baseHealth: Int = 0
-        set(value) {
-            Log.d(TAG, "baseHealth = $value")
-            field = value
-        }
+    var baseHealth = MutableLiveData<Int>()
+
     /**
      * Character's breed's health bonus
      */
-    var breedHealthBonus: Int? = 0
-        set(value) {
-            Log.d(TAG, "Health bonus = $value")
-            field = value
-        }
+    var breedHealthBonus = MutableLiveData<Int>()
     /**
      * Character's total health
      */
@@ -180,7 +175,7 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
     /**
      * Calculate character's base health
      */
-    fun calculateBaseHealth(rollsCharacteristics: List<DomainRollsCharacteristic>): Int {
+    fun calculateBaseHealth(rollsCharacteristics: List<DomainRollsCharacteristic>) {
         Log.d(TAG, "calculate base health")
         var hp = 0
         rollsCharacteristics.forEach {
@@ -190,16 +185,23 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
                 hp += it.characteristicTotal!!
             }
         }
-        baseHealth = hp / 2
-        return baseHealth
+        baseHealth.value = hp / 2
+
     }
 
     /**
      * Calculate character's total health.
      */
     fun calculateTotalHealth(): Int {
-        Log.d(TAG, "base health : ${baseHealth}\nbreed health bonus : ${breedHealthBonus}")
-        totalHealth = baseHealth + breedHealthBonus!!
+        var baseHealthValue = baseHealth.value
+        var breedHealthBonusValue = breedHealthBonus.value
+
+        if(baseHealthValue != null && breedHealthBonusValue != null){
+            Log.d(TAG, "base health : ${baseHealthValue}\nbreed health bonus : ${breedHealthBonusValue}")
+            totalHealth = baseHealthValue + breedHealthBonusValue!!
+        }
+
+
 
         return totalHealth
     }
@@ -212,8 +214,8 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
                 bonus += it.breedHealthBonus!!
             }
         }
-        breedHealthBonus = bonus
-        return breedHealthBonus!!
+        breedHealthBonus.value = bonus
+        return breedHealthBonus.value!!
     }
 
     fun calculateKnowPoints(education: DomainRollsCharacteristic):Int? {

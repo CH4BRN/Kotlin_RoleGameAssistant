@@ -14,10 +14,17 @@ class DomainRollsCharacteristic(
     var characteristicRoll: Int?,
     var characteristicTotal: Int?,
     val characteristicMax: Int?,
-    val characteristicRollRule:String?
+    val characteristicRollRule: String?
 ) {
     override fun toString(): String {
-        return "DomainRollsCharacteristic(characteristicId=$characteristicId, characteristicName=$characteristicName, characteristicBonus=$characteristicBonus, characteristicRoll=$characteristicRoll, characteristicTotal=$characteristicTotal, characteristicMax=$characteristicMax, characteristicRollRule=$characteristicRollRule)"
+        return "DomainRollsCharacteristic(\n" +
+                "characteristicId=$characteristicId,\n " +
+                "characteristicName=$characteristicName,\n" +
+                "characteristicBonus=$characteristicBonus,\n" +
+                "characteristicRoll=$characteristicRoll,\n" +
+                "characteristicTotal=$characteristicTotal,\n" +
+                "characteristicMax=$characteristicMax,\n" +
+                "characteristicRollRule=$characteristicRollRule)"
     }
 
 }

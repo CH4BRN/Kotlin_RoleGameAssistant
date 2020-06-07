@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.DERIVED_VALUES_1_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
@@ -78,7 +79,7 @@ class DerivedValues1Fragment : CustomFragment() {
         Log.d(TAG, "setBreedHealthBonusScore")
         if (et_breedHealthBonus != null && !derivedValuesViewModel.breedBonusEditTextHasChanged) {
             derivedValuesViewModel.calculateBreedsHealthBonus(characteristicsViewModel.getCheckedBreeds())
-            et_breedHealthBonus.setText(derivedValuesViewModel.breedHealthBonus!!.toString())
+
         }
     }
 
@@ -136,9 +137,8 @@ class DerivedValues1Fragment : CustomFragment() {
 
             if (size != null && constitution != null) {
                 derivedValuesViewModel.calculateBaseHealth(listOf(size, constitution))
-                et_baseHealthPoints.setText(derivedValuesViewModel.baseHealth.toString())
-
             }
+
         }
     }
 
@@ -182,8 +182,32 @@ class DerivedValues1Fragment : CustomFragment() {
 
         setEditTextsListeners()
         setBtnEditClickListener()
+
+        observeBaseHealthScore()
+
+        derivedValuesViewModel?.breedHealthBonus?.observe(this, Observer {
+            if (it != null && et_breedHealthBonus.text.toString() != it.toString()) {
+                et_breedHealthBonus.setText(it.toString())
+            }
+
+        })
+
+
         Log.d(TAG, "set health points")
 
+    }
+
+    private fun observeBaseHealthScore() {
+        derivedValuesViewModel?.baseHealth?.observe(this, Observer {
+            if (it != null && et_baseHealthPoints.text.toString() != it.toString()) {
+
+                et_baseHealthPoints.setText(it.toString())
+
+
+            }
+
+
+        })
     }
 
 
@@ -267,7 +291,7 @@ class DerivedValues1Fragment : CustomFragment() {
 
                 if (!s.isNullOrBlank()) {
                     try {
-                        derivedValuesViewModel.breedHealthBonus = s.toString().toInt()
+                        derivedValuesViewModel.breedHealthBonus.value = s.toString().toInt()
                     } catch (e: Exception) {
                         Log.e(TAG, "et_breedHealthBonus failed")
                         e.printStackTrace()
@@ -308,10 +332,10 @@ class DerivedValues1Fragment : CustomFragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (!s.isNullOrBlank()) {
+                if (!s.isNullOrBlank() && !s.isNullOrEmpty()) {
                     try {
                         Log.e(TAG, "et_healthPoints $s")
-                        derivedValuesViewModel.baseHealth = s.toString().toInt()
+                        derivedValuesViewModel.baseHealth.value = s.toString().toInt()
                     } catch (e: Exception) {
                         Log.e(TAG, "et_healthPoints failed")
                         e.printStackTrace()
