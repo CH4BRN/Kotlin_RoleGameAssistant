@@ -18,7 +18,6 @@ import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.REQUEST_CODE_IDEALS_NEW_IDEAL
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.IDEALS_FRAGMENT_POSITION
-import com.uldskull.rolegameassistant.models.character.DomainIdeal
 import com.uldskull.rolegameassistant.viewmodels.IdealsViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import kotlinx.android.synthetic.main.fragment_ideals.*
@@ -68,63 +67,10 @@ class IdealsFragment : CustomFragment() {
         super.onViewCreated(view, savedInstanceState)
         loadIdealsRecyclerView()
         setButtonAddIdeal()
-
-        observeCharactersIdeals()
-        observeRepositoryIdeals()
     }
 
-    /**
-     * Observe the ideals coming from the repository
-     */
-    private fun observeRepositoryIdeals() {
-        idealsViewModel.repositoryIdeals?.observe(this, Observer { domainIdeals ->
-
-            var mutableIdeals = domainIdeals?.toMutableList()
 
 
-            var mutableList = idealsViewModel?.mutableIdeals?.value
-
-            var mutableIdealsSize = mutableIdeals?.size
-            if (mutableIdealsSize == null) {
-                mutableIdealsSize = 0
-            }
-
-            mutableList?.forEach {
-                var index = mutableIdeals?.indexOfFirst { i -> it?.idealId == i.idealId }
-                if (index != null && it != null && (!(index < mutableIdealsSize) && !(index > mutableIdealsSize))) {
-                    Log.d("DEBUG$TAG", "Index : $index")
-                    mutableIdeals?.set(index, it)
-                }
-            }
-            idealsViewModel?.mutableIdeals?.value = mutableIdeals?.toMutableList()
-        })
-    }
-
-    /**
-     * Observe the ideals into the current selected character
-     */
-    private fun observeCharactersIdeals() {
-        idealsViewModel?.characterIdeals?.observe(
-            this,
-            Observer { domainIdeals: List<DomainIdeal?>? ->
-                if (domainIdeals != null) {
-                    var mutableIdeals = idealsViewModel?.mutableIdeals?.value
-                    if (mutableIdeals == null) {
-                        mutableIdeals = mutableListOf()
-                    }
-                    domainIdeals?.forEach { characterIdeal ->
-                        Log.d(
-                            "DEBUG$TAG",
-                            "characterIdeal ${characterIdeal?.idealName} is checked : ${characterIdeal?.isChecked}"
-                        )
-                        mutableIdeals?.add(characterIdeal)
-                    }
-
-                    idealsViewModel?.mutableIdeals?.value = mutableIdeals
-
-                }
-            })
-    }
 
     /**
      * Load ideals's recycler view.

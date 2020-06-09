@@ -26,7 +26,11 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
 
     var knowEditTextHasChanged: Boolean = false
     var cthulhuMythScoreEditTextHasChanged: Boolean = false
-    var cthulhuMythScore: Int? = 99
+
+    /**
+     * Observable Cthulhu myth score
+     */
+    var cthulhuMythScore: MutableLiveData<Int> = MutableLiveData()
 
 
     enum class DamageBonus(value: String) {
@@ -117,6 +121,11 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
 
     var alignmentScore:MutableLiveData<Int?> = MutableLiveData()
 
+    init {
+        if(cthulhuMythScore.value == 0 ||cthulhuMythScore.value == null ){
+            cthulhuMythScore.value = 99
+        }
+    }
     fun calculateAlignmentScore(ideals:List<DomainIdeal?>){
         var score = 0
         ideals?.forEach {

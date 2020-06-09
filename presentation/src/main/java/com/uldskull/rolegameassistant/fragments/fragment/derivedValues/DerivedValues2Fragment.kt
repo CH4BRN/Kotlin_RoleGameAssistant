@@ -53,7 +53,7 @@ class DerivedValues2Fragment() : CustomFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d(TAG, "onViewCreated")
-        setScores()
+
 
         setDamageBonusSpinner()
         enableOrDisableEditTexts()
@@ -71,15 +71,32 @@ class DerivedValues2Fragment() : CustomFragment() {
         observeDamageBonusIndex()
         observeIdeals()
         observeAlignmentScore()
+        observeCthulhuMythScore()
+    }
+
+    private fun observeCthulhuMythScore() {
+        derivedValuesViewModel?.cthulhuMythScore?.observe(this, Observer { score ->
+            kotlin.run {
+                if (score != null) {
+                    Log.d("DEBUG$TAG", "Cthulhu Score : $score")
+                    if (et_cthulhuMyth.text.toString() != score.toString()) {
+                        et_cthulhuMyth.setText(score.toString())
+                    }
+                }
+            }
+        })
     }
 
     private fun observeAlignmentScore() {
         derivedValuesViewModel?.alignmentScore?.observe(this, Observer { score ->
             kotlin.run {
                 if (score != null) {
-                    et_alignmentPoints.setText(score.toString())
+                    Log.d("DEBUG$TAG", "Score : $score")
+                    if (et_alignmentPoints.text.toString() != score.toString()) {
+                        et_alignmentPoints.setText(score.toString())
+                        setAlignmentPicture(score)
+                    }
 
-                    setAlignmentPicture(score)
                 }
             }
         })
@@ -91,7 +108,6 @@ class DerivedValues2Fragment() : CustomFragment() {
                 var checkedIdeals = idealList.filter { i -> i?.isChecked!! }
                 calculateAlignmentScore(checkedIdeals)
             }
-
         })
     }
 
@@ -172,9 +188,7 @@ class DerivedValues2Fragment() : CustomFragment() {
         setAlignmentPointsTextChangedListener()
     }
 
-    private fun setScores() {
-        setCthulhuMythScore()
-    }
+
 
     private fun setAlignmentPointsTextChangedListener() {
         if (et_alignmentPoints != null) {
@@ -193,7 +207,11 @@ class DerivedValues2Fragment() : CustomFragment() {
                 if (!s.isNullOrEmpty()) {
                     if (s.toString() != "-") {
                         try {
-                            idealsViewModel.alignmentScore = s.toString().toInt()
+                            if (derivedValuesViewModel.alignmentScore.value != s.toString()
+                                    .toInt()
+                            ) {
+                                derivedValuesViewModel.alignmentScore.value = s.toString().toInt()
+                            }
                         } catch (e: Exception) {
                             Log.e(TAG, "et_alignmentPoints FAILED")
                             e.printStackTrace()
@@ -216,9 +234,12 @@ class DerivedValues2Fragment() : CustomFragment() {
                 position: Int,
                 id: Long
             ) {
-                derivedValuesViewModel.selectedDamageBonusIndex.value = position
-                derivedValuesViewModel.damageBonus.value =
-                    DerivedValuesViewModel.DamageBonus.values()[position]
+                if (derivedValuesViewModel.selectedDamageBonusIndex.value != position) {
+                    derivedValuesViewModel.selectedDamageBonusIndex.value = position
+                    derivedValuesViewModel.damageBonus.value =
+                        DerivedValuesViewModel.DamageBonus.values()[position]
+                }
+
             }
 
         }
@@ -230,8 +251,14 @@ class DerivedValues2Fragment() : CustomFragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (!s.isNullOrBlank()) {
                     try {
-                        derivedValuesViewModel.sizePlusStrengthScore.value = s.toString().toInt()
-                        derivedValuesViewModel.sizePlusStrengthEditTextHasChanged = true
+                        if (derivedValuesViewModel.sizePlusStrengthScore.value != s.toString()
+                                .toInt()
+                        ) {
+                            derivedValuesViewModel.sizePlusStrengthScore.value =
+                                s.toString().toInt()
+                            derivedValuesViewModel.sizePlusStrengthEditTextHasChanged = true
+                        }
+
                     } catch (e: Exception) {
                         Log.e(TAG, "et_sizePlusStrength FAILED")
                         e.printStackTrace()
@@ -251,8 +278,11 @@ class DerivedValues2Fragment() : CustomFragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (!s.isNullOrEmpty()) {
                     try {
-                        derivedValuesViewModel.energyPoints.value = s.toString().toInt()
-                        derivedValuesViewModel.energyPointsEdiTextHasChanged = true
+                        if (derivedValuesViewModel.energyPoints.value != s.toString().toInt()) {
+                            derivedValuesViewModel.energyPoints.value = s.toString().toInt()
+                            derivedValuesViewModel.energyPointsEdiTextHasChanged = true
+                        }
+
                     } catch (e: Exception) {
                         Log.e(TAG, "et_energyPoints FAILED")
                         e.printStackTrace()
@@ -268,8 +298,11 @@ class DerivedValues2Fragment() : CustomFragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (!s.isNullOrEmpty()) {
                     try {
-                        derivedValuesViewModel.cthulhuMythScore = s.toString().toInt()
-                        derivedValuesViewModel.cthulhuMythScoreEditTextHasChanged = true
+                        if (derivedValuesViewModel.cthulhuMythScore.value.toString() != s.toString()) {
+                            derivedValuesViewModel.cthulhuMythScore.value = s.toString().toInt()
+                            derivedValuesViewModel.cthulhuMythScoreEditTextHasChanged = true
+                        }
+
                     } catch (e: Exception) {
                         Log.e(TAG, "et_cthulhuMyth FAILED")
                         e.printStackTrace()
@@ -296,11 +329,7 @@ class DerivedValues2Fragment() : CustomFragment() {
         }
     }
 
-    private fun setCthulhuMythScore() {
-        if (et_cthulhuMyth != null) {
-            et_cthulhuMyth?.setText(derivedValuesViewModel.cthulhuMythScore.toString())
-        }
-    }
+
 
 
     private fun setAlignmentPicture(score: Int) {
@@ -308,17 +337,13 @@ class DerivedValues2Fragment() : CustomFragment() {
         if (derivedValues_img_alignment != null) {
             val imgResId: Int = when {
                 score < -25 -> {
-                    Log.d(TAG, "${idealsViewModel.alignmentScore} Evil")
                     R.drawable.evil_icon
                 }
                 score > 25 -> {
-                    Log.d(TAG, "${idealsViewModel.alignmentScore} Good")
                     R.drawable.good_icon
                 }
                 else -> {
-                    Log.d(TAG, "${idealsViewModel.alignmentScore} Neutral")
                     R.drawable.neutral_icon
-
                 }
             }
             derivedValues_img_alignment.setImageResource(imgResId)

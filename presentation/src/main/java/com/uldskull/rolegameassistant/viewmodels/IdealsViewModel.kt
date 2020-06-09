@@ -45,27 +45,9 @@ class IdealsViewModel(
         }
     }
 
-    var alignmentScore: Int = 0
-        set(value) {
-            field = value
-        }
-        get() {
-            return field
-        }
 
-    fun calculateAlignmentScore(): Int {
-        alignmentScore = 0
-        mutableIdeals?.value?.filter { i ->
-            i!=null && i.isChecked!! }?.forEach {
-            if (it?.idealGoodPoints != null) {
-                alignmentScore += it.idealGoodPoints!!
-            }
-            if (it?.idealEvilPoints != null) {
-                alignmentScore -= it.idealEvilPoints!!
-            }
-        }
-        return alignmentScore
-    }
+
+
 
 
     private fun findAll(): LiveData<List<DomainIdeal>>? {
@@ -80,7 +62,6 @@ class IdealsViewModel(
 
     var mutableIdeals: MutableLiveData<MutableList<DomainIdeal?>>? = MutableLiveData()
 
-    var characterIdeals:MutableLiveData<List<DomainIdeal?>>? = MutableLiveData()
 
 
 }

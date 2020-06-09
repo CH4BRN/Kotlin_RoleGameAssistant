@@ -110,16 +110,31 @@ class IdealsRecyclerViewFragment :
 
         //  Observe
         observeSelectedCharacter()
-        observeCharacterIdeals()
         observeIdealsMutableList()
         observeRepositoryIdeals()
     }
 
+    /**
+     * Observe repository's ideals
+     */
     private fun observeRepositoryIdeals() {
         idealsViewModel?.repositoryIdeals?.observe(this, Observer { domainIdealsList ->
-            if(idealsViewModel?.mutableIdeals?.value == null){
-                idealsViewModel?.mutableIdeals?.value = domainIdealsList.toMutableList()
+            var mutableIdeals: MutableList<DomainIdeal?>? = idealsViewModel?.mutableIdeals?.value
+            if(mutableIdeals == null){
+                mutableIdeals = mutableListOf()
             }
+            if (mutableIdeals != null) {
+                domainIdealsList?.forEach {
+                    if (!mutableIdeals?.any { i -> i?.idealId == it.idealId }) {
+                        mutableIdeals.add(it)
+                    }
+                }
+            }
+
+
+            Log.d("DEBUG$TAG", "Repository ideals")
+            idealsViewModel?.mutableIdeals?.value = mutableIdeals
+
         })
     }
 
@@ -128,6 +143,8 @@ class IdealsRecyclerViewFragment :
      */
     private fun observeIdealsMutableList() {
         idealsViewModel?.mutableIdeals?.observe(this, Observer { domainIdealsList ->
+            Log.d("DEBUG$TAG", "Mutable ideals")
+
             domainIdealsList?.forEach {
                 Log.d("DEBUG$TAG", "Ideal : ${it?.idealName} is checked : ${it?.isChecked}")
             }
@@ -135,33 +152,21 @@ class IdealsRecyclerViewFragment :
         })
     }
 
-    /**
-     * Observe the character's ideals.
-     */
-    private fun observeCharacterIdeals() {
-        idealsViewModel?.characterIdeals?.observe(
-            this,
-            Observer { domainIdeals: List<DomainIdeal?>? ->
-                if (domainIdeals != null) {
-                    Log.d("DEBUG$TAG", "Character ideals : ${domainIdeals?.size}")
-                    Log.d(
-                        "DEBUG$TAG",
-                        "Mutable ideals : ${idealsViewModel?.mutableIdeals?.value?.size}"
-                    )
-                }
-                idealsViewModel?.mutableIdeals?.value = domainIdeals?.toMutableList()
-            })
-    }
 
     /**
      * Observe the selected character to get its ideals.
      */
     private fun observeSelectedCharacter() {
         newCharacterViewModel?.selectedCharacter?.observe(this, Observer { domainCharacter ->
-            domainCharacter?.characterIdeals?.forEach {
-                Log.d("DEBUG$TAG", "Character Ideal ${it?.idealName} is checked : ${it?.isChecked}")
-            }
-            idealsViewModel?.characterIdeals?.value = domainCharacter?.characterIdeals?.toList()
+
+            var count = domainCharacter?.characterIdeals?.count { i -> i?.isChecked!! }
+            Log.d("DEBUG$TAG", "characterIdeals count : $count")
+
+            idealsViewModel?.mutableIdeals?.value = domainCharacter?.characterIdeals
+            count = idealsViewModel?.mutableIdeals?.value?.count { i -> i?.isChecked!! }
+            Log.d("DEBUG$TAG", "mutableIdeals count : $count")
+
+
         })
     }
 
@@ -198,15 +203,19 @@ class IdealsRecyclerViewFragment :
     override fun itemPressed(domainModel: DomainIdeal?, position: Int?) {
         Log.d(TAG, "itemPressed")
         if (domainModel != null) {
-            if (domainModel!!.isChecked != null) {
-                if (domainModel!!.isChecked!!) {
-                    Log.d("DEBUG$TAG", "newCharacterViewModel add ${domainModel.idealName}")
-                    newCharacterViewModel.addIdeal(domainModel)
-                } else {
-                    Log.d("DEBUG$TAG", "newCharacterViewModel remove ${domainModel.idealName}")
-                    newCharacterViewModel.removeIdeal(domainModel)
-                }
+
+            var ideals = idealsViewModel?.mutableIdeals?.value
+            var count = ideals?.count { i -> i?.isChecked!! }
+            Log.d("DEBUG$TAG", "Checked Count = $count")
+
+            var index = ideals?.indexOfFirst { i -> i?.idealId == domainModel.idealId }
+            if (index != null) {
+                ideals?.set(index, domainModel)
             }
+            count = ideals?.count { i -> i?.isChecked!! }
+
+            Log.d("DEBUG$TAG", "Checked Count = $count")
+
 
         }
     }
