@@ -53,42 +53,11 @@ class NewCharacterViewModel(
     /**
      * Character's ideals
      */
-    var characterIdeals: MutableList<DomainIdeal?> = mutableListOf()
+   // var characterIdeals: MutableList<DomainIdeal?> = mutableListOf()
 
-    /**
-     * Character's alignment
-     */
-    var characterAlignment: Int = 0
-        get() {
-            field = calculateCharacterAlignment()
-            return field
-        }
 
-    /**
-     * Calculate the character alignment from the ideals
-     */
-    private fun calculateCharacterAlignment(): Int {
-        var alignment: Int
-        if (characterIdeals.isNotEmpty()) {
-            alignment = 0
-            characterIdeals.forEach {
-                var evilPoints = 0
-                if (it?.idealEvilPoints != null) {
-                    evilPoints = it.idealEvilPoints!!
-                }
 
-                var goodPoints = 0
-                if (it?.idealGoodPoints != null) {
-                    goodPoints = it.idealGoodPoints!!
-                }
 
-                alignment -= evilPoints
-                alignment += goodPoints
-            }
-            return alignment
-        }
-        return 0
-    }
 
     /**
      * Character's picture.
@@ -208,13 +177,16 @@ class NewCharacterViewModel(
         setAge()
         setGender()
         setBiography()
-        setAlignment()
+
         setHeight()
 
         setPictureUri()
         setBonds()
-        setIdeals()
+
         setCharacteristics(characteristics)
+        if(currentCharacter?.characterIdeals == null){
+            currentCharacter?.characterIdeals = mutableListOf()
+        }
         if (ideaScore != null) {
             currentCharacter?.characterIdeaPoints = ideaScore
         }
@@ -300,25 +272,7 @@ class NewCharacterViewModel(
         }
     }
 
-    /**
-     * Set character's ideals.
-     */
-    private fun setIdeals() {
-        if (!characterIdeals.isNullOrEmpty()) {
-            characterIdeals.forEach {
-                if (it?.idealName != null) {
-                    Log.d(
-                        "DEBUG$TAG",
-                        "${it?.idealName!!} is checked ${it.isChecked}"
-                    )
-                }
-            }
-            currentCharacter?.characterIdeals = characterIdeals
-            currentCharacter?.characterIdeals?.forEach {
-                Log.d("DEBUG$TAG", "currentCharacter?.characterIdeals ${it?.idealName} is checked ${it?.isChecked}")
-            }
-        }
-    }
+
 
     /**
      * Set character's bonds.
@@ -371,15 +325,7 @@ class NewCharacterViewModel(
         }
     }
 
-    /**
-     * Set character's alignment.
-     */
-    private fun setAlignment() {
-        if (characterAlignment != null) {
-            Log.d(TAG, "CharacterAlignment $characterAlignment")
-            currentCharacter?.characterAlignment = characterAlignment
-        }
-    }
+
 
     /**
      * Set character's biography.
@@ -445,8 +391,8 @@ class NewCharacterViewModel(
             characterPower = null,
             characterSize = null,
             characterStrength = null,
-            characterIdeals = null,
-            characterBonds = null,
+            characterIdeals = mutableListOf(),
+            characterBonds = mutableListOf(),
             characterPictureUri = null,
             characterHeight = null,
             characterGender = null,
@@ -482,21 +428,7 @@ class NewCharacterViewModel(
     }
 
 
-    /**
-     * Add a character ideal.
-     */
-    fun addIdeal(domainModel: DomainIdeal) {
-        characterIdeals.add(domainModel)
-    }
 
-    /**
-     * Remove a character's ideal.
-     */
-    fun removeIdeal(domainModel: DomainIdeal) {
-        if (!characterIdeals.isNullOrEmpty()) {
-            if (characterIdeals.contains(domainModel)) {
-                characterIdeals.remove(domainModel)
-            }
-        }
-    }
+
+
 }

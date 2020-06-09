@@ -120,7 +120,7 @@ class IdealsRecyclerViewFragment :
     private fun observeRepositoryIdeals() {
         idealsViewModel?.repositoryIdeals?.observe(this, Observer { domainIdealsList ->
             var mutableIdeals: MutableList<DomainIdeal?>? = idealsViewModel?.mutableIdeals?.value
-            if(mutableIdeals == null){
+            if (mutableIdeals == null) {
                 mutableIdeals = mutableListOf()
             }
             if (mutableIdeals != null) {
@@ -159,14 +159,34 @@ class IdealsRecyclerViewFragment :
     private fun observeSelectedCharacter() {
         newCharacterViewModel?.selectedCharacter?.observe(this, Observer { domainCharacter ->
 
-            var count = domainCharacter?.characterIdeals?.count { i -> i?.isChecked!! }
-            Log.d("DEBUG$TAG", "characterIdeals count : $count")
-
-            idealsViewModel?.mutableIdeals?.value = domainCharacter?.characterIdeals
-            count = idealsViewModel?.mutableIdeals?.value?.count { i -> i?.isChecked!! }
-            Log.d("DEBUG$TAG", "mutableIdeals count : $count")
+            if (domainCharacter != null) {
+                if (domainCharacter?.characterIdeals != null && !domainCharacter?.characterIdeals.isNullOrEmpty()) {
+                    var characterIdeals = domainCharacter?.characterIdeals
+                    Log.d("DEBUG$TAG", "Character ideals is null = ${characterIdeals == null}")
 
 
+                    var test = true
+                    characterIdeals?.forEach { i ->
+                        if (i == null) {
+                            test = false
+                        }
+                    }
+
+                    if (test) {
+                        if (characterIdeals != null && !characterIdeals.isNullOrEmpty()) {
+                            var count: Int? = characterIdeals?.count { i -> i?.isChecked!! }
+                            Log.d("DEBUG$TAG", "characterIdeals count : $count")
+
+                            idealsViewModel?.mutableIdeals?.value = domainCharacter?.characterIdeals
+                            count =
+                                idealsViewModel?.mutableIdeals?.value?.count { i -> i?.isChecked!! }
+                            Log.d("DEBUG$TAG", "mutableIdeals count : $count")
+                        }
+                    }
+
+
+                }
+            }
         })
     }
 
@@ -215,7 +235,8 @@ class IdealsRecyclerViewFragment :
             count = ideals?.count { i -> i?.isChecked!! }
 
             Log.d("DEBUG$TAG", "Checked Count = $count")
-
+            idealsViewModel?.mutableIdeals?.value = ideals
+            newCharacterViewModel?.currentCharacter?.characterIdeals = ideals
 
         }
     }

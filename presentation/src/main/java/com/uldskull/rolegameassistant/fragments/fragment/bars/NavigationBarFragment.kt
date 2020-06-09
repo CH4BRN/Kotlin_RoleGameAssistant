@@ -211,9 +211,11 @@ class NavigationBarFragment : CustomFragment() {
             var bonds = bondsViewModel?.bonds.value
             Log.d("DEBUG$TAG", "saved bonds = ${bonds?.size}")
 
-            var characterIdeals = idealsViewModel.mutableIdeals?.value?.filter { i -> i?.isChecked!! }
-            if(characterIdeals != null){
-                newCharacterViewModel?.characterIdeals = characterIdeals.toMutableList()
+            var characterIdeals =
+                idealsViewModel.mutableIdeals?.value?.filter { i -> i?.isChecked!! }
+            if (characterIdeals != null) {
+                newCharacterViewModel?.currentCharacter?.characterIdeals =
+                    characterIdeals.toMutableList()
             }
 
 

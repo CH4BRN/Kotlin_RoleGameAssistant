@@ -176,24 +176,40 @@ class CharacteristicsRecyclerViewFragment() :
                     domainCharacter.characterStrength
                 )
 
-                var education =
-                    characteristicList?.find { c -> c?.characteristicName == CharacteristicsName.EDUCATION.toString() }
-                Log.d(
-                    "DEBUG$TAG",
-                    "characteristicList Education : ${education?.characteristicTotal}"
-                )
 
-                characteristicsViewModel?.observedMutableCharacteristics?.value =
-                    characteristicList.toMutableList()
-                characteristicsViewModel?.displayedCharacteristics?.value =
-                    characteristicList
+                var test = true
+                characteristicList.forEach {
+                    if ((it?.characteristicTotal == null)
+                        ||
+                        (it?.characteristicRoll == null)
+                        ||
+                        (it?.characteristicBonus == null)
+                    ) {
+                        test = false
+                    }
+                }
 
-                characteristicsAdapter?.setCharacteristics(characteristicList)
-                characteristicsDisabledAdapter?.setCharacteristics(characteristicList)
-                characteristicsRecyclerView?.adapter = characteristicsDisabledAdapter
 
-                (activity as CharacterActivity).addEndFragments()
-                Log.d("DEBUG$TAG", "${(activity as CharacterActivity).fragmentAdapter?.itemCount}")
+                if(test){
+                    if (characteristicsViewModel?.observedMutableCharacteristics?.value == null) {
+                        characteristicsViewModel?.observedMutableCharacteristics?.value =
+                            characteristicList.toMutableList()
+                    }
+
+                    if (characteristicsViewModel?.displayedCharacteristics?.value == null) {
+                        characteristicsViewModel?.displayedCharacteristics?.value =
+                            characteristicList
+                    }
+
+
+                    characteristicsAdapter?.setCharacteristics(characteristicList)
+                    characteristicsDisabledAdapter?.setCharacteristics(characteristicList)
+                    characteristicsRecyclerView?.adapter = characteristicsDisabledAdapter
+
+                    (activity as CharacterActivity).addEndFragments()
+                    Log.d("DEBUG$TAG", "${(activity as CharacterActivity).fragmentAdapter?.itemCount}")
+                }
+
 
             }
         })
@@ -204,14 +220,13 @@ class CharacteristicsRecyclerViewFragment() :
             this, Observer {
                 Log.d("DEBUG$TAG", "observedCharacteristics changed size ${it.size}")
 
-                var education =
-                    it.find { c -> c?.characteristicName == CharacteristicsName.EDUCATION.toString() }
-                Log.d("DEBUG$TAG", "Observed Education = :${education?.characteristicTotal}")
+
                 characteristicsViewModel?.observedMutableCharacteristics.value =
                     it as MutableList<DomainRollsCharacteristic?>
 
-                var displayedCharacteristics = characteristicsViewModel.displayedCharacteristics?.value
-                if(displayedCharacteristics?.size == 0){
+                var displayedCharacteristics =
+                    characteristicsViewModel.displayedCharacteristics?.value
+                if (displayedCharacteristics?.size == 0) {
                     characteristicsViewModel.displayedCharacteristics?.value =
                         it as MutableList<DomainRollsCharacteristic>
                 }
@@ -220,20 +235,17 @@ class CharacteristicsRecyclerViewFragment() :
         )
     }
 
-    private fun observeMutableCharacteristics(){
-        characteristicsViewModel?.observedMutableCharacteristics?.observe(this, Observer {rollsCharacteristics ->
-
-            var education =
-                rollsCharacteristics.find { c -> c?.characteristicName == CharacteristicsName.EDUCATION.toString() }
-            Log.d("DEBUG$TAG", "Observed Education = :${education?.characteristicTotal}")
-
-            if (characteristicsDisabledAdapter?.itemCount == 0) {
-                characteristicsDisabledAdapter?.setCharacteristics(rollsCharacteristics)
-            }
-            if (characteristicsAdapter?.itemCount == 0) {
-                characteristicsAdapter?.setCharacteristics(rollsCharacteristics)
-            }
-        })
+    private fun observeMutableCharacteristics() {
+        characteristicsViewModel?.observedMutableCharacteristics?.observe(
+            this,
+            Observer { rollsCharacteristics ->
+                if (characteristicsDisabledAdapter?.itemCount == 0) {
+                    characteristicsDisabledAdapter?.setCharacteristics(rollsCharacteristics)
+                }
+                if (characteristicsAdapter?.itemCount == 0) {
+                    characteristicsAdapter?.setCharacteristics(rollsCharacteristics)
+                }
+            })
     }
 
     private fun populateRandomRollCharacteristics() {
