@@ -23,7 +23,7 @@ import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
  *   Class "DbCharacter" :
  *   TODO: Fill class use.
  **/
-@Entity(tableName =TABLE_NAME_CHARACTER)
+@Entity(tableName = TABLE_NAME_CHARACTER)
 class DbCharacter(
     @PrimaryKey(autoGenerate = true)
     val characterId: Long? = null,
@@ -32,17 +32,19 @@ class DbCharacter(
     val characterBiography: String?,
     val characterBonds: List<DbBond?>?,
     val characterHealthPoints: Int?,
+    val characterBaseHealth: Int?,
     val characterIdeaPoints: Int?,
     val characterAlignment: Int?,
     val characterEnergyPoints: Int?,
-    // val characterSkills: List<DbFilledSkill>?,
-    //  val characterJob: DbJob?,
-    // val characterHobby: DbHobby?,
     val characterIdeals: List<DbIdeal?>?,
     val characterGender: String?,
     val characterHeight: Int?,
     val characterPictureUri: String?,
-    val characterWeight:Int?,
+    val characterWeight: Int?,
+    val characterKnow: Int?,
+    val characterLuck: Int?,
+    val characterSanity: Int?,
+    val characterBreedBonus:Int?,
     @Embedded(prefix = "str")
     val characterStrength: DbRollCharacteristic?,
     @Embedded(prefix = "siz")
@@ -58,7 +60,7 @@ class DbCharacter(
     @Embedded(prefix = "app")
     val characterAppearance: DbRollCharacteristic?,
     @Embedded(prefix = "edu")
-    val characterEducation:DbRollCharacteristic?
+    val characterEducation: DbRollCharacteristic?
 
 
 ) : DbEntity<DomainCharacter> {
@@ -77,7 +79,8 @@ class DbCharacter(
 
         var domainIdeals: MutableList<DomainIdeal?>
         if (!this.characterIdeals.isNullOrEmpty()) {
-            domainIdeals = this.characterIdeals.map { dbIdeal -> dbIdeal?.toDomain() }.toMutableList()
+            domainIdeals =
+                this.characterIdeals.map { dbIdeal -> dbIdeal?.toDomain() }.toMutableList()
         } else {
             domainIdeals = mutableListOf()
         }
@@ -109,13 +112,20 @@ class DbCharacter(
             characterConstitution = this.characterConstitution?.toDomain(),
             characterAppearance = this.characterAppearance?.toDomain(),
             characterEducation = this.characterEducation?.toDomain(),
-            characterWeight = this.characterWeight
+            characterWeight = this.characterWeight,
+            characterKnow = this.characterKnow,
+            characterLuck = this.characterLuck,
+            characterSanity = this.characterSanity,
+            characterBaseHealthPoints = this.characterBaseHealth,
+            characterBreedBonus = this.characterBreedBonus
+
         )
     }
 
     override fun toString(): String {
-        return "DbCharacter(characterId=$characterId, characterName=$characterName, characterAge=$characterAge, characterBiography=$characterBiography, characterBonds=$characterBonds, characterHealthPoints=$characterHealthPoints, characterIdeaPoints=$characterIdeaPoints, characterAlignment=$characterAlignment, characterEnergyPoints=$characterEnergyPoints, characterIdeals=$characterIdeals, characterGender=$characterGender, characterHeight=$characterHeight, characterPictureUri=$characterPictureUri, characterWeight=$characterWeight, characterStrength=$characterStrength, characterSize=$characterSize, characterPower=$characterPower, characterIntelligence=$characterIntelligence, characterDexterity=$characterDexterity, characterConstitution=$characterConstitution, characterAppearance=$characterAppearance, characterEducation=$characterEducation)"
+        return "DbCharacter(characterId=$characterId, characterName=$characterName, characterAge=$characterAge, characterBiography=$characterBiography, characterBonds=$characterBonds, characterHealthPoints=$characterHealthPoints, characterBaseHealth=$characterBaseHealth, characterIdeaPoints=$characterIdeaPoints, characterAlignment=$characterAlignment, characterEnergyPoints=$characterEnergyPoints, characterIdeals=$characterIdeals, characterGender=$characterGender, characterHeight=$characterHeight, characterPictureUri=$characterPictureUri, characterWeight=$characterWeight, characterKnow=$characterKnow, characterLuck=$characterLuck, characterSanity=$characterSanity, characterStrength=$characterStrength, characterSize=$characterSize, characterPower=$characterPower, characterIntelligence=$characterIntelligence, characterDexterity=$characterDexterity, characterConstitution=$characterConstitution, characterAppearance=$characterAppearance, characterEducation=$characterEducation)"
     }
+
 
     companion object :
         DbCompanion<DomainCharacter, DbCharacter> {
@@ -158,7 +168,13 @@ class DbCharacter(
                 characterSize = DbRollCharacteristic.from(domainModel?.characterSize),
                 characterStrength = DbRollCharacteristic.from(domainModel?.characterStrength),
                 characterEducation = DbRollCharacteristic.from(domainModel?.characterEducation),
-                characterWeight = domainModel?.characterWeight
+                characterWeight = domainModel?.characterWeight,
+                characterSanity = domainModel?.characterSanity,
+                characterLuck = domainModel?.characterLuck,
+                characterKnow = domainModel?.characterKnow,
+                characterBaseHealth = domainModel?.characterBaseHealthPoints,
+                characterBreedBonus = domainModel?.characterBreedBonus
+
             )
         }
     }

@@ -84,9 +84,14 @@ class IdealsFragment : CustomFragment() {
 
             var mutableList = idealsViewModel?.mutableIdeals?.value
 
+            var mutableIdealsSize = mutableIdeals?.size
+            if (mutableIdealsSize == null) {
+                mutableIdealsSize = 0
+            }
+
             mutableList?.forEach {
                 var index = mutableIdeals?.indexOfFirst { i -> it?.idealId == i.idealId }
-                if (index != null && it != null) {
+                if (index != null && it != null && (!(index < mutableIdealsSize) && !(index > mutableIdealsSize))) {
                     Log.d("DEBUG$TAG", "Index : $index")
                     mutableIdeals?.set(index, it)
                 }

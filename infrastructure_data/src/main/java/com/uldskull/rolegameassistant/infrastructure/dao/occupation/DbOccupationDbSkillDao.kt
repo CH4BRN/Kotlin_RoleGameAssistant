@@ -3,10 +3,7 @@
 
 package com.uldskull.rolegameassistant.infrastructure.dao.occupation
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Transaction
+import androidx.room.*
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
 import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_OCCUPATION_ID
 import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_OCCUPATIONS
@@ -22,7 +19,7 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupatio
  **/
 @Dao
 interface DbOccupationDbSkillDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCross(dbOccupationAndDbSkillCrossRef: DbOccupationAndDbSkillCrossRef):Long
 
     @Transaction

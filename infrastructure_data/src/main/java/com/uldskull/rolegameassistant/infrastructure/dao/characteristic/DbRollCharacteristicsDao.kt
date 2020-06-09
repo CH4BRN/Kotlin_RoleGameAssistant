@@ -17,10 +17,10 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_character
 @Dao
 interface DbRollCharacteristicsDao {
     //  CREATE
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertRollCharacteristic(dbRollCharacteristic: DbRollCharacteristic): Long
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertRollCharacteristics(dbRollCharacteristics: List<DbRollCharacteristic>): List<Long>
 
     //  READ

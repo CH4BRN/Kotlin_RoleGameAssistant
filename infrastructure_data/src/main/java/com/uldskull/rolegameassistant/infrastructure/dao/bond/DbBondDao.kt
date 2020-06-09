@@ -21,10 +21,10 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_bond.DbBo
 @Dao
 interface DbBondDao {
     //  CREATE
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertBond(dbBond: DbBond): Long
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertBonds(dbBonds: List<DbBond>): List<Long>
 
     //  READ

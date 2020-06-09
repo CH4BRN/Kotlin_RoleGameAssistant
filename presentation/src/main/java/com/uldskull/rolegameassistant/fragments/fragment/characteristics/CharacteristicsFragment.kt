@@ -27,10 +27,6 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   Display
  **/
 class CharacteristicsFragment() : CustomFragment() {
-    /**
-     * New character view model
-     */
-    private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
 
     /**
      * Breed Characteristic's ViewModel.
@@ -71,6 +67,9 @@ class CharacteristicsFragment() : CustomFragment() {
 
     }
 
+    /**
+     * Load characteristics recycler view.
+     */
     private fun loadCharacteristicsRecyclerView() {
         if(activity != null){
             var transaction = childFragmentManager.beginTransaction()
@@ -79,7 +78,6 @@ class CharacteristicsFragment() : CustomFragment() {
                 CharacteristicsRecyclerViewFragment.newInstance(activity!!)
             ).commit()
         }
-
     }
 
 

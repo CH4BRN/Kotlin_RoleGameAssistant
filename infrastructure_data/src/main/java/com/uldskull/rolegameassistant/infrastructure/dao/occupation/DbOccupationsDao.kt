@@ -18,10 +18,10 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupatio
 @Dao
 interface DbOccupationsDao {
     //  CREATE
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOccupation(dbOccupation: DbOccupation): Long
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertJobs(dbOccupations: List<DbOccupation>): List<Long>
 
     //  READ

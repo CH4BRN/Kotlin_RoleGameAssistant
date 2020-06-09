@@ -6,7 +6,6 @@ package com.uldskull.rolegameassistant.fragments.fragment.derivedValues
 import android.app.Activity
 import android.os.Bundle
 import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -19,9 +18,13 @@ import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.CustomTextWatcher
 import com.uldskull.rolegameassistant.fragments.fragment.EditTextUtil.Companion.editTextEnabling
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
+import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
+import com.uldskull.rolegameassistant.models.character.characteristic.CharacteristicsName
+import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollsCharacteristic
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.DerivedValuesViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
+import com.uldskull.rolegameassistant.viewmodels.breeds.DisplayedBreedsViewModel
 import kotlinx.android.synthetic.main.fragment_derived_values_1.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -40,6 +43,10 @@ class DerivedValues1Fragment : CustomFragment() {
      * Derived values view model.
      */
     private val derivedValuesViewModel: DerivedValuesViewModel by sharedViewModel()
+
+    private val displayedBreedsViewModel: DisplayedBreedsViewModel by sharedViewModel()
+
+    private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
 
 
     /**
@@ -61,12 +68,8 @@ class DerivedValues1Fragment : CustomFragment() {
     override fun onResume() {
         super.onResume()
         Log.d(TAG, "onResume")
-        setBaseHealthPoints()
         setBreedHealthBonusScore()
         setTotalHealthScore()
-        setIdeaScore()
-        setSanityScore()
-        setLuckScore()
         setKnowScore()
 
 
@@ -79,76 +82,24 @@ class DerivedValues1Fragment : CustomFragment() {
         Log.d(TAG, "setBreedHealthBonusScore")
         if (et_breedHealthBonus != null && !derivedValuesViewModel.breedBonusEditTextHasChanged) {
             derivedValuesViewModel.calculateBreedsHealthBonus(characteristicsViewModel.getCheckedBreeds())
-
         }
     }
 
     private fun setTotalHealthScore() {
         Log.d(TAG, "setTotalHealthScore")
-        Log.d(
-            TAG,
-            "totalHealth is null : ${et_totalHealthPoints == null}\n"
-        )
         if (et_totalHealthPoints != null) {
-            Log.d(TAG, "calculateTotalHealth")
             derivedValuesViewModel.calculateTotalHealth()
-            et_totalHealthPoints.text = derivedValuesViewModel.totalHealth.toString()
-        }
-
-    }
-
-    private fun setIdeaScore() {
-        Log.d(TAG, "setIdeaScore")
-        if (et_ideaPoints != null && !derivedValuesViewModel.ideaEditTextHasChanged) {
-            derivedValuesViewModel.calculateIdeaScore(characteristicsViewModel.getIntelligence())
-
-            et_ideaPoints.setText(derivedValuesViewModel.ideaScore.toString())
-
-        }
-    }
-
-    private fun setSanityScore() {
-        Log.d(TAG, "setSanityScore")
-        if (et_sanityPoints != null && !derivedValuesViewModel.sanityEditTextHasChanged) {
-            derivedValuesViewModel.calculateSanityScore(characteristicsViewModel.getPower())
-            et_sanityPoints.setText(derivedValuesViewModel.sanityScore.toString())
-
-        }
-    }
-
-    private fun setLuckScore() {
-        Log.d(TAG, "setLuckScore")
-        if (et_luckPoints != null && !derivedValuesViewModel.luckEditTextHasChanged) {
-            derivedValuesViewModel.calculateLuckScore(characteristicsViewModel.getPower())
-            et_luckPoints.setText(derivedValuesViewModel.luckScore.toString())
-        }
-    }
-
-    /**
-     * Set the health points score.
-     */
-    private fun setBaseHealthPoints() {
-        if (et_baseHealthPoints != null && !derivedValuesViewModel.baseHealthEditTextHasChanged) {
-            //  Gets the characteristics.
-            var size =
-                characteristicsViewModel.getSize()
-            var constitution =
-                characteristicsViewModel.getConstitution()
-
-            if (size != null && constitution != null) {
-                derivedValuesViewModel.calculateBaseHealth(listOf(size, constitution))
-            }
-
         }
     }
 
     private fun setKnowScore() {
         if (et_knowPoints != null && !derivedValuesViewModel.knowEditTextHasChanged) {
+            //  Gets the characteristics
             var education = characteristicsViewModel.getEducation()
+            Log.d("DEBUG$TAG", "Education : ${education?.characteristicRoll}")
             Log.d(TAG, "education : $education")
             if (education != null) {
-                derivedValuesViewModel.calculateKnowPoints(education)
-                et_knowPoints.setText(derivedValuesViewModel.knowScore.toString())
+                derivedValuesViewModel.calculateKnowScore(education)
             }
         }
     }
@@ -177,36 +128,188 @@ class DerivedValues1Fragment : CustomFragment() {
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setBaseHealthPoints()
         editTextsEnabling()
 
         setEditTextsListeners()
         setBtnEditClickListener()
-
-        observeBaseHealthScore()
-
-        derivedValuesViewModel?.breedHealthBonus?.observe(this, Observer {
-            if (it != null && et_breedHealthBonus.text.toString() != it.toString()) {
-                et_breedHealthBonus.setText(it.toString())
-            }
-
-        })
-
+        startObservation()
 
         Log.d(TAG, "set health points")
 
     }
 
+    private fun observeBreedHealthBonus() {
+        derivedValuesViewModel?.breedHealthBonus?.observe(this, Observer {
+            if (it != null && et_breedHealthBonus.text.toString() != it.toString()) {
+                et_breedHealthBonus.setText(it.toString())
+            }
+        })
+    }
+
+    fun startObservation() {
+        observeBaseHealthScore()
+        observeBreedHealthBonus()
+        observeTotalHealthScore()
+        observeIdeaScore()
+        observeSanityScore()
+        observeBreeds()
+        observeKnowScore()
+        observeLuckScore()
+        observeSelectedCharacter()
+        observeCharacteristics()
+
+
+    }
+
+     private fun observeCharacteristics() {
+        characteristicsViewModel?.displayedCharacteristics?.observe(
+            this,
+            Observer { domainRollsCharacteristics ->
+                run {
+
+                    //  Base health
+                    var size = domainRollsCharacteristics?.findLast { c ->c?.characteristicName == CharacteristicsName.SIZE.characteristicName }
+                    var constitution = domainRollsCharacteristics?.findLast { c-> c?.characteristicName == CharacteristicsName.CONSTITUTION.characteristicName }
+                    calculateBaseHealthPoints(size, constitution)
+                    //  Idea
+                    var intelligence = domainRollsCharacteristics?.findLast { c-> c?.characteristicName == CharacteristicsName.INTELLIGENCE.characteristicName }
+                    calculateIdeaScore(intelligence)
+                    //  Sanity
+                    var power = domainRollsCharacteristics?.findLast { c -> c?.characteristicName == CharacteristicsName.POWER.characteristicName }
+                    calculateSanityScore(power)
+                    //  Luck
+                    calculateLuckScore(power)
+                    //  Know
+                    var education = domainRollsCharacteristics?.findLast { c -> c?.characteristicName == CharacteristicsName.EDUCATION.characteristicName }
+                    calculateKnowScore(education)
+                }
+            })
+    }
+
+    private fun calculateKnowScore(education:DomainRollsCharacteristic?){
+        if(education != null){
+            derivedValuesViewModel.calculateKnowScore(education)
+        }
+    }
+
+    private fun calculateLuckScore(power:DomainRollsCharacteristic?){
+        if(power != null){
+            derivedValuesViewModel.calculateLuckScore(power)
+        }
+    }
+
+    private fun calculateSanityScore(power:DomainRollsCharacteristic?){
+        if(power != null){
+            derivedValuesViewModel.calculateSanityScore(power)
+        }
+    }
+
+    private fun calculateIdeaScore(intelligence:DomainRollsCharacteristic?){
+        if(intelligence != null){
+            derivedValuesViewModel.calculateIdeaScore(intelligence)
+        }
+    }
+
+    private fun calculateBaseHealthPoints(size:DomainRollsCharacteristic?, constitution:DomainRollsCharacteristic?){
+        if (size != null && constitution != null) {
+            derivedValuesViewModel.calculateBaseHealth(listOf(size, constitution))
+        }
+    }
+
+    private fun observeSelectedCharacter() {
+        newCharacterViewModel?.selectedCharacter?.observe(
+            this,
+            Observer { domainCharacter: DomainCharacter? ->
+                if (domainCharacter != null) {
+                    Log.d("DEBUG$TAG", "TotalHp : ${domainCharacter?.characterHealthPoints}")
+                    derivedValuesViewModel?.totalHealth.value =
+                        domainCharacter?.characterHealthPoints
+                    Log.d("DEBUG$TAG", "BaseHp : ${domainCharacter?.characterBaseHealthPoints}")
+                    derivedValuesViewModel?.baseHealth.value =
+                        domainCharacter?.characterBaseHealthPoints
+                    derivedValuesViewModel?.breedHealthBonus.value =
+                        domainCharacter?.characterBreedBonus
+                    Log.d("DEBUG$TAG", "Idea : ${domainCharacter?.characterIdeaPoints}")
+                    derivedValuesViewModel?.ideaScore.value = domainCharacter?.characterIdeaPoints
+                    Log.d("DEBUG$TAG", "Sanity : ${domainCharacter?.characterSanity}")
+                    derivedValuesViewModel?.sanityScore.value = domainCharacter?.characterSanity
+                    Log.d("DEBUG$TAG", "Luck : ${domainCharacter?.characterLuck}")
+                    derivedValuesViewModel?.luckScore.value = domainCharacter?.characterLuck
+                    Log.d("DEBUG$TAG", "Know : ${domainCharacter?.characterKnow}")
+                    derivedValuesViewModel?.knowScore.value = domainCharacter?.characterKnow
+                }
+            })
+    }
+
+    private fun observeBreeds() {
+        displayedBreedsViewModel?.observedMutableBreeds.observe(
+            this,
+            Observer { domainDisplayedBreeds ->
+                kotlin.run {
+                    var breedBonus = 0
+                    domainDisplayedBreeds?.forEach {
+                        if (it.breedChecked) {
+                            Log.d("DEBUG$TAG", "Bonus : ${it.breedHealthBonus}")
+                            if (it.breedHealthBonus != null) {
+                                breedBonus += it.breedHealthBonus!!
+                            }
+                        }
+                    }
+                    derivedValuesViewModel?.breedHealthBonus?.value = breedBonus
+                }
+            })
+    }
+
+    private fun observeLuckScore() {
+        derivedValuesViewModel?.luckScore?.observe(this, Observer { luckScore ->
+            if (luckScore != null && et_luckPoints.text.toString() != luckScore.toString()) {
+                Log.d("DEBUG$TAG", "Luck : $luckScore")
+                et_luckPoints.setText(luckScore.toString())
+            }
+        })
+    }
+
+    private fun observeTotalHealthScore() {
+        derivedValuesViewModel?.totalHealth?.observe(this, Observer {
+            Log.d("DEBUG$TAG", "Total health : ${it}")
+            if (it != null && et_totalHealthPoints.text.toString() != it.toString()) {
+                et_totalHealthPoints.setText(it.toString())
+            }
+        })
+    }
+
+    private fun observeIdeaScore() {
+        derivedValuesViewModel?.ideaScore?.observe(this, Observer {
+            if (it != null && et_ideaPoints.text.toString() != it.toString()) {
+                et_ideaPoints.setText(it.toString())
+            }
+        })
+    }
+
+    private fun observeSanityScore() {
+        derivedValuesViewModel?.sanityScore?.observe(this, Observer {
+            Log.d("DEBUG$TAG", "Sanity : $it")
+            if (it != null && et_sanityPoints.text.toString() != it.toString()) {
+                et_sanityPoints.setText(it.toString())
+            }
+        })
+    }
+
     private fun observeBaseHealthScore() {
         derivedValuesViewModel?.baseHealth?.observe(this, Observer {
+            Log.d("DEBUG$TAG", "Base health : ${it}")
             if (it != null && et_baseHealthPoints.text.toString() != it.toString()) {
-
                 et_baseHealthPoints.setText(it.toString())
-
-
             }
+        })
+    }
 
-
+    private fun observeKnowScore() {
+        derivedValuesViewModel?.knowScore?.observe(this, Observer {
+            Log.d("DEBUG$TAG", "Know score : $it")
+            if (it != null && et_knowPoints.text.toString() != it.toString()) {
+                et_knowPoints.setText(it.toString())
+            }
         })
     }
 
@@ -215,6 +318,7 @@ class DerivedValues1Fragment : CustomFragment() {
         setBaseHealthPointListener()
         setBreedBonusListener()
         setIdeaListener()
+        setKnowPointsListener()
         setSanityListener()
         setLuckListener()
     }
@@ -228,7 +332,7 @@ class DerivedValues1Fragment : CustomFragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (!s.isNullOrBlank()) {
                     try {
-                        derivedValuesViewModel.sanityScore = s.toString().toInt()
+                        derivedValuesViewModel.sanityScore.value = s.toString().toInt()
                     } catch (e: Exception) {
                         Log.e(TAG, "et_sanityPoints failed")
                         e.printStackTrace()
@@ -247,9 +351,21 @@ class DerivedValues1Fragment : CustomFragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (!s.isNullOrEmpty()) {
+
+                if (!(s.isNullOrEmpty()) && !(s.isNullOrBlank())) {
                     try {
-                        derivedValuesViewModel.luckScore = s.toString().toInt()
+                        var sequence = s
+                        Log.d("DEBUG$TAG", "Sequence : $sequence")
+                        if (sequence != null) {
+                            var sequenceString = sequence.toString()
+                            Log.d("DEBUG$TAG", "sequenceString : $sequenceString")
+                            if (sequenceString != null) {
+                                var sequenceInt = sequenceString.toInt()
+                                derivedValuesViewModel.luckScore.value = sequenceInt
+                            }
+
+                        }
+
                     } catch (e: Exception) {
                         Log.e(TAG, "et_luckPoints failed")
                         e.printStackTrace()
@@ -267,9 +383,9 @@ class DerivedValues1Fragment : CustomFragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (!s.isNullOrBlank()) {
+                if (!s.isNullOrBlank() && !s.isNullOrEmpty()) {
                     try {
-                        derivedValuesViewModel.ideaScore = s.toString().toInt()
+                        derivedValuesViewModel.ideaScore.value = s.toString().toInt()
                     } catch (e: Exception) {
                         Log.e(TAG, "et_ideaPoints failed")
                         e.printStackTrace()
@@ -277,6 +393,27 @@ class DerivedValues1Fragment : CustomFragment() {
                     }
                 }
             }
+        })
+    }
+
+    private fun setKnowPointsListener() {
+        et_knowPoints.addTextChangedListener(object : CustomTextWatcher() {
+            override fun afterTextChanged(s: Editable?) {
+                derivedValuesViewModel.knowScoreEditTextHasChanged = true
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (!s.isNullOrBlank() && !s.isNullOrEmpty()) {
+                    try {
+                        derivedValuesViewModel.knowScore.value = s.toString().toInt()
+                    } catch (e: Exception) {
+                        Log.e(TAG, "et_knowPoints FAILED")
+                        e.printStackTrace()
+                        throw e
+                    }
+                }
+            }
+
         })
     }
 
@@ -303,27 +440,6 @@ class DerivedValues1Fragment : CustomFragment() {
         })
     }
 
-    private fun setKnowPointsListener() {
-        et_knowPoints.addTextChangedListener(object : CustomTextWatcher() {
-            override fun afterTextChanged(s: Editable?) {
-                derivedValuesViewModel.knowScoreEditTextHasChanged = true
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (!s.isNullOrEmpty()) {
-                    try {
-                        Log.d(TAG, "et_knowPoints ${s}")
-                        derivedValuesViewModel.knowScore = s.toString().toInt()
-                    } catch (e: Exception) {
-                        Log.e(TAG, "et_knowPoints FAILED")
-                        e.printStackTrace()
-                        throw e
-                    }
-                }
-            }
-
-        })
-    }
 
     private fun setBaseHealthPointListener() {
         et_baseHealthPoints.addTextChangedListener(object : CustomTextWatcher() {

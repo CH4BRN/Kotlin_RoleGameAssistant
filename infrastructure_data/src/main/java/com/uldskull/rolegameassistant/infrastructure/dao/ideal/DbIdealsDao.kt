@@ -18,10 +18,10 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_ideal.DbI
 interface DbIdealsDao {
 
     //  CREATE
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertIdeal(dbIdeal: DbIdeal): Long
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertIdeals(dbIdeals: List<DbIdeal>): List<Long>
 
     //  READ

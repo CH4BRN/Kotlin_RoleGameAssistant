@@ -62,9 +62,9 @@ class NavigationBarFragment : CustomFragment() {
     /**
      * Bonds view model
      */
-    private val bondsViewModel:BondsViewModel by sharedViewModel()
+    private val bondsViewModel: BondsViewModel by sharedViewModel()
 
-    private val idealsViewModel:IdealsViewModel by sharedViewModel()
+    private val idealsViewModel: IdealsViewModel by sharedViewModel()
 
     /**
      * Is saving enabled ?
@@ -212,7 +212,12 @@ class NavigationBarFragment : CustomFragment() {
             Log.d("DEBUG$TAG", "saved bonds = ${bonds?.size}")
 
             var characterIdeals = newCharacterViewModel?.characterIdeals
-            characterIdeals?.forEach { Log.d("DEBUG$TAG" ,"characterIdeals ${it?.idealName} is checked : ${it?.isChecked}")}
+            characterIdeals?.forEach {
+                Log.d(
+                    "DEBUG$TAG",
+                    "characterIdeals ${it?.idealName} is checked : ${it?.isChecked}"
+                )
+            }
             var mutableIdeals = idealsViewModel?.mutableIdeals?.value
             mutableIdeals?.forEach {
                 Log.d("DEBUG$TAG", "mutableIdeals ${it?.idealName} is checked : ${it?.isChecked}")
@@ -220,7 +225,10 @@ class NavigationBarFragment : CustomFragment() {
 
             var characterIdealIdeal = idealsViewModel?.characterIdeals?.value
             characterIdealIdeal?.forEach {
-                Log.d("DEBUG$TAG", "characterIdealIdeal ${it?.idealName} is checked : ${it?.isChecked}")
+                Log.d(
+                    "DEBUG$TAG",
+                    "characterIdealIdeal ${it?.idealName} is checked : ${it?.isChecked}"
+                )
             }
 
 
@@ -230,7 +238,10 @@ class NavigationBarFragment : CustomFragment() {
             saveBreeds(insertedId)
             val result = charactersViewModel.findOneById(insertedId)
             result?.characterIdeals?.forEach {
-                Log.d("DEBUG$TAG", "result?.characterIdeals? ${it?.idealName} is checked : ${it?.isChecked}")
+                Log.d(
+                    "DEBUG$TAG",
+                    "result?.characterIdeals? ${it?.idealName} is checked : ${it?.isChecked}"
+                )
             }
             Log.d(TAG, "${result?.characterName} saved")
         } catch (e: Exception) {
@@ -272,11 +283,15 @@ class NavigationBarFragment : CustomFragment() {
      */
     private fun saveCharacter(): Long? {
         return newCharacterViewModel.saveCharacter(
-            characteristicsViewModel.displayedCharacteristics,
-            derivedValuesViewModel.ideaScore,
-            derivedValuesViewModel.totalHealth,
-            derivedValuesViewModel.energyPoints
-
+            characteristics = characteristicsViewModel.displayedCharacteristics?.value,
+            ideaScore = derivedValuesViewModel.ideaScore.value,
+            healthScore = derivedValuesViewModel.totalHealth.value,
+            energyScore = derivedValuesViewModel.energyPoints,
+            knowScore = derivedValuesViewModel.knowScore.value,
+            luckScore = derivedValuesViewModel.luckScore.value,
+            sanityScore = derivedValuesViewModel.sanityScore.value,
+            baseHealth = derivedValuesViewModel.baseHealth.value,
+            breedBonus = derivedValuesViewModel.breedHealthBonus.value
         )
     }
 

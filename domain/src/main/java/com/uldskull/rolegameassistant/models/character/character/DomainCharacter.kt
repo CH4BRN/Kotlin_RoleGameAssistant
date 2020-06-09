@@ -20,6 +20,7 @@ open class DomainCharacter(
     var characterBiography: String?,
     var characterBonds: MutableList<DomainBond?>?,
     var characterIdeals: MutableList<DomainIdeal?>?,
+    var characterBaseHealthPoints:Int?,
     var characterHealthPoints: Int?,
     var characterIdeaPoints: Int?,
     var characterAlignment: Int?,
@@ -34,34 +35,27 @@ open class DomainCharacter(
     var characterIntelligence: DomainRollsCharacteristic?,
     var characterAppearance: DomainRollsCharacteristic?,
     var characterEducation: DomainRollsCharacteristic?,
-    var characterWeight: Int?
-
-
+    var characterWeight: Int?,
+    var characterSanity: Int?,
+    var characterLuck: Int?,
+    var characterKnow: Int?,
+    var characterBreedBonus: Int?
 ) {
+
+
     override fun toString(): String {
         return "DomainCharacter(\n" +
-                "characterId=$characterId,\n" +
-                " characterName=$characterName,\n" +
-                " characterAge=$characterAge,\n" +
-                " characterGender=$characterGender,\n" +
-                " characterBiography=$characterBiography,\n" +
+                "characterId=$characterId, characterName=$characterName, characterAge=$characterAge, characterGender=$characterGender, characterBiography=$characterBiography,\n" +
                 " characterBonds=$characterBonds,\n" +
                 " characterIdeals=$characterIdeals,\n" +
-                " characterHealthPoints=$characterHealthPoints,\n" +
-                " characterIdeaPoints=$characterIdeaPoints,\n" +
-                " characterAlignment=$characterAlignment,\n" +
-                " characterEnergyPoints=$characterEnergyPoints,\n" +
-                " characterHeight=$characterHeight,\n" +
-                " characterPictureUri=$characterPictureUri,\n" +
-                " characterConstitution=$characterConstitution,\n" +
-                " characterStrength=$characterStrength,\n" +
-                " characterPower=$characterPower,\n" +
-                " characterDexterity=$characterDexterity,\n" +
-                " characterSize=$characterSize,\n" +
-                " characterIntelligence=$characterIntelligence,\n" +
-                " characterAppearance=$characterAppearance,\n" +
-                " characterEducation=$characterEducation,\n" +
-                " characterWeight=$characterWeight)"
+                " characterBaseHealthPoints=$characterBaseHealthPoints, characterHealthPoints=$characterHealthPoints, \n" +
+                "characterIdeaPoints=$characterIdeaPoints, \n" +
+                "characterAlignment=$characterAlignment, characterEnergyPoints=$characterEnergyPoints, characterHeight=$characterHeight,\n" +
+                " characterPictureUri=$characterPictureUri, \n" +
+                "characterConstitution=$characterConstitution, characterStrength=$characterStrength, " +
+                "characterPower=$characterPower, characterDexterity=$characterDexterity, characterSize=$characterSize," +
+                "characterIntelligence=$characterIntelligence, characterAppearance=$characterAppearance, characterEducation=$characterEducation,\n" +
+                "characterWeight=$characterWeight, characterSanity=$characterSanity, characterLuck=$characterLuck, characterKnow=$characterKnow, characterBreedBonus=$characterBreedBonus)"
     }
 }
 

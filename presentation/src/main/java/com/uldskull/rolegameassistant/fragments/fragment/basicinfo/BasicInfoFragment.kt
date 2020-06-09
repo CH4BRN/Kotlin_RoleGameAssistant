@@ -324,7 +324,7 @@ class BasicInfoFragment() : CustomFragment() {
         Log.d(TAG, "setWeightTextChangedListener")
         editTextCharacterWeight?.addTextChangedListener(object : CustomTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
-                if(!s.isNullOrEmpty() || !s.isNullOrBlank()){
+                if (!s.isNullOrEmpty() || !s.isNullOrBlank()) {
                     newCharacterViewModel?.characterWeight?.value = s.toString().toInt()
                 }
 
@@ -363,8 +363,9 @@ class BasicInfoFragment() : CustomFragment() {
         Log.d(TAG, "setNameTextCHangedListener")
         et_characterName?.addTextChangedListener(object : CustomTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
-                Log.d("DEBUG$TAG", "name : ${s.toString()}")
-                newCharacterViewModel.characterName.value = s.toString()
+                if (newCharacterViewModel?.characterName.value.toString() != s.toString()) {
+                    newCharacterViewModel.characterName.value = s.toString()
+                }
             }
         })
     }

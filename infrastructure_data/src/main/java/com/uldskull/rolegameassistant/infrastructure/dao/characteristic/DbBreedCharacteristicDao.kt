@@ -21,10 +21,10 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_character
 @Dao
 interface DbBreedCharacteristicDao {
     //  CREATE
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertBreedCharacteristic(dbBreedCharacteristic: DbBreedCharacteristic): Long
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertBreedCharacteristics(dbBreedCharacteristics: List<DbBreedCharacteristic>): List<Long>
 
     //  READ

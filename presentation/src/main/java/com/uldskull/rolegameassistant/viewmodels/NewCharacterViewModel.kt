@@ -190,7 +190,12 @@ class NewCharacterViewModel(
         characteristics: List<DomainRollsCharacteristic?>?,
         ideaScore: Int?,
         healthScore: Int?,
-        energyScore: Int?
+        energyScore: Int?,
+        sanityScore:Int?,
+        luckScore:Int?,
+        knowScore:Int?,
+        baseHealth:Int?,
+        breedBonus:Int?
     ): Long? {
 
         if (currentCharacter == null) {
@@ -218,6 +223,21 @@ class NewCharacterViewModel(
         }
         if (energyScore != null) {
             currentCharacter?.characterEnergyPoints = energyScore
+        }
+        if(sanityScore != null){
+            currentCharacter?.characterSanity = sanityScore
+        }
+        if(luckScore != null){
+            currentCharacter?.characterLuck = luckScore
+        }
+        if(knowScore != null){
+            currentCharacter?.characterKnow = knowScore
+        }
+        if(baseHealth != null){
+            currentCharacter?.characterBaseHealthPoints = baseHealth
+        }
+        if(breedBonus != null){
+            currentCharacter?.characterBreedBonus = breedBonus
         }
         try {
             if (currentCharacter?.characterId == null) {
@@ -438,7 +458,12 @@ class NewCharacterViewModel(
             characterAge = null,
             characterName = null,
             characterEducation = null,
-            characterWeight = null
+            characterWeight = null,
+            characterSanity = null,
+            characterLuck = null,
+            characterKnow = null,
+            characterBaseHealthPoints = null,
+            characterBreedBonus = null
         )
     }
 

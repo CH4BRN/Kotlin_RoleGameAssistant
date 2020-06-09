@@ -4,10 +4,7 @@
 package com.uldskull.rolegameassistant.infrastructure.dao.character
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
 import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_CHARACTER_ID
 import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_CHARACTER
@@ -21,10 +18,10 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_character
 interface DbCharacterDao {
 
     //  CREATE
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCharacter(dbCharacter: DbCharacter): Long
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCharacters(dbCharacters: List<DbCharacter>): List<Long>
 
     //  READ

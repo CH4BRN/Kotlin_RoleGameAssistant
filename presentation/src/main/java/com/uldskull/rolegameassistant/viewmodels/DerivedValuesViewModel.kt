@@ -22,7 +22,7 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
     }
 
     var knowScoreEditTextHasChanged: Boolean = false
-    var knowScore: Int? = 0
+
     var knowEditTextHasChanged: Boolean = false
     var cthulhuMythScoreEditTextHasChanged: Boolean = false
     var cthulhuMythScore: Int? = 99
@@ -58,6 +58,7 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
     var sizePlusStrengthEditTextHasChanged: Boolean = false
     var damageBonusSpinnerSelectionHasChanged: Boolean = false
     var alignmentEditTextHasChanged: Boolean = false
+
     /**
      * Character's base health
      */
@@ -67,20 +68,25 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
      * Character's breed's health bonus
      */
     var breedHealthBonus = MutableLiveData<Int>()
+
     /**
      * Character's total health
      */
-    var totalHealth: Int = 0
+    var totalHealth: MutableLiveData<Int> = MutableLiveData()
+
     /**
      * Character's idea score
      */
-    var ideaScore: Int = 0
+    var ideaScore: MutableLiveData<Int> = MutableLiveData()
+
     /**
      * Character's chance score
      */
-    var sanityScore: Int = 0
+    var sanityScore: MutableLiveData<Int?> = MutableLiveData()
 
-    var luckScore: Int = 0
+    var luckScore: MutableLiveData<Int?> = MutableLiveData()
+
+    var knowScore: MutableLiveData<Int?> = MutableLiveData()
 
     var energyPoints: Int = 0
 
@@ -148,28 +154,38 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
     /**
      * Calculate character's idea score
      */
-    fun calculateIdeaScore(intelligence: DomainRollsCharacteristic?): Int {
+    fun calculateIdeaScore(intelligence: DomainRollsCharacteristic?) {
         if (intelligence?.characteristicTotal != null) {
-            ideaScore = intelligence.characteristicTotal!! * 5
+            ideaScore.value = intelligence.characteristicTotal!! * 5
+        } else {
+            ideaScore.value = 0
         }
-        return ideaScore
     }
 
     /**
      * Calculate character's chance score
      */
-    fun calculateSanityScore(power: DomainRollsCharacteristic?): Int {
+    fun calculateSanityScore(power: DomainRollsCharacteristic?) {
         if (power?.characteristicTotal != null) {
-            sanityScore = power.characteristicTotal!! * 5
+            var score = power.characteristicTotal!! *5
+            sanityScore.value = score
         }
-        return sanityScore
     }
 
-    fun calculateLuckScore(power: DomainRollsCharacteristic?): Int {
+    fun calculateLuckScore(power: DomainRollsCharacteristic?) {
         if (power?.characteristicTotal != null) {
-            luckScore = power.characteristicTotal!! * 5
+            var score = power.characteristicTotal!! * 5
+            luckScore.value = score
         }
-        return luckScore
+    }
+
+    fun calculateKnowScore(education: DomainRollsCharacteristic) {
+        Log.d("DEBUG$TAG", "calculateKnowPoints")
+        if (education?.characteristicTotal != null) {
+            Log.d("DEBUG$TAG", "education?.characteristicTotal : ${education?.characteristicTotal}")
+            var score = education.characteristicTotal!!*5
+            knowScore.value =score
+        }
     }
 
     /**
@@ -179,8 +195,7 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
         Log.d(TAG, "calculate base health")
         var hp = 0
         rollsCharacteristics.forEach {
-            Log.d(TAG, "${it.characteristicName} - ${it.characteristicTotal}")
-
+            Log.d("DEBUG$TAG", "Roll characteristic : $it")
             if (it.characteristicTotal != null) {
                 hp += it.characteristicTotal!!
             }
@@ -192,18 +207,17 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
     /**
      * Calculate character's total health.
      */
-    fun calculateTotalHealth(): Int {
+    fun calculateTotalHealth() {
         var baseHealthValue = baseHealth.value
         var breedHealthBonusValue = breedHealthBonus.value
 
-        if(baseHealthValue != null && breedHealthBonusValue != null){
-            Log.d(TAG, "base health : ${baseHealthValue}\nbreed health bonus : ${breedHealthBonusValue}")
-            totalHealth = baseHealthValue + breedHealthBonusValue!!
+        if (baseHealthValue != null && breedHealthBonusValue != null) {
+            Log.d(
+                TAG,
+                "base health : ${baseHealthValue}\nbreed health bonus : ${breedHealthBonusValue}"
+            )
+            totalHealth.value = baseHealthValue + breedHealthBonusValue!!
         }
-
-
-
-        return totalHealth
     }
 
     fun calculateBreedsHealthBonus(displayedBreeds: List<DomainDisplayedBreed>): Int {
@@ -218,13 +232,7 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
         return breedHealthBonus.value!!
     }
 
-    fun calculateKnowPoints(education: DomainRollsCharacteristic):Int? {
-        Log.d(TAG, "calculateKnowPoints")
-        if (education?.characteristicTotal != null) {
-            knowScore = education.characteristicTotal!! * 5
-        }
-        return knowScore
-    }
+
 
 
 }

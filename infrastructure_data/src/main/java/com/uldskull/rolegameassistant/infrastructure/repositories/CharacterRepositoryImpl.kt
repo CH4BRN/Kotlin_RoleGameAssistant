@@ -72,7 +72,12 @@ class CharacterRepositoryImpl(
                 characterConstitution = it?.characterConstitution?.toDomain(),
                 characterAppearance = it?.characterAppearance?.toDomain(),
                 characterEducation = it?.characterEducation?.toDomain(),
-                characterWeight = it?.characterWeight
+                characterWeight = it?.characterWeight,
+                characterKnow = it?.characterKnow,
+                characterLuck = it?.characterLuck,
+                characterSanity = it?.characterSanity,
+                characterBaseHealthPoints = it?.characterBaseHealth,
+                characterBreedBonus = it?.characterBreedBonus
             )
         }
     }
