@@ -140,6 +140,7 @@ class DerivedValues1Fragment : CustomFragment() {
 
     private fun observeBreedHealthBonus() {
         derivedValuesViewModel?.breedHealthBonus?.observe(this, Observer {
+            Log.d("DEBUG$TAG", "Breed bonus : ${it}")
             if (it != null && et_breedHealthBonus.text.toString() != it.toString()) {
                 et_breedHealthBonus.setText(it.toString())
             }
@@ -249,7 +250,7 @@ class DerivedValues1Fragment : CustomFragment() {
                     var breedBonus = 0
                     domainDisplayedBreeds?.forEach {
                         if (it.breedChecked) {
-                            Log.d("DEBUG$TAG", "Bonus : ${it.breedHealthBonus}")
+                            Log.d("DEBUG$TAG", "Breed bonus : ${it.breedHealthBonus}")
                             if (it.breedHealthBonus != null) {
                                 breedBonus += it.breedHealthBonus!!
                             }

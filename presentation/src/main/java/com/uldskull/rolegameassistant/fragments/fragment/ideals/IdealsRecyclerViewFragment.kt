@@ -112,6 +112,15 @@ class IdealsRecyclerViewFragment :
         observeSelectedCharacter()
         observeCharacterIdeals()
         observeIdealsMutableList()
+        observeRepositoryIdeals()
+    }
+
+    private fun observeRepositoryIdeals() {
+        idealsViewModel?.repositoryIdeals?.observe(this, Observer { domainIdealsList ->
+            if(idealsViewModel?.mutableIdeals?.value == null){
+                idealsViewModel?.mutableIdeals?.value = domainIdealsList.toMutableList()
+            }
+        })
     }
 
     /**
@@ -140,9 +149,7 @@ class IdealsRecyclerViewFragment :
                         "Mutable ideals : ${idealsViewModel?.mutableIdeals?.value?.size}"
                     )
                 }
-
                 idealsViewModel?.mutableIdeals?.value = domainIdeals?.toMutableList()
-
             })
     }
 

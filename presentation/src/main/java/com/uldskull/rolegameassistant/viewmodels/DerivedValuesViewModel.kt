@@ -8,6 +8,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.uldskull.rolegameassistant.models.character.DomainIdeal
 import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollsCharacteristic
 
@@ -26,23 +27,23 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
     var knowEditTextHasChanged: Boolean = false
     var cthulhuMythScoreEditTextHasChanged: Boolean = false
     var cthulhuMythScore: Int? = 99
-    var selectedDamageBonusIndex: Int? = 0
+
 
     enum class DamageBonus(value: String) {
         Minus1D6("-1D6"),
         Minus1D4("-1D4"),
-        none("nothing"),
-        plus1D4("+1D4"),
-        plus1D6("+1D6"),
-        plus2D6("+2D6"),
-        plus3D6("+3D6"),
-        plus4D6("+4D6"),
-        plus5D6("+5D6"),
-        plus6D6("+6D6"),
-        plus7D6("+7D6"),
-        plus8D6("+8D6"),
-        plus9D6("+9D6"),
-        plus10D6("+10D6")
+        None("nothing"),
+        Plus1D4("+1D4"),
+        Plus1D6("+1D6"),
+        Plus2D6("+2D6"),
+        Plus3D6("+3D6"),
+        Plus4D6("+4D6"),
+        Plus5D6("+5D6"),
+        Plus6D6("+6D6"),
+        Plus7D6("+7D6"),
+        Plus8D6("+8D6"),
+        Plus9D6("+9D6"),
+        Plus10D6("+10D6")
     }
 
     var baseHealthEditTextHasChanged: Boolean = false
@@ -84,71 +85,101 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
      */
     var sanityScore: MutableLiveData<Int?> = MutableLiveData()
 
+    /**
+     * Character's luck score.
+     */
     var luckScore: MutableLiveData<Int?> = MutableLiveData()
 
+    /**
+     * Character's know score
+     */
     var knowScore: MutableLiveData<Int?> = MutableLiveData()
 
-    var energyPoints: Int = 0
+    /**
+     * Character's energy score.
+     */
+    var energyPoints: MutableLiveData<Int?> = MutableLiveData()
 
-    var sizePlusStrengthScore: Int = 0
+    /**
+     * Character's damage bonus
+     */
+    var damageBonus: MutableLiveData<DamageBonus?> = MutableLiveData()
 
-    var damageBonus: DamageBonus? = DamageBonus.none
+    /**
+     * Character's Size + Strength score
+     */
+    var sizePlusStrengthScore:MutableLiveData<Int?> = MutableLiveData()
 
+    /**
+     * Character damage bonus index
+     */
+    var selectedDamageBonusIndex:MutableLiveData<Int?> = MutableLiveData()
+
+    var alignmentScore:MutableLiveData<Int?> = MutableLiveData()
+
+    fun calculateAlignmentScore(ideals:List<DomainIdeal?>){
+        var score = 0
+        ideals?.forEach {
+            if(it != null){
+                if(it.idealGoodPoints != null){
+                    var goodPoints = it.idealGoodPoints
+                    if(goodPoints != null){
+                        score+=goodPoints
+                    }
+                }
+                if(it.idealEvilPoints != null){
+                    var evilPoints = it.idealEvilPoints
+                    if(evilPoints != null){
+                        score -= evilPoints
+                    }
+                }
+            }
+        }
+        alignmentScore.value = score
+    }
 
     /**
      * Calculate energy points
      */
-    fun calculateEnergyPoints(power: DomainRollsCharacteristic?): Int {
-        energyPoints = if (power?.characteristicTotal != null) {
-            Log.d(TAG, "power = ${power.characteristicTotal}")
-            power.characteristicTotal!!
-        } else 0
-        return energyPoints
-    }
-
-    /**
-     * Calculate size plus strength for damage bonus
-     */
-    fun calculateSizePlusStrength(characteristics: List<DomainRollsCharacteristic?>): Int {
-        Log.d(TAG, "calculateSizePlusStrength")
-        characteristics.forEach {
-            if (it?.characteristicTotal != null) {
-                sizePlusStrengthScore += it?.characteristicTotal!!
+    fun calculateEnergyPoints(power: DomainRollsCharacteristic?) {
+        if (power != null) {
+            if (power.characteristicTotal != null) {
+                energyPoints?.value = power.characteristicTotal
             }
         }
-        calculateDamageBonus()
-        return sizePlusStrengthScore
     }
 
-    fun calculateDamageBonus(): Int {
+
+    fun calculateDamageBonus(size: DomainRollsCharacteristic, strength: DomainRollsCharacteristic) {
         Log.d(TAG, "calculateDamageBonus")
         Log.d(TAG, "Selected damage bonus index $selectedDamageBonusIndex")
-        Log.d(TAG, "sizePlusStrengthScore = $sizePlusStrengthScore")
 
-        for (index in 0..DamageBonus.values().indices.last) {
-            Log.d(TAG, "$index ${DamageBonus.values()[index].name}")
-        }
+        if (size.characteristicTotal != null && strength.characteristicTotal != null) {
+            var score =
+                size!!.characteristicTotal!! + strength!!.characteristicTotal!!
 
-        when (sizePlusStrengthScore) {
-            in 2..12 -> selectedDamageBonusIndex = 0
-            in 13..16 -> selectedDamageBonusIndex = 1
-            in 17..24 -> selectedDamageBonusIndex = 2
-            in 25..32 -> selectedDamageBonusIndex = 3
-            in 33..40 -> selectedDamageBonusIndex = 4
-            in 41..56 -> selectedDamageBonusIndex = 5
-            in 57..72 -> selectedDamageBonusIndex = 6
-            in 73..88 -> selectedDamageBonusIndex = 7
-            in 89..104 -> selectedDamageBonusIndex = 8
-            in 105..120 -> selectedDamageBonusIndex = 9
-            in 121..136 -> selectedDamageBonusIndex = 10
-            in 137..152 -> selectedDamageBonusIndex = 11
-            in 153..168 -> selectedDamageBonusIndex = 12
-            in 169..184 -> selectedDamageBonusIndex = 13
-            else -> selectedDamageBonusIndex = 2
+            sizePlusStrengthScore.value = score
+
+
+            when (score) {
+                in 2..12 -> selectedDamageBonusIndex.value = 0
+                in 13..16 -> selectedDamageBonusIndex.value = 1
+                in 17..24 -> selectedDamageBonusIndex.value = 2
+                in 25..32 -> selectedDamageBonusIndex.value = 3
+                in 33..40 -> selectedDamageBonusIndex.value = 4
+                in 41..56 -> selectedDamageBonusIndex.value = 5
+                in 57..72 -> selectedDamageBonusIndex.value = 6
+                in 73..88 -> selectedDamageBonusIndex.value = 7
+                in 89..104 -> selectedDamageBonusIndex.value = 8
+                in 105..120 -> selectedDamageBonusIndex.value = 9
+                in 121..136 -> selectedDamageBonusIndex.value = 10
+                in 137..152 -> selectedDamageBonusIndex.value = 11
+                in 153..168 -> selectedDamageBonusIndex.value = 12
+                in 169..184 -> selectedDamageBonusIndex.value = 13
+                else -> selectedDamageBonusIndex.value = 2
+            }
+            damageBonus.value = DamageBonus.values()[selectedDamageBonusIndex.value!!]
         }
-        Log.d(TAG, "Selected damage bonus index ${selectedDamageBonusIndex}")
-        damageBonus = DamageBonus.values()[selectedDamageBonusIndex!!]
-        return selectedDamageBonusIndex!!
     }
 
     /**
@@ -167,7 +198,7 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
      */
     fun calculateSanityScore(power: DomainRollsCharacteristic?) {
         if (power?.characteristicTotal != null) {
-            var score = power.characteristicTotal!! *5
+            var score = power.characteristicTotal!! * 5
             sanityScore.value = score
         }
     }
@@ -183,8 +214,8 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
         Log.d("DEBUG$TAG", "calculateKnowPoints")
         if (education?.characteristicTotal != null) {
             Log.d("DEBUG$TAG", "education?.characteristicTotal : ${education?.characteristicTotal}")
-            var score = education.characteristicTotal!!*5
-            knowScore.value =score
+            var score = education.characteristicTotal!! * 5
+            knowScore.value = score
         }
     }
 
@@ -231,8 +262,6 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
         breedHealthBonus.value = bonus
         return breedHealthBonus.value!!
     }
-
-
 
 
 }

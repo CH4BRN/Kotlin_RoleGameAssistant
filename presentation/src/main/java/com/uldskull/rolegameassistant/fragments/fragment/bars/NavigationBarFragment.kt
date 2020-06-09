@@ -286,7 +286,7 @@ class NavigationBarFragment : CustomFragment() {
             characteristics = characteristicsViewModel.displayedCharacteristics?.value,
             ideaScore = derivedValuesViewModel.ideaScore.value,
             healthScore = derivedValuesViewModel.totalHealth.value,
-            energyScore = derivedValuesViewModel.energyPoints,
+            energyScore = derivedValuesViewModel.energyPoints.value,
             knowScore = derivedValuesViewModel.knowScore.value,
             luckScore = derivedValuesViewModel.luckScore.value,
             sanityScore = derivedValuesViewModel.sanityScore.value,
