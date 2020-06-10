@@ -143,6 +143,17 @@ class DerivedValues1Fragment : CustomFragment() {
             Log.d("DEBUG$TAG", "Breed bonus : ${it}")
             if (it != null && et_breedHealthBonus.text.toString() != it.toString()) {
                 et_breedHealthBonus.setText(it.toString())
+
+                if(derivedValuesViewModel?.baseHealth?.value != null){
+                    var baseHealth = derivedValuesViewModel?.baseHealth?.value
+                    if(baseHealth != null){
+                        var totalHealth = baseHealth + it
+                        derivedValuesViewModel?.totalHealth.value = totalHealth
+                    }
+                }else{
+                    derivedValuesViewModel?.totalHealth.value = it
+                }
+
             }
         })
     }
@@ -301,7 +312,18 @@ class DerivedValues1Fragment : CustomFragment() {
             Log.d("DEBUG$TAG", "Base health : ${it}")
             if (it != null && et_baseHealthPoints.text.toString() != it.toString()) {
                 et_baseHealthPoints.setText(it.toString())
+
+                if(derivedValuesViewModel?.breedHealthBonus?.value != null){
+                    var breedBonus = derivedValuesViewModel?.breedHealthBonus?.value
+                    if(breedBonus != null){
+                        var totalHealth = breedBonus + it
+                        derivedValuesViewModel?.totalHealth.value = totalHealth
+                    }
+                }else{
+                    derivedValuesViewModel?.totalHealth.value = it
+                }
             }
+
         })
     }
 

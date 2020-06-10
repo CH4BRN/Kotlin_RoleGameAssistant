@@ -13,7 +13,7 @@ class DomainIdeal(
     val idealName: String?,
     val idealGoodPoints: Int?,
     val idealEvilPoints: Int?,
-    var isChecked: Boolean = false
+    var isChecked: Boolean? = false
 ) {
     override fun toString(): String {
         return "DomainIdeal(idealId=$idealId, idealName=$idealName, idealGoodPoints=$idealGoodPoints, idealEvilPoints=$idealEvilPoints, isChecked=$isChecked)"

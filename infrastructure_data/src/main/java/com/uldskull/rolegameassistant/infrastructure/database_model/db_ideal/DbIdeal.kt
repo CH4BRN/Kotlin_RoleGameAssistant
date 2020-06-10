@@ -22,7 +22,7 @@ class DbIdeal(
     val idealName: String?,
     val idealGoodPoints: Int?,
     val idealEvilPoints: Int?,
-    var isChecked: Boolean = false
+    var isChecked: Boolean? = false
 ) : DbEntity<DomainIdeal> {
 
     /**
@@ -49,18 +49,16 @@ class DbIdeal(
          * Converts a domain model into a database model entity.
          */
         override fun from(domainModel: DomainIdeal?): DbIdeal {
-            if (domainModel != null) {
+
+
                 return DbIdeal(
                     idealId = domainModel?.idealId,
                     idealName = domainModel?.idealName,
                     idealEvilPoints = domainModel?.idealEvilPoints,
                     idealGoodPoints = domainModel?.idealGoodPoints,
-                    isChecked = domainModel?.isChecked
+                    isChecked =  domainModel?.isChecked
 
                 )
-            }else{
-                throw Exception("ERROR : Ideal conversion")
-            }
 
         }
 

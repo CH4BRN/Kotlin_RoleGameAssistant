@@ -145,9 +145,9 @@ class BreedsRecyclerViewFragment() :
                                     displayedBreeds?.indexOfFirst { b -> b.breedId == found?.breedId }
                                 displayedBreeds[index] = found
                             }
-                            displayedBreedsViewModel?.observedMutableBreeds?.value = displayedBreeds
-                        }
 
+                        }
+                        displayedBreedsViewModel?.observedMutableBreeds?.value = displayedBreeds
                     }
                 }
             })
