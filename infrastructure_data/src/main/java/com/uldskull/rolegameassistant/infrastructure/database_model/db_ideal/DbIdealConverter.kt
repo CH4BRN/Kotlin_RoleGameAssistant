@@ -5,6 +5,7 @@ package com.uldskull.rolegameassistant.infrastructure.database_model.db_ideal
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
+import com.uldskull.rolegameassistant.infrastructure.database_model.databaseModelContracts.strSeparator
 
 /**
  *   Class "IdealConverter" :
@@ -15,7 +16,7 @@ class DbIdealConverter {
     fun convertIdealListToString(ideals: List<DbIdeal?>?): String {
         var str = ""
         if(ideals != null){
-            var idealsArray = arrayOfNulls<DbIdeal>(ideals?.size)
+            var idealsArray = arrayOfNulls<DbIdeal>(ideals.size)
             for (index in idealsArray.indices) {
                 idealsArray[index] = ideals[index]
             }
@@ -44,7 +45,5 @@ class DbIdealConverter {
         return ideals
     }
 
-    companion object {
-        const val strSeparator = "__,__"
-    }
+
 }

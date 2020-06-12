@@ -121,7 +121,7 @@ class BreedsAdapter internal constructor(
 
             displayedBreeds[position].breedChecked = !displayedBreeds[position].breedChecked
 
-            var checkedBreeds = displayedBreeds?.count { b -> b.breedChecked }
+            var checkedBreeds = displayedBreeds.count { b -> b.breedChecked }
             Log.d("DEBUG$TAG", "Checked : $checkedBreeds")
             listTransmitter.transmitList(displayedBreeds)
             notifyDataSetChanged()

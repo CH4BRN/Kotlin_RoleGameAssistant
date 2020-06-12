@@ -18,7 +18,7 @@ Class "HobbiesFragment"
 
 TODO: Describe class utility.
  */
-class HobbiesFragment() : CustomFragment() {
+class HobbiesFragment : CustomFragment() {
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = layoutInflater.inflate(
             R.layout.fragment_hobbies, container, false

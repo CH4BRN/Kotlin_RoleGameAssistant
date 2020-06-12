@@ -139,19 +139,19 @@ class DerivedValues1Fragment : CustomFragment() {
     }
 
     private fun observeBreedHealthBonus() {
-        derivedValuesViewModel?.breedHealthBonus?.observe(this, Observer {
+        derivedValuesViewModel.breedHealthBonus.observe(this, Observer {
             Log.d("DEBUG$TAG", "Breed bonus : ${it}")
             if (it != null && et_breedHealthBonus.text.toString() != it.toString()) {
                 et_breedHealthBonus.setText(it.toString())
 
-                if(derivedValuesViewModel?.baseHealth?.value != null){
-                    var baseHealth = derivedValuesViewModel?.baseHealth?.value
+                if(derivedValuesViewModel.baseHealth.value != null){
+                    var baseHealth = derivedValuesViewModel.baseHealth.value
                     if(baseHealth != null){
                         var totalHealth = baseHealth + it
-                        derivedValuesViewModel?.totalHealth.value = totalHealth
+                        derivedValuesViewModel.totalHealth.value = totalHealth
                     }
                 }else{
-                    derivedValuesViewModel?.totalHealth.value = it
+                    derivedValuesViewModel.totalHealth.value = it
                 }
 
             }
@@ -174,7 +174,7 @@ class DerivedValues1Fragment : CustomFragment() {
     }
 
      private fun observeCharacteristics() {
-        characteristicsViewModel?.displayedCharacteristics?.observe(
+        characteristicsViewModel.displayedCharacteristics?.observe(
             this,
             Observer { domainRollsCharacteristics ->
                 run {
@@ -229,32 +229,32 @@ class DerivedValues1Fragment : CustomFragment() {
     }
 
     private fun observeSelectedCharacter() {
-        newCharacterViewModel?.selectedCharacter?.observe(
+        newCharacterViewModel.selectedCharacter.observe(
             this,
             Observer { domainCharacter: DomainCharacter? ->
                 if (domainCharacter != null) {
-                    Log.d("DEBUG$TAG", "TotalHp : ${domainCharacter?.characterHealthPoints}")
-                    derivedValuesViewModel?.totalHealth.value =
-                        domainCharacter?.characterHealthPoints
-                    Log.d("DEBUG$TAG", "BaseHp : ${domainCharacter?.characterBaseHealthPoints}")
-                    derivedValuesViewModel?.baseHealth.value =
-                        domainCharacter?.characterBaseHealthPoints
-                    derivedValuesViewModel?.breedHealthBonus.value =
-                        domainCharacter?.characterBreedBonus
-                    Log.d("DEBUG$TAG", "Idea : ${domainCharacter?.characterIdeaPoints}")
-                    derivedValuesViewModel?.ideaScore.value = domainCharacter?.characterIdeaPoints
-                    Log.d("DEBUG$TAG", "Sanity : ${domainCharacter?.characterSanity}")
-                    derivedValuesViewModel?.sanityScore.value = domainCharacter?.characterSanity
-                    Log.d("DEBUG$TAG", "Luck : ${domainCharacter?.characterLuck}")
-                    derivedValuesViewModel?.luckScore.value = domainCharacter?.characterLuck
-                    Log.d("DEBUG$TAG", "Know : ${domainCharacter?.characterKnow}")
-                    derivedValuesViewModel?.knowScore.value = domainCharacter?.characterKnow
+                    Log.d("DEBUG$TAG", "TotalHp : ${domainCharacter.characterHealthPoints}")
+                    derivedValuesViewModel.totalHealth.value =
+                        domainCharacter.characterHealthPoints
+                    Log.d("DEBUG$TAG", "BaseHp : ${domainCharacter.characterBaseHealthPoints}")
+                    derivedValuesViewModel.baseHealth.value =
+                        domainCharacter.characterBaseHealthPoints
+                    derivedValuesViewModel.breedHealthBonus.value =
+                        domainCharacter.characterBreedBonus
+                    Log.d("DEBUG$TAG", "Idea : ${domainCharacter.characterIdeaPoints}")
+                    derivedValuesViewModel.ideaScore.value = domainCharacter.characterIdeaPoints
+                    Log.d("DEBUG$TAG", "Sanity : ${domainCharacter.characterSanity}")
+                    derivedValuesViewModel.sanityScore.value = domainCharacter.characterSanity
+                    Log.d("DEBUG$TAG", "Luck : ${domainCharacter.characterLuck}")
+                    derivedValuesViewModel.luckScore.value = domainCharacter.characterLuck
+                    Log.d("DEBUG$TAG", "Know : ${domainCharacter.characterKnow}")
+                    derivedValuesViewModel.knowScore.value = domainCharacter.characterKnow
                 }
             })
     }
 
     private fun observeBreeds() {
-        displayedBreedsViewModel?.observedMutableBreeds.observe(
+        displayedBreedsViewModel.observedMutableBreeds.observe(
             this,
             Observer { domainDisplayedBreeds ->
                 kotlin.run {
@@ -267,13 +267,13 @@ class DerivedValues1Fragment : CustomFragment() {
                             }
                         }
                     }
-                    derivedValuesViewModel?.breedHealthBonus?.value = breedBonus
+                    derivedValuesViewModel.breedHealthBonus.value = breedBonus
                 }
             })
     }
 
     private fun observeLuckScore() {
-        derivedValuesViewModel?.luckScore?.observe(this, Observer { luckScore ->
+        derivedValuesViewModel.luckScore.observe(this, Observer { luckScore ->
             if (luckScore != null && et_luckPoints.text.toString() != luckScore.toString()) {
                 Log.d("DEBUG$TAG", "Luck : $luckScore")
                 et_luckPoints.setText(luckScore.toString())
@@ -282,16 +282,16 @@ class DerivedValues1Fragment : CustomFragment() {
     }
 
     private fun observeTotalHealthScore() {
-        derivedValuesViewModel?.totalHealth?.observe(this, Observer {
+        derivedValuesViewModel.totalHealth.observe(this, Observer {
             Log.d("DEBUG$TAG", "Total health : ${it}")
             if (it != null && et_totalHealthPoints.text.toString() != it.toString()) {
-                et_totalHealthPoints.setText(it.toString())
+                et_totalHealthPoints.text = it.toString()
             }
         })
     }
 
     private fun observeIdeaScore() {
-        derivedValuesViewModel?.ideaScore?.observe(this, Observer {
+        derivedValuesViewModel.ideaScore.observe(this, Observer {
             if (it != null && et_ideaPoints.text.toString() != it.toString()) {
                 et_ideaPoints.setText(it.toString())
             }
@@ -299,7 +299,7 @@ class DerivedValues1Fragment : CustomFragment() {
     }
 
     private fun observeSanityScore() {
-        derivedValuesViewModel?.sanityScore?.observe(this, Observer {
+        derivedValuesViewModel.sanityScore.observe(this, Observer {
             Log.d("DEBUG$TAG", "Sanity : $it")
             if (it != null && et_sanityPoints.text.toString() != it.toString()) {
                 et_sanityPoints.setText(it.toString())
@@ -308,19 +308,19 @@ class DerivedValues1Fragment : CustomFragment() {
     }
 
     private fun observeBaseHealthScore() {
-        derivedValuesViewModel?.baseHealth?.observe(this, Observer {
+        derivedValuesViewModel.baseHealth.observe(this, Observer {
             Log.d("DEBUG$TAG", "Base health : ${it}")
             if (it != null && et_baseHealthPoints.text.toString() != it.toString()) {
                 et_baseHealthPoints.setText(it.toString())
 
-                if(derivedValuesViewModel?.breedHealthBonus?.value != null){
-                    var breedBonus = derivedValuesViewModel?.breedHealthBonus?.value
+                if(derivedValuesViewModel.breedHealthBonus.value != null){
+                    var breedBonus = derivedValuesViewModel.breedHealthBonus.value
                     if(breedBonus != null){
                         var totalHealth = breedBonus + it
-                        derivedValuesViewModel?.totalHealth.value = totalHealth
+                        derivedValuesViewModel.totalHealth.value = totalHealth
                     }
                 }else{
-                    derivedValuesViewModel?.totalHealth.value = it
+                    derivedValuesViewModel.totalHealth.value = it
                 }
             }
 
@@ -328,7 +328,7 @@ class DerivedValues1Fragment : CustomFragment() {
     }
 
     private fun observeKnowScore() {
-        derivedValuesViewModel?.knowScore?.observe(this, Observer {
+        derivedValuesViewModel.knowScore.observe(this, Observer {
             Log.d("DEBUG$TAG", "Know score : $it")
             if (it != null && et_knowPoints.text.toString() != it.toString()) {
                 et_knowPoints.setText(it.toString())

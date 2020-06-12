@@ -21,7 +21,7 @@ import com.uldskull.rolegameassistant.fragments.viewPager.adapter.HOBBY_FRAGMENT
  *   Class "HobbyFragment" :
  *   TODO: Fill class use.
  **/
-class HobbyFragment() : CustomFragment() {
+class HobbyFragment : CustomFragment() {
     /**
      * Initialize the initial root view.
      */

@@ -27,6 +27,7 @@ import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.ProgressionBarViewModel
 import com.uldskull.rolegameassistant.viewmodels.breeds.DisplayedBreedsViewModel
+import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationsViewModel
 import kotlinx.android.synthetic.main.fragment_basic_info.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -34,13 +35,13 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   Class "BasicInfoFragment" :
  *   Fragment to fill information concerning basic info.
  **/
-class BasicInfoFragment() : CustomFragment() {
+class BasicInfoFragment : CustomFragment() {
 
     private var displayedBreeds: MutableList<DomainDisplayedBreed?>? = mutableListOf()
-    set(value) {
-        Log.d("DEBUG$TAG", "breeds list size = ${value?.size}")
-        field = value
-    }
+        set(value) {
+            Log.d("DEBUG$TAG", "breeds list size = ${value?.size}")
+            field = value
+        }
 
     /**
      * Button to add breed.
@@ -61,6 +62,8 @@ class BasicInfoFragment() : CustomFragment() {
      * ViewModel for characteristics
      */
     private val characteristicsViewModel: CharacteristicsViewModel by sharedViewModel()
+
+    private val occupationsViewModel: OccupationsViewModel by sharedViewModel()
 
     /**
      * ViewModel for progression bar.
@@ -133,7 +136,6 @@ class BasicInfoFragment() : CustomFragment() {
         loadChildrenFragments()
 
 
-
     }
 
     /**
@@ -175,22 +177,23 @@ class BasicInfoFragment() : CustomFragment() {
         if (activity != null) {
             val transaction = childFragmentManager.beginTransaction()
 
-            var fragment =  BreedsRecyclerViewFragment.newInstance(
+            var fragment = BreedsRecyclerViewFragment.newInstance(
                 activity!!
             )
 
             Log.d("DEBUG$TAG", "breeds size then : ${this.displayedBreeds?.size}")
 
             displayedBreeds?.forEach { newBreed ->
-                if(newBreed != null){
-                    displayedBreedsViewModel?.observedRepositoryBreeds?.value?.find { it.breedId == newBreed?.breedId }?.breedChecked = newBreed?.breedChecked
+                if (newBreed != null) {
+                    displayedBreedsViewModel.observedRepositoryBreeds?.value?.find { it.breedId == newBreed.breedId }?.breedChecked =
+                        newBreed.breedChecked
                 }
             }
 
 
             transaction.replace(
                 R.id.basicInfo_container_breed,
-               fragment
+                fragment
             ).commit()
         }
     }
@@ -227,12 +230,25 @@ class BasicInfoFragment() : CustomFragment() {
      */
     private fun startObservation() {
         Log.d("DEBUG$TAG", "startObservation")
-        newCharacterViewModel?.selectedCharacter?.observe(this, Observer {
-                domainCharacter ->
+
+        observeName()
+        observeAge()
+        observeGender()
+        observeBiography()
+        observeHeight()
+        observeWeight()
+
+        occupationsViewModel?.selectedOccupation?.observe(this, Observer { domainOccupation ->
+            Log.d("DEBUG$TAG", "Occupation : ${domainOccupation.occupationName}")
+        })
+
+
+        newCharacterViewModel.selectedCharacter.observe(this, Observer { domainCharacter ->
             Log.d("DEBUG$TAG", "Selected character is null : ${domainCharacter == null}")
 
 
-            if(domainCharacter != null){
+
+            if (domainCharacter != null) {
                 var areCharacteristicsRolled = true
                 var characteristicList = listOf(
                     domainCharacter.characterAppearance,
@@ -244,15 +260,15 @@ class BasicInfoFragment() : CustomFragment() {
                     domainCharacter.characterSize,
                     domainCharacter.characterStrength
                 )
-                characteristicList?.forEach {
-                    if(it?.characteristicRoll == 0){
+                characteristicList.forEach {
+                    if (it?.characteristicRoll == 0) {
                         Log.d("DEBUG$TAG", "areCharacteristicRolled = $areCharacteristicsRolled")
                         areCharacteristicsRolled = false
                         Log.d("DEBUG$TAG", "areCharacteristicRolled = $areCharacteristicsRolled")
                     }
                 }
 
-                if(areCharacteristicsRolled){
+                if (areCharacteristicsRolled) {
                     (activity as AddEndFragmentAndUpdateAdapter).addEndFragmentsAndUpdateAdapter()
                 }
             }
@@ -260,39 +276,55 @@ class BasicInfoFragment() : CustomFragment() {
 
         })
 
-        newCharacterViewModel?.selectedCharacter?.observe(
-            this,
-            Observer { character: DomainCharacter? ->
-                kotlin.run {
-                    Log.d("DEBUG$TAG", "${newCharacterViewModel?.selectedCharacter.value}")
 
-                    newCharacterViewModel?.currentCharacter = character
+    }
 
-                    if (character?.characterName != null) {
-                        editTextCharacterName?.setText(character?.characterName)
-                    }
+    private fun observeWeight() {
+        newCharacterViewModel?.characterWeight?.observe(this, Observer { weight ->
+            if(editTextCharacterWeight?.text.toString() != weight.toString()){
+                editTextCharacterWeight?.setText(weight.toString())
+            }
+        })
+    }
 
-                    if (character?.characterAge != null) {
-                        editTextCharacterAge?.setText(character?.characterAge?.toString())
-                    }
+    private fun observeHeight() {
+        newCharacterViewModel?.characterHeight?.observe(this, Observer { height ->
+            if(editTextCharacterHeight?.text.toString() != height.toString()){
+                editTextCharacterHeight?.setText(height.toString())
+            }
+        })
+    }
 
-                    if (character?.characterGender != null) {
-                        editTextCharacterGender?.setText(character?.characterGender)
-                    }
+    private fun observeBiography() {
+        newCharacterViewModel?.characterBiography?.observe(this, Observer { biography ->
+            if(editTextCharacterBiography?.text.toString() != biography.toString()){
+                editTextCharacterBiography?.setText(biography)
+            }
+        })
+    }
 
-                    if (character?.characterBiography != null) {
-                        editTextCharacterBiography?.setText(character?.characterBiography)
-                    }
+    private fun observeGender() {
+        newCharacterViewModel?.characterGender?.observe(this, Observer { gender ->
+            if(editTextCharacterGender?.text.toString() != gender.toString()){
+                editTextCharacterGender?.setText(gender)
+            }
+        })
+    }
 
-                    if (character?.characterHeight != null) {
-                        editTextCharacterHeight?.setText(character?.characterHeight?.toString())
-                    }
+    private fun observeAge() {
+        newCharacterViewModel?.characterAge?.observe(this, Observer { age ->
+            if(editTextCharacterAge?.text.toString() != age.toString()){
+                editTextCharacterAge?.setText(age.toString())
+            }
+        })
+    }
 
-                    if (character?.characterWeight != null) {
-                        editTextCharacterWeight?.setText(character?.characterWeight?.toString())
-                    }
-                }
-            })
+    private fun observeName() {
+        newCharacterViewModel?.characterName?.observe(this, Observer { name ->
+            if(editTextCharacterName?.text.toString() != name.toString()){
+                editTextCharacterName?.setText(name)
+            }
+        })
     }
 
     /**
@@ -325,7 +357,7 @@ class BasicInfoFragment() : CustomFragment() {
         editTextCharacterWeight?.addTextChangedListener(object : CustomTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
                 if (!s.isNullOrEmpty() || !s.isNullOrBlank()) {
-                    newCharacterViewModel?.characterWeight?.value = s.toString().toInt()
+                    newCharacterViewModel.characterWeight.value = s.toString().toInt()
                 }
 
             }
@@ -339,7 +371,7 @@ class BasicInfoFragment() : CustomFragment() {
         Log.d(TAG, "setGenderTextChangedListener")
         editTextCharacterGender?.addTextChangedListener(object : CustomTextWatcher() {
             override fun afterTextChanged(gender: Editable?) {
-                newCharacterViewModel.characterGender = gender?.toString()
+                newCharacterViewModel.characterGender.value = gender?.toString()
             }
         })
     }
@@ -363,7 +395,7 @@ class BasicInfoFragment() : CustomFragment() {
         Log.d(TAG, "setNameTextCHangedListener")
         et_characterName?.addTextChangedListener(object : CustomTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
-                if (newCharacterViewModel?.characterName.value.toString() != s.toString()) {
+                if (newCharacterViewModel.characterName.value.toString() != s.toString()) {
                     newCharacterViewModel.characterName.value = s.toString()
                 }
             }
@@ -377,7 +409,7 @@ class BasicInfoFragment() : CustomFragment() {
         Log.d(TAG, "setBiographyTextChangedListener")
         editTextCharacterBiography?.addTextChangedListener(object : CustomTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
-                newCharacterViewModel.characterBiography = s.toString()
+                newCharacterViewModel.characterBiography.value = s.toString()
             }
         })
     }

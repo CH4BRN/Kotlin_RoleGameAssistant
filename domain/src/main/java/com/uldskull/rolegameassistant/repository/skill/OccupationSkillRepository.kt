@@ -11,5 +11,4 @@ import com.uldskull.rolegameassistant.repository.GenericRepository
  *   TODO: Fill class use.
  **/
 interface OccupationSkillRepository<T> :
-    GenericRepository<T, DomainOccupationSkill> {
-}
+    GenericRepository<T, DomainOccupationSkill>

@@ -17,6 +17,7 @@ import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
 import com.uldskull.rolegameassistant.models.character.characteristic.CharacteristicsName
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainBreedsCharacteristic
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollsCharacteristic
+import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
 import com.uldskull.rolegameassistant.repository.breed.DisplayedBreedsRepository
 import com.uldskull.rolegameassistant.repository.character.CharacterRepository
 import com.uldskull.rolegameassistant.repository.characteristic.BreedsCharacteristicRepository
@@ -45,24 +46,19 @@ class NewCharacterViewModel(
         private const val TAG = "NewCharacterViewModel"
     }
 
+    var characterOccupation: DomainOccupation? = null
+
     /**
      * Character's bonds
      */
     var characterBonds: MutableList<DomainBond?>? = mutableListOf()
 
     /**
-     * Character's ideals
-     */
-   // var characterIdeals: MutableList<DomainIdeal?> = mutableListOf()
-
-
-
-
-
-    /**
      * Character's picture.
      */
     var characterPictureUri: Uri? = null
+
+    var characterSkillsIds: MutableList<Long?> = mutableListOf()
 
 
     /**
@@ -77,11 +73,7 @@ class NewCharacterViewModel(
     /**
      * Character height
      */
-    private var characterHeight: Int? = 0
-        set(value) {
-            Log.d("NewCharacterViewModel characterHeight", value.toString())
-            field = value
-        }
+    var characterHeight= MutableLiveData<Int>()
 
     /**
      * Character name.
@@ -97,29 +89,17 @@ class NewCharacterViewModel(
     /**
      * Character age.
      */
-    private var characterAge: Int? = 0
-        set(value) {
-            Log.d("NewCharacterViewModel characterAge", value.toString())
-            field = value
-        }
+    var characterAge = MutableLiveData<Int>()
 
     /**
      * Character gender.
      */
-    var characterGender: String? = ""
-        set(value) {
-            Log.d("NewCharacterViewModel characterGender", value)
-            field = value
-        }
+    var characterGender=MutableLiveData<String>()
 
     /**
      * Character biography.
      */
-    var characterBiography: String? = ""
-        set(value) {
-            Log.d("NewCharacterViewModel characterBiography", value.toString())
-            field = value
-        }
+    var characterBiography=MutableLiveData<String>()
 
     /**
      * Character breed.
@@ -134,7 +114,7 @@ class NewCharacterViewModel(
         Log.d("NewCharacterViewModel", "age = $characterAge")
         if (characterAge.isNotEmpty()) {
             try {
-                this.characterAge = characterAge.toInt()
+                this.characterAge.value = characterAge.toInt()
             } catch (e: Exception) {
                 throw e
             }
@@ -144,7 +124,7 @@ class NewCharacterViewModel(
     /**
      * Represents the selected character.
      */
-    var currentCharacter: DomainCharacter? = null
+    var currentCharacter = MutableLiveData<DomainCharacter>()
 
     /**
      * Observable character
@@ -160,15 +140,16 @@ class NewCharacterViewModel(
         ideaScore: Int?,
         healthScore: Int?,
         energyScore: Int?,
-        sanityScore:Int?,
-        luckScore:Int?,
-        knowScore:Int?,
-        baseHealth:Int?,
-        breedBonus:Int?
+        sanityScore: Int?,
+        luckScore: Int?,
+        knowScore: Int?,
+        baseHealth: Int?,
+        breedBonus: Int?,
+        skillsIds: List<Long?>
     ): Long? {
 
         if (currentCharacter == null) {
-            currentCharacter = emptyCharacter()
+            currentCharacter.value = emptyCharacter()
         }
 
         setId()
@@ -184,43 +165,49 @@ class NewCharacterViewModel(
         setBonds()
 
         setCharacteristics(characteristics)
-        if(currentCharacter?.characterIdeals == null){
-            currentCharacter?.characterIdeals = mutableListOf()
+        if (currentCharacter?.value?.characterIdeals == null) {
+            currentCharacter?.value?.characterIdeals = mutableListOf()
         }
         if (ideaScore != null) {
-            currentCharacter?.characterIdeaPoints = ideaScore
+            currentCharacter?.value?.characterIdeaPoints = ideaScore
         }
         if (healthScore != null) {
-            currentCharacter?.characterHealthPoints = healthScore
+            currentCharacter?.value?.characterHealthPoints = healthScore
         }
         if (energyScore != null) {
-            currentCharacter?.characterEnergyPoints = energyScore
+            currentCharacter?.value?.characterEnergyPoints = energyScore
         }
-        if(sanityScore != null){
-            currentCharacter?.characterSanity = sanityScore
+        if (sanityScore != null) {
+            currentCharacter?.value?.characterSanity = sanityScore
         }
-        if(luckScore != null){
-            currentCharacter?.characterLuck = luckScore
+        if (luckScore != null) {
+            currentCharacter?.value?.characterLuck = luckScore
         }
-        if(knowScore != null){
-            currentCharacter?.characterKnow = knowScore
+        if (knowScore != null) {
+            currentCharacter?.value?.characterKnow = knowScore
         }
-        if(baseHealth != null){
-            currentCharacter?.characterBaseHealthPoints = baseHealth
+        if (baseHealth != null) {
+            currentCharacter?.value?.characterBaseHealthPoints = baseHealth
         }
-        if(breedBonus != null){
-            currentCharacter?.characterBreedBonus = breedBonus
+        if (breedBonus != null) {
+            currentCharacter?.value?.characterBreedBonus = breedBonus
+        }
+        if (skillsIds != null) {
+            currentCharacter?.value?.characterSelectedOccupationSkill = skillsIds.toMutableList()
+        }
+        if (characterOccupation != null) {
+            currentCharacter?.value?.characterOccupation = characterOccupation
         }
         try {
-            if (currentCharacter?.characterId == null) {
+            if (currentCharacter?.value?.characterId == null) {
                 Log.d("DEBUG$TAG", "INSERT")
-                characterId = characterRepository.insertOne(currentCharacter)
-                currentCharacter?.characterId = characterId
+                characterId = characterRepository.insertOne(currentCharacter.value)
+                currentCharacter?.value?.characterId = characterId
                 Log.d("DEBUG$TAG", "character $currentCharacter")
             } else {
                 Log.d("DEBUG$TAG", "UPDATE")
                 Log.d("DEBUG$TAG", "character $currentCharacter ")
-                characterRepository.updateOne(currentCharacter)
+                characterRepository.updateOne(currentCharacter.value)
             }
 
         } catch (e: Exception) {
@@ -230,7 +217,7 @@ class NewCharacterViewModel(
 
         Log.d("RESULT", currentCharacter.toString())
 
-        return currentCharacter?.characterId
+        return currentCharacter?.value?.characterId
     }
 
     /**
@@ -238,7 +225,7 @@ class NewCharacterViewModel(
      */
     private fun setId() {
         if (characterId != null) {
-            currentCharacter?.characterId = characterId
+            currentCharacter?.value?.characterId = characterId
         }
     }
 
@@ -253,25 +240,24 @@ class NewCharacterViewModel(
                     "Char : " + it?.characteristicName + " " + it?.characteristicTotal
                 )
             }
-            currentCharacter?.characterAppearance =
+            currentCharacter?.value?.characterAppearance =
                 characteristics.find { c -> c?.characteristicName == CharacteristicsName.APPEARANCE.characteristicName }
-            currentCharacter?.characterConstitution =
+            currentCharacter?.value?.characterConstitution =
                 characteristics.find { c -> c?.characteristicName == CharacteristicsName.CONSTITUTION.characteristicName }
-            currentCharacter?.characterDexterity =
+            currentCharacter?.value?.characterDexterity =
                 characteristics.find { c -> c?.characteristicName == CharacteristicsName.DEXTERITY.characteristicName }
-            currentCharacter?.characterEducation =
+            currentCharacter?.value?.characterEducation =
                 characteristics.find { c -> c?.characteristicName == CharacteristicsName.EDUCATION.characteristicName }
-            currentCharacter?.characterIntelligence =
+            currentCharacter?.value?.characterIntelligence =
                 characteristics.find { c -> c?.characteristicName == CharacteristicsName.INTELLIGENCE.characteristicName }
-            currentCharacter?.characterPower =
+            currentCharacter?.value?.characterPower =
                 characteristics.find { c -> c?.characteristicName == CharacteristicsName.POWER.characteristicName }
-            currentCharacter?.characterSize =
-                characteristics?.find { c -> c?.characteristicName == CharacteristicsName.SIZE.characteristicName }
-            currentCharacter?.characterStrength =
-                characteristics?.find { c -> c?.characteristicName == CharacteristicsName.STRENGTH.characteristicName }
+            currentCharacter?.value?.characterSize =
+                characteristics.find { c -> c?.characteristicName == CharacteristicsName.SIZE.characteristicName }
+            currentCharacter?.value?.characterStrength =
+                characteristics.find { c -> c?.characteristicName == CharacteristicsName.STRENGTH.characteristicName }
         }
     }
-
 
 
     /**
@@ -283,11 +269,11 @@ class NewCharacterViewModel(
                 if (it?.bondTitle != null) {
                     Log.d(
                         "NewCharacterViewModel _ savecharacterBonds",
-                        it?.bondTitle
+                        it.bondTitle
                     )
                 }
             }
-            currentCharacter?.characterBonds = characterBonds
+            currentCharacter.value?.characterBonds = characterBonds
         }
     }
 
@@ -301,15 +287,15 @@ class NewCharacterViewModel(
                 characterPictureUri?.toString()
 
             )
-            currentCharacter?.characterPictureUri = characterPictureUri.toString()
+            currentCharacter?.value?.characterPictureUri = characterPictureUri.toString()
         }
     }
 
     /**
      * Get a character with its breeds.
      */
-    fun getCharacterWithBreeds(id: Long?):DomainCharacterWithBreeds? {
-        var cWb: DomainCharacterWithBreeds? = characterRepository?.findOneWithBreeds(id)
+    fun getCharacterWithBreeds(id: Long?): DomainCharacterWithBreeds? {
+        var cWb: DomainCharacterWithBreeds? = characterRepository.findOneWithBreeds(id)
         Log.d("DEBUG$TAG", "$cWb")
         return cWb
 
@@ -321,19 +307,18 @@ class NewCharacterViewModel(
     private fun setHeight() {
         if (!characterHeight?.toString().isNullOrEmpty()) {
             Log.d("NewCharacterViewModel _ saveCharacterHeight", characterHeight?.toString())
-            currentCharacter?.characterHeight = characterHeight
+            currentCharacter?.value?.characterHeight = characterHeight.value
         }
     }
-
 
 
     /**
      * Set character's biography.
      */
     private fun setBiography() {
-        if (!characterBiography.isNullOrEmpty()) {
+        if (!characterBiography.value.isNullOrEmpty()) {
             Log.d(TAG, "CharacterBiography $characterBiography")
-            currentCharacter?.characterBiography = characterBiography
+            currentCharacter?.value?.characterBiography = characterBiography.value
         }
     }
 
@@ -341,9 +326,9 @@ class NewCharacterViewModel(
      * Set character's gender.
      */
     private fun setGender() {
-        if (!characterGender.isNullOrEmpty()) {
+        if (!characterGender.value.isNullOrEmpty()) {
             Log.d(TAG, "CharacterGender $characterGender")
-            currentCharacter?.characterGender = characterGender
+            currentCharacter?.value?.characterGender = characterGender.value
         }
     }
 
@@ -353,7 +338,7 @@ class NewCharacterViewModel(
     private fun setAge() {
         if (!characterAge?.toString().isNullOrEmpty()) {
             Log.d(TAG, "CharacterAge ${characterAge?.toString()}")
-            currentCharacter?.characterAge = characterAge
+            currentCharacter?.value?.characterAge = characterAge.value
         }
     }
 
@@ -362,8 +347,8 @@ class NewCharacterViewModel(
      */
     private fun setWeight() {
         if (characterWeight.value != null) {
-            Log.d("DEBUG$TAG", "Character weight = ${characterWeight?.value?.toString()}")
-            currentCharacter?.characterWeight = characterWeight?.value
+            Log.d("DEBUG$TAG", "Character weight = ${characterWeight.value?.toString()}")
+            currentCharacter?.value?.characterWeight = characterWeight.value
 
         }
     }
@@ -374,7 +359,41 @@ class NewCharacterViewModel(
     private fun setName() {
         if (!characterName.value.isNullOrEmpty()) {
             Log.d(TAG, "Name : $characterName")
-            currentCharacter?.characterName = characterName.value
+            var character = currentCharacter?.value
+            var newCharacter = DomainCharacter(
+                //  Change character name
+                characterName = characterName.value,
+                //  Keep values
+                characterId = character?.characterId,
+                characterAge = character?.characterAge,
+                characterGender = character?.characterGender,
+                characterBiography = character?.characterBiography,
+                characterOccupation = character?.characterOccupation,
+                characterSelectedOccupationSkill = character?.characterSelectedOccupationSkill,
+                characterBreedBonus = character?.characterBreedBonus,
+                characterBaseHealthPoints = character?.characterBaseHealthPoints,
+                characterKnow = character?.characterKnow,
+                characterLuck = character?.characterLuck,
+                characterSanity = character?.characterSanity,
+                characterWeight = character?.characterWeight,
+                characterAlignment = character?.characterAlignment,
+                characterAppearance = character?.characterAppearance,
+                characterBonds = character?.characterBonds,
+                characterConstitution = character?.characterConstitution,
+                characterDexterity = character?.characterDexterity,
+                characterEducation = character?.characterEducation,
+                characterEnergyPoints = character?.characterEnergyPoints,
+                characterHealthPoints = character?.characterHealthPoints,
+                characterHeight = character?.characterHeight,
+                characterIdeals = character?.characterIdeals,
+                characterIdeaPoints = character?.characterIdeaPoints,
+                characterIntelligence = character?.characterIntelligence,
+                characterPictureUri = character?.characterPictureUri,
+                characterPower = character?.characterPower,
+                characterSize = character?.characterSize,
+                characterStrength = character?.characterStrength
+            )
+            currentCharacter?.value = newCharacter
         }
     }
 
@@ -409,7 +428,9 @@ class NewCharacterViewModel(
             characterLuck = null,
             characterKnow = null,
             characterBaseHealthPoints = null,
-            characterBreedBonus = null
+            characterBreedBonus = null,
+            characterSelectedOccupationSkill = mutableListOf(),
+            characterOccupation = null
         )
     }
 
@@ -420,15 +441,12 @@ class NewCharacterViewModel(
         Log.d("NewCharacterViewModel", "height = $characterHeight")
         if (characterHeight != null && characterHeight.isNotEmpty()) {
             try {
-                this.characterHeight = characterHeight.toInt()
+                this.characterHeight.value = characterHeight.toInt()
             } catch (e: Exception) {
                 throw e
             }
         }
     }
-
-
-
 
 
 }

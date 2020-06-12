@@ -26,7 +26,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   Class "AbilitiesFragment" :
  *   Display
  **/
-class CharacteristicsFragment() : CustomFragment() {
+class CharacteristicsFragment : CustomFragment() {
 
     /**
      * Breed Characteristic's ViewModel.

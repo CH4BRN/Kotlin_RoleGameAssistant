@@ -15,7 +15,7 @@ class DbBondConverter {
     fun convertBondListToString(bonds: List<DbBond?>?): String {
         var str = ""
         if(bonds != null){
-            var bondsArray = arrayOfNulls<DbBond>(bonds?.size)
+            var bondsArray = arrayOfNulls<DbBond>(bonds.size)
             for (i in bondsArray.indices) {
                 bondsArray[i] = bonds[i]
             }

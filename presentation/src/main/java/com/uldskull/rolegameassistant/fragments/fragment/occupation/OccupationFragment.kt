@@ -34,7 +34,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   Class "OccupationFragment" :
  *   "Occupation" fragment to set occupation's skills values.
  **/
-class OccupationFragment() : CustomFragment() {
+class OccupationFragment : CustomFragment() {
 
     /**
      * Current occupation skill position.
@@ -245,16 +245,16 @@ class OccupationFragment() : CustomFragment() {
 
         observeCurrentOccupationSkillPosition()
 
-        occupationSkillsViewModel?.occupationSkillsTotalPointsToSpend?.observe(this, Observer {
+        occupationSkillsViewModel.occupationSkillsTotalPointsToSpend.observe(this, Observer {
             tv_totalOccupationPoints?.text = "$it"
         })
 
-        pointsToSpendViewModel?.observableSpentPoints?.observe(this, Observer {
+        pointsToSpendViewModel.observableSpentPoints.observe(this, Observer {
             Log.d("DEBUG", "total points = $it")
             textViewOccupationPointsValue?.text = "$it"
         })
 
-        pointsToSpendViewModel?.observableSpentOccupationTensPointsArray?.observe(this, Observer {
+        pointsToSpendViewModel.observableSpentOccupationTensPointsArray.observe(this, Observer {
             if(it != null && currentOccupationSkillPosition != null && it.size != 0){
                 Log.d(
                     "DEBUG",
@@ -269,7 +269,7 @@ class OccupationFragment() : CustomFragment() {
                     }
                 }
 
-               // pointsToSpendViewModel?.observableSpentPoints?.value = totalPoints
+                // pointsToSpendViewModel?.observableSpentPoints?.value = totalPoints
 
 
             }
@@ -282,7 +282,7 @@ class OccupationFragment() : CustomFragment() {
      * Observe current occupation skill position
      */
     private fun observeCurrentOccupationSkillPosition() {
-        pointsToSpendViewModel?.observableCurrentOccupationSkillPosition?.observe(
+        pointsToSpendViewModel.observableCurrentOccupationSkillPosition.observe(
             this,
             Observer { position ->
                 run {
@@ -308,8 +308,8 @@ class OccupationFragment() : CustomFragment() {
      */
     private fun setOccupationSkillsPointsTextView() {
 
-        var occupationScore = characteristicsViewModel?.getOccupationSkillsScore()
-        occupationSkillsViewModel?.occupationSkillsTotalPointsToSpend.value = occupationScore
+        var occupationScore = characteristicsViewModel.getOccupationSkillsScore()
+        occupationSkillsViewModel.occupationSkillsTotalPointsToSpend.value = occupationScore
 
     }
 
@@ -453,21 +453,21 @@ class OccupationFragment() : CustomFragment() {
                 id: Long
             ) {
 
-                if(occupationSkillsViewModel?.currentOccupationSkill?.value != null){
+                if(occupationSkillsViewModel.currentOccupationSkill.value != null){
                     tensValue = this@OccupationFragment.valuesList[position]
                     Log.d(
                         "DEBUG", "\tCurrent skill position = $currentOccupationSkillPosition\n" +
                                 "\tvalue : $tensValue"
                     )
 
-                    var tensPoints = pointsToSpendViewModel?.observableSpentOccupationTensPointsArray?.value
+                    var tensPoints = pointsToSpendViewModel.observableSpentOccupationTensPointsArray.value
 
                      if(tensPoints?.size != 0){
                         Log.d("DEBUG", "tens points array capacity : ${tensPoints?.size}\n" +
                                 "position = $currentOccupationSkillPosition")
                         tensPoints!![currentOccupationSkillPosition!!] = tensValue
                     }
-                    pointsToSpendViewModel?.observableSpentOccupationTensPointsArray.value = tensPoints
+                    pointsToSpendViewModel.observableSpentOccupationTensPointsArray.value = tensPoints
 
                 }
 
@@ -484,9 +484,9 @@ class OccupationFragment() : CustomFragment() {
         buttonValidateAddValueToSkill?.setOnClickListener {
             Log.d(TAG + "valid", "Click ${occupationSkillsViewModel.currentOccupationSkill.value}")
             //  Gets the spent points
-            var spentPoints = pointsToSpendViewModel?.observableSpentPoints?.value
+            var spentPoints = pointsToSpendViewModel.observableSpentPoints.value
             //  Gets the total points to spend
-            var pointsToSpend = occupationSkillsViewModel?.occupationSkillsTotalPointsToSpend?.value
+            var pointsToSpend = occupationSkillsViewModel.occupationSkillsTotalPointsToSpend.value
             //  Checks if activity is not null
             if(activity != null){
                 Log.d("DEBUG", "Activity is not null")
@@ -554,7 +554,7 @@ class OccupationFragment() : CustomFragment() {
 
                         var totalPoints = 0
 
-                        occupationSkillsViewModel.checkedOccupationSkills.value?.forEach(){
+                        occupationSkillsViewModel.checkedOccupationSkills.value?.forEach {
                             var tens = 0
                             if(it.filledSkillTensValue != null){
                                 tens = it.filledSkillTensValue!!*10
@@ -570,7 +570,7 @@ class OccupationFragment() : CustomFragment() {
                         }
                         Log.d("DEBUG", "total points = $totalPoints")
                         if(totalPoints != null){
-                            pointsToSpendViewModel?.observableSpentPoints.value = totalPoints!!
+                            pointsToSpendViewModel.observableSpentPoints.value = totalPoints
                         }
                     }
 
@@ -624,7 +624,7 @@ class OccupationFragment() : CustomFragment() {
 
                     var totalPoints = 0
 
-                    occupationSkillsViewModel.checkedOccupationSkills.value?.forEach(){
+                    occupationSkillsViewModel.checkedOccupationSkills.value?.forEach {
                         var tens = 0
                         if(it.filledSkillTensValue != null){
                             tens = it.filledSkillTensValue!!*10
@@ -640,7 +640,7 @@ class OccupationFragment() : CustomFragment() {
                     }
                     Log.d("DEBUG", "total points = $totalPoints")
                     if(totalPoints != null){
-                        pointsToSpendViewModel?.observableSpentPoints.value = totalPoints!!
+                        pointsToSpendViewModel.observableSpentPoints.value = totalPoints
                     }
                 }
             }

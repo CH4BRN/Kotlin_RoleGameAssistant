@@ -5,7 +5,7 @@ package com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.di
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
-import com.uldskull.rolegameassistant.infrastructure.database_model.db_ideal.DbIdealConverter.Companion.strSeparator
+import com.uldskull.rolegameassistant.infrastructure.database_model.databaseModelContracts.strSeparator
 
 /**
  *   Class "DbBreedConverter" :

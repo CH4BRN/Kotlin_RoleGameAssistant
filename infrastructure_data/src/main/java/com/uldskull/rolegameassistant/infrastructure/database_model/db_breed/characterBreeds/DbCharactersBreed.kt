@@ -51,9 +51,9 @@ class DbCharactersBreed(
         override fun from(domainModel: DomainCharactersBreed?): DbCharactersBreed {
             if (domainModel != null) {
                 return DbCharactersBreed(
-                    characterBreedId = domainModel?.charactersBreedId,
-                    displayedBreedId = domainModel?.displayedBreedId,
-                    characterId =  domainModel?.characterId
+                    characterBreedId = domainModel.charactersBreedId,
+                    displayedBreedId = domainModel.displayedBreedId,
+                    characterId = domainModel.characterId
                 )
             } else {
                 throw Exception("Breed is null")

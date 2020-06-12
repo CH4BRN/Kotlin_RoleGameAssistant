@@ -21,7 +21,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.REQUEST_CODE_JOBS_NEW_JOB
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.OCCUPATIONS_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
-import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
+import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationSkillsViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationsViewModel
 import kotlinx.android.synthetic.main.fragment_occupations.*
@@ -36,12 +36,13 @@ class OccupationsFragment : CustomFragment() {
     //  VIEWMODELS
     private val occupationsViewModel: OccupationsViewModel by sharedViewModel()
     private val occupationSkillsViewModel: OccupationSkillsViewModel by sharedViewModel()
+    private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
 
     //  ADAPTER
     /// Occupation's spinner
     var occupationsAdapter: ArrayAdapter<String?>? = null
 
-    fun initializeOccupationsAdapter() {
+    private fun initializeOccupationsAdapter() {
         if (activity != null) {
             occupationsAdapter = ArrayAdapter(
                 activity!!,
@@ -49,10 +50,7 @@ class OccupationsFragment : CustomFragment() {
             )
         }
     }
-    private fun setSpinnerAdapter() {
-        occupationsAdapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner_occupations?.adapter = occupationsAdapter
-    }
+
 
     private fun setSpinnerOccupationsOnItemSelectedListener() {
         spinner_occupations.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -95,16 +93,8 @@ class OccupationsFragment : CustomFragment() {
                 if (position == 0) {
                     emptyOccupationTextViews()
                 } else {
-                    var occupation = occupationsViewModel.displayedOccupations[position]
-                    if (occupation != null) {
-                        occupationsViewModel.selectedOccupation?.value = occupation
-                        //  Sets the selected occupation index
-                        occupationsViewModel?.selectedOccupationIndex?.value = position
-                        occupationSkillsViewModel?.currentOccupationSkill?.value =
-                            DomainFilledSkill()
-                        occupationSkillsViewModel?.checkedOccupationSkills?.value = emptyList()
-
-                    }
+                    occupationsViewModel?.selectedOccupation?.value =
+                        occupationsViewModel?.repositoryOccupations?.value?.get(position)
                 }
             }
         }
@@ -113,40 +103,74 @@ class OccupationsFragment : CustomFragment() {
 
     fun startObservation() {
         Log.d(TAG, "startObservation")
+        //  Observe occupation from repository
         observeOccupations()
+        //  Observe selected occupation
         observeSelectedOccupation()
-        observeOccupationIncome()
-        observeOccupationContact()
+        //  Observes selected occupations values.
+        observeSelectedOccupationValues()
+        // Observe Selected character
+        observeSelectedCharacter()
+
+    }
+
+    private fun observeSelectedOccupationValues() {
+        //  Observe occupation income
+        observeSelectedOccupationIncome()
+        //  Observe occupation contact
+        observeSelectedOccupationContact()
         //  Observes selected occupation special
         observeSelectedOccupationSpecial()
-        observeSelectedOccupationIndex()
-
     }
 
-    private fun observeSelectedOccupationIndex() {
-        Log.d(TAG, "observeSelectedOccupationIndex")
-        if (this.occupationsViewModel.selectedOccupationIndex != null) {
-            this.occupationsViewModel.selectedOccupationIndex?.observe(
-                this,
-                Observer { selectedOccupationIndex: Int ->
-                    kotlin.run {
-                        Log.d(
-                            TAG,
-                            "selectedOccupationIndex has changed : \n$selectedOccupationIndex"
-                        )
-                        spinner_occupations.setSelection(selectedOccupationIndex)
-                    }
-                })
-        }
+    private fun observeOccupations() {
+        //  Observe repository's occupations
+        observeRepositoryOccupations()
+        //  Observe displayed string occupations
+        observeDisplayedOccupations()
     }
+
+    private fun observeDisplayedOccupations() {
+        occupationsViewModel?.displayedOccupations?.observe(this, Observer { stringOccupations ->
+            kotlin.run {
+                occupationsAdapter = ArrayAdapter(
+                    activity!!,
+                    android.R.layout.simple_spinner_item,
+                    stringOccupations
+                )
+                spinner_occupations.adapter = occupationsAdapter
+            }
+        })
+    }
+
+
+    private fun observeSelectedCharacter() {
+        newCharacterViewModel.selectedCharacter.observe(this, Observer { domainCharacter ->
+            kotlin.run {
+                if (domainCharacter != null) {
+                    Log.d("DEBUG$TAG", "Selected character is : ${domainCharacter}")
+                    var occupation = domainCharacter?.characterOccupation
+
+                    var displayedIndex =
+                        occupationsViewModel?.displayedOccupations?.value?.indexOfFirst { o -> o == occupation?.occupationName }
+                    Log.d("DEBUG$TAG", "displayedIndex : $displayedIndex")
+
+                    var observedIndex = occupationsViewModel?.repositoryOccupations?.value?.indexOfFirst {  o -> o.occupationId == occupation?.occupationId }
+                    Log.d("DEBUG$TAG", "observedIndex : $observedIndex")
+                }
+            }
+
+        })
+    }
+
 
     /**
      * Observes the selected occupation special.
      */
     private fun observeSelectedOccupationSpecial() {
         Log.d(TAG, "observeSelectedOccupationSpecial()")
-        if (this.occupationsViewModel?.selectedOccupationSpecial != null) {
-            this.occupationsViewModel?.selectedOccupationSpecial?.observe(
+        if (this.occupationsViewModel.selectedOccupationSpecial != null) {
+            this.occupationsViewModel.selectedOccupationSpecial?.observe(
                 this,
                 Observer { selectedOccupationSpecial: String ->
                     kotlin.run {
@@ -161,59 +185,81 @@ class OccupationsFragment : CustomFragment() {
     /**
      * Observes occupation from the repository.
      */
-    private fun observeOccupations() {
-        var gotOccupations: MutableList<DomainOccupation?>
-        this.occupationsViewModel.observedOccupations?.observe(this, Observer { domainOccupations ->
-            kotlin.run {
-                domainOccupations?.let {
-                    Log.d(TAG, "observedOccupations has changed")
-                    gotOccupations = domainOccupations.toMutableList()
-                    occupationsViewModel.displayedOccupations = gotOccupations
-                }
-
-                var occupationList =
-                    occupationsViewModel.displayedOccupations.map { occupation -> occupation?.occupationName }
-                        .toMutableList()
-                if (activity != null) {
-                    occupationsAdapter =
-                        ArrayAdapter(
-                            activity!!,
-                            android.R.layout.simple_spinner_item,
-                            occupationList
-                        )
-                }
-
-
-                setSpinnerAdapter()
-            }
-        })
-    }
-
-    private fun observeSelectedOccupation() {
-
-        occupationsViewModel?.selectedOccupation?.observe(
+    private fun observeRepositoryOccupations() {
+        this.occupationsViewModel.repositoryOccupations?.observe(
             this,
-            Observer { domainOccupation: DomainOccupation ->
+            Observer { domainOccupations ->
                 kotlin.run {
 
-                    //  Sets the occupation income
-                    occupationsViewModel?.selectedOccupationIncome?.value =
-                        domainOccupation?.occupationIncome
-                    //  Sets the occupation contacts.
-                    occupationsViewModel?.selectedOccupationContacts?.value =
-                        domainOccupation?.occupationContacts
-                    //  Sets the occupation special.
-                    occupationsViewModel?.selectedOccupationSpecial?.value =
-                        domainOccupation?.occupationSpecial
-                    Log.d(TAG, "selectedOccupation : $domainOccupation")
 
 
+                    domainOccupations?.let {
+                        Log.d(TAG, "observedOccupations has changed")
+                        occupationsViewModel.displayedOccupations.value =
+                            domainOccupations.map { o -> o.occupationName }
+                    }
                 }
             })
     }
 
+    private fun observeSelectedOccupation() {
 
-    private fun observeOccupationContact() {
+        occupationsViewModel.selectedOccupation?.observe(
+            this,
+            Observer { domainOccupation: DomainOccupation ->
+                kotlin.run {
+                    Log.d(
+                        "DEBUG$TAG",
+                        "Selected occupation is : ${domainOccupation.occupationName}"
+                    )
+
+                    setOccupationIncome(domainOccupation)
+                    setOccupationContacts(domainOccupation)
+                    setOccupationSpecial(domainOccupation)
+
+                    Log.d("DEBUG$TAG", "selectedOccupation : $domainOccupation")
+
+                    var character = newCharacterViewModel?.currentCharacter.value
+
+                    character?.characterOccupation = domainOccupation
+
+                    newCharacterViewModel?.currentCharacter.value = character
+                }
+            })
+    }
+
+    private fun setOccupationSpecial(domainOccupation: DomainOccupation) {
+        //  Sets the occupation special.
+        Log.d(
+            "DEBUG$TAG",
+            "Selected occupation Special : ${domainOccupation?.occupationSpecial}"
+        )
+        occupationsViewModel.selectedOccupationSpecial?.value =
+            domainOccupation.occupationSpecial
+    }
+
+    private fun setOccupationContacts(domainOccupation: DomainOccupation) {
+        //  Sets the occupation contacts.
+        Log.d(
+            "DEBUG$TAG",
+            "Selected occupation contacts : ${domainOccupation?.occupationContacts}"
+        )
+        occupationsViewModel.selectedOccupationContacts?.value =
+            domainOccupation.occupationContacts
+    }
+
+    private fun setOccupationIncome(domainOccupation: DomainOccupation) {
+        //  Sets the occupation income
+        Log.d(
+            "DEBUG$TAG",
+            "Selected occupation income : ${domainOccupation?.occupationIncome}"
+        )
+        occupationsViewModel.selectedOccupationIncome?.value =
+            domainOccupation.occupationIncome
+    }
+
+
+    private fun observeSelectedOccupationContact() {
         if (this.occupationsViewModel.selectedOccupationContacts != null) {
             this.occupationsViewModel.selectedOccupationContacts!!.observe(
                 this,
@@ -226,7 +272,7 @@ class OccupationsFragment : CustomFragment() {
         }
     }
 
-    private fun observeOccupationIncome() {
+    private fun observeSelectedOccupationIncome() {
         if (this.occupationsViewModel.selectedOccupationIncome != null) {
             this.occupationsViewModel.selectedOccupationIncome!!.observe(this, Observer { income ->
                 kotlin.run {
@@ -300,11 +346,7 @@ class OccupationsFragment : CustomFragment() {
         Log.d(TAG, "onViewCreated")
         super.onViewCreated(view, savedInstanceState)
 
-        var selectedOccupationIndex = occupationsViewModel?.selectedOccupationIndex?.value
-        if (selectedOccupationIndex != null) {
-            Log.d(TAG, "selectedOccupationIndex :$selectedOccupationIndex")
-            spinner_occupations.setSelection(selectedOccupationIndex)
-        }
+
 
         loadOccupationsSkillRecyclerView()
 
@@ -316,7 +358,7 @@ class OccupationsFragment : CustomFragment() {
         //  setSpinnerOccupationCurrentSelectedOccupation()
     }
 
-    private fun OccupationsFragment.loadOccupationsSkillRecyclerView() {
+    private fun loadOccupationsSkillRecyclerView() {
         if (activity != null) {
             var transaction = childFragmentManager.beginTransaction()
             transaction.replace(
@@ -351,6 +393,7 @@ class OccupationsFragment : CustomFragment() {
 
     companion object : CustomCompanion() {
         private const val TAG = "OccupationsFragment"
+
         @JvmStatic
         override fun newInstance(activity: Activity): OccupationsFragment {
             Log.d(TAG, "newInstance")

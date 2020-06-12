@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment
  *   Class "CustomFragment" :
  *   Abstract class for custom fragment.
  **/
-abstract class CustomFragment() : Fragment() {
+abstract class CustomFragment : Fragment() {
 
     var activity:Activity? = null
 

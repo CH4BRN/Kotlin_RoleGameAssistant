@@ -34,7 +34,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   Class "DerivedValues2Fragment" :
  *   TODO("COMMENT")
  **/
-class DerivedValues2Fragment() : CustomFragment() {
+class DerivedValues2Fragment : CustomFragment() {
 
     private val idealsViewModel: IdealsViewModel by sharedViewModel()
     private val characteristicsViewModel: CharacteristicsViewModel by sharedViewModel()
@@ -75,7 +75,7 @@ class DerivedValues2Fragment() : CustomFragment() {
     }
 
     private fun observeCthulhuMythScore() {
-        derivedValuesViewModel?.cthulhuMythScore?.observe(this, Observer { score ->
+        derivedValuesViewModel.cthulhuMythScore.observe(this, Observer { score ->
             kotlin.run {
                 if (score != null) {
                     Log.d("DEBUG$TAG", "Cthulhu Score : $score")
@@ -88,7 +88,7 @@ class DerivedValues2Fragment() : CustomFragment() {
     }
 
     private fun observeAlignmentScore() {
-        derivedValuesViewModel?.alignmentScore?.observe(this, Observer { score ->
+        derivedValuesViewModel.alignmentScore.observe(this, Observer { score ->
             kotlin.run {
                 if (score != null) {
                     Log.d("DEBUG$TAG", "Score : $score")
@@ -103,7 +103,7 @@ class DerivedValues2Fragment() : CustomFragment() {
     }
 
     private fun observeIdeals() {
-        idealsViewModel?.mutableIdeals?.observe(this, Observer { idealList ->
+        idealsViewModel.mutableIdeals?.observe(this, Observer { idealList ->
             if (idealList != null) {
                 var checkedIdeals = idealList.filter { i -> i?.isChecked!! }
                 calculateAlignmentScore(checkedIdeals)
@@ -116,7 +116,7 @@ class DerivedValues2Fragment() : CustomFragment() {
     }
 
     private fun observeDamageBonusIndex() {
-        derivedValuesViewModel?.selectedDamageBonusIndex?.observe(this, Observer {
+        derivedValuesViewModel.selectedDamageBonusIndex.observe(this, Observer {
             if (it != null) {
                 spinner_damageBonus.post {
                     spinner_damageBonus.setSelection(it)
@@ -127,14 +127,14 @@ class DerivedValues2Fragment() : CustomFragment() {
     }
 
     private fun observeDamageBonus() {
-        derivedValuesViewModel?.damageBonus.observe(this, Observer {
+        derivedValuesViewModel.damageBonus.observe(this, Observer {
             Log.d("DEBUG$TAG", "Damage bonus :${it.toString()}")
         })
     }
 
 
     private fun observeSizePlusStrengthScore() {
-        derivedValuesViewModel?.sizePlusStrengthScore.observe(this, Observer {
+        derivedValuesViewModel.sizePlusStrengthScore.observe(this, Observer {
             if (et_sizePlusStrength.text.toString() != it.toString()) {
                 et_sizePlusStrength.setText(it.toString())
             }
@@ -142,7 +142,7 @@ class DerivedValues2Fragment() : CustomFragment() {
     }
 
     private fun observePowerScore() {
-        derivedValuesViewModel?.energyPoints.observe(this, Observer {
+        derivedValuesViewModel.energyPoints.observe(this, Observer {
             if (et_energyPoints.text.toString() != it.toString()) {
                 et_energyPoints.setText(it.toString())
             }
@@ -150,7 +150,7 @@ class DerivedValues2Fragment() : CustomFragment() {
     }
 
     private fun observeCharacteristics() {
-        characteristicsViewModel?.displayedCharacteristics?.observe(
+        characteristicsViewModel.displayedCharacteristics?.observe(
             this,
             Observer { domainRollsCharacteristics ->
                 kotlin.run {
@@ -171,12 +171,12 @@ class DerivedValues2Fragment() : CustomFragment() {
         strength: DomainRollsCharacteristic?
     ) {
         if (size != null && strength != null) {
-            derivedValuesViewModel?.calculateDamageBonus(size, strength)
+            derivedValuesViewModel.calculateDamageBonus(size, strength)
         }
     }
 
     private fun calculateEnergyScore(power: DomainRollsCharacteristic?) {
-        derivedValuesViewModel?.calculateEnergyPoints(power)
+        derivedValuesViewModel.calculateEnergyPoints(power)
     }
 
     private fun setListeners() {

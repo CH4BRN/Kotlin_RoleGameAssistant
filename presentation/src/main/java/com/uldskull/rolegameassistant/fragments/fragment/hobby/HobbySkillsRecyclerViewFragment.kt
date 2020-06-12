@@ -24,7 +24,7 @@ Class "HobbySkillsRecyclerViewFragment"
 
 TODO: Describe class utility.
  */
-class HobbySkillsRecyclerViewFragment() :
+class HobbySkillsRecyclerViewFragment :
     CustomRecyclerViewFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

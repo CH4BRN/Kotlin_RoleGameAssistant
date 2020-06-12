@@ -24,7 +24,9 @@ import com.uldskull.rolegameassistant.fragments.fragment.occupations.Occupations
 import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
+import com.uldskull.rolegameassistant.viewmodels.OccupationViewModel
 import com.uldskull.rolegameassistant.viewmodels.ProgressionBarViewModel
+import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationsViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**
@@ -54,6 +56,10 @@ class CharacterActivity :
 
     private lateinit var breedsViewModel: CharacteristicsViewModel
 
+    private lateinit var occupationsViewModel: OccupationsViewModel
+
+    private lateinit var occupationViewModel: OccupationViewModel
+
     /** SupportFragmentManager  **/
     private val fragmentManager = supportFragmentManager
 
@@ -75,13 +81,14 @@ class CharacterActivity :
         //  Update the progress bar
         this.updateProgressBarFragment(0)
 
-        val character: DomainCharacter? = deserializeDomainCharacter()
-        Log.d("DEBUG $TAG", "$character")
-        newCharacterViewModel.selectedCharacter?.value = character
+        deserializeDomainCharacter()
+
+
+
 
     }
 
-    private fun deserializeDomainCharacter(): DomainCharacter? {
+    private fun deserializeDomainCharacter() {
         var jsonCharacter: String? = null
         val extras: Bundle? = intent.extras
         if (extras != null) {
@@ -89,7 +96,27 @@ class CharacterActivity :
         }
         val character: DomainCharacter? =
             Gson().fromJson(jsonCharacter, DomainCharacter::class.java)
-        return character
+        Log.d("DEBUG$TAG", "Character = ${character?.characterName}")
+        if(character != null ){
+
+            newCharacterViewModel.selectedCharacter.value = character
+            newCharacterViewModel.currentCharacter.value = character
+            newCharacterViewModel.characterName.value = character?.characterName
+            newCharacterViewModel.characterAge.value = character?.characterAge
+            newCharacterViewModel.characterBiography.value = character?.characterBiography
+            newCharacterViewModel.characterHeight.value = character?.characterHeight
+            newCharacterViewModel.characterWeight.value = character?.characterWeight
+
+            var occupation = character?.characterOccupation
+            if(occupation != null){
+                occupationsViewModel.selectedOccupation?.value = occupation
+            }
+
+
+
+            Log.d("DEBUG$TAG", "Occupation = ${occupation}")
+        }
+
     }
 
     /**
@@ -113,16 +140,9 @@ class CharacterActivity :
         newCharacterViewModel = getViewModel()
         progressionBarViewModel = getViewModel()
         characteristicsViewModel = getViewModel()
-        Log.d(
-            "DEBUG$TAG",
-            "characteristicsViewModel characterBreeds size = ${characteristicsViewModel.characterDisplayedBreeds?.size}"
-        )
+        occupationViewModel = getViewModel()
+        occupationsViewModel = getViewModel()
         breedsViewModel = getViewModel()
-        Log.d(
-            "DEBUG$TAG",
-            "breedsViewModel breeds size = ${breedsViewModel?.characterDisplayedBreeds?.size}"
-        )
-
     }
 
 
@@ -154,33 +174,35 @@ class CharacterActivity :
                 positionOffset: Float,
                 positionOffsetPixels: Int
             ) {
-                Log.d(
-                    "DEBUG$TAG", "onPageScrolled : \n" +
-                            "\tposition : $position\n" +
-                            "\tpositionO : $positionOffset\n" +
-                            "\tpositionOP : $positionOffsetPixels"
-                )
 
 
                 if (position == 3 && fragmentAdapter?.fragmentList?.size == 4 && viewPager?.scrollState == 1) {
 
-                    Log.d("DEBUG$TAG", "Characteristics ${characteristicsViewModel?.getAllCharacteristics()}")
+                    Log.d(
+                        "DEBUG$TAG",
+                        "Characteristics ${characteristicsViewModel.getAllCharacteristics()}"
+                    )
                     var areCharacteristicsRolled = true
 
-                    characteristicsViewModel?.getAllCharacteristics()?.forEach {
-                        if(it?.characteristicRoll == 0){
-                            areCharacteristicsRolled = false
-                        }
-                    }
-
-                    Log.d("DEBUG$TAG", "areCharacteristicsRolled : $areCharacteristicsRolled")
-
-
-                    Log.d("DEBUG", "Situation")
-                    if(!areCharacteristicsRolled)                    {
+                    var characteristics = characteristicsViewModel.getAllCharacteristics()
+                    if (characteristics == null || (characteristics.isEmpty())) {
                         characteristicsAlert()
-                    }else{
-                        addEndFragments()
+                    } else {
+                        characteristics.forEach {
+                            if (it?.characteristicRoll == 0) {
+                                areCharacteristicsRolled = false
+                            }
+                        }
+
+                        Log.d("DEBUG$TAG", "areCharacteristicsRolled : $areCharacteristicsRolled")
+
+
+                        Log.d("DEBUG", "Situation")
+                        if (!areCharacteristicsRolled) {
+                            characteristicsAlert()
+                        } else {
+                            addEndFragments()
+                        }
                     }
                 }
 

@@ -28,7 +28,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   Class "BondsRecyclerViewFragment" :
  *   TODO: Fill class use.
  **/
-class BondsRecyclerViewFragment() :
+class BondsRecyclerViewFragment :
     CustomRecyclerViewFragment(), AdapterButtonListener<DomainBond> {
     /** ViewModel for bonds    **/
     private val bondsViewModel: BondsViewModel by sharedViewModel()
@@ -108,7 +108,7 @@ class BondsRecyclerViewFragment() :
             kotlin.run {
                 if(bonds != null){
                     Log.d("DEBUG$TAG", "Bonds size : ${bonds.size}")
-                    bonds?.let { bondsAdapter?.setBonds(it) }
+                    bonds.let { bondsAdapter?.setBonds(it) }
                 }
 
             }
@@ -117,7 +117,7 @@ class BondsRecyclerViewFragment() :
         this.newCharacterViewModel.selectedCharacter.observe(this, Observer {
             Log.d("DEBUG$TAG", "Character : ${it}")
             var bonds = it?.characterBonds
-            bondsViewModel?.bonds?.value = bonds
+            bondsViewModel.bonds.value = bonds
         })
     }
 

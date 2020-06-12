@@ -112,14 +112,14 @@ class OccupationSkillsAdapter constructor(
      * Custom view-holder
      */
     inner class OccupationSkillsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var layoutOccupationSkill: LinearLayout? = itemView?.findViewById(R.id.occupationSkill_row)
-        var tvOccupationSkillName: TextView? = itemView?.findViewById(R.id.tv_occupationSkillName)
-        var tvOccupationSkillBase: TextView? = itemView?.findViewById(R.id.tv_occupationSkillBase)
-        var tvOccupationSkillAdd: TextView? = itemView?.findViewById(R.id.tv_occupationSkillAdd)
-        var tvOccupationSkillTotal: TextView? = itemView?.findViewById(R.id.tv_occupationSkillTotal)
-        var tvOccupationSkillPlus: TextView? = itemView?.findViewById(R.id.tv_occupationSkillPlus)
+        var layoutOccupationSkill: LinearLayout? = itemView.findViewById(R.id.occupationSkill_row)
+        var tvOccupationSkillName: TextView? = itemView.findViewById(R.id.tv_occupationSkillName)
+        var tvOccupationSkillBase: TextView? = itemView.findViewById(R.id.tv_occupationSkillBase)
+        var tvOccupationSkillAdd: TextView? = itemView.findViewById(R.id.tv_occupationSkillAdd)
+        var tvOccupationSkillTotal: TextView? = itemView.findViewById(R.id.tv_occupationSkillTotal)
+        var tvOccupationSkillPlus: TextView? = itemView.findViewById(R.id.tv_occupationSkillPlus)
         var tvOccupationSkillSeparator: TextView? =
-            itemView?.findViewById(R.id.tv_occupationSkillSeparator)
+            itemView.findViewById(R.id.tv_occupationSkillSeparator)
 
         /**
          * Bind the view holder
@@ -196,10 +196,10 @@ class OccupationSkillsAdapter constructor(
 
         Log.d(TAG, "current : $current")
 
-        if (current?.filledSkillTensValue != null && current?.filledSkillUnitsValue != null) {
-            var tens = current?.filledSkillTensValue.toString()
+        if (current?.filledSkillTensValue != null && current.filledSkillUnitsValue != null) {
+            var tens = current.filledSkillTensValue.toString()
             Log.d(TAG, "tens : $tens")
-            var units = current?.filledSkillUnitsValue.toString()
+            var units = current.filledSkillUnitsValue.toString()
             Log.d(TAG, "units : $units")
 
             try {

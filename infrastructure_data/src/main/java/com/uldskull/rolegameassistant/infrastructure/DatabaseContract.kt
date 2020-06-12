@@ -10,10 +10,7 @@ import com.uldskull.rolegameassistant.infrastructure.dao.DELETE_FROM
 import com.uldskull.rolegameassistant.infrastructure.dao.SELECT_ALL_FROM
 
 object DatabaseValues {
-
-
     const val DATABASE_NAME = "appdb"
-
 }
 
 object IdFieldName{

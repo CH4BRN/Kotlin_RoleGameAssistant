@@ -32,6 +32,7 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.cha
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.displayedBreeds.DbDisplayedBreed
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.displayedBreeds.DbDisplayedBreedConverter
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_character.DbCharacter
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_character.DbCharacterConverter
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbBreedCharacteristic
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbCharacteristic
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbRollCharacteristic
@@ -64,7 +65,8 @@ Abstract class for room database
 @TypeConverters(
     DbBondConverter::class,
     DbIdealConverter::class,
-    DbDisplayedBreedConverter::class
+    DbDisplayedBreedConverter::class,
+    DbCharacterConverter::class
 )
 abstract class AppDatabase : RoomDatabase() {
 

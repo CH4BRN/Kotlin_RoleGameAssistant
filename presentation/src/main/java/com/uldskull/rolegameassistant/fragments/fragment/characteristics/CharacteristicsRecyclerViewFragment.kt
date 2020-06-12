@@ -33,7 +33,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   Class "AbilitiesRecyclerViewFragment" :
  *   Manage abilities's RecyclerView fragment.
  **/
-class CharacteristicsRecyclerViewFragment() :
+class CharacteristicsRecyclerViewFragment :
     CustomRecyclerViewFragment() {
 
     private var editable: Boolean = false
@@ -62,11 +62,6 @@ class CharacteristicsRecyclerViewFragment() :
         savedInstanceState: Bundle?
     ): View? {
         return initializeView(inflater, container)
-    }
-
-    override fun onResume() {
-        super.onResume()
-
     }
 
     /** Initialize the view **/
@@ -158,10 +153,10 @@ class CharacteristicsRecyclerViewFragment() :
     }
 
     private fun observeSelectedCharacter() {
-        newCharacterViewModel?.selectedCharacter?.observe(this, Observer { domainCharacter ->
+        newCharacterViewModel.selectedCharacter.observe(this, Observer { domainCharacter ->
             if (domainCharacter != null) {
                 Log.d(
-                    "DEBUG$TAG", "Selected character is :${domainCharacter?.characterName}\n" +
+                    "DEBUG$TAG", "Selected character is :${domainCharacter.characterName}\n" +
                             "Characteristics : \n" + "\tdomainCharacter.characterEducation : ${domainCharacter.characterEducation}\n"
                 )
 
@@ -181,9 +176,9 @@ class CharacteristicsRecyclerViewFragment() :
                 characteristicList.forEach {
                     if ((it?.characteristicTotal == null)
                         ||
-                        (it?.characteristicRoll == null)
+                        (it.characteristicRoll == null)
                         ||
-                        (it?.characteristicBonus == null)
+                        (it.characteristicBonus == null)
                     ) {
                         test = false
                     }
@@ -191,13 +186,13 @@ class CharacteristicsRecyclerViewFragment() :
 
 
                 if(test){
-                    if (characteristicsViewModel?.observedMutableCharacteristics?.value == null) {
-                        characteristicsViewModel?.observedMutableCharacteristics?.value =
+                    if (characteristicsViewModel.observedMutableCharacteristics.value == null) {
+                        characteristicsViewModel.observedMutableCharacteristics.value =
                             characteristicList.toMutableList()
                     }
 
-                    if (characteristicsViewModel?.displayedCharacteristics?.value == null) {
-                        characteristicsViewModel?.displayedCharacteristics?.value =
+                    if (characteristicsViewModel.displayedCharacteristics?.value == null) {
+                        characteristicsViewModel.displayedCharacteristics?.value =
                             characteristicList
                     }
 
@@ -221,7 +216,7 @@ class CharacteristicsRecyclerViewFragment() :
                 Log.d("DEBUG$TAG", "observedCharacteristics changed size ${it.size}")
 
 
-                characteristicsViewModel?.observedMutableCharacteristics.value =
+                characteristicsViewModel.observedMutableCharacteristics.value =
                     it as MutableList<DomainRollsCharacteristic?>
 
                 var displayedCharacteristics =
@@ -236,7 +231,7 @@ class CharacteristicsRecyclerViewFragment() :
     }
 
     private fun observeMutableCharacteristics() {
-        characteristicsViewModel?.observedMutableCharacteristics?.observe(
+        characteristicsViewModel.observedMutableCharacteristics.observe(
             this,
             Observer { rollsCharacteristics ->
                 if (characteristicsDisabledAdapter?.itemCount == 0) {

@@ -111,7 +111,7 @@ class OccupationsSkillsAdapter internal constructor(
         holder.tvOccupationsSkillName?.text = current?.skillName
         Log.d(TAG, "Skills is checked : ${current?.skillIsChecked}")
         holder.cbOccupationsSkillIsChecked?.isChecked = current?.skillIsChecked!!
-        holder.cbOccupationsSkillIsChecked?.setOnCheckedChangeListener() { _, isChecked ->
+        holder.cbOccupationsSkillIsChecked?.setOnCheckedChangeListener { _, isChecked ->
             kotlin.run {
                 Log.d(TAG, "isChecked : $isChecked")
                 current.skillIsChecked = isChecked
@@ -120,7 +120,7 @@ class OccupationsSkillsAdapter internal constructor(
             }
 
         }
-        holder.tvOccupationsSkillDescription?.text = current?.skillDescription
+        holder.tvOccupationsSkillDescription?.text = current.skillDescription
     }
 
 

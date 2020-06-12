@@ -6,6 +6,7 @@ import com.uldskull.rolegameassistant.models.character.DomainBond
 import com.uldskull.rolegameassistant.models.character.DomainIdeal
 import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollsCharacteristic
+import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
 
 /**
 Class "DomainCharacter"
@@ -39,23 +40,12 @@ open class DomainCharacter(
     var characterSanity: Int?,
     var characterLuck: Int?,
     var characterKnow: Int?,
-    var characterBreedBonus: Int?
+    var characterBreedBonus: Int?,
+    var characterOccupation:DomainOccupation?,
+    var characterSelectedOccupationSkill: MutableList<Long?>?
 ) {
-
-
     override fun toString(): String {
-        return "DomainCharacter(\n" +
-                "characterId=$characterId, characterName=$characterName, characterAge=$characterAge, characterGender=$characterGender, characterBiography=$characterBiography,\n" +
-                " characterBonds=$characterBonds,\n" +
-                " characterIdeals=$characterIdeals,\n" +
-                " characterBaseHealthPoints=$characterBaseHealthPoints, characterHealthPoints=$characterHealthPoints, \n" +
-                "characterIdeaPoints=$characterIdeaPoints, \n" +
-                "characterAlignment=$characterAlignment, characterEnergyPoints=$characterEnergyPoints, characterHeight=$characterHeight,\n" +
-                " characterPictureUri=$characterPictureUri, \n" +
-                "characterConstitution=$characterConstitution, characterStrength=$characterStrength, " +
-                "characterPower=$characterPower, characterDexterity=$characterDexterity, characterSize=$characterSize," +
-                "characterIntelligence=$characterIntelligence, characterAppearance=$characterAppearance, characterEducation=$characterEducation,\n" +
-                "characterWeight=$characterWeight, characterSanity=$characterSanity, characterLuck=$characterLuck, characterKnow=$characterKnow, characterBreedBonus=$characterBreedBonus)"
+        return "DomainCharacter(characterName=$characterName, characterBonds=$characterBonds, characterIdeals=$characterIdeals, characterBreedBonus=$characterBreedBonus, characterOccupation=$characterOccupation, characterSelectedOccupationSkill=$characterSelectedOccupationSkill)".toUpperCase()
     }
 }
 

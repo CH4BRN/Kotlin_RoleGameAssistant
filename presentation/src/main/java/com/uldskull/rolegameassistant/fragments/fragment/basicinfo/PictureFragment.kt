@@ -28,7 +28,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   Class "PictureFragment" :
  *   Handle character's picture
  **/
-class PictureFragment() : CustomFragment() {
+class PictureFragment : CustomFragment() {
 
 
     /** View model for new character    **/

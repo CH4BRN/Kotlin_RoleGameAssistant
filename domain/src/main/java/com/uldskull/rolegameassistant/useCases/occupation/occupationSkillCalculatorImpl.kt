@@ -20,10 +20,10 @@ class occupationSkillCalculatorImpl : OccupationSkillCalculator {
 
         println ("$TAG current : $current")
 
-        if (current?.filledSkillTensValue != null && current?.filledSkillUnitsValue != null) {
-            var tens = current?.filledSkillTensValue.toString()
+        if (current?.filledSkillTensValue != null && current.filledSkillUnitsValue != null) {
+            var tens = current.filledSkillTensValue.toString()
             println ("$TAG, tens : $tens")
-            var units = current?.filledSkillUnitsValue.toString()
+            var units = current.filledSkillUnitsValue.toString()
             println ("$TAG, units : $units")
 
             try {

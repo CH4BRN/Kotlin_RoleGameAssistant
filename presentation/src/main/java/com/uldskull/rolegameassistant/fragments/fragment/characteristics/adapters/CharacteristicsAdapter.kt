@@ -118,8 +118,8 @@ open class CharacteristicsAdapter internal constructor(
                     current?.characteristicBonus = 0
                 }
                 current?.characteristicTotal =
-                    current?.characteristicRoll!! + current?.characteristicBonus!!
-                holder.totalItemView.text = current?.characteristicTotal.toString()
+                    current?.characteristicRoll!! + current.characteristicBonus!!
+                holder.totalItemView.text = current.characteristicTotal.toString()
 
 
             } catch (e: Exception) {

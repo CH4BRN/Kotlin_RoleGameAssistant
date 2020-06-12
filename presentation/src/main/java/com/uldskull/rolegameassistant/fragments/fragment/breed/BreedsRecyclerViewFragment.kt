@@ -30,7 +30,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   Class "BreedsRecyclerViewFragment" :
  *   TODO: Fill class use.
  **/
-class BreedsRecyclerViewFragment() :
+class BreedsRecyclerViewFragment :
     CustomRecyclerViewFragment(),
     AdapterListTransmitter<DomainDisplayedBreed> {
     /**
@@ -91,7 +91,7 @@ class BreedsRecyclerViewFragment() :
      * Observe the mutable breeds list that will be displayed.
      */
     private fun observeMutableBreedsList() {
-        this.displayedBreedsViewModel?.observedMutableBreeds.observe(
+        this.displayedBreedsViewModel.observedMutableBreeds.observe(
             this,
             Observer { domainDisplayedBreeds ->
                 var breedCount = domainDisplayedBreeds?.count()
@@ -108,7 +108,7 @@ class BreedsRecyclerViewFragment() :
      * Observe the selected character.
      */
     private fun observeSelectedCharacter() {
-        this.newCharacterViewModel?.selectedCharacter?.observe(this, Observer { domainCharacter ->
+        this.newCharacterViewModel.selectedCharacter.observe(this, Observer { domainCharacter ->
             if (domainCharacter != null) {
                 Log.d("DEBUG$TAG", "\nSelected character is : ${domainCharacter.characterName}")
                 observeCharactersSelectedBreeds(domainCharacter)
@@ -120,34 +120,34 @@ class BreedsRecyclerViewFragment() :
      * Observe Character's selected breeds, to display previously selected breeds.
      */
     private fun observeCharactersSelectedBreeds(domainCharacter: DomainCharacter?) {
-        characterBreedsViewModel?.observedCharactersBreeds?.observe(
+        characterBreedsViewModel.observedCharactersBreeds?.observe(
             this,
             Observer { domainCharacterBreeds ->
                 domainCharacterBreeds?.forEach { domainCharacterBreed ->
                     if (domainCharacterBreed.characterId!! == domainCharacter?.characterId) {
                         var corresponding =
-                            displayedBreedsViewModel?.findBreedWithId(domainCharacterBreed?.displayedBreedId)
+                            displayedBreedsViewModel.findBreedWithId(domainCharacterBreed.displayedBreedId)
                         Log.d(
                             "DEBUG$TAG", "found breed : \n" +
                                     "$corresponding"
                         )
                         var displayedBreeds =
-                            displayedBreedsViewModel?.observedMutableBreeds?.value?.toMutableList()
+                            displayedBreedsViewModel.observedMutableBreeds.value?.toMutableList()
                         if (displayedBreeds != null) {
                             Log.d("DEBUG$TAG", "breeds size = ${displayedBreeds.size}")
 
                             var found =
-                                displayedBreeds?.find { b -> b.breedId == corresponding?.breedId }
+                                displayedBreeds.find { b -> b.breedId == corresponding?.breedId }
                             if (found != null) {
                                 Log.d("DEBUG$TAG", "found : $found")
-                                found?.breedChecked = true
+                                found.breedChecked = true
                                 var index =
-                                    displayedBreeds?.indexOfFirst { b -> b.breedId == found?.breedId }
+                                    displayedBreeds.indexOfFirst { b -> b.breedId == found.breedId }
                                 displayedBreeds[index] = found
                             }
 
                         }
-                        displayedBreedsViewModel?.observedMutableBreeds?.value = displayedBreeds
+                        displayedBreedsViewModel.observedMutableBreeds.value = displayedBreeds
                     }
                 }
             })
@@ -225,7 +225,7 @@ class BreedsRecyclerViewFragment() :
 
     override fun transmitList(domainDisplayedModels: List<DomainDisplayedBreed>?) {
         Log.d("DEBUG$TAG", "The list is : ${domainDisplayedModels?.size} long")
-        displayedBreedsViewModel?.observedMutableBreeds?.value = domainDisplayedModels
+        displayedBreedsViewModel.observedMutableBreeds.value = domainDisplayedModels
     }
 
 

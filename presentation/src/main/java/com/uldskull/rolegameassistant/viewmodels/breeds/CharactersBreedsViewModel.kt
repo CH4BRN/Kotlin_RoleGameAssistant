@@ -59,7 +59,7 @@ class CharactersBreedsViewModel(
      * Delete all the character's breeds.
      */
     fun deleteById(characterId: Long?) {
-        var result = charactersBreedRepositoryImpl?.deleteById(characterId)
+        var result = charactersBreedRepositoryImpl.deleteById(characterId)
     }
 
     /**

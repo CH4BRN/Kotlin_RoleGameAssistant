@@ -30,7 +30,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   Class "BondFragment" :
  *   Fragment that handles bond creation.
  **/
-class BondsFragment() : CustomFragment() {
+class BondsFragment : CustomFragment() {
     /**
      * Activity lifecycle
      */
@@ -148,16 +148,16 @@ class BondsFragment() : CustomFragment() {
                 }
                 else -> {
                     try {
-                        var bonds = bondsViewModel?.bonds?.value
+                        var bonds = bondsViewModel.bonds.value
 
 
 
                         if (bonds == null) {
                             bonds = mutableListOf()
                         }
-                        Log.d("DEBUG$TAG", "bonds size = ${bonds?.size}")
-                        bonds?.add(DomainBond(null, titleText.toString(), valueText?.toString()))
-                        bondsViewModel?.bonds?.value = bonds
+                        Log.d("DEBUG$TAG", "bonds size = ${bonds.size}")
+                        bonds.add(DomainBond(null, titleText.toString(), valueText.toString()))
+                        bondsViewModel.bonds.value = bonds
                     } catch (e: Exception) {
                         Log.e("ERROR", "Adding failed")
                         e.printStackTrace()

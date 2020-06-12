@@ -77,7 +77,9 @@ class CharacterRepositoryImpl(
                 characterLuck = it?.characterLuck,
                 characterSanity = it?.characterSanity,
                 characterBaseHealthPoints = it?.characterBaseHealth,
-                characterBreedBonus = it?.characterBreedBonus
+                characterBreedBonus = it?.characterBreedBonus,
+                characterSelectedOccupationSkill = it?.characterSelectedOccupationSkill,
+                characterOccupation = it?.characterOccupation?.toDomain()
             )
         }
     }
@@ -152,19 +154,19 @@ class CharacterRepositoryImpl(
     override fun findOneWithBreeds(id: Long?): DomainCharacterWithBreeds? {
         Log.d("DEBUG$TAG", "findOneWithBreeds")
 
-        var characterWithBreeds = dbCharacterWithDbCharactersBreedDao?.getCharacterWithBreeds(id)
+        var characterWithBreeds = dbCharacterWithDbCharactersBreedDao.getCharacterWithBreeds(id)
         Log.d("DEBUG$TAG", "$characterWithBreeds")
 
-        var dbBreeds = characterWithBreeds?.childrenBreeds
+        var dbBreeds = characterWithBreeds.childrenBreeds
         var domainBreeds: MutableList<DomainCharactersBreed> = mutableListOf()
 
         dbBreeds.forEach {
-            domainBreeds?.add(it.toDomain())
+            domainBreeds.add(it.toDomain())
         }
 
 
         return DomainCharacterWithBreeds(
-            character = characterWithBreeds?.parentCharacter?.toDomain(),
+            character = characterWithBreeds.parentCharacter.toDomain(),
             breeds = domainBreeds
         )
     }

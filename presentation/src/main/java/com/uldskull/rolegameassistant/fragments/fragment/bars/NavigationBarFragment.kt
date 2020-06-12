@@ -17,9 +17,12 @@ import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.models.character.breed.charactersBreed.DomainCharactersBreed
 import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
+import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
 import com.uldskull.rolegameassistant.viewmodels.*
 import com.uldskull.rolegameassistant.viewmodels.breeds.CharactersBreedsViewModel
 import com.uldskull.rolegameassistant.viewmodels.breeds.DisplayedBreedsViewModel
+import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationSkillsViewModel
+import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationsViewModel
 import kotlinx.android.synthetic.main.fragment_navigation_bar.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -65,6 +68,10 @@ class NavigationBarFragment : CustomFragment() {
     private val bondsViewModel: BondsViewModel by sharedViewModel()
 
     private val idealsViewModel: IdealsViewModel by sharedViewModel()
+
+    private val occupationsViewModel: OccupationsViewModel by sharedViewModel()
+
+    private val occupationSkillsViewModel: OccupationSkillsViewModel by sharedViewModel()
 
     /**
      * Is saving enabled ?
@@ -127,6 +134,10 @@ class NavigationBarFragment : CustomFragment() {
         setSaveButtonOnClickListener()
 
         observeCharacterName()
+
+        occupationsViewModel?.observedOccupationsSkills?.observe(this, Observer {
+            it.forEach { Log.d("DEBUG$TAG", "Skill = ${it.skillName}") }
+        })
     }
 
     /**
@@ -208,18 +219,36 @@ class NavigationBarFragment : CustomFragment() {
         Log.d(TAG, "doSave")
 
         try {
-            var bonds = bondsViewModel?.bonds.value
+            var bonds = bondsViewModel.bonds.value
             Log.d("DEBUG$TAG", "saved bonds = ${bonds?.size}")
 
             var characterIdeals =
                 idealsViewModel.mutableIdeals?.value?.filter { i -> i?.isChecked!! }
             if (characterIdeals != null) {
-                newCharacterViewModel?.currentCharacter?.characterIdeals =
+                newCharacterViewModel.currentCharacter?.value?.characterIdeals =
                     characterIdeals.toMutableList()
             }
 
+            newCharacterViewModel.characterBonds = bonds
 
-            newCharacterViewModel?.characterBonds = bonds
+            var occupationsSkills = occupationsViewModel?.observedOccupationsSkills?.value
+            occupationsSkills?.forEach { Log.d("DEBUG$TAG", "Skill : ${it.skillName}") }
+
+            var checkedSkills = occupationsSkills?.filter { s-> s.skillIsChecked }
+            Log.d("DEBUG$TAG", "CheckedSkillSize : ${checkedSkills?.size}")
+            var skillsIds = mutableListOf<Long?>()
+            checkedSkills?.forEach {
+                skillsIds.add(it?.skillId)
+            }
+
+
+            skillsIds?.forEach {
+                Log.d("DEBUG$TAG", "Skills id : $it")
+            }
+
+            newCharacterViewModel?.characterSkillsIds = skillsIds
+
+
             val insertedId =
                 saveCharacter()
             saveBreeds(insertedId)
@@ -278,7 +307,8 @@ class NavigationBarFragment : CustomFragment() {
             luckScore = derivedValuesViewModel.luckScore.value,
             sanityScore = derivedValuesViewModel.sanityScore.value,
             baseHealth = derivedValuesViewModel.baseHealth.value,
-            breedBonus = derivedValuesViewModel.breedHealthBonus.value
+            breedBonus = derivedValuesViewModel.breedHealthBonus.value,
+            skillsIds = newCharacterViewModel.characterSkillsIds
         )
     }
 

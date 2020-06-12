@@ -52,12 +52,12 @@ class DbOccupationSkill(
         override fun from(domainModel: DomainOccupationSkill?): DbOccupationSkill {
             if (domainModel != null) {
                 return DbOccupationSkill(
-                    skillId = domainModel?.skillId,
-                    skillName = domainModel?.skillName,
-                    skillDescription = domainModel?.skillDescription,
-                    skillIsChecked = domainModel?.skillIsChecked,
-                    skillMax = domainModel?.skillMax,
-                    skillBase = domainModel?.skillBase
+                    skillId = domainModel.skillId,
+                    skillName = domainModel.skillName,
+                    skillDescription = domainModel.skillDescription,
+                    skillIsChecked = domainModel.skillIsChecked,
+                    skillMax = domainModel.skillMax,
+                    skillBase = domainModel.skillBase
 
                 )
             } else {

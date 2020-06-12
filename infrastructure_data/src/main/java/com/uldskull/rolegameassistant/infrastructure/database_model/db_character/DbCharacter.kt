@@ -14,6 +14,7 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_bond.DbBo
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.displayedBreeds.DbDisplayedBreed
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbRollCharacteristic
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_ideal.DbIdeal
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupation.DbOccupation
 import com.uldskull.rolegameassistant.models.character.DomainBond
 import com.uldskull.rolegameassistant.models.character.DomainIdeal
 import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
@@ -44,7 +45,10 @@ class DbCharacter(
     val characterKnow: Int?,
     val characterLuck: Int?,
     val characterSanity: Int?,
-    val characterBreedBonus:Int?,
+    val characterBreedBonus: Int?,
+    val characterSelectedOccupationSkill: MutableList<Long?>?,
+    @Embedded(prefix = "occ")
+    val characterOccupation: DbOccupation?,
     @Embedded(prefix = "str")
     val characterStrength: DbRollCharacteristic?,
     @Embedded(prefix = "siz")
@@ -117,13 +121,15 @@ class DbCharacter(
             characterLuck = this.characterLuck,
             characterSanity = this.characterSanity,
             characterBaseHealthPoints = this.characterBaseHealth,
-            characterBreedBonus = this.characterBreedBonus
+            characterBreedBonus = this.characterBreedBonus,
+            characterSelectedOccupationSkill = this.characterSelectedOccupationSkill,
+            characterOccupation = this.characterOccupation?.toDomain()
 
         )
     }
 
     override fun toString(): String {
-        return "DbCharacter(characterId=$characterId, characterName=$characterName, characterAge=$characterAge, characterBiography=$characterBiography, characterBonds=$characterBonds, characterHealthPoints=$characterHealthPoints, characterBaseHealth=$characterBaseHealth, characterIdeaPoints=$characterIdeaPoints, characterAlignment=$characterAlignment, characterEnergyPoints=$characterEnergyPoints, characterIdeals=$characterIdeals, characterGender=$characterGender, characterHeight=$characterHeight, characterPictureUri=$characterPictureUri, characterWeight=$characterWeight, characterKnow=$characterKnow, characterLuck=$characterLuck, characterSanity=$characterSanity, characterStrength=$characterStrength, characterSize=$characterSize, characterPower=$characterPower, characterIntelligence=$characterIntelligence, characterDexterity=$characterDexterity, characterConstitution=$characterConstitution, characterAppearance=$characterAppearance, characterEducation=$characterEducation)"
+        return "DbCharacter(characterId=$characterId, characterName=$characterName, characterAge=$characterAge, characterBiography=$characterBiography, characterBonds=$characterBonds, characterHealthPoints=$characterHealthPoints, characterBaseHealth=$characterBaseHealth, characterIdeaPoints=$characterIdeaPoints, characterAlignment=$characterAlignment, characterEnergyPoints=$characterEnergyPoints, characterIdeals=$characterIdeals, characterGender=$characterGender, characterHeight=$characterHeight, characterPictureUri=$characterPictureUri, characterWeight=$characterWeight, characterKnow=$characterKnow, characterLuck=$characterLuck, characterSanity=$characterSanity, characterBreedBonus=$characterBreedBonus, characterSelectedOccupationSkill=$characterSelectedOccupationSkill, characterStrength=$characterStrength, characterSize=$characterSize, characterPower=$characterPower, characterIntelligence=$characterIntelligence, characterDexterity=$characterDexterity, characterConstitution=$characterConstitution, characterAppearance=$characterAppearance, characterEducation=$characterEducation)".toUpperCase()
     }
 
 
@@ -173,7 +179,9 @@ class DbCharacter(
                 characterLuck = domainModel?.characterLuck,
                 characterKnow = domainModel?.characterKnow,
                 characterBaseHealth = domainModel?.characterBaseHealthPoints,
-                characterBreedBonus = domainModel?.characterBreedBonus
+                characterBreedBonus = domainModel?.characterBreedBonus,
+                characterSelectedOccupationSkill = domainModel?.characterSelectedOccupationSkill,
+                characterOccupation = DbOccupation.from(domainModel?.characterOccupation)
 
             )
         }

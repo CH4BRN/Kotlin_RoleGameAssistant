@@ -128,7 +128,7 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
     }
     fun calculateAlignmentScore(ideals:List<DomainIdeal?>){
         var score = 0
-        ideals?.forEach {
+        ideals.forEach {
             if(it != null){
                 if(it.idealGoodPoints != null){
                     var goodPoints = it.idealGoodPoints
@@ -153,7 +153,7 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
     fun calculateEnergyPoints(power: DomainRollsCharacteristic?) {
         if (power != null) {
             if (power.characteristicTotal != null) {
-                energyPoints?.value = power.characteristicTotal
+                energyPoints.value = power.characteristicTotal
             }
         }
     }
@@ -165,7 +165,7 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
 
         if (size.characteristicTotal != null && strength.characteristicTotal != null) {
             var score =
-                size!!.characteristicTotal!! + strength!!.characteristicTotal!!
+                size.characteristicTotal!! + strength.characteristicTotal!!
 
             sizePlusStrengthScore.value = score
 
@@ -221,8 +221,8 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
 
     fun calculateKnowScore(education: DomainRollsCharacteristic) {
         Log.d("DEBUG$TAG", "calculateKnowPoints")
-        if (education?.characteristicTotal != null) {
-            Log.d("DEBUG$TAG", "education?.characteristicTotal : ${education?.characteristicTotal}")
+        if (education.characteristicTotal != null) {
+            Log.d("DEBUG$TAG", "education?.characteristicTotal : ${education.characteristicTotal}")
             var score = education.characteristicTotal!! * 5
             knowScore.value = score
         }
@@ -256,7 +256,7 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
                 TAG,
                 "base health : ${baseHealthValue}\nbreed health bonus : ${breedHealthBonusValue}"
             )
-            totalHealth.value = baseHealthValue + breedHealthBonusValue!!
+            totalHealth.value = baseHealthValue + breedHealthBonusValue
         }
     }
 

@@ -32,7 +32,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   Class "OccupationSkills recyclerView fragment" :
  *   Fragment to display occupation skills.
  **/
-class OccupationSkillsRecyclerViewFragment() :
+class OccupationSkillsRecyclerViewFragment :
     CustomRecyclerViewFragment(),
     AdapterButtonListener<DomainFilledSkill> {
     /**
@@ -62,18 +62,18 @@ class OccupationSkillsRecyclerViewFragment() :
         super.onResume()
         Log.d(TAG, "onResume")
         var skillsToFill =
-            occupationSkillsViewModel?.checkedOccupationSkills?.value?.mapNotNull { domainOccupationSkill ->
+            occupationSkillsViewModel.checkedOccupationSkills.value?.mapNotNull { domainOccupationSkill ->
                 if (domainOccupationSkill == null) {
                     return@mapNotNull null
                 } else {
                     DomainFilledSkill(
-                        filledSkillMax = domainOccupationSkill?.filledSkillMax,
-                        filledSkillBase = domainOccupationSkill?.filledSkillBase,
-                        filledSkillName = domainOccupationSkill?.skillName,
-                        filledSkillTensValue = domainOccupationSkill?.filledSkillTensValue,
-                        filledSkillTotal = domainOccupationSkill?.filledSkillTotal,
-                        filledSkillUnitsValue = domainOccupationSkill?.filledSkillUnitsValue,
-                        filledSkillId = domainOccupationSkill?.skillId
+                        filledSkillMax = domainOccupationSkill.filledSkillMax,
+                        filledSkillBase = domainOccupationSkill.filledSkillBase,
+                        filledSkillName = domainOccupationSkill.skillName,
+                        filledSkillTensValue = domainOccupationSkill.filledSkillTensValue,
+                        filledSkillTotal = domainOccupationSkill.filledSkillTotal,
+                        filledSkillUnitsValue = domainOccupationSkill.filledSkillUnitsValue,
+                        filledSkillId = domainOccupationSkill.skillId
                     )
                 }
 
@@ -113,11 +113,6 @@ class OccupationSkillsRecyclerViewFragment() :
         return initializeView(layoutInflater, container)
     }
 
-    /** Fragment life-cycle **/
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
 
     /** Initialize recycler view    **/
     override fun initializeRecyclerView() {
@@ -138,13 +133,13 @@ class OccupationSkillsRecyclerViewFragment() :
     }
 
     private fun observeCheckedSkills() {
-        occupationSkillsViewModel?.checkedOccupationSkills?.observe(
+        occupationSkillsViewModel.checkedOccupationSkills.observe(
             this,
             Observer { occupationSkills: List<DomainFilledSkill> ->
                 kotlin.run {
-                    Log.d(TAG, "occupationSkills size : ${occupationSkills?.size}")
+                    Log.d(TAG, "occupationSkills size : ${occupationSkills.size}")
 
-                    occupationSkills?.forEach { filledSkill ->
+                    occupationSkills.forEach { filledSkill ->
                         kotlin.run {
                             Log.d(TAG + "valid", "filledSkill : ${filledSkill}")
                         }
@@ -153,21 +148,23 @@ class OccupationSkillsRecyclerViewFragment() :
                     var skillsToFill =
                         occupationSkills.map { domainOccupationSkill ->
                             DomainFilledSkill(
-                                filledSkillMax = domainOccupationSkill?.filledSkillMax,
-                                filledSkillBase = domainOccupationSkill?.filledSkillBase,
-                                filledSkillName = domainOccupationSkill?.skillName,
-                                filledSkillId = domainOccupationSkill?.skillId,
-                                filledSkillUnitsValue = domainOccupationSkill?.filledSkillUnitsValue,
-                                filledSkillTensValue = domainOccupationSkill?.filledSkillTensValue,
-                                filledSkillTotal = domainOccupationSkill?.filledSkillTotal
+                                filledSkillMax = domainOccupationSkill.filledSkillMax,
+                                filledSkillBase = domainOccupationSkill.filledSkillBase,
+                                filledSkillName = domainOccupationSkill.skillName,
+                                filledSkillId = domainOccupationSkill.skillId,
+                                filledSkillUnitsValue = domainOccupationSkill.filledSkillUnitsValue,
+                                filledSkillTensValue = domainOccupationSkill.filledSkillTensValue,
+                                filledSkillTotal = domainOccupationSkill.filledSkillTotal
                             )
                         }
-                    var size = skillsToFill?.size
+                    var size = skillsToFill.size
                     if(size != null){
-                        pointsToSpendViewModel?.observableSpentOccupationTensPointsArray.value = arrayOfNulls(skillsToFill.size!!)
+                        pointsToSpendViewModel.observableSpentOccupationTensPointsArray.value = arrayOfNulls(
+                            skillsToFill.size
+                        )
                     }
 
-                    skillsToFill?.forEach { filledSkill ->
+                    skillsToFill.forEach { filledSkill ->
                         kotlin.run {
                             Log.d(TAG + "valid", "skillsToFill : ${filledSkill}")
                         }
@@ -200,8 +197,8 @@ class OccupationSkillsRecyclerViewFragment() :
      */
     override fun itemPressed(domainModel: DomainFilledSkill?, position: Int?) {
         Log.d("DEBUG", "item pressed for $domainModel \n\tat position $position")
-        pointsToSpendViewModel?.observableCurrentOccupationSkillPosition.value = position
-        occupationSkillsViewModel?.currentOccupationSkill.value = domainModel
+        pointsToSpendViewModel.observableCurrentOccupationSkillPosition.value = position
+        occupationSkillsViewModel.currentOccupationSkill.value = domainModel
 
 
 

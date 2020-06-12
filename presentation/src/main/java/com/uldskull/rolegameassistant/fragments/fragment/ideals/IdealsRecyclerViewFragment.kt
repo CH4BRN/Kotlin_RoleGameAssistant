@@ -118,14 +118,14 @@ class IdealsRecyclerViewFragment :
      * Observe repository's ideals
      */
     private fun observeRepositoryIdeals() {
-        idealsViewModel?.repositoryIdeals?.observe(this, Observer { domainIdealsList ->
-            var mutableIdeals: MutableList<DomainIdeal?>? = idealsViewModel?.mutableIdeals?.value
+        idealsViewModel.repositoryIdeals?.observe(this, Observer { domainIdealsList ->
+            var mutableIdeals: MutableList<DomainIdeal?>? = idealsViewModel.mutableIdeals?.value
             if (mutableIdeals == null) {
                 mutableIdeals = mutableListOf()
             }
             if (mutableIdeals != null) {
                 domainIdealsList?.forEach {
-                    if (!mutableIdeals?.any { i -> i?.idealId == it.idealId }) {
+                    if (!mutableIdeals.any { i -> i?.idealId == it.idealId }) {
                         mutableIdeals.add(it)
                     }
                 }
@@ -133,7 +133,7 @@ class IdealsRecyclerViewFragment :
 
 
             Log.d("DEBUG$TAG", "Repository ideals")
-            idealsViewModel?.mutableIdeals?.value = mutableIdeals
+            idealsViewModel.mutableIdeals?.value = mutableIdeals
 
         })
     }
@@ -142,7 +142,7 @@ class IdealsRecyclerViewFragment :
      * Observe the ideals mutable list.
      */
     private fun observeIdealsMutableList() {
-        idealsViewModel?.mutableIdeals?.observe(this, Observer { domainIdealsList ->
+        idealsViewModel.mutableIdeals?.observe(this, Observer { domainIdealsList ->
             Log.d("DEBUG$TAG", "Mutable ideals")
 
             domainIdealsList?.forEach {
@@ -157,11 +157,11 @@ class IdealsRecyclerViewFragment :
      * Observe the selected character to get its ideals.
      */
     private fun observeSelectedCharacter() {
-        newCharacterViewModel?.selectedCharacter?.observe(this, Observer { domainCharacter ->
+        newCharacterViewModel.selectedCharacter.observe(this, Observer { domainCharacter ->
 
             if (domainCharacter != null) {
-                if (domainCharacter?.characterIdeals != null && !domainCharacter?.characterIdeals.isNullOrEmpty()) {
-                    var characterIdeals = domainCharacter?.characterIdeals
+                if (domainCharacter.characterIdeals != null && !domainCharacter.characterIdeals.isNullOrEmpty()) {
+                    var characterIdeals = domainCharacter.characterIdeals
                     Log.d("DEBUG$TAG", "Character ideals is null = ${characterIdeals == null}")
 
 
@@ -174,12 +174,12 @@ class IdealsRecyclerViewFragment :
 
                     if (test) {
                         if (characterIdeals != null && !characterIdeals.isNullOrEmpty()) {
-                            var count: Int? = characterIdeals?.count { i -> i?.isChecked!! }
+                            var count: Int? = characterIdeals.count { i -> i?.isChecked!! }
                             Log.d("DEBUG$TAG", "characterIdeals count : $count")
 
-                            idealsViewModel?.mutableIdeals?.value = domainCharacter?.characterIdeals
+                            idealsViewModel.mutableIdeals?.value = domainCharacter.characterIdeals
                             count =
-                                idealsViewModel?.mutableIdeals?.value?.count { i -> i?.isChecked!! }
+                                idealsViewModel.mutableIdeals?.value?.count { i -> i?.isChecked!! }
                             Log.d("DEBUG$TAG", "mutableIdeals count : $count")
                         }
                     }
@@ -207,7 +207,7 @@ class IdealsRecyclerViewFragment :
         override fun newInstance(activity: Activity): IdealsRecyclerViewFragment {
             Log.d(TAG, "newInstance")
             val fragment = IdealsRecyclerViewFragment()
-            fragment?.activity = activity
+            fragment.activity = activity
             val args = Bundle()
 
             args.putInt(KEY_POSITION, IDEAL_RECYCLER_VIEW_FRAGMENT_POSITION)
@@ -224,7 +224,7 @@ class IdealsRecyclerViewFragment :
         Log.d(TAG, "itemPressed")
         if (domainModel != null) {
 
-            var ideals = idealsViewModel?.mutableIdeals?.value
+            var ideals = idealsViewModel.mutableIdeals?.value
             var count = ideals?.count { i -> i?.isChecked!! }
             Log.d("DEBUG$TAG", "Checked Count = $count")
 
@@ -235,8 +235,8 @@ class IdealsRecyclerViewFragment :
             count = ideals?.count { i -> i?.isChecked!! }
 
             Log.d("DEBUG$TAG", "Checked Count = $count")
-            idealsViewModel?.mutableIdeals?.value = ideals
-            newCharacterViewModel?.currentCharacter?.characterIdeals = ideals
+            idealsViewModel.mutableIdeals?.value = ideals
+            newCharacterViewModel.currentCharacter?.value?.characterIdeals = ideals
 
         }
     }

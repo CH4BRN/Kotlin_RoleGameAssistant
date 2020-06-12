@@ -50,11 +50,11 @@ class DbDisplayedBreed(
         override fun from(domainDisplayedModel: DomainDisplayedBreed?): DbDisplayedBreed {
             if (domainDisplayedModel != null) {
                 return DbDisplayedBreed(
-                    breedId = domainDisplayedModel?.breedId,
-                    breedDescription = domainDisplayedModel?.breedDescription,
-                    breedName = domainDisplayedModel?.breedName,
-                    breedHealthBonus = domainDisplayedModel?.breedHealthBonus,
-                    breedIsChecked = domainDisplayedModel?.breedChecked
+                    breedId = domainDisplayedModel.breedId,
+                    breedDescription = domainDisplayedModel.breedDescription,
+                    breedName = domainDisplayedModel.breedName,
+                    breedHealthBonus = domainDisplayedModel.breedHealthBonus,
+                    breedIsChecked = domainDisplayedModel.breedChecked
                 )
             } else {
                 throw Exception("Breed is null")

@@ -21,7 +21,7 @@ Class "HobbiesSkillsRecyclerViewFragment"
 
 Manage hobbies's skill's recyclerview fragmet.
  */
-class HobbiesSkillsRecyclerViewFragment() :
+class HobbiesSkillsRecyclerViewFragment :
     CustomRecyclerViewFragment() {
     /** ViewModel for skills  **/
     private lateinit var skillsViewModel: SkillsViewModel

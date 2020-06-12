@@ -139,7 +139,7 @@ class DbCharactersBreedRepositoryImpl(
     override fun deleteById(characterId: Long?) {
         Log.d("DEBUG$TAG", "deleteById")
         try{
-            return dbCharactersBreedDao?.deleteCharacterBreedsById(characterId)
+            return dbCharactersBreedDao.deleteCharacterBreedsById(characterId)
         }catch (e:Exception){
             Log.e("ERROR", "deleteById failed")
             e.printStackTrace()

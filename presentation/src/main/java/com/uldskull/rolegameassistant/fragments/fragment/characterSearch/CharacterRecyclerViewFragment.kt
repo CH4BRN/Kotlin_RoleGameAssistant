@@ -29,7 +29,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   Class "CharacterRecycerViewFragment" :
  *   TODO: Fill class use.
  **/
-class CharacterRecyclerViewFragment() :
+class CharacterRecyclerViewFragment :
     CustomRecyclerViewFragment(),
     AdapterButtonListener<DomainCharacter> {
 

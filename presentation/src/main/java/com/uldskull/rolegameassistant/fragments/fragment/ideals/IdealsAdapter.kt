@@ -98,8 +98,8 @@ class IdealsAdapter internal constructor(
         holder.idealEvilPoints.text = current?.idealEvilPoints.toString()
         holder.idealGoodPoints.text = current?.idealGoodPoints.toString()
         if (current != null) {
-            Log.d("DEBUG$TAG", "Current is checked : ${current?.isChecked}")
-            if (current!!.isChecked != null) {
+            Log.d("DEBUG$TAG", "Current is checked : ${current.isChecked}")
+            if (current.isChecked != null) {
                 holder.idealCheckedItemView.isChecked = current.isChecked!!
             }
 
@@ -110,7 +110,7 @@ class IdealsAdapter internal constructor(
         val idealEvilPoints = current?.idealEvilPoints
         setAlignmentIcon(idealEvilPoints, idealGoodPoints, holder)
 
-        holder.idealOverlay?.setOnClickListener {
+        holder.idealOverlay.setOnClickListener {
 
             Log.d("DEBUG$TAG", "OVERLAY")
             var checked = current?.isChecked
@@ -118,7 +118,7 @@ class IdealsAdapter internal constructor(
                 current?.isChecked = !checked
             }
             Log.d("DEBUG$TAG", "current is checked : ${current?.isChecked}")
-            holder.idealCheckedItemView?.isChecked = current?.isChecked!!
+            holder.idealCheckedItemView.isChecked = current?.isChecked!!
             this.buttonListener.itemPressed(current)
         }
 

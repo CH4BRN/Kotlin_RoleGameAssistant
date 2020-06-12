@@ -38,7 +38,7 @@ class OccupationsViewModel(
         Log.d(TAG, "refreshDataFromRepository")
         viewModelScope.launch {
             try {
-                observedOccupations = findAll()
+                repositoryOccupations = findAll()
             } catch (e: Exception) {
                 throw e
             }
@@ -48,15 +48,15 @@ class OccupationsViewModel(
     private fun findAll(): LiveData<List<DomainOccupation>>? {
         Log.d(TAG, "findAll")
         thread(start = true) {
-            observedOccupations = occupationsRepositoryImpl.getAll()
+            repositoryOccupations = occupationsRepositoryImpl.getAll()
         }
-        return observedOccupations
+        return repositoryOccupations
     }
 
     fun findOneWithChildren(id: Long?): DomainOccupationWithSkills? {
         Log.d(TAG, "findOneWithChildren")
         try {
-            return occupationsRepositoryImpl?.findOneWithChildren(id)
+            return occupationsRepositoryImpl.findOneWithChildren(id)
         } catch (e: Exception) {
             Log.e(TAG, "findOneWithChildren FAILED")
             e.printStackTrace()
@@ -69,8 +69,8 @@ class OccupationsViewModel(
     var selectedOccupationSpecial: MutableLiveData<String>? = MutableLiveData()
     var selectedOccupationIndex: MutableLiveData<Int>? = MutableLiveData()
     var selectedOccupation: MutableLiveData<DomainOccupation>? = MutableLiveData()
-    var observedOccupations = occupationsRepositoryImpl.getAll()
-    var displayedOccupations = mutableListOf<DomainOccupation?>()
+    var repositoryOccupations = occupationsRepositoryImpl.getAll()
+    var displayedOccupations = MutableLiveData<List<String?>>()
     var observedOccupationsSkills: MutableLiveData<List<DomainOccupationSkill>>? =
         MutableLiveData()
 // TODO : Fill class.
