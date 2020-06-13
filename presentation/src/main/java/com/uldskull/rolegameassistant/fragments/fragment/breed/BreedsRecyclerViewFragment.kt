@@ -14,16 +14,14 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.*
+import com.uldskull.rolegameassistant.fragments.fragment.AdapterListTransmitter
+import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
+import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
+import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.BREED_RECYCLER_VIEW_FRAGMENT_POSITION
-import com.uldskull.rolegameassistant.models.character.breed.charactersBreed.DomainCharactersBreed
 import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
-import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
-import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
-import com.uldskull.rolegameassistant.viewmodels.breeds.CharactersBreedsViewModel
 import com.uldskull.rolegameassistant.viewmodels.breeds.DisplayedBreedsViewModel
-import kotlinx.android.synthetic.main.fragment_recyclerview_breeds.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
@@ -43,25 +41,11 @@ class BreedsRecyclerViewFragment :
      */
     private val displayedBreedsViewModel: DisplayedBreedsViewModel by sharedViewModel()
 
-    /**
-     * ViewModel for Character's breeds.
-     */
-    private val characterBreedsViewModel: CharactersBreedsViewModel by sharedViewModel()
-
-    /**
-     * ViewModel for characters
-     */
-    private val characteristicsViewModel: CharacteristicsViewModel by sharedViewModel()
-
+    private val newCharacterViewModel:NewCharacterViewModel by sharedViewModel()
     /**
      * Adapter for races recycler view
      */
     private var breedsAdapter: BreedsAdapter? = null
-
-    /**
-     * ViewModel for character
-     */
-    private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
 
     /**
      * Initialize the recycler view.
@@ -81,8 +65,6 @@ class BreedsRecyclerViewFragment :
         Log.d(TAG, "startObservation")
         //  Observe repository breeds
         observeRepositoryBreeds()
-        //  Observe character's breeds.
-        observeSelectedCharacter()
         //  Observe displayed breeds
         observeMutableBreedsList()
     }
@@ -94,9 +76,13 @@ class BreedsRecyclerViewFragment :
         this.displayedBreedsViewModel.observedMutableBreeds.observe(
             this,
             Observer { domainDisplayedBreeds ->
-                var breedCount = domainDisplayedBreeds?.count()
-                var checkedBreedsCount = domainDisplayedBreeds?.count { b -> b.breedChecked }
-                Log.d("DEBUG$TAG", "checked : $checkedBreedsCount on total : $breedCount")
+                Log.d("DEBUG$TAG", "Checked breeds = ${domainDisplayedBreeds?.count { b -> b.breedChecked }}")
+
+                var newCharacter = newCharacterViewModel?.currentCharacter?.value
+
+                newCharacter?.characterBreeds = domainDisplayedBreeds?.filter { breed -> breed.breedChecked }?.map { breed-> breed.breedId }?.toMutableList()
+
+                newCharacterViewModel?.currentCharacter?.value = newCharacter
 
                 if (domainDisplayedBreeds != null) {
                     this.breedsAdapter?.setBreeds(domainDisplayedBreeds.toMutableList())
@@ -104,54 +90,6 @@ class BreedsRecyclerViewFragment :
             })
     }
 
-    /**
-     * Observe the selected character.
-     */
-    private fun observeSelectedCharacter() {
-        this.newCharacterViewModel.selectedCharacter.observe(this, Observer { domainCharacter ->
-            if (domainCharacter != null) {
-                Log.d("DEBUG$TAG", "\nSelected character is : ${domainCharacter.characterName}")
-                observeCharactersSelectedBreeds(domainCharacter)
-            }
-        })
-    }
-
-    /**
-     * Observe Character's selected breeds, to display previously selected breeds.
-     */
-    private fun observeCharactersSelectedBreeds(domainCharacter: DomainCharacter?) {
-        characterBreedsViewModel.observedCharactersBreeds?.observe(
-            this,
-            Observer { domainCharacterBreeds ->
-                domainCharacterBreeds?.forEach { domainCharacterBreed ->
-                    if (domainCharacterBreed.characterId!! == domainCharacter?.characterId) {
-                        var corresponding =
-                            displayedBreedsViewModel.findBreedWithId(domainCharacterBreed.displayedBreedId)
-                        Log.d(
-                            "DEBUG$TAG", "found breed : \n" +
-                                    "$corresponding"
-                        )
-                        var displayedBreeds =
-                            displayedBreedsViewModel.observedMutableBreeds.value?.toMutableList()
-                        if (displayedBreeds != null) {
-                            Log.d("DEBUG$TAG", "breeds size = ${displayedBreeds.size}")
-
-                            var found =
-                                displayedBreeds.find { b -> b.breedId == corresponding?.breedId }
-                            if (found != null) {
-                                Log.d("DEBUG$TAG", "found : $found")
-                                found.breedChecked = true
-                                var index =
-                                    displayedBreeds.indexOfFirst { b -> b.breedId == found.breedId }
-                                displayedBreeds[index] = found
-                            }
-
-                        }
-                        displayedBreedsViewModel.observedMutableBreeds.value = displayedBreeds
-                    }
-                }
-            })
-    }
 
     /**
      * Observe breeds from repository, to load breeds to display.
@@ -159,7 +97,6 @@ class BreedsRecyclerViewFragment :
     private fun observeRepositoryBreeds() {
         this.displayedBreedsViewModel.observedRepositoryBreeds?.observe(this, Observer { breeds ->
             kotlin.run {
-                Log.d("DEBUG$TAG", "List changed. ${breeds.size}")
                 this.displayedBreedsViewModel.observedMutableBreeds.value = breeds
             }
         })
@@ -224,7 +161,6 @@ class BreedsRecyclerViewFragment :
     }
 
     override fun transmitList(domainDisplayedModels: List<DomainDisplayedBreed>?) {
-        Log.d("DEBUG$TAG", "The list is : ${domainDisplayedModels?.size} long")
         displayedBreedsViewModel.observedMutableBreeds.value = domainDisplayedModels
     }
 

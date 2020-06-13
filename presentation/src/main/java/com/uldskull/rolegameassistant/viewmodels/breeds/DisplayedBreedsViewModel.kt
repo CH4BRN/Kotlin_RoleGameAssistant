@@ -49,15 +49,7 @@ class DisplayedBreedsViewModel(
 
     }
 
-    fun findBreedWithCharacteristics(id: Long?): DomainDisplayedBreedWithCharacteristics? {
-        Log.d(TAG, "findBreedWithCharacteristics")
 
-        // var result = breedRepositoryImpl.findOneWithChildren(id)
-
-        //  Log.d("RacesViewModel", "result" + result?.breed?.breedName)
-        //Log.d("RacesViewModel", "result" + result?.characteristics?.first()?.characteristicName)
-        return null // result
-    }
 
     /**
      * Find one breed by its ID

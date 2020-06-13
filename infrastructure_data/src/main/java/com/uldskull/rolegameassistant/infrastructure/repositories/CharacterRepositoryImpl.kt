@@ -6,11 +6,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.uldskull.rolegameassistant.infrastructure.dao.character.DbCharacterDao
-import com.uldskull.rolegameassistant.infrastructure.dao.character.DbCharacterWithDbCharactersBreedDao
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_character.DbCharacter
-import com.uldskull.rolegameassistant.models.character.breed.charactersBreed.DomainCharactersBreed
 import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
-import com.uldskull.rolegameassistant.models.character.character.DomainCharacterWithBreeds
 import com.uldskull.rolegameassistant.models.character.character.DomainCharacterWithIdeals
 import com.uldskull.rolegameassistant.repository.character.CharacterRepository
 
@@ -20,8 +17,7 @@ Class "CharacterRepositoryImpl"
 Insert and get Character from database.
  */
 class CharacterRepositoryImpl(
-    private val dbCharacterDao: DbCharacterDao,
-    private val dbCharacterWithDbCharactersBreedDao: DbCharacterWithDbCharactersBreedDao
+    private val dbCharacterDao: DbCharacterDao
 ) :
     CharacterRepository<LiveData<List<DomainCharacter?>?>> {
 
@@ -78,8 +74,9 @@ class CharacterRepositoryImpl(
                 characterSanity = it?.characterSanity,
                 characterBaseHealthPoints = it?.characterBaseHealth,
                 characterBreedBonus = it?.characterBreedBonus,
-                characterSelectedOccupationSkill = it?.characterSelectedOccupationSkill,
-                characterOccupation = it?.characterOccupation?.toDomain()
+                characterSelectedOccupationSkill = it?.characterSelectedOccupationSkill?.toMutableList(),
+                characterOccupation = it?.characterOccupation?.toDomain(),
+                characterBreeds = it?.characterSelectedBreeds?.toMutableList()
             )
         }
     }
@@ -88,7 +85,11 @@ class CharacterRepositoryImpl(
     override fun findOneById(id: Long?): DomainCharacter? {
         Log.d(TAG, "findOneById")
         try {
-            return dbCharacterDao.getCharacterById(id).toDomain()
+            var character = dbCharacterDao.getCharacterById(id)
+            if(character != null){
+                return character.toDomain()
+            }
+            else return null
         } catch (e: Exception) {
             Log.e(TAG, "findOneById FAILED")
             e.printStackTrace()
@@ -148,28 +149,7 @@ class CharacterRepositoryImpl(
         return null
     }
 
-    /**
-     * Find the corresponding character with all its breeds
-     */
-    override fun findOneWithBreeds(id: Long?): DomainCharacterWithBreeds? {
-        Log.d("DEBUG$TAG", "findOneWithBreeds")
 
-        var characterWithBreeds = dbCharacterWithDbCharactersBreedDao.getCharacterWithBreeds(id)
-        Log.d("DEBUG$TAG", "$characterWithBreeds")
-
-        var dbBreeds = characterWithBreeds.childrenBreeds
-        var domainBreeds: MutableList<DomainCharactersBreed> = mutableListOf()
-
-        dbBreeds.forEach {
-            domainBreeds.add(it.toDomain())
-        }
-
-
-        return DomainCharacterWithBreeds(
-            character = characterWithBreeds.parentCharacter.toDomain(),
-            breeds = domainBreeds
-        )
-    }
 
 
 }

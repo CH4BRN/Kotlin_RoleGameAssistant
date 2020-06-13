@@ -47,6 +47,7 @@ class DbDisplayedBreedsRepositoryImpl(
     /** Get one entity by its id    */
     override fun findOneById(id: Long?): DomainDisplayedBreed? {
         Log.d(TAG, "findOneById")
+        Log.d("DEBUG$TAG"," Breed Id : ${id.toString()}")
         var result: DbDisplayedBreed
         try {
             result = dbDisplayedBreedDao.getBreedById(id)
@@ -55,7 +56,11 @@ class DbDisplayedBreedsRepositoryImpl(
             e.printStackTrace()
             throw e
         }
-        return result.toDomain()
+        if(result != null){
+            return result.toDomain()
+        }
+        return null
+
     }
 
     /** Insert a list of entity - it should return long[] or List<Long>.*/

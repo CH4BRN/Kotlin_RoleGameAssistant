@@ -7,7 +7,6 @@ package com.uldskull.rolegameassistant.di.koin_modules
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.uldskull.rolegameassistant.infrastructure.repositories.CharacterRepositoryImpl
-import com.uldskull.rolegameassistant.infrastructure.repositories.breed.DbCharactersBreedRepositoryImpl
 import com.uldskull.rolegameassistant.infrastructure.repositories.breed.DbDisplayedBreedsRepositoryImpl
 import com.uldskull.rolegameassistant.infrastructure.repositories.characteristic.DbBreedsCharacteristicRepositoryImpl
 import com.uldskull.rolegameassistant.infrastructure.repositories.characteristic.DbCharacteristicRepositoryImpl
@@ -15,14 +14,12 @@ import com.uldskull.rolegameassistant.infrastructure.repositories.characteristic
 import com.uldskull.rolegameassistant.infrastructure.repositories.ideal.DbIdealsRepositoryImpl
 import com.uldskull.rolegameassistant.infrastructure.repositories.occupations.DbOccupationsRepositoryImpl
 import com.uldskull.rolegameassistant.models.character.DomainIdeal
-import com.uldskull.rolegameassistant.models.character.breed.charactersBreed.DomainCharactersBreed
 import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
 import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
 import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainBreedsCharacteristic
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainCharacteristic
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollsCharacteristic
-import com.uldskull.rolegameassistant.repository.breed.CharactersBreedsRepository
 import com.uldskull.rolegameassistant.repository.breed.DisplayedBreedsRepository
 import com.uldskull.rolegameassistant.repository.character.CharacterRepository
 import com.uldskull.rolegameassistant.repository.characteristic.BreedsCharacteristicRepository
@@ -58,18 +55,12 @@ val repositoriesModule = module {
             dbDisplayedBreedDao = get()
         )
     }
-    //  Repository for character's breeds.
-    single<CharactersBreedsRepository<LiveData<List<DomainCharactersBreed>>>> {
-        DbCharactersBreedRepositoryImpl(
-            dbCharactersBreedDao = get()
-        )
-    }
+
 
     //  Repository for character
     single<CharacterRepository<LiveData<List<DomainCharacter?>?>>> {
         CharacterRepositoryImpl(
-            dbCharacterDao = get(),
-            dbCharacterWithDbCharactersBreedDao = get()
+            dbCharacterDao = get()
         )
     }
 

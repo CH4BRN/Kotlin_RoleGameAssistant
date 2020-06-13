@@ -14,11 +14,9 @@ import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
-import com.uldskull.rolegameassistant.fragments.viewPager.adapter.ABILITIES_FRAGMENT_POSITION
+import com.uldskull.rolegameassistant.fragments.viewPager.adapter.CHARACTERISTICS_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainCharacteristic
 import com.uldskull.rolegameassistant.viewmodels.breeds.BreedCharacteristicsViewModel
-import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
-import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.ProgressionBarViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -110,7 +108,6 @@ class CharacteristicsFragment : CustomFragment() {
     override fun onResume() {
         Log.d(TAG, "onResume")
         super.onResume()
-        progressionBarViewModel.progression.value = ABILITIES_FRAGMENT_POSITION
     }
 
     companion object : CustomCompanion() {
@@ -124,7 +121,7 @@ class CharacteristicsFragment : CustomFragment() {
             fragment.activity = activity
             val args = Bundle()
 
-            args.putInt(KEY_POSITION, ABILITIES_FRAGMENT_POSITION)
+            args.putInt(KEY_POSITION, CHARACTERISTICS_FRAGMENT_POSITION)
             fragment.arguments = args
 
 

@@ -94,7 +94,7 @@ class CharacterPagerAdapter(fm: FragmentManager, val activity: Activity) :
             IDEALS_FRAGMENT_POSITION -> IdealsFragment.newInstance(
                 activity
             )
-            ABILITIES_FRAGMENT_POSITION -> CharacteristicsFragment.newInstance(
+            CHARACTERISTICS_FRAGMENT_POSITION -> CharacteristicsFragment.newInstance(
                 activity
             )
             DERIVED_VALUES_1_FRAGMENT_POSITION -> DerivedValues1Fragment.newInstance(

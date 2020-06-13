@@ -20,8 +20,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragm
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.characteristics.adapters.CharacteristicsAdapter
 import com.uldskull.rolegameassistant.fragments.fragment.characteristics.adapters.CharacteristicsDisabledAdapter
-import com.uldskull.rolegameassistant.fragments.viewPager.adapter.ABILITIES_RECYCLER_VIEW_FRAGMENT_POSITION
-import com.uldskull.rolegameassistant.models.character.characteristic.CharacteristicsName
+import com.uldskull.rolegameassistant.fragments.viewPager.adapter.CHARACTERISTICS_RECYCLER_VIEW_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollsCharacteristic
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.DerivedValuesViewModel
@@ -299,7 +298,7 @@ class CharacteristicsRecyclerViewFragment :
             fragment.activity = activity
             val args = Bundle()
 
-            args.putInt(KEY_POSITION, ABILITIES_RECYCLER_VIEW_FRAGMENT_POSITION)
+            args.putInt(KEY_POSITION, CHARACTERISTICS_RECYCLER_VIEW_FRAGMENT_POSITION)
             fragment.arguments = args
 
             return fragment

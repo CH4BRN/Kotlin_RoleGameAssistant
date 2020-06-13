@@ -15,18 +15,18 @@ Model class for domain character.
  */
 open class DomainCharacter(
     var characterId: Long?,
-    var characterName: String?,
-    var characterAge: Int?,
-    var characterGender: String?,
-    var characterBiography: String?,
-    var characterBonds: MutableList<DomainBond?>?,
-    var characterIdeals: MutableList<DomainIdeal?>?,
-    var characterBaseHealthPoints:Int?,
-    var characterHealthPoints: Int?,
-    var characterIdeaPoints: Int?,
-    var characterAlignment: Int?,
-    var characterEnergyPoints: Int?,
-    var characterHeight: Int?,
+    var characterName: String? = "Name",
+    var characterAge: Int? = 42,
+    var characterGender: String? = "Gender",
+    var characterBiography: String? ="Let's type a biography.",
+    var characterBonds: MutableList<DomainBond?>? = mutableListOf(),
+    var characterIdeals: MutableList<DomainIdeal?>? = mutableListOf(),
+    var characterBaseHealthPoints:Int? = 42,
+    var characterHealthPoints: Int? = 42,
+    var characterIdeaPoints: Int? = 42,
+    var characterAlignment: Int? = 42,
+    var characterEnergyPoints: Int? = 42,
+    var characterHeight: Int? = 42,
     var characterPictureUri: String?,
     var characterConstitution: DomainRollsCharacteristic?,
     var characterStrength: DomainRollsCharacteristic?,
@@ -36,17 +36,20 @@ open class DomainCharacter(
     var characterIntelligence: DomainRollsCharacteristic?,
     var characterAppearance: DomainRollsCharacteristic?,
     var characterEducation: DomainRollsCharacteristic?,
-    var characterWeight: Int?,
-    var characterSanity: Int?,
-    var characterLuck: Int?,
-    var characterKnow: Int?,
-    var characterBreedBonus: Int?,
+    var characterWeight: Int? = 42,
+    var characterSanity: Int? = 42,
+    var characterLuck: Int? = 42,
+    var characterKnow: Int? = 42,
+    var characterBreedBonus: Int? = 42,
     var characterOccupation:DomainOccupation?,
-    var characterSelectedOccupationSkill: MutableList<Long?>?
+    var characterSelectedOccupationSkill: MutableList<Long?>?,
+    var characterBreeds: MutableList<Long?>?
 ) {
     override fun toString(): String {
-        return "DomainCharacter(characterName=$characterName, characterBonds=$characterBonds, characterIdeals=$characterIdeals, characterBreedBonus=$characterBreedBonus, characterOccupation=$characterOccupation, characterSelectedOccupationSkill=$characterSelectedOccupationSkill)".toUpperCase()
+        return "DomainCharacter(characterId=$characterId, characterName=$characterName, characterAge=$characterAge, characterGender=$characterGender, characterBiography=$characterBiography, characterBonds=$characterBonds, characterIdeals=$characterIdeals, characterBaseHealthPoints=$characterBaseHealthPoints, characterHealthPoints=$characterHealthPoints, characterIdeaPoints=$characterIdeaPoints, characterAlignment=$characterAlignment, characterEnergyPoints=$characterEnergyPoints, characterHeight=$characterHeight, characterPictureUri=$characterPictureUri, characterConstitution=$characterConstitution, characterStrength=$characterStrength, characterPower=$characterPower, characterDexterity=$characterDexterity, characterSize=$characterSize, characterIntelligence=$characterIntelligence, characterAppearance=$characterAppearance, characterEducation=$characterEducation, characterWeight=$characterWeight, characterSanity=$characterSanity, characterLuck=$characterLuck, characterKnow=$characterKnow, characterBreedBonus=$characterBreedBonus, characterOccupation=$characterOccupation, characterSelectedOccupationSkill=$characterSelectedOccupationSkill, characterBreeds=$characterBreeds)".toUpperCase()
     }
+
+
 }
 
 

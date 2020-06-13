@@ -9,10 +9,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
+import com.uldskull.rolegameassistant.viewmodels.ProgressionBarViewModel
 import kotlinx.android.synthetic.main.fragment_progress_bar.*
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
  *   Class "ProgressBarFragment" :
@@ -20,6 +23,8 @@ import kotlinx.android.synthetic.main.fragment_progress_bar.*
  *   The progression is bound to a field into the view model.
  **/
 class ProgressBarFragment(val progression: Int = 0) : CustomFragment() {
+
+    private val progressionBarViewModel:ProgressionBarViewModel by sharedViewModel()
 
 
     /** Fragment lifecycle  **/
@@ -36,13 +41,27 @@ class ProgressBarFragment(val progression: Int = 0) : CustomFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d(TAG, "onViewCreated")
-        updateProgressBar(progression)
+
+
+        observeProgression()
+    }
+
+    private fun observeProgression() {
+        progressionBarViewModel.progression.observe(this, Observer { progression ->
+            updateProgressBar(progression)
+        })
     }
 
     /** Updated the progress bar    **/
     private fun updateProgressBar(value: Int) {
         Log.d(TAG, "updateProgressBar")
-        pb_progression.progress = value
+
+        var progress = pb_progression.progress
+        var progressBar = pb_progression
+        var anim = ProgressBarAnimation(progressBar, progress.toFloat(), value.toFloat())
+        anim.duration = 250
+        progressBar.startAnimation(anim)
+
     }
 
     /** Initialize the view **/
@@ -66,15 +85,7 @@ class ProgressBarFragment(val progression: Int = 0) : CustomFragment() {
             return fragment
         }
 
-        @JvmStatic
-        fun newInstance(activity: Activity, progression: Int): CustomFragment {
-            Log.d(TAG, "newInstance")
-            val fragment = ProgressBarFragment(
-                progression = progression
-            )
-            fragment.activity = activity
-            return fragment
-        }
+
     }
 
 }

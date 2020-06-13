@@ -281,48 +281,64 @@ class BasicInfoFragment : CustomFragment() {
 
     private fun observeWeight() {
         newCharacterViewModel?.characterWeight?.observe(this, Observer { weight ->
-            if(editTextCharacterWeight?.text.toString() != weight.toString()){
-                editTextCharacterWeight?.setText(weight.toString())
+            if (weight != null) {
+                if (editTextCharacterWeight?.text.toString() != weight.toString()) {
+                    editTextCharacterWeight?.setText(weight.toString())
+                }
             }
         })
     }
 
     private fun observeHeight() {
         newCharacterViewModel?.characterHeight?.observe(this, Observer { height ->
-            if(editTextCharacterHeight?.text.toString() != height.toString()){
-                editTextCharacterHeight?.setText(height.toString())
+            if (height != null) {
+                if (editTextCharacterHeight?.text.toString() != height.toString()) {
+                    editTextCharacterHeight?.setText(height.toString())
+                }
             }
+
         })
     }
 
     private fun observeBiography() {
         newCharacterViewModel?.characterBiography?.observe(this, Observer { biography ->
-            if(editTextCharacterBiography?.text.toString() != biography.toString()){
-                editTextCharacterBiography?.setText(biography)
+            if (biography != null) {
+                if (editTextCharacterBiography?.text.toString() != biography.toString()) {
+                    editTextCharacterBiography?.setText(biography)
+                }
             }
+
         })
     }
 
     private fun observeGender() {
         newCharacterViewModel?.characterGender?.observe(this, Observer { gender ->
-            if(editTextCharacterGender?.text.toString() != gender.toString()){
-                editTextCharacterGender?.setText(gender)
+            if (gender != null) {
+                if (editTextCharacterGender?.text.toString() != gender.toString()) {
+                    editTextCharacterGender?.setText(gender)
+                }
             }
+
         })
     }
 
     private fun observeAge() {
         newCharacterViewModel?.characterAge?.observe(this, Observer { age ->
-            if(editTextCharacterAge?.text.toString() != age.toString()){
-                editTextCharacterAge?.setText(age.toString())
+            if (age != null) {
+                if (editTextCharacterAge?.text.toString() != age.toString()) {
+                    editTextCharacterAge?.setText(age.toString())
+                }
             }
+
         })
     }
 
     private fun observeName() {
         newCharacterViewModel?.characterName?.observe(this, Observer { name ->
-            if(editTextCharacterName?.text.toString() != name.toString()){
-                editTextCharacterName?.setText(name)
+            if (name != null) {
+                if (editTextCharacterName?.text.toString() != name.toString()) {
+                    editTextCharacterName?.setText(name)
+                }
             }
         })
     }

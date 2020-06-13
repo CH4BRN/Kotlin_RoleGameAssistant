@@ -15,11 +15,8 @@ import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
-import com.uldskull.rolegameassistant.models.character.breed.charactersBreed.DomainCharactersBreed
 import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
-import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
 import com.uldskull.rolegameassistant.viewmodels.*
-import com.uldskull.rolegameassistant.viewmodels.breeds.CharactersBreedsViewModel
 import com.uldskull.rolegameassistant.viewmodels.breeds.DisplayedBreedsViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationSkillsViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationsViewModel
@@ -42,10 +39,6 @@ class NavigationBarFragment : CustomFragment() {
      */
     private val displayedBreedsViewModel: DisplayedBreedsViewModel by sharedViewModel()
 
-    /**
-     * Character's breeds viewModel.
-     */
-    private val charactersBreedsViewModel: CharactersBreedsViewModel by sharedViewModel()
 
     /**
      * Characteristics view model.
@@ -134,9 +127,16 @@ class NavigationBarFragment : CustomFragment() {
         setSaveButtonOnClickListener()
 
         observeCharacterName()
+        observeCurrentCharacter()
 
         occupationsViewModel?.observedOccupationsSkills?.observe(this, Observer {
             it.forEach { Log.d("DEBUG$TAG", "Skill = ${it.skillName}") }
+        })
+    }
+
+    private fun observeCurrentCharacter() {
+        newCharacterViewModel?.currentCharacter.observe(this, Observer {
+            Log.d("DEBUG$TAG", "Current character : $it")
         })
     }
 
@@ -234,7 +234,7 @@ class NavigationBarFragment : CustomFragment() {
             var occupationsSkills = occupationsViewModel?.observedOccupationsSkills?.value
             occupationsSkills?.forEach { Log.d("DEBUG$TAG", "Skill : ${it.skillName}") }
 
-            var checkedSkills = occupationsSkills?.filter { s-> s.skillIsChecked }
+            var checkedSkills = occupationsSkills?.filter { s -> s.skillIsChecked }
             Log.d("DEBUG$TAG", "CheckedSkillSize : ${checkedSkills?.size}")
             var skillsIds = mutableListOf<Long?>()
             checkedSkills?.forEach {
@@ -248,11 +248,17 @@ class NavigationBarFragment : CustomFragment() {
 
             newCharacterViewModel?.characterSkillsIds = skillsIds
 
-
             val insertedId =
                 saveCharacter()
-            saveBreeds(insertedId)
+
             val result = charactersViewModel.findOneById(insertedId)
+            result?.characterBreeds?.forEach { id ->
+                kotlin.run {
+                    var breed = displayedBreedsViewModel?.findBreedWithId(id)
+
+                    Log.d("DEBUG$TAG", "Breed $breed")
+                }
+            }
             result?.characterIdeals?.forEach {
                 Log.d(
                     "DEBUG$TAG",
@@ -269,23 +275,7 @@ class NavigationBarFragment : CustomFragment() {
 
     }
 
-    /**
-     * Save the characters breeds.
-     */
-    private fun saveBreeds(insertedId: Long?) {
-        val checkedBreeds =
-            getCheckedBreeds()
-        Log.d("DEBUG$TAG", "Checked breeds = ${checkedBreeds?.size}")
-        //  Delete all previously saved breeds.
-        charactersBreedsViewModel.deleteById(insertedId)
-        //  Save all new selected breeds.
-        charactersBreedsViewModel.saveAll(checkedBreeds?.map { b ->
-            DomainCharactersBreed(
-                characterId = insertedId,
-                displayedBreedId = b.breedId
-            )
-        })
-    }
+
 
     /**
      * Get the checked breeds from the view model

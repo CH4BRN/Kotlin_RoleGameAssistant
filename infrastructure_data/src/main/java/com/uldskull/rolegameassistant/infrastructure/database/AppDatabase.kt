@@ -12,9 +12,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues.DATABASE_NAME
 import com.uldskull.rolegameassistant.infrastructure.dao.breed.DbDisplayedBreedDao
 import com.uldskull.rolegameassistant.infrastructure.dao.breed.DbBreedWithDbCharacteristicsDao
-import com.uldskull.rolegameassistant.infrastructure.dao.breed.DbCharactersBreedDao
 import com.uldskull.rolegameassistant.infrastructure.dao.character.DbCharacterDao
-import com.uldskull.rolegameassistant.infrastructure.dao.character.DbCharacterWithDbCharactersBreedDao
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbBreedCharacteristicDao
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbCharacteristicDao
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbRollCharacteristicsDao
@@ -28,7 +26,6 @@ import com.uldskull.rolegameassistant.infrastructure.database.databaseUtils.Idea
 import com.uldskull.rolegameassistant.infrastructure.database.databaseUtils.OccupationDatabaseUtil.Companion.insertOccupations
 import com.uldskull.rolegameassistant.infrastructure.database.databaseUtils.RollCharacteristicDatabaseUtil.Companion.populateRollCharacteristics
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_bond.DbBondConverter
-import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.characterBreeds.DbCharactersBreed
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.displayedBreeds.DbDisplayedBreed
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.displayedBreeds.DbDisplayedBreedConverter
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_character.DbCharacter
@@ -52,7 +49,6 @@ Abstract class for room database
     entities = [
         DbCharacter::class,
         DbDisplayedBreed::class,
-        DbCharactersBreed::class,
         DbCharacteristic::class,
         DbBreedCharacteristic::class,
         DbRollCharacteristic::class,
@@ -81,11 +77,6 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun dbBreedCharacteristicDao(): DbBreedCharacteristicDao
 
     /**
-     * Database character's breed DAO
-     */
-    abstract fun dbCharactersBreedDao():DbCharactersBreedDao
-
-    /**
      * Database roll characteristic DAO
      */
     abstract fun dbRollCharacteristicsDao(): DbRollCharacteristicsDao
@@ -100,10 +91,6 @@ abstract class AppDatabase : RoomDatabase() {
      */
     abstract fun dbCharacterDao(): DbCharacterDao
 
-    /**
-     * Database Character with breeds DAO
-     */
-    abstract fun dbCharacterWithBreedsDao():DbCharacterWithDbCharactersBreedDao
 
     /**
      * Database Breed with characteristics DAO

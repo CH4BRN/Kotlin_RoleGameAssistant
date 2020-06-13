@@ -32,6 +32,10 @@ class CharacteristicsViewModel(
     private val displayedBreedsRepository: DisplayedBreedsRepository<LiveData<List<DomainDisplayedBreed>>>,
     private val diceServiceImpl: DiceService
 ) : AndroidViewModel(application) {
+
+
+    val characterBreeds: MutableLiveData<List<DomainDisplayedBreed?>> = MutableLiveData()
+
     /**
      * Displayed characteristics
      */

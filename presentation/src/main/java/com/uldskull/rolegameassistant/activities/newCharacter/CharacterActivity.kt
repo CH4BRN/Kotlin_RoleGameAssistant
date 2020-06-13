@@ -21,11 +21,10 @@ import com.uldskull.rolegameassistant.fragments.fragment.hobbies.HobbiesFragment
 import com.uldskull.rolegameassistant.fragments.fragment.hobby.HobbyFragment
 import com.uldskull.rolegameassistant.fragments.fragment.occupation.OccupationFragment
 import com.uldskull.rolegameassistant.fragments.fragment.occupations.OccupationsFragment
+import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
 import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
-import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
-import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
-import com.uldskull.rolegameassistant.viewmodels.OccupationViewModel
-import com.uldskull.rolegameassistant.viewmodels.ProgressionBarViewModel
+import com.uldskull.rolegameassistant.viewmodels.*
+import com.uldskull.rolegameassistant.viewmodels.breeds.DisplayedBreedsViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationsViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -54,11 +53,13 @@ class CharacterActivity :
 
     private lateinit var progressionBarViewModel: ProgressionBarViewModel
 
-    private lateinit var breedsViewModel: CharacteristicsViewModel
-
     private lateinit var occupationsViewModel: OccupationsViewModel
 
     private lateinit var occupationViewModel: OccupationViewModel
+
+    private lateinit var displayedBreedsViewModel: DisplayedBreedsViewModel
+
+    private lateinit var charactersPictureViewModel: CharactersPictureViewModel
 
     /** SupportFragmentManager  **/
     private val fragmentManager = supportFragmentManager
@@ -72,20 +73,45 @@ class CharacterActivity :
         setContentView(R.layout.activity_new_character)
         //  load view models
         loadViewModels()
-        //  Observe the progression
-        this.observeProgression()
         //  Set the character page adapter
         this.setCharacterPagerAdapter()
         //  Load the navigation bar fragment
         this.loadNavigationBarFragment()
         //  Update the progress bar
-        this.updateProgressBarFragment(0)
+        this.initializeProgressBarFragment()
 
         deserializeDomainCharacter()
 
+        observeRepositoryOccupations()
+        observeDisplayedOccupations()
 
 
+    }
 
+    /**
+     * Observes occupation from the repository.
+     */
+    private fun observeRepositoryOccupations() {
+        this.occupationsViewModel.repositoryOccupations?.observe(
+            this,
+            Observer { domainOccupations ->
+                kotlin.run {
+                    domainOccupations?.let {
+                        Log.d("DEBUG$TAG", "observedOccupations has changed")
+                        occupationsViewModel.displayedOccupations.value =
+                            domainOccupations.map { o -> o.occupationName }
+
+                        Log.d("DEBUG$TAG","Occupations : $it")
+                    }
+                }
+            })
+    }
+
+    private fun observeDisplayedOccupations(){
+        occupationsViewModel.displayedOccupations.observe(this, Observer {
+            occupations ->
+            occupations?.forEach { Log.d("DEBUG$TAG", "Occupation : $it") }
+        })
     }
 
     private fun deserializeDomainCharacter() {
@@ -103,12 +129,44 @@ class CharacterActivity :
             newCharacterViewModel.currentCharacter.value = character
             newCharacterViewModel.characterName.value = character?.characterName
             newCharacterViewModel.characterAge.value = character?.characterAge
+            newCharacterViewModel.characterGender.value = character?.characterGender
             newCharacterViewModel.characterBiography.value = character?.characterBiography
             newCharacterViewModel.characterHeight.value = character?.characterHeight
             newCharacterViewModel.characterWeight.value = character?.characterWeight
 
+
+            var characterBreeds: MutableList<DomainDisplayedBreed?> = mutableListOf()
+            character?.characterBreeds?.forEach {
+                characterBreeds?.add(displayedBreedsViewModel.findBreedWithId(it))
+            }
+
+            var breedsToLoad: MutableList<DomainDisplayedBreed> = mutableListOf()
+
+           displayedBreedsViewModel?.observedRepositoryBreeds?.observe(this, Observer {repositoryBreeds ->
+               Log.d("DEBUG$TAG", "repositoryBreeds size = ${repositoryBreeds?.size}")
+
+               repositoryBreeds?.forEach { breed->
+                   if(characterBreeds?.any { b -> b?.breedId == breed.breedId }){
+                       Log.d("DEBUG$TAG", "Corresponding")
+                       breed.breedChecked = true
+                   }
+                   Log.d("DEBUG$TAG", "Breed ${breed.breedName} is checked : ${breed.breedChecked}")
+                   breedsToLoad?.add(breed)
+               }
+               displayedBreedsViewModel?.observedMutableBreeds?.value = breedsToLoad.toList()
+
+           })
+
             var occupation = character?.characterOccupation
+
             if(occupation != null){
+                var displayedIndex =
+                    occupationsViewModel?.displayedOccupations?.value?.indexOfFirst { o -> o == occupation?.occupationName }
+                Log.d("DEBUG$TAG", "displayedIndex : $displayedIndex")
+
+                var observedIndex = occupationsViewModel?.repositoryOccupations?.value?.indexOfFirst {  o -> o.occupationId == occupation?.occupationId }
+                Log.d("DEBUG$TAG", "observedIndex : $observedIndex")
+
                 occupationsViewModel.selectedOccupation?.value = occupation
             }
 
@@ -142,23 +200,26 @@ class CharacterActivity :
         characteristicsViewModel = getViewModel()
         occupationViewModel = getViewModel()
         occupationsViewModel = getViewModel()
-        breedsViewModel = getViewModel()
+        displayedBreedsViewModel = getViewModel()
+        charactersPictureViewModel = getViewModel()
     }
 
 
     /** Set character page adapter  **/
     private fun setCharacterPagerAdapter() {
         Log.d(TAG, "setCharacterPageAdapter")
-        //  setCharacterLockableViewPager()
-
         //  Instantiate a ViewPager2 and a PagerAdapter.
         viewPager = findViewById<ViewPager2>(R.id.activityNewCharacter_viewPager)
         fragmentAdapter = FragmentAdapter(this)
         viewPager?.adapter = fragmentAdapter
 
+        //  Register on Page change callback
+        viewPager?.registerOnPageChangeCallback(onPageChangeCallback())
 
+    }
 
-        viewPager?.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+    private fun onPageChangeCallback(): ViewPager2.OnPageChangeCallback {
+        return object : ViewPager2.OnPageChangeCallback() {
 
             /**
              * This method will be invoked when the current page is scrolled, either as part
@@ -174,8 +235,6 @@ class CharacterActivity :
                 positionOffset: Float,
                 positionOffsetPixels: Int
             ) {
-
-
                 if (position == 3 && fragmentAdapter?.fragmentList?.size == 4 && viewPager?.scrollState == 1) {
 
                     Log.d(
@@ -220,34 +279,24 @@ class CharacterActivity :
                     "DEBUG", "onPageSelected\n" +
                             "\tposition : $position"
                 )
-                progressionBarViewModel.progression.value = position
+                progressionBarViewModel.progression.value = position*10
 
                 super.onPageSelected(position)
             }
-        })
-
+        }
     }
 
-    /** Observe view pager progression  **/
-    private fun observeProgression() {
-        Log.d(TAG, "observeProgression")
-        progressionBarViewModel.progression.observe(
-            this, Observer { progression ->
-                kotlin.run {
-                    updateProgressBarFragment(progression)
-                }
-            }
-        )
-    }
+
+
 
 
     /** Load the progress bar fragment
      * @param progression the progression to display **/
-    private fun updateProgressBarFragment(progression: Int) {
+    private fun initializeProgressBarFragment() {
         Log.d(TAG, "updateProgressBarFragment")
         this.replaceFragment(
             R.id.activityNewCharacter_container_progressBar,
-            ProgressBarFragment.newInstance(this, progression)
+            ProgressBarFragment.newInstance(this)
         )
     }
 

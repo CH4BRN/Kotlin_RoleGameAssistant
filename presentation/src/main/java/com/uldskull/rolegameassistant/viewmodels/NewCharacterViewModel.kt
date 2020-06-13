@@ -13,7 +13,6 @@ import com.uldskull.rolegameassistant.models.character.DomainBond
 import com.uldskull.rolegameassistant.models.character.DomainIdeal
 import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
 import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
-import com.uldskull.rolegameassistant.models.character.character.DomainCharacterWithBreeds
 import com.uldskull.rolegameassistant.models.character.characteristic.CharacteristicsName
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainBreedsCharacteristic
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollsCharacteristic
@@ -38,6 +37,7 @@ class NewCharacterViewModel(
     private val characteristicRepository: BreedsCharacteristicRepository<LiveData<List<DomainBreedsCharacteristic>>>,
     private val idealsRepository: IdealsRepository<LiveData<List<DomainIdeal>>>
 ) : AndroidViewModel(application) {
+
 
     /**
      * Companion object
@@ -126,6 +126,11 @@ class NewCharacterViewModel(
      */
     var currentCharacter = MutableLiveData<DomainCharacter>()
 
+    init {
+        if(currentCharacter.value == null){
+            currentCharacter.value = emptyCharacter()
+        }
+    }
     /**
      * Observable character
      */
@@ -165,6 +170,10 @@ class NewCharacterViewModel(
         setBonds()
 
         setCharacteristics(characteristics)
+        if(currentCharacter?.value?.characterBreeds == null){
+            currentCharacter?.value?.characterBreeds = mutableListOf()
+        }
+
         if (currentCharacter?.value?.characterIdeals == null) {
             currentCharacter?.value?.characterIdeals = mutableListOf()
         }
@@ -216,7 +225,9 @@ class NewCharacterViewModel(
         }
 
         Log.d("RESULT", currentCharacter.toString())
+        var breeds = getCharacterWithBreeds(characterId)
 
+        // TODO Check saved breeds
         return currentCharacter?.value?.characterId
     }
 
@@ -294,10 +305,11 @@ class NewCharacterViewModel(
     /**
      * Get a character with its breeds.
      */
-    fun getCharacterWithBreeds(id: Long?): DomainCharacterWithBreeds? {
-        var cWb: DomainCharacterWithBreeds? = characterRepository.findOneWithBreeds(id)
-        Log.d("DEBUG$TAG", "$cWb")
-        return cWb
+    fun getCharacterWithBreeds(id: Long?){
+        var character = characterRepository.findOneById(id)
+        character?.characterBreeds?.forEach {
+            Log.d("DEBUG$TAG", "Breed id : $it")
+        }
 
     }
 
@@ -391,7 +403,8 @@ class NewCharacterViewModel(
                 characterPictureUri = character?.characterPictureUri,
                 characterPower = character?.characterPower,
                 characterSize = character?.characterSize,
-                characterStrength = character?.characterStrength
+                characterStrength = character?.characterStrength,
+                characterBreeds = character?.characterBreeds
             )
             currentCharacter?.value = newCharacter
         }
@@ -430,7 +443,8 @@ class NewCharacterViewModel(
             characterBaseHealthPoints = null,
             characterBreedBonus = null,
             characterSelectedOccupationSkill = mutableListOf(),
-            characterOccupation = null
+            characterOccupation = null,
+            characterBreeds = mutableListOf()
         )
     }
 

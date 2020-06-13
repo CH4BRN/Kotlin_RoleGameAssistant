@@ -124,8 +124,6 @@ class OccupationsFragment : CustomFragment() {
     }
 
     private fun observeOccupations() {
-        //  Observe repository's occupations
-        observeRepositoryOccupations()
         //  Observe displayed string occupations
         observeDisplayedOccupations()
     }
@@ -135,7 +133,7 @@ class OccupationsFragment : CustomFragment() {
             kotlin.run {
                 occupationsAdapter = ArrayAdapter(
                     activity!!,
-                    android.R.layout.simple_spinner_item,
+                    android.R.layout.simple_spinner_dropdown_item,
                     stringOccupations
                 )
                 spinner_occupations.adapter = occupationsAdapter
@@ -151,12 +149,6 @@ class OccupationsFragment : CustomFragment() {
                     Log.d("DEBUG$TAG", "Selected character is : ${domainCharacter}")
                     var occupation = domainCharacter?.characterOccupation
 
-                    var displayedIndex =
-                        occupationsViewModel?.displayedOccupations?.value?.indexOfFirst { o -> o == occupation?.occupationName }
-                    Log.d("DEBUG$TAG", "displayedIndex : $displayedIndex")
-
-                    var observedIndex = occupationsViewModel?.repositoryOccupations?.value?.indexOfFirst {  o -> o.occupationId == occupation?.occupationId }
-                    Log.d("DEBUG$TAG", "observedIndex : $observedIndex")
                 }
             }
 
@@ -182,25 +174,6 @@ class OccupationsFragment : CustomFragment() {
     }
 
 
-    /**
-     * Observes occupation from the repository.
-     */
-    private fun observeRepositoryOccupations() {
-        this.occupationsViewModel.repositoryOccupations?.observe(
-            this,
-            Observer { domainOccupations ->
-                kotlin.run {
-
-
-
-                    domainOccupations?.let {
-                        Log.d(TAG, "observedOccupations has changed")
-                        occupationsViewModel.displayedOccupations.value =
-                            domainOccupations.map { o -> o.occupationName }
-                    }
-                }
-            })
-    }
 
     private fun observeSelectedOccupation() {
 
@@ -212,6 +185,13 @@ class OccupationsFragment : CustomFragment() {
                         "DEBUG$TAG",
                         "Selected occupation is : ${domainOccupation.occupationName}"
                     )
+                    var index = occupationsViewModel?.displayedOccupations?.value?.indexOfFirst {occupation -> occupation.toString().equals(domainOccupation?.occupationName) }
+
+                    if(index != null){
+                        Log.d("DEBUG$TAG", "Index of occupation : $index")
+                        spinner_occupations?.setSelection(index)
+                    }
+
 
                     setOccupationIncome(domainOccupation)
                     setOccupationContacts(domainOccupation)

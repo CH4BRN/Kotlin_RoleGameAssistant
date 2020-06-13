@@ -46,7 +46,8 @@ class DbCharacter(
     val characterLuck: Int?,
     val characterSanity: Int?,
     val characterBreedBonus: Int?,
-    val characterSelectedOccupationSkill: MutableList<Long?>?,
+    val characterSelectedOccupationSkill: List<Long?>?,
+    val characterSelectedBreeds:List<Long?>?,
     @Embedded(prefix = "occ")
     val characterOccupation: DbOccupation?,
     @Embedded(prefix = "str")
@@ -122,9 +123,9 @@ class DbCharacter(
             characterSanity = this.characterSanity,
             characterBaseHealthPoints = this.characterBaseHealth,
             characterBreedBonus = this.characterBreedBonus,
-            characterSelectedOccupationSkill = this.characterSelectedOccupationSkill,
-            characterOccupation = this.characterOccupation?.toDomain()
-
+            characterSelectedOccupationSkill = this.characterSelectedOccupationSkill?.toMutableList(),
+            characterOccupation = this.characterOccupation?.toDomain(),
+            characterBreeds = this.characterSelectedBreeds?.toMutableList()
         )
     }
 
@@ -181,7 +182,8 @@ class DbCharacter(
                 characterBaseHealth = domainModel?.characterBaseHealthPoints,
                 characterBreedBonus = domainModel?.characterBreedBonus,
                 characterSelectedOccupationSkill = domainModel?.characterSelectedOccupationSkill,
-                characterOccupation = DbOccupation.from(domainModel?.characterOccupation)
+                characterOccupation = DbOccupation.from(domainModel?.characterOccupation),
+                characterSelectedBreeds = domainModel?.characterBreeds
 
             )
         }

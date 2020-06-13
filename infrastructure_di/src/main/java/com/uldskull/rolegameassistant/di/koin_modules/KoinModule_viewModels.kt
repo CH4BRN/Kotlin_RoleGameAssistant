@@ -4,7 +4,6 @@ package com.uldskull.rolegameassistant.di.koin_modules
 
 import com.uldskull.rolegameassistant.viewmodels.*
 import com.uldskull.rolegameassistant.viewmodels.breeds.BreedCharacteristicsViewModel
-import com.uldskull.rolegameassistant.viewmodels.breeds.CharactersBreedsViewModel
 import com.uldskull.rolegameassistant.viewmodels.breeds.DisplayedBreedsViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationSkillsViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationsViewModel
@@ -68,13 +67,7 @@ val viewModelModule = module {
         )
     }
 
-    //  Character's breeds ViewModel
-    viewModel {
-        CharactersBreedsViewModel(
-            application = get(),
-            charactersBreedRepositoryImpl = get()
-        )
-    }
+
     //  Characters ViewModel
     viewModel {
         CharactersViewModel(
@@ -118,6 +111,13 @@ val viewModelModule = module {
     //  Points to spend ViewModel
     viewModel {
         PointsToSpendViewModel(
+            application = get()
+        )
+    }
+
+    //  Picture ViewModel
+    viewModel {
+        CharactersPictureViewModel(
             application = get()
         )
     }
