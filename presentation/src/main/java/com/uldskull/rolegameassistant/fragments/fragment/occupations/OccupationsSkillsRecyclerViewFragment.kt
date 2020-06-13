@@ -87,14 +87,25 @@ class OccupationsSkillsRecyclerViewFragment :
         observeSelectedOccupation()
         observeOccupationsSkills()
         observeSelectedCharacter()
+        observeSelectedSkills()
+    }
+
+    private fun observeSelectedSkills() {
+        occupationsViewModel?.selectedCharacterSkills?.observe(this, Observer {
+
+        })
     }
 
     private fun observeSelectedCharacter() {
         newCharacterViewModel?.selectedCharacter?.observe(this, Observer { domainCharacter ->
             kotlin.run {
                 Log.d("DEBUG$TAG", "Character : ${domainCharacter?.characterName}")
-                Log.d("DEBUG$TAG","Occupation : ${domainCharacter?.characterOccupation}")
-                Log.d("DEBUG$TAG", "Skills ids : ${domainCharacter?.characterSelectedOccupationSkill}")
+                Log.d("DEBUG$TAG", "Occupation : ${domainCharacter?.characterOccupation}")
+                Log.d(
+                    "DEBUG$TAG",
+                    "Skills ids : ${domainCharacter?.characterSelectedOccupationSkill}"
+                )
+
 
             }
         })
@@ -119,6 +130,11 @@ class OccupationsSkillsRecyclerViewFragment :
                         var occupationWithSkills: DomainOccupationWithSkills? =
                             occupationsViewModel.findOneWithChildren(domainOccupation.occupationId)
                         Log.d(TAG, "occupation with skills : \n $occupationWithSkills")
+
+
+
+
+
                         occupationsViewModel.observedOccupationsSkills?.value =
                             occupationWithSkills?.skills
                     }
@@ -127,6 +143,10 @@ class OccupationsSkillsRecyclerViewFragment :
     }
 
     private fun observeOccupationsSkills() {
+        occupationsViewModel?.selectedCharacterSkills?.observe(this, Observer {
+            Log.d("DEBUG$TAG", "Skills : $it")
+        })
+
         occupationsViewModel.observedOccupationsSkills?.observe(
             this, Observer { domainOccupationsSkills: List<DomainOccupationSkill?> ->
                 kotlin.run {
@@ -139,6 +159,25 @@ class OccupationsSkillsRecyclerViewFragment :
                         TAG, "observeOccupationsSkills \n" +
                                 "adapter skills size : ${occupationsSkillsAdapter?.itemCount}"
                     )
+
+                    var character = newCharacterViewModel?.currentCharacter?.value
+                    Log.d("DEBUG$TAG", "Character ${character?.characterName}")
+
+                    var checkedSkills = mutableListOf<DomainOccupationSkill>()
+                    domainOccupationsSkills?.forEach { s ->
+                        kotlin.run {
+                            if (s != null) {
+                                if (s.skillIsChecked) {
+                                    checkedSkills?.add(s)
+                                }
+                            }
+                        }
+                    }
+                    if (character != null) {
+                        character?.characterSelectedOccupationSkill =
+                            checkedSkills?.map { s -> s.skillId }.toMutableList()
+                    }
+                    newCharacterViewModel?.currentCharacter?.value = character
 
                     occupationsSkillsRecyclerView?.adapter = occupationsSkillsAdapter
 

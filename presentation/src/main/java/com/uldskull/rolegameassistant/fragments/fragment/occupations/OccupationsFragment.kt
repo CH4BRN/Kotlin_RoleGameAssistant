@@ -172,9 +172,6 @@ class OccupationsFragment : CustomFragment() {
                 })
         }
     }
-
-
-
     private fun observeSelectedOccupation() {
 
         occupationsViewModel.selectedOccupation?.observe(

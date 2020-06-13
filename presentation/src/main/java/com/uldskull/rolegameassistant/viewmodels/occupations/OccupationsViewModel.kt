@@ -33,6 +33,8 @@ class OccupationsViewModel(
         refreshDataFromRepository()
     }
 
+    val selectedCharacterSkills = MutableLiveData<List<Long?>>()
+
 
     private fun refreshDataFromRepository() {
         Log.d(TAG, "refreshDataFromRepository")
