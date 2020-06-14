@@ -20,13 +20,17 @@ object IdFieldName{
     const val FIELD_BREED_ID = "breedId"
     const val FIELD_CHARACTER_BREED_ID = "characterBreedId"
     const val FIELD_CHARACTER_ID = "characterId"
+    const val FIELD_SKILL_ID = "filledSkillId"
     const val FIELD_IDEAL_ID = "idealId"
     const val FIELD_OCCUPATION_ID = "occupationId"
     const val FIELD_CHARACTERISTIC_BREED_ID = "characteristicBreedId"
+    const val FIELD_FILLED_OCCUPATION_SKILL_ID = "filledSkillId"
+    const val FIELD_FILLED_OCCUPATION_SKILL_CHARACTER_ID = "filledSkillCharacterId"
 }
 
 object TableNames{
     const val TABLE_NAME_OCCUPATION_SKILL  = "occupation_skill"
+    const val TABLE_NAME_FILLED_OCCUPATION_SKILL = "DbFilledSkill"
     const val TABLE_NAME_SKILL = "skill"
     const val TABLE_NAME_HEALTH = "health"
     const val TABLE_NAME_ABILITY_SCORE = "ability_score"

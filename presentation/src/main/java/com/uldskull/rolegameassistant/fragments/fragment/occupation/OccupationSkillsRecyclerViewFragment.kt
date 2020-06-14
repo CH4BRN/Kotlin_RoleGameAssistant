@@ -23,6 +23,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
+import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.OccupationViewModel
 import com.uldskull.rolegameassistant.viewmodels.PointsToSpendViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationSkillsViewModel
@@ -51,6 +52,8 @@ class OccupationSkillsRecyclerViewFragment :
 
     private val occupationViewModel:OccupationViewModel by sharedViewModel()
 
+    private val newCharacterViewModel:NewCharacterViewModel by sharedViewModel()
+
     private val pointsToSpendViewModel:PointsToSpendViewModel by sharedViewModel()
     /**
      * Occupation skills recyclerView
@@ -73,7 +76,8 @@ class OccupationSkillsRecyclerViewFragment :
                         filledSkillTensValue = domainOccupationSkill.filledSkillTensValue,
                         filledSkillTotal = domainOccupationSkill.filledSkillTotal,
                         filledSkillUnitsValue = domainOccupationSkill.filledSkillUnitsValue,
-                        filledSkillId = domainOccupationSkill.skillId
+                        filledSkillId = domainOccupationSkill.skillId,
+                        filledSkillCharacterId = domainOccupationSkill.filledSkillCharacterId
                     )
                 }
 
@@ -137,11 +141,11 @@ class OccupationSkillsRecyclerViewFragment :
             this,
             Observer { occupationSkills: List<DomainFilledSkill> ->
                 kotlin.run {
-                    Log.d(TAG, "occupationSkills size : ${occupationSkills.size}")
+                    Log.d("DEBUG$TAG", "checkedOccupationSkills size : ${occupationSkills.size}")
 
                     occupationSkills.forEach { filledSkill ->
                         kotlin.run {
-                            Log.d(TAG + "valid", "filledSkill : ${filledSkill}")
+                            Log.d("DEBUG$TAG","filledSkill : ${filledSkill}")
                         }
                     }
 
@@ -154,7 +158,8 @@ class OccupationSkillsRecyclerViewFragment :
                                 filledSkillId = domainOccupationSkill.skillId,
                                 filledSkillUnitsValue = domainOccupationSkill.filledSkillUnitsValue,
                                 filledSkillTensValue = domainOccupationSkill.filledSkillTensValue,
-                                filledSkillTotal = domainOccupationSkill.filledSkillTotal
+                                filledSkillTotal = domainOccupationSkill.filledSkillTotal,
+                                filledSkillCharacterId = domainOccupationSkill.filledSkillCharacterId
                             )
                         }
                     var size = skillsToFill.size

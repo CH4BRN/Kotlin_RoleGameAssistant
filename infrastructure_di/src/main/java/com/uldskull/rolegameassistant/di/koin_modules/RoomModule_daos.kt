@@ -12,6 +12,7 @@ val roomModule = module {
     single { AppDatabase.getDatabase(get()).dbDisplayedBreedDao() }
     //  CHARACTER
     single { AppDatabase.getDatabase(get()).dbCharacterDao() }
+    single { AppDatabase.getDatabase(get()).dbCharacterWithDbFilledSkillsDao() }
     //  CHARACTERISTICS
     single { AppDatabase.getDatabase(get()).dbCharacteristicDao() }
     single { AppDatabase.getDatabase(get()).dbBreedCharacteristicDao() }
@@ -23,6 +24,7 @@ val roomModule = module {
     single { AppDatabase.getDatabase(get()).dbOccupationsDao() }
     single { AppDatabase.getDatabase(get ()).dbOccupationSkillDao() }
     single { AppDatabase.getDatabase(get()).dbOccupationsWithSkillsDao() }
+    single { AppDatabase.getDatabase(get()).dbFilledSkillDao() }
 
 
 

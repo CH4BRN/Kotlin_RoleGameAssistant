@@ -13,14 +13,17 @@ import com.uldskull.rolegameassistant.models.character.DomainBond
 import com.uldskull.rolegameassistant.models.character.DomainIdeal
 import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
 import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
+import com.uldskull.rolegameassistant.models.character.character.DomainCharacterWithSkills
 import com.uldskull.rolegameassistant.models.character.characteristic.CharacteristicsName
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainBreedsCharacteristic
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollsCharacteristic
 import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
+import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
 import com.uldskull.rolegameassistant.repository.breed.DisplayedBreedsRepository
 import com.uldskull.rolegameassistant.repository.character.CharacterRepository
 import com.uldskull.rolegameassistant.repository.characteristic.BreedsCharacteristicRepository
 import com.uldskull.rolegameassistant.repository.ideal.IdealsRepository
+import com.uldskull.rolegameassistant.repository.skill.FilledOccupationSkillRepository
 import com.uldskull.rolegameassistant.useCases.diceRoll.DiceService
 
 /**
@@ -35,7 +38,8 @@ class NewCharacterViewModel(
     private val characterRepository: CharacterRepository<LiveData<List<DomainCharacter>>>,
     private val displayedBreedsRepository: DisplayedBreedsRepository<LiveData<List<DomainDisplayedBreed>>>,
     private val characteristicRepository: BreedsCharacteristicRepository<LiveData<List<DomainBreedsCharacteristic>>>,
-    private val idealsRepository: IdealsRepository<LiveData<List<DomainIdeal>>>
+    private val idealsRepository: IdealsRepository<LiveData<List<DomainIdeal>>>,
+    private val filledOccupationSkillRepository: FilledOccupationSkillRepository<LiveData<List<DomainFilledSkill>>>
 ) : AndroidViewModel(application) {
 
 
@@ -121,6 +125,12 @@ class NewCharacterViewModel(
         }
     }
 
+    fun getCharacterWithSkills(id:Long?):DomainCharacterWithSkills?{
+        var characterWithSkills: DomainCharacterWithSkills? = characterRepository.findOneWithSkills(id)
+        Log.d("DBUG$TAG", "characterWithSkills: $characterWithSkills")
+        return characterWithSkills
+    }
+
     /**
      * Represents the selected character.
      */
@@ -150,7 +160,8 @@ class NewCharacterViewModel(
         knowScore: Int?,
         baseHealth: Int?,
         breedBonus: Int?,
-        skillsIds: List<Long?>
+        skillsIds: List<Long?>,
+        filledSkills:List<DomainFilledSkill>?
     ): Long? {
 
         if (currentCharacter == null) {
@@ -224,8 +235,41 @@ class NewCharacterViewModel(
             throw e
         }
 
+        try {
+            if(currentCharacter?.value?.characterId != null){
+
+                filledSkills?.forEach {
+                    var newSkill = DomainFilledSkill(
+                        filledSkillCharacterId = characterId,
+                        filledSkillUnitsValue = it.filledSkillUnitsValue,
+                        filledSkillTotal = it.filledSkillTotal,
+                        filledSkillTensValue = it.filledSkillTensValue,
+                        filledSkillName = it.skillName,
+                        filledSkillMax = it.filledSkillMax,
+                        filledSkillId = it.skillId,
+                        filledSkillBase = it.filledSkillBase
+                    )
+                    if(filledOccupationSkillRepository.findOneById(newSkill.skillId)==null){
+                        filledOccupationSkillRepository?.insertOne(newSkill)
+                        Log.d("DEBUG$TAG", "Inserted skill ${newSkill.skillName} -  ${newSkill.filledSkillCharacterId}")
+                    }else{
+                        filledOccupationSkillRepository.updateOne(newSkill)
+                        Log.d("DEBUG$TAG", "Updated skill ${newSkill.skillName} - ${newSkill.filledSkillCharacterId}")
+                    }
+
+                }
+
+            }
+        }catch (e:Exception){
+            Log.e("ERROR","Insertion failed")
+            e.printStackTrace()
+            throw e
+        }
         Log.d("RESULT", currentCharacter.toString())
         var breeds = getCharacterWithBreeds(characterId)
+
+        var skills = getCharacterWithSkills(characterId)
+        Log.d("DEBUG$TAG", "Skills : $skills")
 
         // TODO Check saved breeds
         return currentCharacter?.value?.characterId

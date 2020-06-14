@@ -13,12 +13,14 @@ import com.uldskull.rolegameassistant.infrastructure.DatabaseValues.DATABASE_NAM
 import com.uldskull.rolegameassistant.infrastructure.dao.breed.DbDisplayedBreedDao
 import com.uldskull.rolegameassistant.infrastructure.dao.breed.DbBreedWithDbCharacteristicsDao
 import com.uldskull.rolegameassistant.infrastructure.dao.character.DbCharacterDao
+import com.uldskull.rolegameassistant.infrastructure.dao.character.DbCharacterWithDbFilledSkillsDao
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbBreedCharacteristicDao
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbCharacteristicDao
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbRollCharacteristicsDao
 import com.uldskull.rolegameassistant.infrastructure.dao.ideal.DbIdealsDao
 import com.uldskull.rolegameassistant.infrastructure.dao.occupation.DbOccupationDbSkillDao
 import com.uldskull.rolegameassistant.infrastructure.dao.occupation.DbOccupationsDao
+import com.uldskull.rolegameassistant.infrastructure.dao.skill.DbFilledSkillDao
 import com.uldskull.rolegameassistant.infrastructure.dao.skill.DbOccupationSkillDao
 import com.uldskull.rolegameassistant.infrastructure.database.databaseUtils.BreedCharacteristicDatabaseUtil.Companion.populateBreedCharacteristics
 import com.uldskull.rolegameassistant.infrastructure.database.databaseUtils.BreedDatabaseUtil.Companion.populateBreed
@@ -37,6 +39,7 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_ideal.DbI
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_ideal.DbIdealConverter
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupation.DbOccupation
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupation.DbOccupationAndDbSkillCrossRef
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_skill.DbFilledSkill
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_skill.DbOccupationSkill
 import kotlin.concurrent.thread
 
@@ -55,6 +58,7 @@ Abstract class for room database
         DbIdeal::class,
         DbOccupation::class,
         DbOccupationSkill::class,
+        DbFilledSkill::class,
         DbOccupationAndDbSkillCrossRef::class],
     version = 1
 )
@@ -91,6 +95,9 @@ abstract class AppDatabase : RoomDatabase() {
      */
     abstract fun dbCharacterDao(): DbCharacterDao
 
+    abstract fun dbCharacterWithDbFilledSkillsDao(): DbCharacterWithDbFilledSkillsDao
+
+    abstract fun dbFilledSkillDao(): DbFilledSkillDao
 
     /**
      * Database Breed with characteristics DAO

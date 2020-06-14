@@ -20,7 +20,8 @@ val viewModelModule = module {
             characterRepository = get(),
             displayedBreedsRepository = get(),
             characteristicRepository = get(),
-            idealsRepository = get()
+            idealsRepository = get(),
+            filledOccupationSkillRepository = get()
         )
     }
     //  Characteristics ViewModel

@@ -46,7 +46,7 @@ open class DomainCharacter(
     var characterBreeds: MutableList<Long?>?
 ) {
     override fun toString(): String {
-        return "DomainCharacter(characterId=$characterId, characterName=$characterName, characterAge=$characterAge, characterGender=$characterGender, characterBiography=$characterBiography, characterBonds=$characterBonds, characterIdeals=$characterIdeals, characterBaseHealthPoints=$characterBaseHealthPoints, characterHealthPoints=$characterHealthPoints, characterIdeaPoints=$characterIdeaPoints, characterAlignment=$characterAlignment, characterEnergyPoints=$characterEnergyPoints, characterHeight=$characterHeight, characterPictureUri=$characterPictureUri, characterConstitution=$characterConstitution, characterStrength=$characterStrength, characterPower=$characterPower, characterDexterity=$characterDexterity, characterSize=$characterSize, characterIntelligence=$characterIntelligence, characterAppearance=$characterAppearance, characterEducation=$characterEducation, characterWeight=$characterWeight, characterSanity=$characterSanity, characterLuck=$characterLuck, characterKnow=$characterKnow, characterBreedBonus=$characterBreedBonus, characterOccupation=$characterOccupation, characterSelectedOccupationSkill=$characterSelectedOccupationSkill, characterBreeds=$characterBreeds)".toUpperCase()
+        return "DomainCharacter(characterId=$characterId, characterName=$characterName,characterSelectedOccupationSkill=$characterSelectedOccupationSkill)".toUpperCase()
     }
 
 

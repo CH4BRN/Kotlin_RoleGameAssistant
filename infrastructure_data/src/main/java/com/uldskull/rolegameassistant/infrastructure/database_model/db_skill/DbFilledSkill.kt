@@ -24,7 +24,8 @@ class DbFilledSkill(
     val filledSkillTensValue: Int?,
     val filledSkillUnitsValue: Int?,
     val filledSkillTotal: Int?,
-    val filledSkillMax: Int?
+    val filledSkillMax: Int?,
+    val filledSkillCharacterId:Long?
 ) : DbEntity<DomainFilledSkill> {
     /**
      * Converts a Database model entity into a domain model.
@@ -38,12 +39,13 @@ class DbFilledSkill(
             filledSkillBase = this.filledSkillBase,
             filledSkillMax = this.filledSkillMax,
             filledSkillName = this.filledSkillName,
-            filledSkillTotal = this.filledSkillTotal
+            filledSkillTotal = this.filledSkillTotal,
+            filledSkillCharacterId = this.filledSkillCharacterId
         )
     }
 
     override fun toString(): String {
-        return "DbFilledSkill(filledSkillId=$filledSkillId, filledSkillName=$filledSkillName, filledSkillDescription=$filledSkillDescription, filledSkillBase=$filledSkillBase, filledSkillTensValue=$filledSkillTensValue, filledSkillUnitsValue=$filledSkillUnitsValue, filledSkillTotal=$filledSkillTotal, filledSkillMax=$filledSkillMax)"
+        return "DbFilledSkill(filledSkillId=$filledSkillId, filledSkillName=$filledSkillName, filledSkillDescription=$filledSkillDescription, filledSkillBase=$filledSkillBase, filledSkillTensValue=$filledSkillTensValue, filledSkillUnitsValue=$filledSkillUnitsValue, filledSkillTotal=$filledSkillTotal, filledSkillMax=$filledSkillMax, filledSkillCharacterId=$filledSkillCharacterId)"
     }
 
     companion object :
@@ -60,7 +62,8 @@ class DbFilledSkill(
                 filledSkillDescription = domainModel?.skillDescription,
                 filledSkillMax = domainModel?.filledSkillMax,
                 filledSkillName = domainModel?.skillName,
-                filledSkillTotal = domainModel?.filledSkillTotal
+                filledSkillTotal = domainModel?.filledSkillTotal,
+                filledSkillCharacterId = domainModel?.filledSkillCharacterId
 
             )
         }

@@ -131,5 +131,4 @@ class DbOccupationSkillRepositoryImpl(
         }
         return 1
     }
-// TODO : Fill class.
 }

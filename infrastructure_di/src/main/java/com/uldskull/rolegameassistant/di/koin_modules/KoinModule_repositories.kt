@@ -13,6 +13,8 @@ import com.uldskull.rolegameassistant.infrastructure.repositories.characteristic
 import com.uldskull.rolegameassistant.infrastructure.repositories.characteristic.DbRollsCharacteristicRepositoryImpl
 import com.uldskull.rolegameassistant.infrastructure.repositories.ideal.DbIdealsRepositoryImpl
 import com.uldskull.rolegameassistant.infrastructure.repositories.occupations.DbOccupationsRepositoryImpl
+import com.uldskull.rolegameassistant.infrastructure.repositories.skill.DbFilledSkillRepositoryImpl
+import com.uldskull.rolegameassistant.infrastructure.repositories.skill.DbOccupationSkillRepositoryImpl
 import com.uldskull.rolegameassistant.models.character.DomainIdeal
 import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
 import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
@@ -20,6 +22,8 @@ import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainBreedsCharacteristic
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainCharacteristic
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollsCharacteristic
+import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
+import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSkill
 import com.uldskull.rolegameassistant.repository.breed.DisplayedBreedsRepository
 import com.uldskull.rolegameassistant.repository.character.CharacterRepository
 import com.uldskull.rolegameassistant.repository.characteristic.BreedsCharacteristicRepository
@@ -27,6 +31,8 @@ import com.uldskull.rolegameassistant.repository.characteristic.CharacteristicRe
 import com.uldskull.rolegameassistant.repository.characteristic.RollsCharacteristicRepository
 import com.uldskull.rolegameassistant.repository.ideal.IdealsRepository
 import com.uldskull.rolegameassistant.repository.occupations.OccupationsRepository
+import com.uldskull.rolegameassistant.repository.skill.FilledOccupationSkillRepository
+import com.uldskull.rolegameassistant.repository.skill.OccupationSkillRepository
 import org.koin.dsl.module
 
 val repositoriesModule = module {
@@ -60,7 +66,8 @@ val repositoriesModule = module {
     //  Repository for character
     single<CharacterRepository<LiveData<List<DomainCharacter?>?>>> {
         CharacterRepositoryImpl(
-            dbCharacterDao = get()
+            dbCharacterDao = get(),
+            dbCharacterWithDbFilledSkillsDao = get()
         )
     }
 
@@ -76,6 +83,20 @@ val repositoriesModule = module {
         DbOccupationsRepositoryImpl(
             dbOccupationDao = get(),
             dbOccupationDbSkillDao = get()
+        )
+    }
+
+    //  Repository for occupation skills
+    single<OccupationSkillRepository<LiveData<List<DomainOccupationSkill>>>> {
+        DbOccupationSkillRepositoryImpl(
+            dbOccupationSkillDao = get()
+        )
+    }
+
+    //  Repository for filled skills
+    single<FilledOccupationSkillRepository<LiveData<List<DomainFilledSkill>>>> {
+        DbFilledSkillRepositoryImpl(
+            dbFilledSkillsDao = get()
         )
     }
 }

@@ -22,12 +22,14 @@ import com.uldskull.rolegameassistant.fragments.viewPager.adapter.OCCUPATION_FRA
 import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
 import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSkill
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
+import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationSkillsViewModel
 import com.uldskull.rolegameassistant.viewmodels.OccupationViewModel
 import com.uldskull.rolegameassistant.viewmodels.PointsToSpendViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationsViewModel
 import kotlinx.android.synthetic.main.fragment_occupation.*
 import kotlinx.android.synthetic.main.recyclerview_item_occupationskill.*
+import org.koin.androidx.viewmodel.ext.android.getSharedViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
@@ -130,6 +132,10 @@ class OccupationFragment : CustomFragment() {
      * Button to add a skill
      */
     private var buttonAddSkill: ImageButton? = null
+    /**
+     * New Character View Model
+     */
+    private val newCharacterViewModel:NewCharacterViewModel by sharedViewModel()
 
     /**
      * Initializes the view.
@@ -721,7 +727,8 @@ class OccupationFragment : CustomFragment() {
                             filledSkillName = occupationSkill.skillName,
                             filledSkillTotal = 0,
                             filledSkillBase = occupationSkill.skillBase,
-                            filledSkillMax = occupationSkill.skillMax
+                            filledSkillMax = occupationSkill.skillMax,
+                            filledSkillCharacterId = newCharacterViewModel.characterId
                         )
                     )
                 }

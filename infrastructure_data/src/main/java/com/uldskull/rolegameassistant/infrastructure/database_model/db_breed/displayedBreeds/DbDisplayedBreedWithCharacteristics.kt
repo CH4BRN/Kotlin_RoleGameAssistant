@@ -7,7 +7,6 @@ import androidx.room.Embedded
 import androidx.room.Relation
 import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_BREED_ID
 import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_CHARACTERISTIC_BREED_ID
-import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.displayedBreeds.DbDisplayedBreed
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbBreedCharacteristic
 
 /**

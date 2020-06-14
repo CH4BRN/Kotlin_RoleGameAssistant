@@ -6,9 +6,14 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.uldskull.rolegameassistant.infrastructure.dao.character.DbCharacterDao
+import com.uldskull.rolegameassistant.infrastructure.dao.character.DbCharacterWithDbFilledSkillsDao
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_character.DbCharacter
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_character.DbCharacterWithDbSkills
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_skill.DbFilledSkill
 import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
 import com.uldskull.rolegameassistant.models.character.character.DomainCharacterWithIdeals
+import com.uldskull.rolegameassistant.models.character.character.DomainCharacterWithSkills
+import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
 import com.uldskull.rolegameassistant.repository.character.CharacterRepository
 
 /**
@@ -17,7 +22,8 @@ Class "CharacterRepositoryImpl"
 Insert and get Character from database.
  */
 class CharacterRepositoryImpl(
-    private val dbCharacterDao: DbCharacterDao
+    private val dbCharacterDao: DbCharacterDao,
+    private val dbCharacterWithDbFilledSkillsDao: DbCharacterWithDbFilledSkillsDao
 ) :
     CharacterRepository<LiveData<List<DomainCharacter?>?>> {
 
@@ -86,10 +92,9 @@ class CharacterRepositoryImpl(
         Log.d(TAG, "findOneById")
         try {
             var character = dbCharacterDao.getCharacterById(id)
-            if(character != null){
+            if (character != null) {
                 return character.toDomain()
-            }
-            else return null
+            } else return null
         } catch (e: Exception) {
             Log.e(TAG, "findOneById FAILED")
             e.printStackTrace()
@@ -149,7 +154,37 @@ class CharacterRepositoryImpl(
         return null
     }
 
+    override fun findOneWithSkills(id: Long?): DomainCharacterWithSkills? {
+        var entities: List<DbCharacterWithDbSkills> =
+            dbCharacterWithDbFilledSkillsDao?.getCharacterWithSkills()
 
+        var theOne = entities.find { characterWithDbSkills -> characterWithDbSkills?.character?.characterId == id }
+
+        if (theOne!= null) {
+            val character = theOne.character
+
+            val skills = theOne.skills
+
+            if (character != null) {
+                var list: MutableList<DomainFilledSkill> = mutableListOf()
+                Log.d("DEBUG$TAG", "Skills : ${skills.size}")
+                skills.forEach {
+                    Log.d("DEBUG$TAG", "Skill : ${it.filledSkillName}")
+                    list.add(it.toDomain())
+                }
+                Log.d("DEBUG$TAG", "Skills : ${list.size}")
+
+                var domainEntity = DomainCharacterWithSkills(
+                    character = character.toDomain(),
+                    skills = list
+                )
+
+                return domainEntity
+            }
+            return null
+        }
+        return null
+    }
 
 
 }

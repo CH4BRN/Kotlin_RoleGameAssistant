@@ -251,6 +251,10 @@ class NavigationBarFragment : CustomFragment() {
             val insertedId =
                 saveCharacter()
 
+            var characterWithSkills = newCharacterViewModel?.getCharacterWithSkills(insertedId)
+
+            Log.d("DEBUG$TAG", "characterWithSkills : $characterWithSkills ")
+
             val result = charactersViewModel.findOneById(insertedId)
             result?.characterBreeds?.forEach { id ->
                 kotlin.run {
@@ -298,7 +302,8 @@ class NavigationBarFragment : CustomFragment() {
             sanityScore = derivedValuesViewModel.sanityScore.value,
             baseHealth = derivedValuesViewModel.baseHealth.value,
             breedBonus = derivedValuesViewModel.breedHealthBonus.value,
-            skillsIds = newCharacterViewModel.characterSkillsIds
+            skillsIds = newCharacterViewModel.characterSkillsIds,
+            filledSkills = occupationSkillsViewModel.checkedOccupationSkills.value
         )
     }
 

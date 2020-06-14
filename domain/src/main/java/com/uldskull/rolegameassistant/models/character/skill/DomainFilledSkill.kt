@@ -16,14 +16,15 @@ class DomainFilledSkill(
     var filledSkillTensValue: Int? = 0,
     var filledSkillUnitsValue: Int? = 0,
     val filledSkillTotal: Int? = 0,
-    val filledSkillMax: Int? = 0
+    val filledSkillMax: Int? = 0,
+    val filledSkillCharacterId:Long?
 ) : DomainSkill(
     skillId = filledSkillId,
     skillName = filledSkillName
 ) {
     var skillIsSelected: Boolean = false
     override fun toString(): String {
-        return "DomainFilledSkill(filledSkillBase=$filledSkillBase, filledSkillTensValue=$filledSkillTensValue, filledSkillUnitsValue=$filledSkillUnitsValue, filledSkillTotal=$filledSkillTotal, filledSkillMax=$filledSkillMax, skillIsSelected=$skillIsSelected)"
+        return "DomainFilledSkill(filledSkillBase=$filledSkillBase, filledSkillTensValue=$filledSkillTensValue, filledSkillUnitsValue=$filledSkillUnitsValue, filledSkillTotal=$filledSkillTotal, filledSkillMax=$filledSkillMax, filledSkillCharacterId=$filledSkillCharacterId, skillIsSelected=$skillIsSelected)"
     }
 
 }
