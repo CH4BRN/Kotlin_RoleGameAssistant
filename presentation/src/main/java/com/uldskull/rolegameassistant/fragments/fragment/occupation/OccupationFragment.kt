@@ -708,60 +708,68 @@ class OccupationFragment : CustomFragment() {
         Log.d(TAG, "onResume")
         super.onResume()
 
+
         var skills: List<DomainOccupationSkill>? =
             occupationsViewModel.observedOccupationsSkills?.value
-        if (skills != null) {
-            var checkedSkills: List<DomainOccupationSkill> =
-                skills.filter { skill: DomainOccupationSkill ->
-                    skill.skillIsChecked
-                }
-            Log.d(TAG, "checked skills size : ${checkedSkills.size}")
-            var list: MutableList<DomainFilledSkill> = mutableListOf()
-            checkedSkills.forEach { occupationSkill: DomainOccupationSkill ->
-                kotlin.run {
-                    list.add(
-                        DomainFilledSkill(
-                            filledSkillId = occupationSkill.skillId,
-                            filledSkillTensValue = 0,
-                            filledSkillUnitsValue = 0,
-                            filledSkillName = occupationSkill.skillName,
-                            filledSkillTotal = 0,
-                            filledSkillBase = occupationSkill.skillBase,
-                            filledSkillMax = occupationSkill.skillMax,
-                            filledSkillCharacterId = newCharacterViewModel.characterId
-                        )
-                    )
-                }
-            }
+        if(occupationSkillsViewModel.checkedOccupationSkills == null){
+            Log.d("DEBUG$TAG", "checkedOccupationSkills == null")}
+        else if(occupationSkillsViewModel.checkedOccupationSkills.value == null){
+            Log.d("DEBUG$TAG", "checkedOccupationSkills.value == null")
 
-
-            var finalList = mutableListOf<DomainFilledSkill>()
-            var checked = occupationSkillsViewModel.checkedOccupationSkills.value
-            if (checked == null) {
-                occupationSkillsViewModel.checkedOccupationSkills.value = list
-            } else {
-                list.forEach { newSkill ->
+            if (skills != null) {
+                var checkedSkills: List<DomainOccupationSkill> =
+                    skills.filter { skill: DomainOccupationSkill ->
+                        skill.skillIsChecked
+                    }
+                Log.d(TAG, "checked skills size : ${checkedSkills.size}")
+                var list: MutableList<DomainFilledSkill> = mutableListOf()
+                checkedSkills.forEach { occupationSkill: DomainOccupationSkill ->
                     kotlin.run {
-                        checked.forEach { oldSKill ->
-                            kotlin.run {
-                                if (newSkill.skillId == oldSKill.skillId) {
-                                    finalList.add(oldSKill)
-                                }
-                            }
-                        }
-                        if (!finalList.any { s -> s.skillId == newSkill.skillId }) {
-                            finalList.add(newSkill)
-                        }
-
+                        list.add(
+                            DomainFilledSkill(
+                                filledSkillId = occupationSkill.skillId,
+                                filledSkillTensValue = 0,
+                                filledSkillUnitsValue = 0,
+                                filledSkillName = occupationSkill.skillName,
+                                filledSkillTotal = 0,
+                                filledSkillBase = occupationSkill.skillBase,
+                                filledSkillMax = occupationSkill.skillMax,
+                                filledSkillCharacterId = newCharacterViewModel.characterId
+                            )
+                        )
                     }
                 }
-                occupationSkillsViewModel.checkedOccupationSkills.value = finalList
+
+
+                var finalList = mutableListOf<DomainFilledSkill>()
+                var checked = occupationSkillsViewModel.checkedOccupationSkills.value
+                if (checked == null) {
+                    occupationSkillsViewModel.checkedOccupationSkills.value = list
+                } else {
+                    list.forEach { newSkill ->
+                        kotlin.run {
+                            checked.forEach { oldSKill ->
+                                kotlin.run {
+                                    if (newSkill.skillId == oldSKill.skillId) {
+                                        finalList.add(oldSKill)
+                                    }
+                                }
+                            }
+                            if (!finalList.any { s -> s.skillId == newSkill.skillId }) {
+                                finalList.add(newSkill)
+                            }
+
+                        }
+                    }
+                    occupationSkillsViewModel.checkedOccupationSkills.value = finalList
+                }
+                Log.d(
+                    TAG,
+                    "checkedOccupationSkills size : ${occupationSkillsViewModel.checkedOccupationSkills.value?.size}"
+                )
             }
-            Log.d(
-                TAG,
-                "checkedOccupationSkills size : ${occupationSkillsViewModel.checkedOccupationSkills.value?.size}"
-            )
         }
+
     }
 
     companion object : CustomCompanion() {

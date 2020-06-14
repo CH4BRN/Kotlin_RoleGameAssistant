@@ -25,6 +25,7 @@ import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.Doma
 import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
 import com.uldskull.rolegameassistant.viewmodels.*
 import com.uldskull.rolegameassistant.viewmodels.breeds.DisplayedBreedsViewModel
+import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationSkillsViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationsViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -60,6 +61,8 @@ class CharacterActivity :
     private lateinit var displayedBreedsViewModel: DisplayedBreedsViewModel
 
     private lateinit var charactersPictureViewModel: CharactersPictureViewModel
+
+    private lateinit var occupationSkillsViewModel: OccupationSkillsViewModel
 
     /** SupportFragmentManager  **/
     private val fragmentManager = supportFragmentManager
@@ -198,10 +201,12 @@ class CharacterActivity :
 
             var occupationsSkills = occupationsViewModel?.observedOccupationsSkills?.value
             Log.d("DEBUG$TAG", "occupationsSkills : ${occupationsSkills}")
-
-
-
             Log.d("DEBUG$TAG", "Occupation = ${occupation}")
+
+            var occupationSkills = newCharacterViewModel?.getCharacterWithSkills(character?.characterId)?.skills
+            Log.d("DEBUG$TAG", "Skills : $occupationSkills")
+
+            occupationSkillsViewModel.checkedOccupationSkills.value = occupationSkills
         }
 
     }
@@ -231,6 +236,8 @@ class CharacterActivity :
         occupationsViewModel = getViewModel()
         displayedBreedsViewModel = getViewModel()
         charactersPictureViewModel = getViewModel()
+        occupationSkillsViewModel = getViewModel()
+
     }
 
 
