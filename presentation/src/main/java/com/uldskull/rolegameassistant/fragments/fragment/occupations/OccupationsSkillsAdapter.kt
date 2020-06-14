@@ -114,6 +114,8 @@ class OccupationsSkillsAdapter internal constructor(
         holder.cbOccupationsSkillIsChecked?.setOnCheckedChangeListener { _, isChecked ->
             kotlin.run {
                 Log.d(TAG, "isChecked : $isChecked")
+
+
                 current.skillIsChecked = isChecked
                 Log.d(TAG, "${occupationSkills[position]}")
                 this.buttonListener.itemPressed(current)

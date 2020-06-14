@@ -203,10 +203,15 @@ class CharacterActivity :
             Log.d("DEBUG$TAG", "occupationsSkills : ${occupationsSkills}")
             Log.d("DEBUG$TAG", "Occupation = ${occupation}")
 
-            var occupationSkills = newCharacterViewModel?.getCharacterWithSkills(character?.characterId)?.skills
-            Log.d("DEBUG$TAG", "Skills : $occupationSkills")
+            var occupationSkills = newCharacterViewModel?.getCharacterWithSkills(character?.characterId)
 
-            occupationSkillsViewModel.checkedOccupationSkills.value = occupationSkills
+            Log.d("DEBUG$TAG", "Character skills from activity : $occupationSkills")
+
+            if(occupationSkillsViewModel.checkedOccupationSkills.value == null){
+                occupationSkillsViewModel.checkedOccupationSkills.value = occupationSkills?.skills
+            }
+
+
         }
 
     }

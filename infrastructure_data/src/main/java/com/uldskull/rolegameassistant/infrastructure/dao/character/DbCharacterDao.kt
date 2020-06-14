@@ -8,6 +8,7 @@ import androidx.room.*
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
 import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_CHARACTER_ID
 import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_CHARACTER
+import com.uldskull.rolegameassistant.infrastructure.dao.GenericDao
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_character.DbCharacter
 
 /**
@@ -15,23 +16,13 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_character
  *   Allow interaction with SqLite database
  **/
 @Dao
-interface DbCharacterDao {
-
-    //  CREATE
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertCharacter(dbCharacter: DbCharacter): Long
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertCharacters(dbCharacters: List<DbCharacter>): List<Long>
+abstract class DbCharacterDao : GenericDao<DbCharacter> {
 
     //  READ
     @Query("SELECT * FROM $TABLE_NAME_CHARACTER")
-    fun getCharacters(): LiveData<List<DbCharacter>>
+    abstract fun getCharacters(): LiveData<List<DbCharacter>>
 
     @Query("SELECT * FROM $TABLE_NAME_CHARACTER WHERE $FIELD_CHARACTER_ID LIKE :id")
-    fun getCharacterById(id: Long?): DbCharacter
+    abstract fun getCharacterById(id: Long?): DbCharacter
 
-    //  UPDATE
-    @Update
-    fun updateCharacter(vararg characters: DbCharacter): Int?
 }

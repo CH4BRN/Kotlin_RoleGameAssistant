@@ -240,7 +240,7 @@ class NewCharacterViewModel(
 
                 filledSkills?.forEach {
                     var newSkill = DomainFilledSkill(
-                        filledSkillCharacterId = characterId,
+                        filledSkillCharacterId = currentCharacter?.value?.characterId ,
                         filledSkillUnitsValue = it.filledSkillUnitsValue,
                         filledSkillTotal = it.filledSkillTotal,
                         filledSkillTensValue = it.filledSkillTensValue,
@@ -253,8 +253,13 @@ class NewCharacterViewModel(
                         filledOccupationSkillRepository?.insertOne(newSkill)
                         Log.d("DEBUG$TAG", "Inserted skill ${newSkill.skillName} -  ${newSkill.filledSkillCharacterId}")
                     }else{
-                        filledOccupationSkillRepository.updateOne(newSkill)
-                        Log.d("DEBUG$TAG", "Updated skill ${newSkill.skillName} - ${newSkill.filledSkillCharacterId}")
+                        var skill = filledOccupationSkillRepository.findOneById(newSkill.skillId)
+                        skill?.filledSkillCharacterId = currentCharacter?.value?.characterId
+                        skill?.filledSkillTensValue = newSkill?.filledSkillTensValue
+                        skill?.filledSkillUnitsValue = newSkill?.filledSkillUnitsValue
+
+                        var updated = filledOccupationSkillRepository.updateOne(skill)
+                        Log.d("DEBUG$TAG", "Updated $updated skill : ${skill?.skillName} - ${skill?.filledSkillCharacterId}")
                     }
 
                 }

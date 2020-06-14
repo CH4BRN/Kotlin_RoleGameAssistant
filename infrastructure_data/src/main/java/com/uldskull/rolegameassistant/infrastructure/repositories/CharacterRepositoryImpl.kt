@@ -113,7 +113,7 @@ class CharacterRepositoryImpl(
         Log.d(TAG, "updateOne")
 
         try {
-            return dbCharacterDao.updateCharacter(DbCharacter.from(one))
+            return dbCharacterDao.update(DbCharacter.from(one))
         } catch (e: Exception) {
             Log.e(TAG, "updateOne FAILED")
             e.printStackTrace()
@@ -127,7 +127,7 @@ class CharacterRepositoryImpl(
 
         return if (one != null) {
             try {
-                val result = dbCharacterDao.insertCharacter(DbCharacter.from(one))
+                val result = dbCharacterDao.insert(DbCharacter.from(one))
                 Log.d(TAG, "insertOne RESULT = $result")
                 result
             } catch (e: Exception) {

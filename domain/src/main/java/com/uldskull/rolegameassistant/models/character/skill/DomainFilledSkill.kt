@@ -17,7 +17,7 @@ class DomainFilledSkill(
     var filledSkillUnitsValue: Int? = 0,
     val filledSkillTotal: Int? = 0,
     val filledSkillMax: Int? = 0,
-    val filledSkillCharacterId:Long?
+    var filledSkillCharacterId:Long?
 ) : DomainSkill(
     skillId = filledSkillId,
     skillName = filledSkillName
