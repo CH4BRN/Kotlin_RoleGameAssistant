@@ -161,7 +161,8 @@ class NewCharacterViewModel(
         baseHealth: Int?,
         breedBonus: Int?,
         skillsIds: List<Long?>,
-        filledSkills:List<DomainFilledSkill>?
+        filledSkills:List<DomainFilledSkill>?,
+        spentOccupationPoints:Int?
     ): Long? {
 
         if (currentCharacter == null) {
@@ -217,6 +218,9 @@ class NewCharacterViewModel(
         }
         if (characterOccupation != null) {
             currentCharacter?.value?.characterOccupation = characterOccupation
+        }
+        if(spentOccupationPoints != null){
+            currentCharacter?.value?.characterSpentOccupationPoints  = spentOccupationPoints
         }
         try {
             if (currentCharacter?.value?.characterId == null) {

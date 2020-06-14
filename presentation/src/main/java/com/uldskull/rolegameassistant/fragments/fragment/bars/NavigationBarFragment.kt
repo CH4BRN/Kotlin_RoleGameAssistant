@@ -66,6 +66,8 @@ class NavigationBarFragment : CustomFragment() {
 
     private val occupationSkillsViewModel: OccupationSkillsViewModel by sharedViewModel()
 
+    private val pointsToSpendViewModel: PointsToSpendViewModel by sharedViewModel()
+
     /**
      * Is saving enabled ?
      */
@@ -303,7 +305,8 @@ class NavigationBarFragment : CustomFragment() {
             baseHealth = derivedValuesViewModel.baseHealth.value,
             breedBonus = derivedValuesViewModel.breedHealthBonus.value,
             skillsIds = newCharacterViewModel.characterSkillsIds,
-            filledSkills = occupationSkillsViewModel.checkedOccupationSkills.value
+            filledSkills = occupationSkillsViewModel.checkedOccupationSkills.value,
+            spentOccupationPoints = pointsToSpendViewModel?.observableSpentPoints?.value
         )
     }
 

@@ -64,6 +64,8 @@ class CharacterActivity :
 
     private lateinit var occupationSkillsViewModel: OccupationSkillsViewModel
 
+    private lateinit var pointsToSpendViewModel: PointsToSpendViewModel
+
     /** SupportFragmentManager  **/
     private val fragmentManager = supportFragmentManager
 
@@ -129,6 +131,7 @@ class CharacterActivity :
             newCharacterViewModel.characterBiography.value = character?.characterBiography
             newCharacterViewModel.characterHeight.value = character?.characterHeight
             newCharacterViewModel.characterWeight.value = character?.characterWeight
+            pointsToSpendViewModel?.observableSpentPoints.value = character?.characterSpentOccupationPoints
 
 
             var characterBreeds: MutableList<DomainDisplayedBreed?> = mutableListOf()
@@ -242,6 +245,7 @@ class CharacterActivity :
         displayedBreedsViewModel = getViewModel()
         charactersPictureViewModel = getViewModel()
         occupationSkillsViewModel = getViewModel()
+        pointsToSpendViewModel = getViewModel()
 
     }
 

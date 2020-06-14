@@ -132,10 +132,11 @@ class OccupationFragment : CustomFragment() {
      * Button to add a skill
      */
     private var buttonAddSkill: ImageButton? = null
+
     /**
      * New Character View Model
      */
-    private val newCharacterViewModel:NewCharacterViewModel by sharedViewModel()
+    private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
 
     /**
      * Initializes the view.
@@ -250,18 +251,27 @@ class OccupationFragment : CustomFragment() {
         loadOccupationSkillsRecyclerView()
 
         observeCurrentOccupationSkillPosition()
-
+        observeCheckedOccupationSkills()
         occupationSkillsViewModel.occupationSkillsTotalPointsToSpend.observe(this, Observer {
             tv_totalOccupationPoints?.text = "$it"
+            textViewOccupationPointsValue?.setText("$it")
         })
 
-        pointsToSpendViewModel.observableSpentPoints.observe(this, Observer {
-            Log.d("DEBUG", "total points = $it")
+        pointsToSpendViewModel.observableSpentPoints.observe(this, Observer { it: Int ->
+            var totalPointsToSpend: Int? =
+                occupationSkillsViewModel.occupationSkillsTotalPointsToSpend.value
+            if (totalPointsToSpend != null) {
+                var points = totalPointsToSpend - it
+                pointsToSpendViewModel?.observablePointsToSpend?.value = points
+            }
+        })
+
+        pointsToSpendViewModel.observablePointsToSpend.observe(this, Observer {
             textViewOccupationPointsValue?.text = "$it"
         })
 
         pointsToSpendViewModel.observableSpentOccupationTensPointsArray.observe(this, Observer {
-            if(it != null && currentOccupationSkillPosition != null && it.size != 0){
+            if (it != null && currentOccupationSkillPosition != null && it.size != 0) {
                 Log.d(
                     "DEBUG",
                     "tens value for position $currentOccupationSkillPosition = ${it[currentOccupationSkillPosition!!]}"
@@ -270,7 +280,7 @@ class OccupationFragment : CustomFragment() {
                 var totalPoints = 0
                 it.forEach {
                     Log.d("DEBUG", "tens points : $it")
-                    if(it != null){
+                    if (it != null) {
                         totalPoints += it
                     }
                 }
@@ -459,26 +469,54 @@ class OccupationFragment : CustomFragment() {
                 id: Long
             ) {
 
-                if(occupationSkillsViewModel.currentOccupationSkill.value != null){
+                if (occupationSkillsViewModel.currentOccupationSkill.value != null) {
                     tensValue = this@OccupationFragment.valuesList[position]
                     Log.d(
                         "DEBUG", "\tCurrent skill position = $currentOccupationSkillPosition\n" +
                                 "\tvalue : $tensValue"
                     )
 
-                    var tensPoints = pointsToSpendViewModel.observableSpentOccupationTensPointsArray.value
+                    var tensPoints =
+                        pointsToSpendViewModel.observableSpentOccupationTensPointsArray.value
 
-                     if(tensPoints?.size != 0){
-                        Log.d("DEBUG", "tens points array capacity : ${tensPoints?.size}\n" +
-                                "position = $currentOccupationSkillPosition")
+                    if (tensPoints?.size != 0) {
+                        Log.d(
+                            "DEBUG", "tens points array capacity : ${tensPoints?.size}\n" +
+                                    "position = $currentOccupationSkillPosition"
+                        )
                         tensPoints!![currentOccupationSkillPosition!!] = tensValue
                     }
-                    pointsToSpendViewModel.observableSpentOccupationTensPointsArray.value = tensPoints
+                    pointsToSpendViewModel.observableSpentOccupationTensPointsArray.value =
+                        tensPoints
 
                 }
 
             }
         }
+    }
+
+    private fun observeCheckedOccupationSkills(){
+        occupationSkillsViewModel.checkedOccupationSkills.observe(this, Observer { domainFilledSkill ->
+            var totalPoints = 0
+            domainFilledSkill.forEach {
+                var tens = 0
+                if (it.filledSkillTensValue != null) {
+                    tens = it.filledSkillTensValue!! * 10
+                }
+
+                var units = 0
+                if (it.filledSkillUnitsValue != null) {
+                    units = it.filledSkillUnitsValue!!
+                }
+
+                var total = tens + units
+                totalPoints += total
+            }
+            Log.d("DEBUG", "total points = $totalPoints")
+            if (totalPoints != null) {
+                pointsToSpendViewModel.observableSpentPoints.value = totalPoints
+            }
+        })
     }
 
 
@@ -494,12 +532,12 @@ class OccupationFragment : CustomFragment() {
             //  Gets the total points to spend
             var pointsToSpend = occupationSkillsViewModel.occupationSkillsTotalPointsToSpend.value
             //  Checks if activity is not null
-            if(activity != null){
+            if (activity != null) {
                 Log.d("DEBUG", "Activity is not null")
                 //  Checks if the
-                if(spentPoints!= null && pointsToSpend != null){
+                if (spentPoints != null && pointsToSpend != null) {
                     Log.d("DEBUG", "spentPoints!= null && pointsToSpend != null")
-                    if(spentPoints >= pointsToSpend){
+                    if (spentPoints >= pointsToSpend) {
                         Log.d("DEBUG", "spentPoints >= pointsToSpend")
                         //  There is not anymore points to spend
                         val pictureDialog = androidx.appcompat.app.AlertDialog.Builder(context!!)
@@ -509,10 +547,10 @@ class OccupationFragment : CustomFragment() {
 
                         pictureDialog.show()
 
-                    }
-                    else{
+                    } else {
                         Log.d("DEBUG", "spentPoints < pointsToSpend")
-                        var domainFilledSkill = occupationSkillsViewModel.currentOccupationSkill.value
+                        var domainFilledSkill =
+                            occupationSkillsViewModel.currentOccupationSkill.value
                         Log.d(
                             TAG + "valid",
                             "currentOccupationSkill : ${occupationSkillsViewModel.currentOccupationSkill.value}"
@@ -538,7 +576,6 @@ class OccupationFragment : CustomFragment() {
                                 skill.skillId == domainFilledSkill?.skillId
                             }
 
-                        Log.d(TAG + "valid", "index : $index")
 
                         var filledSkills =
                             occupationSkillsViewModel.checkedOccupationSkills.value?.toMutableList()
@@ -549,38 +586,47 @@ class OccupationFragment : CustomFragment() {
                             }
                         }
                         if (filledSkills != null && index != null) {
-                            Log.d(TAG + "valid", "filledSkill at index $index : ${filledSkills[index]}")
+                            Log.d(
+                                TAG + "valid",
+                                "filledSkill at index $index : ${filledSkills[index]}"
+                            )
 
                             if (domainFilledSkill != null) {
                                 filledSkills[index] = domainFilledSkill
                             }
-                            Log.d(TAG + "valid", "filledSkill at index $index : ${filledSkills[index]}")
+                            Log.d(
+                                TAG + "valid",
+                                "filledSkill at index $index : ${filledSkills[index]}"
+                            )
                         }
                         occupationSkillsViewModel.checkedOccupationSkills.value = filledSkills
 
-                        var totalPoints = 0
+                        /*var totalPoints = 0
 
                         occupationSkillsViewModel.checkedOccupationSkills.value?.forEach {
                             var tens = 0
-                            if(it.filledSkillTensValue != null){
-                                tens = it.filledSkillTensValue!!*10
+                            if (it.filledSkillTensValue != null) {
+                                tens = it.filledSkillTensValue!! * 10
                             }
 
                             var units = 0
-                            if(it.filledSkillUnitsValue != null){
+                            if (it.filledSkillUnitsValue != null) {
                                 units = it.filledSkillUnitsValue!!
                             }
 
                             var total = tens + units
-                            totalPoints+=total
+                            totalPoints += total
                         }
                         Log.d("DEBUG", "total points = $totalPoints")
-                        if(totalPoints != null){
-                            pointsToSpendViewModel.observableSpentPoints.value = totalPoints
-                        }
+                        if (totalPoints != null) {
+
+                                pointsToSpendViewModel.observableSpentPoints.value = totalPoints
+
+
+                        }*/
                     }
 
-                }else{
+                } else {
                     Log.d("DEBUG", "spentPoints < pointsToSpend")
                     var domainFilledSkill = occupationSkillsViewModel.currentOccupationSkill.value
                     Log.d(
@@ -628,26 +674,26 @@ class OccupationFragment : CustomFragment() {
                     }
                     occupationSkillsViewModel.checkedOccupationSkills.value = filledSkills
 
-                    var totalPoints = 0
+                   /* var totalPoints = 0
 
                     occupationSkillsViewModel.checkedOccupationSkills.value?.forEach {
                         var tens = 0
-                        if(it.filledSkillTensValue != null){
-                            tens = it.filledSkillTensValue!!*10
+                        if (it.filledSkillTensValue != null) {
+                            tens = it.filledSkillTensValue!! * 10
                         }
 
                         var units = 0
-                        if(it.filledSkillUnitsValue != null){
+                        if (it.filledSkillUnitsValue != null) {
                             units = it.filledSkillUnitsValue!!
                         }
 
                         var total = tens + units
-                        totalPoints+=total
+                        totalPoints += total
                     }
                     Log.d("DEBUG", "total points = $totalPoints")
-                    if(totalPoints != null){
+                    if (totalPoints != null) {
                         pointsToSpendViewModel.observableSpentPoints.value = totalPoints
-                    }
+                    }*/
                 }
             }
         }
@@ -711,9 +757,9 @@ class OccupationFragment : CustomFragment() {
 
         var skills: List<DomainOccupationSkill>? =
             occupationsViewModel.observedOccupationsSkills?.value
-        if(occupationSkillsViewModel.checkedOccupationSkills == null){
-            Log.d("DEBUG$TAG", "checkedOccupationSkills == null")}
-        else if(occupationSkillsViewModel.checkedOccupationSkills.value == null){
+        if (occupationSkillsViewModel.checkedOccupationSkills == null) {
+            Log.d("DEBUG$TAG", "checkedOccupationSkills == null")
+        } else if (occupationSkillsViewModel.checkedOccupationSkills.value == null) {
             Log.d("DEBUG$TAG", "checkedOccupationSkills.value == null")
 
             if (skills != null) {
@@ -768,7 +814,7 @@ class OccupationFragment : CustomFragment() {
                     "checkedOccupationSkills size : ${occupationSkillsViewModel.checkedOccupationSkills.value?.size}"
                 )
             }
-        }else if(occupationSkillsViewModel.checkedOccupationSkills.value?.size != skills?.size){
+        } else if (occupationSkillsViewModel.checkedOccupationSkills.value?.size != skills?.size) {
 
             Log.d("DEBUG$TAG", "checkedOccupationSkills.value?.size != skills?.size")
 

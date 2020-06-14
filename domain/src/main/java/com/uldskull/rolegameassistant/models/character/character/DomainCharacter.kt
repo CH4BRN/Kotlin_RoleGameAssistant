@@ -43,13 +43,12 @@ open class DomainCharacter(
     var characterBreedBonus: Int? = 42,
     var characterOccupation:DomainOccupation?,
     var characterSelectedOccupationSkill: MutableList<Long?>?,
-    var characterBreeds: MutableList<Long?>?
+    var characterBreeds: MutableList<Long?>?,
+    var characterSpentOccupationPoints:Int? = 0
 ) {
     override fun toString(): String {
-        return "DomainCharacter(characterId=$characterId, characterName=$characterName,characterSelectedOccupationSkill=$characterSelectedOccupationSkill)".toUpperCase()
+        return "DomainCharacter(characterId=$characterId, characterName=$characterName, characterSpentOccupationPoints=$characterSpentOccupationPoints)"
     }
-
-
 }
 
 

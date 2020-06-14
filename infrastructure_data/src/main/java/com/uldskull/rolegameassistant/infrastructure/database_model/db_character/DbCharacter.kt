@@ -6,18 +6,15 @@ package com.uldskull.rolegameassistant.infrastructure.database_model.db_characte
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
 import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_CHARACTER
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbCompanion
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbEntity
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_bond.DbBond
-import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.displayedBreeds.DbDisplayedBreed
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbRollCharacteristic
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_ideal.DbIdeal
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupation.DbOccupation
 import com.uldskull.rolegameassistant.models.character.DomainBond
 import com.uldskull.rolegameassistant.models.character.DomainIdeal
-import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
 import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
 
 /**
@@ -48,6 +45,7 @@ class DbCharacter(
     val characterBreedBonus: Int?,
     val characterSelectedOccupationSkill: List<Long?>?,
     val characterSelectedBreeds:List<Long?>?,
+    val characterSpentOccupationPoints:Int?,
     @Embedded(prefix = "occ")
     val characterOccupation: DbOccupation?,
     @Embedded(prefix = "str")
@@ -125,7 +123,8 @@ class DbCharacter(
             characterBreedBonus = this.characterBreedBonus,
             characterSelectedOccupationSkill = this.characterSelectedOccupationSkill?.toMutableList(),
             characterOccupation = this.characterOccupation?.toDomain(),
-            characterBreeds = this.characterSelectedBreeds?.toMutableList()
+            characterBreeds = this.characterSelectedBreeds?.toMutableList(),
+            characterSpentOccupationPoints = this.characterSpentOccupationPoints
         )
     }
 
@@ -183,7 +182,8 @@ class DbCharacter(
                 characterBreedBonus = domainModel?.characterBreedBonus,
                 characterSelectedOccupationSkill = domainModel?.characterSelectedOccupationSkill,
                 characterOccupation = DbOccupation.from(domainModel?.characterOccupation),
-                characterSelectedBreeds = domainModel?.characterBreeds
+                characterSelectedBreeds = domainModel?.characterBreeds,
+                characterSpentOccupationPoints = domainModel?.characterSpentOccupationPoints
 
             )
         }
