@@ -8,7 +8,7 @@ import androidx.room.Junction
 import androidx.room.Relation
 import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_OCCUPATION_ID
 import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_OCCUPATION_SKILL_ID
-import com.uldskull.rolegameassistant.infrastructure.database_model.db_skill.DbOccupationSkill
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_skill.DbSkillToCheck
 
 /**
  *   Class "DbOccupationWithDbSkills" :
@@ -22,7 +22,7 @@ class DbOccupationWithDbSkills (
         entityColumn = FIELD_OCCUPATION_SKILL_ID,
         associateBy = Junction(DbOccupationAndDbSkillCrossRef::class)
     )
-    val skills:List<DbOccupationSkill>
+    val skills:List<DbSkillToCheck>
 ){
     override fun toString(): String {
         return "DbOccupationWithDbSkills(occupation=$occupation, skills=$skills)"

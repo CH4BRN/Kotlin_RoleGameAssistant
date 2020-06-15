@@ -23,7 +23,7 @@ import com.uldskull.rolegameassistant.models.character.characteristic.DomainBree
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainCharacteristic
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollsCharacteristic
 import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
-import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSkill
+import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
 import com.uldskull.rolegameassistant.repository.breed.DisplayedBreedsRepository
 import com.uldskull.rolegameassistant.repository.character.CharacterRepository
 import com.uldskull.rolegameassistant.repository.characteristic.BreedsCharacteristicRepository
@@ -87,7 +87,7 @@ val repositoriesModule = module {
     }
 
     //  Repository for occupation skills
-    single<OccupationSkillRepository<LiveData<List<DomainOccupationSkill>>>> {
+    single<OccupationSkillRepository<LiveData<List<DomainSkillToCheck>>>> {
         DbOccupationSkillRepositoryImpl(
             dbOccupationSkillDao = get()
         )

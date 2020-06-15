@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSkill
+import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
 
 /**
  *   Class "HobbySkillAdapter" :
@@ -23,7 +23,7 @@ class HobbySkillAdapter internal constructor(
 
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
     /**  Skills list  **/
-    private var hobbySkills = emptyList<DomainOccupationSkill?>()
+    private var hobbySkills = emptyList<DomainSkillToCheck?>()
 
     inner class HobbySkillsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var tvHobbySkillName: TextView? = itemView.findViewById(R.id.tv_hobbySkillName)
@@ -100,7 +100,7 @@ class HobbySkillAdapter internal constructor(
         //holder.tvHobbySkillName?.text = current.skillName
     }
 
-    fun setHobbySkills(skills: List<DomainOccupationSkill?>) {
+    fun setHobbySkills(skills: List<DomainSkillToCheck?>) {
         this.hobbySkills = skills
         notifyDataSetChanged()
     }

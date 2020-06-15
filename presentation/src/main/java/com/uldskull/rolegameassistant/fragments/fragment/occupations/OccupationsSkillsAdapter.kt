@@ -13,7 +13,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
-import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSkill
+import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
 
 
 /**
@@ -22,7 +22,7 @@ import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSki
  **/
 class OccupationsSkillsAdapter internal constructor(
     context: Context,
-    private val buttonListener: AdapterButtonListener<DomainOccupationSkill>
+    private val buttonListener: AdapterButtonListener<DomainSkillToCheck>
 ) : RecyclerView.Adapter<OccupationsSkillsAdapter.OccupationsSkillsViewHolder>() {
     companion object {
         private const val TAG = "OccupationsSkillsAdapter"
@@ -33,15 +33,15 @@ class OccupationsSkillsAdapter internal constructor(
 
     /**  Inner class to display  **/
     inner class OccupationsSkillsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var tvOccupationsSkillName: TextView? = itemView.findViewById(R.id.tv_occupationsSkillName)
+        var tvOccupationsSkillName: TextView? = itemView.findViewById(R.id.tv_skillToCheck_name)
         var tvOccupationsSkillDescription: TextView? =
-            itemView.findViewById(R.id.tv_occupationsSkillDescription)
+            itemView.findViewById(R.id.tv_skillToCheck_Description)
         var cbOccupationsSkillIsChecked: CheckBox? =
-            itemView.findViewById(R.id.cb_occupationsSkillIsChecked)
+            itemView.findViewById(R.id.cb_skillIToCheck_IsChecked)
     }
 
     /**  Skills list  **/
-    private var occupationSkills = emptyList<DomainOccupationSkill?>()
+    private var occupationSkills = emptyList<DomainSkillToCheck?>()
 
     /**
      * Called when RecyclerView needs a new [OccupationsSkillsViewHolder] of the given type to represent
@@ -71,7 +71,7 @@ class OccupationsSkillsAdapter internal constructor(
         viewType: Int
     ): OccupationsSkillsViewHolder {
         val itemView =
-            layoutInflater.inflate(R.layout.recyclerview_item_occupationsskill, parent, false)
+            layoutInflater.inflate(R.layout.recyclerview_item_skill_to_check, parent, false)
         return OccupationsSkillsViewHolder(itemView)
 
     }
@@ -126,7 +126,7 @@ class OccupationsSkillsAdapter internal constructor(
     }
 
 
-    fun setOccupationsSkills(skills: List<DomainOccupationSkill?>?) {
+    fun setOccupationsSkills(skills: List<DomainSkillToCheck?>?) {
         if (skills != null) {
             this.occupationSkills = skills
             notifyDataSetChanged()

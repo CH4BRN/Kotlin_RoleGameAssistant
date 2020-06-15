@@ -22,7 +22,7 @@ val roomModule = module {
     single { AppDatabase.getDatabase(get()).dbIdealsDao() }
     //  OCCUPATIONS
     single { AppDatabase.getDatabase(get()).dbOccupationsDao() }
-    single { AppDatabase.getDatabase(get ()).dbOccupationSkillDao() }
+    single { AppDatabase.getDatabase(get ()).dbSkillToCheckDao() }
     single { AppDatabase.getDatabase(get()).dbOccupationsWithSkillsDao() }
     single { AppDatabase.getDatabase(get()).dbFilledSkillDao() }
 

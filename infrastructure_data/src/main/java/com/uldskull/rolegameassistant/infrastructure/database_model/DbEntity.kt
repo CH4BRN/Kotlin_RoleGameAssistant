@@ -14,13 +14,4 @@ interface DbEntity<DO> {
      * Converts a Database model entity into a domain model.
      */
     fun toDomain(): DO
-
-
-}
-
-interface DbCompanion<DO, DA> {
-    /**
-     * Converts a domain model into a database model entity.
-     */
-    fun from(domainModel: DO?): DA
 }

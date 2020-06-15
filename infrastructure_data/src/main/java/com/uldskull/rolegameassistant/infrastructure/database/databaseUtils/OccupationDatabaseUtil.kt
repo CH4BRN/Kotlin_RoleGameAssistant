@@ -6,11 +6,11 @@ package com.uldskull.rolegameassistant.infrastructure.database.databaseUtils
 import android.util.Log
 import com.uldskull.rolegameassistant.infrastructure.dao.occupation.DbOccupationDbSkillDao
 import com.uldskull.rolegameassistant.infrastructure.dao.occupation.DbOccupationsDao
-import com.uldskull.rolegameassistant.infrastructure.dao.skill.DbOccupationSkillDao
+import com.uldskull.rolegameassistant.infrastructure.dao.skill.DbSkillToCheckDao
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupation.DbOccupation
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupation.DbOccupationAndDbSkillCrossRef
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupation.DbOccupationWithDbSkills
-import com.uldskull.rolegameassistant.infrastructure.database_model.db_skill.DbOccupationSkill
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_skill.DbSkillToCheck
 
 /**
  *   Class "OccupationDatabaseUtil" :
@@ -23,7 +23,7 @@ class OccupationDatabaseUtil {
 
         fun insertOccupations(
             occupationsDao: DbOccupationsDao,
-            occupationSkillDao: DbOccupationSkillDao,
+            occupationSkillDao: DbSkillToCheckDao,
             occupationWithSkillDao: DbOccupationDbSkillDao
         ) {
             insertChooseOccupation(occupationsDao)
@@ -43,7 +43,7 @@ class OccupationDatabaseUtil {
 
         private fun insertAcrobat(
             occupationsDao: DbOccupationsDao,
-            occupationSkillDao: DbOccupationSkillDao,
+            occupationSkillDao: DbSkillToCheckDao,
             occupationWithSkillDao: DbOccupationDbSkillDao
         ) {
             Log.d(TAG, "insertAcrobat")
@@ -56,8 +56,8 @@ class OccupationDatabaseUtil {
                 )
             )
             Log.d(TAG, "occupation id : ${occupationId}")
-            var skillId = occupationSkillDao.insertOccupationSkill(
-                DbOccupationSkill(
+            var skillId = occupationSkillDao.insertSkillToCheck(
+                DbSkillToCheck(
                     skillName = "Bargain  ",
                     skillDescription = "The skill of obtaining something for an agreeable price. \n" +
                             "The bargainer must state the price at which he or she wishes to \n" +
@@ -89,7 +89,7 @@ class OccupationDatabaseUtil {
 
         private fun insertAccountant(
             occupationsDao: DbOccupationsDao,
-            occupationSkillDao: DbOccupationSkillDao,
+            occupationSkillDao: DbSkillToCheckDao,
             occupationWithSkillDao: DbOccupationDbSkillDao
         ) {
             Log.d(TAG, "insertAccountant")
@@ -104,8 +104,8 @@ class OccupationDatabaseUtil {
             )
             Log.d(TAG, "occupation id : ${occupationId}")
 
-            var skillId = occupationSkillDao.insertOccupationSkill(
-                DbOccupationSkill(
+            var skillId = occupationSkillDao.insertSkillToCheck(
+                DbSkillToCheck(
                     skillName = "Accounting ",
                     skillDescription = " Grants understanding of accountancy procedures, and reveals " +
                             "the financial functioning of a business or person. Inspecting the" +
@@ -127,8 +127,8 @@ class OccupationDatabaseUtil {
             )
             Log.d(TAG, "crossID : ${crossId}")
 
-            skillId = occupationSkillDao.insertOccupationSkill(
-                DbOccupationSkill(
+            skillId = occupationSkillDao.insertSkillToCheck(
+                DbSkillToCheck(
                     skillName = "Anthropology  ",
                     skillDescription = "Enables the user to identify and understand an individual’s" +
                             " way of life from his behavior. If the skill-user observes another " +

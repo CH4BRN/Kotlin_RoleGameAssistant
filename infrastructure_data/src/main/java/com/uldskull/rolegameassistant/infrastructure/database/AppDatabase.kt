@@ -21,12 +21,13 @@ import com.uldskull.rolegameassistant.infrastructure.dao.ideal.DbIdealsDao
 import com.uldskull.rolegameassistant.infrastructure.dao.occupation.DbOccupationDbSkillDao
 import com.uldskull.rolegameassistant.infrastructure.dao.occupation.DbOccupationsDao
 import com.uldskull.rolegameassistant.infrastructure.dao.skill.DbFilledSkillDao
-import com.uldskull.rolegameassistant.infrastructure.dao.skill.DbOccupationSkillDao
+import com.uldskull.rolegameassistant.infrastructure.dao.skill.DbSkillToCheckDao
 import com.uldskull.rolegameassistant.infrastructure.database.databaseUtils.BreedCharacteristicDatabaseUtil.Companion.populateBreedCharacteristics
 import com.uldskull.rolegameassistant.infrastructure.database.databaseUtils.BreedDatabaseUtil.Companion.populateBreed
 import com.uldskull.rolegameassistant.infrastructure.database.databaseUtils.IdealDatabaseUtil.Companion.populateIdeals
 import com.uldskull.rolegameassistant.infrastructure.database.databaseUtils.OccupationDatabaseUtil.Companion.insertOccupations
 import com.uldskull.rolegameassistant.infrastructure.database.databaseUtils.RollCharacteristicDatabaseUtil.Companion.populateRollCharacteristics
+import com.uldskull.rolegameassistant.infrastructure.database.databaseUtils.SkillToCheckDatabaseUtil.Companion.populateSkillsToCheck
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_bond.DbBondConverter
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.displayedBreeds.DbDisplayedBreed
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.displayedBreeds.DbDisplayedBreedConverter
@@ -40,7 +41,7 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_ideal.DbI
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupation.DbOccupation
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupation.DbOccupationAndDbSkillCrossRef
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_skill.DbFilledSkill
-import com.uldskull.rolegameassistant.infrastructure.database_model.db_skill.DbOccupationSkill
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_skill.DbSkillToCheck
 import kotlin.concurrent.thread
 
 /**
@@ -57,7 +58,7 @@ Abstract class for room database
         DbRollCharacteristic::class,
         DbIdeal::class,
         DbOccupation::class,
-        DbOccupationSkill::class,
+        DbSkillToCheck::class,
         DbFilledSkill::class,
         DbOccupationAndDbSkillCrossRef::class],
     version = 1
@@ -117,7 +118,7 @@ abstract class AppDatabase : RoomDatabase() {
     /**
      * Database Occupation skilss DAO
      */
-    abstract fun dbOccupationSkillDao(): DbOccupationSkillDao
+    abstract fun dbSkillToCheckDao(): DbSkillToCheckDao
 
     /**
      * Database Occupations with skills DAO
@@ -134,11 +135,12 @@ abstract class AppDatabase : RoomDatabase() {
                     populateBreedCharacteristics(database.dbBreedCharacteristicDao())
                     populateIdeals(database.dbIdealsDao())
                     populateRollCharacteristics(database.dbRollCharacteristicsDao())
+                    populateSkillsToCheck(database?.dbSkillToCheckDao())
                     //populateOccupations(database.dbOccupationsDao())
                     //populateSkills(database.dbOccupationSkillDao())
                     insertOccupations(
                         occupationsDao = database.dbOccupationsDao(),
-                        occupationSkillDao = database.dbOccupationSkillDao(),
+                        occupationSkillDao = database.dbSkillToCheckDao(),
                         occupationWithSkillDao = database.dbOccupationsWithSkillsDao()
                     )
 

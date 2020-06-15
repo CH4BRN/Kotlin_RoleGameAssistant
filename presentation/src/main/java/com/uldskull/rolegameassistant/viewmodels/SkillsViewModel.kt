@@ -4,9 +4,15 @@
 package com.uldskull.rolegameassistant.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSkill
+import androidx.lifecycle.viewModelScope
+import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
+import com.uldskull.rolegameassistant.repository.skill.OccupationSkillRepository
+import kotlinx.coroutines.launch
+import kotlin.concurrent.thread
 
 /**
  *   Class "SkillsViewModel" :
@@ -14,13 +20,43 @@ import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSki
  *   The ViewModel class allows data to survive configuration changes such as
  *   screen rotations.
  **/
-class SkillsViewModel(application: Application) : AndroidViewModel(application) {
+class SkillsViewModel(
+    application: Application,
+    private val skillToCheckRepository: OccupationSkillRepository<LiveData<List<DomainSkillToCheck>>>
+) : AndroidViewModel(application) {
     companion object {
         private const val TAG = "SkillsViewModel"
     }
 
-    var hobbiesSkills = MutableLiveData<List<DomainOccupationSkill?>>()
-    var hobbySkills = MutableLiveData<List<DomainOccupationSkill?>>()
+    init {
+        Log.d("$TAG", "Init")
+        refreshDataFromRepository()
+    }
+    var repositorySkillsToCheck = skillToCheckRepository?.getAll()
+
+
+    private fun refreshDataFromRepository(){
+        Log.d("$TAG", "refreshDataFromRepository")
+        viewModelScope.launch {
+            try {
+                repositorySkillsToCheck = findAll()
+            }catch (e:Exception){
+                Log.e("ERROR", "skillToCheckRepository?.getAll() failed")
+                e.printStackTrace()
+                throw e
+            }
+        }
+    }
+
+    private fun findAll():LiveData<List<DomainSkillToCheck>>?{
+        Log.d("$TAG", "findAll")
+        thread(start = true){
+            repositorySkillsToCheck = skillToCheckRepository?.getAll()
+        }
+        return repositorySkillsToCheck
+    }
+    var hobbiesSkills = MutableLiveData<List<DomainSkillToCheck?>>()
+    var hobbySkills = MutableLiveData<List<DomainSkillToCheck?>>()
 
 
 }

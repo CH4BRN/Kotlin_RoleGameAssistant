@@ -3,7 +3,7 @@
 
 package com.uldskull.rolegameassistant.models.character.occupation
 
-import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSkill
+import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
 
 /**
  *   Class "DomainOccupationWithSkills" :
@@ -11,7 +11,7 @@ import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSki
  **/
 class DomainOccupationWithSkills (
     var occupation:DomainOccupation?,
-    var skills:List<DomainOccupationSkill>){
+    var skills:List<DomainSkillToCheck>){
     override fun toString(): String {
         return "DomainOccupationWithSkills(occupation=$occupation, skills=$skills)"
     }

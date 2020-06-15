@@ -18,7 +18,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.*
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.OCCUPATIONS_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
 import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupationWithSkills
-import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSkill
+import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationsViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -29,7 +29,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  **/
 class OccupationsSkillsRecyclerViewFragment :
     CustomRecyclerViewFragment(),
-    AdapterButtonListener<DomainOccupationSkill> {
+    AdapterButtonListener<DomainSkillToCheck> {
 
     companion object : CustomCompanion() {
         private const val TAG = "OccupationsSkillsRecyclerView"
@@ -65,9 +65,9 @@ class OccupationsSkillsRecyclerViewFragment :
 
     var occupationsSkillsAdapter: OccupationsSkillsAdapter? = null
 
-    fun initializeOccupationsSkillsAdapter() {
+    private fun initializeOccupationsSkillsAdapter() {
         if (activity != null) {
-            OccupationsSkillsAdapter(
+            occupationsSkillsAdapter=  OccupationsSkillsAdapter(
                 activity!! as Context,
                 this
             )
@@ -87,14 +87,9 @@ class OccupationsSkillsRecyclerViewFragment :
         observeSelectedOccupation()
         observeOccupationsSkills()
         observeSelectedCharacter()
-        observeSelectedSkills()
     }
 
-    private fun observeSelectedSkills() {
-        occupationsViewModel?.selectedCharacterSkills?.observe(this, Observer {
 
-        })
-    }
 
     private fun observeSelectedCharacter() {
         newCharacterViewModel?.selectedCharacter?.observe(this, Observer { domainCharacter ->
@@ -105,8 +100,6 @@ class OccupationsSkillsRecyclerViewFragment :
                     "DEBUG$TAG",
                     "Skills ids : ${domainCharacter?.characterSelectedOccupationSkill}"
                 )
-
-
             }
         })
     }
@@ -148,7 +141,7 @@ class OccupationsSkillsRecyclerViewFragment :
         })
 
         occupationsViewModel.observedOccupationsSkills?.observe(
-            this, Observer { domainOccupationsSkills: List<DomainOccupationSkill?> ->
+            this, Observer { domainOccupationsSkills: List<DomainSkillToCheck?> ->
                 kotlin.run {
                     Log.d(
                         TAG, "observeOccupationsSkills \n" +
@@ -163,7 +156,7 @@ class OccupationsSkillsRecyclerViewFragment :
                     var character = newCharacterViewModel?.currentCharacter?.value
                     Log.d("DEBUG$TAG", "Character ${character?.characterName}")
 
-                    var checkedSkills = mutableListOf<DomainOccupationSkill>()
+                    var checkedSkills = mutableListOf<DomainSkillToCheck>()
                     domainOccupationsSkills?.forEach { s ->
                         kotlin.run {
                             if (s != null) {
@@ -231,7 +224,7 @@ class OccupationsSkillsRecyclerViewFragment :
     /**
      * Called when a recyclerview cell is pressed
      */
-    override fun itemPressed(domainModel: DomainOccupationSkill?, position: Int?) {
+    override fun itemPressed(domainModel: DomainSkillToCheck?, position: Int?) {
         Log.d(TAG, "itemPressed")
         if (domainModel != null) {
             var temp = occupationsViewModel.observedOccupationsSkills?.value?.toMutableList()

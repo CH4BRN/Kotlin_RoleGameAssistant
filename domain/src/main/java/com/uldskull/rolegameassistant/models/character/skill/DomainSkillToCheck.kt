@@ -9,7 +9,7 @@ import com.uldskull.rolegameassistant.models.character.DomainSkill
  *   Class "DomainOccupationSkill" :
  *   TODO: Fill class use.
  **/
-class DomainOccupationSkill(
+class DomainSkillToCheck(
     skillId: Long? = null,
     skillName: String? = "",
     skillDescription: String? = "",

@@ -6,9 +6,9 @@ package com.uldskull.rolegameassistant.infrastructure.repositories.skill
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import com.uldskull.rolegameassistant.infrastructure.dao.skill.DbOccupationSkillDao
-import com.uldskull.rolegameassistant.infrastructure.database_model.db_skill.DbOccupationSkill
-import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSkill
+import com.uldskull.rolegameassistant.infrastructure.dao.skill.DbSkillToCheckDao
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_skill.DbSkillToCheck
+import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
 import com.uldskull.rolegameassistant.repository.skill.OccupationSkillRepository
 
 /**
@@ -16,18 +16,18 @@ import com.uldskull.rolegameassistant.repository.skill.OccupationSkillRepository
  *   TODO: Fill class use.
  **/
 class DbOccupationSkillRepositoryImpl(
-    private val dbOccupationSkillDao: DbOccupationSkillDao
+    private val dbOccupationSkillDao: DbSkillToCheckDao
 ) :
-    OccupationSkillRepository<LiveData<List<DomainOccupationSkill>>> {
+    OccupationSkillRepository<LiveData<List<DomainSkillToCheck>>> {
 
     companion object {
         private const val TAG = "DbOccupationSkillRepositoryImpl"
     }
 
-    private fun List<DbOccupationSkill>.asDomainModel(): List<DomainOccupationSkill> {
+    private fun List<DbSkillToCheck>.asDomainModel(): List<DomainSkillToCheck> {
         Log.d(TAG, "asDomainModel")
         return map {
-            DomainOccupationSkill(
+            DomainSkillToCheck(
                 skillId = it.skillId,
                 skillName = it.skillName,
                 skillDescription = it.skillDescription
@@ -36,7 +36,7 @@ class DbOccupationSkillRepositoryImpl(
     }
 
     /** Get all entities    */
-    override fun getAll(): LiveData<List<DomainOccupationSkill>> {
+    override fun getAll(): LiveData<List<DomainSkillToCheck>> {
         Log.d(TAG, "getAll")
         try {
             return Transformations.map(dbOccupationSkillDao.getOccupationSkills()) {
@@ -49,9 +49,9 @@ class DbOccupationSkillRepositoryImpl(
     }
 
     /** Get one entity by its id    */
-    override fun findOneById(id: Long?): DomainOccupationSkill? {
+    override fun findOneById(id: Long?): DomainSkillToCheck? {
         Log.d(TAG, "findOneById")
-        var result: DbOccupationSkill
+        var result: DbSkillToCheck
         try {
             result = dbOccupationSkillDao.getOccupationSkillById(id)
         } catch (e: Exception) {
@@ -62,12 +62,12 @@ class DbOccupationSkillRepositoryImpl(
     }
 
     /** Insert a list of entity - it should return long[] or List<Long>.*/
-    override fun insertAll(all: List<DomainOccupationSkill>?): List<Long>? {
+    override fun insertAll(all: List<DomainSkillToCheck>?): List<Long>? {
         Log.d(TAG, "insertAll")
         if (all != null && all.isNotEmpty()) {
             try {
                 val result = dbOccupationSkillDao.insertOccupationSkills(all.map { s ->
-                    DbOccupationSkill.from(
+                    DbSkillToCheck.from(
                         s
                     )
                 })
@@ -85,13 +85,13 @@ class DbOccupationSkillRepositoryImpl(
 
 
     /** Insert one entity  -  it can return a long, which is the new rowId for the inserted item.*/
-    override fun insertOne(one: DomainOccupationSkill?): Long? {
+    override fun insertOne(one: DomainSkillToCheck?): Long? {
         Log.d(TAG, "insertOne $one")
         return if (one != null) {
             try {
                 val result =
-                    dbOccupationSkillDao.insertOccupationSkill(
-                        DbOccupationSkill.from(
+                    dbOccupationSkillDao.insertSkillToCheck(
+                        DbSkillToCheck.from(
                             one
                         )
                     )
@@ -120,10 +120,10 @@ class DbOccupationSkillRepositoryImpl(
     }
 
     /**  Update one entity  **/
-    override fun updateOne(one: DomainOccupationSkill?): Int? {
+    override fun updateOne(one: DomainSkillToCheck?): Int? {
         Log.d(TAG, "updateOne")
         try {
-            dbOccupationSkillDao.updateOccupationSkill(DbOccupationSkill.from(one))
+            dbOccupationSkillDao.updateOccupationSkill(DbSkillToCheck.from(one))
         } catch (e: Exception) {
             Log.e(TAG, "updateOne FAILED")
             e.printStackTrace()

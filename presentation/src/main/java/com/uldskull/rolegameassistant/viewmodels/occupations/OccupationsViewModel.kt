@@ -11,7 +11,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
 import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupationWithSkills
-import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSkill
+import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
 import com.uldskull.rolegameassistant.repository.occupations.OccupationsRepository
 import kotlinx.coroutines.launch
 import kotlin.concurrent.thread
@@ -73,7 +73,7 @@ class OccupationsViewModel(
     var selectedOccupation: MutableLiveData<DomainOccupation>? = MutableLiveData()
     var repositoryOccupations = occupationsRepositoryImpl.getAll()
     var displayedOccupations = MutableLiveData<List<String?>>()
-    var observedOccupationsSkills: MutableLiveData<List<DomainOccupationSkill>>? =
+    var observedOccupationsSkills: MutableLiveData<List<DomainSkillToCheck>>? =
         MutableLiveData()
 // TODO : Fill class.
 }

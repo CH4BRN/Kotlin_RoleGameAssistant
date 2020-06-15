@@ -4,7 +4,6 @@
 package com.uldskull.rolegameassistant.fragments.fragment.occupation
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -20,7 +19,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.OCCUPATION_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
-import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSkill
+import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationSkillsViewModel
@@ -28,8 +27,6 @@ import com.uldskull.rolegameassistant.viewmodels.OccupationViewModel
 import com.uldskull.rolegameassistant.viewmodels.PointsToSpendViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationsViewModel
 import kotlinx.android.synthetic.main.fragment_occupation.*
-import kotlinx.android.synthetic.main.recyclerview_item_occupationskill.*
-import org.koin.androidx.viewmodel.ext.android.getSharedViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
@@ -755,7 +752,7 @@ class OccupationFragment : CustomFragment() {
         super.onResume()
 
 
-        var skills: List<DomainOccupationSkill>? =
+        var skills: List<DomainSkillToCheck>? =
             occupationsViewModel.observedOccupationsSkills?.value
         if (occupationSkillsViewModel.checkedOccupationSkills == null) {
             Log.d("DEBUG$TAG", "checkedOccupationSkills == null")
@@ -763,13 +760,13 @@ class OccupationFragment : CustomFragment() {
             Log.d("DEBUG$TAG", "checkedOccupationSkills.value == null")
 
             if (skills != null) {
-                var checkedSkills: List<DomainOccupationSkill> =
-                    skills.filter { skill: DomainOccupationSkill ->
+                var checkedSkills: List<DomainSkillToCheck> =
+                    skills.filter { skill: DomainSkillToCheck ->
                         skill.skillIsChecked
                     }
                 Log.d(TAG, "checked skills size : ${checkedSkills.size}")
                 var list: MutableList<DomainFilledSkill> = mutableListOf()
-                checkedSkills.forEach { occupationSkill: DomainOccupationSkill ->
+                checkedSkills.forEach { occupationSkill: DomainSkillToCheck ->
                     kotlin.run {
                         list.add(
                             DomainFilledSkill(
@@ -819,13 +816,13 @@ class OccupationFragment : CustomFragment() {
             Log.d("DEBUG$TAG", "checkedOccupationSkills.value?.size != skills?.size")
 
             if (skills != null) {
-                var checkedSkills: List<DomainOccupationSkill> =
-                    skills.filter { skill: DomainOccupationSkill ->
+                var checkedSkills: List<DomainSkillToCheck> =
+                    skills.filter { skill: DomainSkillToCheck ->
                         skill.skillIsChecked
                     }
                 Log.d(TAG, "checked skills size : ${checkedSkills.size}")
                 var list: MutableList<DomainFilledSkill> = mutableListOf()
-                checkedSkills.forEach { occupationSkill: DomainOccupationSkill ->
+                checkedSkills.forEach { occupationSkill: DomainSkillToCheck ->
                     kotlin.run {
                         list.add(
                             DomainFilledSkill(

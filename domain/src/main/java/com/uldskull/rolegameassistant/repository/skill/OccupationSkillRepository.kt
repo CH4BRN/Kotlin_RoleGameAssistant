@@ -3,7 +3,7 @@
 
 package com.uldskull.rolegameassistant.repository.skill
 
-import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSkill
+import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
 import com.uldskull.rolegameassistant.repository.GenericRepository
 
 /**
@@ -11,4 +11,4 @@ import com.uldskull.rolegameassistant.repository.GenericRepository
  *   TODO: Fill class use.
  **/
 interface OccupationSkillRepository<T> :
-    GenericRepository<T, DomainOccupationSkill>
+    GenericRepository<T, DomainSkillToCheck>

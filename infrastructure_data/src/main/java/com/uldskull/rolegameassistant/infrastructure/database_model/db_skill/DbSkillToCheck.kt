@@ -5,18 +5,17 @@ package com.uldskull.rolegameassistant.infrastructure.database_model.db_skill
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
-import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_OCCUPATION_SKILL
+import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_SKILL_TO_CHECK
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbCompanion
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbEntity
-import com.uldskull.rolegameassistant.models.character.skill.DomainOccupationSkill
+import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
 
 /**
  *   Class "DbOccupationSkill" :
  *   TODO: Fill class use.
  **/
-@Entity(tableName = TABLE_NAME_OCCUPATION_SKILL)
-class DbOccupationSkill(
+@Entity(tableName = TABLE_NAME_SKILL_TO_CHECK)
+class DbSkillToCheck(
     @PrimaryKey(autoGenerate = true)
     var skillId: Long? = null,
     var skillName: String?,
@@ -24,14 +23,14 @@ class DbOccupationSkill(
     var skillIsChecked: Boolean = false,
     var skillBase: Int? = 0,
     var skillMax: Int? = 0
-    ) : DbEntity<DomainOccupationSkill> {
+    ) : DbEntity<DomainSkillToCheck> {
 
     /**
      * Converts a Database model entity into a domain model.
      */
-    override fun toDomain(): DomainOccupationSkill {
+    override fun toDomain(): DomainSkillToCheck {
 
-        return DomainOccupationSkill(
+        return DomainSkillToCheck(
             skillId = this.skillId,
             skillDescription = this.skillDescription,
             skillName = this.skillName,
@@ -45,13 +44,13 @@ class DbOccupationSkill(
         return "DbOccupationSkill(skillId=$skillId, skillName=$skillName, skillDescription=$skillDescription, skillIsChecked=$skillIsChecked, skillBase=$skillBase, skillMax=$skillMax)"
     }
 
-    companion object : DbCompanion<DomainOccupationSkill, DbOccupationSkill> {
+    companion object : DbCompanion<DomainSkillToCheck, DbSkillToCheck> {
         /**
          * Converts a domain model into a database model entity.
          */
-        override fun from(domainModel: DomainOccupationSkill?): DbOccupationSkill {
+        override fun from(domainModel: DomainSkillToCheck?): DbSkillToCheck {
             if (domainModel != null) {
-                return DbOccupationSkill(
+                return DbSkillToCheck(
                     skillId = domainModel.skillId,
                     skillName = domainModel.skillName,
                     skillDescription = domainModel.skillDescription,

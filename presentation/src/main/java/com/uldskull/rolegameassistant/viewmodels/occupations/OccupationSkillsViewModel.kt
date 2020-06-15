@@ -19,10 +19,6 @@ class OccupationSkillsViewModel(
         private const val TAG = "OccupationSkillsViewModel"
     }
 
-    /**
-     * Observable points to spend
-     */
-    var occupationSkillsPointsToSpend = MutableLiveData<Int>()
     private val lock = java.lang.Object()
 
     var checkedOccupationSkills = MutableLiveData<List<DomainFilledSkill>>()
