@@ -18,7 +18,7 @@ import com.uldskull.rolegameassistant.models.character.characteristic.Characteri
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainBreedsCharacteristic
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollsCharacteristic
 import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
-import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
+import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
 import com.uldskull.rolegameassistant.repository.breed.DisplayedBreedsRepository
 import com.uldskull.rolegameassistant.repository.character.CharacterRepository
 import com.uldskull.rolegameassistant.repository.characteristic.BreedsCharacteristicRepository
@@ -39,7 +39,7 @@ class NewCharacterViewModel(
     private val displayedBreedsRepository: DisplayedBreedsRepository<LiveData<List<DomainDisplayedBreed>>>,
     private val characteristicRepository: BreedsCharacteristicRepository<LiveData<List<DomainBreedsCharacteristic>>>,
     private val idealsRepository: IdealsRepository<LiveData<List<DomainIdeal>>>,
-    private val filledOccupationSkillRepository: FilledOccupationSkillRepository<LiveData<List<DomainFilledSkill>>>
+    private val filledOccupationSkillRepository: FilledOccupationSkillRepository<LiveData<List<DomainSkillToFill>>>
 ) : AndroidViewModel(application) {
 
 
@@ -161,7 +161,7 @@ class NewCharacterViewModel(
         baseHealth: Int?,
         breedBonus: Int?,
         skillsIds: List<Long?>,
-        filledSkills:List<DomainFilledSkill>?,
+        filledSkills:List<DomainSkillToFill>?,
         spentOccupationPoints:Int?
     ): Long? {
 
@@ -243,7 +243,7 @@ class NewCharacterViewModel(
             if(currentCharacter?.value?.characterId != null){
 
                 filledSkills?.forEach {
-                    var newSkill = DomainFilledSkill(
+                    var newSkill = DomainSkillToFill(
                         filledSkillCharacterId = currentCharacter?.value?.characterId ,
                         filledSkillUnitsValue = it.filledSkillUnitsValue,
                         filledSkillTotal = it.filledSkillTotal,

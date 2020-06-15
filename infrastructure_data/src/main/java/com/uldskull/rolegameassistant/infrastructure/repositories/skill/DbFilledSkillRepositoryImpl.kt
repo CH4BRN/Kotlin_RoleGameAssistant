@@ -5,10 +5,9 @@ package com.uldskull.rolegameassistant.infrastructure.repositories.skill
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import com.uldskull.rolegameassistant.infrastructure.dao.character.DbCharacterWithDbFilledSkillsDao
 import com.uldskull.rolegameassistant.infrastructure.dao.skill.DbFilledSkillDao
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_skill.DbFilledSkill
-import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
+import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
 import com.uldskull.rolegameassistant.repository.skill.FilledOccupationSkillRepository
 
 /**
@@ -19,13 +18,13 @@ TODO: Describe class utility.
 class DbFilledSkillRepositoryImpl(
     private val dbFilledSkillsDao: DbFilledSkillDao
 
-) : FilledOccupationSkillRepository<LiveData<List<DomainFilledSkill>>> {
+) : FilledOccupationSkillRepository<LiveData<List<DomainSkillToFill>>> {
     companion object {
         private const val TAG = "DbFilledSkillRepositoryImpl"
     }
 
     /** Get all entities    */
-    override fun getAll(): LiveData<List<DomainFilledSkill>>? {
+    override fun getAll(): LiveData<List<DomainSkillToFill>>? {
         Log.d(TAG, "getAll")
         try {
             return Transformations.map(dbFilledSkillsDao.getFilledSkill()) {
@@ -39,7 +38,7 @@ class DbFilledSkillRepositoryImpl(
     }
 
     /** Get one entity by its id    */
-    override fun findOneById(id: Long?): DomainFilledSkill? {
+    override fun findOneById(id: Long?): DomainSkillToFill? {
         Log.d(TAG, "findOneById")
         var result: DbFilledSkill
         try {
@@ -56,7 +55,7 @@ class DbFilledSkillRepositoryImpl(
     }
 
     /** Insert a list of entity - it should return long[] or List<Long>.*/
-    override fun insertAll(all: List<DomainFilledSkill>?): List<Long>? {
+    override fun insertAll(all: List<DomainSkillToFill>?): List<Long>? {
         Log.d(TAG, "insertAll")
         if (all != null && all.isNotEmpty()) {
             try {
@@ -78,7 +77,7 @@ class DbFilledSkillRepositoryImpl(
     }
 
     /** Insert one entity  -  it can return a long, which is the new rowId for the inserted item.*/
-    override fun insertOne(one: DomainFilledSkill?): Long? {
+    override fun insertOne(one: DomainSkillToFill?): Long? {
         Log.d(TAG, "insertOne $one")
         return if (one != null) {
             try {
@@ -113,7 +112,7 @@ class DbFilledSkillRepositoryImpl(
     }
 
     /**  Update one entity  **/
-    override fun updateOne(one: DomainFilledSkill?): Int? {
+    override fun updateOne(one: DomainSkillToFill?): Int? {
         Log.d(TAG, "updateOne")
         try {
             dbFilledSkillsDao.update(DbFilledSkill.from(one))
@@ -127,10 +126,10 @@ class DbFilledSkillRepositoryImpl(
 
 
 
-    private fun List<DbFilledSkill>.asDomainModel(): List<DomainFilledSkill> {
+    private fun List<DbFilledSkill>.asDomainModel(): List<DomainSkillToFill> {
         Log.d("DEBUG$TAG", "asDomainModel")
         return map {
-            DomainFilledSkill(
+            DomainSkillToFill(
                 filledSkillCharacterId = it.filledSkillCharacterId,
                 filledSkillBase = it.filledSkillBase,
                 filledSkillId = it.filledSkillId,

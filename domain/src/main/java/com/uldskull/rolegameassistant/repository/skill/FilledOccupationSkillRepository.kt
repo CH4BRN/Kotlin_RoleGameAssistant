@@ -2,7 +2,7 @@
 
 package com.uldskull.rolegameassistant.repository.skill
 
-import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
+import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
 import com.uldskull.rolegameassistant.repository.GenericRepository
 
 /**
@@ -11,7 +11,7 @@ Interface "FilledOccupationSkillRepository"
 TODO : Describe interface utility.
  **/
 interface FilledOccupationSkillRepository<T> :
-    GenericRepository<T, DomainFilledSkill> {
+    GenericRepository<T, DomainSkillToFill> {
 
     fun deleteAllByCharacterId(id:Long):Int
 }

@@ -30,7 +30,10 @@ class DbOccupationSkillRepositoryImpl(
             DomainSkillToCheck(
                 skillId = it.skillId,
                 skillName = it.skillName,
-                skillDescription = it.skillDescription
+                skillDescription = it.skillDescription,
+                skillMax = it.skillMax,
+                skillIsChecked = it.skillIsChecked,
+                skillBase = it.skillBase
             )
         }
     }

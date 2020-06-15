@@ -7,7 +7,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbCompanion
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbEntity
-import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
+import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
 
 
 /**
@@ -26,13 +26,13 @@ class DbFilledSkill(
     val filledSkillTotal: Int?,
     val filledSkillMax: Int?,
     val filledSkillCharacterId:Long?
-) : DbEntity<DomainFilledSkill> {
+) : DbEntity<DomainSkillToFill> {
     /**
      * Converts a Database model entity into a domain model.
      */
-    override fun toDomain(): DomainFilledSkill {
+    override fun toDomain(): DomainSkillToFill {
 
-        return DomainFilledSkill(
+        return DomainSkillToFill(
             filledSkillId = this.filledSkillId,
             filledSkillTensValue = this.filledSkillTensValue,
             filledSkillUnitsValue = this.filledSkillUnitsValue,
@@ -49,11 +49,11 @@ class DbFilledSkill(
     }
 
     companion object :
-        DbCompanion<DomainFilledSkill, DbFilledSkill> {
+        DbCompanion<DomainSkillToFill, DbFilledSkill> {
         /**
          * Converts a domain model into a database model entity.
          */
-        override fun from(domainModel: DomainFilledSkill?): DbFilledSkill {
+        override fun from(domainModel: DomainSkillToFill?): DbFilledSkill {
             return DbFilledSkill(
                 filledSkillId = domainModel?.skillId,
                 filledSkillTensValue = domainModel?.filledSkillTensValue,

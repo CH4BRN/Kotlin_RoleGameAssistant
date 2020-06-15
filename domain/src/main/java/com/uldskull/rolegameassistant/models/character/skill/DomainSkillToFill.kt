@@ -9,7 +9,7 @@ import com.uldskull.rolegameassistant.models.character.DomainSkill
  *   Class "DomainFilledSkill" :
  *   TODO: Fill class use.
  **/
-class DomainFilledSkill(
+class DomainSkillToFill(
     filledSkillId: Long? = null,
     filledSkillName: String? = "",
     val filledSkillBase: Int? = 0,

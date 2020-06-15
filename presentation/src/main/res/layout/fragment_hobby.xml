@@ -103,12 +103,12 @@
             app:layout_constraintTop_toBottomOf="@id/tv_selectedSkill">
 
             <Spinner
-                android:id="@+id/spinner_skill_tens"
+                android:id="@+id/spinner_hobby_skill_tens"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent" />
 
             <Spinner
-                android:id="@+id/spinner_skill_units"
+                android:id="@+id/spinner_hobby_skill_units"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent" />
 

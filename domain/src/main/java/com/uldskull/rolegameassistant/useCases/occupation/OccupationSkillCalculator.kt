@@ -2,7 +2,7 @@
 
 package com.uldskull.rolegameassistant.useCases.occupation
 
-import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
+import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
 
 /**
 Interface "occupationSkillCalculator"
@@ -11,5 +11,5 @@ TODO : Describe interface utility.
  **/
 interface OccupationSkillCalculator {
 
-    fun calculateAdd(current: DomainFilledSkill?): Int?
+    fun calculateAdd(current: DomainSkillToFill?): Int?
 }

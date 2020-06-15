@@ -2,8 +2,7 @@
 
 package com.uldskull.rolegameassistant.useCases.occupation
 
-import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
-import sun.rmi.runtime.Log
+import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
 
 /**
 Class "occupationSkillCalculatorImpl"
@@ -15,7 +14,7 @@ class occupationSkillCalculatorImpl : OccupationSkillCalculator {
     companion object{
         private const val TAG = "occupationSkillCalculatorImpl"
     }
-    override fun calculateAdd(current: DomainFilledSkill?): Int? {
+    override fun calculateAdd(current: DomainSkillToFill?): Int? {
         var add: Int? = 0
 
         println ("$TAG current : $current")

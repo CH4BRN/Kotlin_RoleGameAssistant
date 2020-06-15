@@ -4,26 +4,35 @@
 package com.uldskull.rolegameassistant.fragments.fragment.hobby
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
+import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
+import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
 
 /**
  *   Class "HobbySkillAdapter" :
  *   TODO: Fill class use.
  **/
 class HobbySkillAdapter internal constructor(
-    context: Context
+    val context: Context,
+    private val hobbySkillsRecyclerViewFragment_buttonListener:AdapterButtonListener<DomainSkillToFill>
 ) : RecyclerView.Adapter<HobbySkillAdapter.HobbySkillsViewHolder>() {
 
+    companion object {
+        private const val TAG = "HobbySkillAdapter"
+    }
+
+    var checkedPosition: Int = 0
 
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
+
     /**  Skills list  **/
-    private var hobbySkills = emptyList<DomainSkillToCheck?>()
+    private var hobbySkills = emptyList<DomainSkillToFill?>()
 
     inner class HobbySkillsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var tvHobbySkillName: TextView? = itemView.findViewById(R.id.tv_hobbySkillName)
@@ -32,6 +41,42 @@ class HobbySkillAdapter internal constructor(
         var tvHobbySkillAddUnits: TextView? = itemView.findViewById(R.id.tv_hobbySkillAddUnits)
         var tvHobbySkillTotal: TextView = itemView.findViewById(R.id.tv_hobbySkillTotal)
 
+        fun bind(skill: DomainSkillToFill?) {
+            Log.d("DEBUG$TAG", "Skill : $skill")
+            //holder.tvHobbySkillName?.text = current.skillName
+            tvHobbySkillName?.text = skill?.skillName
+            tvHobbySkillBase?.setText(skill?.filledSkillBase.toString())
+            tvHobbySkillAddTens?.setText(skill?.filledSkillTensValue.toString())
+            tvHobbySkillAddUnits?.setText(skill?.filledSkillUnitsValue.toString())
+            tvHobbySkillTotal?.setText(skill?.filledSkillTotal.toString())
+
+            if (checkedPosition == -1) {
+                //  Initial
+                itemView.background =
+                    context.getDrawable(R.drawable.my_recycler_view_cell_background)
+            } else {
+                //  Selected
+                if (checkedPosition == adapterPosition) {
+                    itemView.background =
+                        context.getDrawable(R.drawable.my_recycler_view_selected_cell_background)
+                } else {
+                    //  Not selected
+                    itemView.background =
+                        context.getDrawable(R.drawable.my_recycler_view_cell_background)
+                }
+            }
+
+            itemView?.setOnClickListener {
+                itemView.background = context.getDrawable(R.drawable.my_recycler_view_selected_cell_background)
+                tvHobbySkillName?.setTextColor(context.getColor(R.color.colorPrimary))
+
+                hobbySkillsRecyclerViewFragment_buttonListener.itemPressed(hobbySkills[adapterPosition], adapterPosition)
+                if(checkedPosition != adapterPosition){
+                    notifyItemChanged(checkedPosition)
+                    checkedPosition = adapterPosition
+                }
+            }
+        }
     }
 
     /**
@@ -93,14 +138,10 @@ class HobbySkillAdapter internal constructor(
      * @param position The position of the item within the adapter's data set.
      */
     override fun onBindViewHolder(holder: HobbySkillsViewHolder, position: Int) {
-        val current = hobbySkills[position]
-        //   holder.tvHobbySkillAddTens?.text = current.filledSkillTensValue.toString()
-        // holder.tvHobbySkillAddUnits?.text = current.filledSkillUnitsValue.toString()
-        //holder.tvHobbySkillBase?.text = current.filledSkillBase.toString()
-        //holder.tvHobbySkillName?.text = current.skillName
+        holder.bind(hobbySkills[position])
     }
 
-    fun setHobbySkills(skills: List<DomainSkillToCheck?>) {
+    fun setHobbySkills(skills: List<DomainSkillToFill?>) {
         this.hobbySkills = skills
         notifyDataSetChanged()
     }

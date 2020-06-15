@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
+import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
 import com.uldskull.rolegameassistant.repository.skill.OccupationSkillRepository
 import kotlinx.coroutines.launch
 import kotlin.concurrent.thread
@@ -56,7 +57,7 @@ class SkillsViewModel(
         return repositorySkillsToCheck
     }
     var hobbiesSkills = MutableLiveData<List<DomainSkillToCheck?>>()
-    var hobbySkills = MutableLiveData<List<DomainSkillToCheck?>>()
+    var hobbySkills = MutableLiveData<List<DomainSkillToFill?>>()
 
 
 }

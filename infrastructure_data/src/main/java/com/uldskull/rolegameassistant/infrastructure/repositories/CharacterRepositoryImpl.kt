@@ -9,11 +9,10 @@ import com.uldskull.rolegameassistant.infrastructure.dao.character.DbCharacterDa
 import com.uldskull.rolegameassistant.infrastructure.dao.character.DbCharacterWithDbFilledSkillsDao
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_character.DbCharacter
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_character.DbCharacterWithDbSkills
-import com.uldskull.rolegameassistant.infrastructure.database_model.db_skill.DbFilledSkill
 import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
 import com.uldskull.rolegameassistant.models.character.character.DomainCharacterWithIdeals
 import com.uldskull.rolegameassistant.models.character.character.DomainCharacterWithSkills
-import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
+import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
 import com.uldskull.rolegameassistant.repository.character.CharacterRepository
 
 /**
@@ -166,7 +165,7 @@ class CharacterRepositoryImpl(
             val skills = theOne.skills
 
             if (character != null) {
-                var list: MutableList<DomainFilledSkill> = mutableListOf()
+                var list: MutableList<DomainSkillToFill> = mutableListOf()
                 Log.d("DEBUG$TAG", "Skills : ${skills.size}")
                 skills.forEach {
                     Log.d("DEBUG$TAG", "Skill : ${it.filledSkillName}")

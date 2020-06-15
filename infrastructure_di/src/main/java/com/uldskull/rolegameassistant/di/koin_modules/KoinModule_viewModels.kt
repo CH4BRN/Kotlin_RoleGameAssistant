@@ -123,4 +123,11 @@ val viewModelModule = module {
             application = get()
         )
     }
+
+    //  Hobby skill ViewModel
+    viewModel {
+        HobbySkillsViewModel(
+            application = get()
+        )
+    }
 }

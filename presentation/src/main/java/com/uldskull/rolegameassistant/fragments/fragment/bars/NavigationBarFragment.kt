@@ -306,7 +306,7 @@ class NavigationBarFragment : CustomFragment() {
             breedBonus = derivedValuesViewModel.breedHealthBonus.value,
             skillsIds = newCharacterViewModel.characterSkillsIds,
             filledSkills = occupationSkillsViewModel.checkedOccupationSkills.value,
-            spentOccupationPoints = pointsToSpendViewModel?.observableSpentPoints?.value
+            spentOccupationPoints = pointsToSpendViewModel?.observableOccupationSpentPoints?.value
         )
     }
 

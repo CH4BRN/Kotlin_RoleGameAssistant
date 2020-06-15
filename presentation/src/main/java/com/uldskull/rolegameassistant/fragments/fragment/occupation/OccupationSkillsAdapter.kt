@@ -13,7 +13,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
-import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
+import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
 
 
 /**
@@ -22,7 +22,7 @@ import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
  **/
 class OccupationSkillsAdapter constructor(
     val context: Context,
-    private val occupationSkillsRecyclerViewFragment_buttonListener: AdapterButtonListener<DomainFilledSkill>
+    private val occupationSkillsRecyclerViewFragment_buttonListener: AdapterButtonListener<DomainSkillToFill>
 ) : RecyclerView.Adapter<OccupationSkillsAdapter.OccupationSkillsViewHolder>() {
     //: CustomRecyclerViewAdapter(context)
     companion object {
@@ -39,7 +39,7 @@ class OccupationSkillsAdapter constructor(
     /**
      * Skills list
      */
-    var occupationSkills = emptyList<DomainFilledSkill?>()
+    var occupationSkills = emptyList<DomainSkillToFill?>()
         set(value) {
             Log.d(TAG, "skills : ${value.size}")
             field = value
@@ -48,7 +48,7 @@ class OccupationSkillsAdapter constructor(
     /**
      * Set the list containing skills to display
      */
-    internal fun setOccupationFilledSkills(skills: List<DomainFilledSkill?>?) {
+    internal fun setOccupationFilledSkills(skills: List<DomainSkillToFill?>?) {
         Log.d(TAG, "setSkills")
         if (skills != null) {
             skills.forEach { skill ->
@@ -124,7 +124,7 @@ class OccupationSkillsAdapter constructor(
         /**
          * Bind the view holder
          */
-        fun bind(skill: DomainFilledSkill?) {
+        fun bind(skill: DomainSkillToFill?) {
             tvOccupationSkillName?.text = skill?.skillName
             var base: Int? = 0
             base = occupationSkills[adapterPosition]?.filledSkillBase
@@ -144,16 +144,16 @@ class OccupationSkillsAdapter constructor(
             if (checkedPosition == -1) {
                 //  Initial
                 itemView.background =
-                    context.getDrawable(R.drawable.my_recycler_view_cell_backrgound)
+                    context.getDrawable(R.drawable.my_recycler_view_cell_background)
             } else {
                 //  Selected
                 if (checkedPosition == adapterPosition) {
                     itemView.background =
-                        context.getDrawable(R.drawable.my_recycler_view_cell_backrgound)
+                        context.getDrawable(R.drawable.my_recycler_view_selected_cell_background)
                 } else {
                     //  Not selected
                     itemView.background =
-                        context.getDrawable(R.drawable.my_recycler_view_cell_backrgound)
+                        context.getDrawable(R.drawable.my_recycler_view_cell_background)
                 }
             }
 
@@ -179,7 +179,7 @@ class OccupationSkillsAdapter constructor(
     /**
      * Get selected item.
      */
-    fun getSelected(): DomainFilledSkill? {
+    fun getSelected(): DomainSkillToFill? {
         if (checkedPosition != -1) {
             return occupationSkills[checkedPosition]
         }
@@ -191,7 +191,7 @@ class OccupationSkillsAdapter constructor(
     /**
      * Calculates a skill's add value.
      */
-    private fun calculateAdd(current: DomainFilledSkill?): Int? {
+    private fun calculateAdd(current: DomainSkillToFill?): Int? {
         var add: Int? = 0
 
         Log.d(TAG, "current : $current")

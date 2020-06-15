@@ -22,7 +22,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
-import com.uldskull.rolegameassistant.models.character.skill.DomainFilledSkill
+import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.OccupationViewModel
 import com.uldskull.rolegameassistant.viewmodels.PointsToSpendViewModel
@@ -35,7 +35,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  **/
 class OccupationSkillsRecyclerViewFragment :
     CustomRecyclerViewFragment(),
-    AdapterButtonListener<DomainFilledSkill> {
+    AdapterButtonListener<DomainSkillToFill> {
     /**
      * Current skill position
      */
@@ -69,7 +69,7 @@ class OccupationSkillsRecyclerViewFragment :
                 if (domainOccupationSkill == null) {
                     return@mapNotNull null
                 } else {
-                    DomainFilledSkill(
+                    DomainSkillToFill(
                         filledSkillMax = domainOccupationSkill.filledSkillMax,
                         filledSkillBase = domainOccupationSkill.filledSkillBase,
                         filledSkillName = domainOccupationSkill.skillName,
@@ -139,7 +139,7 @@ class OccupationSkillsRecyclerViewFragment :
     private fun observeCheckedSkills() {
         occupationSkillsViewModel.checkedOccupationSkills.observe(
             this,
-            Observer { occupationSkills: List<DomainFilledSkill> ->
+            Observer { occupationSkills: List<DomainSkillToFill> ->
                 kotlin.run {
                     Log.d("DEBUG$TAG", "checkedOccupationSkills size : ${occupationSkills.size}")
 
@@ -151,7 +151,7 @@ class OccupationSkillsRecyclerViewFragment :
 
                     var skillsToFill =
                         occupationSkills.map { domainOccupationSkill ->
-                            DomainFilledSkill(
+                            DomainSkillToFill(
                                 filledSkillMax = domainOccupationSkill.filledSkillMax,
                                 filledSkillBase = domainOccupationSkill.filledSkillBase,
                                 filledSkillName = domainOccupationSkill.skillName,
@@ -164,7 +164,7 @@ class OccupationSkillsRecyclerViewFragment :
                         }
                     var size = skillsToFill.size
                     if(size != null){
-                        pointsToSpendViewModel.observableSpentOccupationTensPointsArray.value = arrayOfNulls(
+                        pointsToSpendViewModel.observableOccupationSpentTensPointsArray.value = arrayOfNulls(
                             skillsToFill.size
                         )
                     }
@@ -200,7 +200,7 @@ class OccupationSkillsRecyclerViewFragment :
     /**
      * Called when a recyclerview cell is pressed
      */
-    override fun itemPressed(domainModel: DomainFilledSkill?, position: Int?) {
+    override fun itemPressed(domainModel: DomainSkillToFill?, position: Int?) {
         Log.d("DEBUG", "item pressed for $domainModel \n\tat position $position")
         pointsToSpendViewModel.observableCurrentOccupationSkillPosition.value = position
         occupationSkillsViewModel.currentOccupationSkill.value = domainModel

@@ -74,11 +74,6 @@ class HobbiesSkillAdapter internal constructor(
 
             }
             cbHobbiesSkillIsChecked?.isChecked = skill?.skillIsChecked!!
-
-
-
-           // TODO("Write skill selection")
-
         }
     }
 

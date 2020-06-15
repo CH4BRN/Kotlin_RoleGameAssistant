@@ -13,8 +13,8 @@ class DomainSkillToCheck(
     skillId: Long? = null,
     skillName: String? = "",
     skillDescription: String? = "",
-    var skillBase:Int? = 0,
-    var skillMax:Int? = 150,
+    var skillBase:Int?,
+    var skillMax:Int?,
     var skillIsChecked: Boolean = false
 ) : DomainSkill(
     skillId = skillId,

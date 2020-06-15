@@ -23,6 +23,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.occupation.OccupationFr
 import com.uldskull.rolegameassistant.fragments.fragment.occupations.OccupationsFragment
 import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
 import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
+import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
 import com.uldskull.rolegameassistant.viewmodels.*
 import com.uldskull.rolegameassistant.viewmodels.breeds.DisplayedBreedsViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationSkillsViewModel
@@ -118,15 +119,18 @@ class CharacterActivity :
     private fun observeRepositorySkills(){
         this.skillsViewModel.repositorySkillsToCheck?.observe(
             this,
-            Observer { domainSkillToCheck ->
+            Observer { domainSkillToCheck: List<DomainSkillToCheck> ->
                 kotlin.run {
-                    domainSkillToCheck?.let {
+                    domainSkillToCheck?.let { list ->
                         Log.d("DEBUG$TAG", "ObservedRepository skills has changed")
-                        Log.d("DEBUG$TAG", "Repository Skills : $it")
+                        Log.d("DEBUG$TAG", "Repository Skills : $list")
+                        list?.forEach {
+                            Log.d("DEBUG$TAG", "Repository Skill :${it.skillName} base : ${it.skillBase}")
+                        }
                         skillsViewModel.hobbiesSkills.value =
                             domainSkillToCheck
 
-                        Log.d("DEBUG$TAG", "Repository Skills : $it")
+                        Log.d("DEBUG$TAG", "Repository Skills : $list")
                     }
                 }
             }
@@ -153,7 +157,7 @@ class CharacterActivity :
             newCharacterViewModel.characterBiography.value = character?.characterBiography
             newCharacterViewModel.characterHeight.value = character?.characterHeight
             newCharacterViewModel.characterWeight.value = character?.characterWeight
-            pointsToSpendViewModel?.observableSpentPoints.value = character?.characterSpentOccupationPoints
+            pointsToSpendViewModel?.observableOccupationSpentPoints.value = character?.characterSpentOccupationPoints
 
 
             var characterBreeds: MutableList<DomainDisplayedBreed?> = mutableListOf()

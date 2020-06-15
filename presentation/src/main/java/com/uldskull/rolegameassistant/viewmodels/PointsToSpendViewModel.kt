@@ -12,11 +12,15 @@ Class "PointsToSpendViewModel"
 
 TODO: Describe class utility.
  */
-class PointsToSpendViewModel(  application: Application): AndroidViewModel(application){
-    val observablePointsToSpend = MutableLiveData<Int>()
-    var observableSpentOccupationTensPointsArray= MutableLiveData<Array<Int?>>()
-    var observableSpentOccupationUnitsPointsArray= MutableLiveData<ArrayList<Int>>()
+class PointsToSpendViewModel(application: Application) : AndroidViewModel(application) {
+    val observableOccupationPointsToSpend = MutableLiveData<Int>()
+    val observableHobbyPointsToSpend = MutableLiveData<Int>()
+    var observableOccupationSpentTensPointsArray = MutableLiveData<Array<Int?>>()
+    var observableHobbySpentTensPointsArray = MutableLiveData<Array<Int?>>()
+    var observableOccupationSpentUnitsPointsArray = MutableLiveData<ArrayList<Int>>()
+    var observableHobbySpentUnitsPointsArray = MutableLiveData<Array<Int>>()
     var observableCurrentOccupationSkillPosition = MutableLiveData<Int>()
-    var observableSpentPoints = MutableLiveData<Int>()
+    var observableOccupationSpentPoints = MutableLiveData<Int>()
+    var observableHobbySpentPoints = MutableLiveData<Int>()
 
 }
