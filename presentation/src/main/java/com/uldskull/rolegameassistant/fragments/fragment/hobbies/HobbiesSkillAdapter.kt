@@ -61,8 +61,6 @@ class HobbiesSkillAdapter internal constructor(
             tvHobbiesSkillName?.text = skill?.skillName
             tvHobbiesSkillDescription?.text = skill?.skillDescription
 
-
-           // TODO("Write onClickListener")
             vHobbiesSkillOverlay?.setOnClickListener {
                 Log.d("DEBUG$TAG", "Overlay")
                 var isChecked = skill?.skillIsChecked
@@ -73,6 +71,8 @@ class HobbiesSkillAdapter internal constructor(
 
             }
             cbHobbiesSkillIsChecked?.isChecked = skill?.skillIsChecked!!
+
+
 
            // TODO("Write skill selection")
 

@@ -38,6 +38,24 @@ class OccupationsSkillsAdapter internal constructor(
             itemView.findViewById(R.id.tv_skillToCheck_Description)
         var cbOccupationsSkillIsChecked: CheckBox? =
             itemView.findViewById(R.id.cb_skillIToCheck_IsChecked)
+        var vOccupationsSkillOverlay: View? = itemView.findViewById(R.id.skillToCheck_overlay)
+
+        fun bind(skill: DomainSkillToCheck?) {
+            Log.d("DEBUG$TAG", "Skill : $skill")
+            tvOccupationsSkillName?.text = skill?.skillName
+            tvOccupationsSkillDescription?.text = skill?.skillDescription
+            vOccupationsSkillOverlay?.setOnClickListener {
+                Log.d("DEBUG$TAG", "Overlay")
+                var isChecked = skill?.skillIsChecked
+                if (isChecked != null) {
+                    skill?.skillIsChecked = !isChecked
+                }
+                cbOccupationsSkillIsChecked?.isChecked = skill?.skillIsChecked!!
+                buttonListener.itemPressed(skill)
+            }
+            cbOccupationsSkillIsChecked?.isChecked = skill?.skillIsChecked!!
+
+        }
     }
 
     /**  Skills list  **/
@@ -107,22 +125,7 @@ class OccupationsSkillsAdapter internal constructor(
      * @param position The position of the item within the adapter's data set.
      */
     override fun onBindViewHolder(holder: OccupationsSkillsViewHolder, position: Int) {
-        val current = occupationSkills[position]
-        holder.tvOccupationsSkillName?.text = current?.skillName
-        Log.d(TAG, "Skills is checked : ${current?.skillIsChecked}")
-        holder.cbOccupationsSkillIsChecked?.isChecked = current?.skillIsChecked!!
-        holder.cbOccupationsSkillIsChecked?.setOnCheckedChangeListener { _, isChecked ->
-            kotlin.run {
-                Log.d(TAG, "isChecked : $isChecked")
-
-
-                current.skillIsChecked = isChecked
-                Log.d(TAG, "${occupationSkills[position]}")
-                this.buttonListener.itemPressed(current)
-            }
-
-        }
-        holder.tvOccupationsSkillDescription?.text = current.skillDescription
+        holder.bind(occupationSkills[position])
     }
 
 
