@@ -11,6 +11,7 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
 import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
 
 /**
@@ -19,7 +20,8 @@ Class "HobbiesSkillAdapter"
 TODO: Describe class utility.
  */
 class HobbiesSkillAdapter internal constructor(
-    val context: Context
+    val context: Context,
+    private val buttonListener:AdapterButtonListener<DomainSkillToCheck>
 ) : RecyclerView.Adapter<HobbiesSkillAdapter.HobbiesSkillsViewHolder>() {
     companion object {
         private const val TAG = "HobbiesSkillAdapter"
@@ -39,7 +41,7 @@ class HobbiesSkillAdapter internal constructor(
             this.hobbiesSkills = mutableListOf()
         }
         if (skills != null) {
-            this.hobbiesSkills?.addAll(skills)
+            this.hobbiesSkills = skills.toMutableList()
             notifyDataSetChanged()
         }
     }
@@ -68,6 +70,7 @@ class HobbiesSkillAdapter internal constructor(
                     skill?.skillIsChecked = !isChecked
                 }
                 cbHobbiesSkillIsChecked?.isChecked = skill?.skillIsChecked!!
+                buttonListener.itemPressed(skill)
 
             }
             cbHobbiesSkillIsChecked?.isChecked = skill?.skillIsChecked!!

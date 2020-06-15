@@ -13,11 +13,13 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
 import com.uldskull.rolegameassistant.viewmodels.SkillsViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
 Class "HobbiesSkillsRecyclerViewFragment"
@@ -25,9 +27,10 @@ Class "HobbiesSkillsRecyclerViewFragment"
 Manage hobbies's skill's recyclerview fragmet.
  */
 class HobbiesSkillsRecyclerViewFragment :
-    CustomRecyclerViewFragment() {
+    CustomRecyclerViewFragment(),
+AdapterButtonListener<DomainSkillToCheck>{
     /** ViewModel for skills  **/
-    private lateinit var skillsViewModel: SkillsViewModel
+    private val skillsViewModel: SkillsViewModel by sharedViewModel()
 
     /** Adapter for skills recycler view    **/
     private var hobbiesSkillAdapter: HobbiesSkillAdapter? = null
@@ -38,7 +41,6 @@ class HobbiesSkillsRecyclerViewFragment :
     /** Fragment life-cycle **/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        skillsViewModel = getViewModel()
     }
 
     override fun initializeRecyclerView() {
@@ -54,20 +56,32 @@ class HobbiesSkillsRecyclerViewFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initializeHobbiesSkillsAdapter()
+        startObservation()
     }
 
     private fun initializeHobbiesSkillsAdapter() {
         if (activity != null) {
             hobbiesSkillAdapter = HobbiesSkillAdapter(
-                activity!! as Context
+                context = activity!! as Context,
+                buttonListener = this
             )
         }
     }
 
     /** Observe ViewModel's skills  **/
     override fun startObservation() {
+        Log.d("DEBUG$TAG", "StartObservation")
 
-        skillsViewModel?.repositorySkillsToCheck?.observe(this, Observer {
+        var isNull =   this.skillsViewModel.hobbiesSkills.value == null
+        Log.d("DEBUG$TAG", "isNull : $isNull")
+
+        this.skillsViewModel.hobbiesSkills.observe(this, Observer { list ->
+            list.forEach {
+                Log.d("DEBUG$TAG", "hobbiesSkills : ${it?.skillName}")
+            }
+        })
+
+        skillsViewModel?.hobbiesSkills?.observe(this, Observer {
             it.forEach { Log.d("DEBUG$TAG", "Hobbies : $it") }
 
             var list: MutableList<DomainSkillToCheck> = it.map { s ->
@@ -129,6 +143,28 @@ class HobbiesSkillsRecyclerViewFragment :
             val fragment = HobbiesSkillsRecyclerViewFragment()
             fragment.activity = activity
             return fragment
+        }
+    }
+
+    /**
+     * Called when a recyclerview cell is pressed
+     */
+    override fun itemPressed(domainModel: DomainSkillToCheck?, position: Int?) {
+       Log.d("DEBUG$TAG", "itemPressed for ${domainModel?.skillName}")
+        if(domainModel != null){
+            var temp = skillsViewModel.hobbiesSkills?.value?.toMutableList()
+            Log.d("DEBUG$TAG", "skills size : ${temp?.size}")
+            var checked = temp?.count { s -> s?.skillIsChecked!! }
+            Log.d("DEBUG$TAG", "Checked skills : $checked")
+            var index = temp?.indexOfFirst {  s -> s?.skillId == domainModel.skillId }
+            if(index != null){
+                temp?.removeAt(index)
+                Log.d("DEBUG$TAG", "skills size : ${temp?.size}")
+                temp?.add(index, domainModel)
+            }
+            checked = temp?.count { s -> s?.skillIsChecked!! }
+            Log.d("DEBUG$TAG", "Checked skills : $checked")
+            skillsViewModel?.hobbiesSkills?.value = temp
         }
     }
 

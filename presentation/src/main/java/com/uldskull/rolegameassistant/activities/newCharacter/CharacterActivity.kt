@@ -66,6 +66,8 @@ class CharacterActivity :
 
     private lateinit var pointsToSpendViewModel: PointsToSpendViewModel
 
+    private lateinit var skillsViewModel: SkillsViewModel
+
     /** SupportFragmentManager  **/
     private val fragmentManager = supportFragmentManager
 
@@ -88,9 +90,11 @@ class CharacterActivity :
         deserializeDomainCharacter()
 
         observeRepositoryOccupations()
+        observeRepositorySkills()
 
 
     }
+
 
     /**
      * Observes occupation from the repository.
@@ -109,6 +113,24 @@ class CharacterActivity :
                     }
                 }
             })
+    }
+
+    private fun observeRepositorySkills(){
+        this.skillsViewModel.repositorySkillsToCheck?.observe(
+            this,
+            Observer { domainSkillToCheck ->
+                kotlin.run {
+                    domainSkillToCheck?.let {
+                        Log.d("DEBUG$TAG", "ObservedRepository skills has changed")
+                        Log.d("DEBUG$TAG", "Repository Skills : $it")
+                        skillsViewModel.hobbiesSkills.value =
+                            domainSkillToCheck
+
+                        Log.d("DEBUG$TAG", "Repository Skills : $it")
+                    }
+                }
+            }
+        )
     }
 
 
@@ -246,6 +268,7 @@ class CharacterActivity :
         charactersPictureViewModel = getViewModel()
         occupationSkillsViewModel = getViewModel()
         pointsToSpendViewModel = getViewModel()
+        skillsViewModel = getViewModel()
 
     }
 

@@ -40,6 +40,7 @@
             android:minHeight="30dp"
             android:minWidth="30dp"
             android:paddingRight="24dp"
+            android:clickable="false"
             android:layout_weight="1"
             />
 
