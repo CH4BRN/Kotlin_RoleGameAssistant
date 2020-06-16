@@ -25,7 +25,8 @@ class DbFilledSkill(
     val filledSkillUnitsValue: Int?,
     val filledSkillTotal: Int?,
     val filledSkillMax: Int?,
-    val filledSkillCharacterId:Long?
+    val filledSkillCharacterId:Long?,
+    val filledSkillType:Long?
 ) : DbEntity<DomainSkillToFill> {
     /**
      * Converts a Database model entity into a domain model.
@@ -40,7 +41,8 @@ class DbFilledSkill(
             filledSkillMax = this.filledSkillMax,
             filledSkillName = this.filledSkillName,
             filledSkillTotal = this.filledSkillTotal,
-            filledSkillCharacterId = this.filledSkillCharacterId
+            filledSkillCharacterId = this.filledSkillCharacterId,
+            filledSkillType = this.filledSkillType
         )
     }
 
@@ -63,7 +65,8 @@ class DbFilledSkill(
                 filledSkillMax = domainModel?.filledSkillMax,
                 filledSkillName = domainModel?.skillName,
                 filledSkillTotal = domainModel?.filledSkillTotal,
-                filledSkillCharacterId = domainModel?.filledSkillCharacterId
+                filledSkillCharacterId = domainModel?.filledSkillCharacterId,
+                filledSkillType = domainModel?.filledSkillType
 
             )
         }

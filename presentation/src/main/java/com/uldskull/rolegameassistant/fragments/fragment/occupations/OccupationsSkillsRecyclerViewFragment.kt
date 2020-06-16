@@ -86,23 +86,11 @@ class OccupationsSkillsRecyclerViewFragment :
     override fun startObservation() {
         observeSelectedOccupation()
         observeOccupationsSkills()
-        observeSelectedCharacter()
     }
 
 
 
-    private fun observeSelectedCharacter() {
-        newCharacterViewModel?.selectedCharacter?.observe(this, Observer { domainCharacter ->
-            kotlin.run {
-                Log.d("DEBUG$TAG", "Character : ${domainCharacter?.characterName}")
-                Log.d("DEBUG$TAG", "Occupation : ${domainCharacter?.characterOccupation}")
-                Log.d(
-                    "DEBUG$TAG",
-                    "Skills ids : ${domainCharacter?.characterSelectedOccupationSkill}"
-                )
-            }
-        })
-    }
+
 
     private fun observeSelectedOccupation() {
         occupationsViewModel.selectedOccupation?.observe(
@@ -124,10 +112,6 @@ class OccupationsSkillsRecyclerViewFragment :
                             occupationsViewModel.findOneWithChildren(domainOccupation.occupationId)
                         Log.d(TAG, "occupation with skills : \n $occupationWithSkills")
 
-
-
-
-
                         occupationsViewModel.observedOccupationsSkills?.value =
                             occupationWithSkills?.skills
                     }
@@ -136,22 +120,13 @@ class OccupationsSkillsRecyclerViewFragment :
     }
 
     private fun observeOccupationsSkills() {
-        occupationsViewModel?.selectedCharacterSkills?.observe(this, Observer {
-            Log.d("DEBUG$TAG", "Skills : $it")
-        })
 
         occupationsViewModel.observedOccupationsSkills?.observe(
             this, Observer { domainOccupationsSkills: List<DomainSkillToCheck?> ->
                 kotlin.run {
-                    Log.d(
-                        TAG, "observeOccupationsSkills \n" +
-                                "skills size : ${domainOccupationsSkills.size}"
-                    )
+
                     occupationsSkillsAdapter?.setOccupationsSkills(domainOccupationsSkills)
-                    Log.d(
-                        TAG, "observeOccupationsSkills \n" +
-                                "adapter skills size : ${occupationsSkillsAdapter?.itemCount}"
-                    )
+
 
                     var character = newCharacterViewModel?.currentCharacter?.value
                     Log.d("DEBUG$TAG", "Character ${character?.characterName}")
@@ -236,7 +211,6 @@ class OccupationsSkillsRecyclerViewFragment :
                 Log.d(TAG, "skills size : ${temp?.size}")
                 temp?.add(index, domainModel)
             }
-
             occupationsViewModel.observedOccupationsSkills?.value = temp
         }
     }

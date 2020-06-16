@@ -20,7 +20,7 @@ import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbRollCh
 import com.uldskull.rolegameassistant.infrastructure.dao.ideal.DbIdealsDao
 import com.uldskull.rolegameassistant.infrastructure.dao.occupation.DbOccupationDbSkillDao
 import com.uldskull.rolegameassistant.infrastructure.dao.occupation.DbOccupationsDao
-import com.uldskull.rolegameassistant.infrastructure.dao.skill.DbFilledSkillDao
+import com.uldskull.rolegameassistant.infrastructure.dao.skill.DbFilledOccupationSkillDao
 import com.uldskull.rolegameassistant.infrastructure.dao.skill.DbSkillToCheckDao
 import com.uldskull.rolegameassistant.infrastructure.database.databaseUtils.BreedCharacteristicDatabaseUtil.Companion.populateBreedCharacteristics
 import com.uldskull.rolegameassistant.infrastructure.database.databaseUtils.BreedDatabaseUtil.Companion.populateBreed
@@ -98,7 +98,7 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun dbCharacterWithDbFilledSkillsDao(): DbCharacterWithDbFilledSkillsDao
 
-    abstract fun dbFilledSkillDao(): DbFilledSkillDao
+    abstract fun dbFilledSkillDao(): DbFilledOccupationSkillDao
 
     /**
      * Database Breed with characteristics DAO

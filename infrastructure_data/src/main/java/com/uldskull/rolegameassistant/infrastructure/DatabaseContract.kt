@@ -25,6 +25,7 @@ object IdFieldName{
     const val FIELD_OCCUPATION_ID = "occupationId"
     const val FIELD_CHARACTERISTIC_BREED_ID = "characteristicBreedId"
     const val FIELD_FILLED_OCCUPATION_SKILL_ID = "filledSkillId"
+    const val FIELD_FILLED_OCCUPATION_SKILL_TYPE = "filledSkillType"
     const val FIELD_FILLED_OCCUPATION_SKILL_CHARACTER_ID = "filledSkillCharacterId"
 }
 

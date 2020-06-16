@@ -5,7 +5,10 @@ package com.uldskull.rolegameassistant.di.koin_modules
 import com.uldskull.rolegameassistant.viewmodels.*
 import com.uldskull.rolegameassistant.viewmodels.breeds.BreedCharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.breeds.DisplayedBreedsViewModel
+import com.uldskull.rolegameassistant.viewmodels.hobbies.HobbiesViewModel
+import com.uldskull.rolegameassistant.viewmodels.hobbies.HobbySkillsViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationSkillsViewModel
+import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -127,6 +130,13 @@ val viewModelModule = module {
     //  Hobby skill ViewModel
     viewModel {
         HobbySkillsViewModel(
+            application = get()
+        )
+    }
+
+    //  Hobbies view model
+    viewModel {
+        HobbiesViewModel(
             application = get()
         )
     }

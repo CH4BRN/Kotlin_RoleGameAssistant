@@ -18,6 +18,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
 import com.uldskull.rolegameassistant.viewmodels.*
 import com.uldskull.rolegameassistant.viewmodels.breeds.DisplayedBreedsViewModel
+import com.uldskull.rolegameassistant.viewmodels.hobbies.HobbySkillsViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationSkillsViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationsViewModel
 import kotlinx.android.synthetic.main.fragment_navigation_bar.*
@@ -65,6 +66,10 @@ class NavigationBarFragment : CustomFragment() {
     private val occupationsViewModel: OccupationsViewModel by sharedViewModel()
 
     private val occupationSkillsViewModel: OccupationSkillsViewModel by sharedViewModel()
+
+    private val hobbySkillsViewModel: HobbySkillsViewModel by sharedViewModel()
+
+    private val skillsViewModel: SkillsViewModel by sharedViewModel()
 
     private val pointsToSpendViewModel: PointsToSpendViewModel by sharedViewModel()
 
@@ -282,7 +287,6 @@ class NavigationBarFragment : CustomFragment() {
     }
 
 
-
     /**
      * Get the checked breeds from the view model
      */
@@ -305,7 +309,8 @@ class NavigationBarFragment : CustomFragment() {
             baseHealth = derivedValuesViewModel.baseHealth.value,
             breedBonus = derivedValuesViewModel.breedHealthBonus.value,
             skillsIds = newCharacterViewModel.characterSkillsIds,
-            filledSkills = occupationSkillsViewModel.checkedOccupationSkills.value,
+            filledOccupationSkills = occupationSkillsViewModel.checkedOccupationSkills.value,
+            filledHobbySkills = hobbySkillsViewModel.checkedHobbySkills.value,
             spentOccupationPoints = pointsToSpendViewModel?.observableOccupationSpentPoints?.value
         )
     }

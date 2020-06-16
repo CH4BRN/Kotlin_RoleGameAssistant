@@ -17,6 +17,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
+import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.SkillsViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -28,9 +29,11 @@ Manage hobbies's skill's recyclerview fragmet.
  */
 class HobbiesSkillsRecyclerViewFragment :
     CustomRecyclerViewFragment(),
-AdapterButtonListener<DomainSkillToCheck>{
+    AdapterButtonListener<DomainSkillToCheck> {
     /** ViewModel for skills  **/
     private val skillsViewModel: SkillsViewModel by sharedViewModel()
+
+    private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
 
     /** Adapter for skills recycler view    **/
     private var hobbiesSkillAdapter: HobbiesSkillAdapter? = null
@@ -72,44 +75,53 @@ AdapterButtonListener<DomainSkillToCheck>{
     override fun startObservation() {
         Log.d("DEBUG$TAG", "StartObservation")
 
-        var isNull =   this.skillsViewModel.hobbiesSkills.value == null
+        var isNull = this.skillsViewModel.hobbiesSkills.value == null
         Log.d("DEBUG$TAG", "isNull : $isNull")
 
-        this.skillsViewModel.hobbiesSkills.observe(this, Observer { list ->
-            list.forEach {
-                Log.d("DEBUG$TAG", "hobbiesSkills : ${it?.skillName}")
-            }
-        })
-
-        skillsViewModel?.hobbiesSkills?.observe(this, Observer {
-            it.forEach { Log.d("DEBUG$TAG", "Hobbies : $it") }
-
-            var list: MutableList<DomainSkillToCheck> = it.map { s ->
-                DomainSkillToCheck(
-                    skillBase = s?.skillBase,
-                    skillDescription = s?.skillDescription,
-                    skillId = s?.skillId,
-                    skillIsChecked = s?.skillIsChecked!!,
-                    skillMax = s.skillMax,
-                    skillName = s.skillName
-                )
-            }.toMutableList()
-
-
-            Log.d("DEBUG$TAG", "Hobbies list : ${list}")
-            hobbiesSkillAdapter?.setHobbiesSkills(list)
-            Log.d(
-                "DEBUG$TAG",
-                "  hobbiesSkillAdapter?.hobbiesSkills : ${hobbiesSkillAdapter?.hobbiesSkills?.size}"
-            )
-            skillsRecyclerView?.adapter = hobbiesSkillAdapter
-        })
-
+        observeHobbiesSkills()
 
         skillsViewModel?.hobbySkills.observe(this, Observer {
             it.forEach { Log.d("DEBUG$TAG", "Hobby : $it") }
         })
 
+    }
+
+    private fun observeHobbiesSkills() {
+        skillsViewModel?.hobbiesSkills?.observe(this, Observer { domainHobbiesSkills ->
+            run {
+
+
+                domainHobbiesSkills?.forEach {
+                    Log.d("DEBUG$TAG", "Skill ${it?.skillName} is checked ${it?.skillIsChecked}")
+                }
+
+                hobbiesSkillAdapter?.setHobbiesSkills(domainHobbiesSkills)
+
+                var character = newCharacterViewModel?.currentCharacter?.value
+
+                var checkedSkills = mutableListOf<DomainSkillToCheck>()
+                domainHobbiesSkills?.forEach { s ->
+                    kotlin.run {
+                        if (s != null) {
+                            if (s.skillIsChecked) {
+                                checkedSkills?.add(s)
+                            }
+                        }
+                    }
+                    if (character != null) {
+                        character?.characterSelectedHobbiesSkill =
+                            checkedSkills?.map { s -> s.skillId }.toMutableList()
+                    }
+                    newCharacterViewModel?.currentCharacter?.value = character
+
+                    Log.d(
+                        "DEBUG$TAG",
+                        "  hobbiesSkillAdapter?.hobbiesSkills : ${hobbiesSkillAdapter?.hobbiesSkills?.size}"
+                    )
+                    skillsRecyclerView?.adapter = hobbiesSkillAdapter
+                }
+            }
+        })
     }
 
     override fun setRecyclerViewAdapter() {
@@ -150,14 +162,14 @@ AdapterButtonListener<DomainSkillToCheck>{
      * Called when a recyclerview cell is pressed
      */
     override fun itemPressed(domainModel: DomainSkillToCheck?, position: Int?) {
-       Log.d("DEBUG$TAG", "itemPressed for ${domainModel?.skillName}")
-        if(domainModel != null){
+        Log.d("DEBUG$TAG", "itemPressed for ${domainModel?.skillName}")
+        if (domainModel != null) {
             var temp = skillsViewModel.hobbiesSkills?.value?.toMutableList()
             Log.d("DEBUG$TAG", "skills size : ${temp?.size}")
             var checked = temp?.count { s -> s?.skillIsChecked!! }
             Log.d("DEBUG$TAG", "Checked skills : $checked")
-            var index = temp?.indexOfFirst {  s -> s?.skillId == domainModel.skillId }
-            if(index != null){
+            var index = temp?.indexOfFirst { s -> s?.skillId == domainModel.skillId }
+            if (index != null) {
                 temp?.removeAt(index)
                 Log.d("DEBUG$TAG", "skills size : ${temp?.size}")
                 temp?.add(index, domainModel)

@@ -1,33 +1,43 @@
-// DbFilledSkillRepositoryImpl.kt created by UldSkull - 14/06/2020
+// DbFilledHobbySkillRepositoryImpl.kt created by UldSkull - 15/06/2020
 
 package com.uldskull.rolegameassistant.infrastructure.repositories.skill
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import com.uldskull.rolegameassistant.infrastructure.dao.skill.DbFilledSkillDao
+import com.uldskull.rolegameassistant.infrastructure.dao.skill.DbFilledOccupationSkillDao
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_skill.DbFilledSkill
 import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
-import com.uldskull.rolegameassistant.repository.skill.FilledOccupationSkillRepository
+import com.uldskull.rolegameassistant.repository.skill.FilledHobbySkillRepository
 
 /**
-Class "DbFilledSkillRepositoryImpl"
+Class "DbFilledHobbySkillRepositoryImpl"
 
 TODO: Describe class utility.
  */
-class DbFilledSkillRepositoryImpl(
-    private val dbFilledSkillsDao: DbFilledSkillDao
+class DbFilledHobbySkillRepositoryImpl(
+    private val dbFilledOccupationSkillDao: DbFilledOccupationSkillDao
+) : FilledHobbySkillRepository<LiveData<List<DomainSkillToFill>>> {
+    override fun deleteAllByCharacterId(id: Long): Int {
+        Log.d(TAG, "deleteAllByCharacterId")
+        try {
+            return dbFilledOccupationSkillDao.deleteAllByCharacterId(id)
+        } catch (e: Exception) {
+            Log.e(TAG, "deleteAllByCharacterId FAILED")
+            e.printStackTrace()
+            throw e
+        }
+    }
 
-) : FilledOccupationSkillRepository<LiveData<List<DomainSkillToFill>>> {
     companion object {
-        private const val TAG = "DbFilledSkillRepositoryImpl"
+        private const val TAG = "DbFilledHobbySkillRepositoryImpl"
     }
 
     /** Get all entities    */
     override fun getAll(): LiveData<List<DomainSkillToFill>>? {
         Log.d(TAG, "getAll")
         try {
-            return Transformations.map(dbFilledSkillsDao.getFilledSkill()) {
+            return Transformations.map(dbFilledOccupationSkillDao.getSkillsByTypes(1)) {
                 it.asDomainModel()
             }
         } catch (e: Exception) {
@@ -37,12 +47,29 @@ class DbFilledSkillRepositoryImpl(
         }
     }
 
+    private fun List<DbFilledSkill>.asDomainModel(): List<DomainSkillToFill> {
+        Log.d("DEBUG$TAG", "asDomainModel")
+        return map {
+            DomainSkillToFill(
+                filledSkillCharacterId = it.filledSkillCharacterId,
+                filledSkillBase = it.filledSkillBase,
+                filledSkillId = it.filledSkillId,
+                filledSkillMax = it.filledSkillMax,
+                filledSkillName = it.filledSkillName,
+                filledSkillTensValue = it.filledSkillTensValue,
+                filledSkillTotal = it.filledSkillTotal,
+                filledSkillUnitsValue = it.filledSkillUnitsValue,
+                filledSkillType = it.filledSkillType
+            )
+        }
+    }
+
     /** Get one entity by its id    */
     override fun findOneById(id: Long?): DomainSkillToFill? {
         Log.d(TAG, "findOneById")
         var result: DbFilledSkill
         try {
-            result = dbFilledSkillsDao.getOneById(id)
+            result = dbFilledOccupationSkillDao.getOneById(id)
         } catch (e: Exception) {
             Log.e("ERROR$TAG", "findOneById FAILED")
             e.printStackTrace()
@@ -59,7 +86,7 @@ class DbFilledSkillRepositoryImpl(
         Log.d(TAG, "insertAll")
         if (all != null && all.isNotEmpty()) {
             try {
-                val result = dbFilledSkillsDao.insert(all.map { s ->
+                val result = dbFilledOccupationSkillDao.insert(all.map { s ->
                     DbFilledSkill.from(
                         s
                     )
@@ -82,7 +109,7 @@ class DbFilledSkillRepositoryImpl(
         return if (one != null) {
             try {
                 val result =
-                    dbFilledSkillsDao.insert(
+                    dbFilledOccupationSkillDao.insert(
                         DbFilledSkill.from(
                             one
                         )
@@ -103,7 +130,7 @@ class DbFilledSkillRepositoryImpl(
     override fun deleteAll(): Int {
         Log.d(TAG, "deleteAll")
         try {
-            return dbFilledSkillsDao.deleteAll()
+            return dbFilledOccupationSkillDao.deleteAll()
         } catch (e: Exception) {
             Log.e(TAG, "deleteAll FAILED")
             e.printStackTrace()
@@ -115,42 +142,13 @@ class DbFilledSkillRepositoryImpl(
     override fun updateOne(one: DomainSkillToFill?): Int? {
         Log.d(TAG, "updateOne")
         try {
-            dbFilledSkillsDao.update(DbFilledSkill.from(one))
+            dbFilledOccupationSkillDao.update(DbFilledSkill.from(one))
         } catch (e: Exception) {
             Log.e(TAG, "updateOne FAILED")
             e.printStackTrace()
             throw e
         }
         return 1
-    }
-
-
-
-    private fun List<DbFilledSkill>.asDomainModel(): List<DomainSkillToFill> {
-        Log.d("DEBUG$TAG", "asDomainModel")
-        return map {
-            DomainSkillToFill(
-                filledSkillCharacterId = it.filledSkillCharacterId,
-                filledSkillBase = it.filledSkillBase,
-                filledSkillId = it.filledSkillId,
-                filledSkillMax = it.filledSkillMax,
-                filledSkillName = it.filledSkillName,
-                filledSkillTensValue = it.filledSkillTensValue,
-                filledSkillTotal = it.filledSkillTotal,
-                filledSkillUnitsValue = it.filledSkillUnitsValue
-            )
-        }
-    }
-
-    override fun deleteAllByCharacterId(id: Long): Int {
-        Log.d(TAG, "deleteAllByCharacterId")
-        try {
-            return dbFilledSkillsDao.deleteAllByCharacterId(id)
-        } catch (e: Exception) {
-            Log.e(TAG, "deleteAllByCharacterId FAILED")
-            e.printStackTrace()
-            throw e
-        }
     }
 
 }

@@ -33,7 +33,7 @@ class OccupationsViewModel(
         refreshDataFromRepository()
     }
 
-    val selectedCharacterSkills = MutableLiveData<List<Long?>>()
+
 
 
     private fun refreshDataFromRepository() {
@@ -67,6 +67,7 @@ class OccupationsViewModel(
     }
 
     var selectedOccupationIncome: MutableLiveData<String>? = MutableLiveData()
+    val selectedCharacterSkills = MutableLiveData<List<Long?>>()
     var selectedOccupationContacts: MutableLiveData<String>? = MutableLiveData()
     var selectedOccupationSpecial: MutableLiveData<String>? = MutableLiveData()
     var selectedOccupationIndex: MutableLiveData<Int>? = MutableLiveData()
@@ -75,5 +76,4 @@ class OccupationsViewModel(
     var displayedOccupations = MutableLiveData<List<String?>>()
     var observedOccupationsSkills: MutableLiveData<List<DomainSkillToCheck>>? =
         MutableLiveData()
-// TODO : Fill class.
 }

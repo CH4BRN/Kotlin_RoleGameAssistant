@@ -23,10 +23,15 @@ import com.uldskull.rolegameassistant.fragments.fragment.occupation.OccupationFr
 import com.uldskull.rolegameassistant.fragments.fragment.occupations.OccupationsFragment
 import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
 import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
+import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
 import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
+import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
 import com.uldskull.rolegameassistant.viewmodels.*
 import com.uldskull.rolegameassistant.viewmodels.breeds.DisplayedBreedsViewModel
+import com.uldskull.rolegameassistant.viewmodels.hobbies.HobbiesViewModel
+import com.uldskull.rolegameassistant.viewmodels.hobbies.HobbySkillsViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationSkillsViewModel
+import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationsViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -57,6 +62,8 @@ class CharacterActivity :
 
     private lateinit var occupationsViewModel: OccupationsViewModel
 
+    private lateinit var hobbiesViewModel: HobbiesViewModel
+
     private lateinit var occupationViewModel: OccupationViewModel
 
     private lateinit var displayedBreedsViewModel: DisplayedBreedsViewModel
@@ -64,6 +71,8 @@ class CharacterActivity :
     private lateinit var charactersPictureViewModel: CharactersPictureViewModel
 
     private lateinit var occupationSkillsViewModel: OccupationSkillsViewModel
+
+    private lateinit var hobbySkillsViewModel: HobbySkillsViewModel
 
     private lateinit var pointsToSpendViewModel: PointsToSpendViewModel
 
@@ -116,7 +125,7 @@ class CharacterActivity :
             })
     }
 
-    private fun observeRepositorySkills(){
+    private fun observeRepositorySkills() {
         this.skillsViewModel.repositorySkillsToCheck?.observe(
             this,
             Observer { domainSkillToCheck: List<DomainSkillToCheck> ->
@@ -125,8 +134,13 @@ class CharacterActivity :
                         Log.d("DEBUG$TAG", "ObservedRepository skills has changed")
                         Log.d("DEBUG$TAG", "Repository Skills : $list")
                         list?.forEach {
-                            Log.d("DEBUG$TAG", "Repository Skill :${it.skillName} base : ${it.skillBase}")
+                            Log.d(
+                                "DEBUG$TAG",
+                                "Repository Skill :${it.skillName} base : ${it.skillBase}"
+                            )
                         }
+
+
                         skillsViewModel.hobbiesSkills.value =
                             domainSkillToCheck
 
@@ -157,7 +171,8 @@ class CharacterActivity :
             newCharacterViewModel.characterBiography.value = character?.characterBiography
             newCharacterViewModel.characterHeight.value = character?.characterHeight
             newCharacterViewModel.characterWeight.value = character?.characterWeight
-            pointsToSpendViewModel?.observableOccupationSpentPoints.value = character?.characterSpentOccupationPoints
+            pointsToSpendViewModel?.observableOccupationSpentPoints.value =
+                character?.characterSpentOccupationPoints
 
 
             var characterBreeds: MutableList<DomainDisplayedBreed?> = mutableListOf()
@@ -167,82 +182,193 @@ class CharacterActivity :
 
             var breedsToLoad: MutableList<DomainDisplayedBreed> = mutableListOf()
 
-            displayedBreedsViewModel?.observedRepositoryBreeds?.observe(
-                this,
-                Observer { repositoryBreeds ->
-                    Log.d("DEBUG$TAG", "repositoryBreeds size = ${repositoryBreeds?.size}")
-
-                    repositoryBreeds?.forEach { breed ->
-                        if (characterBreeds?.any { b -> b?.breedId == breed.breedId }) {
-                            Log.d("DEBUG$TAG", "Corresponding")
-                            breed.breedChecked = true
-                        }
-                        Log.d(
-                            "DEBUG$TAG",
-                            "Breed ${breed.breedName} is checked : ${breed.breedChecked}"
-                        )
-                        breedsToLoad?.add(breed)
-                    }
-                    displayedBreedsViewModel?.observedMutableBreeds?.value = breedsToLoad.toList()
-
-                })
+            observeRepositoryBreeds(characterBreeds, breedsToLoad)
 
             var occupation = character?.characterOccupation
 
-            if (occupation != null) {
-                var displayedIndex =
-                    occupationsViewModel?.displayedOccupations?.value?.indexOfFirst { o -> o == occupation?.occupationName }
-                Log.d("DEBUG$TAG", "displayedIndex : $displayedIndex")
+            initializeSelectedOccupation(occupation)
 
-                var observedIndex =
-                    occupationsViewModel?.repositoryOccupations?.value?.indexOfFirst { o -> o.occupationId == occupation?.occupationId }
-                Log.d("DEBUG$TAG", "observedIndex : $observedIndex")
-
-                occupationsViewModel.selectedOccupation?.value = occupation
-            }
-
+            //  Occupation
             var occupationSkillsIds = character?.characterSelectedOccupationSkill
             Log.d("DEBUG$TAG", "occupationSkillsIds : $occupationSkillsIds")
-
             occupationsViewModel?.selectedCharacterSkills?.value = occupationSkillsIds?.toList()
-            Log.d(
-                "DEBUG$TAG",
-                " occupationsViewModel?.selectedCharacterSkills?.value : ${occupationsViewModel?.selectedCharacterSkills?.value}"
-            )
-
             Log.d("DEBUG$TAG", "occupationSkillsIds : ${occupationSkillsIds}")
-            occupationsViewModel?.observedOccupationsSkills?.observe(this, Observer {
-                var list = it.toMutableList()
-                var selected = occupationsViewModel?.selectedCharacterSkills?.value
-                Log.d("DEBUG$TAG", "observedOccupationsSkills : ${list}")
-                list.forEach { skill ->
-                    selected?.forEach { selectedId ->
-                        kotlin.run {
-                            if (skill.skillId == selectedId) {
-                                var index = list.indexOfFirst { s -> s.skillId == skill.skillId }
+            observeOccupationsSkills()
+            var occupationsSkills = occupationsViewModel?.observedOccupationsSkills?.value
+            Log.d("DEBUG$TAG", "occupationsSkills : ${occupationsSkills}")
+            Log.d("DEBUG$TAG", "Occupation = ${occupation}")
+            var occupationSkills: List<DomainSkillToFill>? =
+                newCharacterViewModel?.getCharacterSkills(character?.characterId, 0)
+            Log.d("DEBUG$TAG", "Character occupation skills from activity : $occupationSkills")
+
+            if (occupationSkillsViewModel.checkedOccupationSkills.value == null) {
+                occupationSkillsViewModel.checkedOccupationSkills.value = occupationSkills
+            }
+
+
+            var hobbiesSkillsIds = character?.characterSelectedHobbiesSkill
+            var list = skillsViewModel?.hobbiesSkills?.value?.toMutableList()
+            Log.d("DEBUG$TAG", "List : ${list?.size}")
+
+            list?.forEach { skill ->
+                kotlin.run {
+                    hobbiesSkillsIds?.forEach { id ->
+                        run {
+                            if (skill != null && id != null) {
                                 skill.skillIsChecked = true
-                                list[index] = skill
+
+                                Log.d("DEBUG$TAG", "Skill :${skill?.skillName} is checked : ${skill?.skillIsChecked}")
+                                var index = list.indexOfFirst { s ->s?.skillId == skill.skillId }
+                                list.set(index,skill)
                             }
                         }
                     }
                 }
-            })
+            }
 
-            var occupationsSkills = occupationsViewModel?.observedOccupationsSkills?.value
-            Log.d("DEBUG$TAG", "occupationsSkills : ${occupationsSkills}")
-            Log.d("DEBUG$TAG", "Occupation = ${occupation}")
+            var checkeds = list?.count{ s -> s?.skillIsChecked!!}
+            Log.d("DEBUG$TAG","Checkeds : $checkeds")
+            skillsViewModel?.hobbiesSkills?.value = list
 
-            var occupationSkills = newCharacterViewModel?.getCharacterWithSkills(character?.characterId)
 
-            Log.d("DEBUG$TAG", "Character skills from activity : $occupationSkills")
+            Log.d("DEBUG$TAG", "hobbiesSkillsIds : $occupationSkillsIds")
+            hobbiesViewModel?.selectedCharacterSkills?.value = hobbiesSkillsIds
+            observeHobbiesSkills()
+            observeSkillsForHobbies()
 
-            if(occupationSkillsViewModel.checkedOccupationSkills.value == null){
-                occupationSkillsViewModel.checkedOccupationSkills.value = occupationSkills?.skills
+            //  Hobby
+            var hobbySkills: List<DomainSkillToFill>? =
+                newCharacterViewModel?.getCharacterSkills(character?.characterId, 1)
+
+
+
+
+
+
+            Log.d("DEBUG$TAG", "Character hobby skills from activity : $hobbySkills")
+
+            if (hobbySkillsViewModel.checkedHobbySkills.value == null) {
+                hobbySkillsViewModel.checkedHobbySkills.value = hobbySkills
+            }
+
+            if (skillsViewModel.hobbySkills.value == null) {
+                skillsViewModel.hobbySkills.value = hobbySkills
             }
 
 
         }
 
+    }
+
+    private fun observeSkillsForHobbies(){
+        skillsViewModel?.hobbiesSkills?.observe(this, Observer {
+            var list = it?.toMutableList()
+            Log.d("DEBUG$TAG", "observedHobbiesSkills : ${list?.size}")
+            var selected = hobbiesViewModel?.selectedCharacterSkills?.value
+            Log.d("DEBUG$TAG", "selectedCharacterSkills : ${selected?.size}")
+
+            list?.forEach { skill ->
+                selected?.forEach { id ->
+                    if(skill?.skillId == id){
+                        if(!skill?.skillIsChecked!!){
+                            skill?.skillIsChecked = true
+                            var index = list?.indexOfFirst { s -> s?.skillId == id }
+                            list.set(index, skill)
+                        }
+                    }
+                }
+            }
+
+            if(skillsViewModel?.hobbiesSkills?.value.toString() != list.toString()){
+                skillsViewModel?.hobbiesSkills.value = list
+            }
+
+
+        })
+    }
+
+    private fun observeHobbiesSkills() {
+        hobbiesViewModel?.observedHobbiesSkills?.observe(this, Observer {
+            var list = it.toMutableList()
+            Log.d("DEBUG$TAG", "observedHobbiesSkills : ${list.size}")
+            var selected = hobbiesViewModel?.selectedCharacterSkills?.value
+            list.forEach { skill ->
+                selected?.forEach { selectedId ->
+                    kotlin.run {
+                        if (skill.skillId == selectedId) {
+                            var index = list.indexOfFirst { s -> s.skillId == skill.skillId }
+                            skill.skillIsChecked = true
+                            list[index] = skill
+                        }
+                    }
+                }
+            }
+            skillsViewModel?.hobbiesSkills?.value = list
+        })
+    }
+
+    private fun observeOccupationsSkills() {
+        occupationsViewModel?.observedOccupationsSkills?.observe(this, Observer {
+            var list = it.toMutableList()
+            var selected: List<Long?>? = occupationsViewModel?.selectedCharacterSkills?.value
+
+
+            Log.d("DEBUG$TAG", "observedOccupationsSkills : ${list}")
+            list.forEach { skill ->
+                selected?.forEach { selectedId ->
+                    kotlin.run {
+                        if (skill.skillId == selectedId) {
+                            var index = list.indexOfFirst { s -> s.skillId == skill.skillId }
+                            skill.skillIsChecked = true
+                            Log.d(
+                                "DEBUG$TAG",
+                                "Skill : ${skill?.skillName} is checked ${skill?.skillIsChecked}"
+                            )
+                            list[index] = skill
+                        }
+                    }
+                }
+            }
+        })
+    }
+
+    private fun observeRepositoryBreeds(
+        characterBreeds: MutableList<DomainDisplayedBreed?>,
+        breedsToLoad: MutableList<DomainDisplayedBreed>
+    ) {
+        displayedBreedsViewModel?.observedRepositoryBreeds?.observe(
+            this,
+            Observer { repositoryBreeds ->
+                Log.d("DEBUG$TAG", "repositoryBreeds size = ${repositoryBreeds?.size}")
+
+                repositoryBreeds?.forEach { breed ->
+                    if (characterBreeds?.any { b -> b?.breedId == breed.breedId }) {
+                        Log.d("DEBUG$TAG", "Corresponding")
+                        breed.breedChecked = true
+                    }
+                    Log.d(
+                        "DEBUG$TAG",
+                        "Breed ${breed.breedName} is checked : ${breed.breedChecked}"
+                    )
+                    breedsToLoad?.add(breed)
+                }
+                displayedBreedsViewModel?.observedMutableBreeds?.value = breedsToLoad.toList()
+
+            })
+    }
+
+    private fun initializeSelectedOccupation(occupation: DomainOccupation?) {
+        if (occupation != null) {
+            var displayedIndex =
+                occupationsViewModel?.displayedOccupations?.value?.indexOfFirst { o -> o == occupation?.occupationName }
+            Log.d("DEBUG$TAG", "displayedIndex : $displayedIndex")
+
+            var observedIndex =
+                occupationsViewModel?.repositoryOccupations?.value?.indexOfFirst { o -> o.occupationId == occupation?.occupationId }
+            Log.d("DEBUG$TAG", "observedIndex : $observedIndex")
+
+            occupationsViewModel.selectedOccupation?.value = occupation
+        }
     }
 
     /**
@@ -268,9 +394,11 @@ class CharacterActivity :
         characteristicsViewModel = getViewModel()
         occupationViewModel = getViewModel()
         occupationsViewModel = getViewModel()
+        hobbiesViewModel = getViewModel()
         displayedBreedsViewModel = getViewModel()
         charactersPictureViewModel = getViewModel()
         occupationSkillsViewModel = getViewModel()
+        hobbySkillsViewModel = getViewModel()
         pointsToSpendViewModel = getViewModel()
         skillsViewModel = getViewModel()
 

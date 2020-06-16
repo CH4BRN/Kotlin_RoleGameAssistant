@@ -81,7 +81,8 @@ class CharacterRepositoryImpl(
                 characterBreedBonus = it?.characterBreedBonus,
                 characterSelectedOccupationSkill = it?.characterSelectedOccupationSkill?.toMutableList(),
                 characterOccupation = it?.characterOccupation?.toDomain(),
-                characterBreeds = it?.characterSelectedBreeds?.toMutableList()
+                characterBreeds = it?.characterSelectedBreeds?.toMutableList(),
+                characterSelectedHobbiesSkill = it?.characterSelectedHobbiesSkill?.toMutableList()
             )
         }
     }
@@ -153,7 +154,7 @@ class CharacterRepositoryImpl(
         return null
     }
 
-    override fun findOneWithSkills(id: Long?): DomainCharacterWithSkills? {
+    override fun findOneWithOccupationSkills(id: Long?): DomainCharacterWithSkills? {
         var entities: List<DbCharacterWithDbSkills> =
             dbCharacterWithDbFilledSkillsDao?.getCharacterWithSkills()
 

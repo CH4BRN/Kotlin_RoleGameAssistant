@@ -20,9 +20,8 @@ import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragm
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
 import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
-import com.uldskull.rolegameassistant.viewmodels.HobbySkillsViewModel
+import com.uldskull.rolegameassistant.viewmodels.hobbies.HobbySkillsViewModel
 import com.uldskull.rolegameassistant.viewmodels.SkillsViewModel
-import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
@@ -33,7 +32,7 @@ TODO: Describe class utility.
 class HobbySkillsRecyclerViewFragment :
     CustomRecyclerViewFragment(), AdapterButtonListener<DomainSkillToFill> {
 
-    private val hobbySkillViewModel:HobbySkillsViewModel by sharedViewModel()
+    private val hobbySkillViewModel: HobbySkillsViewModel by sharedViewModel()
 
 
     private var hobbySkillRecyclerView: RecyclerView? = null
@@ -63,6 +62,7 @@ class HobbySkillsRecyclerViewFragment :
             kotlin.run {
                 skills?.let { hobbySkillAdapter?.setHobbySkills(it) }
 
+
             }
         })
 
@@ -83,7 +83,8 @@ class HobbySkillsRecyclerViewFragment :
                     filledSkillName = s?.skillName,
                     filledSkillMax = s?.skillMax,
                     filledSkillBase = s?.skillBase,
-                    filledSkillId = s?.skillId
+                    filledSkillId = s?.skillId,
+                    filledSkillType = 1
                 ) }
 
                 skillsViewModel?.hobbySkills?.value = toFill

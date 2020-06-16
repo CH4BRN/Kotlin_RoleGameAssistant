@@ -43,6 +43,7 @@ open class DomainCharacter(
     var characterBreedBonus: Int? = 42,
     var characterOccupation:DomainOccupation?,
     var characterSelectedOccupationSkill: MutableList<Long?>?,
+    var characterSelectedHobbiesSkill:MutableList<Long?>?,
     var characterBreeds: MutableList<Long?>?,
     var characterSpentOccupationPoints:Int? = 0
 ) {

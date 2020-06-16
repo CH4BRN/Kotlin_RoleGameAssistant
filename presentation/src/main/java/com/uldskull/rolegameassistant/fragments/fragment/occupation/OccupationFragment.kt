@@ -23,7 +23,7 @@ import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationSkillsViewModel
-import com.uldskull.rolegameassistant.viewmodels.OccupationViewModel
+import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationViewModel
 import com.uldskull.rolegameassistant.viewmodels.PointsToSpendViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationsViewModel
 import kotlinx.android.synthetic.main.fragment_occupation.*
@@ -785,7 +785,8 @@ class OccupationFragment : CustomFragment() {
                                 filledSkillTotal = 0,
                                 filledSkillBase = occupationSkill.skillBase,
                                 filledSkillMax = occupationSkill.skillMax,
-                                filledSkillCharacterId = newCharacterViewModel.characterId
+                                filledSkillCharacterId = newCharacterViewModel.characterId,
+                                filledSkillType = 0
                             )
                         )
                     }
@@ -841,7 +842,8 @@ class OccupationFragment : CustomFragment() {
                                 filledSkillTotal = 0,
                                 filledSkillBase = occupationSkill.skillBase,
                                 filledSkillMax = occupationSkill.skillMax,
-                                filledSkillCharacterId = newCharacterViewModel.characterId
+                                filledSkillCharacterId = newCharacterViewModel.characterId,
+                                filledSkillType = 0
                             )
                         )
                     }

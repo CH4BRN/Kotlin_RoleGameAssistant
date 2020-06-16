@@ -1,6 +1,6 @@
 // HobbySkillsViewModel.kt created by UldSkull - 15/06/2020
 
-package com.uldskull.rolegameassistant.viewmodels
+package com.uldskull.rolegameassistant.viewmodels.hobbies
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -21,4 +21,5 @@ class HobbySkillsViewModel(
 
     var currentHobbySkill = MutableLiveData<DomainSkillToFill?>()
     var hobbySkillsTotalPointsToSpend = MutableLiveData<Int>()
+    var checkedHobbySkills = MutableLiveData<List<DomainSkillToFill>>()
 }

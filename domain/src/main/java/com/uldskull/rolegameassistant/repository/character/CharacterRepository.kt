@@ -18,5 +18,5 @@ interface CharacterRepository<T> : GenericRepository<T, DomainCharacter> {
      */
     fun findOneWithIdeals(id: Long?): DomainCharacterWithIdeals?
 
-    fun findOneWithSkills(id:Long?) : DomainCharacterWithSkills?
+    fun findOneWithOccupationSkills(id:Long?) : DomainCharacterWithSkills?
 }

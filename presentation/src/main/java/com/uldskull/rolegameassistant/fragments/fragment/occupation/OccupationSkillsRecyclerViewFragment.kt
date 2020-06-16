@@ -23,8 +23,6 @@ import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
-import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
-import com.uldskull.rolegameassistant.viewmodels.OccupationViewModel
 import com.uldskull.rolegameassistant.viewmodels.PointsToSpendViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationSkillsViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -36,10 +34,6 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 class OccupationSkillsRecyclerViewFragment :
     CustomRecyclerViewFragment(),
     AdapterButtonListener<DomainSkillToFill> {
-    /**
-     * Current skill position
-     */
-    private var currentSkillPosition: Int? = 0
 
     /**
      * Occupation skills adapter.
@@ -50,9 +44,6 @@ class OccupationSkillsRecyclerViewFragment :
      */
     private val occupationSkillsViewModel: OccupationSkillsViewModel by sharedViewModel()
 
-    private val occupationViewModel:OccupationViewModel by sharedViewModel()
-
-    private val newCharacterViewModel:NewCharacterViewModel by sharedViewModel()
 
     private val pointsToSpendViewModel:PointsToSpendViewModel by sharedViewModel()
     /**
@@ -64,30 +55,6 @@ class OccupationSkillsRecyclerViewFragment :
     override fun onResume() {
         super.onResume()
         Log.d(TAG, "onResume")
-        var skillsToFill =
-            occupationSkillsViewModel.checkedOccupationSkills.value?.mapNotNull { domainOccupationSkill ->
-                if (domainOccupationSkill == null) {
-                    return@mapNotNull null
-                } else {
-                    DomainSkillToFill(
-                        filledSkillMax = domainOccupationSkill.filledSkillMax,
-                        filledSkillBase = domainOccupationSkill.filledSkillBase,
-                        filledSkillName = domainOccupationSkill.skillName,
-                        filledSkillTensValue = domainOccupationSkill.filledSkillTensValue,
-                        filledSkillTotal = domainOccupationSkill.filledSkillTotal,
-                        filledSkillUnitsValue = domainOccupationSkill.filledSkillUnitsValue,
-                        filledSkillId = domainOccupationSkill.skillId,
-                        filledSkillCharacterId = domainOccupationSkill.filledSkillCharacterId
-                    )
-                }
-
-            }
-
-        occupationSkillsAdapter?.setOccupationFilledSkills(skillsToFill)
-        Log.d(
-            TAG,
-            "occupationSkillAdapter size : ${occupationSkillsAdapter?.occupationSkills?.size}"
-        )
         occupationSkillsRecyclerView?.adapter = occupationSkillsAdapter
     }
 
@@ -141,48 +108,53 @@ class OccupationSkillsRecyclerViewFragment :
             this,
             Observer { occupationSkills: List<DomainSkillToFill> ->
                 kotlin.run {
-                    Log.d("DEBUG$TAG", "checkedOccupationSkills size : ${occupationSkills.size}")
-
-                    occupationSkills.forEach { filledSkill ->
-                        kotlin.run {
-                            Log.d("DEBUG$TAG","filledSkill : ${filledSkill}")
-                        }
-                    }
-
-                    var skillsToFill =
-                        occupationSkills.map { domainOccupationSkill ->
-                            DomainSkillToFill(
-                                filledSkillMax = domainOccupationSkill.filledSkillMax,
-                                filledSkillBase = domainOccupationSkill.filledSkillBase,
-                                filledSkillName = domainOccupationSkill.skillName,
-                                filledSkillId = domainOccupationSkill.skillId,
-                                filledSkillUnitsValue = domainOccupationSkill.filledSkillUnitsValue,
-                                filledSkillTensValue = domainOccupationSkill.filledSkillTensValue,
-                                filledSkillTotal = domainOccupationSkill.filledSkillTotal,
-                                filledSkillCharacterId = domainOccupationSkill.filledSkillCharacterId
-                            )
-                        }
-                    var size = skillsToFill.size
-                    if(size != null){
-                        pointsToSpendViewModel.observableOccupationSpentTensPointsArray.value = arrayOfNulls(
-                            skillsToFill.size
-                        )
-                    }
-
-                    skillsToFill.forEach { filledSkill ->
-                        kotlin.run {
-                            Log.d(TAG + "valid", "skillsToFill : ${filledSkill}")
-                        }
-                    }
-
-                    occupationSkillsAdapter?.setOccupationFilledSkills(skillsToFill)
-                    Log.d(
-                        TAG,
-                        "occupationSkillAdapter size : ${occupationSkillsAdapter?.occupationSkills?.size}"
-                    )
-                    occupationSkillsRecyclerView?.adapter = occupationSkillsAdapter
+                    fillOccupationSkillsRecyclerViewWithSkillsToFill(occupationSkills)
                 }
             })
+    }
+
+    private fun fillOccupationSkillsRecyclerViewWithSkillsToFill(occupationSkills: List<DomainSkillToFill>) {
+        Log.d("DEBUG$TAG", "checkedOccupationSkills size : ${occupationSkills.size}")
+
+        occupationSkills.forEach { filledSkill ->
+            kotlin.run {
+                Log.d("DEBUG$TAG", "filledSkill : ${filledSkill}")
+            }
+        }
+
+        var skillsToFill =
+            occupationSkills.map { domainOccupationSkill ->
+                DomainSkillToFill(
+                    filledSkillMax = domainOccupationSkill.filledSkillMax,
+                    filledSkillBase = domainOccupationSkill.filledSkillBase,
+                    filledSkillName = domainOccupationSkill.skillName,
+                    filledSkillId = domainOccupationSkill.skillId,
+                    filledSkillUnitsValue = domainOccupationSkill.filledSkillUnitsValue,
+                    filledSkillTensValue = domainOccupationSkill.filledSkillTensValue,
+                    filledSkillTotal = domainOccupationSkill.filledSkillTotal,
+                    filledSkillCharacterId = domainOccupationSkill.filledSkillCharacterId,
+                    filledSkillType = 0
+                )
+            }
+        var size = skillsToFill.size
+        if (size != null) {
+            pointsToSpendViewModel.observableOccupationSpentTensPointsArray.value = arrayOfNulls(
+                skillsToFill.size
+            )
+        }
+
+        skillsToFill.forEach { filledSkill ->
+            kotlin.run {
+                Log.d(TAG + "valid", "skillsToFill : ${filledSkill}")
+            }
+        }
+
+        occupationSkillsAdapter?.setOccupationFilledSkills(skillsToFill)
+        Log.d(
+            TAG,
+            "occupationSkillAdapter size : ${occupationSkillsAdapter?.occupationSkills?.size}"
+        )
+        occupationSkillsRecyclerView?.adapter = occupationSkillsAdapter
     }
 
     /** Set recycler view layout manager    **/

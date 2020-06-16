@@ -57,7 +57,7 @@ class SkillsViewModel(
         return repositorySkillsToCheck
     }
     var hobbiesSkills = MutableLiveData<List<DomainSkillToCheck?>>()
-    var hobbySkills = MutableLiveData<List<DomainSkillToFill?>>()
+    var hobbySkills = MutableLiveData<List<DomainSkillToFill>>()
 
 
 }

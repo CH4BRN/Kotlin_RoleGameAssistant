@@ -22,7 +22,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.HOBBY_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
-import com.uldskull.rolegameassistant.viewmodels.HobbySkillsViewModel
+import com.uldskull.rolegameassistant.viewmodels.hobbies.HobbySkillsViewModel
 import com.uldskull.rolegameassistant.viewmodels.PointsToSpendViewModel
 import com.uldskull.rolegameassistant.viewmodels.SkillsViewModel
 import kotlinx.android.synthetic.main.fragment_hobby.*

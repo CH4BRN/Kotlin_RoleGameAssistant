@@ -33,9 +33,9 @@ class HobbiesSkillAdapter internal constructor(
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
 
     /**Skills list**/
-    var hobbiesSkills = mutableListOf<DomainSkillToCheck>()
+    var hobbiesSkills = mutableListOf<DomainSkillToCheck?>()
 
-    internal fun setHobbiesSkills(skills: List<DomainSkillToCheck>) {
+    internal fun setHobbiesSkills(skills: List<DomainSkillToCheck?>?) {
         Log.d("$TAG", "setHobbiesSkills")
         if(this.hobbiesSkills == null){
             this.hobbiesSkills = mutableListOf()
