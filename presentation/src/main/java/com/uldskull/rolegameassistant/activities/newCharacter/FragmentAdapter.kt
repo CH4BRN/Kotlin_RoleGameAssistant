@@ -10,13 +10,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.uldskull.rolegameassistant.fragments.fragment.basicinfo.BasicInfoFragment
 import com.uldskull.rolegameassistant.fragments.fragment.bonds.BondsFragment
 import com.uldskull.rolegameassistant.fragments.fragment.characteristics.CharacteristicsFragment
-import com.uldskull.rolegameassistant.fragments.fragment.derivedValues.DerivedValues1Fragment
-import com.uldskull.rolegameassistant.fragments.fragment.derivedValues.DerivedValues2Fragment
-import com.uldskull.rolegameassistant.fragments.fragment.hobbies.HobbiesFragment
-import com.uldskull.rolegameassistant.fragments.fragment.hobby.HobbyFragment
-import com.uldskull.rolegameassistant.fragments.fragment.ideals.IdealsFragment
-import com.uldskull.rolegameassistant.fragments.fragment.occupation.OccupationFragment
-import com.uldskull.rolegameassistant.fragments.fragment.occupations.OccupationsFragment
+import com.uldskull.rolegameassistant.fragments.fragment.ideals.ideal_toCheck.IdealsFragment
 
 /**
  *   Class "FragmentAdapter" :

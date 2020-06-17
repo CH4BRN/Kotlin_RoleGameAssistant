@@ -164,7 +164,7 @@ class CharacterActivity :
         if (character != null) {
 
             newCharacterViewModel.selectedCharacter.value = character
-            newCharacterViewModel.currentCharacter.value = character
+            newCharacterViewModel.currentCharacter = character
             newCharacterViewModel.characterName.value = character?.characterName
             newCharacterViewModel.characterAge.value = character?.characterAge
             newCharacterViewModel.characterGender.value = character?.characterGender
@@ -205,81 +205,102 @@ class CharacterActivity :
                 occupationSkillsViewModel.checkedOccupationSkills.value = occupationSkills
             }
 
-
+            //  Get character selected hobbies skills
             var hobbiesSkillsIds = character?.characterSelectedHobbiesSkill
-            var list = skillsViewModel?.hobbiesSkills?.value?.toMutableList()
-            Log.d("DEBUG$TAG", "List : ${list?.size}")
+            //  Get character hobbies skill to check
+            var characterHobbiesSkillToCheck: MutableList<DomainSkillToCheck?>? =
+                getCharacterHobbiesSkillToCheck(hobbiesSkillsIds)
+            //  Set character hobbies skills to check
+            skillsViewModel?.hobbiesSkills?.value = characterHobbiesSkillToCheck
 
-            list?.forEach { skill ->
-                kotlin.run {
-                    hobbiesSkillsIds?.forEach { id ->
-                        run {
-                            if (skill != null && id != null) {
-                                skill.skillIsChecked = true
-
-                                Log.d("DEBUG$TAG", "Skill :${skill?.skillName} is checked : ${skill?.skillIsChecked}")
-                                var index = list.indexOfFirst { s ->s?.skillId == skill.skillId }
-                                list.set(index,skill)
-                            }
-                        }
-                    }
-                }
-            }
-
-            var checkeds = list?.count{ s -> s?.skillIsChecked!!}
-            Log.d("DEBUG$TAG","Checkeds : $checkeds")
-            skillsViewModel?.hobbiesSkills?.value = list
-
-
-            Log.d("DEBUG$TAG", "hobbiesSkillsIds : $occupationSkillsIds")
+            Log.d("DEBUG$TAG", "hobbiesSkillsIds : $hobbiesSkillsIds")
             hobbiesViewModel?.selectedCharacterSkills?.value = hobbiesSkillsIds
             observeHobbiesSkills()
             observeSkillsForHobbies()
 
             //  Hobby
-            var hobbySkills: List<DomainSkillToFill>? =
-                newCharacterViewModel?.getCharacterSkills(character?.characterId, 1)
-
-
-
-
-
-
-            Log.d("DEBUG$TAG", "Character hobby skills from activity : $hobbySkills")
-
-            if (hobbySkillsViewModel.checkedHobbySkills.value == null) {
-                hobbySkillsViewModel.checkedHobbySkills.value = hobbySkills
+            val characterId: Long? = if (character?.characterId != null) {
+                character?.characterId
+            } else {
+                null
             }
 
-            if (skillsViewModel.hobbySkills.value == null) {
-                skillsViewModel.hobbySkills.value = hobbySkills
+            if (characterId != null) {
+                Log.d("DEBUG$TAG", "Character ID : $characterId")
+                var hobbySkills: List<DomainSkillToFill>? =
+                    getCharacterHobbySkills(characterId)
+                skillsViewModel?.characterHobbySkills = hobbySkills
+
+                var occupationSkills: List<DomainSkillToFill>? =
+                    getCharacterOccupationSkills(characterId)
+                skillsViewModel?.characterOccupationSkills = occupationSkills
             }
-
-
         }
-
     }
 
-    private fun observeSkillsForHobbies(){
+    private fun getCharacterHobbiesSkillToCheck(hobbiesSkillsIds: MutableList<Long?>?): MutableList<DomainSkillToCheck?>? {
+        var list: MutableList<DomainSkillToCheck?>? =
+            skillsViewModel?.hobbiesSkills?.value?.toMutableList()
+        Log.d("DEBUG$TAG", "List : ${list?.size}")
+
+        list?.forEach { skill ->
+            kotlin.run {
+                hobbiesSkillsIds?.forEach { id ->
+                    run {
+                        if (skill != null && id != null) {
+                            skill.skillIsChecked = true
+
+                            Log.d(
+                                "DEBUG$TAG",
+                                "Skill :${skill?.skillName} is checked : ${skill?.skillIsChecked}"
+                            )
+                            var index = list.indexOfFirst { s -> s?.skillId == skill.skillId }
+                            list[index] = skill
+                        }
+                    }
+                }
+            }
+        }
+        return list
+    }
+
+    private fun getCharacterOccupationSkills(
+        characterId: Long?
+    ): List<DomainSkillToFill>? {
+        var occupationSkills: List<DomainSkillToFill>? =
+            newCharacterViewModel?.getCharacterSkills(characterId, 0)
+        Log.d("DEBUG$TAG", "occupationSkills count : ${occupationSkills?.count()}")
+        occupationSkills?.forEach {
+            Log.d(
+                "DEBUG$TAG",
+                "occupationSkills value : ${it.skillName}  is ${it.filledSkillTensValue}${it.filledSkillUnitsValue}"
+            )
+        }
+        return occupationSkills
+    }
+
+    private fun getCharacterHobbySkills(characterId: Long?): List<DomainSkillToFill>? {
+        return newCharacterViewModel?.getCharacterSkills(characterId, 1)
+    }
+
+    private fun observeSkillsForHobbies() {
         skillsViewModel?.hobbiesSkills?.observe(this, Observer {
             var list = it?.toMutableList()
-            Log.d("DEBUG$TAG", "observedHobbiesSkills : ${list?.size}")
             var selected = hobbiesViewModel?.selectedCharacterSkills?.value
-            Log.d("DEBUG$TAG", "selectedCharacterSkills : ${selected?.size}")
 
             list?.forEach { skill ->
                 selected?.forEach { id ->
-                    if(skill?.skillId == id){
-                        if(!skill?.skillIsChecked!!){
+                    if (skill?.skillId == id) {
+                        if (!skill?.skillIsChecked!!) {
                             skill?.skillIsChecked = true
                             var index = list?.indexOfFirst { s -> s?.skillId == id }
-                            list.set(index, skill)
+                            list[index] = skill
                         }
                     }
                 }
             }
 
-            if(skillsViewModel?.hobbiesSkills?.value.toString() != list.toString()){
+            if (skillsViewModel?.hobbiesSkills?.value.toString() != list.toString()) {
                 skillsViewModel?.hobbiesSkills.value = list
             }
 
@@ -290,7 +311,6 @@ class CharacterActivity :
     private fun observeHobbiesSkills() {
         hobbiesViewModel?.observedHobbiesSkills?.observe(this, Observer {
             var list = it.toMutableList()
-            Log.d("DEBUG$TAG", "observedHobbiesSkills : ${list.size}")
             var selected = hobbiesViewModel?.selectedCharacterSkills?.value
             list.forEach { skill ->
                 selected?.forEach { selectedId ->
@@ -311,19 +331,12 @@ class CharacterActivity :
         occupationsViewModel?.observedOccupationsSkills?.observe(this, Observer {
             var list = it.toMutableList()
             var selected: List<Long?>? = occupationsViewModel?.selectedCharacterSkills?.value
-
-
-            Log.d("DEBUG$TAG", "observedOccupationsSkills : ${list}")
             list.forEach { skill ->
                 selected?.forEach { selectedId ->
                     kotlin.run {
                         if (skill.skillId == selectedId) {
                             var index = list.indexOfFirst { s -> s.skillId == skill.skillId }
                             skill.skillIsChecked = true
-                            Log.d(
-                                "DEBUG$TAG",
-                                "Skill : ${skill?.skillName} is checked ${skill?.skillIsChecked}"
-                            )
                             list[index] = skill
                         }
                     }
@@ -339,17 +352,10 @@ class CharacterActivity :
         displayedBreedsViewModel?.observedRepositoryBreeds?.observe(
             this,
             Observer { repositoryBreeds ->
-                Log.d("DEBUG$TAG", "repositoryBreeds size = ${repositoryBreeds?.size}")
-
                 repositoryBreeds?.forEach { breed ->
                     if (characterBreeds?.any { b -> b?.breedId == breed.breedId }) {
-                        Log.d("DEBUG$TAG", "Corresponding")
                         breed.breedChecked = true
                     }
-                    Log.d(
-                        "DEBUG$TAG",
-                        "Breed ${breed.breedName} is checked : ${breed.breedChecked}"
-                    )
                     breedsToLoad?.add(breed)
                 }
                 displayedBreedsViewModel?.observedMutableBreeds?.value = breedsToLoad.toList()
@@ -359,14 +365,6 @@ class CharacterActivity :
 
     private fun initializeSelectedOccupation(occupation: DomainOccupation?) {
         if (occupation != null) {
-            var displayedIndex =
-                occupationsViewModel?.displayedOccupations?.value?.indexOfFirst { o -> o == occupation?.occupationName }
-            Log.d("DEBUG$TAG", "displayedIndex : $displayedIndex")
-
-            var observedIndex =
-                occupationsViewModel?.repositoryOccupations?.value?.indexOfFirst { o -> o.occupationId == occupation?.occupationId }
-            Log.d("DEBUG$TAG", "observedIndex : $observedIndex")
-
             occupationsViewModel.selectedOccupation?.value = occupation
         }
     }
@@ -519,71 +517,77 @@ class CharacterActivity :
      */
     override fun addEndFragments() {
         Log.d("DEBUG$TAG", "Add end fragments")
+        if(fragmentAdapter?.itemCount != 10){
+            fragmentAdapter?.fragmentList?.add(
+                DerivedValues1Fragment.newInstance(
+                    this
+                )
+            )
 
-        fragmentAdapter?.fragmentList?.add(
-            DerivedValues1Fragment.newInstance(
-                this
+            fragmentAdapter?.fragmentList?.add(
+                DerivedValues2Fragment.newInstance(
+                    this
+                )
             )
-        )
+            fragmentAdapter?.fragmentList?.add(
+                OccupationsFragment.newInstance(
+                    this
+                )
+            )
+            fragmentAdapter?.fragmentList?.add(
+                OccupationFragment.newInstance(
+                    this
+                )
+            )
+            fragmentAdapter?.fragmentList?.add(
+                HobbiesFragment.newInstance(
+                    this
+                )
+            )
+            fragmentAdapter?.fragmentList?.add(
+                HobbyFragment.newInstance(
+                    this
+                )
+            )
+        }
 
-        fragmentAdapter?.fragmentList?.add(
-            DerivedValues2Fragment.newInstance(
-                this
-            )
-        )
-        fragmentAdapter?.fragmentList?.add(
-            OccupationsFragment.newInstance(
-                this
-            )
-        )
-        fragmentAdapter?.fragmentList?.add(
-            OccupationFragment.newInstance(
-                this
-            )
-        )
-        fragmentAdapter?.fragmentList?.add(
-            HobbiesFragment.newInstance(
-                this
-            )
-        )
-        fragmentAdapter?.fragmentList?.add(
-            HobbyFragment.newInstance(
-                this
-            )
-        )
+
     }
 
     override fun addEndFragmentsAndUpdateAdapter() {
-        fragmentAdapter?.fragmentList?.add(
-            DerivedValues1Fragment.newInstance(
-                this
+        if(fragmentAdapter?.itemCount != 10){
+            fragmentAdapter?.fragmentList?.add(
+                DerivedValues1Fragment.newInstance(
+                    this
+                )
             )
-        )
 
-        fragmentAdapter?.fragmentList?.add(
-            DerivedValues2Fragment.newInstance(
-                this
+            fragmentAdapter?.fragmentList?.add(
+                DerivedValues2Fragment.newInstance(
+                    this
+                )
             )
-        )
-        fragmentAdapter?.fragmentList?.add(
-            OccupationsFragment.newInstance(
-                this
+            fragmentAdapter?.fragmentList?.add(
+                OccupationsFragment.newInstance(
+                    this
+                )
             )
-        )
-        fragmentAdapter?.fragmentList?.add(
-            OccupationFragment.newInstance(
-                this
+            fragmentAdapter?.fragmentList?.add(
+                OccupationFragment.newInstance(
+                    this
+                )
             )
-        )
-        fragmentAdapter?.fragmentList?.add(
-            HobbiesFragment.newInstance(
-                this
+            fragmentAdapter?.fragmentList?.add(
+                HobbiesFragment.newInstance(
+                    this
+                )
             )
-        )
-        fragmentAdapter?.fragmentList?.add(
-            HobbyFragment.newInstance(
-                this
+            fragmentAdapter?.fragmentList?.add(
+                HobbyFragment.newInstance(
+                    this
+                )
             )
-        )
+        }
+
     }
 }

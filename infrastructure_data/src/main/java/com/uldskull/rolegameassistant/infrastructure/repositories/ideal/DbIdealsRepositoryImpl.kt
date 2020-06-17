@@ -120,6 +120,12 @@ class DbIdealsRepositoryImpl(
     /**  Update one entity  **/
     override fun updateOne(one: DomainIdeal?): Int? {
         Log.d(TAG, "updateOne")
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        try {
+            return dbIdealDao.updateIdeal(DbIdeal.from(one))
+        } catch (e: Exception) {
+            Log.e(TAG, "updateOne FAILED")
+            e.printStackTrace()
+            throw e
+        }
     }
 }

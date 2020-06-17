@@ -15,11 +15,8 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
-import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
-import com.uldskull.rolegameassistant.fragments.fragment.CustomTextWatcher
+import com.uldskull.rolegameassistant.fragments.fragment.*
 import com.uldskull.rolegameassistant.fragments.fragment.EditTextUtil.Companion.editTextEnabling
-import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.DERIVED_VALUES_2_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.models.character.DomainIdeal
 import com.uldskull.rolegameassistant.models.character.characteristic.CharacteristicsName
@@ -189,7 +186,6 @@ class DerivedValues2Fragment : CustomFragment() {
     }
 
 
-
     private fun setAlignmentPointsTextChangedListener() {
         if (et_alignmentPoints != null) {
             et_alignmentPoints.addTextChangedListener(alignmentPointsTextWatcher())
@@ -224,9 +220,7 @@ class DerivedValues2Fragment : CustomFragment() {
     }
 
     private fun setDamageBonusSpinnerSelectionChangedListener() {
-        spinner_damageBonus.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
+        spinner_damageBonus.onItemSelectedListener = object : CustomOnItemSelectedListener() {
 
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -328,8 +322,6 @@ class DerivedValues2Fragment : CustomFragment() {
 
         }
     }
-
-
 
 
     private fun setAlignmentPicture(score: Int) {

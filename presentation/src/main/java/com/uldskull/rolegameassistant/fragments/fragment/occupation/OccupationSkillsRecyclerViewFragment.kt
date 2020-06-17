@@ -174,6 +174,9 @@ class OccupationSkillsRecyclerViewFragment :
      */
     override fun itemPressed(domainModel: DomainSkillToFill?, position: Int?) {
         Log.d("DEBUG", "item pressed for $domainModel \n\tat position $position")
+
+
+
         pointsToSpendViewModel.observableCurrentOccupationSkillPosition.value = position
         occupationSkillsViewModel.currentOccupationSkill.value = domainModel
 

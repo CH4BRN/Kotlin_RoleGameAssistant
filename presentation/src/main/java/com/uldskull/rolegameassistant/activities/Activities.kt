@@ -4,9 +4,10 @@
 
 package com.uldskull.rolegameassistant.activities
 
+import com.uldskull.rolegameassistant.activities.editIdeal.EditIdealsActivity
 import com.uldskull.rolegameassistant.activities.newCharacter.CharacterActivity
 
-val NEW_IDEAL_ACTIVITY = NewIdealActivity::class.java
+val NEW_IDEAL_ACTIVITY = EditIdealsActivity::class.java
 val NEW_BREED_ACTIVITY = NewBreedActivity::class.java
 val CHARACTER_SEARCH_ACTIVTY = CharacterSearchActivity::class.java
 val MAIN_ACTIVITY = MainActivity::class.java

@@ -15,4 +15,10 @@ interface FilledOccupationSkillRepository<T> :
 
     fun deleteAllByCharacterId(id:Long):Int
 
+    fun findTheSame(skill:DomainSkillToFill):DomainSkillToFill?
+
+    fun updateTensValues(skill:DomainSkillToFill, tensValues:Int):Int
+
+    fun updateUnitsValues(skill: DomainSkillToFill, unitsValues:Int):Int
+
 }

@@ -20,6 +20,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragm
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
 import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
+import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.hobbies.HobbySkillsViewModel
 import com.uldskull.rolegameassistant.viewmodels.SkillsViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -34,6 +35,7 @@ class HobbySkillsRecyclerViewFragment :
 
     private val hobbySkillViewModel: HobbySkillsViewModel by sharedViewModel()
 
+    private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
 
     private var hobbySkillRecyclerView: RecyclerView? = null
 
@@ -58,48 +60,115 @@ class HobbySkillsRecyclerViewFragment :
      * Start ViewModel's collection observation.
      */
     override fun startObservation() {
-        this.skillsViewModel.hobbySkills.observe(this, Observer { skills ->
+
+
+        this.skillsViewModel.hobbySkills.observe(this, Observer { skills: List<DomainSkillToFill> ->
             kotlin.run {
-                skills?.let { hobbySkillAdapter?.setHobbySkills(it) }
+                Log.d("DEBUG$TAG", "hobbySkills : ${skills.size}")
 
+                var newList = mutableListOf<DomainSkillToFill>()
 
-            }
-        })
-
-        this.skillsViewModel.hobbiesSkills.observe(this, Observer { skills: List<DomainSkillToCheck?> ->
-            kotlin.run {
-                var checked = skills?.filter { s -> s?.skillIsChecked!! }
-                Log.d("DEBUG$TAG", "Checked skill : $checked")
-
-                checked?.forEach {
-                    Log.d("DEBUG$TAG", "Skill ${it?.skillName} base : ${it?.skillBase}")
+                skills?.forEach {
+                    var skill =
+                        hobbySkillViewModel?.checkedHobbySkills?.value?.find { s -> s.skillId == it.skillId }
+                    if (skill != null) {
+                        Log.d("DEBUG$TAG", "Skill null Add : $skill")
+                        newList?.add(skill)
+                    } else {
+                        Log.d("DEBUG$TAG", "Skill not null Add : $it")
+                        newList?.add(it)
+                    }
                 }
 
-                var toFill = checked?.map { s -> DomainSkillToFill(
-                    filledSkillCharacterId = null,
-                    filledSkillUnitsValue = 0,
-                    filledSkillTotal = 0,
-                    filledSkillTensValue = 0,
-                    filledSkillName = s?.skillName,
-                    filledSkillMax = s?.skillMax,
-                    filledSkillBase = s?.skillBase,
-                    filledSkillId = s?.skillId,
-                    filledSkillType = 1
-                ) }
+                if (newList.toString() != skillsViewModel.hobbySkills.value.toString()) {
+                    Log.d("DEBUG$TAG", "Different list")
+                    skillsViewModel.hobbySkills.value = newList
+                } else {
+                    Log.d("DEBUG$TAG", "Same list")
+                }
 
-                skillsViewModel?.hobbySkills?.value = toFill
+                skills?.let { hobbySkillAdapter?.setHobbySkills(skills) }
             }
         })
+
+        this.skillsViewModel.hobbiesSkills.observe(
+            this,
+            Observer { skills: List<DomainSkillToCheck?> ->
+                kotlin.run {
+                    var newList: MutableList<DomainSkillToFill> = mutableListOf()
+                    //  Get the checked skills
+                    var hobbiesChecked = skills?.filter { s -> s?.skillIsChecked!! }
+
+                    hobbiesChecked?.forEach {
+                        Log.d("DEBUG$TAG", "hobbiesChecked : ${it?.skillName}")
+                    }
+                    //  Map the checked skills
+                    var hobbyChecked: List<DomainSkillToFill> =
+                        mapSkillToCheckToSkillToFill(hobbiesChecked)
+                    hobbyChecked?.forEach {
+                        Log.d(
+                            "DEBUG$TAG",
+                            "hobbyChecked : ${it.skillName} - ${it.filledSkillTensValue}${it.filledSkillUnitsValue}"
+                        )
+                    }
+                    // Gets character skills
+                    var characterSkills: List<DomainSkillToFill>? = null
+                    if (skillsViewModel?.characterHobbySkills != null) characterSkills =
+                        skillsViewModel?.characterHobbySkills
+
+                    if (characterSkills == null) {
+                        // If there is not character skills, the new list is the previously checked skills
+                        newList = hobbyChecked.toMutableList()
+                    } else {
+                        //  else foreach checked
+                        hobbyChecked?.forEach { checkedSkill: DomainSkillToFill ->
+                            kotlin.run {
+                                var found: DomainSkillToFill?
+                                found = characterSkills?.find { characterSkill ->
+                                    ((characterSkill?.skillName == checkedSkill?.skillName) && (characterSkill.skillDescription == checkedSkill?.skillDescription))
+                                }
+
+                                if (found == null) {
+                                    newList?.add(checkedSkill)
+                                } else {
+                                    newList?.add(found)
+                                }
+                            }
+
+                        }
+                    }
+                    Log.d("DEBUG$TAG", "newList skills : ${newList}")
+                    skillsViewModel?.hobbySkills.value = newList
+                }
+            })
+    }
+
+    private fun mapSkillToCheckToSkillToFill(hobbiesChecked: List<DomainSkillToCheck?>): List<DomainSkillToFill> {
+        var hobbyChecked: List<DomainSkillToFill> =
+            hobbiesChecked?.map { hobbiesSkill: DomainSkillToCheck? ->
+                DomainSkillToFill(
+                    filledSkillType = 1,
+                    filledSkillTensValue = 0,
+                    filledSkillName = hobbiesSkill?.skillName,
+                    filledSkillMax = hobbiesSkill?.skillMax,
+                    filledSkillBase = hobbiesSkill?.skillBase,
+                    filledSkillTotal = 0,
+                    filledSkillUnitsValue = 0,
+                    filledSkillId = null,
+                    filledSkillCharacterId = newCharacterViewModel.currentCharacter?.characterId
+                )
+            }
+        return hobbyChecked
     }
 
     /**
      * Set the recycler view adapter.
      */
     override fun setRecyclerViewAdapter() {
-        if(activity != null){
+        if (activity != null) {
             hobbySkillAdapter =
                 HobbySkillAdapter(
-                    context =  activity as Context,
+                    context = activity as Context,
                     hobbySkillsRecyclerViewFragment_buttonListener = this
                 )
             hobbySkillRecyclerView?.adapter = hobbySkillAdapter
@@ -130,6 +199,7 @@ class HobbySkillsRecyclerViewFragment :
 
     companion object : CustomCompanion() {
         private const val TAG = "HobbySkillsRecyclerViewFragment"
+
         @JvmStatic
         override fun newInstance(
             activity: Activity

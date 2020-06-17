@@ -33,6 +33,9 @@ class SkillsViewModel(
         Log.d("$TAG", "Init")
         refreshDataFromRepository()
     }
+
+    var characterOccupationSkills: List<DomainSkillToFill>? = mutableListOf()
+    var characterHobbySkills: List<DomainSkillToFill>? = mutableListOf()
     var repositorySkillsToCheck = skillToCheckRepository?.getAll()
 
 

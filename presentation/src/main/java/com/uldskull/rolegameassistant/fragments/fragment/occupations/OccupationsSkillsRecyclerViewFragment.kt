@@ -67,7 +67,7 @@ class OccupationsSkillsRecyclerViewFragment :
 
     private fun initializeOccupationsSkillsAdapter() {
         if (activity != null) {
-            occupationsSkillsAdapter=  OccupationsSkillsAdapter(
+            occupationsSkillsAdapter = OccupationsSkillsAdapter(
                 activity!! as Context,
                 this
             )
@@ -87,9 +87,6 @@ class OccupationsSkillsRecyclerViewFragment :
         observeSelectedOccupation()
         observeOccupationsSkills()
     }
-
-
-
 
 
     private fun observeSelectedOccupation() {
@@ -123,13 +120,18 @@ class OccupationsSkillsRecyclerViewFragment :
 
         occupationsViewModel.observedOccupationsSkills?.observe(
             this, Observer { domainOccupationsSkills: List<DomainSkillToCheck?> ->
+
+                Log.d(
+                    "DEBUG$TAG",
+                    "Skills checked : ${domainOccupationsSkills?.count { s -> s?.skillIsChecked!! }}"
+                )
+
                 kotlin.run {
 
                     occupationsSkillsAdapter?.setOccupationsSkills(domainOccupationsSkills)
 
 
-                    var character = newCharacterViewModel?.currentCharacter?.value
-                    Log.d("DEBUG$TAG", "Character ${character?.characterName}")
+                    var character = newCharacterViewModel?.currentCharacter
 
                     var checkedSkills = mutableListOf<DomainSkillToCheck>()
                     domainOccupationsSkills?.forEach { s ->
@@ -145,7 +147,7 @@ class OccupationsSkillsRecyclerViewFragment :
                         character?.characterSelectedOccupationSkill =
                             checkedSkills?.map { s -> s.skillId }.toMutableList()
                     }
-                    newCharacterViewModel?.currentCharacter?.value = character
+                    newCharacterViewModel?.currentCharacter = character
 
                     occupationsSkillsRecyclerView?.adapter = occupationsSkillsAdapter
 
@@ -202,14 +204,15 @@ class OccupationsSkillsRecyclerViewFragment :
     override fun itemPressed(domainModel: DomainSkillToCheck?, position: Int?) {
         Log.d(TAG, "itemPressed")
         if (domainModel != null) {
+
+            if (domainModel?.skillIsChecked == null) {
+                domainModel?.skillIsChecked = false
+            } else domainModel?.skillIsChecked = !domainModel?.skillIsChecked!!
+
             var temp = occupationsViewModel.observedOccupationsSkills?.value?.toMutableList()
-            Log.d(TAG, "skills size : ${temp?.size}")
             var index = temp?.indexOfFirst { s -> s.skillId == domainModel.skillId }
             if (index != null) {
-                temp?.removeAt(index)
-
-                Log.d(TAG, "skills size : ${temp?.size}")
-                temp?.add(index, domainModel)
+                temp?.set(index, domainModel)
             }
             occupationsViewModel.observedOccupationsSkills?.value = temp
         }

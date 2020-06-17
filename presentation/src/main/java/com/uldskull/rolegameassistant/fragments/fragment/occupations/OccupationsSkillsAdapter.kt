@@ -44,16 +44,11 @@ class OccupationsSkillsAdapter internal constructor(
             Log.d("DEBUG$TAG", "Skill : $skill")
             tvOccupationsSkillName?.text = skill?.skillName
             tvOccupationsSkillDescription?.text = skill?.skillDescription
+            cbOccupationsSkillIsChecked?.isChecked = skill?.skillIsChecked!!
             vOccupationsSkillOverlay?.setOnClickListener {
                 Log.d("DEBUG$TAG", "Overlay")
-                var isChecked = skill?.skillIsChecked
-                if (isChecked != null) {
-                    skill?.skillIsChecked = !isChecked
-                }
-                cbOccupationsSkillIsChecked?.isChecked = skill?.skillIsChecked!!
                 buttonListener.itemPressed(skill)
             }
-            cbOccupationsSkillIsChecked?.isChecked = skill?.skillIsChecked!!
 
         }
     }

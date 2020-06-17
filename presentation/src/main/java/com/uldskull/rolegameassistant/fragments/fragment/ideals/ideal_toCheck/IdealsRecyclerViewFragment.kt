@@ -1,7 +1,7 @@
 // File IdealsRecyclerViewFragment.kt
 // @Author pierre.antoine - 03/03/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.fragments.fragment.ideals
+package com.uldskull.rolegameassistant.fragments.fragment.ideals.ideal_toCheck
 
 import android.app.Activity
 import android.content.Context
@@ -39,7 +39,7 @@ class IdealsRecyclerViewFragment :
     private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
 
     /** Adapter for ideals recycler view    **/
-    private var idealsAdapter: IdealsAdapter? = null
+    private var idealsAdapter: IdealsToCheckAdapter? = null
 
     /** Recycler view for ideals   **/
     private var idealsRecyclerView: RecyclerView? = null
@@ -174,7 +174,7 @@ class IdealsRecyclerViewFragment :
 
                     if (test) {
                         if (characterIdeals != null && !characterIdeals.isNullOrEmpty()) {
-                            var count: Int? = characterIdeals.count { i -> i?.isChecked!! }
+                            var count: Int? = characterIdeals?.count { i -> i?.isChecked!! }
                             Log.d("DEBUG$TAG", "characterIdeals count : $count")
 
                             idealsViewModel.mutableIdeals?.value = domainCharacter.characterIdeals
@@ -194,7 +194,11 @@ class IdealsRecyclerViewFragment :
     override fun setRecyclerViewAdapter() {
         Log.d(TAG, "setRecyclerViewAdapter")
         if (activity != null) {
-            idealsAdapter = IdealsAdapter(activity as Context, this)
+            idealsAdapter =
+                IdealsToCheckAdapter(
+                    activity as Context,
+                    this
+                )
             idealsRecyclerView?.adapter = idealsAdapter
         }
     }
@@ -206,7 +210,8 @@ class IdealsRecyclerViewFragment :
         @JvmStatic
         override fun newInstance(activity: Activity): IdealsRecyclerViewFragment {
             Log.d(TAG, "newInstance")
-            val fragment = IdealsRecyclerViewFragment()
+            val fragment =
+                IdealsRecyclerViewFragment()
             fragment.activity = activity
             val args = Bundle()
 
@@ -236,7 +241,7 @@ class IdealsRecyclerViewFragment :
 
             Log.d("DEBUG$TAG", "Checked Count = $count")
             idealsViewModel.mutableIdeals?.value = ideals
-            newCharacterViewModel.currentCharacter?.value?.characterIdeals = ideals
+            newCharacterViewModel.currentCharacter?.characterIdeals = ideals
 
         }
     }

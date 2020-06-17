@@ -31,6 +31,17 @@ abstract class DbFilledOccupationSkillDao : GenericDao<DbFilledSkill> {
 
     @Query("SELECT * FROM $TABLE_NAME_FILLED_OCCUPATION_SKILL $WHERE $FIELD_FILLED_OCCUPATION_SKILL_ID $LIKE :id")
     abstract fun getOneById(id: Long?): DbFilledSkill
+
+    @Query("SELECT * FROM $TABLE_NAME_FILLED_OCCUPATION_SKILL $WHERE $FIELD_FILLED_OCCUPATION_SKILL_CHARACTER_ID $LIKE :id")
+    abstract fun getAllByCharacterId(id:Long?):List<DbFilledSkill>
+
+    @Query("UPDATE $TABLE_NAME_FILLED_OCCUPATION_SKILL SET filledSkillTensValue = :tens WHERE filledSkillId = :id ")
+    abstract fun updateTensValues(id:Long, tens:Int):Int
+
+    @Query("UPDATE $TABLE_NAME_FILLED_OCCUPATION_SKILL SET filledSkillTensValue = :units WHERE filledSkillId = :id ")
+    abstract fun updateUnitsValues(id:Long, units:Int):Int
+
+
     //  DELETE
     @Query("$DELETE_FROM $TABLE_NAME_FILLED_OCCUPATION_SKILL $WHERE $FIELD_FILLED_OCCUPATION_SKILL_CHARACTER_ID $LIKE :id")
     abstract fun deleteAllByCharacterId(id: Long): Int

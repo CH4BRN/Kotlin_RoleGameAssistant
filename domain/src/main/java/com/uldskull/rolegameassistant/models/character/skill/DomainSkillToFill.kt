@@ -25,7 +25,28 @@ class DomainSkillToFill(
 ) {
     var skillIsSelected: Boolean = false
     override fun toString(): String {
-        return "DomainFilledSkill(filledSkillBase=$filledSkillBase, filledSkillTensValue=$filledSkillTensValue, filledSkillUnitsValue=$filledSkillUnitsValue, filledSkillTotal=$filledSkillTotal, filledSkillMax=$filledSkillMax, filledSkillCharacterId=$filledSkillCharacterId, skillIsSelected=$skillIsSelected)"
+        return "DomainSkillToFill(filledSkillName:${this.skillName}filledSkillBase=$filledSkillBase, filledSkillTensValue=$filledSkillTensValue, filledSkillUnitsValue=$filledSkillUnitsValue, filledSkillTotal=$filledSkillTotal, filledSkillMax=$filledSkillMax, filledSkillCharacterId=$filledSkillCharacterId, filledSkillType=$filledSkillType, skillIsSelected=$skillIsSelected)"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as DomainSkillToFill
+
+        if (filledSkillBase != other.filledSkillBase) return false
+        if (filledSkillMax != other.filledSkillMax) return false
+        if (filledSkillCharacterId != other.filledSkillCharacterId) return false
+        if (filledSkillType != other.filledSkillType) return false
+        if (skillIsSelected != other.skillIsSelected) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = filledSkillCharacterId?.hashCode() ?: 0
+        result = 31 * result + (filledSkillType?.hashCode() ?: 0)
+        return result
     }
 
 }

@@ -136,7 +136,7 @@ class NewCharacterViewModel(
      * Get character skills by type and by id
      * id thend type
      */
-    fun getCharacterSkills( id: Long?, type: Long): List<DomainSkillToFill>? {
+    fun getCharacterSkills(id: Long?, type: Long): List<DomainSkillToFill>? {
         var characterWithSkills: DomainCharacterWithSkills? =
             characterRepository.findOneWithOccupationSkills(id)
         return characterWithSkills?.skills?.filter { s -> s.filledSkillType == type }
@@ -145,11 +145,11 @@ class NewCharacterViewModel(
     /**
      * Represents the selected character.
      */
-    var currentCharacter = MutableLiveData<DomainCharacter>()
+    var currentCharacter:DomainCharacter? = null
 
     init {
-        if (currentCharacter.value == null) {
-            currentCharacter.value = emptyCharacter()
+        if (currentCharacter == null) {
+            currentCharacter = emptyCharacter()
         }
     }
 
@@ -179,7 +179,7 @@ class NewCharacterViewModel(
     ): Long? {
 
         if (currentCharacter == null) {
-            currentCharacter.value = emptyCharacter()
+            currentCharacter= emptyCharacter()
         }
 
         setId()
@@ -195,82 +195,119 @@ class NewCharacterViewModel(
         setBonds()
 
         setCharacteristics(characteristics)
-        if (currentCharacter?.value?.characterBreeds == null) {
-            currentCharacter?.value?.characterBreeds = mutableListOf()
+        if (currentCharacter?.characterBreeds == null) {
+            currentCharacter?.characterBreeds = mutableListOf()
         }
 
-        if (currentCharacter?.value?.characterIdeals == null) {
-            currentCharacter?.value?.characterIdeals = mutableListOf()
+        if (currentCharacter?.characterIdeals == null) {
+            currentCharacter?.characterIdeals = mutableListOf()
         }
         if (ideaScore != null) {
-            currentCharacter?.value?.characterIdeaPoints = ideaScore
+            currentCharacter?.characterIdeaPoints = ideaScore
         }
         if (healthScore != null) {
-            currentCharacter?.value?.characterHealthPoints = healthScore
+            currentCharacter?.characterHealthPoints = healthScore
         }
         if (energyScore != null) {
-            currentCharacter?.value?.characterEnergyPoints = energyScore
+            currentCharacter?.characterEnergyPoints = energyScore
         }
         if (sanityScore != null) {
-            currentCharacter?.value?.characterSanity = sanityScore
+            currentCharacter?.characterSanity = sanityScore
         }
         if (luckScore != null) {
-            currentCharacter?.value?.characterLuck = luckScore
+            currentCharacter?.characterLuck = luckScore
         }
         if (knowScore != null) {
-            currentCharacter?.value?.characterKnow = knowScore
+            currentCharacter?.characterKnow = knowScore
         }
         if (baseHealth != null) {
-            currentCharacter?.value?.characterBaseHealthPoints = baseHealth
+            currentCharacter?.characterBaseHealthPoints = baseHealth
         }
         if (breedBonus != null) {
-            currentCharacter?.value?.characterBreedBonus = breedBonus
+            currentCharacter?.characterBreedBonus = breedBonus
         }
         if (skillsIds != null) {
-            currentCharacter?.value?.characterSelectedOccupationSkill = skillsIds.toMutableList()
+            currentCharacter?.characterSelectedOccupationSkill = skillsIds.toMutableList()
         }
         if (characterOccupation != null) {
-            currentCharacter?.value?.characterOccupation = characterOccupation
+            currentCharacter?.characterOccupation = characterOccupation
         }
         if (spentOccupationPoints != null) {
-            currentCharacter?.value?.characterSpentOccupationPoints = spentOccupationPoints
+            currentCharacter?.characterSpentOccupationPoints = spentOccupationPoints
         }
-        try {
-            if (currentCharacter?.value?.characterId == null) {
-                Log.d("DEBUG$TAG", "INSERT")
-                characterId = characterRepository.insertOne(currentCharacter.value)
-                currentCharacter?.value?.characterId = characterId
-                Log.d("DEBUG$TAG", "character $currentCharacter")
-            } else {
-                Log.d("DEBUG$TAG", "UPDATE")
-                Log.d("DEBUG$TAG", "character $currentCharacter ")
-                characterRepository.updateOne(currentCharacter.value)
+
+        var characterId: Long?
+
+        characterId = if (currentCharacter?.characterId == null) {
+            null
+        } else {
+            currentCharacter?.characterId
+        }
+
+        if (characterId == null) {
+            Log.d("DEBUG$TAG", "INSERT")
+            try {
+                characterId = characterRepository.insertOne(currentCharacter)
+                currentCharacter?.characterId = characterId
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                throw e
             }
+        } else {
+            try {
+                characterRepository.updateOne(currentCharacter)
 
-        } catch (e: Exception) {
-            e.printStackTrace()
-            throw e
+            } catch (e: Exception) {
+                e.printStackTrace()
+                throw e
+            }
         }
+        Log.d("DEBUG$TAG", "character $currentCharacter ")
 
         try {
-            if (currentCharacter?.value?.characterId != null) {
-                //  Hobby skills
-                insertHobbySkills(filledHobbySkills)
-
-                //   Occupation skills
-                insertOccupationSkills(filledOccupationSkills)
-
-                var skills = getCharacterWithSkills(characterId)
-                Log.d("DEBUG$TAG", "Skills : ${skills?.skills}")
-
-                var occupationSkills = getCharacterSkills(characterId, 0)
-                occupationSkills?.forEach {
-                    Log.d("DEBUG$TAG", "Occupation skill :${it.skillName?.toUpperCase()}")
+            if (characterId != null) {
+                try {
+                    //  Hobby skills
+                    insertHobbySkills(filledHobbySkills)
+                    //  Get hobby skills
+                    var hobbySkills = getCharacterSkills(characterId, 1)
+                    hobbySkills?.forEach {
+                        Log.d(
+                            "DEBUG$TAG",
+                            "Hobby skill :${it.skillName?.toUpperCase()} - ${it?.filledSkillTensValue}${it?.filledSkillUnitsValue}"
+                        )
+                    }
+                } catch (e: Exception) {
+                    Log.e("ERROR", "Failed to insert hobby skills")
+                    e.printStackTrace()
+                    throw e
                 }
 
-                var hobbySkills = getCharacterSkills(characterId, 1)
-                hobbySkills?.forEach {
-                    Log.d("DEBUG$TAG", "Hobby skill :${it.skillName?.toUpperCase()}")
+                try {
+                    //   Occupation skills
+                    insertOccupationSkills(filledOccupationSkills)
+                    //  Gets occupation skills
+                    var occupationSkills = getCharacterSkills(characterId, 0)
+                    occupationSkills?.forEach {
+                        Log.d(
+                            "DEBUG$TAG",
+                            "Occupation skill :${it.skillName?.toUpperCase()} - ${it?.filledSkillTensValue}${it?.filledSkillUnitsValue}"
+                        )
+                    }
+                } catch (e: Exception) {
+                    Log.e("ERROR", "Failed to insert occupation skills")
+                    e.printStackTrace()
+                    throw e
+                }
+
+                //  Gets all skills
+                var skills = getCharacterWithSkills(characterId)
+                skills?.skills?.forEach {
+                    Log.d(
+                        "DEBUG$TAG",
+                        "Skill : ${it?.skillName?.toUpperCase()}- ${it?.filledSkillTensValue}${it?.filledSkillUnitsValue}"
+                    )
                 }
             }
         } catch (e: Exception) {
@@ -280,88 +317,119 @@ class NewCharacterViewModel(
         }
         Log.d("RESULT", currentCharacter.toString())
         var breeds = getCharacterWithBreeds(characterId)
-
-
-
         // TODO Check saved breeds
-        return currentCharacter?.value?.characterId
+        return currentCharacter?.characterId
     }
 
     private fun insertOccupationSkills(filledOccupationSkills: List<DomainSkillToFill>?) {
-        filledOccupationSkills?.forEach {
+        filledOccupationSkills?.forEach { filledSkill ->
             var newSkill = DomainSkillToFill(
-                filledSkillCharacterId = currentCharacter?.value?.characterId,
-                filledSkillUnitsValue = it.filledSkillUnitsValue,
-                filledSkillTotal = it.filledSkillTotal,
-                filledSkillTensValue = it.filledSkillTensValue,
-                filledSkillName = it.skillName,
-                filledSkillMax = it.filledSkillMax,
-                filledSkillId = it.skillId,
-                filledSkillBase = it.filledSkillBase,
+                filledSkillCharacterId = currentCharacter?.characterId,
+                filledSkillTotal = filledSkill.filledSkillTotal,
+                filledSkillTensValue = filledSkill.filledSkillTensValue,
+                filledSkillUnitsValue = filledSkill.filledSkillUnitsValue,
+                filledSkillName = filledSkill.skillName,
+                filledSkillMax = filledSkill.filledSkillMax,
+                filledSkillId = null,
+                filledSkillBase = filledSkill.filledSkillBase,
                 filledSkillType = 0
             )
-            Log.d("DEBUG$TAG", "OccupationSkill : $newSkill")
-            if (filledOccupationSkillRepository.findOneById(newSkill.skillId) == null) {
-                filledOccupationSkillRepository?.insertOne(newSkill)
-                Log.d(
-                    "DEBUG$TAG",
-                    "Inserted skill ${newSkill.skillName} -  ${newSkill.filledSkillCharacterId}"
-                )
-            } else {
-                var skill = filledOccupationSkillRepository.findOneById(newSkill.skillId)
-                skill?.filledSkillCharacterId = currentCharacter?.value?.characterId
-                skill?.filledSkillTensValue = newSkill?.filledSkillTensValue
-                skill?.filledSkillUnitsValue = newSkill?.filledSkillUnitsValue
+            Log.d(
+                "DEBUG$TAG",
+                "OccupationSkill : ${newSkill.skillName?.toUpperCase()} - ${newSkill.filledSkillTensValue}${newSkill.filledSkillUnitsValue}"
+            )
+            var oldSkill = filledOccupationSkillRepository.findTheSame(newSkill)
 
-                var updated = filledOccupationSkillRepository.updateOne(skill)
+            if (oldSkill == null) {
+                Log.d("DEBUG$TAG", "insertOne".toUpperCase())
+                var id = filledOccupationSkillRepository?.insertOne(newSkill)
+                Log.d("DEBUG$TAG", "Inserted id : $id")
+            } else {
+                Log.d("DEBUG$TAG", "updateOne".toUpperCase())
                 Log.d(
                     "DEBUG$TAG",
-                    "Updated $updated skill : ${skill?.skillName} - ${skill?.filledSkillCharacterId}"
+                    "Old skill : ${oldSkill.skillName?.toUpperCase()} - ${oldSkill.filledSkillTensValue}${oldSkill.filledSkillUnitsValue}"
                 )
+                oldSkill?.filledSkillUnitsValue = newSkill?.filledSkillUnitsValue
+                oldSkill?.filledSkillTensValue = newSkill?.filledSkillTensValue
+                Log.d(
+                    "DEBUG$TAG",
+                    "Old skill : ${oldSkill.skillName?.toUpperCase()} - ${oldSkill.filledSkillTensValue}${oldSkill.filledSkillUnitsValue}"
+                )
+
+                var count = filledOccupationSkillRepository?.updateOne(oldSkill)
+                Log.d("DEBUG$TAG", "$count skills updated.")
             }
         }
     }
 
     private fun insertHobbySkills(filledHobbySkills: List<DomainSkillToFill>?) {
+        Log.d("DEBUG$TAG", "FilledHobbySkills : ${filledHobbySkills?.size}")
         filledHobbySkills?.forEach {
             var newSkill = DomainSkillToFill(
-                filledSkillCharacterId = currentCharacter?.value?.characterId,
-                filledSkillUnitsValue = it.filledSkillUnitsValue,
+                filledSkillCharacterId = currentCharacter?.characterId,
                 filledSkillTotal = it.filledSkillTotal,
                 filledSkillBase = it.filledSkillBase,
                 filledSkillMax = it.filledSkillMax,
                 filledSkillName = it.skillName,
                 filledSkillTensValue = it.filledSkillTensValue,
+                filledSkillUnitsValue = it.filledSkillUnitsValue,
                 filledSkillType = 1
             )
-            Log.d("DEBUG$TAG", "HobbySkill : $newSkill")
-            if (filledOccupationSkillRepository.findOneById(newSkill.skillId) == null) {
-                filledOccupationSkillRepository?.insertOne(newSkill)
-                Log.d(
-                    "DEBUG$TAG",
-                    "Inserted skill ${newSkill.skillName} -  ${newSkill.filledSkillCharacterId}"
-                )
-            } else {
-                var skill = filledOccupationSkillRepository.findOneById(newSkill.skillId)
-                skill?.filledSkillCharacterId = currentCharacter?.value?.characterId
-                skill?.filledSkillTensValue = newSkill?.filledSkillTensValue
-                skill?.filledSkillUnitsValue = newSkill?.filledSkillUnitsValue
+            Log.d(
+                "DEBUG$TAG",
+                "HobbySkill : ${newSkill.skillName?.toUpperCase()} - ${newSkill.filledSkillTensValue}${newSkill.filledSkillUnitsValue}"
+            )
+            var oldSkill = filledOccupationSkillRepository.findTheSame(newSkill)
 
-                var updated = filledOccupationSkillRepository.updateOne(skill)
+            if (oldSkill == null) {
+                Log.d("DEBUG$TAG", "insertOne".toUpperCase())
+                var id = filledOccupationSkillRepository?.insertOne(newSkill)
+                Log.d("DEBUG$TAG", "Inserted id : $id")
+            } else {
+                Log.d("DEBUG$TAG", "updateOne".toUpperCase())
                 Log.d(
                     "DEBUG$TAG",
-                    "Updated $updated skill : ${skill?.skillName} - ${skill?.filledSkillCharacterId}"
+                    "Old skill : ${oldSkill.skillName?.toUpperCase()} - ${oldSkill.filledSkillTensValue}${oldSkill.filledSkillUnitsValue}"
                 )
+                oldSkill?.filledSkillUnitsValue = newSkill?.filledSkillUnitsValue
+                oldSkill?.filledSkillTensValue = newSkill?.filledSkillTensValue
+                Log.d(
+                    "DEBUG$TAG",
+                    "Old skill : ${oldSkill.skillName?.toUpperCase()} - ${oldSkill.filledSkillTensValue}${oldSkill.filledSkillUnitsValue}"
+                )
+
+                var count = filledOccupationSkillRepository?.updateOne(oldSkill)
+                Log.d("DEBUG$TAG", "$count skills updated.")
             }
+
+
+            /*
+               if (theSame == null) {
+             Log.d("DEBUG$TAG", "insertOne".toUpperCase())
+             var id = filledOccupationSkillRepository?.insertOne(newSkill)
+             Log.d("DEBUG$TAG", "Inserted id : $id")
+         } else {
+             var skill = filledOccupationSkillRepository.findOneById(newSkill.skillId)
+             skill?.filledSkillCharacterId = currentCharacter?.value?.characterId
+             skill?.filledSkillTensValue = newSkill?.filledSkillTensValue
+             skill?.filledSkillUnitsValue = newSkill?.filledSkillUnitsValue
+
+             var updated = filledOccupationSkillRepository.updateOne(skill)
+             Log.d(
+                 "DEBUG$TAG",
+                 "Updated $updated skill : ${skill?.skillName} - ${skill?.filledSkillCharacterId}"
+             )*/
         }
     }
+
 
     /**
      * Set character Id
      */
     private fun setId() {
         if (characterId != null) {
-            currentCharacter?.value?.characterId = characterId
+            currentCharacter?.characterId = characterId
         }
     }
 
@@ -376,21 +444,21 @@ class NewCharacterViewModel(
                     "Char : " + it?.characteristicName + " " + it?.characteristicTotal
                 )
             }
-            currentCharacter?.value?.characterAppearance =
+            currentCharacter?.characterAppearance =
                 characteristics.find { c -> c?.characteristicName == CharacteristicsName.APPEARANCE.characteristicName }
-            currentCharacter?.value?.characterConstitution =
+            currentCharacter?.characterConstitution =
                 characteristics.find { c -> c?.characteristicName == CharacteristicsName.CONSTITUTION.characteristicName }
-            currentCharacter?.value?.characterDexterity =
+            currentCharacter?.characterDexterity =
                 characteristics.find { c -> c?.characteristicName == CharacteristicsName.DEXTERITY.characteristicName }
-            currentCharacter?.value?.characterEducation =
+            currentCharacter?.characterEducation =
                 characteristics.find { c -> c?.characteristicName == CharacteristicsName.EDUCATION.characteristicName }
-            currentCharacter?.value?.characterIntelligence =
+            currentCharacter?.characterIntelligence =
                 characteristics.find { c -> c?.characteristicName == CharacteristicsName.INTELLIGENCE.characteristicName }
-            currentCharacter?.value?.characterPower =
+            currentCharacter?.characterPower =
                 characteristics.find { c -> c?.characteristicName == CharacteristicsName.POWER.characteristicName }
-            currentCharacter?.value?.characterSize =
+            currentCharacter?.characterSize =
                 characteristics.find { c -> c?.characteristicName == CharacteristicsName.SIZE.characteristicName }
-            currentCharacter?.value?.characterStrength =
+            currentCharacter?.characterStrength =
                 characteristics.find { c -> c?.characteristicName == CharacteristicsName.STRENGTH.characteristicName }
         }
     }
@@ -409,7 +477,7 @@ class NewCharacterViewModel(
                     )
                 }
             }
-            currentCharacter.value?.characterBonds = characterBonds
+            currentCharacter?.characterBonds = characterBonds
         }
     }
 
@@ -423,7 +491,7 @@ class NewCharacterViewModel(
                 characterPictureUri?.toString()
 
             )
-            currentCharacter?.value?.characterPictureUri = characterPictureUri.toString()
+            currentCharacter?.characterPictureUri = characterPictureUri.toString()
         }
     }
 
@@ -444,7 +512,7 @@ class NewCharacterViewModel(
     private fun setHeight() {
         if (!characterHeight?.toString().isNullOrEmpty()) {
             Log.d("NewCharacterViewModel _ saveCharacterHeight", characterHeight?.toString())
-            currentCharacter?.value?.characterHeight = characterHeight.value
+            currentCharacter?.characterHeight = characterHeight.value
         }
     }
 
@@ -455,7 +523,7 @@ class NewCharacterViewModel(
     private fun setBiography() {
         if (!characterBiography.value.isNullOrEmpty()) {
             Log.d(TAG, "CharacterBiography $characterBiography")
-            currentCharacter?.value?.characterBiography = characterBiography.value
+            currentCharacter?.characterBiography = characterBiography.value
         }
     }
 
@@ -465,7 +533,7 @@ class NewCharacterViewModel(
     private fun setGender() {
         if (!characterGender.value.isNullOrEmpty()) {
             Log.d(TAG, "CharacterGender $characterGender")
-            currentCharacter?.value?.characterGender = characterGender.value
+            currentCharacter?.characterGender = characterGender.value
         }
     }
 
@@ -475,7 +543,7 @@ class NewCharacterViewModel(
     private fun setAge() {
         if (!characterAge?.toString().isNullOrEmpty()) {
             Log.d(TAG, "CharacterAge ${characterAge?.toString()}")
-            currentCharacter?.value?.characterAge = characterAge.value
+            currentCharacter?.characterAge = characterAge.value
         }
     }
 
@@ -485,7 +553,7 @@ class NewCharacterViewModel(
     private fun setWeight() {
         if (characterWeight.value != null) {
             Log.d("DEBUG$TAG", "Character weight = ${characterWeight.value?.toString()}")
-            currentCharacter?.value?.characterWeight = characterWeight.value
+            currentCharacter?.characterWeight = characterWeight.value
 
         }
     }
@@ -496,7 +564,7 @@ class NewCharacterViewModel(
     private fun setName() {
         if (!characterName.value.isNullOrEmpty()) {
             Log.d(TAG, "Name : $characterName")
-            var character = currentCharacter?.value
+            var character = currentCharacter
             var newCharacter = DomainCharacter(
                 //  Change character name
                 characterName = characterName.value,
@@ -532,7 +600,7 @@ class NewCharacterViewModel(
                 characterBreeds = character?.characterBreeds,
                 characterSelectedHobbiesSkill = character?.characterSelectedHobbiesSkill
             )
-            currentCharacter?.value = newCharacter
+            currentCharacter = newCharacter
         }
     }
 
@@ -588,6 +656,6 @@ class NewCharacterViewModel(
             }
         }
     }
-
-
 }
+
+

@@ -1,19 +1,17 @@
 // File IdealsAdapter.kt
 // @Author pierre.antoine - 03/03/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.fragments.fragment.ideals
+package com.uldskull.rolegameassistant.fragments.fragment.ideals.ideal_toCheck
 
 import android.content.Context
 import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
@@ -25,13 +23,13 @@ import com.uldskull.rolegameassistant.models.character.DomainIdeal
  *   Class "IdealsAdapter" :
  *   Adapter for ideals recycler view
  **/
-class IdealsAdapter internal constructor(
+class IdealsToCheckAdapter internal constructor(
     val context: Context,
     private val buttonListener: AdapterButtonListener<DomainIdeal>
 ) :
-    RecyclerView.Adapter<IdealsAdapter.IdealsViewHolder>() {
+    RecyclerView.Adapter<IdealsToCheckAdapter.IdealsToCheckViewHolder>() {
     companion object {
-        private const val TAG = "IdealsAdapter"
+        private const val TAG = "IdealsToCheckAdapter"
     }
 
     /** Inflater  **/
@@ -42,7 +40,7 @@ class IdealsAdapter internal constructor(
 
 
     /**  Inner class to display  **/
-    inner class IdealsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class IdealsToCheckViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var idealCheckedItemView: CheckBox = itemView.findViewById(R.id.chk_ideal)
         var idealValueItemView: TextView = itemView.findViewById(R.id.tv_ideal)
         var idealNameItemView: TextView = itemView.findViewById(R.id.tv_idealTitle)
@@ -52,11 +50,11 @@ class IdealsAdapter internal constructor(
         var idealOverlay: View = itemView.findViewById(R.id.ideal_overlay)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IdealsViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IdealsToCheckViewHolder {
         Log.d("IdealsAdapter", "onCreateViewHolder")
-        val itemView = layoutInflater.inflate(R.layout.recyclerview_item_ideal, parent, false)
+        val itemView = layoutInflater.inflate(R.layout.recyclerview_item_idealtocheck, parent, false)
 
-        return IdealsViewHolder(itemView)
+        return IdealsToCheckViewHolder(itemView)
     }
 
     /**
@@ -71,7 +69,7 @@ class IdealsAdapter internal constructor(
 
     /**
      * Called by RecyclerView to display the data at the specified position. This method should
-     * update the contents of the [IdealsViewHolder.itemView] to reflect the item at the given
+     * update the contents of the [IdealsToCheckViewHolder.itemView] to reflect the item at the given
      * position.
      *
      *
@@ -80,7 +78,7 @@ class IdealsAdapter internal constructor(
      * invalidated or the new position cannot be determined. For this reason, you should only
      * use the `position` parameter while acquiring the related data item inside
      * this method and should not keep a copy of it. If you need the position of an item later
-     * on (e.g. in a click listener), use [IdealsViewHolder.getAdapterPosition] which will
+     * on (e.g. in a click listener), use [IdealsToCheckViewHolder.getAdapterPosition] which will
      * have the updated adapter position.
      *
      * Override [.onBindViewHolder] instead if Adapter can
@@ -90,7 +88,7 @@ class IdealsAdapter internal constructor(
      * item at the given position in the data set.
      * @param position The position of the item within the adapter's data set.
      */
-    override fun onBindViewHolder(holder: IdealsViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: IdealsToCheckViewHolder, position: Int) {
         val current = ideals[position]
 
         holder.idealValueItemView.maxWidth = 550
@@ -128,7 +126,7 @@ class IdealsAdapter internal constructor(
     private fun setAlignmentIcon(
         idealEvilPoints: Int?,
         idealGoodPoints: Int?,
-        holder: IdealsViewHolder
+        holder: IdealsToCheckViewHolder
     ) {
         if (idealEvilPoints != null && idealGoodPoints != null) {
             if (idealEvilPoints > idealGoodPoints) {

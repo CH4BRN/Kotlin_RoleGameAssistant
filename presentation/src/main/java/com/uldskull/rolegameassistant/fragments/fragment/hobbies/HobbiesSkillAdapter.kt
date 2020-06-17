@@ -66,8 +66,10 @@ class HobbiesSkillAdapter internal constructor(
             vHobbiesSkillOverlay?.setOnClickListener {
                 Log.d("DEBUG$TAG", "Overlay")
                 var isChecked = skill?.skillIsChecked
+                Log.d("DEBUG$TAG", "Overlay : isChecked : $isChecked")
                 if(isChecked != null){
                     skill?.skillIsChecked = !isChecked
+                    Log.d("DEBUG$TAG", "Overlay : skill?.skillIsChecked : ${skill?.skillIsChecked}")
                 }
                 cbHobbiesSkillIsChecked?.isChecked = skill?.skillIsChecked!!
                 buttonListener.itemPressed(skill)

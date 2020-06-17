@@ -57,8 +57,8 @@ class DbFilledHobbySkillRepositoryImpl(
                 filledSkillMax = it.filledSkillMax,
                 filledSkillName = it.filledSkillName,
                 filledSkillTensValue = it.filledSkillTensValue,
-                filledSkillTotal = it.filledSkillTotal,
                 filledSkillUnitsValue = it.filledSkillUnitsValue,
+                filledSkillTotal = it.filledSkillTotal,
                 filledSkillType = it.filledSkillType
             )
         }

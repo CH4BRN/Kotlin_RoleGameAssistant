@@ -31,7 +31,7 @@ class IdealsViewModel(
     }
 
 
-    private fun refreshDataFromRepository() {
+    fun refreshDataFromRepository() {
         viewModelScope.launch {
             Log.d(TAG, "refreshDataFromRepository")
             try {
@@ -46,6 +46,13 @@ class IdealsViewModel(
     }
 
 
+     fun insertIdeal(domainIdeal: DomainIdeal){
+       if(idealsRepositoryImpl?.findOneById(domainIdeal.idealId) == null){
+           idealsRepositoryImpl?.insertOne(domainIdeal)
+       }else{
+           idealsRepositoryImpl?.updateOne(domainIdeal)
+       }
+    }
 
 
 
@@ -56,6 +63,8 @@ class IdealsViewModel(
 
         return repositoryIdeals
     }
+
+    var currentIdealToEdit: DomainIdeal? = null
 
     /** Ideals to display   **/
     var repositoryIdeals = idealsRepositoryImpl.getAll()

@@ -1,6 +1,5 @@
 package com.uldskull.rolegameassistant.infrastructure.database_model.db_character
 
-import androidx.room.Dao
 import androidx.room.Embedded
 import androidx.room.Relation
 import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_CHARACTER_ID

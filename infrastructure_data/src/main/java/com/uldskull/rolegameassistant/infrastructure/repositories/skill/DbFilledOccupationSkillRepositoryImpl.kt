@@ -54,18 +54,34 @@ class DbFilledOccupationSkillRepositoryImpl(
         return result.toDomain()
     }
 
+    override fun findTheSame(skill: DomainSkillToFill): DomainSkillToFill? {
+        Log.d("DEBUG$TAG", "skill?.filledSkillCharacterId :${skill?.filledSkillCharacterId} ")
+        var skills = dbFilledOccupationSkillsDao.getAllByCharacterId(skill?.filledSkillCharacterId)
+        var result = skills.find { s ->
+            ((s.filledSkillName == DbFilledSkill.from(skill).filledSkillName) && (s.filledSkillDescription == DbFilledSkill.from(
+                skill
+            ).filledSkillDescription) && (s.filledSkillType == DbFilledSkill.from(skill).filledSkillType))
+        }
+        Log.d("DEBUG$TAG", "Result : $result")
+        if (result != null) {
+            return result?.toDomain()
+        }
+        return null
+    }
+
     /** Insert a list of entity - it should return long[] or List<Long>.*/
     override fun insertAll(all: List<DomainSkillToFill>?): List<Long>? {
         Log.d(TAG, "insertAll")
         if (all != null && all.isNotEmpty()) {
+            var idList = mutableListOf<Long>()
             try {
-                val result = dbFilledOccupationSkillsDao.insert(all.map { s ->
-                    DbFilledSkill.from(
-                        s
-                    )
-                })
-                Log.d(TAG, "insertAll RESULT = ${result}")
-                return result
+                all.forEach {
+                    idList.add(dbFilledOccupationSkillsDao.insert(DbFilledSkill.from(it)))
+                }
+
+
+                Log.d(TAG, "insertAll RESULT = ${idList}")
+                return idList
             } catch (e: Exception) {
                 e.printStackTrace()
                 throw e
@@ -125,7 +141,6 @@ class DbFilledOccupationSkillRepositoryImpl(
     }
 
 
-
     private fun List<DbFilledSkill>.asDomainModel(): List<DomainSkillToFill> {
         Log.d("DEBUG$TAG", "asDomainModel")
         return map {
@@ -136,8 +151,8 @@ class DbFilledOccupationSkillRepositoryImpl(
                 filledSkillMax = it.filledSkillMax,
                 filledSkillName = it.filledSkillName,
                 filledSkillTensValue = it.filledSkillTensValue,
-                filledSkillTotal = it.filledSkillTotal,
                 filledSkillUnitsValue = it.filledSkillUnitsValue,
+                filledSkillTotal = it.filledSkillTotal,
                 filledSkillType = it.filledSkillType
             )
         }
@@ -153,5 +168,14 @@ class DbFilledOccupationSkillRepositoryImpl(
             throw e
         }
     }
+
+    override fun updateTensValues(skill: DomainSkillToFill, tensValues: Int): Int {
+        return dbFilledOccupationSkillsDao?.updateTensValues(skill?.skillId!!, tensValues)
+    }
+
+    override fun updateUnitsValues(skill: DomainSkillToFill, unitsValues: Int): Int {
+        return dbFilledOccupationSkillsDao?.updateUnitsValues(skill?.skillId!!, unitsValues)
+    }
+
 
 }

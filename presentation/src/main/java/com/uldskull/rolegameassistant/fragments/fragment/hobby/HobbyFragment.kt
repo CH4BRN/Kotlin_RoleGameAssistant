@@ -19,6 +19,7 @@ import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NewSkillActivity
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
+import com.uldskull.rolegameassistant.fragments.fragment.CustomOnItemSelectedListener
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.HOBBY_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
@@ -35,16 +36,18 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 class HobbyFragment : CustomFragment() {
 
     private var tensValue: Int? = null
-    private var unitsValue:Int? = null
+    private var unitsValue: Int? = null
     private var spinnerTensValues: Spinner? = null
-    private var spinnerUnitsValues:Spinner? = null
+    private var spinnerUnitsValues: Spinner? = null
     private val hobbySkillsViewModel: HobbySkillsViewModel by sharedViewModel()
-    private val pointsToSpendViewModel:PointsToSpendViewModel by sharedViewModel()
-    private val skillsViewModel:SkillsViewModel by sharedViewModel()
+    private val pointsToSpendViewModel: PointsToSpendViewModel by sharedViewModel()
+    private val skillsViewModel: SkillsViewModel by sharedViewModel()
+
     /**
      * button that validates the addition of value to a skill
      */
     private var buttonValidateAddValueToSkill: ImageButton? = null
+
     /**
      * Tens value adapter
      */
@@ -54,6 +57,7 @@ class HobbyFragment : CustomFragment() {
      * Units value adapter
      */
     private var unitAdapter: ArrayAdapter<Int>? = null
+
     /**
      * Value list for spinners
      */
@@ -98,28 +102,29 @@ class HobbyFragment : CustomFragment() {
     }
 
     private fun setButtonValidateOnClickListener() {
-        buttonValidateAddValueToSkill?.setOnClickListener{
+        buttonValidateAddValueToSkill?.setOnClickListener {
             //  Get the spent points
             var spentPoints = pointsToSpendViewModel.observableHobbySpentPoints.value
             // Gets the total points to spend
             var pointsToSpend = hobbySkillsViewModel.hobbySkillsTotalPointsToSpend.value
             //Checks if activity is not null
-            if(activity != null){
-                if(spentPoints != null && pointsToSpend != null){
-                    if(spentPoints >= pointsToSpend){
+            if (activity != null) {
+                if (spentPoints != null && pointsToSpend != null) {
+                    if (spentPoints >= pointsToSpend) {
                         val alertDialog = androidx.appcompat.app.AlertDialog.Builder(context!!)
 
                         alertDialog.setTitle("Warning !")
                         alertDialog.setMessage("No more points to spend.")
 
                         alertDialog.show()
-                    }else{
+                    } else {
                         var domainFilledSkill =
                             hobbySkillsViewModel.currentHobbySkill.value
-                        if(tensValue != null){
+                        if (tensValue != null) {
                             domainFilledSkill?.filledSkillTensValue = tensValue
                         }
-                        if(unitsValue != null){
+                        if (unitsValue != null) {
+                            Log.d("DEBUG$TAG", "Units value : $unitsValue")
                             domainFilledSkill?.filledSkillUnitsValue = unitsValue
                         }
 
@@ -131,33 +136,36 @@ class HobbyFragment : CustomFragment() {
                             }
 
                         var filledSkill = skillsViewModel?.hobbySkills.value?.toMutableList()
-                        if(filledSkill != null && index != null){
-                            if(domainFilledSkill != null){
+                        if (filledSkill != null && index != null) {
+                            if (domainFilledSkill != null) {
+                                Log.d("DEBUG$TAG", "domainFilledSkill :$domainFilledSkill")
                                 filledSkill[index] = domainFilledSkill
                             }
                         }
                         skillsViewModel.hobbySkills.value = filledSkill
                     }
-                }else{
+                } else {
                     var domainSkillToFill = hobbySkillsViewModel?.currentHobbySkill.value
 
-                    if(tensValue != null){
+                    if (tensValue != null) {
                         domainSkillToFill?.filledSkillTensValue = tensValue
                     }
-                    if(unitsValue != null){
+                    if (unitsValue != null) {
                         domainSkillToFill?.filledSkillUnitsValue = unitsValue
                     }
 
                     hobbySkillsViewModel?.currentHobbySkill.value = domainSkillToFill
 
                     var index = skillsViewModel?.hobbySkills.value?.indexOfFirst { skill ->
-                        skill?.skillId == domainSkillToFill?.skillId
+                        (skill?.skillId == domainSkillToFill?.skillId) && (skill?.skillName == domainSkillToFill?.skillName)
                     }
+
+                    Log.d("DEBUG$TAG", "Index : $index")
 
                     var filledSkills = skillsViewModel?.hobbySkills.value?.toMutableList()
 
-                    if(filledSkills != null && index != null){
-                        if(domainSkillToFill != null){
+                    if (filledSkills != null && index != null) {
+                        if (domainSkillToFill != null) {
                             filledSkills[index] = domainSkillToFill
                         }
                     }
@@ -174,32 +182,7 @@ class HobbyFragment : CustomFragment() {
 
     private fun setUnitsSpinnerOnItemSelectedListener() {
         Log.d(TAG, "setUnitsSpinnerOnItemSelectedListener")
-        spinnerUnitsValues?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            /**
-             * Callback method to be invoked when the selection disappears from this
-             * view. The selection can disappear for instance when touch is activated
-             * or when the adapter becomes empty.
-             *
-             * @param parent The AdapterView that now contains no selected item.
-             */
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-
-            /**
-             *
-             * Callback method to be invoked when an item in this view has been
-             * selected. This callback is invoked only when the newly selected
-             * position is different from the previously selected position or if
-             * there was no selected item.
-             *
-             * Implementers can call getItemAtPosition(position) if they need to access the
-             * data associated with the selected item.
-             *
-             * @param parent The AdapterView where the selection happened
-             * @param view The view within the AdapterView that was clicked
-             * @param position The position of the view in the adapter
-             * @param id The row id of the item that is selected
-             */
+        spinnerUnitsValues?.onItemSelectedListener = object : CustomOnItemSelectedListener() {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -214,40 +197,14 @@ class HobbyFragment : CustomFragment() {
 
     private fun setTensSpinnerOnItemSelectedListener() {
         Log.d(TAG, "setTensSpinnerOnItemSelectedListener")
-        spinnerTensValues?.onItemSelectedListener = object  : AdapterView.OnItemSelectedListener{
-            /**
-             * Callback method to be invoked when the selection disappears from this
-             * view. The selection can disappear for instance when touch is activated
-             * or when the adapter becomes empty.
-             *
-             * @param parent The AdapterView that now contains no selected item.
-             */
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
-
-            /**
-             *
-             * Callback method to be invoked when an item in this view has been
-             * selected. This callback is invoked only when the newly selected
-             * position is different from the previously selected position or if
-             * there was no selected item.
-             *
-             * Implementers can call getItemAtPosition(position) if they need to access the
-             * data associated with the selected item.
-             *
-             * @param parent The AdapterView where the selection happened
-             * @param view The view within the AdapterView that was clicked
-             * @param position The position of the view in the adapter
-             * @param id The row id of the item that is selected
-             */
+        spinnerTensValues?.onItemSelectedListener = object : CustomOnItemSelectedListener() {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-                if(hobbySkillsViewModel.currentHobbySkill.value != null){
+                if (hobbySkillsViewModel.currentHobbySkill.value != null) {
                     tensValue = this@HobbyFragment.valuesList[position]
                 }
             }
@@ -278,7 +235,7 @@ class HobbyFragment : CustomFragment() {
     }
 
     private fun initializeUnitsAdapter() {
-        if(activity != null){
+        if (activity != null) {
             unitAdapter = ArrayAdapter(
                 activity!!,
                 android.R.layout.simple_spinner_item,
@@ -294,7 +251,7 @@ class HobbyFragment : CustomFragment() {
     }
 
     private fun initializeTensAdapter() {
-        if(activity != null){
+        if (activity != null) {
             tensAdapter = ArrayAdapter(
                 activity!!,
                 android.R.layout.simple_spinner_item,
@@ -304,32 +261,36 @@ class HobbyFragment : CustomFragment() {
     }
 
     private fun observeSelectedHobbySkill() {
-        hobbySkillsViewModel?.currentHobbySkill?.observe(this, Observer {domainSkillToFill: DomainSkillToFill? ->
-            kotlin.run {
-                Log.d("DEBUG$TAG", "Hobby selected skill = $domainSkillToFill")
-                if(domainSkillToFill == null){
-                    spinnerUnitsValues?.isEnabled = false
-                    spinnerTensValues?.isEnabled = false
-                    buttonValidateAddValueToSkill?.isEnabled = false
-                }else{
-                    spinnerUnitsValues?.isEnabled = true
-                    spinnerTensValues?.isEnabled = true
-                    buttonValidateAddValueToSkill?.isEnabled = true
-                }
-                tv_selectedSkill.text = domainSkillToFill?.skillName
-                var tensIndex = valuesList.indexOfFirst { v -> v == domainSkillToFill?.filledSkillTensValue }
-                if(tensIndex != null){
-                    spinnerTensValues?.setSelection(tensIndex)
+        hobbySkillsViewModel?.currentHobbySkill?.observe(
+            this,
+            Observer { domainSkillToFill: DomainSkillToFill? ->
+                kotlin.run {
+                    Log.d("DEBUG$TAG", "Hobby selected skill = $domainSkillToFill")
+                    if (domainSkillToFill == null) {
+                        spinnerUnitsValues?.isEnabled = false
+                        spinnerTensValues?.isEnabled = false
+                        buttonValidateAddValueToSkill?.isEnabled = false
+                    } else {
+                        spinnerUnitsValues?.isEnabled = true
+                        spinnerTensValues?.isEnabled = true
+                        buttonValidateAddValueToSkill?.isEnabled = true
+                    }
+                    tv_selectedSkill.text = domainSkillToFill?.skillName
+                    var tensIndex =
+                        valuesList.indexOfFirst { v -> v == domainSkillToFill?.filledSkillTensValue }
+                    if (tensIndex != null) {
+                        spinnerTensValues?.setSelection(tensIndex)
+                    }
+
+                    var unitsIndex =
+                        valuesList.indexOfFirst { v -> v == domainSkillToFill?.filledSkillUnitsValue }
+                    if (unitsIndex != null) {
+                        spinnerUnitsValues?.setSelection(unitsIndex)
+                    }
+
                 }
 
-                var unitsIndex = valuesList.indexOfFirst { v -> v == domainSkillToFill?.filledSkillUnitsValue }
-                if(unitsIndex != null){
-                    spinnerUnitsValues?.setSelection(unitsIndex)
-                }
-
-            }
-
-        })
+            })
     }
 
     private fun loadHobbySkillsRecyclerViewFragment() {

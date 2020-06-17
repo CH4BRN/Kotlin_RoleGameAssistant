@@ -11,11 +11,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NewSkillActivity
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
+import com.uldskull.rolegameassistant.fragments.fragment.CustomOnItemSelectedListener
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.OCCUPATION_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
@@ -390,33 +392,9 @@ class OccupationFragment : CustomFragment() {
      */
     private fun setUnitsSpinnerOnItemSelectedListener() {
         Log.d(TAG, "setUnitsSpinnerOnItemSelectedListener")
-        spinnerUnitsValue?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            /**
-             * Callback method to be invoked when the selection disappears from this
-             * view. The selection can disappear for instance when touch is activated
-             * or when the adapter becomes empty.
-             *
-             * @param parent The AdapterView that now contains no selected item.
-             */
-            override fun onNothingSelected(parent: AdapterView<*>?) {
+        spinnerUnitsValue?.onItemSelectedListener = object : CustomOnItemSelectedListener() {
 
-            }
 
-            /**
-             *
-             * Callback method to be invoked when an item in this view has been
-             * selected. This callback is invoked only when the newly selected
-             * position is different from the previously selected position or if
-             * there was no selected item.
-             *
-             * Implementers can call getItemAtPosition(position) if they need to access the
-             * data associated with the selected item.
-             *
-             * @param parent The AdapterView where the selection happened
-             * @param view The view within the AdapterView that was clicked
-             * @param position The position of the view in the adapter
-             * @param id The row id of the item that is selected
-             */
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -440,55 +418,20 @@ class OccupationFragment : CustomFragment() {
      */
     private fun setTensSpinnerOnItemSelectedListener() {
         Log.d(TAG, "setTensSpinnerOnItemSelectedListener")
-        spinnerTensValue?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            /**
-             * Callback method to be invoked when the selection disappears from this
-             * view. The selection can disappear for instance when touch is activated
-             * or when the adapter becomes empty.
-             *
-             * @param parent The AdapterView that now contains no selected item.
-             */
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
-
-            /**
-             *
-             * Callback method to be invoked when an item in this view has been
-             * selected. This callback is invoked only when the newly selected
-             * position is different from the previously selected position or if
-             * there was no selected item.
-             *
-             * Implementers can call getItemAtPosition(position) if they need to access the
-             * data associated with the selected item.
-             *
-             * @param parent The AdapterView where the selection happened
-             * @param view The view within the AdapterView that was clicked
-             * @param position The position of the view in the adapter
-             * @param id The row id of the item that is selected
-             */
+        spinnerTensValue?.onItemSelectedListener = object : CustomOnItemSelectedListener() {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-
                 if (occupationSkillsViewModel.currentOccupationSkill.value != null) {
                     tensValue = this@OccupationFragment.valuesList[position]
-                    Log.d(
-                        "DEBUG", "\tCurrent skill position = $currentOccupationSkillPosition\n" +
-                                "\tvalue : $tensValue"
-                    )
 
                     var tensPoints =
                         pointsToSpendViewModel.observableOccupationSpentTensPointsArray.value
 
                     if (tensPoints?.size != 0) {
-                        Log.d(
-                            "DEBUG", "tens points array capacity : ${tensPoints?.size}\n" +
-                                    "position = $currentOccupationSkillPosition"
-                        )
                         tensPoints!![currentOccupationSkillPosition!!] = tensValue
                     }
                     pointsToSpendViewModel.observableOccupationSpentTensPointsArray.value =
@@ -500,28 +443,30 @@ class OccupationFragment : CustomFragment() {
         }
     }
 
-    private fun observeCheckedOccupationSkills(){
-        occupationSkillsViewModel.checkedOccupationSkills.observe(this, Observer { domainFilledSkill ->
-            var totalPoints = 0
-            domainFilledSkill.forEach {
-                var tens = 0
-                if (it.filledSkillTensValue != null) {
-                    tens = it.filledSkillTensValue!! * 10
-                }
+    private fun observeCheckedOccupationSkills() {
+        occupationSkillsViewModel.checkedOccupationSkills.observe(
+            this,
+            Observer { domainFilledSkill ->
+                var totalPoints = 0
+                domainFilledSkill.forEach {
+                    var tens = 0
+                    if (it.filledSkillTensValue != null) {
+                        tens = it.filledSkillTensValue!! * 10
+                    }
 
-                var units = 0
-                if (it.filledSkillUnitsValue != null) {
-                    units = it.filledSkillUnitsValue!!
-                }
+                    var units = 0
+                    if (it.filledSkillUnitsValue != null) {
+                        units = it.filledSkillUnitsValue!!
+                    }
 
-                var total = tens + units
-                totalPoints += total
-            }
-            Log.d("DEBUG", "total points = $totalPoints")
-            if (totalPoints != null) {
-                pointsToSpendViewModel.observableOccupationSpentPoints.value = totalPoints
-            }
-        })
+                    var total = tens + units
+                    totalPoints += total
+                }
+                Log.d("DEBUG", "total points = $totalPoints")
+                if (totalPoints != null) {
+                    pointsToSpendViewModel.observableOccupationSpentPoints.value = totalPoints
+                }
+            })
     }
 
 
@@ -544,13 +489,7 @@ class OccupationFragment : CustomFragment() {
                     Log.d("DEBUG", "spentPoints!= null && pointsToSpend != null")
                     if (spentPoints >= pointsToSpend) {
                         Log.d("DEBUG", "spentPoints >= pointsToSpend")
-                        //  There is not anymore points to spend
-                        val pictureDialog = androidx.appcompat.app.AlertDialog.Builder(context!!)
-
-                        pictureDialog.setTitle("Warning !")
-                        pictureDialog.setMessage("No more points to spend.")
-
-                        pictureDialog.show()
+                        displayAlertDialog()
 
                     } else {
                         Log.d("DEBUG", "spentPoints < pointsToSpend")
@@ -568,70 +507,32 @@ class OccupationFragment : CustomFragment() {
                             Log.d(TAG + "valid", "units value : $unitsValue")
                             domainFilledSkill?.filledSkillUnitsValue = unitsValue
                         }
-
-                        Log.d(TAG + "valid", "domainFilledSkill : $domainFilledSkill")
                         occupationSkillsViewModel.currentOccupationSkill.value = domainFilledSkill
-                        Log.d(
-                            TAG + "valid",
-                            "currentOccupationSkill : ${occupationSkillsViewModel.currentOccupationSkill.value} "
-                        )
 
                         var index =
                             occupationSkillsViewModel.checkedOccupationSkills.value?.indexOfFirst { skill ->
                                 skill.skillId == domainFilledSkill?.skillId
                             }
 
-
                         var filledSkills =
                             occupationSkillsViewModel.checkedOccupationSkills.value?.toMutableList()
                         Log.d(TAG + "valid", "filledSkills size : ${filledSkills?.size}")
-                        filledSkills?.forEach { skill ->
-                            kotlin.run {
-                                Log.d(TAG, "skill : $skill")
-                            }
-                        }
+
                         if (filledSkills != null && index != null) {
-                            Log.d(
-                                TAG + "valid",
-                                "filledSkill at index $index : ${filledSkills[index]}"
-                            )
+
 
                             if (domainFilledSkill != null) {
                                 filledSkills[index] = domainFilledSkill
                             }
-                            Log.d(
-                                TAG + "valid",
-                                "filledSkill at index $index : ${filledSkills[index]}"
-                            )
+
                         }
                         occupationSkillsViewModel.checkedOccupationSkills.value = filledSkills
 
-                        /*var totalPoints = 0
 
-                        occupationSkillsViewModel.checkedOccupationSkills.value?.forEach {
-                            var tens = 0
-                            if (it.filledSkillTensValue != null) {
-                                tens = it.filledSkillTensValue!! * 10
-                            }
-
-                            var units = 0
-                            if (it.filledSkillUnitsValue != null) {
-                                units = it.filledSkillUnitsValue!!
-                            }
-
-                            var total = tens + units
-                            totalPoints += total
-                        }
-                        Log.d("DEBUG", "total points = $totalPoints")
-                        if (totalPoints != null) {
-
-                                pointsToSpendViewModel.observableSpentPoints.value = totalPoints
-
-
-                        }*/
                     }
 
                 } else {
+                    // We obtain the current skill
                     Log.d("DEBUG", "spentPoints < pointsToSpend")
                     var domainFilledSkill = occupationSkillsViewModel.currentOccupationSkill.value
                     Log.d(
@@ -663,12 +564,7 @@ class OccupationFragment : CustomFragment() {
 
                     var filledSkills =
                         occupationSkillsViewModel.checkedOccupationSkills.value?.toMutableList()
-                    Log.d(TAG + "valid", "filledSkills size : ${filledSkills?.size}")
-                    filledSkills?.forEach { skill ->
-                        kotlin.run {
-                            Log.d(TAG, "skill : $skill")
-                        }
-                    }
+
                     if (filledSkills != null && index != null) {
                         Log.d(TAG + "valid", "filledSkill at index $index : ${filledSkills[index]}")
 
@@ -679,29 +575,19 @@ class OccupationFragment : CustomFragment() {
                     }
                     occupationSkillsViewModel.checkedOccupationSkills.value = filledSkills
 
-                   /* var totalPoints = 0
-
-                    occupationSkillsViewModel.checkedOccupationSkills.value?.forEach {
-                        var tens = 0
-                        if (it.filledSkillTensValue != null) {
-                            tens = it.filledSkillTensValue!! * 10
-                        }
-
-                        var units = 0
-                        if (it.filledSkillUnitsValue != null) {
-                            units = it.filledSkillUnitsValue!!
-                        }
-
-                        var total = tens + units
-                        totalPoints += total
-                    }
-                    Log.d("DEBUG", "total points = $totalPoints")
-                    if (totalPoints != null) {
-                        pointsToSpendViewModel.observableSpentPoints.value = totalPoints
-                    }*/
                 }
             }
         }
+    }
+
+    private fun displayAlertDialog() {
+        //  There is not anymore points to spend
+        val pictureDialog = AlertDialog.Builder(context!!)
+
+        pictureDialog.setTitle("Warning !")
+        pictureDialog.setMessage("No more points to spend.")
+
+        pictureDialog.show()
     }
 
     /**
@@ -751,6 +637,8 @@ class OccupationFragment : CustomFragment() {
 
         }
     }
+
+
 
     /**
      * Called when the focus return on this view

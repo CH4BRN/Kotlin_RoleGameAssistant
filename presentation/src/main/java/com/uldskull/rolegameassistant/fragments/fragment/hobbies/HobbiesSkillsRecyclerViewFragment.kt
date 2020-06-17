@@ -97,7 +97,7 @@ class HobbiesSkillsRecyclerViewFragment :
 
                 hobbiesSkillAdapter?.setHobbiesSkills(domainHobbiesSkills)
 
-                var character = newCharacterViewModel?.currentCharacter?.value
+                var character = newCharacterViewModel?.currentCharacter
 
                 var checkedSkills = mutableListOf<DomainSkillToCheck>()
                 domainHobbiesSkills?.forEach { s ->
@@ -112,7 +112,7 @@ class HobbiesSkillsRecyclerViewFragment :
                         character?.characterSelectedHobbiesSkill =
                             checkedSkills?.map { s -> s.skillId }.toMutableList()
                     }
-                    newCharacterViewModel?.currentCharacter?.value = character
+                    newCharacterViewModel?.currentCharacter = character
 
                     Log.d(
                         "DEBUG$TAG",

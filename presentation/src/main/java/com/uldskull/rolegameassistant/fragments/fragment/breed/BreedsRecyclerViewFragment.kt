@@ -78,11 +78,11 @@ class BreedsRecyclerViewFragment :
             Observer { domainDisplayedBreeds ->
                 Log.d("DEBUG$TAG", "Checked breeds = ${domainDisplayedBreeds?.count { b -> b.breedChecked }}")
 
-                var newCharacter = newCharacterViewModel?.currentCharacter?.value
+                var newCharacter = newCharacterViewModel?.currentCharacter
 
                 newCharacter?.characterBreeds = domainDisplayedBreeds?.filter { breed -> breed.breedChecked }?.map { breed-> breed.breedId }?.toMutableList()
 
-                newCharacterViewModel?.currentCharacter?.value = newCharacter
+                newCharacterViewModel?.currentCharacter = newCharacter
 
                 if (domainDisplayedBreeds != null) {
                     this.breedsAdapter?.setBreeds(domainDisplayedBreeds.toMutableList())

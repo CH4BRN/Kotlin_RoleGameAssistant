@@ -1,18 +1,16 @@
 // File IdealsFragment.kt
 // @Author pierre.antoine - 03/03/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.fragments.fragment.ideals
+package com.uldskull.rolegameassistant.fragments.fragment.ideals.ideal_toCheck
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.NewIdealActivity
+import com.uldskull.rolegameassistant.activities.editIdeal.EditIdealsActivity
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
@@ -94,7 +92,7 @@ class IdealsFragment : CustomFragment() {
     private fun setButtonAddIdeal() {
         if (btn_addIdeal != null) {
             btn_addIdeal?.setOnClickListener {
-                val intent = Intent(activity, NewIdealActivity::class.java)
+                val intent = Intent(activity, EditIdealsActivity::class.java)
                 startActivityForResult(intent, REQUEST_CODE_IDEALS_NEW_IDEAL)
             }
         }

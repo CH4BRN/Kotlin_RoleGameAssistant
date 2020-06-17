@@ -22,6 +22,6 @@ class DomainSkillToCheck(
     skillName = skillName
 ) {
     override fun toString(): String {
-        return "DomainOccupationSkill(skillBase=$skillBase, skillMax=$skillMax, skillIsChecked=$skillIsChecked)"
+        return "DomainSkillToCheck(skillBase=$skillBase, skillMax=$skillMax, skillIsChecked=$skillIsChecked)"
     }
 }
