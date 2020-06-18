@@ -12,5 +12,9 @@ import com.uldskull.rolegameassistant.repository.GenericRepository
  **/
 interface IdealsRepository<T> :
     GenericRepository<T, DomainIdeal> {
-// TODO : Fill interface.
+
+    fun getIdeals():List<DomainIdeal>
+
+    fun deleteOne(ideal:DomainIdeal):Int
+
 }

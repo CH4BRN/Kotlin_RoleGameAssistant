@@ -9,15 +9,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/ideal_layoutTitle"
-        android:text="New ideal"
+        android:text="Edit ideals"
         app:layout_constraintTop_toTopOf="parent" />
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:id="@+id/recyclerView_editIdeals"
         app:layout_constraintTop_toBottomOf="@id/ideal_layoutTitle"
-        app:layout_constraintBottom_toTopOf="@id/layout_setIdeal"
+        app:layout_constraintBottom_toTopOf="@id/imageButton_addNewIdeal"
 
+        />
+    <Button
+        android:text="Add"
+        app:layout_constraintTop_toBottomOf="@id/recyclerView_editIdeals"
+        android:id="@+id/imageButton_addNewIdeal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/layout_setIdeal"
         />
     <LinearLayout
         android:id="@+id/layout_setIdeal"
@@ -48,7 +56,7 @@
                     android:layout_weight="2"/>
                 <EditText
                     android:hint="Let's type a title."
-                    android:id="@+id/et_idealTitle"
+                    android:id="@+id/et_setIdealTitle"
                     android:layout_column="1"
                     android:layout_width="0dp"
                     android:layout_weight="4"/>
@@ -85,14 +93,29 @@
                     android:inputType="number"/>
             </TableRow>
         </TableLayout>
-        <ImageButton
-            android:id="@+id/imageButton_saveIdealToEdit"
-            android:background="@drawable/mybutton"
-            android:layout_gravity="right"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:src="@drawable/ic_save_black_24dp"/>
+            android:orientation="horizontal">
+            <ImageButton
+                android:id="@+id/imageButton_deleteIdealToEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/mybutton"
+                android:padding="8dp"
+                android:src="@drawable/ic_trash_can_24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+            <ImageButton
+                android:id="@+id/imageButton_saveIdealToEdit"
+                android:background="@drawable/mybutton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                android:src="@drawable/ic_save_black_24dp"
+                app:layout_constraintEnd_toEndOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </LinearLayout>
 
 

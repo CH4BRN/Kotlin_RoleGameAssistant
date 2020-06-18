@@ -26,7 +26,7 @@ class DbIdealsRepositoryImpl(
     override fun getAll(): LiveData<List<DomainIdeal>> {
         Log.d(TAG, "getAll")
         try {
-            var ideals = dbIdealDao.getIdeals()
+            var ideals = dbIdealDao.getIdealsLiveData()
             Log.d(TAG, "ideals = " + ideals.value?.size.toString())
             //  Transform the dbIdeals into domain ideals
             return Transformations.map(ideals) {
@@ -37,6 +37,18 @@ class DbIdealsRepositoryImpl(
             Log.e(TAG, "getAll FAILED")
             e.printStackTrace()
             throw  e
+        }
+    }
+
+    override fun getIdeals(): List<DomainIdeal> {
+        Log.d(TAG, "getAll")
+        try {
+            var ideals: List<DbIdeal> = dbIdealDao?.getIdeals()
+            return ideals?.map { ideal -> ideal.toDomain() }
+
+        } catch (e: Exception) {
+            Log.e("ERROR", "Get ideals failed")
+            throw e
         }
     }
 
@@ -64,7 +76,12 @@ class DbIdealsRepositoryImpl(
             e.printStackTrace()
             throw e
         }
-        return result.toDomain()
+        if (result != null) {
+            return result.toDomain()
+        } else {
+            return null
+        }
+
     }
 
     /** Insert a list of entity - it should return long[] or List<Long>.*/
@@ -72,7 +89,7 @@ class DbIdealsRepositoryImpl(
         Log.d(TAG, "insertAll")
         if ((all != null) && (all.isNotEmpty())) {
             try {
-                val result = dbIdealDao.insertIdeals(all.map { i ->
+                val result = dbIdealDao.insert(all.map { i ->
                     DbIdeal.from(
                         i
                     )
@@ -88,21 +105,28 @@ class DbIdealsRepositoryImpl(
         }
     }
 
+    override fun deleteOne(ideal: DomainIdeal): Int {
+        Log.d(TAG, "deleteOne")
+        if (ideal == null) {
+            throw Exception("ERROR : Ideal is null.")
+        }
+        return dbIdealDao?.delete(DbIdeal.from(ideal))
+    }
+
     /** Insert one entity  -  it can return a long, which is the new rowId for the inserted item.*/
     override fun insertOne(one: DomainIdeal?): Long? {
         Log.d(TAG, "insertOne")
-        return if (one != null) {
-            try {
-                val result = dbIdealDao.insertIdeal(DbIdeal.from(one))
-                result
-            } catch (e: Exception) {
-                Log.e(TAG, "insertOne FAILED")
-                e.printStackTrace()
-                throw  e
-            }
-        } else {
-            -1
+        if (one == null) {
+            throw Exception("ERROR : Ideal is null.")
         }
+        try {
+            return dbIdealDao.insert(DbIdeal.from(one))
+        } catch (e: Exception) {
+            Log.e(TAG, "insertOne FAILED")
+            e.printStackTrace()
+            throw  e
+        }
+
     }
 
     /** Delete all entities **/
@@ -121,11 +145,13 @@ class DbIdealsRepositoryImpl(
     override fun updateOne(one: DomainIdeal?): Int? {
         Log.d(TAG, "updateOne")
         try {
-            return dbIdealDao.updateIdeal(DbIdeal.from(one))
+            return dbIdealDao.update(DbIdeal.from(one))
         } catch (e: Exception) {
             Log.e(TAG, "updateOne FAILED")
             e.printStackTrace()
             throw e
         }
     }
+
+
 }

@@ -119,21 +119,9 @@ class IdealsRecyclerViewFragment :
      */
     private fun observeRepositoryIdeals() {
         idealsViewModel.repositoryIdeals?.observe(this, Observer { domainIdealsList ->
-            var mutableIdeals: MutableList<DomainIdeal?>? = idealsViewModel.mutableIdeals?.value
-            if (mutableIdeals == null) {
-                mutableIdeals = mutableListOf()
-            }
-            if (mutableIdeals != null) {
-                domainIdealsList?.forEach {
-                    if (!mutableIdeals.any { i -> i?.idealId == it.idealId }) {
-                        mutableIdeals.add(it)
-                    }
-                }
-            }
 
 
-            Log.d("DEBUG$TAG", "Repository ideals")
-            idealsViewModel.mutableIdeals?.value = mutableIdeals
+            idealsViewModel.mutableIdeals?.value = domainIdealsList.toMutableList()
 
         })
     }
@@ -149,6 +137,7 @@ class IdealsRecyclerViewFragment :
                 Log.d("DEBUG$TAG", "Ideal : ${it?.idealName} is checked : ${it?.isChecked}")
             }
             idealsAdapter?.setIdeals(domainIdealsList?.toList())
+            idealsRecyclerView?.adapter = idealsAdapter
         })
     }
 
@@ -183,11 +172,21 @@ class IdealsRecyclerViewFragment :
                             Log.d("DEBUG$TAG", "mutableIdeals count : $count")
                         }
                     }
-
-
                 }
             }
         })
+    }
+
+    /**
+     * Called when the fragment is visible to the user and actively running.
+     * This is generally
+     * tied to [Activity.onResume] of the containing
+     * Activity's lifecycle.
+     */
+    override fun onResume() {
+        super.onResume()
+        Log.d("DEBUG${TAG}", "OnResume")
+        idealsViewModel?.refreshDataFromRepository()
     }
 
     /** Set recycler view adapter   **/

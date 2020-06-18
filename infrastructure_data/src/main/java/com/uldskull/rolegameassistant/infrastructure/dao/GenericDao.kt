@@ -24,7 +24,7 @@ open interface GenericDao<T> {
     fun update(obj: T):Int
 
     @Delete
-    fun delete(obj: T)
+    fun delete(obj: T):Int
 }
 
 

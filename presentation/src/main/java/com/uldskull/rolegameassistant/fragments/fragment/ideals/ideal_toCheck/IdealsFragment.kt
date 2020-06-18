@@ -6,6 +6,7 @@ package com.uldskull.rolegameassistant.fragments.fragment.ideals.ideal_toCheck
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,6 +57,18 @@ class IdealsFragment : CustomFragment() {
             R.layout.fragment_ideals, container, false
         )
         return initialRootView
+    }
+
+    /**
+     * Called when the fragment is visible to the user and actively running.
+     * This is generally
+     * tied to [Activity.onResume] of the containing
+     * Activity's lifecycle.
+     */
+    override fun onResume() {
+        super.onResume()
+        Log.d("DEBUG$TAG", "OnResume")
+        idealsViewModel?.refreshDataFromRepository()
     }
 
     /**

@@ -43,7 +43,7 @@ class IdealDatabaseUtil {
                 var result: Long?
                 Log.d(TAG, "Ideal : $it")
                 try {
-                    result = idealsDao.insertIdeal(it)
+                    result = idealsDao.insert(it)
                     Log.d(TAG, "Populate ideal insert result : $result")
                 } catch (e: Exception) {
                     Log.e(TAG, "Inserting ideal failed.")
