@@ -16,7 +16,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.NewSkillActivity
+import com.uldskull.rolegameassistant.activities.skills.EditSkillActivity
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.JOB_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
@@ -63,7 +63,7 @@ class OccupationSkillsRecyclerViewFragment :
      */
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = layoutInflater.inflate(
-            R.layout.fragment_recyclerview_occupationskills, container, false
+            R.layout.fragment_occupationskills_recyclerview, container, false
         )
         return initialRootView
     }
@@ -202,7 +202,7 @@ class OccupationSkillsRecyclerViewFragment :
     private fun setBtnAddSkillOnClickListener(view: View) {
         val btnAddSkills = view.findViewById<ImageButton>(R.id.btn_occupation_addSkill)
         btnAddSkills.setOnClickListener {
-            val intent = Intent(activity, NewSkillActivity::class.java)
+            val intent = Intent(activity, EditSkillActivity::class.java)
             startActivity(intent)
         }
     }

@@ -16,13 +16,11 @@ import android.widget.ImageButton
 import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NEW_BREED_ACTIVITY
-import com.uldskull.rolegameassistant.activities.newCharacter.AddEndFragmentAndUpdateAdapter
-import com.uldskull.rolegameassistant.activities.newCharacter.CharacterActivity
+import com.uldskull.rolegameassistant.activities.character.AddEndFragmentAndUpdateAdapter
 import com.uldskull.rolegameassistant.fragments.fragment.*
 import com.uldskull.rolegameassistant.fragments.fragment.breed.BreedsRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.BASIC_INFO_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
-import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.ProgressionBarViewModel

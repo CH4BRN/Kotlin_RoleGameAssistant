@@ -34,13 +34,11 @@ class OccupationsViewModel(
     }
 
 
-
-
-    private fun refreshDataFromRepository() {
+    fun refreshDataFromRepository() {
         Log.d(TAG, "refreshDataFromRepository")
         viewModelScope.launch {
             try {
-                repositoryOccupations = findAll()
+                findAll()
             } catch (e: Exception) {
                 throw e
             }
@@ -66,6 +64,37 @@ class OccupationsViewModel(
         }
     }
 
+    fun insertOccupation(domainOccupation: DomainOccupation): Long? {
+        if (domainOccupation == null) {
+            return 0
+        } else {
+            return if (domainOccupation?.occupationId == null) {
+                occupationsRepositoryImpl?.insertOne(domainOccupation)
+            } else if (occupationsRepositoryImpl?.findOneById(domainOccupation.occupationId) == null) {
+                occupationsRepositoryImpl?.insertOne(domainOccupation)
+            } else {
+                occupationsRepositoryImpl?.updateOne(domainOccupation)
+                return domainOccupation?.occupationId
+            }
+        }
+    }
+
+    fun getOccupationById(id: Long?): DomainOccupation? {
+        if(id != null){
+            return occupationsRepositoryImpl?.findOneById(id)
+        }else{
+            return null
+        }
+    }
+
+    fun deleteOccupation(currentOccupationToEdit: DomainOccupation):Int {
+        if(currentOccupationToEdit == null){
+            throw Exception("Occupation is null")
+        }
+        return occupationsRepositoryImpl?.deleteOne(currentOccupationToEdit)
+    }
+
+    var currentOccupationToEdit: DomainOccupation? = null
     var selectedOccupationIncome: MutableLiveData<String>? = MutableLiveData()
     val selectedCharacterSkills = MutableLiveData<List<Long?>>()
     var selectedOccupationContacts: MutableLiveData<String>? = MutableLiveData()

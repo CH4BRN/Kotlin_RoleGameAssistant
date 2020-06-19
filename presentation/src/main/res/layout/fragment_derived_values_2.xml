@@ -5,8 +5,8 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/tv_title"
-        style="@style/TextViewFragmentTitle"
+        android:id="@+id/fragmentBasicInfo_textView_title"
+        style="@style/activityEditBreed_textView_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Derived values 2"
@@ -19,7 +19,7 @@
         android:paddingHorizontal="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_title">
+        app:layout_constraintTop_toBottomOf="@id/fragmentBasicInfo_textView_title">
 
 
         <TableLayout

@@ -16,7 +16,7 @@ import android.widget.ImageButton
 import android.widget.Spinner
 import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.NewSkillActivity
+import com.uldskull.rolegameassistant.activities.skills.EditSkillActivity
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.CustomOnItemSelectedListener
@@ -85,7 +85,7 @@ class HobbyFragment : CustomFragment() {
         loadHobbySkillsRecyclerViewFragment()
         val btnAddSkill = view.findViewById<ImageButton>(R.id.btn_hobby_add_skill)
         btnAddSkill.setOnClickListener {
-            val intent = Intent(activity, NewSkillActivity::class.java)
+            val intent = Intent(activity, EditSkillActivity::class.java)
             startActivity(intent)
 
         }

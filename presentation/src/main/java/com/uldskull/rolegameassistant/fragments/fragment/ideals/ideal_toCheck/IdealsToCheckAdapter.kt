@@ -43,7 +43,7 @@ class IdealsToCheckAdapter internal constructor(
     inner class IdealsToCheckViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var idealCheckedItemView: CheckBox = itemView.findViewById(R.id.chk_ideal)
         var idealValueItemView: TextView = itemView.findViewById(R.id.tv_ideal)
-        var idealNameItemView: TextView = itemView.findViewById(R.id.tv_idealTitle)
+        var idealNameItemView: TextView = itemView.findViewById(R.id.activityEditIdeals_textView_idealTitle)
         var idealAlignmentItemView: ImageView = itemView.findViewById(R.id.img_alignment)
         var idealEvilPoints: TextView = itemView.findViewById(R.id.tv_idealEvilPoints)
         var idealGoodPoints: TextView = itemView.findViewById(R.id.tv_idealGoodPoints)
@@ -52,7 +52,7 @@ class IdealsToCheckAdapter internal constructor(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IdealsToCheckViewHolder {
         Log.d("IdealsAdapter", "onCreateViewHolder")
-        val itemView = layoutInflater.inflate(R.layout.recyclerview_item_idealtocheck, parent, false)
+        val itemView = layoutInflater.inflate(R.layout.fragment_idealtocheck_recyclerview_item, parent, false)
 
         return IdealsToCheckViewHolder(itemView)
     }

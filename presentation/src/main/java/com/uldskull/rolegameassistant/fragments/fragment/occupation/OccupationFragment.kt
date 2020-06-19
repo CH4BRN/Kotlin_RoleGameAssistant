@@ -14,7 +14,7 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.NewSkillActivity
+import com.uldskull.rolegameassistant.activities.skills.EditSkillActivity
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.CustomOnItemSelectedListener
@@ -632,7 +632,7 @@ class OccupationFragment : CustomFragment() {
     private fun setButtonAddSkillOnClickListener() {
         Log.d(TAG, "setButtonAddSkillOnClickListener")
         buttonAddSkill?.setOnClickListener {
-            val intent = Intent(activity, NewSkillActivity::class.java)
+            val intent = Intent(activity, EditSkillActivity::class.java)
             startActivity(intent)
 
         }

@@ -17,7 +17,7 @@
         >
 
         <TextView
-            android:id="@+id/tv_idealTitle"
+            android:id="@+id/activityEditIdeals_textView_idealTitle"
             style="@style/TextViewSubTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
 
-            app:layout_constraintTop_toBottomOf="@id/tv_idealTitle"
+            app:layout_constraintTop_toBottomOf="@id/activityEditIdeals_textView_idealTitle"
             android:contentDescription="ideal alignment"
             android:maxWidth="50dp"
             android:maxHeight="50dp"
@@ -39,7 +39,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            app:layout_constraintTop_toBottomOf="@id/tv_idealTitle"
+            app:layout_constraintTop_toBottomOf="@id/activityEditIdeals_textView_idealTitle"
             android:id="@+id/tv_ideal"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

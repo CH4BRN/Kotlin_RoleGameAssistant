@@ -13,7 +13,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.fragment.AdapterListTransmitter
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewAdapter
 import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
@@ -74,7 +73,7 @@ class BreedsAdapter internal constructor(
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BreedsViewHolder {
         Log.d(TAG, "onCreateViewHolder")
-        val itemView = inflater.inflate(R.layout.recyclerview_item_breed, parent, false)
+        val itemView = inflater.inflate(R.layout.fragment_breeds_recyclerview_item, parent, false)
         return BreedsViewHolder(itemView)
     }
 

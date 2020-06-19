@@ -192,7 +192,7 @@ class HobbySkillsRecyclerViewFragment :
      */
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = layoutInflater.inflate(
-            R.layout.fragment_recyclerview_hobbyskills, container, false
+            R.layout.fragment_hobbyskills_recyclerview, container, false
         )
         return initialRootView
     }

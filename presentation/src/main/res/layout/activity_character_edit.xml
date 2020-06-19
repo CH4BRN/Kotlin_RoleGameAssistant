@@ -6,49 +6,36 @@
     android:layout_height="match_parent">
 
 
-    <!--   <com.uldskull.rolegameassistant.fragments.viewPager.LockableViewPager
-           android:id="@+id/activityNewCharacter_viewPager"
-           android:layout_width="match_parent"
-           android:layout_height="0dp"
-           app:layout_constraintBottom_toTopOf="@id/activityNewCharacter_container_navigation"
-           app:layout_constraintTop_toTopOf="parent" />-->
-
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/activityNewCharacter_viewPager"
+        android:id="@+id/activityEditCharacter_viewPager2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/activityNewCharacter_container_navigation"
+        app:layout_constraintBottom_toTopOf="@id/activityEditCharacter_layout_bottom"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/activityNewCharacter_container_navigation"
+        android:id="@+id/activityEditCharacter_layout_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="4dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <FrameLayout
-            android:id="@+id/activityNewCharacter_container_progressBar"
+            android:id="@+id/activityEditCharacter_layout_progressBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:minHeight="8dp"
-            app:layout_constraintBottom_toTopOf="@id/activityNewIdeal_container_navigationBar" />
+            app:layout_constraintBottom_toTopOf="@id/activityEditBreed_layout_navigationBar" />
 
         <FrameLayout
-            android:id="@+id/activityNewIdeal_container_navigationBar"
+            android:id="@+id/activityEditBreed_layout_navigationBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
- <!--   <View
-        android:id="@+id/touch_layer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="true" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

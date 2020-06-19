@@ -104,7 +104,7 @@ class HobbiesSkillAdapter internal constructor(
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HobbiesSkillsViewHolder {
         var view: View = LayoutInflater.from(context).inflate(
-            R.layout.recyclerview_item_skill_to_check,
+            R.layout.fragment_skilltocheckdescription_recyclerview_item,
             parent,
             false
         )

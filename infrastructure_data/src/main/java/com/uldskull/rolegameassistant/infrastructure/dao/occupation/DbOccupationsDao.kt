@@ -37,7 +37,7 @@ interface DbOccupationsDao {
 
     //  DELETE
     @Delete
-    fun deleteJobs(vararg occupations: DbOccupation): Int
+    fun deleteOccupations(vararg occupations: DbOccupation): Int
 
     @Query("DELETE FROM $TABLE_NAME_OCCUPATIONS")
     fun deleteAllJobs(): Int

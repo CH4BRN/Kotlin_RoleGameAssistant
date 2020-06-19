@@ -5,14 +5,14 @@
     android:layout_width="match_parent">
 
     <TextView
-        android:id="@+id/tv_title"
-        style="@style/TextViewFragmentTitle"
+        android:id="@+id/fragmentBasicInfo_textView_title"
+        style="@style/activityEditBreed_textView_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Character : " />
 
     <ScrollView
-        android:id="@+id/scrollview_parent"
+        android:id="@+id/fragmentBasicInfo_scrollview_parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

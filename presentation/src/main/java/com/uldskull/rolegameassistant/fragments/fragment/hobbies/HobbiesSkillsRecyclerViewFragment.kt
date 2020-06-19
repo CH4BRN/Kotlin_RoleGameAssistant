@@ -19,7 +19,6 @@ import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragm
 import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.SkillsViewModel
-import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
@@ -138,7 +137,7 @@ class HobbiesSkillsRecyclerViewFragment :
 
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = layoutInflater.inflate(
-            R.layout.fragment_recyclerview_hobbiesskills, container, false
+            R.layout.fragment_hobbiesskills_recyclerview, container, false
         )
         return initialRootView
     }

@@ -61,7 +61,7 @@ class BondsRecyclerViewFragment :
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         Log.d(TAG, "initializeView")
         initialRootView = layoutInflater.inflate(
-            R.layout.fragment_recyclerview_bonds, container, false
+            R.layout.fragment_bonds_recyclerview, container, false
         )
         return initialRootView
     }

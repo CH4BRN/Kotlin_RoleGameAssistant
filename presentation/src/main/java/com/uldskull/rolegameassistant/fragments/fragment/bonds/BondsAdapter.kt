@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
 import com.uldskull.rolegameassistant.models.character.DomainBond
-import kotlinx.android.synthetic.main.recyclerview_item_bond.view.*
+import kotlinx.android.synthetic.main.fragment_bonds_recyclerview_item.view.*
 
 /**
  *   Class "BondsAdapter" :
@@ -48,7 +48,7 @@ class BondsAdapter internal constructor(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BondsViewHolder {
         Log.d(TAG, "onCreateViewHolder")
 
-        val itemView = inflater.inflate(R.layout.recyclerview_item_bond, parent, false)
+        val itemView = inflater.inflate(R.layout.fragment_bonds_recyclerview_item, parent, false)
 
         itemView.tv_bondValue.movementMethod = ScrollingMovementMethod()
         return BondsViewHolder(itemView)

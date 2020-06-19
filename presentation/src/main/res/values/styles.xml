@@ -7,7 +7,7 @@
 
     </style>
 
-    <style name="TextViewFragmentTitle">
+    <style name="activityEditBreed_textView_title">
         <item name="android:background">@drawable/myheader</item>
         <item name="android:textColor">@color/textColorPrimary</item>
         <item name="android:padding">8dp</item>

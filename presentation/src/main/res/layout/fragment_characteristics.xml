@@ -5,8 +5,8 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/tv_title"
-        style="@style/TextViewFragmentTitle"
+        android:id="@+id/fragmentBasicInfo_textView_title"
+        style="@style/activityEditBreed_textView_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Characteristics"
@@ -17,7 +17,7 @@
         android:paddingHorizontal="4dp"
         android:layout_width="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_title">
+        app:layout_constraintTop_toBottomOf="@id/fragmentBasicInfo_textView_title">
 
         <FrameLayout
             android:id="@+id/fragmentCharacteristics_container_characteristics"

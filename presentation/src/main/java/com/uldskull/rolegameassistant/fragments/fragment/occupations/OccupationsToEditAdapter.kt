@@ -1,9 +1,8 @@
-// idealsToEditAdapter.kt created by UldSkull - 17/06/2020
+// OccupationsToEditAdapter.kt created by UldSkull - 18/06/2020
 
-package com.uldskull.rolegameassistant.fragments.fragment.ideals.ideal_toEdit
+package com.uldskull.rolegameassistant.fragments.fragment.occupations
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,51 +10,42 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
-import com.uldskull.rolegameassistant.models.character.DomainIdeal
+import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
 
 /**
-Class "idealsToEditAdapter"
+Class "OccupationsToEditAdapter"
 
 TODO: Describe class utility.
  */
-class IdealsToEditAdapter internal constructor(
+class OccupationsToEditAdapter internal constructor(
     val context: Context,
-    val adapterButtonListener: AdapterButtonListener<DomainIdeal>
-) : RecyclerView.Adapter<IdealsToEditAdapter.IdealsToEditViewHolder>() {
+    private val buttonListener: AdapterButtonListener<DomainOccupation>
+) : RecyclerView.Adapter<OccupationsToEditAdapter.OccupationsToEditViewHolder>() {
 
     companion object {
-        private const val TAG = "IdealsToEditAdapter"
+        private const val TAG = "OccupationsToEditAdapter"
     }
-
     /** Inflater  **/
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
 
+    private var occupations = emptyList<DomainOccupation?>()
 
-    /**  Ideals list  **/
-    private var ideals = emptyList<DomainIdeal?>()
-
-    fun setIdeals(list: List<DomainIdeal?>) {
-        ideals = list
+    fun setOccupations(occupations: List<DomainOccupation?>) {
+        this.occupations = occupations
         notifyDataSetChanged()
     }
 
-    inner class IdealsToEditViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var idealTitle: TextView = itemView.findViewById(R.id.tv_idealToEdit_title)
-        var idealGoodPoints: TextView = itemView.findViewById(R.id.tv_idealToEdit_goodPoints)
-        var idealEvilPoints: TextView = itemView.findViewById(R.id.tv_idealToEdit_evilPoints)
-        var idealOverlay: View = itemView.findViewById(R.id.view_idealToEdit_overlay)
+    inner class OccupationsToEditViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var tvOccupationName: TextView? =
+            itemView.findViewById(R.id.textView_occupationToEdit_title)
+        var occupationOverlay:View = itemView.findViewById(R.id.view_occupationToEdit_overlay)
 
-        fun bind(domainIdeal: DomainIdeal?) {
-            idealTitle.setText(domainIdeal?.idealName)
-            idealEvilPoints.setText(domainIdeal?.idealEvilPoints.toString())
-            idealGoodPoints.setText(domainIdeal?.idealGoodPoints.toString())
-            idealOverlay?.setOnClickListener {
-                Log.d("DEBUG$TAG", "OnClick")
-                adapterButtonListener?.itemPressed(ideals[adapterPosition])
-
+        fun bind(occupation: DomainOccupation?) {
+            tvOccupationName?.text = occupation?.occupationName
+            occupationOverlay?.setOnClickListener{
+                buttonListener?.itemPressed(occupations[adapterPosition])
             }
         }
-
     }
 
     /**
@@ -81,9 +71,13 @@ class IdealsToEditAdapter internal constructor(
      * @see .getItemViewType
      * @see .onBindViewHolder
      */
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IdealsToEditViewHolder {
-        val itemView = layoutInflater.inflate(R.layout.fragment_idealtoedit_recyclerview_item, parent, false)
-        return IdealsToEditViewHolder(itemView)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OccupationsToEditViewHolder {
+        var itemView = layoutInflater.inflate(
+            R.layout.fragment_occupationtoedit_recyclerview_item,
+            parent,
+            false
+        )
+        return OccupationsToEditViewHolder(itemView)
     }
 
     /**
@@ -92,7 +86,7 @@ class IdealsToEditAdapter internal constructor(
      * @return The total number of items in this adapter.
      */
     override fun getItemCount(): Int {
-        return ideals.size
+        return occupations?.size
     }
 
     /**
@@ -116,7 +110,7 @@ class IdealsToEditAdapter internal constructor(
      * item at the given position in the data set.
      * @param position The position of the item within the adapter's data set.
      */
-    override fun onBindViewHolder(holder: IdealsToEditViewHolder, position: Int) {
-        holder.bind(ideals[position])
+    override fun onBindViewHolder(holder: OccupationsToEditViewHolder, position: Int) {
+        holder.bind(occupations[position])
     }
 }

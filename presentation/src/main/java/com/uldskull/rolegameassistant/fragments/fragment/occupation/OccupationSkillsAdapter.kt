@@ -67,7 +67,7 @@ class OccupationSkillsAdapter constructor(
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OccupationSkillsViewHolder {
         var view: View = LayoutInflater.from(context).inflate(
-            R.layout.recyclerview_item_occupationskill,
+            R.layout.fragment_occupationskill_recyclerview_item,
             parent, false
         )
         return OccupationSkillsViewHolder(view)

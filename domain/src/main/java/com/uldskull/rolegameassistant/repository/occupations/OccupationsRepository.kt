@@ -15,5 +15,6 @@ interface OccupationsRepository<T> :
 GenericRepository<T, DomainOccupation>{
     fun insertOccupationAndSkillCross(occupationId:Long?, skillId:Long):Long
     fun findOneWithChildren(occupationId: Long?):DomainOccupationWithSkills
+    fun deleteOne(currentOccupationToEdit: DomainOccupation):Int
 
 }

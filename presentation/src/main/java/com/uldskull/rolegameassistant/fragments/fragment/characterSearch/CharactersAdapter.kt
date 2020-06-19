@@ -4,7 +4,6 @@
 package com.uldskull.rolegameassistant.fragments.fragment.characterSearch
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,7 +13,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.newCharacter.CharacterActivity
 import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewAdapter
 import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
@@ -71,7 +69,7 @@ class CharactersAdapter internal constructor(
      * @see .onBindViewHolder
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharactersViewHolder {
-        val itemView = inflater.inflate(R.layout.recyclerview_item_character, parent, false)
+        val itemView = inflater.inflate(R.layout.fragment_character_recyclerview_item, parent, false)
         return CharactersViewHolder(itemView)
     }
 

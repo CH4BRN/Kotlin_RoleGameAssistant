@@ -26,20 +26,12 @@ class OccupationDatabaseUtil {
             occupationSkillDao: DbSkillToCheckDao,
             occupationWithSkillDao: DbOccupationDbSkillDao
         ) {
-            insertChooseOccupation(occupationsDao)
+
             insertAccountant(occupationsDao, occupationSkillDao, occupationWithSkillDao)
             insertAcrobat(occupationsDao, occupationSkillDao, occupationWithSkillDao)
         }
 
-        private fun insertChooseOccupation(occupationsDao: DbOccupationsDao) {
-            Log.d(TAG, "insertChoseOccupation")
-            var occupationId = occupationsDao.insertOccupation(
-                DbOccupation(
-                    occupationName = "Choose occupation"
-                )
-            )
-            Log.d(TAG, "occupation id : ${occupationId}")
-        }
+
 
         private fun insertAcrobat(
             occupationsDao: DbOccupationsDao,

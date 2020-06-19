@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/activityEditIdeals_textView_title"
+        style="@style/activityEditBreed_textView_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Edit ideals"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/activityEditIdeals_recyclerView_displayedIdeals"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/activityEditIdeals_imageButton_addNewIdeal"
+        app:layout_constraintTop_toBottomOf="@id/activityEditIdeals_textView_title"
+
+        />
+
+    <Button
+        android:id="@+id/activityEditIdeals_imageButton_addNewIdeal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add"
+        app:layout_constraintBottom_toTopOf="@id/activityEditIdeals_layout_setIdeal"
+        app:layout_constraintTop_toBottomOf="@id/activityEditIdeals_recyclerView_displayedIdeals" />
+
+    <LinearLayout
+        android:id="@+id/activityEditIdeals_layout_setIdeal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@id/activityEditBreed_layout_navigationBar">
+
+        <TableLayout
+            android:id="@+id/activityEditIdeals_layout_idealInformation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/activityEditIdeals_textView_idealTitle"
+                    android:layout_width="0dp"
+                    android:layout_column="0"
+                    android:layout_weight="2"
+                    android:text="Ideal title :" />
+
+                <EditText
+                    android:id="@+id/activityEditIdeals_editText_idealTitle"
+                    android:layout_width="0dp"
+                    android:layout_column="1"
+                    android:layout_weight="4"
+                    android:hint="Let's type a title." />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/activityEditIdeals_textView_idealGoodPoints"
+                    android:layout_width="0dp"
+                    android:layout_column="0"
+                    android:layout_weight="2"
+                    android:text="Ideal good points :" />
+
+                <EditText
+                    android:id="@+id/activityEditIdeals_editText_idealGoodPoints"
+                    android:layout_width="0dp"
+                    android:layout_column="1"
+                    android:layout_weight="4"
+                    android:hint="How much good points ?"
+                    android:inputType="number" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/activityEditIdeals_textView_idealEvilPoints"
+                    android:layout_width="0dp"
+                    android:layout_column="0"
+                    android:layout_weight="2"
+                    android:text="Ideal evil points :" />
+
+                <EditText
+                    android:id="@+id/activityEditIdeals_editText_idealEvilPoints"
+                    android:layout_width="0dp"
+                    android:layout_column="1"
+                    android:layout_weight="4"
+                    android:hint="How much evil points ?"
+                    android:inputType="number" />
+            </TableRow>
+        </TableLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/activityEditIdeals_imageButton_deleteIdeal"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/mybutton"
+                android:padding="8dp"
+                android:src="@drawable/ic_trash_can_24dp"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageButton
+                android:id="@+id/activityEditIdeals_imageButton_saveIdeal"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/mybutton"
+                android:padding="8dp"
+                android:src="@drawable/ic_save_black_24dp"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+
+    <FrameLayout
+        android:id="@+id/activityEditBreed_layout_navigationBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

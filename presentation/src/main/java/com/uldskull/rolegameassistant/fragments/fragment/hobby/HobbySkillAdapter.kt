@@ -103,7 +103,7 @@ class HobbySkillAdapter internal constructor(
      * @see .onBindViewHolder
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HobbySkillsViewHolder {
-        val itemView = layoutInflater.inflate(R.layout.recyclerview_item_hobbyskill, parent, false)
+        val itemView = layoutInflater.inflate(R.layout.fragment_hobbyskill_recyclerview_item, parent, false)
         return HobbySkillsViewHolder((itemView))
     }
 

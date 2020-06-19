@@ -63,11 +63,11 @@ class OccupationsSkillsRecyclerViewFragment :
         setRecyclerViewLayoutManager()
     }
 
-    var occupationsSkillsAdapter: OccupationsSkillsAdapter? = null
+    var occupationsSkillsAdapter: OccupationsSkillsDescriptionAdapter? = null
 
     private fun initializeOccupationsSkillsAdapter() {
         if (activity != null) {
-            occupationsSkillsAdapter = OccupationsSkillsAdapter(
+            occupationsSkillsAdapter = OccupationsSkillsDescriptionAdapter(
                 activity!! as Context,
                 this
             )
@@ -164,7 +164,7 @@ class OccupationsSkillsRecyclerViewFragment :
         Log.d(TAG, "setRecyclerViewAdapter")
         if (activity != null) {
             occupationsSkillsAdapter =
-                OccupationsSkillsAdapter(
+                OccupationsSkillsDescriptionAdapter(
                     activity!! as Context,
                     this
                 )
@@ -193,7 +193,7 @@ class OccupationsSkillsRecyclerViewFragment :
      */
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = layoutInflater.inflate(
-            R.layout.fragment_recyclerview_occupationsskills, container, false
+            R.layout.fragment_occupationsskills_recyclerview, container, false
         )
         return initialRootView
     }

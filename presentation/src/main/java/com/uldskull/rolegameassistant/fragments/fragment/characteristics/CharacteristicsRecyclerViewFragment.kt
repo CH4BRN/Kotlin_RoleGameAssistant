@@ -14,7 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.newCharacter.CharacterActivity
+import com.uldskull.rolegameassistant.activities.character.CharacterActivity
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
@@ -25,7 +25,7 @@ import com.uldskull.rolegameassistant.models.character.characteristic.DomainRoll
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.DerivedValuesViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
-import kotlinx.android.synthetic.main.fragment_recyclerview_characteristics.*
+import kotlinx.android.synthetic.main.fragment_characteristics_recyclerview.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
@@ -66,7 +66,7 @@ class CharacteristicsRecyclerViewFragment :
     /** Initialize the view **/
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = layoutInflater.inflate(
-            R.layout.fragment_recyclerview_characteristics, container, false
+            R.layout.fragment_characteristics_recyclerview, container, false
         )
         return initialRootView
     }

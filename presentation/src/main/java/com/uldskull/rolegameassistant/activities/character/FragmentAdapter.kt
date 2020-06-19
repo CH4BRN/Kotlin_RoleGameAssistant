@@ -1,7 +1,7 @@
 // File FragmentAdapter.kt
 // @Author pierre.antoine - 10/05/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.activities.newCharacter
+package com.uldskull.rolegameassistant.activities.character
 
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity

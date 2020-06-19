@@ -1,7 +1,7 @@
 // File NewCharacterActivity.kt
 // @Author pierre.antoine - 27/01/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.activities.newCharacter
+package com.uldskull.rolegameassistant.activities.character
 
 import android.content.DialogInterface
 import android.os.Bundle
@@ -87,7 +87,7 @@ class CharacterActivity :
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate")
         //  Set the view
-        setContentView(R.layout.activity_new_character)
+        setContentView(R.layout.activity_character_edit)
         //  load view models
         loadViewModels()
         //  Set the character page adapter
@@ -407,7 +407,7 @@ class CharacterActivity :
     private fun setCharacterPagerAdapter() {
         Log.d(TAG, "setCharacterPageAdapter")
         //  Instantiate a ViewPager2 and a PagerAdapter.
-        viewPager = findViewById<ViewPager2>(R.id.activityNewCharacter_viewPager)
+        viewPager = findViewById<ViewPager2>(R.id.activityEditCharacter_viewPager2)
         fragmentAdapter = FragmentAdapter(this)
         viewPager?.adapter = fragmentAdapter
 
@@ -490,7 +490,7 @@ class CharacterActivity :
     private fun initializeProgressBarFragment() {
         Log.d(TAG, "updateProgressBarFragment")
         this.replaceFragment(
-            R.id.activityNewCharacter_container_progressBar,
+            R.id.activityEditCharacter_layout_progressBar,
             ProgressBarFragment.newInstance(this)
         )
     }
@@ -501,7 +501,7 @@ class CharacterActivity :
     private fun loadNavigationBarFragment() {
         Log.d(TAG, "loadNavigationBarFragment")
         this.replaceFragment(
-            R.id.activityNewIdeal_container_navigationBar,
+            R.id.activityEditBreed_layout_navigationBar,
             NavigationBarFragment.newInstance(this)
         )
     }

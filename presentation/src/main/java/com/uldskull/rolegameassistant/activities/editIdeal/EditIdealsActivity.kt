@@ -20,7 +20,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.bars.NavigationBarFragm
 import com.uldskull.rolegameassistant.fragments.fragment.ideals.ideal_toEdit.IdealsToEditAdapter
 import com.uldskull.rolegameassistant.models.character.DomainIdeal
 import com.uldskull.rolegameassistant.viewmodels.IdealsViewModel
-import kotlinx.android.synthetic.main.activity_edit_ideals.*
+import kotlinx.android.synthetic.main.activity_ideals_edit.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**
@@ -34,7 +34,7 @@ class EditIdealsActivity : CustomActivity(), AdapterButtonListener<DomainIdeal> 
 
     private var deleteIdealButton: ImageButton? = null
     private var setIdealGoodPointsEditText: EditText? = null
-    private var setIdealEvilPointsEditText:EditText? = null
+    private var setIdealEvilPointsEditText: EditText? = null
     private var addIdealButton: Button? = null
     private lateinit var idealsViewModel: IdealsViewModel
 
@@ -50,10 +50,11 @@ class EditIdealsActivity : CustomActivity(), AdapterButtonListener<DomainIdeal> 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate")
-        setContentView(R.layout.activity_edit_ideals)
+        setContentView(R.layout.activity_ideals_edit)
         loadNavigationBarFragment()
         idealsViewModel = getViewModel()
-        idealToEditRecyclerView = this.findViewById(R.id.recyclerView_editIdeals)
+        idealToEditRecyclerView =
+            this.findViewById(R.id.activityEditIdeals_recyclerView_displayedIdeals)
         initializeSetIdealTitleEditText()
         initializeSetIdealGoodPointsEditText()
         initializeSetIdealEvilPointsEditText()
@@ -68,10 +69,10 @@ class EditIdealsActivity : CustomActivity(), AdapterButtonListener<DomainIdeal> 
     }
 
 
-
     private fun initializeSetIdealEvilPointsEditText() {
-        setIdealEvilPointsEditText = this?.findViewById(R.id.et_setIdealEvilPoints)
-        setIdealEvilPointsEditText?.addTextChangedListener(object: CustomTextWatcher(){
+        setIdealEvilPointsEditText =
+            this?.findViewById(R.id.activityEditIdeals_editText_idealEvilPoints)
+        setIdealEvilPointsEditText?.addTextChangedListener(object : CustomTextWatcher() {
             /**
              * This method is called to notify you that, within `s`,
              * the `count` characters beginning at `start`
@@ -81,7 +82,7 @@ class EditIdealsActivity : CustomActivity(), AdapterButtonListener<DomainIdeal> 
              */
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 super.onTextChanged(s, start, before, count)
-                if(s!=null){
+                if (s != null) {
                     var oldIdeal = idealsViewModel?.currentIdealToEdit
                     var newIdeal = DomainIdeal(
                         isChecked = oldIdeal?.isChecked,
@@ -98,8 +99,9 @@ class EditIdealsActivity : CustomActivity(), AdapterButtonListener<DomainIdeal> 
     }
 
     private fun initializeSetIdealGoodPointsEditText() {
-        setIdealGoodPointsEditText = this?.findViewById<EditText>(R.id.et_setIdealGoodPoints)
-        setIdealGoodPointsEditText?.addTextChangedListener(object : CustomTextWatcher(){
+        setIdealGoodPointsEditText =
+            this?.findViewById<EditText>(R.id.activityEditIdeals_editText_idealGoodPoints)
+        setIdealGoodPointsEditText?.addTextChangedListener(object : CustomTextWatcher() {
             /**
              * This method is called to notify you that, within `s`,
              * the `count` characters beginning at `start`
@@ -109,7 +111,7 @@ class EditIdealsActivity : CustomActivity(), AdapterButtonListener<DomainIdeal> 
              */
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 super.onTextChanged(s, start, before, count)
-                if(s != null && s.isNotBlank() && s.isNotEmpty()){
+                if (s != null && s.isNotBlank() && s.isNotEmpty()) {
                     var oldIdeal = idealsViewModel?.currentIdealToEdit
                     var newIdeal = DomainIdeal(
                         isChecked = oldIdeal?.isChecked,
@@ -126,7 +128,7 @@ class EditIdealsActivity : CustomActivity(), AdapterButtonListener<DomainIdeal> 
     }
 
     private fun initializeSetIdealTitleEditText() {
-        setIdealTitleEditText = this.findViewById(R.id.et_setIdealTitle)
+        setIdealTitleEditText = this.findViewById(R.id.activityEditIdeals_editText_idealTitle)
         setIdealTitleEditText?.addTextChangedListener(object : CustomTextWatcher() {
             /**
              * This method is called to notify you that, within `s`,
@@ -154,7 +156,7 @@ class EditIdealsActivity : CustomActivity(), AdapterButtonListener<DomainIdeal> 
     }
 
     private fun initializeAddIdealButton() {
-        addIdealButton = this?.findViewById(R.id.imageButton_addNewIdeal)
+        addIdealButton = this?.findViewById(R.id.activityEditIdeals_imageButton_addNewIdeal)
         if (addIdealButton != null) {
             addIdealButton?.setOnClickListener {
                 var id = idealsViewModel?.insertIdeal(
@@ -170,7 +172,7 @@ class EditIdealsActivity : CustomActivity(), AdapterButtonListener<DomainIdeal> 
                 idealsViewModel?.refreshDataFromRepository()
 
                 var ideal = idealsViewModel?.getIdealById(id)
-                if(ideal != null){
+                if (ideal != null) {
                     idealsViewModel?.currentIdealToEdit = ideal
                     setIdealTitleEditText?.setText(ideal?.idealName)
                     setIdealGoodPointsEditText?.setText(ideal?.idealGoodPoints?.toString())
@@ -182,37 +184,41 @@ class EditIdealsActivity : CustomActivity(), AdapterButtonListener<DomainIdeal> 
     }
 
     private fun initializeDeleteIdealButton() {
-        deleteIdealButton = this?.findViewById<ImageButton>(R.id.imageButton_deleteIdealToEdit)
-        if(deleteIdealButton != null){
-            deleteIdealButton!!.setOnClickListener{
-                if(idealsViewModel?.currentIdealToEdit != null){
-                    idealsViewModel?.deleteIdeal(idealsViewModel?.currentIdealToEdit!!)
-                }
-                idealsViewModel?.refreshDataFromRepository()
-
-                var ideals = idealsViewModel?.getAll()
-
-                ideals?.forEach { i -> Log.d("DEBUG$TAG", "Ideal : ${i.idealName}") }
-            }
+        deleteIdealButton =
+            this?.findViewById<ImageButton>(R.id.activityEditIdeals_imageButton_deleteIdeal)
+        if (deleteIdealButton == null) {
+            throw Exception("Button is null")
         }
+        deleteIdealButton!!.setOnClickListener {
+            if (idealsViewModel?.currentIdealToEdit != null) {
+                idealsViewModel?.deleteIdeal(idealsViewModel?.currentIdealToEdit!!)
+            }
+            idealsViewModel?.refreshDataFromRepository()
+
+            var ideals = idealsViewModel?.getAll()
+
+            ideals?.forEach { i -> Log.d("DEBUG$TAG", "Ideal : ${i.idealName}") }
+        }
+
 
     }
 
     private fun initializeSaveIdealButton() {
-        saveIdealImageButton = this?.findViewById(R.id.imageButton_saveIdealToEdit)
-
-        if (saveIdealImageButton != null) {
-            saveIdealImageButton!!.setOnClickListener {
-
-                if (idealsViewModel?.currentIdealToEdit != null) {
-                    idealsViewModel?.insertIdeal(idealsViewModel?.currentIdealToEdit!!)
-                }
-                idealsViewModel?.refreshDataFromRepository()
-                var ideals = idealsViewModel?.getAll()
-
-                ideals?.forEach { i -> Log.d("DEBUG$TAG", "Ideal : ${i.idealName}") }
-            }
+        saveIdealImageButton = this?.findViewById(R.id.activityEditIdeals_imageButton_saveIdeal)
+        if (saveIdealImageButton == null) {
+            throw Exception("Button is null")
         }
+        saveIdealImageButton!!.setOnClickListener {
+
+            if (idealsViewModel?.currentIdealToEdit != null) {
+                idealsViewModel?.insertIdeal(idealsViewModel?.currentIdealToEdit!!)
+            }
+            idealsViewModel?.refreshDataFromRepository()
+            var ideals = idealsViewModel?.getAll()
+
+            ideals?.forEach { i -> Log.d("DEBUG$TAG", "Ideal : ${i.idealName}") }
+        }
+
     }
 
     private fun startObservation() {
@@ -241,7 +247,7 @@ class EditIdealsActivity : CustomActivity(), AdapterButtonListener<DomainIdeal> 
         Log.d(TAG, "loadNavigationBarFragment")
 
         this.replaceFragment(
-            R.id.activityNewIdeal_container_navigationBar,
+            R.id.activityEditBreed_layout_navigationBar,
             NavigationBarFragment.newInstance(this)
         )
     }
@@ -252,9 +258,9 @@ class EditIdealsActivity : CustomActivity(), AdapterButtonListener<DomainIdeal> 
     override fun itemPressed(domainModel: DomainIdeal?, position: Int?) {
         Log.d("DEBUG$TAG", "Item pressed")
         if (domainModel != null) {
-            et_setIdealTitle.setText(domainModel.idealName)
-            et_setIdealGoodPoints.setText(domainModel.idealGoodPoints.toString())
-            et_setIdealEvilPoints.setText(domainModel.idealEvilPoints.toString())
+            activityEditIdeals_editText_idealTitle.setText(domainModel.idealName)
+            activityEditIdeals_editText_idealGoodPoints.setText(domainModel.idealGoodPoints.toString())
+            activityEditIdeals_editText_idealEvilPoints.setText(domainModel.idealEvilPoints.toString())
 
             idealsViewModel?.currentIdealToEdit = domainModel
         }

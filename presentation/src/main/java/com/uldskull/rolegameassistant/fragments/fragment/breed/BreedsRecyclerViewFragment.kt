@@ -136,7 +136,7 @@ class BreedsRecyclerViewFragment :
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         Log.d(TAG, "initializeView")
         initialRootView = layoutInflater.inflate(
-            R.layout.fragment_recyclerview_breeds, container, false
+            R.layout.fragment_breeds_recyclerview, container, false
         )
         return initialRootView
     }

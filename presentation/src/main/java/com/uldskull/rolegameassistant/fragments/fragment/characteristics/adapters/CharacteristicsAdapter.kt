@@ -15,7 +15,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollsCharacteristic
-import kotlinx.android.synthetic.main.recyclerview_item_characteristic.view.*
+import kotlinx.android.synthetic.main.fragment_characteristics_recyclerview_item.view.*
 
 
 /**
@@ -64,7 +64,7 @@ open class CharacteristicsAdapter internal constructor(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacteristicsViewHolder {
         Log.d(TAG, "onCreateViewHolder")
 
-        val itemView = inflater.inflate(R.layout.recyclerview_item_characteristic, parent, false)
+        val itemView = inflater.inflate(R.layout.fragment_characteristics_recyclerview_item, parent, false)
         itemView.et_characteristicRoll.inputType = InputType.TYPE_CLASS_NUMBER
 
         itemView.et_characteristicBonus.inputType = InputType.TYPE_CLASS_NUMBER

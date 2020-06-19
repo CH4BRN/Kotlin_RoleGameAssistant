@@ -5,14 +5,14 @@
     android:layout_height="match_parent">
 
     <TextView
-        style="@style/TextViewFragmentTitle"
+        style="@style/activityEditBreed_textView_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="New breed"
         app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
-        android:id="@+id/activityNewIdeal_container_navigationBar"
+        android:id="@+id/activityEditBreed_layout_navigationBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent" />

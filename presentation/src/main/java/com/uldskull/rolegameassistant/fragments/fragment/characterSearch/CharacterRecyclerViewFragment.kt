@@ -14,7 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.CharacterTransmission
+import com.uldskull.rolegameassistant.activities.character.CharacterTransmission
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.CHARACTERS_RECYCLER_VIEW_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
@@ -132,7 +132,7 @@ class CharacterRecyclerViewFragment :
      */
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = layoutInflater.inflate(
-            R.layout.fragment_recyclerview_characters, container, false
+            R.layout.fragment_characters_recyclerview, container, false
         )
         return initialRootView
     }

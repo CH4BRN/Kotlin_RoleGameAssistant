@@ -173,4 +173,11 @@ class DbOccupationsRepositoryImpl(
 
     }
 
+    override fun deleteOne(currentOccupationToEdit: DomainOccupation):Int {
+        if(currentOccupationToEdit == null){
+            throw Exception("ERROR : Occupation is null.")
+        }
+       return dbOccupationDao?.deleteOccupations( DbOccupation.from(currentOccupationToEdit))
+    }
+
 }

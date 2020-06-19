@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.CharacterSearchActivity
-import com.uldskull.rolegameassistant.activities.CharacterTransmission
+import com.uldskull.rolegameassistant.activities.character.CharacterSearchActivity
+import com.uldskull.rolegameassistant.activities.character.CharacterTransmission
 import com.uldskull.rolegameassistant.activities.replaceFragment
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
@@ -22,7 +22,8 @@ import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
  * Use the [CharacterSearchFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class CharacterSearchFragment : CustomFragment(), CharacterTransmission {
+class CharacterSearchFragment : CustomFragment(),
+    CharacterTransmission {
 
     private var characterTransmitter: CharacterTransmission? = null
 

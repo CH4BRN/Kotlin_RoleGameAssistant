@@ -1,10 +1,8 @@
-// File JobSkillsAdapter.kt
-// @Author pierre.antoine - 05/03/2020 - No copyright.
+// OccupationsSkillsToCheckAdapter.kt created by UldSkull - 19/06/2020
 
 package com.uldskull.rolegameassistant.fragments.fragment.occupations
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,49 +13,38 @@ import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
 import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
 
-
 /**
- *   Class "JobSkillsAdapter" :
- *   TODO: Fill class use.
- **/
-class OccupationsSkillsAdapter internal constructor(
-    context: Context,
+Class "OccupationsSkillsToCheckAdapter"
+
+TODO: Describe class utility.
+ */
+class OccupationsSkillsToCheckSimpleAdapter internal constructor(
+    context:Context,
     private val buttonListener: AdapterButtonListener<DomainSkillToCheck>
-) : RecyclerView.Adapter<OccupationsSkillsAdapter.OccupationsSkillsViewHolder>() {
+) : RecyclerView.Adapter<OccupationsSkillsToCheckSimpleAdapter.OccupationsSkillsToCheckViewHolder>(){
     companion object {
-        private const val TAG = "OccupationsSkillsAdapter"
+        private const val TAG = "OccupationsSkillsToCheckAdapter"
     }
 
     /** Inflater  **/
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
-
-    /**  Inner class to display  **/
-    inner class OccupationsSkillsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var tvOccupationsSkillName: TextView? = itemView.findViewById(R.id.tv_skillToCheck_name)
-        var tvOccupationsSkillDescription: TextView? =
-            itemView.findViewById(R.id.tv_skillToCheck_Description)
-        var cbOccupationsSkillIsChecked: CheckBox? =
-            itemView.findViewById(R.id.cb_skillIToCheck_IsChecked)
-        var vOccupationsSkillOverlay: View? = itemView.findViewById(R.id.skillToCheck_overlay)
-
-        fun bind(skill: DomainSkillToCheck?) {
-            Log.d("DEBUG$TAG", "Skill : $skill")
-            tvOccupationsSkillName?.text = skill?.skillName
-            tvOccupationsSkillDescription?.text = skill?.skillDescription
-            cbOccupationsSkillIsChecked?.isChecked = skill?.skillIsChecked!!
-            vOccupationsSkillOverlay?.setOnClickListener {
-                Log.d("DEBUG$TAG", "Overlay")
-                buttonListener.itemPressed(skill)
-            }
-
-        }
-    }
-
     /**  Skills list  **/
     private var occupationSkills = emptyList<DomainSkillToCheck?>()
 
+    inner class OccupationsSkillsToCheckViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+        var tvSkillName:TextView? = itemView.findViewById(R.id.fragmentSkillToCheck_textView_skillName)
+        var cbSkillChecked:CheckBox? = itemView.findViewById(R.id.fragmentSkillToCheck_checkBox_skillChecked)
+
+        fun bind(domainSkillToCheck: DomainSkillToCheck?){
+            if(domainSkillToCheck != null){
+                tvSkillName?.setText(domainSkillToCheck.skillName)
+                cbSkillChecked?.isChecked = domainSkillToCheck.skillIsChecked
+            }
+        }
+    }
+
     /**
-     * Called when RecyclerView needs a new [OccupationsSkillsViewHolder] of the given type to represent
+     * Called when RecyclerView needs a new [ViewHolder] of the given type to represent
      * an item.
      *
      *
@@ -82,11 +69,9 @@ class OccupationsSkillsAdapter internal constructor(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): OccupationsSkillsViewHolder {
-        val itemView =
-            layoutInflater.inflate(R.layout.recyclerview_item_skill_to_check, parent, false)
-        return OccupationsSkillsViewHolder(itemView)
-
+    ): OccupationsSkillsToCheckViewHolder {
+        val itemView = layoutInflater.inflate(R.layout.fragment_skilltochecksimple_recyclerview_item, parent, false)
+        return OccupationsSkillsToCheckViewHolder(itemView)
     }
 
     /**
@@ -95,12 +80,19 @@ class OccupationsSkillsAdapter internal constructor(
      * @return The total number of items in this adapter.
      */
     override fun getItemCount(): Int {
-        return occupationSkills.size
+        return occupationSkills?.size
+    }
+
+    fun setSkills(skillsToCheck: List<DomainSkillToCheck>){
+        if(skillsToCheck != null){
+            this?.occupationSkills = skillsToCheck
+        }
+        notifyDataSetChanged()
     }
 
     /**
      * Called by RecyclerView to display the data at the specified position. This method should
-     * update the contents of the [OccupationsSkillsViewHolder.itemView] to reflect the item at the given
+     * update the contents of the [ViewHolder.itemView] to reflect the item at the given
      * position.
      *
      *
@@ -109,7 +101,7 @@ class OccupationsSkillsAdapter internal constructor(
      * invalidated or the new position cannot be determined. For this reason, you should only
      * use the `position` parameter while acquiring the related data item inside
      * this method and should not keep a copy of it. If you need the position of an item later
-     * on (e.g. in a click listener), use [OccupationsSkillsViewHolder.getAdapterPosition] which will
+     * on (e.g. in a click listener), use [ViewHolder.getAdapterPosition] which will
      * have the updated adapter position.
      *
      * Override [.onBindViewHolder] instead if Adapter can
@@ -119,17 +111,8 @@ class OccupationsSkillsAdapter internal constructor(
      * item at the given position in the data set.
      * @param position The position of the item within the adapter's data set.
      */
-    override fun onBindViewHolder(holder: OccupationsSkillsViewHolder, position: Int) {
-        holder.bind(occupationSkills[position])
-    }
-
-
-    fun setOccupationsSkills(skills: List<DomainSkillToCheck?>?) {
-        if (skills != null) {
-            this.occupationSkills = skills
-            notifyDataSetChanged()
-        }
-
+    override fun onBindViewHolder(holder: OccupationsSkillsToCheckViewHolder, position: Int) {
+       holder?.bind(occupationSkills[position])
     }
 
 }
