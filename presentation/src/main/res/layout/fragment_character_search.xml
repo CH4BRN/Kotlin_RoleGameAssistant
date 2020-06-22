@@ -11,14 +11,14 @@
         android:id="@+id/fragment_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Character search"
+        android:text="@string/character_search"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/et_characterSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Search ..."
+        android:hint="@string/search"
         android:inputType="text"
         app:layout_constraintTop_toBottomOf="@id/fragment_title" />
 

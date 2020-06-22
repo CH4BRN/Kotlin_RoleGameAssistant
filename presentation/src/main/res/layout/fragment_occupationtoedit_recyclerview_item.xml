@@ -18,7 +18,7 @@
                     android:id="@+id/textView_occupationToEdit_title"
                     android:layout_weight="1"
                     android:layout_width="0dp"
-                    android:hint="Title ..."/>
+                    android:hint="@string/title_hint"/>
 
             </TableRow>
         </TableLayout>

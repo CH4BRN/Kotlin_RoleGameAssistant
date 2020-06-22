@@ -13,46 +13,46 @@
         android:layout_weight="3"
         android:maxWidth="45dp"
         android:maxLength="16"
-        android:text="Skill 1" />
+        android:text="@string/skill_1" />
 
     <TextView
         android:id="@+id/tv_hobbySkillBase"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="15" />
+        android:text="@string/fifteen" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0.2"
-        android:text=" + " />
+        android:text="@string/plus" />
 
     <TextView
         android:id="@+id/tv_hobbySkillAddTens"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0.5"
-        android:text="1" />
+        android:text="@string/one" />
 
     <TextView
         android:id="@+id/tv_hobbySkillAddUnits"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0.5"
-        android:text="5" />
+        android:text="@string/five" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text=" / " />
+        android:text="@string/slash" />
 
     <TextView
         android:id="@+id/tv_hobbySkillTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="150" />
+        android:text="@string/_150" />
 
 </LinearLayout>

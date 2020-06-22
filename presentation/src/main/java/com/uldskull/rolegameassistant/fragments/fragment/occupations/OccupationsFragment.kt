@@ -19,6 +19,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.*
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.OCCUPATIONS_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
+import com.uldskull.rolegameassistant.viewmodels.SkillsViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationSkillsViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationsViewModel
 import kotlinx.android.synthetic.main.fragment_occupations.*
@@ -33,6 +34,7 @@ class OccupationsFragment : CustomFragment() {
     //  VIEWMODELS
     private val occupationsViewModel: OccupationsViewModel by sharedViewModel()
     private val occupationSkillsViewModel: OccupationSkillsViewModel by sharedViewModel()
+    private val skillViewModel:SkillsViewModel by sharedViewModel()
     private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
 
     //  ADAPTER
@@ -151,10 +153,7 @@ class OccupationsFragment : CustomFragment() {
             this,
             Observer { domainOccupation: DomainOccupation ->
                 kotlin.run {
-                    Log.d(
-                        "DEBUG$TAG",
-                        "Selected occupation is : ${domainOccupation.occupationName}"
-                    )
+
                     var index =
                         occupationsViewModel?.displayedOccupations?.value?.indexOfFirst { occupation ->
                             occupation.toString().equals(domainOccupation?.occupationName)
@@ -164,6 +163,20 @@ class OccupationsFragment : CustomFragment() {
                         Log.d("DEBUG$TAG", "Index of occupation : $index")
                         spinner_occupations?.setSelection(index)
                     }
+
+                    var occupationWithChildren = occupationsViewModel?.findOneWithChildren(domainOccupation?.occupationId)
+
+                    var oldList = skillViewModel?.mutableSkillsToCheck?.value
+
+                    if(oldList != null){
+                        for (i in oldList?.indices!!) {
+                            oldList[i].skillIsChecked =
+                                occupationWithChildren?.skills?.any { occupationSkill -> occupationSkill?.skillId!! == oldList[i].skillId!! }!!
+                        }
+                    }
+
+                    skillViewModel?.mutableSkillsToCheck?.value = oldList
+
 
 
                     setOccupationIncome(domainOccupation)

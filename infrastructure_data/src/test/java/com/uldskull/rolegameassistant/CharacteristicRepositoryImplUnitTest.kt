@@ -38,12 +38,8 @@ class CharacteristicRepositoryImplUnitTest : RepositoryUnitTest() {
      */
     override fun `test insertOne`() {
 
-        val repositoryImpl: CharacteristicRepositoryImpl by inject()
-        runBlocking {
-            repositoryImpl.insertOne(null)
-        }
-
     }
+
 
 }
 

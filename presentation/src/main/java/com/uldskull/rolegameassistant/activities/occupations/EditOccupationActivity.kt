@@ -5,9 +5,11 @@ package com.uldskull.rolegameassistant.activities.occupations
 
 import android.os.Bundle
 import android.util.Log
+import android.util.SparseBooleanArray
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import androidx.core.util.set
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,6 +23,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.occupations.Occupations
 import com.uldskull.rolegameassistant.fragments.fragment.occupations.OccupationsSkillsToCheckSimpleAdapter
 import com.uldskull.rolegameassistant.fragments.fragment.occupations.OccupationsToEditAdapter
 import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
+import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupationWithSkills
 import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
 import com.uldskull.rolegameassistant.viewmodels.SkillsViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationsViewModel
@@ -58,10 +61,23 @@ class EditOccupationActivity : CustomActivity() {
                 activityEditOccupation_editText_occupationIncome.setText(domainOccupation.occupationIncome)
                 activityEditOccupation_editText_occupationSpecial.setText(domainOccupation.occupationSpecial)
 
+
+                var occupationWithChildren: DomainOccupationWithSkills? =
+                    occupationsViewModel?.findOneWithChildren(domainOccupation?.occupationId)
+
+                var oldList = skillsViewModel?.mutableSkillsToCheck?.value
+
+                for (i in oldList?.indices!!) {
+                    oldList[i].skillIsChecked =
+                        occupationWithChildren?.skills?.any { occupationSkill -> occupationSkill?.skillId!! == oldList[i].skillId!! }!!
+                }
+
+                occupationsSkillsToEditRecyclerView?.adapter = skillRecyclerViewAdapter
+
+                skillsViewModel?.mutableSkillsToCheck?.value = oldList
                 occupationsViewModel?.currentOccupationToEdit = domainOccupation
             }
         }
-
     }
 
     private lateinit var occupationsViewModel: OccupationsViewModel
@@ -85,7 +101,7 @@ class EditOccupationActivity : CustomActivity() {
         deleteOccupationImageButton!!.setOnClickListener {
             var currentOccupation = occupationsViewModel?.currentOccupationToEdit
             if (currentOccupation != null) {
-               var deleteResult =  occupationsViewModel?.deleteOccupation(currentOccupation)
+                var deleteResult = occupationsViewModel?.deleteOccupation(currentOccupation)
                 Log.d("DEBUG$TAG", "Delete result : $deleteResult")
             }
 
@@ -174,25 +190,34 @@ class EditOccupationActivity : CustomActivity() {
     private fun startObservation() {
         observeRepositoryOccupations()
         observeRepositorySkills()
+        observeMutableSkillsToCheck()
+    }
+
+    var skillRecyclerViewAdapter: OccupationsSkillsToCheckSimpleAdapter? = null
+
+    private fun observeMutableSkillsToCheck() {
+        skillsViewModel?.mutableSkillsToCheck?.observe(
+            this, Observer {
+                skillRecyclerViewAdapter = OccupationsSkillsToCheckSimpleAdapter(
+                    context = this,
+                    buttonListener = this.skillAdapterButtonListener
+                )
+
+                skillRecyclerViewAdapter?.setSkills(it)
+                occupationsSkillsToEditRecyclerView?.adapter = skillRecyclerViewAdapter
+                var layoutManager = LinearLayoutManager(
+                    this,
+                    LinearLayoutManager.VERTICAL,
+                    false
+                )
+                occupationsSkillsToEditRecyclerView?.layoutManager = layoutManager
+            }
+        )
     }
 
     private fun observeRepositorySkills() {
-
         skillsViewModel?.repositorySkillsToCheck?.observe(this, Observer {
-            var recyclerViewAdapter = OccupationsSkillsToCheckSimpleAdapter(
-                context = this,
-                buttonListener = this.skillAdapterButtonListener
-            )
-            recyclerViewAdapter?.setSkills(it)
-
-            occupationsSkillsToEditRecyclerView?.adapter = recyclerViewAdapter
-            var layoutManager = LinearLayoutManager(
-                this,
-                LinearLayoutManager.VERTICAL,
-                false
-            )
-            occupationsSkillsToEditRecyclerView?.layoutManager = layoutManager
-
+            skillsViewModel?.mutableSkillsToCheck?.value = it
         })
     }
 

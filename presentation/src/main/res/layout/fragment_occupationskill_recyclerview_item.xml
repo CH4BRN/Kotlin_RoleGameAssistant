@@ -17,28 +17,28 @@
         android:layout_weight="3"
         android:maxWidth="45dp"
         android:maxLength="16"
-        android:text="Skill 1" />
+        android:text="@string/skill_1" />
 
     <TextView
         android:id="@+id/tv_occupationSkillBase"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="15" />
+        android:text="@string/fifteen" />
 
     <TextView
         android:id="@+id/tv_occupationSkillPlus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0.2"
-        android:text=" + " />
+        android:text="@string/plus" />
 
     <TextView
         android:id="@+id/tv_occupationSkillAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="1" />
+        android:text="@string/one" />
 
 
     <TextView
@@ -46,13 +46,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text=" / " />
+        android:text="@string/slash" />
 
     <TextView
         android:id="@+id/tv_occupationSkillTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="0" />
+        android:text="@string/zero" />
 
 </LinearLayout>

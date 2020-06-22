@@ -3,6 +3,8 @@
 package com.uldskull.rolegameassistant.fragments.fragment.occupations
 
 import android.content.Context
+import android.util.Log
+import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,27 +21,47 @@ Class "OccupationsSkillsToCheckAdapter"
 TODO: Describe class utility.
  */
 class OccupationsSkillsToCheckSimpleAdapter internal constructor(
-    context:Context,
+    context: Context,
     private val buttonListener: AdapterButtonListener<DomainSkillToCheck>
-) : RecyclerView.Adapter<OccupationsSkillsToCheckSimpleAdapter.OccupationsSkillsToCheckViewHolder>(){
+) : RecyclerView.Adapter<OccupationsSkillsToCheckSimpleAdapter.OccupationsSkillsToCheckViewHolder>() {
     companion object {
         private const val TAG = "OccupationsSkillsToCheckAdapter"
     }
 
+
+
     /** Inflater  **/
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
+
     /**  Skills list  **/
     private var occupationSkills = emptyList<DomainSkillToCheck?>()
 
-    inner class OccupationsSkillsToCheckViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        var tvSkillName:TextView? = itemView.findViewById(R.id.fragmentSkillToCheck_textView_skillName)
-        var cbSkillChecked:CheckBox? = itemView.findViewById(R.id.fragmentSkillToCheck_checkBox_skillChecked)
+    inner class OccupationsSkillsToCheckViewHolder(itemView: View) :
+        RecyclerView.ViewHolder(itemView) {
+        var tvSkillName: TextView? =
+            itemView.findViewById(R.id.fragmentSkillToCheck_textView_skillName)
+        var cbSkillChecked: CheckBox? =
+            itemView.findViewById(R.id.fragmentSkillToCheck_checkBox_skillChecked)
+        var viOverlay: View? = itemView.findViewById(R.id.fragmentSkillToCheck_view_overlay)
 
-        fun bind(domainSkillToCheck: DomainSkillToCheck?){
-            if(domainSkillToCheck != null){
-                tvSkillName?.setText(domainSkillToCheck.skillName)
-                cbSkillChecked?.isChecked = domainSkillToCheck.skillIsChecked
+        init {
+            viOverlay?.setOnClickListener {
+               if(occupationSkills[adapterPosition]?.skillIsChecked!!){
+                   cbSkillChecked?.isChecked = false
+                   occupationSkills[adapterPosition]?.skillIsChecked = false
+               }else{
+                   cbSkillChecked?.isChecked = true
+                   occupationSkills[adapterPosition]?.skillIsChecked = true
+               }
+
             }
+        }
+
+        fun bind(domainSkillToCheck: DomainSkillToCheck?, position: Int) {
+            if (domainSkillToCheck != null) {
+                tvSkillName?.text = domainSkillToCheck.skillName
+            }
+            cbSkillChecked?.isChecked = occupationSkills[position]?.skillIsChecked!!
         }
     }
 
@@ -70,7 +92,11 @@ class OccupationsSkillsToCheckSimpleAdapter internal constructor(
         parent: ViewGroup,
         viewType: Int
     ): OccupationsSkillsToCheckViewHolder {
-        val itemView = layoutInflater.inflate(R.layout.fragment_skilltochecksimple_recyclerview_item, parent, false)
+        val itemView = layoutInflater.inflate(
+            R.layout.fragment_skilltochecksimple_recyclerview_item,
+            parent,
+            false
+        )
         return OccupationsSkillsToCheckViewHolder(itemView)
     }
 
@@ -83,8 +109,8 @@ class OccupationsSkillsToCheckSimpleAdapter internal constructor(
         return occupationSkills?.size
     }
 
-    fun setSkills(skillsToCheck: List<DomainSkillToCheck>){
-        if(skillsToCheck != null){
+    fun setSkills(skillsToCheck: List<DomainSkillToCheck>) {
+        if (skillsToCheck != null) {
             this?.occupationSkills = skillsToCheck
         }
         notifyDataSetChanged()
@@ -112,7 +138,7 @@ class OccupationsSkillsToCheckSimpleAdapter internal constructor(
      * @param position The position of the item within the adapter's data set.
      */
     override fun onBindViewHolder(holder: OccupationsSkillsToCheckViewHolder, position: Int) {
-       holder?.bind(occupationSkills[position])
+        holder?.bind(occupationSkills[position], position)
     }
 
 }

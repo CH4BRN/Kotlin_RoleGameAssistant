@@ -9,20 +9,21 @@
         style="@style/activityEditBreed_textView_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Edit occupation"
+        android:text="@string/edit_occupation"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/activityEditOccupation_recyclerView_displayedOccupations"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/activityEditOccupation_textView_title" />
+        app:layout_constraintTop_toBottomOf="@id/activityEditOccupation_textView_title"
+        android:maxHeight="150dp"/>
 
     <Button
         android:id="@+id/activityEditOccupation_button_addNewOccupation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add"
+        android:text="@string/add"
         app:layout_constraintTop_toBottomOf="@id/activityEditOccupation_recyclerView_displayedOccupations" />
 
     <LinearLayout
@@ -45,14 +46,14 @@
                     android:layout_width="0dp"
                     android:layout_column="0"
                     android:layout_weight="2"
-                    android:text="Title :" />
+                    android:text="@string/title" />
 
                 <EditText
                     android:id="@+id/activityEditOccupation_editText_occupationTitle"
                     android:layout_width="0dp"
                     android:layout_column="1"
                     android:layout_weight="4"
-                    android:hint="Let's type a title." />
+                    android:hint="@string/let_s_type_a_title" />
             </TableRow>
 
             <TableRow>
@@ -62,14 +63,14 @@
                     android:layout_width="0dp"
                     android:layout_column="0"
                     android:layout_weight="2"
-                    android:text="Income :" />
+                    android:text="@string/income" />
 
                 <EditText
                     android:id="@+id/activityEditOccupation_editText_occupationIncome"
                     android:layout_width="0dp"
                     android:layout_column="1"
                     android:layout_weight="4"
-                    android:hint="Let's type an income." />
+                    android:hint="@string/let_s_type_an_income" />
             </TableRow>
 
             <TableRow>
@@ -79,14 +80,14 @@
                     android:layout_width="0dp"
                     android:layout_column="0"
                     android:layout_weight="2"
-                    android:text="Contacts :" />
+                    android:text="@string/contacts" />
 
                 <EditText
                     android:id="@+id/activityEditOccupation_editText_occupationContacts"
                     android:layout_width="0dp"
                     android:layout_column="1"
                     android:layout_weight="4"
-                    android:hint="Let's type the contacts" />
+                    android:hint="@string/let_s_type_the_contacts" />
             </TableRow>
 
             <TableRow>
@@ -96,14 +97,14 @@
                     android:layout_width="0dp"
                     android:layout_column="0"
                     android:layout_weight="2"
-                    android:text="Special" />
+                    android:text="@string/special" />
 
                 <EditText
                     android:id="@+id/activityEditOccupation_editText_occupationSpecial"
                     android:layout_width="0dp"
                     android:layout_column="1"
                     android:layout_weight="4"
-                    android:hint="Let's type the special" />
+                    android:hint="@string/let_s_type_the_special" />
             </TableRow>
 
         </TableLayout>

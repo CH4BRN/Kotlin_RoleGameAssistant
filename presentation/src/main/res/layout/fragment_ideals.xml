@@ -8,7 +8,7 @@
         style="@style/activityEditBreed_textView_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ideals : " />
+        android:text="@string/ideals" />
     <ScrollView
         android:paddingHorizontal="4dp"
         android:id="@+id/fragmentBasicInfo_scrollview_parent"
@@ -37,7 +37,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragmentIdeals_container_ideals"
-            android:contentDescription="Add ideal." />
+            android:contentDescription="@string/add_ideal" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

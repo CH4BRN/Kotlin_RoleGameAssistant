@@ -9,7 +9,7 @@
         android:id="@+id/fragmentBasicInfo_textView_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Occupation"
+        android:text="@string/occupation"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -46,12 +46,12 @@
                 android:id="@+id/tv_occupationPoints"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0" />
+                android:text="@string/zero" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="/" />
+                android:text="@string/slash" />
 
             <TextView
                 android:id="@+id/tv_totalOccupationPoints"
@@ -71,7 +71,7 @@
             app:layout_constraintEnd_toEndOf="@id/tv_selectedSkill"
             android:src="@drawable/ic_add_black_24dp"
             app:layout_constraintTop_toBottomOf="@id/container_occupationPoints"
-            android:contentDescription="Add skill." />
+            android:contentDescription="@string/add_skill" />
 
         <TextView
             style="@style/TextViewSubTitle"
@@ -79,7 +79,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:text="Skill : SampleSkill"
+            android:text="@string/skill_sampleskill"
             app:layout_constraintTop_toBottomOf="@id/btn_occupation_add_skill" />
 
 
@@ -107,7 +107,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="/ 99" />
+                android:text="@string/slash99" />
 
             <ImageButton
                 android:layout_marginLeft="8dp"
@@ -117,7 +117,7 @@
                 android:id="@+id/btn_validateSkillPoints"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="Validate." />
+                android:contentDescription="@string/validate" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,7 +28,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:minWidth="40dp"
-                    android:text="Ability : " />
+                    android:text="@string/ability" />
 
                 <TextView
                     android:id="@+id/tv_roll"
@@ -37,7 +37,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:minWidth="40dp"
-                    android:text="Roll : " />
+                    android:text="@string/roll" />
 
                 <TextView
                     android:id="@+id/tv_bonus"
@@ -46,7 +46,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:minWidth="40dp"
-                    android:text="Bonus : " />
+                    android:text="@string/bonus" />
 
                 <TextView
                     android:id="@+id/tv_total"
@@ -55,7 +55,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:minWidth="40dp"
-                    android:text="Total : " />
+                    android:text="@string/total" />
             </LinearLayout>
 
 
@@ -74,11 +74,11 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/mybutton"
                 android:padding="4dp"
-                android:text="Use points"
+                android:text="@string/use_points"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/recycler_view_abilities"
-                android:contentDescription="Use points manually." />
+                android:contentDescription="@string/use_points_manually" />
 
             <ImageButton
                 android:src="@drawable/ic_dice_twenty_faces_one"
@@ -88,11 +88,11 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/mybutton"
                 android:padding="4dp"
-                android:text="Roll"
+                android:text="@string/roll"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/recycler_view_abilities"
-                android:contentDescription="Roll the dices.">
+                android:contentDescription="@string/roll_the_dices">
 
             </ImageButton>
         </androidx.constraintlayout.widget.ConstraintLayout>

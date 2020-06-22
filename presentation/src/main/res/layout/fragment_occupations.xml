@@ -9,7 +9,7 @@
         style="@style/activityEditBreed_textView_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Occupations"
+        android:text="@string/occupations"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/mybutton"
-                android:contentDescription="Add occupation."
+                android:contentDescription="@string/add_occupation"
                 android:padding="8dp"
                 android:src="@drawable/ic_add_black_24dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -59,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="16dp"
-            android:text="Income : "
+            android:text="@string/income_title"
             app:layout_constraintTop_toBottomOf="@id/container_occupationsSpinner" />
 
         <TextView
@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:minHeight="16dp"
             android:paddingLeft="24dp"
-            android:text="income"
+            android:text="@string/income_hint"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragmentOccupations_tv_occupationIncomeTitle" />
         <!-- contacts -->
@@ -78,7 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="16dp"
-            android:text="Contacts : "
+            android:text="@string/contacts_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragmentOccupations_tv_occupationIncomeValue" />
 
@@ -88,7 +88,7 @@
             android:layout_height="wrap_content"
             android:minHeight="16dp"
             android:paddingLeft="24dp"
-            android:text="contact"
+            android:text="@string/contact_hint"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragmentOccupations_tv_occupationContactsTitle" />
         <!-- special -->
@@ -98,7 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="16dp"
-            android:text="Special : "
+            android:text="@string/special_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragmentOccupations_tv_occupationContactsValue" />
 
@@ -108,7 +108,7 @@
             android:layout_height="wrap_content"
             android:minHeight="16dp"
             android:paddingLeft="24dp"
-            android:text="Special"
+            android:text="@string/special_hint"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragmentOccupations_tv_occupationSpecialTitle" />
 
@@ -124,7 +124,7 @@
             style="@style/TextViewSubTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Skills :  " />
+            android:text="@string/skills_title" />
 
 
             <FrameLayout
@@ -142,7 +142,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:background="@drawable/mybutton"
-            android:contentDescription="Add skill."
+            android:contentDescription="@string/add_skill"
             android:padding="8dp"
             android:src="@drawable/ic_add_black_24dp" />
 

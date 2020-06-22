@@ -36,7 +36,8 @@ class SkillsViewModel(
 
     var characterOccupationSkills: List<DomainSkillToFill>? = mutableListOf()
     var characterHobbySkills: List<DomainSkillToFill>? = mutableListOf()
-    var repositorySkillsToCheck = skillToCheckRepository?.getAll()
+    var repositorySkillsToCheck: LiveData<List<DomainSkillToCheck>>? = skillToCheckRepository?.getAll()
+    var mutableSkillsToCheck:MutableLiveData<List<DomainSkillToCheck>>? = MutableLiveData()
 
 
     private fun refreshDataFromRepository(){

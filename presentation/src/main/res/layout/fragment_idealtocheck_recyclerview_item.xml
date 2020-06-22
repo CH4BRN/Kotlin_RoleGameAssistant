@@ -21,7 +21,7 @@
             style="@style/TextViewSubTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ideal title"
+            android:text="@string/ideal_title"
             app:layout_constraintStart_toStartOf="@id/img_alignment"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,7 +32,7 @@
             android:layout_weight="1"
 
             app:layout_constraintTop_toBottomOf="@id/activityEditIdeals_textView_idealTitle"
-            android:contentDescription="ideal alignment"
+            android:contentDescription="@string/ideal_alignment"
             android:maxWidth="50dp"
             android:maxHeight="50dp"
             app:layout_constraintEnd_toStartOf="@id/tv_ideal"
@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:hint="Ideal"
+            android:hint="@string/ideal"
             app:layout_constraintEnd_toStartOf="@id/chk_ideal"
             app:layout_constraintStart_toEndOf="@id/img_alignment" />
 
@@ -52,7 +52,7 @@
             android:id="@+id/tv_idealGoodPoints"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="100"
+            android:text="@string/_100"
             android:textColor="@android:color/holo_green_light"
             app:layout_constraintEnd_toEndOf="@id/tv_ideal"
             app:layout_constraintStart_toStartOf="@id/tv_ideal"
@@ -62,7 +62,7 @@
             android:id="@+id/tv_idealEvilPoints"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="50"
+            android:text="@string/_50"
             android:textColor="@android:color/holo_red_light"
             app:layout_constraintEnd_toEndOf="@id/tv_ideal"
             app:layout_constraintStart_toStartOf="@id/tv_ideal"

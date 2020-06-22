@@ -31,7 +31,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:text="Name :" />
+                    android:text="@string/name" />
 
                 <TextView
                     style="@style/TextViewSubTitle"
@@ -39,7 +39,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Base" />
+                    android:text="@string/base" />
 
                 <TextView
                     style="@style/TextViewSubTitle"
@@ -47,14 +47,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Add" />
+                    android:text="@string/add" />
 
                 <TextView
                     style="@style/TextViewSubTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text=" / " />
+                    android:text="@string/slash" />
 
                 <TextView
                     style="@style/TextViewSubTitle"
@@ -62,7 +62,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Total" />
+                    android:text="@string/total" />
 
             </LinearLayout>
 

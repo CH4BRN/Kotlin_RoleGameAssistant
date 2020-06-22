@@ -15,21 +15,21 @@
                 android:id="@+id/tv_idealToEdit_title"
                 android:layout_width="0dp"
                 android:layout_weight="4"
-                android:hint="Title"
+                android:hint="@string/title"
                 android:layout_column="0"/>
             <TextView
                 android:id="@+id/tv_idealToEdit_goodPoints"
                 android:textColor="@android:color/holo_green_dark"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:hint="0"
+                android:hint="@string/zero"
                 android:layout_column="1"/>
             <TextView
                 android:textColor="@android:color/holo_red_dark"
                 android:id="@+id/tv_idealToEdit_evilPoints"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:hint="0"
+                android:hint="@string/zero"
                 android:layout_column="1"/>
         </TableRow>
 

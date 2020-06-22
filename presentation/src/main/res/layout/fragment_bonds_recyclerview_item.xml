@@ -21,7 +21,7 @@
             style="@style/TextViewSubTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TITLE"
+            android:text="@string/title"
             app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:background="@drawable/mybutton"
-        android:contentDescription="Delete bond"
+        android:contentDescription="@string/delete_bond"
         android:gravity="center"
         android:padding="8dp"
         android:src="@drawable/ic_remove_black_24dp"

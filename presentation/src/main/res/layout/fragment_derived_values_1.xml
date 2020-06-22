@@ -11,7 +11,7 @@
         style="@style/activityEditBreed_textView_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Derived values 1"
+        android:text="@string/derived_values_1"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
@@ -37,14 +37,14 @@
                         style="@style/TextViewSubTitle"
                         android:layout_column="1"
                         android:layout_weight="1"
-                        android:text="BASE HP (SIZ + CON) /2 :" />
+                        android:text="@string/base_hp_siz_con_2" />
 
                     <EditText
                         android:layout_width="0dp"
                         android:id="@+id/et_baseHealthPoints"
                         android:layout_column="2"
                         android:layout_weight="1"
-                        android:hint="0"
+                        android:hint="@string/zero"
                         android:inputType="number"
                         android:textSize="24sp" />
                 </TableRow>
@@ -56,14 +56,14 @@
                         style="@style/TextViewSubTitle"
                         android:layout_column="1"
                         android:layout_weight="1"
-                        android:text=" + BREED BONUS :" />
+                        android:text="@string/breed_bonus" />
 
                     <EditText
                         android:layout_width="0dp"
                         android:id="@+id/et_breedHealthBonus"
                         android:layout_column="2"
                         android:layout_weight="1"
-                        android:hint="0"
+                        android:hint="@string/zero"
                         android:inputType="number"
                         android:textSize="24sp" />
                 </TableRow>
@@ -74,7 +74,7 @@
                         style="@style/TextViewSubTitle"
                         android:layout_column="1"
                         android:layout_weight="1"
-                        android:text="= " />
+                        android:text="@string/equal" />
                 </TableRow>
 
                 <TableRow>
@@ -84,7 +84,7 @@
                         style="@style/TextViewSubTitle"
                         android:layout_column="1"
                         android:layout_weight="1"
-                        android:text="TOTAL HP :" />
+                        android:text="@string/total_hp" />
 
                     <TextView
                         style="@style/TextViewSubTitle"
@@ -92,7 +92,7 @@
                         android:id="@+id/et_totalHealthPoints"
                         android:layout_column="2"
                         android:layout_weight="1"
-                        android:hint="0"
+                        android:hint="@string/zero"
                         android:textSize="24sp" />
                 </TableRow>
 
@@ -107,14 +107,14 @@
                         style="@style/TextViewSubTitle"
                         android:layout_column="1"
                         android:layout_weight="1"
-                        android:text="IDEA (INT * 5) :" />
+                        android:text="@string/idea_int_5" />
 
                     <EditText
                         android:layout_width="0dp"
                         android:id="@+id/et_ideaPoints"
                         android:layout_column="2"
                         android:layout_weight="1"
-                        android:hint="0"
+                        android:hint="@string/zero"
                         android:inputType="number"
                         android:textSize="24sp" />
                 </TableRow>
@@ -130,14 +130,14 @@
                         style="@style/TextViewSubTitle"
                         android:layout_column="1"
                         android:layout_weight="1"
-                        android:text="SANITY (POW * 5) : " />
+                        android:text="@string/sanity_pow_5" />
 
                     <EditText
                         android:layout_width="0dp"
                         android:id="@+id/et_sanityPoints"
                         android:layout_column="2"
                         android:layout_weight="1"
-                        android:hint="0"
+                        android:hint="@string/zero"
                         android:inputType="number"
                         android:textSize="24sp" />
                 </TableRow>
@@ -153,14 +153,14 @@
                         style="@style/TextViewSubTitle"
                         android:layout_column="1"
                         android:layout_weight="1"
-                        android:text="LUCK (POW * 5) : " />
+                        android:text="@string/luck_pow_5" />
 
                     <EditText
                         android:layout_width="0dp"
                         android:id="@+id/et_luckPoints"
                         android:layout_column="2"
                         android:layout_weight="1"
-                        android:hint="0"
+                        android:hint="@string/zero"
                         android:inputType="number"
                         android:textSize="24sp" />
                 </TableRow>
@@ -177,14 +177,14 @@
                         android:layout_column="1"
                         android:layout_weight="1"
 
-                        android:text="KNOW (EDU * 5) : " />
+                        android:text="@string/know_edu_5" />
 
                     <EditText
                         android:layout_width="0dp"
                         android:id="@+id/et_knowPoints"
                         android:layout_column="2"
                         android:layout_weight="1"
-                        android:hint="0"
+                        android:hint="@string/zero"
                         android:inputType="number"
                         android:textSize="24sp" />
                 </TableRow>
@@ -203,10 +203,10 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginRight="8dp"
                 android:background="@drawable/mybutton"
-                android:contentDescription="Edit derived values manually."
+                android:contentDescription="@string/edit_derived_values_manually"
                 android:padding="4dp"
                 android:src="@drawable/ic_pencil"
-                android:text="Use points"
+                android:text="@string/use_points"
                 app:layout_constraintEnd_toEndOf="@id/scrollView_derivedValues1"
                 app:layout_constraintTop_toBottomOf="@id/scrollView_derivedValues1" />
         </LinearLayout>

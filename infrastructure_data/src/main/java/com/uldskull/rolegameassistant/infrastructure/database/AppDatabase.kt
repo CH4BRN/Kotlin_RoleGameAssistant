@@ -135,7 +135,7 @@ abstract class AppDatabase : RoomDatabase() {
                     populateBreedCharacteristics(database.dbBreedCharacteristicDao())
                     populateIdeals(database.dbIdealsDao())
                     populateRollCharacteristics(database.dbRollCharacteristicsDao())
-                    populateSkillsToCheck(database?.dbSkillToCheckDao())
+                    populateSkillsToCheck(database.dbSkillToCheckDao())
                     //populateOccupations(database.dbOccupationsDao())
                     //populateSkills(database.dbOccupationSkillDao())
                     insertOccupations(

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">presentation</string>
+    <string name="ability" translatable="false">Aptitude :</string>
+    <string name="add" translatable="false">Ajouter</string>
+    <string name="add_bond">Ajouter une obligation.</string>
+    <string name="add_breed_description">Ajouter une race.</string>
+    <string name="add_ideal">Ajouter un idéal.</string>
+    <string name="add_occupation">Ajouter un métier.</string>
+    <string name="add_skill">Ajouter une compétence.</string>
+    <string name="age">Age :</string>
+    <string name="age_hint">Age ...</string>
+    <string name="alignment">Alignement :</string>
+    <string name="alignment_picture">Image d\'alignement</string>
+    <string name="base">Base</string>
+    <string name="base_hp_siz_con_2" translatable="false">PV BASE (TAI + CON)/2:</string>
+    <string name="biography">Biographie :</string>
+    <string name="biography_hint">Tapons une biographie ...</string>
+    <string name="bonds">Obligations :</string>
+    <string name="bonus">Bonus :</string>
+    <string name="breed">Race :</string>
+    <string name="breed_bonus">+ BONUS RACE</string>
+    <string name="character">Personnage :</string>
+    <string name="character_s_picture_description">Image du personnage :</string>
+    <string name="character_search">Recherche de personnage</string>
+    <string name="characteristics">Caractéristiques</string>
+    <string name="contact_hint">contact</string>
+    <string name="contacts">Contacts :</string>
+    <string name="contacts_title">Contacts :</string>
+    <string name="cthulhu_myth">Mythe de Cthulhu :</string>
+    <string name="damage_bonus">Bonus de dommages :</string>
+    <string name="delete_bond">Supprimer lien</string>
+    <string name="derived_values_1">Valeurs dérivées 1</string>
+    <string name="derived_values_2">Valeurs dérivées 2</string>
+    <string name="edit_derived_values_manually">Editer les valeurs dérivées manuellement.</string>
+    <string name="edit_ideals">Editer les idéaux</string>
+    <string name="edit_occupation">Editer les métier</string>
+    <string name="energy_po">ENERGIE = POU</string>
+    <string name="gender">Genre :</string>
+    <string name="gender_hint">Genre ...</string>
+    <string name="go_back">Retour.</string>
+    <string name="height">Hauteur :</string>
+    <string name="hobbies">Loisirs</string>
+    <string name="hobby">Loisir</string>
+    <string name="how_much_evil_points">Combien de points maléfiques ?</string>
+    <string name="how_much_good_points">Combien de points bénéfiques ?</string>
+    <string name="idea_int_5">IDEE (INT * 5)</string>
+    <string name="ideal">Idéal</string>
+    <string name="ideal_alignment">Alignement idéal</string>
+    <string name="ideal_evil_points">Points maléfiques de l\'idéal :</string>
+    <string name="ideal_good_points">Points bénéfiques de l\'idéal :</string>
+    <string name="ideal_title">Titre de l\'idéal :</string>
+    <string name="ideals">Idéaux :</string>
+    <string name="income">Revenu :</string>
+    <string name="income_hint">revenu</string>
+    <string name="income_title">Revenu :</string>
+    <string name="know_edu_5">SAVOIR (EDU *5):</string>
+    <string name="let_s_type_a_title">Tapons un titre.</string>
+    <string name="let_s_type_an_income">Tapons un revenu.</string>
+    <string name="let_s_type_the_contacts">Tapons les contacts.</string>
+    <string name="let_s_type_the_special">Tapons les speciaux.</string>
+    <string name="luck_pow_5">CHANCE (POU *5):</string>
+    <string name="name">Nom :</string>
+    <string name="name_hint">Nom ...</string>
+    <string name="new_breed">Nouvelle race</string>
+    <string name="new_skill">Nouvelle compétence</string>
+    <string name="occupation">Métier</string>
+    <string name="occupations">Métiers</string>
+    <string name="picture">Image :</string>
+    <string name="roll">Jet :</string>
+    <string name="roll_the_dices">Jeté de dé.</string>
+    <string name="sanity_pow_5">SANTE MENTALE (POU *5):</string>
+    <string name="save">Sauvegarder</string>
+    <string name="save_description">Sauvegarder.</string>
+    <string name="search">Chercher ...</string>
+    <string name="siz_str">TAI + FOR</string>
+    <string name="skill_1">Compétence 1</string>
+    <string name="skill_sampleskill">Compétence :</string>
+    <string name="skills">Compétences :</string>
+    <string name="skills_title">Compétences :</string>
+    <string name="special" translatable="false">Spécial</string>
+    <string name="special_hint">Spécial</string>
+    <string name="special_title">Spécial :</string>
+    <string name="title">Titre :</string>
+    <string name="title_hint">Titre</string>
+    <string name="total">Total :</string>
+    <string name="total_hp">PV TOTAL :</string>
+    <string name="total_title">Total</string>
+    <string name="use_points">Utiliser points</string>
+    <string name="use_points_manually">Utiliser points manuellements.</string>
+    <string name="validate">Valider.</string>
+    <string name="weight">Poids :</string>
+</resources>

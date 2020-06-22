@@ -9,7 +9,7 @@
         style="@style/activityEditBreed_textView_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Derived values 2"
+        android:text="@string/derived_values_2"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
@@ -35,13 +35,13 @@
                     style="@style/TextViewSubTitle"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:text="ENERGY = PO : " />
+                    android:text="@string/energy_po" />
 
                 <EditText
                     android:id="@+id/et_energyPoints"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:hint="0"
+                    android:hint="@string/zero"
                     android:inputType="number" />
             </TableRow>
 
@@ -55,13 +55,13 @@
                     style="@style/TextViewSubTitle"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:text="SIZ + STR :" />
+                    android:text="@string/siz_str" />
 
                 <EditText
                     android:id="@+id/et_sizePlusStrength"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:hint="0"
+                    android:hint="@string/zero"
                     android:inputType="number" />
             </TableRow>
 
@@ -71,7 +71,7 @@
 
                     style="@style/TextViewSubTitle"
                     android:layout_weight="1"
-                    android:text=" = " />
+                    android:text="@string/equal" />
             </TableRow>
 
             <TableRow>
@@ -80,7 +80,7 @@
                     style="@style/TextViewSubTitle"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:text="Damage bonus : " />
+                    android:text="@string/damage_bonus" />
 
                 <Spinner
                     android:id="@+id/spinner_damageBonus"
@@ -102,13 +102,13 @@
                     style="@style/TextViewSubTitle"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:text="Alignment : " />
+                    android:text="@string/alignment" />
 
                 <EditText
                     android:id="@+id/et_alignmentPoints"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:hint="0"
+                    android:hint="@string/zero"
                     android:inputType="number|numberSigned" />
             </TableRow>
 
@@ -117,7 +117,7 @@
                 android:id="@+id/derivedValues_img_alignment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="Alignment picture"
+                android:contentDescription="@string/alignment_picture"
                 android:minWidth="80dp"
                 android:minHeight="80dp"
                 android:src="@drawable/good_icon"
@@ -138,13 +138,13 @@
                     style="@style/TextViewSubTitle"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:text="Cthulhu myth : " />
+                    android:text="@string/cthulhu_myth" />
 
                 <EditText
                     android:id="@+id/et_cthulhuMyth"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:hint="0"
+                    android:hint="@string/zero"
                     android:inputType="number|numberSigned" />
             </TableRow>
 
@@ -168,10 +168,10 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginRight="8dp"
                         android:background="@drawable/mybutton"
-                        android:contentDescription="Edit derived values manually."
+                        android:contentDescription="@string/edit_derived_values_manually"
                         android:padding="4dp"
                         android:src="@drawable/ic_pencil"
-                        android:text="Use points"
+                        android:text="@string/use_points"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
