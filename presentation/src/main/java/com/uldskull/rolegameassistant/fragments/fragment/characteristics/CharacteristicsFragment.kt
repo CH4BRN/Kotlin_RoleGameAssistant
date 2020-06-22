@@ -4,6 +4,11 @@
 package com.uldskull.rolegameassistant.fragments.fragment.characteristics
 
 import android.app.Activity
+import android.content.Context
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,9 +21,12 @@ import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.CHARACTERISTICS_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainCharacteristic
-import com.uldskull.rolegameassistant.viewmodels.breeds.BreedCharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.ProgressionBarViewModel
+import com.uldskull.rolegameassistant.viewmodels.breeds.BreedCharacteristicsViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import java.util.*
+import kotlin.math.sqrt
+
 
 /**
  *   Class "AbilitiesFragment" :
@@ -26,14 +34,18 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  **/
 class CharacteristicsFragment : CustomFragment() {
 
+
+
     /**
      * Breed Characteristic's ViewModel.
      */
     private val breedCharacteristicsViewModel: BreedCharacteristicsViewModel by sharedViewModel()
+
     /**
      * Progression bar's ViewModel
      */
-    private val progressionBarViewModel:ProgressionBarViewModel by sharedViewModel()
+    private val progressionBarViewModel: ProgressionBarViewModel by sharedViewModel()
+
     /**
      * Called when the view is created
      */
@@ -44,10 +56,16 @@ class CharacteristicsFragment : CustomFragment() {
     ): View? {
 
         Log.d(TAG, "onCreateView")
+
+
+
+
         val characteristicObserver = getCharacteristicObserver()
         breedCharacteristicsViewModel.breedCharacteristics?.observe(this, characteristicObserver)
         return initializeView(inflater, container)
     }
+
+
 
     /**
      * Called immediately after [.onCreateView]
@@ -69,7 +87,7 @@ class CharacteristicsFragment : CustomFragment() {
      * Load characteristics recycler view.
      */
     private fun loadCharacteristicsRecyclerView() {
-        if(activity != null){
+        if (activity != null) {
             var transaction = childFragmentManager.beginTransaction()
             transaction.replace(
                 R.id.fragmentCharacteristics_container_characteristics,
@@ -103,11 +121,6 @@ class CharacteristicsFragment : CustomFragment() {
             R.layout.fragment_characteristics, container, false
         )
         return initialRootView
-    }
-
-    override fun onResume() {
-        Log.d(TAG, "onResume")
-        super.onResume()
     }
 
     companion object : CustomCompanion() {

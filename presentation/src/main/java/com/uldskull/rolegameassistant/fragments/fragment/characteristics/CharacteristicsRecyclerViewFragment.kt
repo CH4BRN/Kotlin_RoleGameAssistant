@@ -5,6 +5,10 @@ package com.uldskull.rolegameassistant.fragments.fragment.characteristics
 
 import android.app.Activity
 import android.content.Context
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -27,6 +31,8 @@ import com.uldskull.rolegameassistant.viewmodels.DerivedValuesViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import kotlinx.android.synthetic.main.fragment_characteristics_recyclerview.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import java.util.*
+import kotlin.math.sqrt
 
 /**
  *   Class "AbilitiesRecyclerViewFragment" :
@@ -34,6 +40,11 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  **/
 class CharacteristicsRecyclerViewFragment :
     CustomRecyclerViewFragment() {
+
+    private var sensorManager: SensorManager? = null
+    private var acceleration = 0f
+    private var currentAcceleration = 0f
+    private var lastAcceleration = 0f
 
     private var editable: Boolean = false
 
@@ -60,7 +71,43 @@ class CharacteristicsRecyclerViewFragment :
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        sensorManager = activity?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        Objects.requireNonNull(sensorManager)!!.registerListener(
+            sensorListener, sensorManager!!.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+            SensorManager.SENSOR_DELAY_NORMAL
+        )
+        acceleration = 10f
+        currentAcceleration = SensorManager.GRAVITY_EARTH
+        lastAcceleration = SensorManager.GRAVITY_EARTH
         return initializeView(inflater, container)
+    }
+
+    private val sensorListener: SensorEventListener = object : SensorEventListener {
+        override fun onSensorChanged(event: SensorEvent) {
+            val x = event.values[0]
+            val y = event.values[1]
+            val z = event.values[2]
+            lastAcceleration = currentAcceleration
+            currentAcceleration = sqrt((x * x + y * y + z * z).toDouble()).toFloat()
+            val delta: Float = currentAcceleration - lastAcceleration
+            acceleration = acceleration * 0.9f + delta
+            if (acceleration > 12) {
+                Log.d("DEBUG$TAG", "Shaked")
+                populateRandomRollCharacteristics()
+                setEditTextChangedToFalse()
+                if (!editable) {
+                    characteristicsRecyclerView?.adapter = characteristicsDisabledAdapter
+
+                } else {
+                    characteristicsRecyclerView?.adapter = characteristicsAdapter
+                }
+
+                (activity as CharacterActivity).addEndFragments()
+
+            }
+        }
+
+        override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
     }
 
     /** Initialize the view **/
@@ -97,10 +144,38 @@ class CharacteristicsRecyclerViewFragment :
                 } else {
                     characteristicsRecyclerView?.adapter = characteristicsAdapter
                 }
+
                 (activity as CharacterActivity).addEndFragments()
                 Log.d("DEBUG$TAG", "${(activity as CharacterActivity).fragmentAdapter?.itemCount}")
             }
         }
+
+    }
+
+    /**
+     * Called when the Fragment is no longer resumed.  This is generally
+     * tied to [Activity.onPause] of the containing
+     * Activity's lifecycle.
+     */
+    override fun onPause() {
+        sensorManager!!.unregisterListener(sensorListener)
+        super.onPause()
+    }
+
+    /**
+     * Called when the fragment is visible to the user and actively running.
+     * This is generally
+     * tied to [Activity.onResume] of the containing
+     * Activity's lifecycle.
+     */
+    override fun onResume() {
+        Log.d(TAG, "onResume")
+        sensorManager?.registerListener(
+            sensorListener,
+            sensorManager!!.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+            SensorManager.SENSOR_DELAY_NORMAL
+        )
+        super.onResume()
 
     }
 
