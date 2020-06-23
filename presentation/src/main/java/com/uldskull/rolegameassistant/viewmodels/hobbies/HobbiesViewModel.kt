@@ -5,7 +5,7 @@ package com.uldskull.rolegameassistant.viewmodels.hobbies
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
+import com.uldskull.rolegameassistant.models.skill.DomainSkillToCheck
 
 /**
 Class "HobbiesViewModel"

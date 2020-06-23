@@ -14,9 +14,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.CustomAdapterButtonListener
-import com.uldskull.rolegameassistant.fragments.fragment.PictureUtil.Companion.resizePicture
-import com.uldskull.rolegameassistant.models.character.DomainIdeal
+import com.uldskull.rolegameassistant.fragments.core.listeners.CustomAdapterButtonListener
+import com.uldskull.rolegameassistant.fragments.core.utils.PictureUtil.Companion.resizePicture
+import com.uldskull.rolegameassistant.models.DomainIdeal
 
 
 /**
@@ -50,14 +50,14 @@ class IdealsToCheckAdapter internal constructor(
 
     /**  Inner class to display  **/
     inner class IdealsToCheckViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var idealCheckedItemView: CheckBox = itemView.findViewById(R.id.chk_ideal)
-        var idealValueItemView: TextView = itemView.findViewById(R.id.tv_ideal)
-        var idealNameItemView: TextView =
+        private var idealCheckedItemView: CheckBox = itemView.findViewById(R.id.chk_ideal)
+        private var idealValueItemView: TextView = itemView.findViewById(R.id.tv_ideal)
+        private var idealNameItemView: TextView =
             itemView.findViewById(R.id.activityEditIdeals_textView_idealTitle)
         var idealAlignmentItemView: ImageView = itemView.findViewById(R.id.img_alignment)
-        var idealEvilPoints: TextView = itemView.findViewById(R.id.tv_idealEvilPoints)
-        var idealGoodPoints: TextView = itemView.findViewById(R.id.tv_idealGoodPoints)
-        var idealOverlay: View = itemView.findViewById(R.id.ideal_overlay)
+        private var idealEvilPoints: TextView = itemView.findViewById(R.id.tv_idealEvilPoints)
+        private var idealGoodPoints: TextView = itemView.findViewById(R.id.tv_idealGoodPoints)
+        private var idealOverlay: View = itemView.findViewById(R.id.ideal_overlay)
 
         /**
          * Bind the holder
@@ -80,7 +80,7 @@ class IdealsToCheckAdapter internal constructor(
 
         init {
             idealOverlay.setOnClickListener {
-                var checked = ideals[adapterPosition]?.isChecked
+                val checked = ideals[adapterPosition]?.isChecked
                 if (checked != null) {
                     ideals[adapterPosition]?.isChecked = !checked
                 }

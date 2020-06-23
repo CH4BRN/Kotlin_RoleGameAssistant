@@ -1,8 +1,5 @@
 package com.uldskull.rolegameassistant
 
-import kotlinx.coroutines.runBlocking
-import org.koin.core.inject
-
 /**
  * Example local unit test, which will execute on the development machine (host).
  *

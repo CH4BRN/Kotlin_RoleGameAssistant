@@ -18,9 +18,11 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.fragments.core.CustomCompanion
+import com.uldskull.rolegameassistant.fragments.core.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.*
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.PICTURE_FRAGMENT_POSITION
-import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
+import com.uldskull.rolegameassistant.viewmodels.character.NewCharacterViewModel
 import kotlinx.android.synthetic.main.fragment_picture.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 

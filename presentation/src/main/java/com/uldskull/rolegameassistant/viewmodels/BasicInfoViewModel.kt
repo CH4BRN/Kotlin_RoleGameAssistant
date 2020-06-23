@@ -4,7 +4,7 @@ package com.uldskull.rolegameassistant.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
+import com.uldskull.rolegameassistant.models.breed.DomainDisplayedBreed
 
 /**
 Class "BasicInfoViewModel"
@@ -16,7 +16,4 @@ class BasicInfoViewModel(application: Application):AndroidViewModel(application)
      * Displayed breeds
      */
     var displayedBreeds: MutableList<DomainDisplayedBreed?>? = mutableListOf()
-        set(value) {
-            field = value
-        }
 }

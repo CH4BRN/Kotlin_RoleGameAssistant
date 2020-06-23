@@ -15,13 +15,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.BONDS_RECYCLER_VIEW_FRAGMENT_POSITION
-import com.uldskull.rolegameassistant.fragments.fragment.CustomAdapterButtonListener
-import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
-import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
+import com.uldskull.rolegameassistant.fragments.core.listeners.CustomAdapterButtonListener
+import com.uldskull.rolegameassistant.fragments.core.CustomCompanion
+import com.uldskull.rolegameassistant.fragments.core.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
-import com.uldskull.rolegameassistant.models.character.DomainBond
+import com.uldskull.rolegameassistant.models.DomainBond
 import com.uldskull.rolegameassistant.viewmodels.BondsViewModel
-import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
+import com.uldskull.rolegameassistant.viewmodels.character.NewCharacterViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
@@ -29,7 +29,8 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   TODO: Fill class use.
  **/
 class BondsRecyclerViewFragment :
-    CustomRecyclerViewFragment(), CustomAdapterButtonListener<DomainBond> {
+    CustomRecyclerViewFragment(),
+    CustomAdapterButtonListener<DomainBond> {
     /** ViewModel for bonds    **/
     private val bondsViewModel: BondsViewModel by sharedViewModel()
 
@@ -115,8 +116,8 @@ class BondsRecyclerViewFragment :
         })
 
         this.newCharacterViewModel.selectedCharacter.observe(this, Observer {
-            Log.d("DEBUG$TAG", "Character : ${it}")
-            var bonds = it?.characterBonds
+            Log.d("DEBUG$TAG", "Character : $it")
+            val bonds = it?.characterBonds
             bondsViewModel.bonds.value = bonds
         })
     }

@@ -9,10 +9,10 @@ import com.uldskull.rolegameassistant.infrastructure.dao.character.DbCharacterDa
 import com.uldskull.rolegameassistant.infrastructure.dao.character.DbCharacterWithDbFilledSkillsDao
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_character.DbCharacter
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_character.DbCharacterWithDbSkills
-import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
-import com.uldskull.rolegameassistant.models.character.character.DomainCharacterWithIdeals
-import com.uldskull.rolegameassistant.models.character.character.DomainCharacterWithSkills
-import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
+import com.uldskull.rolegameassistant.models.character.DomainCharacter
+import com.uldskull.rolegameassistant.models.character.DomainCharacterWithIdeals
+import com.uldskull.rolegameassistant.models.character.DomainCharacterWithSkills
+import com.uldskull.rolegameassistant.models.skill.DomainSkillToFill
 import com.uldskull.rolegameassistant.repository.character.CharacterRepository
 
 /**
@@ -99,11 +99,8 @@ class CharacterRepositoryImpl(
     /** Get one entity by its id    */
     override fun findOneById(id: Long?): DomainCharacter? {
         Log.d(TAG, "findOneById")
-        try {
-            var character = dbCharacterDao.getCharacterById(id)
-            if (character != null) {
-                return character.toDomain()
-            } else return null
+        return try {
+            dbCharacterDao.getCharacterById(id).toDomain()
         } catch (e: Exception) {
             Log.e(TAG, "findOneById FAILED")
             e.printStackTrace()
@@ -116,11 +113,10 @@ class CharacterRepositoryImpl(
     override fun insertAll(all: List<DomainCharacter>?): List<Long> {
         Log.d(TAG, "insertAll")
         if ((all != null) && (all.isNotEmpty())) {
-            val result = dbCharacterDao.insert(all.map { c ->
+
+            return dbCharacterDao.insert(all.map { c ->
                 DbCharacter.from(c)
             })
-
-            return result
         }
         return emptyList()
 
@@ -160,7 +156,7 @@ class CharacterRepositoryImpl(
     /** Delete all entities **/
     override fun deleteAll(): Int {
         Log.d(TAG, "deleteAll")
-      return dbCharacterDao?.deleteAll()
+      return dbCharacterDao.deleteAll()
     }
 
     /**
@@ -176,11 +172,11 @@ class CharacterRepositoryImpl(
      * Find one with it's occupation skills
      */
     override fun findOneWithOccupationSkills(id: Long?): DomainCharacterWithSkills? {
-        var entities: List<DbCharacterWithDbSkills> =
-            dbCharacterWithDbFilledSkillsDao?.getCharacterWithSkills()
+        val entities: List<DbCharacterWithDbSkills> =
+            dbCharacterWithDbFilledSkillsDao.getCharacterWithSkills()
 
-        var theOne =
-            entities.find { characterWithDbSkills -> characterWithDbSkills?.character?.characterId == id }
+        val theOne =
+            entities.find { characterWithDbSkills -> characterWithDbSkills.character.characterId == id }
 
         if (theOne != null) {
             val character = theOne.character
@@ -188,7 +184,7 @@ class CharacterRepositoryImpl(
             val skills = theOne.skills
 
             if (character != null) {
-                var list: MutableList<DomainSkillToFill> = mutableListOf()
+                val list: MutableList<DomainSkillToFill> = mutableListOf()
                 Log.d("DEBUG$TAG", "Skills : ${skills.size}")
                 skills.forEach {
                     Log.d("DEBUG$TAG", "Skill : ${it.filledSkillName}")
@@ -196,12 +192,10 @@ class CharacterRepositoryImpl(
                 }
                 Log.d("DEBUG$TAG", "Skills : ${list.size}")
 
-                var domainEntity = DomainCharacterWithSkills(
+                return DomainCharacterWithSkills(
                     character = character.toDomain(),
                     skills = list
                 )
-
-                return domainEntity
             }
             return null
         }

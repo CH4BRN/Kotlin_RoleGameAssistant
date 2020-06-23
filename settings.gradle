@@ -1,3 +1,4 @@
+include ':services'
 include ProjectsDependencies.app,
         ProjectsDependencies.domain,
         ProjectsDependencies.presentation,

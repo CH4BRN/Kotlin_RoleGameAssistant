@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
 import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_DISPLAYED_BREED
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbCompanion
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbEntity
-import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
+import com.uldskull.rolegameassistant.models.breed.DomainDisplayedBreed
 
 /**
  * Database model for a breed

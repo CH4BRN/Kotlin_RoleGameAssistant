@@ -4,8 +4,8 @@
 package com.uldskull.rolegameassistant.infrastructure.dao.bond
 
 import androidx.lifecycle.LiveData
-import androidx.room.*
-import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
+import androidx.room.Dao
+import androidx.room.Query
 import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_BOND_ID
 import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_BOND
 import com.uldskull.rolegameassistant.infrastructure.dao.*

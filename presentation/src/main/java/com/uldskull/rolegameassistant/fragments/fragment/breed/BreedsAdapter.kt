@@ -13,9 +13,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.AdapterListTransmitter
-import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewAdapter
-import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
+import com.uldskull.rolegameassistant.fragments.core.AdapterListTransmitter
+import com.uldskull.rolegameassistant.fragments.core.adapter.CustomRecyclerViewAdapter
+import com.uldskull.rolegameassistant.models.breed.DomainDisplayedBreed
 
 /**
  *   Class "RacesAdapter" :
@@ -42,17 +42,17 @@ class BreedsAdapter internal constructor(
      * View holder for races
      */
     inner class BreedsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val breedItemLayout: LinearLayout =
-            itemView.findViewById<LinearLayout>(R.id.breed_item_linear_layout)
-        val breedNameItemView: TextView = itemView.findViewById(R.id.tv_breedName)
-        val breedDescriptionItemView: TextView = itemView.findViewById(R.id.tv_breedDescription)
+        private val breedItemLayout: LinearLayout =
+            itemView.findViewById(R.id.breed_item_linear_layout)
+        private val breedNameItemView: TextView = itemView.findViewById(R.id.tv_breedName)
+        private val breedDescriptionItemView: TextView = itemView.findViewById(R.id.tv_breedDescription)
 
         /**
          * Bind the value
          */
         fun bind(domainDisplayedBreed: DomainDisplayedBreed) {
 
-            Log.d("$TAG", "Current : ${domainDisplayedBreed.breedName}")
+            Log.d(TAG, "Current : ${domainDisplayedBreed.breedName}")
             breedNameItemView.text = domainDisplayedBreed.breedName
             breedDescriptionItemView.text = domainDisplayedBreed.breedDescription
             breedItemLayout.setOnClickListener {
@@ -60,7 +60,7 @@ class BreedsAdapter internal constructor(
 
                 displayedBreeds[position].breedIsChecked = !displayedBreeds[position].breedIsChecked
 
-                var checkedBreeds = displayedBreeds.count { b -> b.breedIsChecked }
+                val checkedBreeds = displayedBreeds.count { b -> b.breedIsChecked }
                 Log.d("DEBUG$TAG", "Checked : $checkedBreeds")
                 listTransmitter.transmitList(displayedBreeds)
                 notifyDataSetChanged()
@@ -138,7 +138,7 @@ class BreedsAdapter internal constructor(
      */
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         Log.d(TAG, "onBindViewHolder")
-        (holder as BreedsViewHolder)?.bind(displayedBreeds[position])
+        (holder as BreedsViewHolder).bind(displayedBreeds[position])
 
     }
 
@@ -153,8 +153,8 @@ class BreedsAdapter internal constructor(
         domainDisplayedBreeds?.forEach {
             if (it != null) {
                 if (this.displayedBreeds.contains(it)) {
-                    var index = displayedBreeds.lastIndexOf(it)
-                    this.displayedBreeds.set(index, it)
+                    val index = displayedBreeds.lastIndexOf(it)
+                    this.displayedBreeds[index] = it
                 } else {
                     this.displayedBreeds.add(it)
                 }

@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.uldskull.rolegameassistant.infrastructure.dao.skill.DbFilledOccupationSkillDao
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_skill.DbFilledSkill
-import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
+import com.uldskull.rolegameassistant.models.skill.DomainSkillToFill
 import com.uldskull.rolegameassistant.repository.skill.FilledHobbySkillRepository
 
 /**
@@ -75,7 +75,7 @@ class DbFilledHobbySkillRepositoryImpl(
     /** Get one entity by its id    */
     override fun findOneById(id: Long?): DomainSkillToFill? {
         Log.d(TAG, "findOneById")
-        var result: DbFilledSkill
+        val result: DbFilledSkill
         try {
             result = dbFilledOccupationSkillDao.getOneById(id)
         } catch (e: Exception) {
@@ -99,7 +99,7 @@ class DbFilledHobbySkillRepositoryImpl(
                         s
                     )
                 })
-                Log.d(TAG, "insertAll RESULT = ${result}")
+                Log.d(TAG, "insertAll RESULT = $result")
                 return result
             } catch (e: Exception) {
                 e.printStackTrace()

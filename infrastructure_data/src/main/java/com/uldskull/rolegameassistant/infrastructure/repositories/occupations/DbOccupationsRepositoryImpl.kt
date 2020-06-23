@@ -11,8 +11,8 @@ import com.uldskull.rolegameassistant.infrastructure.dao.occupation.DbOccupation
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupation.DbOccupation
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupation.DbOccupationAndDbSkillCrossRef
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupation.DbOccupationWithDbSkills
-import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
-import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupationWithSkills
+import com.uldskull.rolegameassistant.models.occupation.DomainOccupation
+import com.uldskull.rolegameassistant.models.occupation.DomainOccupationWithSkills
 import com.uldskull.rolegameassistant.repository.occupations.OccupationsRepository
 
 /**
@@ -67,7 +67,7 @@ class DbOccupationsRepositoryImpl(
     /** Get one entity by its id    */
     override fun findOneById(id: Long?): DomainOccupation? {
         Log.d(TAG, "findOneById")
-        var result: DbOccupation
+        val result: DbOccupation
         try {
             result = dbOccupationDao.getJobById(id)
         } catch (e: Exception) {
@@ -165,7 +165,7 @@ class DbOccupationsRepositoryImpl(
      * find one occupation with all its associated skills
      */
     override fun findOneWithChildren(occupationId: Long?): DomainOccupationWithSkills {
-        var result: DbOccupationWithDbSkills = try {
+        val result: DbOccupationWithDbSkills = try {
             dbOccupationDbSkillDao.getOccupationWithSkills(occupationId)
 
         } catch (e: Exception) {
@@ -175,14 +175,13 @@ class DbOccupationsRepositoryImpl(
         }
         Log.d(TAG, "$result")
 
-        var occupation = result.occupation
-        var skills = result.skills
-        var occupationWithSkills = DomainOccupationWithSkills(
+        val occupation = result.occupation
+        val skills = result.skills
+
+        return DomainOccupationWithSkills(
             occupation = occupation.toDomain(),
             skills = skills.map { s -> s.toDomain() }
         )
-
-        return occupationWithSkills
 
 
     }
@@ -194,7 +193,7 @@ class DbOccupationsRepositoryImpl(
         if(currentOccupationToEdit == null){
             throw Exception("ERROR : Occupation is null.")
         }
-       return dbOccupationDao?.delete( DbOccupation.from(currentOccupationToEdit))
+       return dbOccupationDao.delete( DbOccupation.from(currentOccupationToEdit))
     }
 
 }

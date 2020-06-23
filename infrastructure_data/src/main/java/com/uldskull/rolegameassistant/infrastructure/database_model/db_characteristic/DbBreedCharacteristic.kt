@@ -5,11 +5,10 @@ package com.uldskull.rolegameassistant.infrastructure.database_model.db_characte
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
 import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_BREED_CHARACTERISTICS
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbCompanion
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbEntity
-import com.uldskull.rolegameassistant.models.character.characteristic.DomainBreedsCharacteristic
+import com.uldskull.rolegameassistant.models.characteristic.DomainBreedsCharacteristic
 
 /**
  *   Class "DbBreedCharacteristic" :

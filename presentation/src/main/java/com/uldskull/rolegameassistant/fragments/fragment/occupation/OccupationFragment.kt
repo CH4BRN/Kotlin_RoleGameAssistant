@@ -15,18 +15,17 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.skills.EditSkillActivity
-import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
-import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
-import com.uldskull.rolegameassistant.fragments.fragment.CustomOnItemSelectedListener
+import com.uldskull.rolegameassistant.fragments.core.CustomCompanion
+import com.uldskull.rolegameassistant.fragments.core.CustomFragment
+import com.uldskull.rolegameassistant.fragments.core.listeners.CustomOnItemSelectedListener
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.OCCUPATION_FRAGMENT_POSITION
-import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
-import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
+import com.uldskull.rolegameassistant.models.skill.DomainSkillToCheck
+import com.uldskull.rolegameassistant.models.skill.DomainSkillToFill
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
-import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
-import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationSkillsViewModel
-import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationViewModel
 import com.uldskull.rolegameassistant.viewmodels.PointsToSpendViewModel
+import com.uldskull.rolegameassistant.viewmodels.character.NewCharacterViewModel
+import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationSkillsViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationsViewModel
 import kotlinx.android.synthetic.main.fragment_occupation.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -68,11 +67,6 @@ class OccupationFragment : CustomFragment() {
     private val occupationsViewModel: OccupationsViewModel by sharedViewModel()
 
     /**
-     * Occupation view model
-     */
-    private val occupationViewModel: OccupationViewModel by sharedViewModel()
-
-    /**
      * Occupation skills view model.
      */
     private val occupationSkillsViewModel: OccupationSkillsViewModel by sharedViewModel()
@@ -106,11 +100,6 @@ class OccupationFragment : CustomFragment() {
      * Units value spinner
      */
     private var spinnerUnitsValue: Spinner? = null
-
-    /**
-     * Units value text view
-     */
-    private var textViewUnitsValue: TextView? = null
 
     /**
      * Tens value adapter
@@ -267,8 +256,8 @@ class OccupationFragment : CustomFragment() {
      * Observes spend occupations tens points array
      */
     private fun observeSpendOccupationTensPointsArray() {
-        pointsToSpendViewModel.observableOccupationSpentTensPointsArray.observe(this, Observer {
-            if (it != null && currentOccupationSkillPosition != null && it.size != 0) {
+        pointsToSpendViewModel.observableOccupationSpentTensPointsArray.observe(this, Observer { it ->
+            if (it != null && currentOccupationSkillPosition != null && it.isNotEmpty()) {
                 Log.d(
                     "DEBUG",
                     "tens value for position $currentOccupationSkillPosition = ${it[currentOccupationSkillPosition!!]}"
@@ -299,7 +288,7 @@ class OccupationFragment : CustomFragment() {
     private fun observeOccupationSkillsTotalPointsToSpend() {
         occupationSkillsViewModel.occupationSkillsTotalPointsToSpend.observe(this, Observer {
             tv_totalOccupationPoints?.text = "$it"
-            textViewOccupationPointsValue?.setText("$it")
+            textViewOccupationPointsValue?.text = "$it"
         })
     }
 
@@ -307,12 +296,12 @@ class OccupationFragment : CustomFragment() {
      * Observe observable spent points
      */
     private fun observeObservableSpentPoints() {
-        pointsToSpendViewModel.observableOccupationSpentPoints.observe(this, Observer { it: Int ->
-            var totalPointsToSpend: Int? =
+        pointsToSpendViewModel.observableOccupationSpentPoints.observe(this, Observer {
+            val totalPointsToSpend: Int? =
                 occupationSkillsViewModel.occupationSkillsTotalPointsToSpend.value
             if (totalPointsToSpend != null) {
-                var points = totalPointsToSpend - it
-                pointsToSpendViewModel?.observableOccupationPointsToSpend?.value = points
+                val points = totalPointsToSpend - it
+                pointsToSpendViewModel.observableOccupationPointsToSpend.value = points
             }
         })
     }
@@ -335,7 +324,7 @@ class OccupationFragment : CustomFragment() {
      */
     private fun loadOccupationSkillsRecyclerView() {
         if (activity != null) {
-            var transaction = childFragmentManager.beginTransaction()
+            val transaction = childFragmentManager.beginTransaction()
             transaction.replace(
                 R.id.container_occupationSkills,
                 OccupationSkillsRecyclerViewFragment.newInstance(activity!!)
@@ -348,7 +337,7 @@ class OccupationFragment : CustomFragment() {
      */
     private fun setOccupationSkillsPointsTextView() {
 
-        var occupationScore = characteristicsViewModel.getOccupationSkillsScore()
+        val occupationScore = characteristicsViewModel.getOccupationSkillsScore()
         occupationSkillsViewModel.occupationSkillsTotalPointsToSpend.value = occupationScore
 
     }
@@ -390,7 +379,7 @@ class OccupationFragment : CustomFragment() {
     private fun deserializeWidgets(view: View) {
         Log.d(TAG, "deserializeWidgets")
         try {
-            buttonAddSkill = view.findViewById<ImageButton>(R.id.btn_occupation_add_skill)
+            buttonAddSkill = view.findViewById(R.id.btn_occupation_add_skill)
             buttonValidateAddValueToSkill = view.findViewById(R.id.btn_validateSkillPoints)
             textViewSelectedSkill = view.findViewById(R.id.tv_selectedSkill)
             spinnerTensValue = view.findViewById(R.id.spinner_occupation_skill_tens)
@@ -438,7 +427,7 @@ class OccupationFragment : CustomFragment() {
                 if (occupationSkillsViewModel.currentOccupationSkill.value != null) {
                     tensValue = this@OccupationFragment.valuesList[position]
 
-                    var tensPoints =
+                    val tensPoints =
                         pointsToSpendViewModel.observableOccupationSpentTensPointsArray.value
 
                     if (tensPoints?.size != 0) {
@@ -470,7 +459,7 @@ class OccupationFragment : CustomFragment() {
                         units = it.filledSkillUnitsValue!!
                     }
 
-                    var total = tens + units
+                    val total = tens + units
                     totalPoints += total
                 }
                 Log.d("DEBUG", "total points = $totalPoints")
@@ -489,9 +478,9 @@ class OccupationFragment : CustomFragment() {
         buttonValidateAddValueToSkill?.setOnClickListener {
             Log.d(TAG + "valid", "Click ${occupationSkillsViewModel.currentOccupationSkill.value}")
             //  Gets the spent points
-            var spentPoints = pointsToSpendViewModel.observableOccupationSpentPoints.value
+            val spentPoints = pointsToSpendViewModel.observableOccupationSpentPoints.value
             //  Gets the total points to spend
-            var pointsToSpend = occupationSkillsViewModel.occupationSkillsTotalPointsToSpend.value
+            val pointsToSpend = occupationSkillsViewModel.occupationSkillsTotalPointsToSpend.value
             //  Checks if activity is not null
             if (activity != null) {
                 Log.d("DEBUG", "Activity is not null")
@@ -504,7 +493,7 @@ class OccupationFragment : CustomFragment() {
 
                     } else {
                         Log.d("DEBUG", "spentPoints < pointsToSpend")
-                        var domainFilledSkill =
+                        val domainFilledSkill =
                             occupationSkillsViewModel.currentOccupationSkill.value
 
                         if (tensValue != null) {
@@ -517,12 +506,12 @@ class OccupationFragment : CustomFragment() {
                         }
                         occupationSkillsViewModel.currentOccupationSkill.value = domainFilledSkill
 
-                        var index =
+                        val index =
                             occupationSkillsViewModel.checkedOccupationSkills.value?.indexOfFirst { skill ->
                                 skill.skillId == domainFilledSkill?.skillId
                             }
 
-                        var filledSkills =
+                        val filledSkills =
                             occupationSkillsViewModel.checkedOccupationSkills.value?.toMutableList()
                         Log.d(TAG + "valid", "filledSkills size : ${filledSkills?.size}")
 
@@ -540,7 +529,7 @@ class OccupationFragment : CustomFragment() {
                 } else {
                     // We obtain the current skill
                     Log.d("DEBUG", "spentPoints < pointsToSpend")
-                    var domainFilledSkill = occupationSkillsViewModel.currentOccupationSkill.value
+                    val domainFilledSkill = occupationSkillsViewModel.currentOccupationSkill.value
                     Log.d(
                         TAG + "valid",
                         "currentOccupationSkill : ${occupationSkillsViewModel.currentOccupationSkill.value}"
@@ -561,14 +550,14 @@ class OccupationFragment : CustomFragment() {
                         "currentOccupationSkill : ${occupationSkillsViewModel.currentOccupationSkill.value} "
                     )
 
-                    var index =
+                    val index =
                         occupationSkillsViewModel.checkedOccupationSkills.value?.indexOfFirst { skill ->
                             skill.skillId == domainFilledSkill?.skillId
                         }
 
                     Log.d(TAG + "valid", "index : $index")
 
-                    var filledSkills =
+                    val filledSkills =
                         occupationSkillsViewModel.checkedOccupationSkills.value?.toMutableList()
 
                     if (filledSkills != null && index != null) {
@@ -617,15 +606,15 @@ class OccupationFragment : CustomFragment() {
                         spinnerTensValue?.isEnabled = true
                         buttonValidateAddValueToSkill?.isEnabled = true
                     }
-                    Log.d(TAG, "observed : ${domainFilledSkill}")
+                    Log.d(TAG, "observed : $domainFilledSkill")
                     textViewSelectedSkill?.text = domainFilledSkill?.skillName
-                    var tensIndex =
+                    val tensIndex =
                         valuesList.findLast { v -> v == domainFilledSkill?.filledSkillTensValue }
                     Log.d(TAG + "valid", "tensIndex : $tensIndex")
                     if (tensIndex != null) {
                         spinnerTensValue?.setSelection(tensIndex)
                     }
-                    var unitsIndex =
+                    val unitsIndex =
                         valuesList.findLast { value: Int -> value == domainFilledSkill?.filledSkillUnitsValue }
                     Log.d(TAG + "valid", "unitsIndex : $unitsIndex")
                     if (unitsIndex != null) {
@@ -656,7 +645,7 @@ class OccupationFragment : CustomFragment() {
         super.onResume()
 
 
-        var skills: List<DomainSkillToCheck>? =
+        val skills: List<DomainSkillToCheck>? =
             occupationsViewModel.observedOccupationsSkills?.value
         if (occupationSkillsViewModel.checkedOccupationSkills == null) {
             Log.d("DEBUG$TAG", "checkedOccupationSkills == null")
@@ -664,12 +653,12 @@ class OccupationFragment : CustomFragment() {
             Log.d("DEBUG$TAG", "checkedOccupationSkills.value == null")
 
             if (skills != null) {
-                var checkedSkills: List<DomainSkillToCheck> =
+                val checkedSkills: List<DomainSkillToCheck> =
                     skills.filter { skill: DomainSkillToCheck ->
                         skill.skillIsChecked
                     }
                 Log.d(TAG, "checked skills size : ${checkedSkills.size}")
-                var list: MutableList<DomainSkillToFill> = mutableListOf()
+                val list: MutableList<DomainSkillToFill> = mutableListOf()
                 checkedSkills.forEach { occupationSkill: DomainSkillToCheck ->
                     kotlin.run {
                         list.add(
@@ -689,8 +678,8 @@ class OccupationFragment : CustomFragment() {
                 }
 
 
-                var finalList = mutableListOf<DomainSkillToFill>()
-                var checked = occupationSkillsViewModel.checkedOccupationSkills.value
+                val finalList = mutableListOf<DomainSkillToFill>()
+                val checked = occupationSkillsViewModel.checkedOccupationSkills.value
                 if (checked == null) {
                     occupationSkillsViewModel.checkedOccupationSkills.value = list
                 } else {
@@ -721,12 +710,12 @@ class OccupationFragment : CustomFragment() {
             Log.d("DEBUG$TAG", "checkedOccupationSkills.value?.size != skills?.size")
 
             if (skills != null) {
-                var checkedSkills: List<DomainSkillToCheck> =
+                val checkedSkills: List<DomainSkillToCheck> =
                     skills.filter { skill: DomainSkillToCheck ->
                         skill.skillIsChecked
                     }
                 Log.d(TAG, "checked skills size : ${checkedSkills.size}")
-                var list: MutableList<DomainSkillToFill> = mutableListOf()
+                val list: MutableList<DomainSkillToFill> = mutableListOf()
                 checkedSkills.forEach { occupationSkill: DomainSkillToCheck ->
                     kotlin.run {
                         list.add(
@@ -746,8 +735,8 @@ class OccupationFragment : CustomFragment() {
                 }
 
 
-                var finalList = mutableListOf<DomainSkillToFill>()
-                var checked = occupationSkillsViewModel.checkedOccupationSkills.value
+                val finalList = mutableListOf<DomainSkillToFill>()
+                val checked = occupationSkillsViewModel.checkedOccupationSkills.value
                 if (checked == null) {
                     occupationSkillsViewModel.checkedOccupationSkills.value = list
                 } else {

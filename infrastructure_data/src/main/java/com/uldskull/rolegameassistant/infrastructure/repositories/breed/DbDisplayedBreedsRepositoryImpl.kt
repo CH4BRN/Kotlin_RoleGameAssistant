@@ -10,9 +10,9 @@ import com.uldskull.rolegameassistant.infrastructure.dao.breed.DbDisplayedBreedD
 import com.uldskull.rolegameassistant.infrastructure.dao.breed.DbBreedWithDbCharacteristicsDao
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.displayedBreeds.DbDisplayedBreed
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.displayedBreeds.DbDisplayedBreedWithCharacteristics
-import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
-import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreedWithCharacteristics
-import com.uldskull.rolegameassistant.models.character.characteristic.DomainBreedsCharacteristic
+import com.uldskull.rolegameassistant.models.breed.DomainDisplayedBreed
+import com.uldskull.rolegameassistant.models.breed.DomainDisplayedBreedWithCharacteristics
+import com.uldskull.rolegameassistant.models.characteristic.DomainBreedsCharacteristic
 import com.uldskull.rolegameassistant.repository.breed.DisplayedBreedsRepository
 
 /**
@@ -54,7 +54,7 @@ class DbDisplayedBreedsRepositoryImpl(
     override fun findOneById(id: Long?): DomainDisplayedBreed? {
         Log.d(TAG, "findOneById")
         Log.d("DEBUG$TAG"," Breed Id : ${id.toString()}")
-        var result: DbDisplayedBreed
+        val result: DbDisplayedBreed
         try {
             result = dbDisplayedBreedDao.getBreedById(id)
         } catch (e: Exception) {
@@ -145,20 +145,20 @@ class DbDisplayedBreedsRepositoryImpl(
         val getBreedsWithCharacteristicsResultDisplayed: List<DbDisplayedBreedWithCharacteristics> =
             dbBreedWithDbCharacteristicsDao.getBreedsWithCharacteristics()
 
-        var domainDisplayedBreedsWithCharacteristics: MutableList<DomainDisplayedBreedWithCharacteristics> =
+        val domainDisplayedBreedsWithCharacteristics: MutableList<DomainDisplayedBreedWithCharacteristics> =
             mutableListOf()
 
         if (getBreedsWithCharacteristicsResultDisplayed.isNotEmpty()) {
             var count = 0
 
-            getBreedsWithCharacteristicsResultDisplayed.forEach {
-                var characteristics = mutableListOf<DomainBreedsCharacteristic>()
-                var domainBreed = it.displayedBreed.toDomain()
+            getBreedsWithCharacteristicsResultDisplayed.forEach { it ->
+                val characteristics = mutableListOf<DomainBreedsCharacteristic>()
+                val domainBreed = it.displayedBreed.toDomain()
 
                 it.characteristics.forEach {
                     characteristics.add(it.toDomain())
                 }
-                var domainBreedWithCharacteristics =
+                val domainBreedWithCharacteristics =
                     DomainDisplayedBreedWithCharacteristics(
                         displayedBreed = domainBreed,
                         characteristics = characteristics
@@ -180,8 +180,8 @@ class DbDisplayedBreedsRepositoryImpl(
             dbBreedWithDbCharacteristicsDao.getBreedWithCharacteristics(id)
 
         if (getDisplayedBreedWithCharacteristicResult != null) {
-            var characteristics = mutableListOf<DomainBreedsCharacteristic>()
-            var domainBreed = getDisplayedBreedWithCharacteristicResult.displayedBreed.toDomain()
+            val characteristics = mutableListOf<DomainBreedsCharacteristic>()
+            val domainBreed = getDisplayedBreedWithCharacteristicResult.displayedBreed.toDomain()
 
 
             getDisplayedBreedWithCharacteristicResult.characteristics.forEach {
@@ -201,6 +201,6 @@ class DbDisplayedBreedsRepositoryImpl(
     /**  Update one entity  **/
     override fun updateOne(one: DomainDisplayedBreed?): Int? {
         Log.d(TAG, "updateOne")
-        return dbDisplayedBreedDao?.update(DbDisplayedBreed.from(one))
+        return dbDisplayedBreedDao.update(DbDisplayedBreed.from(one))
     }
 }

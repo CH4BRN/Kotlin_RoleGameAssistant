@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.uldskull.rolegameassistant.infrastructure.dao.ideal.DbIdealsDao
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_ideal.DbIdeal
-import com.uldskull.rolegameassistant.models.character.DomainIdeal
+import com.uldskull.rolegameassistant.models.DomainIdeal
 import com.uldskull.rolegameassistant.repository.ideal.IdealsRepository
 
 /**
@@ -29,7 +29,7 @@ class DbIdealsRepositoryImpl(
     override fun getAll(): LiveData<List<DomainIdeal>> {
         Log.d(TAG, "getAll")
         try {
-            var ideals = dbIdealDao.getIdealsLiveData()
+            val ideals = dbIdealDao.getIdealsLiveData()
             Log.d(TAG, "ideals = " + ideals.value?.size.toString())
             //  Transform the dbIdeals into domain ideals
             return Transformations.map(ideals) {
@@ -49,8 +49,8 @@ class DbIdealsRepositoryImpl(
     override fun getIdeals(): List<DomainIdeal> {
         Log.d(TAG, "getAll")
         try {
-            var ideals: List<DbIdeal> = dbIdealDao?.getIdeals()
-            return ideals?.map { ideal -> ideal.toDomain() }
+            val ideals: List<DbIdeal> = dbIdealDao.getIdeals()
+            return ideals.map { ideal -> ideal.toDomain() }
 
         } catch (e: Exception) {
             Log.e("ERROR", "Get ideals failed")
@@ -76,7 +76,7 @@ class DbIdealsRepositoryImpl(
     /** Get one entity by its id    */
     override fun findOneById(id: Long?): DomainIdeal? {
         Log.d(TAG, "findOneById : $id")
-        var result: DbIdeal
+        val result: DbIdeal
         try {
             result = dbIdealDao.getIdealById(id)
         } catch (e: Exception) {
@@ -84,32 +84,27 @@ class DbIdealsRepositoryImpl(
             e.printStackTrace()
             throw e
         }
-        if (result != null) {
-            return result.toDomain()
-        } else {
-            return null
-        }
+        return result.toDomain()
 
     }
 
     /** Insert a list of entity - it should return long[] or List<Long>.*/
     override fun insertAll(all: List<DomainIdeal>?): List<Long>? {
         Log.d(TAG, "insertAll")
-        if ((all != null) && (all.isNotEmpty())) {
+        return if ((all != null) && (all.isNotEmpty())) {
             try {
-                val result = dbIdealDao.insert(all.map { i ->
+                dbIdealDao.insert(all.map { i ->
                     DbIdeal.from(
                         i
                     )
                 })
-                return result
             } catch (e: Exception) {
                 Log.e(TAG, "insertAll FAILED")
                 e.printStackTrace()
                 throw e
             }
         } else {
-            return emptyList()
+            emptyList()
         }
     }
 
@@ -121,7 +116,7 @@ class DbIdealsRepositoryImpl(
         if (ideal == null) {
             throw Exception("ERROR : Ideal is null.")
         }
-        return dbIdealDao?.delete(DbIdeal.from(ideal))
+        return dbIdealDao.delete(DbIdeal.from(ideal))
     }
 
     /** Insert one entity  -  it can return a long, which is the new rowId for the inserted item.*/

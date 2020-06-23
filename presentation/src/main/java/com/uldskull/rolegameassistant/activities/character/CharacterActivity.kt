@@ -21,13 +21,15 @@ import com.uldskull.rolegameassistant.fragments.fragment.hobbies.HobbiesFragment
 import com.uldskull.rolegameassistant.fragments.fragment.hobby.HobbyFragment
 import com.uldskull.rolegameassistant.fragments.fragment.occupation.OccupationFragment
 import com.uldskull.rolegameassistant.fragments.fragment.occupations.OccupationsFragment
-import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
-import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
-import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
-import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
-import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
+import com.uldskull.rolegameassistant.models.breed.DomainDisplayedBreed
+import com.uldskull.rolegameassistant.models.character.DomainCharacter
+import com.uldskull.rolegameassistant.models.occupation.DomainOccupation
+import com.uldskull.rolegameassistant.models.skill.DomainSkillToCheck
+import com.uldskull.rolegameassistant.models.skill.DomainSkillToFill
 import com.uldskull.rolegameassistant.viewmodels.*
 import com.uldskull.rolegameassistant.viewmodels.breeds.DisplayedBreedsViewModel
+import com.uldskull.rolegameassistant.viewmodels.character.CharactersPictureViewModel
+import com.uldskull.rolegameassistant.viewmodels.character.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.hobbies.HobbiesViewModel
 import com.uldskull.rolegameassistant.viewmodels.hobbies.HobbySkillsViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationSkillsViewModel
@@ -111,9 +113,6 @@ class CharacterActivity :
      */
     private lateinit var skillsViewModel: SkillsViewModel
 
-    /** SupportFragmentManager  **/
-    private val fragmentManager = supportFragmentManager
-
     /** Activity life cycle
      * @param savedInstanceState the transmitted bundle**/
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -162,7 +161,7 @@ class CharacterActivity :
             this,
             Observer { domainSkillToCheck: List<DomainSkillToCheck> ->
                 kotlin.run {
-                    domainSkillToCheck?.let { list ->
+                    domainSkillToCheck.let { list ->
                         skillsViewModel.hobbiesSkills.value =
                             domainSkillToCheck
 
@@ -190,76 +189,76 @@ class CharacterActivity :
             // Sets the values
             newCharacterViewModel.selectedCharacter.value = character
             newCharacterViewModel.currentCharacter = character
-            newCharacterViewModel.characterName.value = character?.characterName
-            newCharacterViewModel.characterAge.value = character?.characterAge
-            newCharacterViewModel.characterGender.value = character?.characterGender
-            newCharacterViewModel.characterBiography.value = character?.characterBiography
-            newCharacterViewModel.characterHeight.value = character?.characterHeight
-            newCharacterViewModel.characterWeight.value = character?.characterWeight
-            pointsToSpendViewModel?.observableOccupationSpentPoints.value =
-                character?.characterSpentOccupationPoints
+            newCharacterViewModel.characterName.value = character.characterName
+            newCharacterViewModel.characterAge.value = character.characterAge
+            newCharacterViewModel.characterGender.value = character.characterGender
+            newCharacterViewModel.characterBiography.value = character.characterBiography
+            newCharacterViewModel.characterHeight.value = character.characterHeight
+            newCharacterViewModel.characterWeight.value = character.characterWeight
+            pointsToSpendViewModel.observableOccupationSpentPoints.value =
+                character.characterSpentOccupationPoints
 
 
             // Gets the breeds
-            var characterBreeds: MutableList<DomainDisplayedBreed?> = mutableListOf()
-            character?.characterBreeds?.forEach {
-                characterBreeds?.add(displayedBreedsViewModel.findBreedWithId(it))
+            val characterBreeds = mutableListOf<DomainDisplayedBreed?>()
+            character.characterBreeds?.forEach {
+                characterBreeds.add(displayedBreedsViewModel.findBreedWithId(it))
             }
-            var breedsToLoad: MutableList<DomainDisplayedBreed> = mutableListOf()
+            val breedsToLoad: MutableList<DomainDisplayedBreed> = mutableListOf()
 
             observeRepositoryBreeds(characterBreeds, breedsToLoad)
 
             // Gets the occupation
-            var occupation = character?.characterOccupation
+            val occupation = character.characterOccupation
             initializeSelectedOccupation(occupation)
 
             //  Gets the occupation skills ids
-            var occupationSkillsIds = character?.characterSelectedOccupationSkill
+            val occupationSkillsIds = character.characterSelectedOccupationSkill
             //  Sets the occupation skills ids
-            occupationsViewModel?.selectedCharacterSkills?.value = occupationSkillsIds?.toList()
+            occupationsViewModel.selectedCharacterSkills.value = occupationSkillsIds?.toList()
 
             observeOccupationsSkills()
             //  Gets the observed occupations skills
-            var occupationsSkills = occupationsViewModel?.observedOccupationsSkills?.value
+            var occupationsSkills = occupationsViewModel.observedOccupationsSkills?.value
             // get the character's skills
-            var occupationSkills: List<DomainSkillToFill>? =
-                newCharacterViewModel?.getCharacterSkills(character?.characterId, 0)
+            val occupationSkills: List<DomainSkillToFill>? =
+                newCharacterViewModel.getCharacterSkills(character.characterId, 0)
             // sets the character's skills
             if (occupationSkillsViewModel.checkedOccupationSkills.value == null) {
                 occupationSkillsViewModel.checkedOccupationSkills.value = occupationSkills
             }
 
             //  Get character selected hobbies skills
-            var hobbiesSkillsIds = character?.characterSelectedHobbiesSkill
+            val hobbiesSkillsIds = character.characterSelectedHobbiesSkill
             //  Get character hobbies skill to check
-            var characterHobbiesSkillToCheck: MutableList<DomainSkillToCheck?>? =
+            val characterHobbiesSkillToCheck: MutableList<DomainSkillToCheck?>? =
                 getCharacterHobbiesSkillToCheck(hobbiesSkillsIds)
             //  Set character hobbies skills to check
-            skillsViewModel?.hobbiesSkills?.value = characterHobbiesSkillToCheck
+            skillsViewModel.hobbiesSkills.value = characterHobbiesSkillToCheck
 
             Log.d("DEBUG$TAG", "hobbiesSkillsIds : $hobbiesSkillsIds")
-            hobbiesViewModel?.selectedCharacterSkills?.value = hobbiesSkillsIds
+            hobbiesViewModel.selectedCharacterSkills.value = hobbiesSkillsIds
             //  Observe hobbies skills
             observeHobbiesSkills()
             //  Observe hobbies skills
             observeSkillsForHobbies()
 
             //  Hobby
-            val characterId: Long? = if (character?.characterId != null) {
-                character?.characterId
+            val characterId: Long? = if (character.characterId != null) {
+                character.characterId
             } else {
                 null
             }
 
             if (characterId != null) {
                 Log.d("DEBUG$TAG", "Character ID : $characterId")
-                var hobbySkills: List<DomainSkillToFill>? =
+                val hobbySkills: List<DomainSkillToFill>? =
                     getCharacterHobbySkills(characterId)
-                skillsViewModel?.characterHobbySkills = hobbySkills
+                skillsViewModel.characterHobbySkills = hobbySkills
 
-                var occupationSkills: List<DomainSkillToFill>? =
+                val occupationSkills: List<DomainSkillToFill>? =
                     getCharacterOccupationSkills(characterId)
-                skillsViewModel?.characterOccupationSkills = occupationSkills
+                skillsViewModel.characterOccupationSkills = occupationSkills
             }
         }
     }
@@ -269,8 +268,8 @@ class CharacterActivity :
      */
     private fun getCharacterHobbiesSkillToCheck(hobbiesSkillsIds: MutableList<Long?>?): MutableList<DomainSkillToCheck?>? {
         // get tge mutable hobbies skills
-        var list: MutableList<DomainSkillToCheck?>? =
-            skillsViewModel?.hobbiesSkills?.value?.toMutableList()
+        val list: MutableList<DomainSkillToCheck?>? =
+            skillsViewModel.hobbiesSkills.value?.toMutableList()
         // Check the skills if they are in the character selected skills
         list?.forEach { skill ->
             kotlin.run {
@@ -278,7 +277,7 @@ class CharacterActivity :
                     run {
                         if (skill != null && id != null) {
                             skill.skillIsChecked = true
-                            var index = list.indexOfFirst { s -> s?.skillId == skill.skillId }
+                            val index = list.indexOfFirst { s -> s?.skillId == skill.skillId }
                             list[index] = skill
                         }
                     }
@@ -294,8 +293,8 @@ class CharacterActivity :
     private fun getCharacterOccupationSkills(
         characterId: Long?
     ): List<DomainSkillToFill>? {
-        var occupationSkills: List<DomainSkillToFill>? =
-            newCharacterViewModel?.getCharacterSkills(characterId, 0)
+        val occupationSkills: List<DomainSkillToFill>? =
+            newCharacterViewModel.getCharacterSkills(characterId, 0)
         Log.d("DEBUG$TAG", "occupationSkills count : ${occupationSkills?.count()}")
         occupationSkills?.forEach {
             Log.d(
@@ -310,31 +309,31 @@ class CharacterActivity :
      * Get the character's hobby skills
      */
     private fun getCharacterHobbySkills(characterId: Long?): List<DomainSkillToFill>? {
-        return newCharacterViewModel?.getCharacterSkills(characterId, 1)
+        return newCharacterViewModel.getCharacterSkills(characterId, 1)
     }
 
     /**
      * get the hobbies skills
      */
     private fun observeSkillsForHobbies() {
-        skillsViewModel?.hobbiesSkills?.observe(this, Observer {
-            var list = it?.toMutableList()
-            var selected = hobbiesViewModel?.selectedCharacterSkills?.value
+        skillsViewModel.hobbiesSkills.observe(this, Observer {
+            val list = it?.toMutableList()
+            val selected = hobbiesViewModel.selectedCharacterSkills.value
 
             list?.forEach { skill ->
                 selected?.forEach { id ->
                     if (skill?.skillId == id) {
                         if (!skill?.skillIsChecked!!) {
-                            skill?.skillIsChecked = true
-                            var index = list?.indexOfFirst { s -> s?.skillId == id }
+                            skill.skillIsChecked = true
+                            val index = list.indexOfFirst { s -> s?.skillId == id }
                             list[index] = skill
                         }
                     }
                 }
             }
 
-            if (skillsViewModel?.hobbiesSkills?.value.toString() != list.toString()) {
-                skillsViewModel?.hobbiesSkills.value = list
+            if (skillsViewModel.hobbiesSkills.value.toString() != list.toString()) {
+                skillsViewModel.hobbiesSkills.value = list
             }
 
 
@@ -345,21 +344,21 @@ class CharacterActivity :
      * Observe hobbies skills
      */
     private fun observeHobbiesSkills() {
-        hobbiesViewModel?.observedHobbiesSkills?.observe(this, Observer {
-            var list = it.toMutableList()
-            var selected = hobbiesViewModel?.selectedCharacterSkills?.value
+        hobbiesViewModel.observedHobbiesSkills?.observe(this, Observer {
+            val list = it.toMutableList()
+            val selected = hobbiesViewModel.selectedCharacterSkills.value
             list.forEach { skill ->
                 selected?.forEach { selectedId ->
                     kotlin.run {
                         if (skill.skillId == selectedId) {
-                            var index = list.indexOfFirst { s -> s.skillId == skill.skillId }
+                            val index = list.indexOfFirst { s -> s.skillId == skill.skillId }
                             skill.skillIsChecked = true
                             list[index] = skill
                         }
                     }
                 }
             }
-            skillsViewModel?.hobbiesSkills?.value = list
+            skillsViewModel.hobbiesSkills.value = list
         })
     }
 
@@ -367,14 +366,14 @@ class CharacterActivity :
      * Observe occupations skills
      */
     private fun observeOccupationsSkills() {
-        occupationsViewModel?.observedOccupationsSkills?.observe(this, Observer {
-            var list = it.toMutableList()
-            var selected: List<Long?>? = occupationsViewModel?.selectedCharacterSkills?.value
+        occupationsViewModel.observedOccupationsSkills?.observe(this, Observer {
+            val list = it.toMutableList()
+            val selected: List<Long?>? = occupationsViewModel.selectedCharacterSkills.value
             list.forEach { skill ->
                 selected?.forEach { selectedId ->
                     kotlin.run {
                         if (skill.skillId == selectedId) {
-                            var index = list.indexOfFirst { s -> s.skillId == skill.skillId }
+                            val index = list.indexOfFirst { s -> s.skillId == skill.skillId }
                             skill.skillIsChecked = true
                             list[index] = skill
                         }
@@ -391,16 +390,16 @@ class CharacterActivity :
         characterBreeds: MutableList<DomainDisplayedBreed?>,
         breedsToLoad: MutableList<DomainDisplayedBreed>
     ) {
-        displayedBreedsViewModel?.observedRepositoryBreeds?.observe(
+        displayedBreedsViewModel.observedRepositoryBreeds?.observe(
             this,
             Observer { repositoryBreeds ->
                 repositoryBreeds?.forEach { breed ->
-                    if (characterBreeds?.any { b -> b?.breedId == breed.breedId }) {
+                    if (characterBreeds.any { b -> b?.breedId == breed.breedId }) {
                         breed.breedIsChecked = true
                     }
-                    breedsToLoad?.add(breed)
+                    breedsToLoad.add(breed)
                 }
-                displayedBreedsViewModel?.observedMutableBreeds?.value = breedsToLoad.toList()
+                displayedBreedsViewModel.observedMutableBreeds.value = breedsToLoad.toList()
 
             })
     }
@@ -433,7 +432,7 @@ class CharacterActivity :
     }
 
     /**
-     * load the viewmodels
+     * load the viewModels
      */
     private fun loadViewModels() {
         //  Get the ViewModels by DI
@@ -457,7 +456,7 @@ class CharacterActivity :
     private fun setCharacterPagerAdapter() {
         Log.d(TAG, "setCharacterPageAdapter")
         //  Instantiate a ViewPager2 and a PagerAdapter.
-        viewPager = findViewById<ViewPager2>(R.id.activityEditCharacter_viewPager2)
+        viewPager = findViewById(R.id.activityEditCharacter_viewPager2)
         fragmentAdapter = FragmentAdapter(this)
         viewPager?.adapter = fragmentAdapter
 
@@ -489,7 +488,7 @@ class CharacterActivity :
                 if (isOnCharacteristicFragment(position)) {
                     var areCharacteristicsRolled = true
 
-                    var characteristics = characteristicsViewModel.getAllCharacteristics()
+                    val characteristics = characteristicsViewModel.getAllCharacteristics()
                     if (characteristics == null || (characteristics.isEmpty())) {
                         characteristicsAlert()
                     } else {

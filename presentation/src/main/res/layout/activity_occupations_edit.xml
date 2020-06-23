@@ -49,6 +49,7 @@
                     android:text="@string/title" />
 
                 <EditText
+                    android:inputType="text"
                     android:id="@+id/activityEditOccupation_editText_occupationTitle"
                     android:layout_width="0dp"
                     android:layout_column="1"
@@ -66,6 +67,7 @@
                     android:text="@string/income" />
 
                 <EditText
+                    android:inputType="text"
                     android:id="@+id/activityEditOccupation_editText_occupationIncome"
                     android:layout_width="0dp"
                     android:layout_column="1"
@@ -83,6 +85,7 @@
                     android:text="@string/contacts" />
 
                 <EditText
+                    android:inputType="text"
                     android:id="@+id/activityEditOccupation_editText_occupationContacts"
                     android:layout_width="0dp"
                     android:layout_column="1"
@@ -100,6 +103,7 @@
                     android:text="@string/special" />
 
                 <EditText
+                    android:inputType="text"
                     android:id="@+id/activityEditOccupation_editText_occupationSpecial"
                     android:layout_width="0dp"
                     android:layout_column="1"
@@ -127,9 +131,11 @@
                 android:background="@drawable/mybutton"
                 android:padding="8dp"
                 android:src="@drawable/ic_trash_can_24dp"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                android:contentDescription="@string/button_to_delete_occupation" />
 
             <ImageButton
+                android:contentDescription="@string/savebutton"
                 android:id="@+id/activityEditOccupation_imageButton_saveOccupation"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"

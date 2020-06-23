@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_SKILL_TO_CHECK
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbCompanion
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbEntity
-import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
+import com.uldskull.rolegameassistant.models.skill.DomainSkillToCheck
 
 /**
  *   Class "DbOccupationSkill" :

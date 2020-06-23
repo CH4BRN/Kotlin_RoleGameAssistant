@@ -2,9 +2,7 @@
 
 package com.uldskull.rolegameassistant.infrastructure.database.databaseUtils
 
-import android.util.Log
 import com.uldskull.rolegameassistant.infrastructure.dao.skill.DbSkillToCheckDao
-import com.uldskull.rolegameassistant.infrastructure.database_model.db_skill.DbSkillToCheck
 
 /**
 Class "SkillToCheckDatabaseUtil"

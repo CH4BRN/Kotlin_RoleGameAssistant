@@ -14,15 +14,15 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.CustomAdapterButtonListener
-import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
-import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
+import com.uldskull.rolegameassistant.fragments.core.listeners.CustomAdapterButtonListener
+import com.uldskull.rolegameassistant.fragments.core.CustomCompanion
+import com.uldskull.rolegameassistant.fragments.core.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.IDEAL_RECYCLER_VIEW_FRAGMENT_POSITION
-import com.uldskull.rolegameassistant.models.character.DomainIdeal
-import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
+import com.uldskull.rolegameassistant.models.DomainIdeal
+import com.uldskull.rolegameassistant.models.character.DomainCharacter
 import com.uldskull.rolegameassistant.viewmodels.IdealsViewModel
-import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
+import com.uldskull.rolegameassistant.viewmodels.character.NewCharacterViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
@@ -150,7 +150,7 @@ class IdealsRecyclerViewFragment :
         newCharacterViewModel.selectedCharacter.observe(this, Observer { domainCharacter ->
             if (domainCharacter != null) {
                 if (characterIdealsAreNotNullOrEmpty(domainCharacter)) {
-                    var characterIdeals = domainCharacter.characterIdeals
+                    val characterIdeals = domainCharacter.characterIdeals
                     Log.d("DEBUG$TAG", "Character ideals is null = ${characterIdeals == null}")
                     var test = true
                     characterIdeals?.forEach { i ->
@@ -161,7 +161,7 @@ class IdealsRecyclerViewFragment :
 
                     if (test) {
                         if (characterIdeals != null && !characterIdeals.isNullOrEmpty()) {
-                            var count: Int? = characterIdeals?.count { i -> i?.isChecked!! }
+                            var count: Int? = characterIdeals.count { i -> i?.isChecked!! }
                             Log.d("DEBUG$TAG", "characterIdeals count : $count")
 
                             idealsViewModel.mutableIdeals?.value = domainCharacter.characterIdeals
@@ -190,7 +190,7 @@ class IdealsRecyclerViewFragment :
     override fun onResume() {
         super.onResume()
         Log.d("DEBUG${TAG}", "OnResume")
-        idealsViewModel?.refreshDataFromRepository()
+        idealsViewModel.refreshDataFromRepository()
     }
 
     /** Set recycler view adapter   **/
@@ -232,13 +232,13 @@ class IdealsRecyclerViewFragment :
         Log.d(TAG, "itemPressed")
         if (domainModel != null) {
 
-            var ideals = idealsViewModel.mutableIdeals?.value
+            val ideals = idealsViewModel.mutableIdeals?.value
             var count = ideals?.count { i -> i?.isChecked!! }
             Log.d("DEBUG$TAG", "Checked Count = $count")
 
-            var index = ideals?.indexOfFirst { i -> i?.idealId == domainModel.idealId }
+            val index = ideals?.indexOfFirst { i -> i?.idealId == domainModel.idealId }
             if (index != null) {
-                ideals?.set(index, domainModel)
+                ideals[index] = domainModel
             }
             count = ideals?.count { i -> i?.isChecked!! }
 

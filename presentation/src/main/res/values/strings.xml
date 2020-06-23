@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!--  Abilities  -->
-    <string name="STRENGTH" translatable="false">
+    <string name="STRENGTH" translatable="false" tools:keep="@string/STRENGTH">
         STRENGTH
     </string>
 
     <!--  app name  -->
-    <string name="app_name">presentation</string>
+    <string name="app_name">Role game assistant</string>
 
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
 
-    <string name="ipsum" translatable="false">
+    <string name="ipsum" translatable="false" tools:keep="@string/ipsum">
         ipsum
     </string>
 
@@ -18,7 +18,7 @@
         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
     </string>
     <!--  lorem ipsum : long  -->
-    <string name="lorem_ipsum_long" translatable="false">
+    <string name="lorem_ipsum_long" translatable="false" tools:keep="@string/lorem_ipsum_long">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras
         eleifend justo sit amet lacus fringilla consequat quis vel enim.
         Integer ut nunc augue. Integer consectetur euismod volutpat.
@@ -69,12 +69,12 @@
     <string name="character">Character :</string>
     <string name="name">Name :</string>
     <string name="age">Age :</string>
-    <string name="age_hint">Age ...</string>
-    <string name="name_hint">Name ...</string>
+    <string name="age_hint">Age …</string>
+    <string name="name_hint">Name …</string>
     <string name="gender">Gender :</string>
-    <string name="gender_hint">Gender ...</string>
+    <string name="gender_hint">Gender …</string>
     <string name="biography">Biography :</string>
-    <string name="biography_hint">Let\'s type a biography ...</string>
+    <string name="biography_hint">Let\'s type a biography …</string>
     <string name="height">Height :</string>
     <string name="height_hint" translatable="false">1</string>
     <string name="weight">Weight :</string>
@@ -87,7 +87,7 @@
     <string name="add_bond">Add bond.</string>
     <string name="delete_bond">Delete bond</string>
     <string name="character_search">Character search</string>
-    <string name="search">Search ...</string>
+    <string name="search">Search …</string>
     <string name="characteristics">Characteristics</string>
     <string name="ability">Ability :</string>
     <string name="roll">Roll :</string>
@@ -97,14 +97,14 @@
     <string name="use_points_manually">Use points manually.</string>
     <string name="roll_the_dices">Roll the dices.</string>
     <string name="_1d6" translatable="false">1D6</string>
-    <string name="roll_hint" translatable="false">0</string>
-    <string name="bonus_hint" translatable="false">0</string>
-    <string name="total_hint" translatable="false">0</string>
+    <string name="roll_hint" translatable="false" tools:keep="@string/roll_hint">0</string>
+    <string name="bonus_hint" translatable="false" tools:keep="@string/bonus_hint">0</string>
+    <string name="total_hint" translatable="false" tools:keep="@string/total_hint">0</string>
     <string name="derived_values_1">Derived values 1</string>
     <string name="base_hp_siz_con_2">BASE HP (SIZ + CON) /2 :</string>
-    <string name="baseHealth_hint" translatable="false">0</string>
+    <string name="baseHealth_hint" translatable="false" tools:keep="@string/baseHealth_hint">0</string>
     <string name="breed_bonus">+ BREED BONUS :</string>
-    <string name="_breedBonus_hint" translatable="false">0</string>
+    <string name="_breedBonus_hint" translatable="false" tools:keep="@string/_breedBonus_hint">0</string>
     <string name="equal" translatable="false">=</string>
     <string name="total_hp">TOTAL HP :</string>
     <string name="zero" translatable="false">0</string>
@@ -159,9 +159,13 @@
     <string name="total_title">Total</string>
     <string name="picture">Picture :</string>
     <string name="character_s_picture_description">Character\'s picture</string>
-    <string name="before_continuing">Before continuing ...</string>
+    <string name="before_continuing">Before continuing …</string>
     <string name="necessary_characteristics">Characteristics are necessary for the following steps.</string>
     <string name="characteristics_trick_title">Little trick :</string>
     <string name="characteristics_trick_content">You can shake your phone to get rolled characteristics !</string>
+    <string name="button_to_delete_ideal">Button to delete ideal</string>
+    <string name="button_to_delete_occupation">button to delete occupation</string>
+    <string name="save_button">save button</string>
+    <string name="savebutton">saveButton</string>
 
 </resources>

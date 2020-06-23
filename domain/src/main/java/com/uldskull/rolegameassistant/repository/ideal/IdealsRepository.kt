@@ -3,7 +3,7 @@
 
 package com.uldskull.rolegameassistant.repository.ideal
 
-import com.uldskull.rolegameassistant.models.character.DomainIdeal
+import com.uldskull.rolegameassistant.models.DomainIdeal
 import com.uldskull.rolegameassistant.repository.GenericRepository
 
 /**
@@ -15,6 +15,6 @@ interface IdealsRepository<T> :
 
     fun getIdeals():List<DomainIdeal>
 
-    fun deleteOne(ideal:DomainIdeal):Int
+    fun deleteOne(ideal: DomainIdeal):Int
 
 }

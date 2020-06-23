@@ -2,7 +2,7 @@
 
 package com.uldskull.rolegameassistant.activities.character
 
-import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
+import com.uldskull.rolegameassistant.models.character.DomainCharacter
 
 /**
 Interface "CharacterTransmission"

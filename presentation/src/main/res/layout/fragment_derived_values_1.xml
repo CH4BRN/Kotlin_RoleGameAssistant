@@ -195,13 +195,13 @@
 
             </TableLayout>
             <ImageButton
-                android:layout_gravity="right"
+                android:layout_gravity="end"
                 android:id="@+id/btn_edit"
                 style="@style/myCornerRadiusButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_marginEnd="8dp"
                 android:background="@drawable/mybutton"
                 android:contentDescription="@string/edit_derived_values_manually"
                 android:padding="4dp"

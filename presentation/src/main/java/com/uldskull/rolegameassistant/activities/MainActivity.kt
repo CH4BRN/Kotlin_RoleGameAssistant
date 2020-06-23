@@ -41,13 +41,6 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    /** Load the new character activity **/
-    private fun loadNewCharacterActivity() {
-        Log.d(TAG, "loadNewCharacterActivity")
-        startActivity(
-            getNewCharacterIntent()
-        )
-    }
 
     /** Get new character intent    **/
     private fun getNewCharacterIntent(): Intent {

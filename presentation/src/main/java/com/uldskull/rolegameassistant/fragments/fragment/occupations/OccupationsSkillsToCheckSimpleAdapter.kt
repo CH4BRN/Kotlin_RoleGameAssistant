@@ -10,8 +10,8 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.CustomAdapterButtonListener
-import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
+import com.uldskull.rolegameassistant.fragments.core.listeners.CustomAdapterButtonListener
+import com.uldskull.rolegameassistant.models.skill.DomainSkillToCheck
 
 /**
 Class "OccupationsSkillsToCheckAdapter"
@@ -39,11 +39,11 @@ class OccupationsSkillsToCheckSimpleAdapter internal constructor(
      */
     inner class OccupationsSkillsToCheckViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
-        var tvSkillName: TextView? =
+        private var tvSkillName: TextView? =
             itemView.findViewById(R.id.fragmentSkillToCheck_textView_skillName)
-        var cbSkillChecked: CheckBox? =
+        private var cbSkillChecked: CheckBox? =
             itemView.findViewById(R.id.fragmentSkillToCheck_checkBox_skillChecked)
-        var viOverlay: View? = itemView.findViewById(R.id.fragmentSkillToCheck_view_overlay)
+        private var viOverlay: View? = itemView.findViewById(R.id.fragmentSkillToCheck_view_overlay)
 
         init {
             viOverlay?.setOnClickListener {
@@ -110,7 +110,7 @@ class OccupationsSkillsToCheckSimpleAdapter internal constructor(
      * @return The total number of items in this adapter.
      */
     override fun getItemCount(): Int {
-        return occupationSkills?.size
+        return occupationSkills.size
     }
 
     /**
@@ -118,7 +118,7 @@ class OccupationsSkillsToCheckSimpleAdapter internal constructor(
      */
     fun setSkills(skillsToCheck: List<DomainSkillToCheck>) {
         if (skillsToCheck != null) {
-            this?.occupationSkills = skillsToCheck
+            this.occupationSkills = skillsToCheck
         }
         notifyDataSetChanged()
     }
@@ -145,7 +145,7 @@ class OccupationsSkillsToCheckSimpleAdapter internal constructor(
      * @param position The position of the item within the adapter's data set.
      */
     override fun onBindViewHolder(holder: OccupationsSkillsToCheckViewHolder, position: Int) {
-        holder?.bind(occupationSkills[position], position)
+        holder.bind(occupationSkills[position], position)
     }
 
 }

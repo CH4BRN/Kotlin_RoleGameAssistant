@@ -20,7 +20,7 @@ class IdealDatabaseUtil {
         fun populateIdeals(idealsDao: DbIdealsDao) {
 
             Log.d(TAG, "populateIdeals - Instantiates")
-            var dbIdeals = listOf(
+            val dbIdeals = listOf(
                 DbIdeal(
                     idealId = null,
                     idealName = "Mean",
@@ -37,10 +37,10 @@ class IdealDatabaseUtil {
                 )
             )
 
-            var insertIdealsResults: MutableList<Long?> = mutableListOf()
+            val insertIdealsResults: MutableList<Long?> = mutableListOf()
             Log.d(TAG, "populateIdeals - Inserts")
             dbIdeals.forEach {
-                var result: Long?
+                val result: Long?
                 Log.d(TAG, "Ideal : $it")
                 try {
                     result = idealsDao.insert(it)
@@ -57,7 +57,7 @@ class IdealDatabaseUtil {
             insertIdealsResults.forEach {
                 Log.d(TAG, "Ideal id : $it")
                 try {
-                    var ideal = idealsDao.getIdealById(it)
+                    val ideal = idealsDao.getIdealById(it)
                     Log.d(TAG, "$ideal")
                 } catch (e: Exception) {
                     Log.e(TAG, "Checking ideal failed.")

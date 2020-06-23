@@ -9,8 +9,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
-import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
+import com.uldskull.rolegameassistant.models.skill.DomainSkillToCheck
+import com.uldskull.rolegameassistant.models.skill.DomainSkillToFill
 import com.uldskull.rolegameassistant.repository.skill.SkillToCheckRepository
 import kotlinx.coroutines.launch
 import kotlin.concurrent.thread
@@ -30,7 +30,7 @@ class SkillsViewModel(
     }
 
     init {
-        Log.d("$TAG", "Init")
+        Log.d(TAG, "Init")
         refreshDataFromRepository()
     }
 
@@ -47,7 +47,7 @@ class SkillsViewModel(
     /**
      * Repository skills to check
      */
-    var repositorySkillsToCheck: LiveData<List<DomainSkillToCheck>>? = skillToCheckToCheckRepository?.getAll()
+    var repositorySkillsToCheck: LiveData<List<DomainSkillToCheck>>? = skillToCheckToCheckRepository.getAll()
 
     /**
      * Mutable skills to check
@@ -58,7 +58,7 @@ class SkillsViewModel(
      * Refresh data from repository
      */
     private fun refreshDataFromRepository(){
-        Log.d("$TAG", "refreshDataFromRepository")
+        Log.d(TAG, "refreshDataFromRepository")
         viewModelScope.launch {
             try {
                 repositorySkillsToCheck = findAll()
@@ -74,9 +74,9 @@ class SkillsViewModel(
      * Find all data from repository
      */
     private fun findAll():LiveData<List<DomainSkillToCheck>>?{
-        Log.d("$TAG", "findAll")
+        Log.d(TAG, "findAll")
         thread(start = true){
-            repositorySkillsToCheck = skillToCheckToCheckRepository?.getAll()
+            repositorySkillsToCheck = skillToCheckToCheckRepository.getAll()
         }
         return repositorySkillsToCheck
     }

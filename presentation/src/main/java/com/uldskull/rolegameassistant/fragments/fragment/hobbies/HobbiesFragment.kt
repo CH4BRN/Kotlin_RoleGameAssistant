@@ -9,8 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.HOBBIES_FRAGMENT_POSITION
-import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
-import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
+import com.uldskull.rolegameassistant.fragments.core.CustomCompanion
+import com.uldskull.rolegameassistant.fragments.core.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 
 /**
@@ -43,7 +43,7 @@ class HobbiesFragment : CustomFragment() {
      */
     private fun loadHobbiesSkillRecyclerView() {
         if(activity != null){
-            var transaction = childFragmentManager.beginTransaction()
+            val transaction = childFragmentManager.beginTransaction()
             transaction.replace(
                 R.id.container_hobbiesSkills,
                 HobbiesSkillsRecyclerViewFragment.newInstance(

@@ -21,7 +21,7 @@ class BreedDatabaseUtil {
         fun populateBreed(displayedBreedDao: DbDisplayedBreedDao) {
             Log.d(TAG, "populateBreed")
 
-            var dbBreeds = listOf(
+            val dbBreeds = listOf(
                 DbDisplayedBreed(
                     breedName = "TestBreed 1",
                     breedId = null,
@@ -49,9 +49,9 @@ class BreedDatabaseUtil {
                 )
 
             )
-            dbBreeds?.forEach {
-                if(displayedBreedDao?.getBreedById(it?.breedId) == null){
-                    displayedBreedDao?.insert(it)
+            dbBreeds.forEach {
+                if(displayedBreedDao.getBreedById(it.breedId) == null){
+                    displayedBreedDao.insert(it)
                     Log.d("Insert result", it.toString())
                 }
 

@@ -11,7 +11,8 @@
         android:id="@+id/layout_info"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingRight="8dp"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
         app:layout_constraintEnd_toStartOf="@id/btn_deleteBond"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -29,7 +30,8 @@
             android:id="@+id/tv_bondValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:text="@string/lorem_ipsum_short"
             app:layout_constraintTop_toBottomOf="@id/tv_bond" />
 
@@ -41,7 +43,7 @@
         android:id="@+id/btn_deleteBond"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
         android:background="@drawable/mybutton"
         android:contentDescription="@string/delete_bond"
         android:gravity="center"

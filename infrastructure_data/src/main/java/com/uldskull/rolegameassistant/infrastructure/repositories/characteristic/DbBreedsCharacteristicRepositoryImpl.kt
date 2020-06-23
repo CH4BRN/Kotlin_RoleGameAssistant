@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbBreedCharacteristicDao
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbBreedCharacteristic
-import com.uldskull.rolegameassistant.models.character.characteristic.DomainBreedsCharacteristic
+import com.uldskull.rolegameassistant.models.characteristic.DomainBreedsCharacteristic
 import com.uldskull.rolegameassistant.repository.characteristic.BreedsCharacteristicRepository
 
 /**
@@ -56,7 +56,7 @@ class DbBreedsCharacteristicRepositoryImpl(
     /** Get one entity by its id    */
     override fun findOneById(id: Long?): DomainBreedsCharacteristic? {
         Log.d(TAG, "findOneById")
-        var result: DbBreedCharacteristic
+        val result: DbBreedCharacteristic
         try {
             result = dbBreedCharacteristicDao.getBreedCharacteristicById(id)
         } catch (e: Exception) {

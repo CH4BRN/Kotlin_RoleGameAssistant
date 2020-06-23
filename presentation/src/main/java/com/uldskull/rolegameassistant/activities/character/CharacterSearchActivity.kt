@@ -11,7 +11,7 @@ import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.CustomActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
 import com.uldskull.rolegameassistant.fragments.fragment.characterSearch.CharacterSearchFragment
-import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
+import com.uldskull.rolegameassistant.models.character.DomainCharacter
 import kotlinx.android.synthetic.main.activity_character_search.*
 
 /**
@@ -51,8 +51,8 @@ class CharacterSearchActivity : CustomActivity(),
      */
     private fun initializeAddCharacterFab() {
         Log.d(TAG, "initializeAddCharacterFab")
-        if (fab_createCharacter != null) {
-            fab_createCharacter.setOnClickListener {
+        if (this.fab_createCharacter != null) {
+            this.fab_createCharacter.setOnClickListener {
                 val intent = Intent(this, CharacterActivity::class.java)
                 startActivity(intent)
             }

@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.uldskull.rolegameassistant.infrastructure.dao.skill.DbSkillToCheckDao
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_skill.DbSkillToCheck
-import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
+import com.uldskull.rolegameassistant.models.skill.DomainSkillToCheck
 import com.uldskull.rolegameassistant.repository.skill.SkillToCheckRepository
 
 /**
@@ -59,7 +59,7 @@ class DbSkillToCheckRepositoryImpl(
     /** Get one entity by its id    */
     override fun findOneById(id: Long?): DomainSkillToCheck? {
         Log.d(TAG, "findOneById")
-        var result: DbSkillToCheck
+        val result: DbSkillToCheck
         try {
             result = dbSkillToCheckDao.getOccupationSkillById(id)
         } catch (e: Exception) {

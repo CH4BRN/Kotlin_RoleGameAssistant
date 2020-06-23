@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <color name="colorPrimary">#C02942</color>
     <color name="colorPrimaryDark">#542437</color>
     <color name="textColorPrimary">#FFFFFF</color>
-    <color name="windowBackground">#FFFFFF</color>
-    <color name="navigationBarColor">#000000</color>
+    <color name="windowBackground" tools:keep="@color/windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor" tools:keep="@color/navigationBarColor">#000000</color>
     <color name="colorAccent">#D98B43</color>
 </resources>

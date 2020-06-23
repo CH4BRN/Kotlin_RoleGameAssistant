@@ -3,9 +3,9 @@
 
 package com.uldskull.rolegameassistant.repository.character
 
-import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
-import com.uldskull.rolegameassistant.models.character.character.DomainCharacterWithIdeals
-import com.uldskull.rolegameassistant.models.character.character.DomainCharacterWithSkills
+import com.uldskull.rolegameassistant.models.character.DomainCharacter
+import com.uldskull.rolegameassistant.models.character.DomainCharacterWithIdeals
+import com.uldskull.rolegameassistant.models.character.DomainCharacterWithSkills
 import com.uldskull.rolegameassistant.repository.GenericRepository
 
 /**

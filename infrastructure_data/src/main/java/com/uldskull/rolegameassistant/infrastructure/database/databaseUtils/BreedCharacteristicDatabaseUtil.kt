@@ -6,7 +6,7 @@ package com.uldskull.rolegameassistant.infrastructure.database.databaseUtils
 import android.util.Log
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbBreedCharacteristicDao
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbBreedCharacteristic
-import com.uldskull.rolegameassistant.models.character.characteristic.CharacteristicsName
+import com.uldskull.rolegameassistant.models.characteristic.CharacteristicsName
 
 /**
  *   Class "BreedDatabaseUtil" :
@@ -21,7 +21,7 @@ class BreedCharacteristicDatabaseUtil {
          */
         fun populateBreedCharacteristics(breedCharacteristicDao: DbBreedCharacteristicDao) {
             Log.d(TAG, "populateBreedCharacteristics")
-            var dbBreedCharacteristics = listOf(
+            val dbBreedCharacteristics = listOf(
                 DbBreedCharacteristic(
                     characteristicId = null,
                     characteristicBonus = 1,
@@ -35,7 +35,7 @@ class BreedCharacteristicDatabaseUtil {
                     characteristicBreedId = 2
                 )
             )
-            var result = breedCharacteristicDao.insert(dbBreedCharacteristics)
+            val result = breedCharacteristicDao.insert(dbBreedCharacteristics)
             result.forEach {
                 Log.d("Insert result", it.toString())
             }

@@ -3,8 +3,8 @@
 
 package com.uldskull.rolegameassistant.repository.breed
 
-import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
-import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreedWithCharacteristics
+import com.uldskull.rolegameassistant.models.breed.DomainDisplayedBreed
+import com.uldskull.rolegameassistant.models.breed.DomainDisplayedBreedWithCharacteristics
 import com.uldskull.rolegameassistant.repository.GenericRepository
 
 /**

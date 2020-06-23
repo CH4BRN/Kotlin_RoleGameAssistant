@@ -9,7 +9,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.uldskull.rolegameassistant.models.character.DomainIdeal
+import com.uldskull.rolegameassistant.models.DomainIdeal
 import com.uldskull.rolegameassistant.repository.ideal.IdealsRepository
 import kotlinx.coroutines.launch
 
@@ -50,11 +50,11 @@ class IdealsViewModel(
     /**
      * Get an ideal by its id
      */
-    fun getIdealById(id:Long?):DomainIdeal?{
-        if(id != null){
-            return idealsRepositoryImpl?.findOneById(id)
+    fun getIdealById(id:Long?): DomainIdeal?{
+        return if(id != null){
+            idealsRepositoryImpl.findOneById(id)
         }else{
-            return null
+            null
         }
     }
 
@@ -66,7 +66,7 @@ class IdealsViewModel(
             throw Exception("Ideal is null")
         }
 
-         return idealsRepositoryImpl?.deleteOne(currentIdealToEdit)
+         return idealsRepositoryImpl.deleteOne(currentIdealToEdit)
     }
 
     /**
@@ -78,16 +78,20 @@ class IdealsViewModel(
              return 0
          }else{
              Log.d("DEBUG$TAG","Ideal is $domainIdeal")
-             return if(domainIdeal?.idealId == null){
-                 Log.d("DEBUG$TAG","Ideal id is null")
-                 idealsRepositoryImpl?.insertOne(domainIdeal)
-             }else if(idealsRepositoryImpl?.findOneById(domainIdeal.idealId) == null){
-                 Log.d("DEBUG$TAG","Ideal not found")
-                 idealsRepositoryImpl?.insertOne(domainIdeal)
-             }else{
-                 Log.d("DEBUG$TAG", "Update ideal")
-                 idealsRepositoryImpl?.updateOne(domainIdeal)
-                 return domainIdeal?.idealId
+             return when {
+                 domainIdeal.idealId == null -> {
+                     Log.d("DEBUG$TAG","Ideal id is null")
+                     idealsRepositoryImpl.insertOne(domainIdeal)
+                 }
+                 idealsRepositoryImpl.findOneById(domainIdeal.idealId) == null -> {
+                     Log.d("DEBUG$TAG","Ideal not found")
+                     idealsRepositoryImpl.insertOne(domainIdeal)
+                 }
+                 else -> {
+                     Log.d("DEBUG$TAG", "Update ideal")
+                     idealsRepositoryImpl.updateOne(domainIdeal)
+                     return domainIdeal.idealId
+                 }
              }
          }
 
@@ -97,7 +101,7 @@ class IdealsViewModel(
      * Get all ideals
      */
     fun getAll():List<DomainIdeal>?{
-        return idealsRepositoryImpl?.getIdeals()
+        return idealsRepositoryImpl.getIdeals()
     }
 
     /**

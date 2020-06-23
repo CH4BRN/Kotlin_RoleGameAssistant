@@ -23,9 +23,9 @@ class DbDisplayedBreedConverter {
                 breedsArray[index] = displayedBreeds[index]
             }
             var str = ""
-            var gson = Gson()
+            val gson = Gson()
             for (index in breedsArray.indices) {
-                var jsonString = gson.toJson(breedsArray[index])
+                val jsonString = gson.toJson(breedsArray[index])
                 str += jsonString
                 if (index < breedsArray.size - 1) {
                     str += strSeparator
@@ -42,9 +42,9 @@ class DbDisplayedBreedConverter {
      */
     @TypeConverter
     fun convertStringToList(breedsString: String): List<DbDisplayedBreed> {
-        var breedsArray = breedsString.split(strSeparator)
-        var breeds = ArrayList<DbDisplayedBreed>()
-        var gson = Gson()
+        val breedsArray = breedsString.split(strSeparator)
+        val breeds = ArrayList<DbDisplayedBreed>()
+        val gson = Gson()
         for (index in breedsArray.indices) {
             breeds.add(gson.fromJson(breedsArray[index], DbDisplayedBreed::class.java))
         }

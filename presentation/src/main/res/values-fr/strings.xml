@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">presentation</string>
-    <string name="ability" translatable="false">Aptitude :</string>
-    <string name="add" translatable="false">Ajouter</string>
+    <string name="app_name">Assiatnt jeu de rôle</string>
+    <string name="ability" >Aptitude :</string>
+    <string name="add" >Ajouter</string>
     <string name="add_bond">Ajouter une obligation.</string>
     <string name="add_breed_description">Ajouter une race.</string>
     <string name="add_ideal">Ajouter un idéal.</string>
     <string name="add_occupation">Ajouter un métier.</string>
     <string name="add_skill">Ajouter une compétence.</string>
     <string name="age">Age :</string>
-    <string name="age_hint">Age ...</string>
+    <string name="age_hint">Age …</string>
     <string name="alignment">Alignement :</string>
     <string name="alignment_picture">Image d\'alignement</string>
     <string name="base">Base</string>
-    <string name="base_hp_siz_con_2" translatable="false">PV BASE (TAI + CON)/2:</string>
+    <string name="base_hp_siz_con_2" >PV BASE (TAI + CON)/2:</string>
     <string name="biography">Biographie :</string>
-    <string name="biography_hint">Tapons une biographie ...</string>
+    <string name="biography_hint">Tapons une biographie …</string>
     <string name="bonds">Obligations :</string>
     <string name="bonus">Bonus :</string>
     <string name="breed">Race :</string>
@@ -37,7 +37,7 @@
     <string name="edit_occupation">Editer les métier</string>
     <string name="energy_po">ENERGIE = POU</string>
     <string name="gender">Genre :</string>
-    <string name="gender_hint">Genre ...</string>
+    <string name="gender_hint">Genre …</string>
     <string name="go_back">Retour.</string>
     <string name="height">Hauteur :</string>
     <string name="hobbies">Loisirs</string>
@@ -61,7 +61,7 @@
     <string name="let_s_type_the_special">Tapons les speciaux.</string>
     <string name="luck_pow_5">CHANCE (POU *5):</string>
     <string name="name">Nom :</string>
-    <string name="name_hint">Nom ...</string>
+    <string name="name_hint">Nom …</string>
     <string name="new_breed">Nouvelle race</string>
     <string name="new_skill">Nouvelle compétence</string>
     <string name="occupation">Métier</string>
@@ -72,13 +72,13 @@
     <string name="sanity_pow_5">SANTE MENTALE (POU *5):</string>
     <string name="save">Sauvegarder</string>
     <string name="save_description">Sauvegarder.</string>
-    <string name="search">Chercher ...</string>
+    <string name="search">Chercher …</string>
     <string name="siz_str">TAI + FOR</string>
     <string name="skill_1">Compétence 1</string>
     <string name="skill_sampleskill">Compétence :</string>
     <string name="skills">Compétences :</string>
     <string name="skills_title">Compétences :</string>
-    <string name="special" translatable="false">Spécial</string>
+    <string name="special" >Spécial</string>
     <string name="special_hint">Spécial</string>
     <string name="special_title">Spécial :</string>
     <string name="title">Titre :</string>
@@ -90,8 +90,12 @@
     <string name="use_points_manually">Utiliser points manuellement.</string>
     <string name="validate">Valider.</string>
     <string name="weight">Poids :</string>
-    <string name="before_continuing">Avant de continuer ...</string>
+    <string name="before_continuing">Avant de continuer …</string>
     <string name="necessary_characteristics">Les characteristiques sont nécessaires pour continuer</string>
     <string name="characteristics_trick_content">Vous pouvez secouer votre telephone pour obtenir des characteristiques \"jet de dé\"</string>
     <string name="characteristics_trick_title">Petite astuce</string>
+    <string name="button_to_delete_ideal">Bouton pour supprimer un ideal</string>
+    <string name="button_to_delete_occupation">Bouton pour supprimer un métier</string>
+    <string name="save_button">Bouton sauver</string>
+    <string name="savebutton">Bouton sauver</string>
 </resources>

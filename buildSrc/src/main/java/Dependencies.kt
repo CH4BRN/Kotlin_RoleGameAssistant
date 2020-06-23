@@ -73,6 +73,11 @@ object ProjectsDependencies {
      * App module
      */
     const val app = ":app"
+
+    /**
+     * Services module
+     */
+    const val services = ":services"
 }
 
 /**

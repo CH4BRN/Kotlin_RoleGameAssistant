@@ -19,14 +19,14 @@ class DbBondConverter {
     fun convertBondListToString(bonds: List<DbBond?>?): String {
         var str = ""
         if(bonds != null){
-            var bondsArray = arrayOfNulls<DbBond>(bonds.size)
+            val bondsArray = arrayOfNulls<DbBond>(bonds.size)
             for (i in bondsArray.indices) {
                 bondsArray[i] = bonds[i]
             }
 
-            var gson: Gson = Gson()
+            val gson = Gson()
             for (i in bondsArray.indices) {
-                var jsonString = gson.toJson(bondsArray[i])
+                val jsonString = gson.toJson(bondsArray[i])
                 str += jsonString
                 if (i < bondsArray.size - 1) {
                     str += strSeparator
@@ -42,9 +42,9 @@ class DbBondConverter {
      */
     @TypeConverter
     fun convertStringToList(bondsString: String): List<DbBond> {
-        var bondArray = bondsString.split(strSeparator)
-        var bonds = ArrayList<DbBond>()
-        var gson = Gson()
+        val bondArray = bondsString.split(strSeparator)
+        val bonds = ArrayList<DbBond>()
+        val gson = Gson()
         for (i in bondArray.indices) {
             bonds.add(gson.fromJson(bondArray[i], DbBond::class.java))
         }

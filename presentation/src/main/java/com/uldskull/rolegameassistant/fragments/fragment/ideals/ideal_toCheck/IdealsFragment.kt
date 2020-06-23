@@ -12,13 +12,13 @@ import android.view.View
 import android.view.ViewGroup
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.editIdeal.EditIdealsActivity
-import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
-import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
+import com.uldskull.rolegameassistant.fragments.core.CustomCompanion
+import com.uldskull.rolegameassistant.fragments.core.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.REQUEST_CODE_IDEALS_NEW_IDEAL
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.IDEALS_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.viewmodels.IdealsViewModel
-import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
+import com.uldskull.rolegameassistant.viewmodels.character.NewCharacterViewModel
 import kotlinx.android.synthetic.main.fragment_ideals.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -31,7 +31,7 @@ class IdealsFragment : CustomFragment() {
     /**
      * Ideals view model
      */
-    val idealsViewModel: IdealsViewModel by sharedViewModel()
+    private val idealsViewModel: IdealsViewModel by sharedViewModel()
 
     /**
      * New character ViewModel.
@@ -68,7 +68,7 @@ class IdealsFragment : CustomFragment() {
     override fun onResume() {
         super.onResume()
         Log.d("DEBUG$TAG", "OnResume")
-        idealsViewModel?.refreshDataFromRepository()
+        idealsViewModel.refreshDataFromRepository()
     }
 
     /**
@@ -85,7 +85,7 @@ class IdealsFragment : CustomFragment() {
      */
     private fun loadIdealsRecyclerView() {
         if (activity != null) {
-            var transaction = childFragmentManager.beginTransaction()
+            val transaction = childFragmentManager.beginTransaction()
             transaction.replace(
                 R.id.fragmentIdeals_container_ideals,
                 IdealsRecyclerViewFragment.newInstance(

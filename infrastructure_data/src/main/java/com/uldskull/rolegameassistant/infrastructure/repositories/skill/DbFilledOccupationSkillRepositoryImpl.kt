@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.uldskull.rolegameassistant.infrastructure.dao.skill.DbFilledOccupationSkillDao
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_skill.DbFilledSkill
-import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
+import com.uldskull.rolegameassistant.models.skill.DomainSkillToFill
 import com.uldskull.rolegameassistant.repository.skill.FilledOccupationSkillRepository
 
 /**
@@ -43,7 +43,7 @@ class DbFilledOccupationSkillRepositoryImpl(
     /** Get one entity by its id    */
     override fun findOneById(id: Long?): DomainSkillToFill? {
         Log.d(TAG, "findOneById")
-        var result: DbFilledSkill
+        val result: DbFilledSkill
         try {
             result = dbFilledOccupationSkillsDao.getOneById(id)
         } catch (e: Exception) {
@@ -61,16 +61,16 @@ class DbFilledOccupationSkillRepositoryImpl(
      * find the same skill
      */
     override fun findTheSame(skill: DomainSkillToFill): DomainSkillToFill? {
-        Log.d("DEBUG$TAG", "skill?.filledSkillCharacterId :${skill?.filledSkillCharacterId} ")
-        var skills = dbFilledOccupationSkillsDao.getAllByCharacterId(skill?.filledSkillCharacterId)
-        var result = skills.find { s ->
+        Log.d("DEBUG$TAG", "skill?.filledSkillCharacterId :${skill.filledSkillCharacterId} ")
+        val skills = dbFilledOccupationSkillsDao.getAllByCharacterId(skill.filledSkillCharacterId)
+        val result = skills.find { s ->
             ((s.filledSkillName == DbFilledSkill.from(skill).filledSkillName) && (s.filledSkillDescription == DbFilledSkill.from(
                 skill
             ).filledSkillDescription) && (s.filledSkillType == DbFilledSkill.from(skill).filledSkillType))
         }
         Log.d("DEBUG$TAG", "Result : $result")
         if (result != null) {
-            return result?.toDomain()
+            return result.toDomain()
         }
         return null
     }
@@ -79,14 +79,14 @@ class DbFilledOccupationSkillRepositoryImpl(
     override fun insertAll(all: List<DomainSkillToFill>?): List<Long>? {
         Log.d(TAG, "insertAll")
         if (all != null && all.isNotEmpty()) {
-            var idList = mutableListOf<Long>()
+            val idList = mutableListOf<Long>()
             try {
                 all.forEach {
                     idList.add(dbFilledOccupationSkillsDao.insert(DbFilledSkill.from(it)))
                 }
 
 
-                Log.d(TAG, "insertAll RESULT = ${idList}")
+                Log.d(TAG, "insertAll RESULT = $idList")
                 return idList
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -184,14 +184,14 @@ class DbFilledOccupationSkillRepositoryImpl(
      * update tens value for a skill
      */
     override fun updateTensValues(skill: DomainSkillToFill, tensValues: Int): Int {
-        return dbFilledOccupationSkillsDao?.updateTensValues(skill?.skillId!!, tensValues)
+        return dbFilledOccupationSkillsDao.updateTensValues(skill.skillId!!, tensValues)
     }
 
     /**
      * update units value for a skill
      */
     override fun updateUnitsValues(skill: DomainSkillToFill, unitsValues: Int): Int {
-        return dbFilledOccupationSkillsDao?.updateUnitsValues(skill?.skillId!!, unitsValues)
+        return dbFilledOccupationSkillsDao.updateUnitsValues(skill.skillId!!, unitsValues)
     }
 
 

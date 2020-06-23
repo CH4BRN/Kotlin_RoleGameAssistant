@@ -14,12 +14,16 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.fragments.core.listeners.CustomAdapterButtonListener
+import com.uldskull.rolegameassistant.fragments.core.CustomCompanion
+import com.uldskull.rolegameassistant.fragments.core.CustomFragment
+import com.uldskull.rolegameassistant.fragments.core.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.*
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.OCCUPATIONS_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION
-import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
-import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupationWithSkills
-import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
-import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
+import com.uldskull.rolegameassistant.models.occupation.DomainOccupation
+import com.uldskull.rolegameassistant.models.occupation.DomainOccupationWithSkills
+import com.uldskull.rolegameassistant.models.skill.DomainSkillToCheck
+import com.uldskull.rolegameassistant.viewmodels.character.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationsViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -68,7 +72,7 @@ class OccupationsSkillsRecyclerViewFragment :
     override fun initializeRecyclerView() {
         Log.d(TAG, "initializeRecyclerView")
         occupationsSkillsRecyclerView =
-            activity?.findViewById<RecyclerView>(R.id.recyclerView_occupationsSkills)
+            activity?.findViewById(R.id.recyclerView_occupationsSkills)
 
         setRecyclerViewAdapter()
         setRecyclerViewLayoutManager()
@@ -77,7 +81,7 @@ class OccupationsSkillsRecyclerViewFragment :
     /**
      * Occupations skills adapter
      */
-    var occupationsSkillsAdapter: OccupationsSkillsDescriptionAdapter? = null
+    private var occupationsSkillsAdapter: OccupationsSkillsDescriptionAdapter? = null
 
     /**
      * Initialize occupations skills adapter
@@ -119,16 +123,16 @@ class OccupationsSkillsRecyclerViewFragment :
                 kotlin.run {
                     Log.d(TAG, "observeSelectedOccupation $domainOccupation")
 
-                    var index =
+                    val index =
                         this.occupationsViewModel.repositoryOccupations?.value?.indexOfFirst { o ->
-                            o?.occupationId == domainOccupation.occupationId
+                            o.occupationId == domainOccupation.occupationId
                         }
 
                     if (index == occupationsViewModel.selectedOccupationIndex?.value) {
                         Log.d(TAG, "do nothing")
                         //  Do nothing
                     } else {
-                        var occupationWithSkills: DomainOccupationWithSkills? =
+                        val occupationWithSkills: DomainOccupationWithSkills? =
                             occupationsViewModel.findOneWithChildren(domainOccupation.occupationId)
                         Log.d(TAG, "occupation with skills : \n $occupationWithSkills")
 
@@ -148,7 +152,7 @@ class OccupationsSkillsRecyclerViewFragment :
 
                 Log.d(
                     "DEBUG$TAG",
-                    "Skills checked : ${domainOccupationsSkills?.count { s -> s?.skillIsChecked!! }}"
+                    "Skills checked : ${domainOccupationsSkills.count { s -> s?.skillIsChecked!! }}"
                 )
 
                 kotlin.run {
@@ -156,23 +160,23 @@ class OccupationsSkillsRecyclerViewFragment :
                     occupationsSkillsAdapter?.setOccupationsSkills(domainOccupationsSkills)
 
 
-                    var character = newCharacterViewModel?.currentCharacter
+                    val character = newCharacterViewModel.currentCharacter
 
-                    var checkedSkills = mutableListOf<DomainSkillToCheck>()
-                    domainOccupationsSkills?.forEach { s ->
+                    val checkedSkills = mutableListOf<DomainSkillToCheck>()
+                    domainOccupationsSkills.forEach { s ->
                         kotlin.run {
                             if (s != null) {
                                 if (s.skillIsChecked) {
-                                    checkedSkills?.add(s)
+                                    checkedSkills.add(s)
                                 }
                             }
                         }
                     }
                     if (character != null) {
-                        character?.characterSelectedOccupationSkill =
-                            checkedSkills?.map { s -> s.skillId }.toMutableList()
+                        character.characterSelectedOccupationSkill =
+                            checkedSkills.map { s -> s.skillId }.toMutableList()
                     }
-                    newCharacterViewModel?.currentCharacter = character
+                    newCharacterViewModel.currentCharacter = character
 
                     occupationsSkillsRecyclerView?.adapter = occupationsSkillsAdapter
 
@@ -233,14 +237,14 @@ class OccupationsSkillsRecyclerViewFragment :
         Log.d(TAG, "itemPressed")
         if (domainModel != null) {
 
-            if (domainModel?.skillIsChecked == null) {
-                domainModel?.skillIsChecked = false
-            } else domainModel?.skillIsChecked = !domainModel?.skillIsChecked!!
+            if (domainModel.skillIsChecked == null) {
+                domainModel.skillIsChecked = false
+            } else domainModel.skillIsChecked = !domainModel.skillIsChecked
 
-            var temp = occupationsViewModel.observedOccupationsSkills?.value?.toMutableList()
-            var index = temp?.indexOfFirst { s -> s.skillId == domainModel.skillId }
+            val temp = occupationsViewModel.observedOccupationsSkills?.value?.toMutableList()
+            val index = temp?.indexOfFirst { s -> s.skillId == domainModel.skillId }
             if (index != null) {
-                temp?.set(index, domainModel)
+                temp[index] = domainModel
             }
             occupationsViewModel.observedOccupationsSkills?.value = temp
         }

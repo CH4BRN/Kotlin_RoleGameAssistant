@@ -13,9 +13,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.CustomAdapterButtonListener
-import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewAdapter
-import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
+import com.uldskull.rolegameassistant.fragments.core.listeners.CustomAdapterButtonListener
+import com.uldskull.rolegameassistant.fragments.core.adapter.CustomRecyclerViewAdapter
+import com.uldskull.rolegameassistant.models.character.DomainCharacter
 
 /**
  *   Class "CharacterAdapter" :
@@ -40,9 +40,9 @@ class CharactersAdapter internal constructor(
      * View holder class
      */
     inner class CharactersViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val characterItemLayout: LinearLayout =
+        private val characterItemLayout: LinearLayout =
             itemView.findViewById(R.id.character_item_linear_layout)
-        val characterNameItemView: TextView = itemView.findViewById(R.id.tv_characterName)
+        private val characterNameItemView: TextView = itemView.findViewById(R.id.tv_characterName)
 
         /**
          * Bind the value
@@ -55,9 +55,9 @@ class CharactersAdapter internal constructor(
 
                 characterItemLayout.setOnClickListener {
                     rowIndex = adapterPosition
-                    Log.d("DEBUG", "onBindViewHolder - OnClick - ${characters!![adapterPosition]} ")
+                    Log.d("DEBUG", "onBindViewHolder - OnClick - ${characters[adapterPosition]} ")
                     //  Send the character to the RecyclerView fragment
-                    buttonListenerCustom.itemPressed(characters!![adapterPosition])
+                    buttonListenerCustom.itemPressed(characters[adapterPosition])
 
                     notifyDataSetChanged()
 
@@ -111,7 +111,7 @@ class CharactersAdapter internal constructor(
         return if(characters == null){
             0
         } else{
-            characters!!.size
+            characters.size
         }
 
     }
@@ -139,7 +139,7 @@ class CharactersAdapter internal constructor(
      */
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val charactersViewHolder = holder as CharactersViewHolder
-        charactersViewHolder?.bind(characters[position])
+        charactersViewHolder.bind(characters[position])
     }
 
 
@@ -148,7 +148,7 @@ class CharactersAdapter internal constructor(
      */
     internal fun setCharacters(domainCharacters: List<DomainCharacter?>) {
         this.characters = domainCharacters
-        Log.d(this.javaClass.simpleName, "Characters size = " + this.characters?.size.toString())
+        Log.d(this.javaClass.simpleName, "Characters size = " + this.characters.size.toString())
         notifyDataSetChanged()
     }
 }

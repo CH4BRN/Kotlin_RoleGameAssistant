@@ -38,7 +38,7 @@ class OccupationDatabaseUtil {
             occupationWithSkillDao: DbOccupationDbSkillDao
         ) {
             Log.d(TAG, "insertAcrobat")
-            var occupationId = occupationsDao.insert(
+            val occupationId = occupationsDao.insert(
                 DbOccupation(
                     occupationName = "Acrobat",
                     occupationContacts = "Amateur athletic circles, sports writers, circuses, and carnivals",
@@ -46,8 +46,8 @@ class OccupationDatabaseUtil {
                     occupationSpecial = "+1 STR and +1 DEX, or +2 DEX"
                 )
             )
-            Log.d(TAG, "occupation id : ${occupationId}")
-            var skillId = occupationSkillDao.insert(
+            Log.d(TAG, "occupation id : $occupationId")
+            val skillId = occupationSkillDao.insert(
                 DbSkillToCheck(
                     skillName = "Bargain  ",
                     skillDescription = "The skill of obtaining something for an agreeable price. \n" +
@@ -60,18 +60,18 @@ class OccupationDatabaseUtil {
 
                 )
             )
-            Log.d(TAG, "skill id : ${skillId}")
+            Log.d(TAG, "skill id : $skillId")
 
 
-            var crossId = occupationWithSkillDao.insertCross(
+            val crossId = occupationWithSkillDao.insertCross(
                 DbOccupationAndDbSkillCrossRef(
                     occupationId = occupationId,
                     skillId = skillId
                 )
             )
-            Log.d(TAG, "crossID : ${crossId}")
+            Log.d(TAG, "crossID : $crossId")
 
-            var result = occupationWithSkillDao.getOccupationsWithSkills()
+            val result = occupationWithSkillDao.getOccupationsWithSkills()
 
             result.forEach { dbOccupationWithDbSkills: DbOccupationWithDbSkills ->
                 Log.d(TAG, "$dbOccupationWithDbSkills")
@@ -85,7 +85,7 @@ class OccupationDatabaseUtil {
         ) {
             Log.d(TAG, "insertAccountant")
 
-            var occupationId = occupationsDao.insert(
+            val occupationId = occupationsDao.insert(
                 DbOccupation(
                     occupationName = "Accountant",
                     occupationContacts = "Contacts: Other accountants",
@@ -93,7 +93,7 @@ class OccupationDatabaseUtil {
                     occupationSpecial = "+1 STR and +1 DEX, or +2 DEX"
                 )
             )
-            Log.d(TAG, "occupation id : ${occupationId}")
+            Log.d(TAG, "occupation id : $occupationId")
 
             var skillId = occupationSkillDao.insert(
                 DbSkillToCheck(
@@ -108,7 +108,7 @@ class OccupationDatabaseUtil {
                     skillBase = 10
                 )
             )
-            Log.d(TAG, "skill id : ${skillId}")
+            Log.d(TAG, "skill id : $skillId")
 
             var crossId = occupationWithSkillDao.insertCross(
                 DbOccupationAndDbSkillCrossRef(
@@ -116,7 +116,7 @@ class OccupationDatabaseUtil {
                     skillId = skillId
                 )
             )
-            Log.d(TAG, "crossID : ${crossId}")
+            Log.d(TAG, "crossID : $crossId")
 
             skillId = occupationSkillDao.insert(
                 DbSkillToCheck(
@@ -133,7 +133,7 @@ class OccupationDatabaseUtil {
                     skillBase = 1
                 )
             )
-            Log.d(TAG, "skill id : ${skillId}")
+            Log.d(TAG, "skill id : $skillId")
 
             crossId = occupationWithSkillDao.insertCross(
                 DbOccupationAndDbSkillCrossRef(
@@ -141,9 +141,9 @@ class OccupationDatabaseUtil {
                     skillId = skillId
                 )
             )
-            Log.d(TAG, "crossID : ${crossId}")
+            Log.d(TAG, "crossID : $crossId")
 
-            var result = occupationWithSkillDao.getOccupationsWithSkills()
+            val result = occupationWithSkillDao.getOccupationsWithSkills()
 
             result.forEach { dbOccupationWithDbSkills: DbOccupationWithDbSkills ->
                 Log.d(TAG, "$dbOccupationWithDbSkills")

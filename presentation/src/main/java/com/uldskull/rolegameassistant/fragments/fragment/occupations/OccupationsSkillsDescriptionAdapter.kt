@@ -12,8 +12,8 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.CustomAdapterButtonListener
-import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
+import com.uldskull.rolegameassistant.fragments.core.listeners.CustomAdapterButtonListener
+import com.uldskull.rolegameassistant.models.skill.DomainSkillToCheck
 
 
 /**
@@ -33,12 +33,12 @@ class OccupationsSkillsDescriptionAdapter internal constructor(
 
     /**  Inner class to display  **/
     inner class OccupationsSkillsDescriptionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var tvOccupationsSkillName: TextView? = itemView.findViewById(R.id.tv_skillToCheck_name)
-        var tvOccupationsSkillDescription: TextView? =
+        private var tvOccupationsSkillName: TextView? = itemView.findViewById(R.id.tv_skillToCheck_name)
+        private var tvOccupationsSkillDescription: TextView? =
             itemView.findViewById(R.id.tv_skillToCheck_Description)
-        var cbOccupationsSkillIsChecked: CheckBox? =
+        private var cbOccupationsSkillIsChecked: CheckBox? =
             itemView.findViewById(R.id.cb_skillIToCheck_IsChecked)
-        var vOccupationsSkillOverlay: View? = itemView.findViewById(R.id.skillToCheck_overlay)
+        private var vOccupationsSkillOverlay: View? = itemView.findViewById(R.id.skillToCheck_overlay)
 
         fun bind(skill: DomainSkillToCheck?) {
             Log.d("DEBUG$TAG", "Skill : $skill")

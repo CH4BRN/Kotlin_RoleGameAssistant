@@ -11,8 +11,8 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.CustomAdapterButtonListener
-import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
+import com.uldskull.rolegameassistant.fragments.core.listeners.CustomAdapterButtonListener
+import com.uldskull.rolegameassistant.models.skill.DomainSkillToCheck
 
 /**
 Class "HobbiesSkillAdapter"
@@ -27,19 +27,15 @@ class HobbiesSkillAdapter internal constructor(
         private const val TAG = "HobbiesSkillAdapter"
     }
 
-    /**
-     * Layout inflater
-     */
-    private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
 
     /**Skills list**/
-    var hobbiesSkills = mutableListOf<DomainSkillToCheck?>()
+    private var hobbiesSkills = mutableListOf<DomainSkillToCheck?>()
 
     /**
      * Set the hobbies skills list.
      */
     internal fun setHobbiesSkills(skills: List<DomainSkillToCheck?>?) {
-        Log.d("$TAG", "setHobbiesSkills")
+        Log.d(TAG, "setHobbiesSkills")
         if (this.hobbiesSkills == null) {
             this.hobbiesSkills = mutableListOf()
         }
@@ -53,12 +49,12 @@ class HobbiesSkillAdapter internal constructor(
      * Inner class to display
      */
     inner class HobbiesSkillsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var tvHobbiesSkillName: TextView? = itemView.findViewById(R.id.tv_skillToCheck_name)
-        var cbHobbiesSkillIsChecked: CheckBox? =
+        private var tvHobbiesSkillName: TextView? = itemView.findViewById(R.id.tv_skillToCheck_name)
+        private var cbHobbiesSkillIsChecked: CheckBox? =
             itemView.findViewById(R.id.cb_skillIToCheck_IsChecked)
-        var tvHobbiesSkillDescription: TextView? =
+        private var tvHobbiesSkillDescription: TextView? =
             itemView.findViewById(R.id.tv_skillToCheck_Description)
-        var vHobbiesSkillOverlay: View? = itemView.findViewById(R.id.skillToCheck_overlay)
+        private var vHobbiesSkillOverlay: View? = itemView.findViewById(R.id.skillToCheck_overlay)
 
         /**
          * Bind the view holder.
@@ -70,11 +66,11 @@ class HobbiesSkillAdapter internal constructor(
 
             vHobbiesSkillOverlay?.setOnClickListener {
                 Log.d("DEBUG$TAG", "Overlay")
-                var isChecked = skill?.skillIsChecked
+                val isChecked = skill?.skillIsChecked
                 Log.d("DEBUG$TAG", "Overlay : isChecked : $isChecked")
                 if (isChecked != null) {
-                    skill?.skillIsChecked = !isChecked
-                    Log.d("DEBUG$TAG", "Overlay : skill?.skillIsChecked : ${skill?.skillIsChecked}")
+                    skill.skillIsChecked = !isChecked
+                    Log.d("DEBUG$TAG", "Overlay : skill?.skillIsChecked : ${skill.skillIsChecked}")
                 }
                 cbHobbiesSkillIsChecked?.isChecked = skill?.skillIsChecked!!
                 buttonListenerCustom.itemPressed(skill)
@@ -108,7 +104,7 @@ class HobbiesSkillAdapter internal constructor(
      * @see .onBindViewHolder
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HobbiesSkillsViewHolder {
-        var view: View = LayoutInflater.from(context).inflate(
+        val view: View = LayoutInflater.from(context).inflate(
             R.layout.fragment_skilltocheckdescription_recyclerview_item,
             parent,
             false

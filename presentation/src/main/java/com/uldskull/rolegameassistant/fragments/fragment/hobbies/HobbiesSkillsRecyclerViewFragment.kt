@@ -13,11 +13,11 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.CustomAdapterButtonListener
-import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
-import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
-import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
-import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
+import com.uldskull.rolegameassistant.fragments.core.listeners.CustomAdapterButtonListener
+import com.uldskull.rolegameassistant.fragments.core.CustomCompanion
+import com.uldskull.rolegameassistant.fragments.core.CustomRecyclerViewFragment
+import com.uldskull.rolegameassistant.models.skill.DomainSkillToCheck
+import com.uldskull.rolegameassistant.viewmodels.character.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.SkillsViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -42,11 +42,6 @@ class HobbiesSkillsRecyclerViewFragment :
 
     /**  RecyclerView for skills  **/
     private var skillsRecyclerView: RecyclerView? = null
-
-    /** Fragment life-cycle **/
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     /**
      * initialize recycler view
@@ -89,26 +84,26 @@ class HobbiesSkillsRecyclerViewFragment :
      * observe hobbies skills
      */
     private fun observeHobbiesSkills() {
-        skillsViewModel?.hobbiesSkills?.observe(this, Observer { domainHobbiesSkills ->
+        skillsViewModel.hobbiesSkills.observe(this, Observer { domainHobbiesSkills ->
             run {
                 hobbiesSkillAdapter?.setHobbiesSkills(domainHobbiesSkills)
 
-                var character = newCharacterViewModel?.currentCharacter
+                val character = newCharacterViewModel.currentCharacter
 
-                var checkedSkills = mutableListOf<DomainSkillToCheck>()
+                val checkedSkills = mutableListOf<DomainSkillToCheck>()
                 domainHobbiesSkills?.forEach { s ->
                     kotlin.run {
                         if (s != null) {
                             if (s.skillIsChecked) {
-                                checkedSkills?.add(s)
+                                checkedSkills.add(s)
                             }
                         }
                     }
                     if (character != null) {
-                        character?.characterSelectedHobbiesSkill =
-                            checkedSkills?.map { s -> s.skillId }.toMutableList()
+                        character.characterSelectedHobbiesSkill =
+                            checkedSkills.map { s -> s.skillId }.toMutableList()
                     }
-                    newCharacterViewModel?.currentCharacter = character
+                    newCharacterViewModel.currentCharacter = character
                     skillsRecyclerView?.adapter = hobbiesSkillAdapter
                 }
             }
@@ -159,15 +154,15 @@ class HobbiesSkillsRecyclerViewFragment :
      */
     override fun itemPressed(domainModel: DomainSkillToCheck?, position: Int?) {
         if (domainModel != null) {
-            var temp = skillsViewModel.hobbiesSkills?.value?.toMutableList()
+            val temp = skillsViewModel.hobbiesSkills.value?.toMutableList()
             var checked = temp?.count { s -> s?.skillIsChecked!! }
-            var index = temp?.indexOfFirst { s -> s?.skillId == domainModel.skillId }
+            val index = temp?.indexOfFirst { s -> s?.skillId == domainModel.skillId }
             if (index != null) {
-                temp?.removeAt(index)
-                temp?.add(index, domainModel)
+                temp.removeAt(index)
+                temp.add(index, domainModel)
             }
             checked = temp?.count { s -> s?.skillIsChecked!! }
-            skillsViewModel?.hobbiesSkills?.value = temp
+            skillsViewModel.hobbiesSkills.value = temp
         }
     }
 

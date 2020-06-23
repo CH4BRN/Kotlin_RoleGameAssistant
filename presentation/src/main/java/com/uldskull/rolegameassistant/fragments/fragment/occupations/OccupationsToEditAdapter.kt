@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.CustomAdapterButtonListener
-import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
+import com.uldskull.rolegameassistant.fragments.core.listeners.CustomAdapterButtonListener
+import com.uldskull.rolegameassistant.models.occupation.DomainOccupation
 
 /**
 Class "OccupationsToEditAdapter"
@@ -45,14 +45,14 @@ class OccupationsToEditAdapter internal constructor(
      * View holder
      */
     inner class OccupationsToEditViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var tvOccupationName: TextView? =
+        private var tvOccupationName: TextView? =
             itemView.findViewById(R.id.textView_occupationToEdit_title)
-        var occupationOverlay:View = itemView.findViewById(R.id.view_occupationToEdit_overlay)
+        private var occupationOverlay:View = itemView.findViewById(R.id.view_occupationToEdit_overlay)
 
         fun bind(occupation: DomainOccupation?) {
             tvOccupationName?.text = occupation?.occupationName
-            occupationOverlay?.setOnClickListener{
-                buttonListenerCustom?.itemPressed(occupations[adapterPosition])
+            occupationOverlay.setOnClickListener{
+                buttonListenerCustom.itemPressed(occupations[adapterPosition])
             }
         }
     }
@@ -81,7 +81,7 @@ class OccupationsToEditAdapter internal constructor(
      * @see .onBindViewHolder
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OccupationsToEditViewHolder {
-        var itemView = layoutInflater.inflate(
+        val itemView = layoutInflater.inflate(
             R.layout.fragment_occupationtoedit_recyclerview_item,
             parent,
             false
@@ -95,7 +95,7 @@ class OccupationsToEditAdapter internal constructor(
      * @return The total number of items in this adapter.
      */
     override fun getItemCount(): Int {
-        return occupations?.size
+        return occupations.size
     }
 
     /**

@@ -13,12 +13,12 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
-import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
-import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
+import com.uldskull.rolegameassistant.fragments.core.CustomCompanion
+import com.uldskull.rolegameassistant.fragments.core.CustomFragment
 import com.uldskull.rolegameassistant.viewmodels.*
 import com.uldskull.rolegameassistant.viewmodels.breeds.DisplayedBreedsViewModel
-import com.uldskull.rolegameassistant.viewmodels.hobbies.HobbySkillsViewModel
+import com.uldskull.rolegameassistant.viewmodels.character.CharactersViewModel
+import com.uldskull.rolegameassistant.viewmodels.character.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationSkillsViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationsViewModel
 import kotlinx.android.synthetic.main.fragment_navigation_bar.*
@@ -75,11 +75,6 @@ class NavigationBarFragment : CustomFragment() {
      * occupation skills view model
      */
     private val occupationSkillsViewModel: OccupationSkillsViewModel by sharedViewModel()
-
-    /**
-     * hobby skills view model
-     */
-    private val hobbySkillsViewModel: HobbySkillsViewModel by sharedViewModel()
 
     /**
      * skills view model
@@ -153,7 +148,7 @@ class NavigationBarFragment : CustomFragment() {
 
         observeCharacterName()
 
-        occupationsViewModel?.observedOccupationsSkills?.observe(this, Observer {
+        occupationsViewModel.observedOccupationsSkills?.observe(this, Observer { it ->
             it.forEach { Log.d("DEBUG$TAG", "Skill = ${it.skillName}") }
         })
     }
@@ -239,10 +234,10 @@ class NavigationBarFragment : CustomFragment() {
         Log.d(TAG, "doSave")
 
         try {
-            var bonds = bondsViewModel.bonds.value
+            val bonds = bondsViewModel.bonds.value
             Log.d("DEBUG$TAG", "saved bonds = ${bonds?.size}")
 
-            var characterIdeals =
+            val characterIdeals =
                 idealsViewModel.mutableIdeals?.value?.filter { i -> i?.isChecked!! }
             if (characterIdeals != null) {
                 newCharacterViewModel.currentCharacter?.characterIdeals =
@@ -251,34 +246,34 @@ class NavigationBarFragment : CustomFragment() {
 
             newCharacterViewModel.characterBonds = bonds
 
-            var occupationsSkills = occupationsViewModel?.observedOccupationsSkills?.value
+            val occupationsSkills = occupationsViewModel.observedOccupationsSkills?.value
             occupationsSkills?.forEach { Log.d("DEBUG$TAG", "Skill : ${it.skillName}") }
 
-            var checkedSkills = occupationsSkills?.filter { s -> s.skillIsChecked }
+            val checkedSkills = occupationsSkills?.filter { s -> s.skillIsChecked }
             Log.d("DEBUG$TAG", "CheckedSkillSize : ${checkedSkills?.size}")
-            var skillsIds = mutableListOf<Long?>()
+            val skillsIds = mutableListOf<Long?>()
             checkedSkills?.forEach {
-                skillsIds.add(it?.skillId)
+                skillsIds.add(it.skillId)
             }
 
 
-            skillsIds?.forEach {
+            skillsIds.forEach {
                 Log.d("DEBUG$TAG", "Skills id : $it")
             }
 
-            newCharacterViewModel?.characterSkillsIds = skillsIds
+            newCharacterViewModel.characterSkillsIds = skillsIds
 
             val insertedId =
                 saveCharacter()
 
-            var characterWithSkills = newCharacterViewModel?.getCharacterWithSkills(insertedId)
+            val characterWithSkills = newCharacterViewModel.getCharacterWithSkills(insertedId)
 
             Log.d("DEBUG$TAG", "characterWithSkills : $characterWithSkills ")
 
             val result = charactersViewModel.findOneById(insertedId)
             result?.characterBreeds?.forEach { id ->
                 kotlin.run {
-                    var breed = displayedBreedsViewModel?.findBreedWithId(id)
+                    val breed = displayedBreedsViewModel.findBreedWithId(id)
 
                     Log.d("DEBUG$TAG", "Breed $breed")
                 }
@@ -301,13 +296,6 @@ class NavigationBarFragment : CustomFragment() {
 
 
     /**
-     * Get the checked breeds from the view model
-     */
-    private fun getCheckedBreeds(): List<DomainDisplayedBreed>? {
-        return displayedBreedsViewModel.observedMutableBreeds.value?.filter { b -> b.breedIsChecked }
-    }
-
-    /**
      * Save a character and gets the resulting id
      */
     private fun saveCharacter(): Long? {
@@ -323,8 +311,8 @@ class NavigationBarFragment : CustomFragment() {
             breedBonus = derivedValuesViewModel.breedHealthBonus.value,
             skillsIds = newCharacterViewModel.characterSkillsIds,
             filledOccupationSkills = occupationSkillsViewModel.checkedOccupationSkills.value,
-            filledHobbySkills = skillsViewModel?.hobbySkills.value,
-            spentOccupationPoints = pointsToSpendViewModel?.observableOccupationSpentPoints?.value
+            filledHobbySkills = skillsViewModel.hobbySkills.value,
+            spentOccupationPoints = pointsToSpendViewModel.observableOccupationSpentPoints.value
         )
     }
 

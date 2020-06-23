@@ -3,7 +3,7 @@
 
 package com.uldskull.rolegameassistant.repository.characteristic
 
-import com.uldskull.rolegameassistant.models.character.characteristic.DomainCharacteristic
+import com.uldskull.rolegameassistant.models.characteristic.DomainCharacteristic
 import com.uldskull.rolegameassistant.repository.GenericRepository
 
 /**

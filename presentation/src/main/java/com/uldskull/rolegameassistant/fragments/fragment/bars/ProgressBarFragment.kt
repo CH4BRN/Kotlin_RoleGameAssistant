@@ -11,8 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
-import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
+import com.uldskull.rolegameassistant.fragments.core.CustomCompanion
+import com.uldskull.rolegameassistant.fragments.core.CustomFragment
 import com.uldskull.rolegameassistant.viewmodels.ProgressionBarViewModel
 import kotlinx.android.synthetic.main.fragment_progress_bar.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -22,7 +22,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   Fragment class used to display a progress bar.
  *   The progression is bound to a field into the view model.
  **/
-class ProgressBarFragment(val progression: Int = 0) : CustomFragment() {
+class ProgressBarFragment : CustomFragment() {
 
     /**
      * Progression bar view model
@@ -62,9 +62,9 @@ class ProgressBarFragment(val progression: Int = 0) : CustomFragment() {
     private fun updateProgressBar(value: Int) {
         Log.d(TAG, "updateProgressBar")
 
-        var progress = pb_progression.progress
-        var progressBar = pb_progression
-        var anim = ProgressBarAnimation(progressBar, progress.toFloat(), value.toFloat())
+        val progress = pb_progression.progress
+        val progressBar = pb_progression
+        val anim = ProgressBarAnimation(progressBar, progress.toFloat(), value.toFloat())
         anim.duration = 250
         progressBar.startAnimation(anim)
 
@@ -85,7 +85,6 @@ class ProgressBarFragment(val progression: Int = 0) : CustomFragment() {
         override fun newInstance(activity: Activity): CustomFragment {
             Log.d(TAG, "newInstance")
             val fragment = ProgressBarFragment(
-                progression = 0
             )
             fragment.activity = activity
             return fragment

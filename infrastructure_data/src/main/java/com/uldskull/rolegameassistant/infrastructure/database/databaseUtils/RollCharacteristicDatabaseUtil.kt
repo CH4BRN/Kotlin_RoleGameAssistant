@@ -6,7 +6,7 @@ package com.uldskull.rolegameassistant.infrastructure.database.databaseUtils
 import android.util.Log
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbRollCharacteristicsDao
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbRollCharacteristic
-import com.uldskull.rolegameassistant.models.character.characteristic.CharacteristicsName
+import com.uldskull.rolegameassistant.models.characteristic.CharacteristicsName
 
 /**
  *   Class "RollCharacteristicDatabaseUtil" :
@@ -22,7 +22,7 @@ class RollCharacteristicDatabaseUtil {
          */
         fun populateRollCharacteristics(rollCharacteristicsDao: DbRollCharacteristicsDao) {
             Log.d(TAG, "populateRollCharacteristics")
-            var dbRollCharacteristics = listOf(
+            val dbRollCharacteristics = listOf(
                 DbRollCharacteristic(
                     characteristicName = CharacteristicsName.APPEARANCE.toString(),
                     characteristicRollRule = "3D6"
@@ -57,7 +57,7 @@ class RollCharacteristicDatabaseUtil {
                 )
 
             )
-            var result = rollCharacteristicsDao.insert(dbRollCharacteristics)
+            val result = rollCharacteristicsDao.insert(dbRollCharacteristics)
             result.forEach {
                 Log.d("Insert result", it.toString())
             }

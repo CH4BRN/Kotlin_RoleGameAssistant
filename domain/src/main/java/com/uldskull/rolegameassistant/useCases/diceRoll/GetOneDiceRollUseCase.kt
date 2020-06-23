@@ -4,7 +4,6 @@
 package com.uldskull.rolegameassistant.useCases.diceRoll
 
 import com.uldskull.rolegameassistant.useCases.UseCase
-import sun.rmi.runtime.Log
 import kotlin.random.Random
 
 /**
@@ -19,15 +18,15 @@ class GetOneDiceRollUseCase : UseCase<Int, Int> {
     /**
      * Execute method
      */
-    override fun execute(faces: Int?): Int {
+    override fun execute(request: Int?): Int {
 
-        when (faces) {
+        when (request) {
             null -> return 0
             0 or 1 -> return 1
         }
 
-        var facesPlusOne = faces!!+1
-        var result = Random.nextInt(1, facesPlusOne)
+        val facesPlusOne = request!!+1
+        val result = Random.nextInt(1, facesPlusOne)
         println(TAG + "result = $result")
 
         return result

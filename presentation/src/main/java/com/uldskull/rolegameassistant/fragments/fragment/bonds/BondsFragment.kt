@@ -6,23 +6,19 @@ package com.uldskull.rolegameassistant.fragments.fragment.bonds
 import android.app.Activity
 import android.os.Bundle
 import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
-import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
-import com.uldskull.rolegameassistant.fragments.fragment.CustomTextWatcher
+import com.uldskull.rolegameassistant.fragments.core.CustomCompanion
+import com.uldskull.rolegameassistant.fragments.core.CustomFragment
+import com.uldskull.rolegameassistant.fragments.core.listeners.CustomTextWatcher
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.BONDS_FRAGMENT_POSITION
-import com.uldskull.rolegameassistant.models.character.DomainBond
+import com.uldskull.rolegameassistant.models.DomainBond
 import com.uldskull.rolegameassistant.viewmodels.BondsViewModel
-import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
-import com.uldskull.rolegameassistant.viewmodels.ProgressionBarViewModel
 import kotlinx.android.synthetic.main.fragment_bonds.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -52,16 +48,6 @@ class BondsFragment : CustomFragment() {
      * Bond's ViewModel
      */
     private val bondsViewModel: BondsViewModel by sharedViewModel()
-
-    /**
-     * New character's ViewModel
-     */
-    private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
-
-    /**
-     * Progression bar's ViewModel
-     */
-    private val progressionBarViewModel: ProgressionBarViewModel by sharedViewModel()
 
     /**
      * Add bond button
@@ -123,7 +109,7 @@ class BondsFragment : CustomFragment() {
      */
     private fun loadBondsRecyclerView() {
         if (activity != null) {
-            var transaction = childFragmentManager.beginTransaction()
+            val transaction = childFragmentManager.beginTransaction()
             transaction.replace(
                 R.id.fragmentBonds_container_bonds,
                 BondsRecyclerViewFragment.newInstance(activity!!)
@@ -137,8 +123,8 @@ class BondsFragment : CustomFragment() {
     private fun setAddBondButtonListener() {
         btn_addBond.setOnClickListener {
             Log.d(TAG, "setOnClickListener")
-            var titleText = etBondTitle.text
-            var valueText = etBondValue.text
+            val titleText = etBondTitle.text
+            val valueText = etBondValue.text
             when {
                 titleText.isNullOrEmpty() -> {
                     etBondTitle.error = "Title is required."
@@ -156,7 +142,13 @@ class BondsFragment : CustomFragment() {
                             bonds = mutableListOf()
                         }
                         Log.d("DEBUG$TAG", "bonds size = ${bonds.size}")
-                        bonds.add(DomainBond(null, titleText.toString(), valueText.toString()))
+                        bonds.add(
+                            DomainBond(
+                                null,
+                                titleText.toString(),
+                                valueText.toString()
+                            )
+                        )
                         bondsViewModel.bonds.value = bonds
                     } catch (e: Exception) {
                         Log.e("ERROR", "Adding failed")
@@ -187,7 +179,7 @@ class BondsFragment : CustomFragment() {
                 }
                 if (!s.isNullOrBlank()) {
                     Log.d(TAG, "onTextChanged s.length = ${s.length}")
-                    var remaining = bondValueMaxCharacters - s.length
+                    val remaining = bondValueMaxCharacters - s.length
                     tv_remainingCharactersValue.text = remaining.toString()
                 } else {
                     tv_remainingCharactersValue.text = bondValueMaxCharacters.toString()

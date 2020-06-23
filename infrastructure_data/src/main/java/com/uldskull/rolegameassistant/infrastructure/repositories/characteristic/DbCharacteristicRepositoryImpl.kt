@@ -5,11 +5,10 @@ package com.uldskull.rolegameassistant.infrastructure.repositories.characteristi
 
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbCharacteristicDao
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbCharacteristic
-import com.uldskull.rolegameassistant.models.character.characteristic.DomainCharacteristic
+import com.uldskull.rolegameassistant.models.characteristic.DomainCharacteristic
 import com.uldskull.rolegameassistant.repository.characteristic.CharacteristicRepository
 
 /**
@@ -37,12 +36,7 @@ class DbCharacteristicRepositoryImpl(
     /** Get one entity by its id    */
     override fun findOneById(id: Long?): DomainCharacteristic? {
         Log.d(TAG, "findOneById")
-        var entity = dbCharacteristicDao?.getCharacteristicById(id)
-        if(entity != null){
-            return entity.toDomain()
-        }else{
-            return null
-        }
+        return dbCharacteristicDao.getCharacteristicById(id).toDomain()
     }
 
     /** Insert a list of entity - it should return long[] or List<Long>.*/
@@ -78,13 +72,13 @@ class DbCharacteristicRepositoryImpl(
     /** Delete all entities **/
     override fun deleteAll(): Int {
         Log.d(TAG, "deleteAll")
-        return dbCharacteristicDao?.deleteAllCharacteristics()
+        return dbCharacteristicDao.deleteAllCharacteristics()
     }
 
     /**  Update one entity  **/
     override fun updateOne(one: DomainCharacteristic?): Int? {
         Log.d(TAG, "updateOne")
-       return dbCharacteristicDao?.update(DbCharacteristic.from(one))
+       return dbCharacteristicDao.update(DbCharacteristic.from(one))
     }
 
     /**
@@ -94,8 +88,8 @@ class DbCharacteristicRepositoryImpl(
         Log.d(TAG, "asDomainModel")
         return map{
             DomainCharacteristic(
-                characteristicId = it?.characteristicId,
-                characteristicName = it?.characteristicName
+                characteristicId = it.characteristicId,
+                characteristicName = it.characteristicName
             )
         }
     }

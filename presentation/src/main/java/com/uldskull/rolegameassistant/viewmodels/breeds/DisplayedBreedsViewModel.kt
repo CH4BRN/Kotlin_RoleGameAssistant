@@ -5,9 +5,11 @@ package com.uldskull.rolegameassistant.viewmodels.breeds
 
 import android.app.Application
 import android.util.Log
-import androidx.lifecycle.*
-import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
-import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreedWithCharacteristics
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.uldskull.rolegameassistant.models.breed.DomainDisplayedBreed
 import com.uldskull.rolegameassistant.repository.breed.DisplayedBreedsRepository
 import kotlinx.coroutines.launch
 import kotlin.concurrent.thread
@@ -50,7 +52,7 @@ class DisplayedBreedsViewModel(
     fun findBreedWithId(breedId: Long?): DomainDisplayedBreed? {
         Log.d(TAG, "findBreedWithId with id : $breedId")
 
-        var result = displayedBreedRepositoryImpl.findOneById(breedId)
+        val result = displayedBreedRepositoryImpl.findOneById(breedId)
         Log.d(TAG, "findBreedWithId result" + result?.breedName)
 
         return result
@@ -82,7 +84,7 @@ class DisplayedBreedsViewModel(
      */
     fun saveOne(domainDisplayedBreed: DomainDisplayedBreed): Long? {
         Log.d(TAG, "saveOne")
-        var result: Long? = displayedBreedRepositoryImpl.insertOne(domainDisplayedBreed)
+        val result: Long? = displayedBreedRepositoryImpl.insertOne(domainDisplayedBreed)
         Log.d(TAG, "INSERTED $result")
         return result
     }
@@ -90,7 +92,7 @@ class DisplayedBreedsViewModel(
     /**
      * Lock object for threading
      */
-    private val lock = java.lang.Object()
+    private val lock = Object()
 
     /**
      * Save all breeds
@@ -99,7 +101,7 @@ class DisplayedBreedsViewModel(
         synchronized(lock) {
             Log.d(TAG, "saveAll")
 
-            var result: List<Long>? =
+            val result: List<Long>? =
                 displayedBreedRepositoryImpl.insertAll(domainDisplayedBreed)
             Log.d(TAG, "INSERTED $result")
             lock.notifyAll()

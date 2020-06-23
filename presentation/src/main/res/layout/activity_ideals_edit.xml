@@ -53,6 +53,7 @@
 
                 <EditText
                     android:id="@+id/activityEditIdeals_editText_idealTitle"
+                    android:inputType="text"
                     android:layout_width="0dp"
                     android:layout_column="1"
                     android:layout_weight="4"
@@ -108,9 +109,11 @@
                 android:background="@drawable/mybutton"
                 android:padding="8dp"
                 android:src="@drawable/ic_trash_can_24dp"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                android:contentDescription="@string/button_to_delete_ideal" />
 
             <ImageButton
+                android:contentDescription="@string/save_button"
                 android:id="@+id/activityEditIdeals_imageButton_saveIdeal"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"

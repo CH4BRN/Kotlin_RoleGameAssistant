@@ -5,6 +5,9 @@ package com.uldskull.rolegameassistant.di.koin_modules
 import com.uldskull.rolegameassistant.viewmodels.*
 import com.uldskull.rolegameassistant.viewmodels.breeds.BreedCharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.breeds.DisplayedBreedsViewModel
+import com.uldskull.rolegameassistant.viewmodels.character.CharactersPictureViewModel
+import com.uldskull.rolegameassistant.viewmodels.character.CharactersViewModel
+import com.uldskull.rolegameassistant.viewmodels.character.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.hobbies.HobbiesViewModel
 import com.uldskull.rolegameassistant.viewmodels.hobbies.HobbySkillsViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationSkillsViewModel
@@ -79,7 +82,19 @@ val viewModelModule = module {
     //  Derived values ViewModel
     viewModel {
         DerivedValuesViewModel(
-            application = get()
+            application = get(),
+            getBaseHealthUseCase = get(),
+            getAlignmentScoreUseCase = get(),
+            getSizePlusStrengthUseCase = get(),
+            getDamageBonusScoreUseCase = get(),
+            getDamageBonusUseCase = get(),
+            getIdeaScoreUseCase = get(),
+            getEnergyPointsUseCase = get(),
+            getSanityScoreUseCase = get(),
+            getLuckScoreUseCase = get(),
+            getKnowScoreUseCase = get(),
+            getBreedsHealthBonusUseCase = get(),
+            getTotalHealthUseCase = get()
         )
     }
     //  Occupations ViewModel

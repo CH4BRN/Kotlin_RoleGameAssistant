@@ -5,11 +5,10 @@ package com.uldskull.rolegameassistant.infrastructure.database_model.db_ideal
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
 import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_IDEAL
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbCompanion
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbEntity
-import com.uldskull.rolegameassistant.models.character.DomainIdeal
+import com.uldskull.rolegameassistant.models.DomainIdeal
 
 /**
  *   Class "DbIdeal" :

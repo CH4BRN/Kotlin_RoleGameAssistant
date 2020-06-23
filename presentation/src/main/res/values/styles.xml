@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <style name="ParentLinearLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
@@ -31,7 +31,7 @@
 
     </style>
 
-    <style name="fragment">
+    <style name="fragment" tools:keep="@style/fragment">
         <item name="android:padding">4dp</item>
     </style>
 
@@ -66,7 +66,7 @@
 
     </style>
 
-    <style name="Divider.Vertical" parent="Divider">
+    <style name="Divider.Vertical" parent="Divider" tools:keep="@style/Divider_Vertical">
         <item name="android:layout_width">1dp</item>
         <item name="android:layout_height">match_parent</item>
     </style>

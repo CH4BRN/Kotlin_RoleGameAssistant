@@ -4,7 +4,6 @@
 package com.uldskull.rolegameassistant.infrastructure.dao.occupation
 
 import androidx.room.*
-import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
 import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_OCCUPATION_ID
 import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_OCCUPATIONS
 import com.uldskull.rolegameassistant.infrastructure.dao.LIKE

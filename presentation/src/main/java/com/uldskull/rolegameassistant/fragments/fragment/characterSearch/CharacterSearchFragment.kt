@@ -11,11 +11,11 @@ import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.character.CharacterSearchActivity
 import com.uldskull.rolegameassistant.activities.character.CharacterTransmission
 import com.uldskull.rolegameassistant.activities.replaceFragment
-import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
-import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
+import com.uldskull.rolegameassistant.fragments.core.CustomCompanion
+import com.uldskull.rolegameassistant.fragments.core.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.CHARACTER_SEARCH_FRAGMENT_POSITION
-import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
+import com.uldskull.rolegameassistant.models.character.DomainCharacter
 
 /**
  * A simple [Fragment] subclass.

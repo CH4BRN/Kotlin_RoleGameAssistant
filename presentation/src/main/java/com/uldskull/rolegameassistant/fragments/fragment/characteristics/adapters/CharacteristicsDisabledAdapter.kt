@@ -5,7 +5,7 @@ package com.uldskull.rolegameassistant.fragments.fragment.characteristics.adapte
 
 import android.content.Context
 import android.util.Log
-import com.uldskull.rolegameassistant.fragments.fragment.EditTextUtil.Companion.editTextEnabling
+import com.uldskull.rolegameassistant.fragments.core.utils.EditTextUtil.Companion.editTextEnabling
 
 /**
  *   Class "CharacteristicsDisabledAdapter" :

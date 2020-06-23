@@ -14,13 +14,13 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.AdapterListTransmitter
-import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
-import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
+import com.uldskull.rolegameassistant.fragments.core.AdapterListTransmitter
+import com.uldskull.rolegameassistant.fragments.core.CustomCompanion
+import com.uldskull.rolegameassistant.fragments.core.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.BREED_RECYCLER_VIEW_FRAGMENT_POSITION
-import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
-import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
+import com.uldskull.rolegameassistant.models.breed.DomainDisplayedBreed
+import com.uldskull.rolegameassistant.viewmodels.character.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.breeds.DisplayedBreedsViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -44,7 +44,7 @@ class BreedsRecyclerViewFragment :
     /**
      * ViewModel for new character
      */
-    private val newCharacterViewModel:NewCharacterViewModel by sharedViewModel()
+    private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
     /**
      * Adapter for races recycler view
      */
@@ -81,11 +81,11 @@ class BreedsRecyclerViewFragment :
             Observer { domainDisplayedBreeds ->
                 Log.d("DEBUG$TAG", "Checked breeds = ${domainDisplayedBreeds?.count { b -> b.breedIsChecked }}")
 
-                var newCharacter = newCharacterViewModel?.currentCharacter
+                val newCharacter = newCharacterViewModel.currentCharacter
 
                 newCharacter?.characterBreeds = domainDisplayedBreeds?.filter { breed -> breed.breedIsChecked }?.map { breed-> breed.breedId }?.toMutableList()
 
-                newCharacterViewModel?.currentCharacter = newCharacter
+                newCharacterViewModel.currentCharacter = newCharacter
 
                 if (domainDisplayedBreeds != null) {
                     this.breedsAdapter?.setBreeds(domainDisplayedBreeds.toMutableList())

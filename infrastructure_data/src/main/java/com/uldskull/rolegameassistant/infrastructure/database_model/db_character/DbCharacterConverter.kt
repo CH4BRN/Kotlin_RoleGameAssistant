@@ -25,10 +25,10 @@ class DbCharacterConverter {
                 skillsArray[index] = selectedSkills[index]
             }
 
-            var gson = Gson()
+            val gson = Gson()
 
             for (index in skillsArray.indices) {
-                var jsonString = gson.toJson(skillsArray[index])
+                val jsonString = gson.toJson(skillsArray[index])
                 str += jsonString
                 if (index < skillsArray.size - 1) {
                     str += strSeparator
@@ -44,9 +44,9 @@ class DbCharacterConverter {
      */
     @TypeConverter
     fun convertStringToList(skillsIdString: String):List<Long>{
-        var skillsIdArray = skillsIdString.split(strSeparator)
-        var skillsId = ArrayList<Long>()
-        var gson = Gson()
+        val skillsIdArray = skillsIdString.split(strSeparator)
+        val skillsId = ArrayList<Long>()
+        val gson = Gson()
         for(index in skillsIdArray.indices){
             skillsId.add(gson.fromJson(skillsIdArray[index], Long::class.java))
         }

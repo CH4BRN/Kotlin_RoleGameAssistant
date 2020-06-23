@@ -122,7 +122,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun dbOccupationsDao(): DbOccupationsDao
 
     /**
-     * Database Occupation skilss DAO
+     * Database Occupation skills DAO
      */
     abstract fun dbSkillToCheckDao(): DbSkillToCheckDao
 

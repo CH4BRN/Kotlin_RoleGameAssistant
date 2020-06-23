@@ -19,17 +19,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.character.CharacterActivity
-import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
-import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
-import com.uldskull.rolegameassistant.fragments.fragment.CustomSensorEventListener
+import com.uldskull.rolegameassistant.fragments.core.CustomCompanion
+import com.uldskull.rolegameassistant.fragments.core.CustomRecyclerViewFragment
+import com.uldskull.rolegameassistant.fragments.core.listeners.CustomSensorEventListener
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.characteristics.adapters.CharacteristicsAdapter
 import com.uldskull.rolegameassistant.fragments.fragment.characteristics.adapters.CharacteristicsDisabledAdapter
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.CHARACTERISTICS_RECYCLER_VIEW_FRAGMENT_POSITION
-import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollsCharacteristic
+import com.uldskull.rolegameassistant.models.characteristic.DomainRollsCharacteristic
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.DerivedValuesViewModel
-import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
+import com.uldskull.rolegameassistant.viewmodels.character.NewCharacterViewModel
 import kotlinx.android.synthetic.main.fragment_characteristics_recyclerview.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.*
@@ -98,7 +98,7 @@ class CharacteristicsRecyclerViewFragment :
     ): View? {
         if (activity != null) {
             sensorManager = activity?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-            Objects.requireNonNull(sensorManager)!!.registerListener(
+            Objects.requireNonNull(sensorManager)?.registerListener(
                 sensorListener, sensorManager!!.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_NORMAL
             )
@@ -116,7 +116,7 @@ class CharacteristicsRecyclerViewFragment :
     private val sensorListener: SensorEventListener = object : CustomSensorEventListener() {
         override fun onSensorChanged(event: SensorEvent) {
             // x axis
-            val x = event?.values[0]
+            val x = event.values[0]
             // y axis
             val y = event.values[1]
             // z axis
@@ -268,7 +268,7 @@ class CharacteristicsRecyclerViewFragment :
                             "Characteristics : \n" + "\tdomainCharacter.characterEducation : ${domainCharacter.characterEducation}\n"
                 )
 
-                var characteristicList = listOf(
+                val characteristicList = listOf(
                     domainCharacter.characterAppearance,
                     domainCharacter.characterConstitution,
                     domainCharacter.characterDexterity,
@@ -328,7 +328,7 @@ class CharacteristicsRecyclerViewFragment :
                 characteristicsViewModel.observedMutableCharacteristics.value =
                     it as MutableList<DomainRollsCharacteristic?>
 
-                var displayedCharacteristics =
+                val displayedCharacteristics =
                     characteristicsViewModel.displayedCharacteristics?.value
                 if (displayedCharacteristics?.size == 0) {
                     characteristicsViewModel.displayedCharacteristics?.value =
@@ -369,7 +369,7 @@ class CharacteristicsRecyclerViewFragment :
 
     /** Set recycler view adapter   **/
     override fun setRecyclerViewAdapter() {
-        var checkedBreedList = characteristicsViewModel.characterDisplayedBreeds?.filter { b ->
+        val checkedBreedList = characteristicsViewModel.characterDisplayedBreeds?.filter { b ->
             b.breedIsChecked
         }
         characteristicsViewModel.calculateBreedBonuses(checkedBreedList)

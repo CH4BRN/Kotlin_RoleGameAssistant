@@ -5,8 +5,6 @@ package com.uldskull.rolegameassistant.fragments.fragment.derivedValues
 
 import android.app.Activity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,12 +13,17 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.fragments.core.CustomCompanion
+import com.uldskull.rolegameassistant.fragments.core.CustomFragment
+import com.uldskull.rolegameassistant.fragments.core.listeners.CustomOnItemSelectedListener
+import com.uldskull.rolegameassistant.fragments.core.listeners.CustomTextWatcher
 import com.uldskull.rolegameassistant.fragments.fragment.*
-import com.uldskull.rolegameassistant.fragments.fragment.EditTextUtil.Companion.editTextEnabling
+import com.uldskull.rolegameassistant.fragments.core.utils.EditTextUtil.Companion.editTextEnabling
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.DERIVED_VALUES_2_FRAGMENT_POSITION
-import com.uldskull.rolegameassistant.models.character.DomainIdeal
-import com.uldskull.rolegameassistant.models.character.characteristic.CharacteristicsName
-import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollsCharacteristic
+import com.uldskull.rolegameassistant.models.DomainIdeal
+import com.uldskull.rolegameassistant.models.characteristic.CharacteristicsName
+import com.uldskull.rolegameassistant.models.characteristic.DomainRollsCharacteristic
+import com.uldskull.rolegameassistant.useCases.damageBonus.DamageBonus
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.DerivedValuesViewModel
 import com.uldskull.rolegameassistant.viewmodels.IdealsViewModel
@@ -129,7 +132,7 @@ class DerivedValues2Fragment : CustomFragment() {
     private fun observeIdeals() {
         idealsViewModel.mutableIdeals?.observe(this, Observer { idealList ->
             if (idealList != null) {
-                var checkedIdeals = idealList.filter { i -> i?.isChecked!! }
+                val checkedIdeals = idealList.filter { i -> i?.isChecked!! }
                 calculateAlignmentScore(checkedIdeals)
             }
         })
@@ -186,12 +189,12 @@ class DerivedValues2Fragment : CustomFragment() {
             this,
             Observer { domainRollsCharacteristics ->
                 kotlin.run {
-                    var power =
+                    val power =
                         domainRollsCharacteristics.findLast { c -> c?.characteristicName == CharacteristicsName.POWER.characteristicName }
                     calculateEnergyScore(power)
-                    var size =
+                    val size =
                         domainRollsCharacteristics.findLast { c -> c?.characteristicName == CharacteristicsName.SIZE.characteristicName }
-                    var strength =
+                    val strength =
                         domainRollsCharacteristics.findLast { c -> c?.characteristicName == CharacteristicsName.STRENGTH.characteristicName }
                     calculateDamageBonus(size, strength)
                 }
@@ -280,7 +283,7 @@ class DerivedValues2Fragment : CustomFragment() {
                 if (derivedValuesViewModel.selectedDamageBonusIndex.value != position) {
                     derivedValuesViewModel.selectedDamageBonusIndex.value = position
                     derivedValuesViewModel.damageBonus.value =
-                        DerivedValuesViewModel.DamageBonus.values()[position]
+                        DamageBonus.values()[position]
                 }
             }
         }
@@ -368,17 +371,15 @@ class DerivedValues2Fragment : CustomFragment() {
         if (spinner_damageBonus != null) {
 
             if (activity != null) {
-                val adapter = ArrayAdapter<DerivedValuesViewModel.DamageBonus>(
+                val adapter = ArrayAdapter(
                     activity!!,
                     android.R.layout.simple_spinner_item,
-                    DerivedValuesViewModel.DamageBonus.values()
+                    DamageBonus.values()
                 )
                 spinner_damageBonus.adapter = adapter
             }
-
         }
     }
-
 
     /**
      * set alignment picture

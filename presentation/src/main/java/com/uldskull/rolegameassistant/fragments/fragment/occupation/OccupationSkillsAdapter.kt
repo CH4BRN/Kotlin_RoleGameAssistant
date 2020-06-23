@@ -12,8 +12,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.CustomAdapterButtonListener
-import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
+import com.uldskull.rolegameassistant.fragments.core.listeners.CustomAdapterButtonListener
+import com.uldskull.rolegameassistant.models.skill.DomainSkillToFill
 
 
 /**
@@ -33,10 +33,7 @@ class OccupationSkillsAdapter constructor(
      */
     var checkedPosition: Int = 0
 
-    /**
-     * Inflater
-     */
-    private val inflater: LayoutInflater = LayoutInflater.from(context)
+
     /**
      * Skills list
      */
@@ -67,7 +64,7 @@ class OccupationSkillsAdapter constructor(
      *
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OccupationSkillsViewHolder {
-        var view: View = LayoutInflater.from(context).inflate(
+        val view: View = LayoutInflater.from(context).inflate(
             R.layout.fragment_occupationskill_recyclerview_item,
             parent, false
         )
@@ -114,10 +111,10 @@ class OccupationSkillsAdapter constructor(
      */
     inner class OccupationSkillsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var layoutOccupationSkill: LinearLayout? = itemView.findViewById(R.id.occupationSkill_row)
-        var tvOccupationSkillName: TextView? = itemView.findViewById(R.id.tv_occupationSkillName)
-        var tvOccupationSkillBase: TextView? = itemView.findViewById(R.id.tv_occupationSkillBase)
-        var tvOccupationSkillAdd: TextView? = itemView.findViewById(R.id.tv_occupationSkillAdd)
-        var tvOccupationSkillTotal: TextView? = itemView.findViewById(R.id.tv_occupationSkillTotal)
+        private var tvOccupationSkillName: TextView? = itemView.findViewById(R.id.tv_occupationSkillName)
+        private var tvOccupationSkillBase: TextView? = itemView.findViewById(R.id.tv_occupationSkillBase)
+        private var tvOccupationSkillAdd: TextView? = itemView.findViewById(R.id.tv_occupationSkillAdd)
+        private var tvOccupationSkillTotal: TextView? = itemView.findViewById(R.id.tv_occupationSkillTotal)
 
         /**
          * Bind the view holder
@@ -131,7 +128,7 @@ class OccupationSkillsAdapter constructor(
 
 
             if (base != null && add != null) {
-                var total = base + add
+                val total = base + add
                 tvOccupationSkillTotal?.text = total.toString()
             }
             tvOccupationSkillAdd?.text = add.toString()
@@ -195,9 +192,9 @@ class OccupationSkillsAdapter constructor(
         Log.d(TAG, "current : $current")
 
         if (current?.filledSkillTensValue != null && current.filledSkillUnitsValue != null) {
-            var tens = current.filledSkillTensValue.toString()
+            val tens = current.filledSkillTensValue.toString()
             Log.d(TAG, "tens : $tens")
-            var units = current.filledSkillUnitsValue.toString()
+            val units = current.filledSkillUnitsValue.toString()
             Log.d(TAG, "units : $units")
 
             try {

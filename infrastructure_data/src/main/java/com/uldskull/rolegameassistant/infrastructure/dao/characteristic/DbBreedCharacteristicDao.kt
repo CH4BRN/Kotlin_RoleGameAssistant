@@ -4,14 +4,14 @@
 package com.uldskull.rolegameassistant.infrastructure.dao.characteristic
 
 import androidx.lifecycle.LiveData
-import androidx.room.*
-import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Query
 import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_BREED_CHARACTERISTIC_ID
 import com.uldskull.rolegameassistant.infrastructure.Queries.DELETE_ALL_BREED_CHARACTERISTICS
 import com.uldskull.rolegameassistant.infrastructure.Queries.SELECT_ALL_BREED_CHARACTERISTICS
 import com.uldskull.rolegameassistant.infrastructure.dao.GenericDao
 import com.uldskull.rolegameassistant.infrastructure.dao.LIKE
-import com.uldskull.rolegameassistant.infrastructure.dao.SELECT_ALL_FROM
 import com.uldskull.rolegameassistant.infrastructure.dao.WHERE
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbBreedCharacteristic
 

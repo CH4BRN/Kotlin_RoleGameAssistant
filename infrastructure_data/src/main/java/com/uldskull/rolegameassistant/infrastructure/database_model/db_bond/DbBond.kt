@@ -5,11 +5,10 @@ package com.uldskull.rolegameassistant.infrastructure.database_model.db_bond
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
 import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_BOND
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbCompanion
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbEntity
-import com.uldskull.rolegameassistant.models.character.DomainBond
+import com.uldskull.rolegameassistant.models.DomainBond
 
 /**
  *   Class "DbBond" :

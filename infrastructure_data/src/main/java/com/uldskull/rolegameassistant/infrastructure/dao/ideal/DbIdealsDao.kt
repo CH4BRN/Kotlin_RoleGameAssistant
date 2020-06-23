@@ -4,8 +4,9 @@
 package com.uldskull.rolegameassistant.infrastructure.dao.ideal
 
 import androidx.lifecycle.LiveData
-import androidx.room.*
-import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Query
 import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_IDEAL_ID
 import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_IDEAL
 import com.uldskull.rolegameassistant.infrastructure.dao.DELETE_FROM

@@ -13,9 +13,8 @@ import com.uldskull.rolegameassistant.activities.occupations.EditOccupationActiv
 
 val NEW_IDEAL_ACTIVITY = EditIdealsActivity::class.java
 val NEW_BREED_ACTIVITY = NewBreedActivity::class.java
-val CHARACTER_SEARCH_ACTIVTY = CharacterSearchActivity::class.java
 val MAIN_ACTIVITY = MainActivity::class.java
-val NEW_SKILL_ACTIVTY = EditSkillActivity::class.java
+val NEW_SKILL_ACTIVITY = EditSkillActivity::class.java
 val NEW_JOB_ACTIVITY = EditOccupationActivity::class.java
 
 /** DomainCharacter search activity java class    **/

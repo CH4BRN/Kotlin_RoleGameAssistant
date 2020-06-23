@@ -9,14 +9,14 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
-import com.uldskull.rolegameassistant.models.character.characteristic.CharacteristicsName
-import com.uldskull.rolegameassistant.models.character.characteristic.DomainCharacteristic
-import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollsCharacteristic
+import com.uldskull.rolegameassistant.models.breed.DomainDisplayedBreed
+import com.uldskull.rolegameassistant.models.characteristic.CharacteristicsName
+import com.uldskull.rolegameassistant.models.characteristic.DomainCharacteristic
+import com.uldskull.rolegameassistant.models.characteristic.DomainRollsCharacteristic
 import com.uldskull.rolegameassistant.repository.breed.DisplayedBreedsRepository
 import com.uldskull.rolegameassistant.repository.characteristic.CharacteristicRepository
 import com.uldskull.rolegameassistant.repository.characteristic.RollsCharacteristicRepository
-import com.uldskull.rolegameassistant.useCases.diceRoll.DiceService
+import com.uldskull.rolegameassistant.services.DiceService
 import kotlinx.coroutines.launch
 import kotlin.concurrent.thread
 
@@ -41,7 +41,7 @@ class CharacteristicsViewModel(
     /**
      * Constitution bonus
      */
-    var constitutionBonus: Int = 0
+    private var constitutionBonus: Int = 0
         set(value) {
             Log.d(TAG, "constitutionBonus BEFORE $field")
             field = value
@@ -51,7 +51,7 @@ class CharacteristicsViewModel(
     /**
      * Intelligence bonus
      */
-    var intelligenceBonus: Int = 0
+    private var intelligenceBonus: Int = 0
         set(value) {
             Log.d(TAG, "intelligenceBonus BEFORE $field")
             field = value
@@ -61,7 +61,7 @@ class CharacteristicsViewModel(
     /**
      * Size bonus
      */
-    var sizeBonus: Int = 0
+    private var sizeBonus: Int = 0
         set(value) {
             Log.d(TAG, "sizeBonus BEFORE $field")
             field = value
@@ -71,7 +71,7 @@ class CharacteristicsViewModel(
     /**
      * Dexterity bonus.
      */
-    var dexterityBonus: Int = 0
+    private var dexterityBonus: Int = 0
         set(value) {
             Log.d(TAG, "dexterityBonus BEFORE $field")
             field = value
@@ -81,7 +81,7 @@ class CharacteristicsViewModel(
     /**
      * Strength bonus.
      */
-    var strengthBonus: Int = 0
+    private var strengthBonus: Int = 0
         set(value) {
             Log.d(TAG, "strengthBonus BEFORE $field")
             field = value
@@ -91,7 +91,7 @@ class CharacteristicsViewModel(
     /**
      * Power bonus
      */
-    var powerBonus: Int = 0
+    private var powerBonus: Int = 0
         set(value) {
             Log.d(TAG, "powerBonus BEFORE $field")
             field = value
@@ -101,7 +101,7 @@ class CharacteristicsViewModel(
     /**
      * Appearance bonus.
      */
-    var appearanceBonus: Int = 0
+    private var appearanceBonus: Int = 0
         set(value) {
             Log.d(TAG, "appearanceBonus BEFORE $field")
             field = value
@@ -111,7 +111,7 @@ class CharacteristicsViewModel(
     /**
      * Education bonus.
      */
-    var educationBonus: Int = 0
+    private var educationBonus: Int = 0
         set(value) {
             Log.d(TAG, "educationBonus BEFORE $field")
             field = value
@@ -129,7 +129,7 @@ class CharacteristicsViewModel(
         Log.d("DEBUG$TAG", "getCheckedBreeds")
         return if (!characterDisplayedBreeds.isNullOrEmpty()) {
             Log.d("DEBUG$TAG", "characterDisplayedBreeds is not empty")
-            var breeds = characterDisplayedBreeds!!.filter { b -> b.breedIsChecked }
+            val breeds = characterDisplayedBreeds!!.filter { b -> b.breedIsChecked }
             Log.d("DEBUG$TAG", "Checked breeds : ${breeds.size}")
             breeds.forEach {
                 Log.d("DEBUG$TAG", "Breeds : $it")
@@ -146,7 +146,7 @@ class CharacteristicsViewModel(
     /**
      * Lock object for multi-threading
      */
-    private val lock = java.lang.Object()
+    private val lock = Object()
 
     /**
      * Character breeds
@@ -154,10 +154,8 @@ class CharacteristicsViewModel(
     var characterDisplayedBreeds: MutableList<DomainDisplayedBreed>? = mutableListOf()
         set(value) {
             Log.d("DEBUG$TAG", "set characterBreeds")
-            var checked = value?.filter { b -> b.breedIsChecked }
-            checked?.forEach {
-                Log.d("DEBUG$TAG", "Checked : ${it.breedName}")
-            }
+            val checked = value?.filter { b -> b.breedIsChecked }
+
             calculateBreedBonuses(checked)
             field = value
         }
@@ -175,7 +173,7 @@ class CharacteristicsViewModel(
      * Populates the roll characteristics with dice rolls
      */
     fun populateRandomRollCharacteristics() {
-        var newList: MutableList<DomainRollsCharacteristic> = mutableListOf()
+        val newList: MutableList<DomainRollsCharacteristic> = mutableListOf()
         newList.add(
             getConstitutionDiceRolledCharacteristic()
         )
@@ -290,13 +288,13 @@ class CharacteristicsViewModel(
     /**
      * Get dice rolled characteristics
      */
-    fun getDiceRollCharacteristic(
+    private fun getDiceRollCharacteristic(
         name: CharacteristicsName,
         bonus: Int?,
         rollRule: String?
     ): DomainRollsCharacteristic {
 
-        var finalRoll: Int = 0
+        var finalRoll = 0
 
         when (name.characteristicName) {
             CharacteristicsName.STRENGTH.characteristicName
@@ -380,7 +378,7 @@ class CharacteristicsViewModel(
      * Get education characteristic
      */
     fun getEducation(): DomainRollsCharacteristic? {
-        var education =
+        val education =
             displayedCharacteristics?.value?.find { c -> c?.characteristicName == CharacteristicsName.EDUCATION.toString() }
         Log.d(TAG, "EDUCATION : $education")
 
@@ -393,8 +391,8 @@ class CharacteristicsViewModel(
     fun getOccupationSkillsScore(): Int {
         var score = 0
 
-        var education = getEducation()
-        var educationScore = education?.characteristicTotal
+        val education = getEducation()
+        val educationScore = education?.characteristicTotal
         if (educationScore != null) {
             score = educationScore * 20
         }
@@ -503,10 +501,10 @@ class CharacteristicsViewModel(
         Log.d(TAG, "{breedList.size} ${displayedBreedList?.size}")
         displayedBreedList?.forEach {
             Log.d(TAG, "${it.breedName}")
-            var breedWithChildren = displayedBreedsRepository.findOneWithChildren(it.breedId)
+            val breedWithChildren = displayedBreedsRepository.findOneWithChildren(it.breedId)
             breedWithChildren?.characteristics?.forEach { characteristic ->
                 if (characteristic.characteristicBonus != null) {
-                    var bonus = characteristic.characteristicBonus!!
+                    val bonus = characteristic.characteristicBonus!!
                     Log.d(
                         TAG,
                         "Bonus ${characteristic.characteristicName}  ${characteristic.characteristicBonus}"
@@ -530,13 +528,13 @@ class CharacteristicsViewModel(
 
     private fun assignsBonusForAllCharacteristics() {
 
-        var characteristics = displayedCharacteristics?.value?.toMutableList()
+        val characteristics = displayedCharacteristics?.value?.toMutableList()
 
         if ((characteristics != null )) {
 
             for (index in 0 until characteristics.size) {
 
-                var newCharacteristic: DomainRollsCharacteristic? = characteristics[index]
+                val newCharacteristic: DomainRollsCharacteristic? = characteristics[index]
                 Log.d(TAG, "Characteristic before : $newCharacteristic")
                 assignsBonus(newCharacteristic)
                 Log.d(TAG, "Characteristic after : $newCharacteristic")
@@ -574,25 +572,4 @@ class CharacteristicsViewModel(
             }
         }
     }
-
-    fun getConstitution(): DomainRollsCharacteristic? {
-        var constitution =
-            displayedCharacteristics?.value?.find { c -> c?.characteristicName == CharacteristicsName.CONSTITUTION.toString() }
-        Log.d(TAG, "CONSTITUTION : $constitution")
-        return constitution
-    }
-
-    fun getStrength(): DomainRollsCharacteristic? {
-        return displayedCharacteristics?.value?.find { c -> c?.characteristicName == CharacteristicsName.STRENGTH.characteristicName }
-    }
-
-    fun getSize(): DomainRollsCharacteristic? {
-        return displayedCharacteristics?.value?.find { c -> c?.characteristicName == CharacteristicsName.SIZE.characteristicName }
-    }
-
-    fun getPower(): DomainRollsCharacteristic? {
-        return displayedCharacteristics?.value?.find { c -> c?.characteristicName == CharacteristicsName.POWER.characteristicName }
-    }
-
-
 }

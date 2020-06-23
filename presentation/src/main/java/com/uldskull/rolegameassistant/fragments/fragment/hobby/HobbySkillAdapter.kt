@@ -11,8 +11,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.CustomAdapterButtonListener
-import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
+import com.uldskull.rolegameassistant.fragments.core.listeners.CustomAdapterButtonListener
+import com.uldskull.rolegameassistant.models.skill.DomainSkillToFill
 
 /**
  *   Class "HobbySkillAdapter" :
@@ -20,7 +20,7 @@ import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
  **/
 class HobbySkillAdapter internal constructor(
     val context: Context,
-    private val hobbySkillsRecyclerViewFragment_buttonListenerCustom:CustomAdapterButtonListener<DomainSkillToFill>
+    private val hobbySkillsRecyclerViewFragment_buttonListenerCustom: CustomAdapterButtonListener<DomainSkillToFill>
 ) : RecyclerView.Adapter<HobbySkillAdapter.HobbySkillsViewHolder>() {
 
     companion object {
@@ -44,17 +44,17 @@ class HobbySkillAdapter internal constructor(
      * View holder for hobby skills
      */
     inner class HobbySkillsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var tvHobbySkillName: TextView? = itemView.findViewById(R.id.tv_hobbySkillName)
-        var tvHobbySkillBase: TextView? = itemView.findViewById(R.id.tv_hobbySkillBase)
-        var tvHobbySkillAddTens: TextView? = itemView.findViewById(R.id.tv_hobbySkillAddTens)
-        var tvHobbySkillAddUnits: TextView? = itemView.findViewById(R.id.tv_hobbySkillAddUnits)
-        var tvHobbySkillTotal: TextView = itemView.findViewById(R.id.tv_hobbySkillTotal)
+        private var tvHobbySkillName: TextView? = itemView.findViewById(R.id.tv_hobbySkillName)
+        private var tvHobbySkillBase: TextView? = itemView.findViewById(R.id.tv_hobbySkillBase)
+        private var tvHobbySkillAddTens: TextView? = itemView.findViewById(R.id.tv_hobbySkillAddTens)
+        private var tvHobbySkillAddUnits: TextView? = itemView.findViewById(R.id.tv_hobbySkillAddUnits)
+        private var tvHobbySkillTotal: TextView = itemView.findViewById(R.id.tv_hobbySkillTotal)
 
         init {
             /**
              * Set itemView onClickListener
              */
-            itemView?.setOnClickListener {
+            itemView.setOnClickListener {
                 itemView.background = context.getDrawable(R.drawable.my_recycler_view_selected_cell_background)
                 tvHobbySkillName?.setTextColor(context.getColor(R.color.colorPrimary))
 
@@ -73,10 +73,10 @@ class HobbySkillAdapter internal constructor(
             Log.d("DEBUG$TAG", "Skill : $skill")
             //holder.tvHobbySkillName?.text = current.skillName
             tvHobbySkillName?.text = skill?.skillName
-            tvHobbySkillBase?.setText(skill?.filledSkillBase.toString())
-            tvHobbySkillAddTens?.setText(skill?.filledSkillTensValue.toString())
-            tvHobbySkillAddUnits?.setText(skill?.filledSkillUnitsValue.toString())
-            tvHobbySkillTotal?.setText(skill?.filledSkillTotal.toString())
+            tvHobbySkillBase?.text = skill?.filledSkillBase.toString()
+            tvHobbySkillAddTens?.text = skill?.filledSkillTensValue.toString()
+            tvHobbySkillAddUnits?.text = skill?.filledSkillUnitsValue.toString()
+            tvHobbySkillTotal.text = skill?.filledSkillTotal.toString()
 
             if (checkedPosition == -1) {
                 //  Initial

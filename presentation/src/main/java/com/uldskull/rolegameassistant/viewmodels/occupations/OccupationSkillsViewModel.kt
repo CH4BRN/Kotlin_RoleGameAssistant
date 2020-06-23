@@ -6,7 +6,7 @@ package com.uldskull.rolegameassistant.viewmodels.occupations
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
+import com.uldskull.rolegameassistant.models.skill.DomainSkillToFill
 
 /**
  *   Class "OccupationSkillsViewModel" :
@@ -22,7 +22,7 @@ class OccupationSkillsViewModel(
     /**
      * Lock object for threading
      */
-    private val lock = java.lang.Object()
+    private val lock = Object()
 
     /**
      * Checked occupation skills

@@ -18,11 +18,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.skills.EditSkillActivity
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.JOB_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION
-import com.uldskull.rolegameassistant.fragments.fragment.CustomAdapterButtonListener
-import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
-import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
+import com.uldskull.rolegameassistant.fragments.core.listeners.CustomAdapterButtonListener
+import com.uldskull.rolegameassistant.fragments.core.CustomCompanion
+import com.uldskull.rolegameassistant.fragments.core.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
-import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
+import com.uldskull.rolegameassistant.models.skill.DomainSkillToFill
 import com.uldskull.rolegameassistant.viewmodels.PointsToSpendViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationSkillsViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -97,7 +97,7 @@ class OccupationSkillsRecyclerViewFragment :
     override fun initializeRecyclerView() {
         Log.d(TAG, "initializeRecyclerView")
         occupationSkillsRecyclerView =
-            activity?.findViewById<RecyclerView>(R.id.recycler_view_occupationSkills)
+            activity?.findViewById(R.id.recycler_view_occupationSkills)
 
         setRecyclerViewAdapter()
         setRecyclerViewLayoutManager()
@@ -132,11 +132,11 @@ class OccupationSkillsRecyclerViewFragment :
 
         occupationSkills.forEach { filledSkill ->
             kotlin.run {
-                Log.d("DEBUG$TAG", "filledSkill : ${filledSkill}")
+                Log.d("DEBUG$TAG", "filledSkill : $filledSkill")
             }
         }
 
-        var skillsToFill =
+        val skillsToFill =
             occupationSkills.map { domainOccupationSkill ->
                 DomainSkillToFill(
                     filledSkillMax = domainOccupationSkill.filledSkillMax,
@@ -150,7 +150,7 @@ class OccupationSkillsRecyclerViewFragment :
                     filledSkillType = 0
                 )
             }
-        var size = skillsToFill.size
+        val size = skillsToFill.size
         if (size != null) {
             pointsToSpendViewModel.observableOccupationSpentTensPointsArray.value = arrayOfNulls(
                 skillsToFill.size
@@ -159,7 +159,7 @@ class OccupationSkillsRecyclerViewFragment :
 
         skillsToFill.forEach { filledSkill ->
             kotlin.run {
-                Log.d(TAG + "valid", "skillsToFill : ${filledSkill}")
+                Log.d(TAG + "valid", "skillsToFill : $filledSkill")
             }
         }
 

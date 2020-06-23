@@ -9,9 +9,9 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
-import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupationWithSkills
-import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
+import com.uldskull.rolegameassistant.models.occupation.DomainOccupation
+import com.uldskull.rolegameassistant.models.occupation.DomainOccupationWithSkills
+import com.uldskull.rolegameassistant.models.skill.DomainSkillToCheck
 import com.uldskull.rolegameassistant.repository.occupations.OccupationsRepository
 import kotlinx.coroutines.launch
 import kotlin.concurrent.thread
@@ -79,13 +79,17 @@ class OccupationsViewModel(
         if (domainOccupation == null) {
             return 0
         } else {
-            return if (domainOccupation?.occupationId == null) {
-                occupationsRepositoryImpl?.insertOne(domainOccupation)
-            } else if (occupationsRepositoryImpl?.findOneById(domainOccupation.occupationId) == null) {
-                occupationsRepositoryImpl?.insertOne(domainOccupation)
-            } else {
-                occupationsRepositoryImpl?.updateOne(domainOccupation)
-                return domainOccupation?.occupationId
+            return when {
+                domainOccupation.occupationId == null -> {
+                    occupationsRepositoryImpl.insertOne(domainOccupation)
+                }
+                occupationsRepositoryImpl.findOneById(domainOccupation.occupationId) == null -> {
+                    occupationsRepositoryImpl.insertOne(domainOccupation)
+                }
+                else -> {
+                    occupationsRepositoryImpl.updateOne(domainOccupation)
+                    return domainOccupation.occupationId
+                }
             }
         }
     }
@@ -94,10 +98,10 @@ class OccupationsViewModel(
      * gets occupation by its id
      */
     fun getOccupationById(id: Long?): DomainOccupation? {
-        if(id != null){
-            return occupationsRepositoryImpl?.findOneById(id)
+        return if(id != null){
+            occupationsRepositoryImpl.findOneById(id)
         }else{
-            return null
+            null
         }
     }
 
@@ -108,7 +112,7 @@ class OccupationsViewModel(
         if(currentOccupationToEdit == null){
             throw Exception("Occupation is null")
         }
-        return occupationsRepositoryImpl?.deleteOne(currentOccupationToEdit)
+        return occupationsRepositoryImpl.deleteOne(currentOccupationToEdit)
     }
 
     /**

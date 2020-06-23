@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_OCCUPATIONS
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbCompanion
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbEntity
-import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
+import com.uldskull.rolegameassistant.models.occupation.DomainOccupation
 
 /**
  *   Class "DbOccupation" :

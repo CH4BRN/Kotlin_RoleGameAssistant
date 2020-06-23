@@ -9,7 +9,7 @@ import com.uldskull.rolegameassistant.di.koin_modules.repositoriesModule
 import com.uldskull.rolegameassistant.di.koin_modules.useCasesModule
 import com.uldskull.rolegameassistant.di.koin_modules.useCasesServiceModule
 import com.uldskull.rolegameassistant.di.koin_modules.viewModelModule
-import com.uldskull.rolegameassistant.di.koin_modules.roomModule
+import com.uldskull.rolegameassistant.di.koin_modules.daoModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -31,7 +31,7 @@ class MainApplication : Application() {
             // Injects modules for DI
             //  Room
             modules(
-                roomModule
+                daoModule
             )
             //  Repositories
             modules(

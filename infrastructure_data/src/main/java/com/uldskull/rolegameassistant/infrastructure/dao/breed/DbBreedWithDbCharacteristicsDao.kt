@@ -6,7 +6,6 @@ package com.uldskull.rolegameassistant.infrastructure.dao.breed
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
-import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
 import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_BREED_ID
 import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_DISPLAYED_BREED
 import com.uldskull.rolegameassistant.infrastructure.dao.LIKE

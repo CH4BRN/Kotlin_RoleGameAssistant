@@ -4,8 +4,8 @@
 package com.uldskull.rolegameassistant.infrastructure.dao.character
 
 import androidx.lifecycle.LiveData
-import androidx.room.*
-import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
+import androidx.room.Dao
+import androidx.room.Query
 import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_CHARACTER_ID
 import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_CHARACTER
 import com.uldskull.rolegameassistant.infrastructure.dao.DELETE_FROM

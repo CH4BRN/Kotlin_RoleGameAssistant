@@ -5,7 +5,6 @@ package com.uldskull.rolegameassistant.viewmodels.occupations
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
 
 /**
  *   Class "OccupationViewModel" :

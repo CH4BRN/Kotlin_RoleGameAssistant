@@ -3,15 +3,14 @@
 package com.uldskull.rolegameassistant.fragments.fragment.ideals.ideal_toEdit
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.CustomAdapterButtonListener
-import com.uldskull.rolegameassistant.models.character.DomainIdeal
+import com.uldskull.rolegameassistant.fragments.core.listeners.CustomAdapterButtonListener
+import com.uldskull.rolegameassistant.models.DomainIdeal
 
 /**
 Class "idealsToEditAdapter"
@@ -46,17 +45,17 @@ class IdealsToEditAdapter internal constructor(
      * View holder
      */
     inner class IdealsToEditViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var idealTitle: TextView = itemView.findViewById(R.id.tv_idealToEdit_title)
-        var idealGoodPoints: TextView = itemView.findViewById(R.id.tv_idealToEdit_goodPoints)
-        var idealEvilPoints: TextView = itemView.findViewById(R.id.tv_idealToEdit_evilPoints)
-        var idealOverlay: View = itemView.findViewById(R.id.view_idealToEdit_overlay)
+        private var idealTitle: TextView = itemView.findViewById(R.id.tv_idealToEdit_title)
+        private var idealGoodPoints: TextView = itemView.findViewById(R.id.tv_idealToEdit_goodPoints)
+        private var idealEvilPoints: TextView = itemView.findViewById(R.id.tv_idealToEdit_evilPoints)
+        private var idealOverlay: View = itemView.findViewById(R.id.view_idealToEdit_overlay)
 
         fun bind(domainIdeal: DomainIdeal?) {
-            idealTitle.setText(domainIdeal?.idealName)
-            idealEvilPoints.setText(domainIdeal?.idealEvilPoints.toString())
-            idealGoodPoints.setText(domainIdeal?.idealGoodPoints.toString())
-            idealOverlay?.setOnClickListener {
-                customAdapterButtonListener?.itemPressed(ideals[adapterPosition])
+            idealTitle.text = domainIdeal?.idealName
+            idealEvilPoints.text = domainIdeal?.idealEvilPoints.toString()
+            idealGoodPoints.text = domainIdeal?.idealGoodPoints.toString()
+            idealOverlay.setOnClickListener {
+                customAdapterButtonListener.itemPressed(ideals[adapterPosition])
             }
         }
 

@@ -3,7 +3,7 @@
 
 package com.uldskull.rolegameassistant.repository.skill
 
-import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
+import com.uldskull.rolegameassistant.models.skill.DomainSkillToCheck
 import com.uldskull.rolegameassistant.repository.GenericRepository
 
 /**

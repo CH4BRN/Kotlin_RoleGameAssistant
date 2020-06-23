@@ -4,7 +4,6 @@ import androidx.room.Embedded
 import androidx.room.Relation
 import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_CHARACTER_ID
 import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_FILLED_OCCUPATION_SKILL_CHARACTER_ID
-import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_SKILL_ID
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_skill.DbFilledSkill
 
 /**

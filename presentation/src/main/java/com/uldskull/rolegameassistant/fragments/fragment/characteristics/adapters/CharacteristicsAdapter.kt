@@ -14,7 +14,7 @@ import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.models.character.characteristic.DomainRollsCharacteristic
+import com.uldskull.rolegameassistant.models.characteristic.DomainRollsCharacteristic
 import kotlinx.android.synthetic.main.fragment_characteristics_recyclerview_item.view.*
 
 
@@ -55,12 +55,12 @@ open class CharacteristicsAdapter internal constructor(
 
     /** Custom ViewHolder   **/
     inner class CharacteristicsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val rollRuleItemView: TextView =
-            itemView.findViewById<TextView>(R.id.tv_characteristicRollRule)
+        private val rollRuleItemView: TextView =
+            itemView.findViewById(R.id.tv_characteristicRollRule)
 
         //  Get the ability's name edit text.
-        val characteristicNameItemView: TextView =
-            itemView.findViewById<TextView>(R.id.et_characteristicName)
+        private val characteristicNameItemView: TextView =
+            itemView.findViewById(R.id.et_characteristicName)
 
         //  Get the roll's edit text.
         val abilityRollItemView: EditText = itemView.findViewById(R.id.et_characteristicRoll)
@@ -69,7 +69,7 @@ open class CharacteristicsAdapter internal constructor(
         val bonusItemView: EditText = itemView.findViewById(R.id.et_characteristicBonus)
 
         //  Get the total's TextView.
-        val totalItemView: TextView = itemView.findViewById(R.id.tv_characteristicTotal)
+        private val totalItemView: TextView = itemView.findViewById(R.id.tv_characteristicTotal)
 
         init {
             addBonusTextChangedListener()
@@ -116,7 +116,7 @@ open class CharacteristicsAdapter internal constructor(
     override fun onBindViewHolder(holder: CharacteristicsViewHolder, position: Int) {
         Log.d(TAG, "onBindViewHolder")
         onBind = true
-        holder?.bind(rollCharacteristics[position])
+        holder.bind(rollCharacteristics[position])
         onBind = false
     }
 

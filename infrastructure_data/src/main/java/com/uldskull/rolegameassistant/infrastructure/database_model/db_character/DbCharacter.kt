@@ -13,9 +13,10 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_bond.DbBo
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbRollCharacteristic
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_ideal.DbIdeal
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupation.DbOccupation
-import com.uldskull.rolegameassistant.models.character.DomainBond
-import com.uldskull.rolegameassistant.models.character.DomainIdeal
-import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
+import com.uldskull.rolegameassistant.models.DomainBond
+import com.uldskull.rolegameassistant.models.DomainIdeal
+import com.uldskull.rolegameassistant.models.character.DomainCharacter
+import java.util.*
 
 /**
  *   Class "DbCharacter" :
@@ -168,19 +169,18 @@ class DbCharacter(
      * Converts a Database model entity into a domain model.
      */
     override fun toDomain(): DomainCharacter {
-        var domainBonds: MutableList<DomainBond?>
-        if (!this.characterBonds.isNullOrEmpty()) {
-            domainBonds = this.characterBonds.map { dbBond -> dbBond?.toDomain() }.toMutableList()
+        val domainBonds: MutableList<DomainBond?>
+        domainBonds = if (!this.characterBonds.isNullOrEmpty()) {
+            this.characterBonds.map { dbBond -> dbBond?.toDomain() }.toMutableList()
         } else {
-            domainBonds = mutableListOf()
+            mutableListOf()
         }
 
-        var domainIdeals: MutableList<DomainIdeal?>
-        if (!this.characterIdeals.isNullOrEmpty()) {
-            domainIdeals =
-                this.characterIdeals.map { dbIdeal -> dbIdeal?.toDomain() }.toMutableList()
+        val domainIdeals: MutableList<DomainIdeal?>
+        domainIdeals = if (!this.characterIdeals.isNullOrEmpty()) {
+            this.characterIdeals.map { dbIdeal -> dbIdeal?.toDomain() }.toMutableList()
         } else {
-            domainIdeals = mutableListOf()
+            mutableListOf()
         }
 
 
@@ -228,7 +228,9 @@ class DbCharacter(
      * Returns a string representation of the object.
      */
     override fun toString(): String {
-        return "DbCharacter(characterId=$characterId, characterName=$characterName, characterAge=$characterAge, characterBiography=$characterBiography, characterBonds=$characterBonds, characterHealthPoints=$characterHealthPoints, characterBaseHealth=$characterBaseHealth, characterIdeaPoints=$characterIdeaPoints, characterAlignment=$characterAlignment, characterEnergyPoints=$characterEnergyPoints, characterIdeals=$characterIdeals, characterGender=$characterGender, characterHeight=$characterHeight, characterPictureUri=$characterPictureUri, characterWeight=$characterWeight, characterKnow=$characterKnow, characterLuck=$characterLuck, characterSanity=$characterSanity, characterBreedBonus=$characterBreedBonus, characterSelectedOccupationSkill=$characterSelectedOccupationSkill, characterStrength=$characterStrength, characterSize=$characterSize, characterPower=$characterPower, characterIntelligence=$characterIntelligence, characterDexterity=$characterDexterity, characterConstitution=$characterConstitution, characterAppearance=$characterAppearance, characterEducation=$characterEducation)".toUpperCase()
+        return "DbCharacter(characterId=$characterId, characterName=$characterName, characterAge=$characterAge, characterBiography=$characterBiography, characterBonds=$characterBonds, characterHealthPoints=$characterHealthPoints, characterBaseHealth=$characterBaseHealth, characterIdeaPoints=$characterIdeaPoints, characterAlignment=$characterAlignment, characterEnergyPoints=$characterEnergyPoints, characterIdeals=$characterIdeals, characterGender=$characterGender, characterHeight=$characterHeight, characterPictureUri=$characterPictureUri, characterWeight=$characterWeight, characterKnow=$characterKnow, characterLuck=$characterLuck, characterSanity=$characterSanity, characterBreedBonus=$characterBreedBonus, characterSelectedOccupationSkill=$characterSelectedOccupationSkill, characterStrength=$characterStrength, characterSize=$characterSize, characterPower=$characterPower, characterIntelligence=$characterIntelligence, characterDexterity=$characterDexterity, characterConstitution=$characterConstitution, characterAppearance=$characterAppearance, characterEducation=$characterEducation)".toUpperCase(
+            Locale.ENGLISH
+        )
     }
 
 

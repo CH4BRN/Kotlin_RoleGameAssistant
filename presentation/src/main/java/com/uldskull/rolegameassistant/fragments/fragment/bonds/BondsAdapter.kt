@@ -13,8 +13,8 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.CustomAdapterButtonListener
-import com.uldskull.rolegameassistant.models.character.DomainBond
+import com.uldskull.rolegameassistant.fragments.core.listeners.CustomAdapterButtonListener
+import com.uldskull.rolegameassistant.models.DomainBond
 import kotlinx.android.synthetic.main.fragment_bonds_recyclerview_item.view.*
 
 /**
@@ -39,9 +39,9 @@ class BondsAdapter internal constructor(
 
     /** Inner class to display **/
     inner class BondsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var bondTitleItemView: TextView = itemView.findViewById(R.id.tv_bond)
-        var bondValueItemView: TextView = itemView.findViewById(R.id.tv_bondValue)
-        var bondDeleteItemView: ImageButton = itemView.findViewById(R.id.btn_deleteBond)
+        private var bondTitleItemView: TextView = itemView.findViewById(R.id.tv_bond)
+        private var bondValueItemView: TextView = itemView.findViewById(R.id.tv_bondValue)
+        private var bondDeleteItemView: ImageButton = itemView.findViewById(R.id.btn_deleteBond)
 
         /**
          * Bind the value
@@ -103,7 +103,7 @@ class BondsAdapter internal constructor(
      */
     override fun onBindViewHolder(holder: BondsViewHolder, position: Int) {
         Log.d(TAG, "onBindViewHolder")
-        holder?.bind(bonds[position])
+        holder.bind(bonds[position])
     }
 
     /**

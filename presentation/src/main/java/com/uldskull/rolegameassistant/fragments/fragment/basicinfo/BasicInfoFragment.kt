@@ -17,15 +17,17 @@ import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.NEW_BREED_ACTIVITY
 import com.uldskull.rolegameassistant.activities.character.AddEndFragmentAndUpdateAdapter
-import com.uldskull.rolegameassistant.fragments.fragment.*
+import com.uldskull.rolegameassistant.fragments.core.CustomCompanion
+import com.uldskull.rolegameassistant.fragments.core.CustomFragment
+import com.uldskull.rolegameassistant.fragments.core.listeners.CustomTextWatcher
+import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
+import com.uldskull.rolegameassistant.fragments.fragment.REQUEST_CODE_BASIC_INFO_NEW_BREED
 import com.uldskull.rolegameassistant.fragments.fragment.breed.BreedsRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.BASIC_INFO_FRAGMENT_POSITION
-import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
 import com.uldskull.rolegameassistant.viewmodels.BasicInfoViewModel
-import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
-import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.ProgressionBarViewModel
 import com.uldskull.rolegameassistant.viewmodels.breeds.DisplayedBreedsViewModel
+import com.uldskull.rolegameassistant.viewmodels.character.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationsViewModel
 import kotlinx.android.synthetic.main.fragment_basic_info.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -55,11 +57,6 @@ class BasicInfoFragment : CustomFragment() {
      * ViewModel for breeds.
      */
     private val displayedBreedsViewModel: DisplayedBreedsViewModel by sharedViewModel()
-
-    /**
-     * ViewModel for characteristics
-     */
-    private val characteristicsViewModel: CharacteristicsViewModel by sharedViewModel()
 
     private val occupationsViewModel: OccupationsViewModel by sharedViewModel()
 
@@ -175,7 +172,7 @@ class BasicInfoFragment : CustomFragment() {
         if (activity != null) {
             val transaction = childFragmentManager.beginTransaction()
 
-            var fragment = BreedsRecyclerViewFragment.newInstance(
+            val fragment = BreedsRecyclerViewFragment.newInstance(
                 activity!!
             )
 
@@ -201,7 +198,7 @@ class BasicInfoFragment : CustomFragment() {
      */
     private fun deserializeWidgets() {
         deserializeEditTexts()
-        buttonAddBreed = view?.findViewById<ImageButton>(R.id.btn_addBreed)
+        buttonAddBreed = view?.findViewById(R.id.btn_addBreed)
     }
 
     /**
@@ -210,7 +207,7 @@ class BasicInfoFragment : CustomFragment() {
     private fun deserializeEditTexts() {
         editTextCharacterName = view?.findViewById(R.id.et_characterName)
         editTextCharacterAge = view?.findViewById(R.id.et_characterAge)
-        editTextCharacterGender = view?.findViewById<EditText>(R.id.et_CharacterGender)
+        editTextCharacterGender = view?.findViewById(R.id.et_CharacterGender)
         editTextCharacterBiography = view?.findViewById(R.id.et_CharacterBiography)
         editTextCharacterHeight = view?.findViewById(R.id.et_CharacterHeight)
         editTextCharacterWeight = view?.findViewById(R.id.et_CharacterWeight)
@@ -250,7 +247,7 @@ class BasicInfoFragment : CustomFragment() {
 
             if (domainCharacter != null) {
                 var areCharacteristicsRolled = true
-                var characteristicList = listOf(
+                val characteristicList = listOf(
                     domainCharacter.characterAppearance,
                     domainCharacter.characterConstitution,
                     domainCharacter.characterDexterity,
@@ -281,7 +278,7 @@ class BasicInfoFragment : CustomFragment() {
      * Observe selected occupation
      */
     private fun observeSelectedOccupation() {
-        occupationsViewModel?.selectedOccupation?.observe(this, Observer { domainOccupation ->
+        occupationsViewModel.selectedOccupation?.observe(this, Observer { domainOccupation ->
             Log.d("DEBUG$TAG", "Occupation : ${domainOccupation.occupationName}")
         })
     }
@@ -290,7 +287,7 @@ class BasicInfoFragment : CustomFragment() {
      * Observe weight
      */
     private fun observeWeight() {
-        newCharacterViewModel?.characterWeight?.observe(this, Observer { weight ->
+        newCharacterViewModel.characterWeight.observe(this, Observer { weight ->
             if (weight != null) {
                 if (editTextCharacterWeight?.text.toString() != weight.toString()) {
                     editTextCharacterWeight?.setText(weight.toString())
@@ -303,7 +300,7 @@ class BasicInfoFragment : CustomFragment() {
      * Observe height
      */
     private fun observeHeight() {
-        newCharacterViewModel?.characterHeight?.observe(this, Observer { height ->
+        newCharacterViewModel.characterHeight.observe(this, Observer { height ->
             if (height != null) {
                 if (editTextCharacterHeight?.text.toString() != height.toString()) {
                     editTextCharacterHeight?.setText(height.toString())
@@ -317,7 +314,7 @@ class BasicInfoFragment : CustomFragment() {
      * Observe biography
      */
     private fun observeBiography() {
-        newCharacterViewModel?.characterBiography?.observe(this, Observer { biography ->
+        newCharacterViewModel.characterBiography.observe(this, Observer { biography ->
             if (biography != null) {
                 if (editTextCharacterBiography?.text.toString() != biography.toString()) {
                     editTextCharacterBiography?.setText(biography)
@@ -331,7 +328,7 @@ class BasicInfoFragment : CustomFragment() {
      * Observe gender
      */
     private fun observeGender() {
-        newCharacterViewModel?.characterGender?.observe(this, Observer { gender ->
+        newCharacterViewModel.characterGender.observe(this, Observer { gender ->
             if (gender != null) {
                 if (editTextCharacterGender?.text.toString() != gender.toString()) {
                     editTextCharacterGender?.setText(gender)
@@ -345,7 +342,7 @@ class BasicInfoFragment : CustomFragment() {
      * Observe age
      */
     private fun observeAge() {
-        newCharacterViewModel?.characterAge?.observe(this, Observer { age ->
+        newCharacterViewModel.characterAge.observe(this, Observer { age ->
             if (age != null) {
                 if (editTextCharacterAge?.text.toString() != age.toString()) {
                     editTextCharacterAge?.setText(age.toString())
@@ -359,7 +356,7 @@ class BasicInfoFragment : CustomFragment() {
      * observe name
      */
     private fun observeName() {
-        newCharacterViewModel?.characterName?.observe(this, Observer { name ->
+        newCharacterViewModel.characterName.observe(this, Observer { name ->
             if (name != null) {
                 if (editTextCharacterName?.text.toString() != name.toString()) {
                     editTextCharacterName?.setText(name)

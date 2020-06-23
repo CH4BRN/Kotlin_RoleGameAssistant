@@ -11,7 +11,7 @@ Class "ProgressBarAnimation"
 
 Class to manage progress bar animation
  */
-class ProgressBarAnimation(var progressBar: ProgressBar,var from:Float,var to:Float) : Animation(){
+class ProgressBarAnimation(private var progressBar: ProgressBar, var from:Float, var to:Float) : Animation(){
 
     /**
      * Helper for getTransformation. Subclasses should implement this to apply
@@ -26,7 +26,7 @@ class ProgressBarAnimation(var progressBar: ProgressBar,var from:Float,var to:Fl
      */
     override fun applyTransformation(interpolatedTime: Float, t: Transformation?) {
         super.applyTransformation(interpolatedTime, t)
-        var value:Float = from + (to - from)*interpolatedTime
-        progressBar.setProgress(value.toInt())
+        val value:Float = from + (to - from)*interpolatedTime
+        progressBar.progress = value.toInt()
     }
 }

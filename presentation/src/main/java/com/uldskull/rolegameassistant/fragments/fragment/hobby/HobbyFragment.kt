@@ -17,12 +17,12 @@ import android.widget.Spinner
 import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.skills.EditSkillActivity
-import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
-import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
-import com.uldskull.rolegameassistant.fragments.fragment.CustomOnItemSelectedListener
+import com.uldskull.rolegameassistant.fragments.core.CustomCompanion
+import com.uldskull.rolegameassistant.fragments.core.CustomFragment
+import com.uldskull.rolegameassistant.fragments.core.listeners.CustomOnItemSelectedListener
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.HOBBY_FRAGMENT_POSITION
-import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
+import com.uldskull.rolegameassistant.models.skill.DomainSkillToFill
 import com.uldskull.rolegameassistant.viewmodels.hobbies.HobbySkillsViewModel
 import com.uldskull.rolegameassistant.viewmodels.PointsToSpendViewModel
 import com.uldskull.rolegameassistant.viewmodels.SkillsViewModel
@@ -153,9 +153,9 @@ class HobbyFragment : CustomFragment() {
     private fun setButtonValidateOnClickListener() {
         buttonValidateAddValueToSkill?.setOnClickListener {
             //  Get the spent points
-            var spentPoints = pointsToSpendViewModel.observableHobbySpentPoints.value
+            val spentPoints = pointsToSpendViewModel.observableHobbySpentPoints.value
             // Gets the total points to spend
-            var pointsToSpend = hobbySkillsViewModel.hobbySkillsTotalPointsToSpend.value
+            val pointsToSpend = hobbySkillsViewModel.hobbySkillsTotalPointsToSpend.value
             //Checks if activity is not null
             if (activity != null) {
                 if (spentPoints != null && pointsToSpend != null) {
@@ -167,7 +167,7 @@ class HobbyFragment : CustomFragment() {
 
                         alertDialog.show()
                     } else {
-                        var domainFilledSkill =
+                        val domainFilledSkill =
                             hobbySkillsViewModel.currentHobbySkill.value
                         if (tensValue != null) {
                             domainFilledSkill?.filledSkillTensValue = tensValue
@@ -179,12 +179,12 @@ class HobbyFragment : CustomFragment() {
 
                         hobbySkillsViewModel.currentHobbySkill.value = domainFilledSkill
 
-                        var index =
+                        val index =
                             skillsViewModel.hobbySkills.value?.indexOfFirst { skill ->
-                                skill?.skillId == domainFilledSkill?.skillId
+                                skill.skillId == domainFilledSkill?.skillId
                             }
 
-                        var filledSkill = skillsViewModel?.hobbySkills.value?.toMutableList()
+                        val filledSkill = skillsViewModel.hobbySkills.value?.toMutableList()
                         if (filledSkill != null && index != null) {
                             if (domainFilledSkill != null) {
                                 Log.d("DEBUG$TAG", "domainFilledSkill :$domainFilledSkill")
@@ -194,7 +194,7 @@ class HobbyFragment : CustomFragment() {
                         skillsViewModel.hobbySkills.value = filledSkill
                     }
                 } else {
-                    var domainSkillToFill = hobbySkillsViewModel?.currentHobbySkill.value
+                    val domainSkillToFill = hobbySkillsViewModel.currentHobbySkill.value
 
                     if (tensValue != null) {
                         domainSkillToFill?.filledSkillTensValue = tensValue
@@ -203,15 +203,15 @@ class HobbyFragment : CustomFragment() {
                         domainSkillToFill?.filledSkillUnitsValue = unitsValue
                     }
 
-                    hobbySkillsViewModel?.currentHobbySkill.value = domainSkillToFill
+                    hobbySkillsViewModel.currentHobbySkill.value = domainSkillToFill
 
-                    var index = skillsViewModel?.hobbySkills.value?.indexOfFirst { skill ->
-                        (skill?.skillId == domainSkillToFill?.skillId) && (skill?.skillName == domainSkillToFill?.skillName)
+                    val index = skillsViewModel.hobbySkills.value?.indexOfFirst { skill ->
+                        (skill.skillId == domainSkillToFill?.skillId) && (skill.skillName == domainSkillToFill?.skillName)
                     }
 
                     Log.d("DEBUG$TAG", "Index : $index")
 
-                    var filledSkills = skillsViewModel?.hobbySkills.value?.toMutableList()
+                    val filledSkills = skillsViewModel.hobbySkills.value?.toMutableList()
 
                     if (filledSkills != null && index != null) {
                         if (domainSkillToFill != null) {
@@ -284,7 +284,7 @@ class HobbyFragment : CustomFragment() {
         spinnerTensValues = view?.findViewById(R.id.spinner_hobby_skill_tens)
         spinnerUnitsValues = view?.findViewById(R.id.spinner_hobby_skill_units)
         buttonValidateAddValueToSkill = view?.findViewById(R.id.btn_validateSkillPoints)
-        btnAddSkill = view?.findViewById<ImageButton>(R.id.btn_hobby_add_skill)
+        btnAddSkill = view?.findViewById(R.id.btn_hobby_add_skill)
     }
 
     /**
@@ -343,7 +343,7 @@ class HobbyFragment : CustomFragment() {
      * Observe selected hobby skill
      */
     private fun observeSelectedHobbySkill() {
-        hobbySkillsViewModel?.currentHobbySkill?.observe(
+        hobbySkillsViewModel.currentHobbySkill.observe(
             this,
             Observer { domainSkillToFill: DomainSkillToFill? ->
                 kotlin.run {
@@ -358,13 +358,13 @@ class HobbyFragment : CustomFragment() {
                         buttonValidateAddValueToSkill?.isEnabled = true
                     }
                     tv_selectedSkill.text = domainSkillToFill?.skillName
-                    var tensIndex =
+                    val tensIndex =
                         valuesList.indexOfFirst { v -> v == domainSkillToFill?.filledSkillTensValue }
                     if (tensIndex != null) {
                         spinnerTensValues?.setSelection(tensIndex)
                     }
 
-                    var unitsIndex =
+                    val unitsIndex =
                         valuesList.indexOfFirst { v -> v == domainSkillToFill?.filledSkillUnitsValue }
                     if (unitsIndex != null) {
                         spinnerUnitsValues?.setSelection(unitsIndex)
@@ -380,7 +380,7 @@ class HobbyFragment : CustomFragment() {
      */
     private fun loadHobbySkillsRecyclerViewFragment() {
         if (activity != null) {
-            var transaction = childFragmentManager.beginTransaction()
+            val transaction = childFragmentManager.beginTransaction()
             transaction.replace(
                 R.id.container_hobbySkills,
                 HobbySkillsRecyclerViewFragment.newInstance(activity!!)

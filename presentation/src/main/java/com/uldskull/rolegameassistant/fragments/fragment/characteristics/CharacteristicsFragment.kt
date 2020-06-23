@@ -6,10 +6,6 @@ package com.uldskull.rolegameassistant.fragments.fragment.characteristics
 import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
-import android.hardware.Sensor
-import android.hardware.SensorEvent
-import android.hardware.SensorEventListener
-import android.hardware.SensorManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,16 +14,13 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
-import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
+import com.uldskull.rolegameassistant.fragments.core.CustomCompanion
+import com.uldskull.rolegameassistant.fragments.core.CustomFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.CHARACTERISTICS_FRAGMENT_POSITION
-import com.uldskull.rolegameassistant.models.character.characteristic.DomainCharacteristic
-import com.uldskull.rolegameassistant.viewmodels.ProgressionBarViewModel
+import com.uldskull.rolegameassistant.models.characteristic.DomainCharacteristic
 import com.uldskull.rolegameassistant.viewmodels.breeds.BreedCharacteristicsViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import java.util.*
-import kotlin.math.sqrt
 
 
 /**
@@ -95,7 +88,7 @@ class CharacteristicsFragment : CustomFragment() {
      */
     private fun loadCharacteristicsRecyclerView() {
         if (activity != null) {
-            var transaction = childFragmentManager.beginTransaction()
+            val transaction = childFragmentManager.beginTransaction()
             transaction.replace(
                 R.id.fragmentCharacteristics_container_characteristics,
                 CharacteristicsRecyclerViewFragment.newInstance(activity!!)

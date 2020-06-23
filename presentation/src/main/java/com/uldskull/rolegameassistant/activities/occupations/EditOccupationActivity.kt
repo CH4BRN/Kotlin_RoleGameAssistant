@@ -14,14 +14,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.CustomActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
-import com.uldskull.rolegameassistant.fragments.fragment.CustomAdapterButtonListener
-import com.uldskull.rolegameassistant.fragments.fragment.CustomTextWatcher
+import com.uldskull.rolegameassistant.fragments.core.listeners.CustomAdapterButtonListener
+import com.uldskull.rolegameassistant.fragments.core.listeners.CustomTextWatcher
 import com.uldskull.rolegameassistant.fragments.fragment.bars.NavigationBarFragment
 import com.uldskull.rolegameassistant.fragments.fragment.occupations.OccupationsSkillsToCheckSimpleAdapter
 import com.uldskull.rolegameassistant.fragments.fragment.occupations.OccupationsToEditAdapter
-import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
-import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupationWithSkills
-import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
+import com.uldskull.rolegameassistant.models.occupation.DomainOccupation
+import com.uldskull.rolegameassistant.models.occupation.DomainOccupationWithSkills
+import com.uldskull.rolegameassistant.models.skill.DomainSkillToCheck
 import com.uldskull.rolegameassistant.viewmodels.SkillsViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationsViewModel
 import kotlinx.android.synthetic.main.activity_occupations_edit.*
@@ -39,7 +39,8 @@ class EditOccupationActivity : CustomActivity() {
     /**
      * Adapter button listener for skills
      */
-    var skillAdapterButtonListener = object : CustomAdapterButtonListener<DomainSkillToCheck> {
+    private var skillAdapterButtonListener = object :
+        CustomAdapterButtonListener<DomainSkillToCheck> {
         /**
          * Called when a recyclerview cell is pressed
          */
@@ -52,7 +53,8 @@ class EditOccupationActivity : CustomActivity() {
     /**
      * Adapter button listener for occupations
      */
-    var occupationAdapterButtonListener = object : CustomAdapterButtonListener<DomainOccupation> {
+    private var occupationAdapterButtonListener = object :
+        CustomAdapterButtonListener<DomainOccupation> {
         /**
          * Called when a recyclerview cell is pressed
          */
@@ -65,20 +67,20 @@ class EditOccupationActivity : CustomActivity() {
                 activityEditOccupation_editText_occupationSpecial.setText(domainOccupation.occupationSpecial)
 
 
-                var occupationWithChildren: DomainOccupationWithSkills? =
-                    occupationsViewModel?.findOneWithChildren(domainOccupation?.occupationId)
+                val occupationWithChildren: DomainOccupationWithSkills? =
+                    occupationsViewModel.findOneWithChildren(domainOccupation.occupationId)
 
-                var oldList = skillsViewModel?.mutableSkillsToCheck?.value
+                val oldList = skillsViewModel.mutableSkillsToCheck?.value
 
                 for (i in oldList?.indices!!) {
                     oldList[i].skillIsChecked =
-                        occupationWithChildren?.skills?.any { occupationSkill -> occupationSkill?.skillId!! == oldList[i].skillId!! }!!
+                        occupationWithChildren?.skills?.any { occupationSkill -> occupationSkill.skillId!! == oldList[i].skillId!! }!!
                 }
 
                 occupationsSkillsToEditRecyclerView?.adapter = skillRecyclerViewAdapter
 
-                skillsViewModel?.mutableSkillsToCheck?.value = oldList
-                occupationsViewModel?.currentOccupationToEdit = domainOccupation
+                skillsViewModel.mutableSkillsToCheck?.value = oldList
+                occupationsViewModel.currentOccupationToEdit = domainOccupation
             }
         }
     }
@@ -143,19 +145,19 @@ class EditOccupationActivity : CustomActivity() {
      */
     private fun initializeDeleteOccupationButton() {
         deleteOccupationImageButton =
-            this?.findViewById(R.id.activityEditOccupation_imageButton_deleteOccupation)
+            this.findViewById(R.id.activityEditOccupation_imageButton_deleteOccupation)
         if (deleteOccupationImageButton == null) {
             throw Exception("Button is null.")
         }
 
         deleteOccupationImageButton!!.setOnClickListener {
-            var currentOccupation = occupationsViewModel?.currentOccupationToEdit
+            val currentOccupation = occupationsViewModel.currentOccupationToEdit
             if (currentOccupation != null) {
-                var deleteResult = occupationsViewModel?.deleteOccupation(currentOccupation)
+                val deleteResult = occupationsViewModel.deleteOccupation(currentOccupation)
                 Log.d("DEBUG$TAG", "Delete result : $deleteResult")
             }
 
-            occupationsViewModel?.refreshDataFromRepository()
+            occupationsViewModel.refreshDataFromRepository()
         }
     }
 
@@ -164,12 +166,12 @@ class EditOccupationActivity : CustomActivity() {
      */
     private fun initializeAddOccupationButton() {
         addOccupationButton =
-            this?.findViewById(R.id.activityEditOccupation_button_addNewOccupation)
+            this.findViewById(R.id.activityEditOccupation_button_addNewOccupation)
         if (addOccupationButton == null) {
             throw Exception("Button is null.")
         }
         addOccupationButton?.setOnClickListener {
-            var id = occupationsViewModel?.insertOccupation(
+            val id = occupationsViewModel.insertOccupation(
                 DomainOccupation(
                     occupationId = null,
                     occupationName = "Fill the name",
@@ -178,9 +180,9 @@ class EditOccupationActivity : CustomActivity() {
                     occupationSpecial = "Fill the special"
                 )
             )
-            occupationsViewModel?.refreshDataFromRepository()
+            occupationsViewModel.refreshDataFromRepository()
 
-            var occupation = occupationsViewModel?.getOccupationById(id)
+            val occupation = occupationsViewModel.getOccupationById(id)
             occupationAdapterButtonListener.itemPressed(occupation)
 
 
@@ -198,9 +200,6 @@ class EditOccupationActivity : CustomActivity() {
 
         occupationsViewModel = getViewModel()
         skillsViewModel = getViewModel()
-        if (occupationsViewModel == null) {
-            throw Exception("View model is null")
-        }
         occupationsToEditRecyclerView =
             this.findViewById(R.id.activityEditOccupation_recyclerView_displayedOccupations)
         if (occupationsToEditRecyclerView == null) {
@@ -226,13 +225,13 @@ class EditOccupationActivity : CustomActivity() {
      */
     private fun initializeSetOccupationTitleEditText() {
         setOccupationTitleEditText =
-            this?.findViewById(R.id.activityEditOccupation_editText_occupationTitle)
+            this.findViewById(R.id.activityEditOccupation_editText_occupationTitle)
         setOccupationTitleEditText?.addTextChangedListener(object : CustomTextWatcher() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 super.onTextChanged(s, start, before, count)
                 if (s != null) {
-                    var oldOccupation = occupationsViewModel?.currentOccupationToEdit
-                    var newOccupation = DomainOccupation(
+                    val oldOccupation = occupationsViewModel.currentOccupationToEdit
+                    val newOccupation = DomainOccupation(
                         occupationName = s.toString(),
                         occupationSpecial = oldOccupation?.occupationSpecial,
                         occupationIncome = oldOccupation?.occupationIncome,
@@ -240,7 +239,7 @@ class EditOccupationActivity : CustomActivity() {
                         occupationId = oldOccupation?.occupationId
                     )
 
-                    occupationsViewModel?.currentOccupationToEdit = newOccupation
+                    occupationsViewModel.currentOccupationToEdit = newOccupation
                 }
             }
         })
@@ -264,7 +263,7 @@ class EditOccupationActivity : CustomActivity() {
      * observe mutable skills to check
      */
     private fun observeMutableSkillsToCheck() {
-        skillsViewModel?.mutableSkillsToCheck?.observe(
+        skillsViewModel.mutableSkillsToCheck?.observe(
             this, Observer {
                 skillRecyclerViewAdapter = OccupationsSkillsToCheckSimpleAdapter(
                     context = this,
@@ -273,7 +272,7 @@ class EditOccupationActivity : CustomActivity() {
 
                 skillRecyclerViewAdapter?.setSkills(it)
                 occupationsSkillsToEditRecyclerView?.adapter = skillRecyclerViewAdapter
-                var layoutManager = LinearLayoutManager(
+                val layoutManager = LinearLayoutManager(
                     this,
                     LinearLayoutManager.VERTICAL,
                     false
@@ -287,8 +286,8 @@ class EditOccupationActivity : CustomActivity() {
      * Observe repository skills
      */
     private fun observeRepositorySkills() {
-        skillsViewModel?.repositorySkillsToCheck?.observe(this, Observer {
-            skillsViewModel?.mutableSkillsToCheck?.value = it
+        skillsViewModel.repositorySkillsToCheck?.observe(this, Observer {
+            skillsViewModel.mutableSkillsToCheck?.value = it
         })
     }
 
@@ -296,16 +295,16 @@ class EditOccupationActivity : CustomActivity() {
      * observe repository occupations
      */
     private fun observeRepositoryOccupations() {
-        occupationsViewModel?.repositoryOccupations?.observe(this, Observer {
-            var recyclerViewAdapter =
+        occupationsViewModel.repositoryOccupations?.observe(this, Observer {
+            val recyclerViewAdapter =
                 OccupationsToEditAdapter(this, this.occupationAdapterButtonListener)
             Log.d("DEBUG$TAG", "Occupations : $it")
-            recyclerViewAdapter?.setOccupations(it)
-            Log.d("DEBUG$TAG", "Adapter size : ${recyclerViewAdapter?.itemCount}")
+            recyclerViewAdapter.setOccupations(it)
+            Log.d("DEBUG$TAG", "Adapter size : ${recyclerViewAdapter.itemCount}")
             occupationsToEditRecyclerView?.adapter = recyclerViewAdapter
 
             Log.d("DEBUG$TAG", "Recyclerview adapter : ${occupationsToEditRecyclerView?.adapter}")
-            var layoutManager = LinearLayoutManager(
+            val layoutManager = LinearLayoutManager(
                 this,
                 LinearLayoutManager.VERTICAL,
                 false

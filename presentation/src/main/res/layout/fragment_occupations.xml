@@ -67,7 +67,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="16dp"
-            android:paddingLeft="24dp"
+            android:paddingStart="24dp"
+            android:paddingEnd="8dp"
             android:text="@string/income_hint"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragmentOccupations_tv_occupationIncomeTitle" />
@@ -87,7 +88,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="16dp"
-            android:paddingLeft="24dp"
+            android:paddingStart="24dp"
+            android:paddingEnd="8dp"
             android:text="@string/contact_hint"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragmentOccupations_tv_occupationContactsTitle" />
@@ -107,7 +109,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="16dp"
-            android:paddingLeft="24dp"
+            android:paddingStart="24dp"
+            android:paddingEnd="8dp"
             android:text="@string/special_hint"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragmentOccupations_tv_occupationSpecialTitle" />
@@ -140,7 +143,7 @@
             android:id="@+id/btn_occupation_addSkill"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:layout_gravity="end"
             android:background="@drawable/mybutton"
             android:contentDescription="@string/add_skill"
             android:padding="8dp"
