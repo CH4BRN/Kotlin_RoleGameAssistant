@@ -124,11 +124,11 @@
     <string name="skills">Skills :</string>
     <string name="hobby">Hobby</string>
     <string name="one" translatable="false">1</string>
-    <string name="slash">/</string>
+    <string name="slash" translatable="false">/</string>
     <string name="threeHundred" translatable="false">300</string>
     <string name="add_skill">Add skill.</string>
     <string name="skill_sampleskill">Skill : SampleSkill</string>
-    <string name="slash99">/ 99</string>
+    <string name="slash99" translatable="false">/ 99</string>
     <string name="validate">Validate.</string>
     <string name="skill_1">Skill 1</string>
     <string name="fifteen" translatable="false">15</string>
@@ -159,5 +159,9 @@
     <string name="total_title">Total</string>
     <string name="picture">Picture :</string>
     <string name="character_s_picture_description">Character\'s picture</string>
+    <string name="before_continuing">Before continuing ...</string>
+    <string name="necessary_characteristics">Characteristics are necessary for the following steps.</string>
+    <string name="characteristics_trick_title">Little trick :</string>
+    <string name="characteristics_trick_content">You can shake your phone to get rolled characteristics !</string>
 
 </resources>

@@ -163,16 +163,6 @@ class CharacterActivity :
             Observer { domainSkillToCheck: List<DomainSkillToCheck> ->
                 kotlin.run {
                     domainSkillToCheck?.let { list ->
-                        Log.d("DEBUG$TAG", "ObservedRepository skills has changed")
-                        Log.d("DEBUG$TAG", "Repository Skills : $list")
-                        list?.forEach {
-                            Log.d(
-                                "DEBUG$TAG",
-                                "Repository Skill :${it.skillName} base : ${it.skillBase}"
-                            )
-                        }
-
-
                         skillsViewModel.hobbiesSkills.value =
                             domainSkillToCheck
 
@@ -434,8 +424,10 @@ class CharacterActivity :
      */
     fun characteristicsAlert() {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Before continuing ...")
-        builder.setMessage("Characteristics are necessary for the following steps.")
+        val title = getString(R.string.before_continuing)
+        builder.setTitle(title)
+        val content = getString(R.string.necessary_characteristics)
+        builder.setMessage(content)
         builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = okButtonClick))
         builder.show()
     }

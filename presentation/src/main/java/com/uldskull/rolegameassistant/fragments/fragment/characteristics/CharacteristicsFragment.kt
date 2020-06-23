@@ -5,6 +5,7 @@ package com.uldskull.rolegameassistant.fragments.fragment.characteristics
 
 import android.app.Activity
 import android.content.Context
+import android.content.DialogInterface
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -14,6 +15,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
@@ -67,8 +69,26 @@ class CharacteristicsFragment : CustomFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadCharacteristicsRecyclerView()
-
+        characteristicsAlert()
     }
+
+    /**
+     * Displays alert dialog for characteristics
+     */
+    private fun characteristicsAlert() {
+        val builder = AlertDialog.Builder(activity as Context)
+        val title = getString(R.string.characteristics_trick_title)
+        builder.setTitle(title)
+        val content = getString(R.string.characteristics_trick_content)
+        builder.setMessage(content)
+        builder.setPositiveButton("OK", DialogInterface.OnClickListener(function = okButtonClick))
+        builder.show()
+    }
+
+    /**
+     * Called when the user clicks on the ok button into the characteristics alert dialog
+     */
+    private val okButtonClick = { _: DialogInterface, _: Int -> }
 
     /**
      * Load characteristics recycler view.

@@ -19,11 +19,7 @@ val viewModelModule = module {
     viewModel {
         NewCharacterViewModel(
             application = get(),
-            diceService = get(),
             characterRepository = get(),
-            displayedBreedsRepository = get(),
-            characteristicRepository = get(),
-            idealsRepository = get(),
             filledOccupationSkillRepository = get()
         )
     }

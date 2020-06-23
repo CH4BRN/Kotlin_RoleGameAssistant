@@ -87,7 +87,11 @@
     <string name="total_hp">PV TOTAL :</string>
     <string name="total_title">Total</string>
     <string name="use_points">Utiliser points</string>
-    <string name="use_points_manually">Utiliser points manuellements.</string>
+    <string name="use_points_manually">Utiliser points manuellement.</string>
     <string name="validate">Valider.</string>
     <string name="weight">Poids :</string>
+    <string name="before_continuing">Avant de continuer ...</string>
+    <string name="necessary_characteristics">Les characteristiques sont nécessaires pour continuer</string>
+    <string name="characteristics_trick_content">Vous pouvez secouer votre telephone pour obtenir des characteristiques \"jet de dé\"</string>
+    <string name="characteristics_trick_title">Petite astuce</string>
 </resources>
