@@ -17,6 +17,9 @@ import androidx.fragment.app.Fragment
  **/
 abstract class CustomFragment : Fragment() {
 
+    /**
+     * Activity
+     */
     var activity:Activity? = null
 
     companion object{

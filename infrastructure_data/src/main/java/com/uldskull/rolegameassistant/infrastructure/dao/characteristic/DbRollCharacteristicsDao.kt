@@ -8,36 +8,29 @@ import androidx.room.*
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
 import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_BREED_CHARACTERISTIC_ID
 import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_ROLL_CHARACTERISTICS
+import com.uldskull.rolegameassistant.infrastructure.dao.DELETE_FROM
+import com.uldskull.rolegameassistant.infrastructure.dao.GenericDao
+import com.uldskull.rolegameassistant.infrastructure.dao.SELECT_ALL_FROM
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbRollCharacteristic
 
 /**
  *   Interface "DbRollCharacteristicDao" :
- *   TODO: Fill interface use.
+ *   DbRollCharacteristics database interactions.
  **/
 @Dao
-interface DbRollCharacteristicsDao {
-    //  CREATE
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertRollCharacteristic(dbRollCharacteristic: DbRollCharacteristic): Long
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertRollCharacteristics(dbRollCharacteristics: List<DbRollCharacteristic>): List<Long>
+abstract class DbRollCharacteristicsDao:GenericDao<DbRollCharacteristic> {
 
     //  READ
-    @Query("SELECT * FROM $TABLE_NAME_ROLL_CHARACTERISTICS")
-    fun getRollCharacteristics(): LiveData<List<DbRollCharacteristic>>
+    @Query("$SELECT_ALL_FROM $TABLE_NAME_ROLL_CHARACTERISTICS")
+    abstract fun getRollCharacteristics(): LiveData<List<DbRollCharacteristic>>
 
-    @Query("SELECT * FROM $TABLE_NAME_ROLL_CHARACTERISTICS WHERE $FIELD_BREED_CHARACTERISTIC_ID LIKE :id")
-    fun getRollCharacteristicById(id: Long?): DbRollCharacteristic
-
-    //  UPDATE
-    @Update
-    fun updateRollCharacteristic(vararg dbRollCharacteristics: DbRollCharacteristic): Int
+    @Query("$SELECT_ALL_FROM $TABLE_NAME_ROLL_CHARACTERISTICS WHERE $FIELD_BREED_CHARACTERISTIC_ID LIKE :id")
+    abstract fun getRollCharacteristicById(id: Long?): DbRollCharacteristic
 
     //  DELETE
     @Delete
-    fun deleteRollCharacteristics(vararg dbRollCharacteristic: DbRollCharacteristic): Int
+    abstract fun deleteRollCharacteristics(vararg dbRollCharacteristic: DbRollCharacteristic): Int
 
-    @Query("DELETE FROM $TABLE_NAME_ROLL_CHARACTERISTICS")
-    fun deleteAllRollCharacteristics(): Int
+    @Query("$DELETE_FROM $TABLE_NAME_ROLL_CHARACTERISTICS")
+    abstract fun deleteAllRollCharacteristics(): Int
 }

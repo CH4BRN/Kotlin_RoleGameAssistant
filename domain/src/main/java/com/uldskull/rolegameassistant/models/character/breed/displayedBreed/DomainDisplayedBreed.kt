@@ -4,17 +4,35 @@
 package com.uldskull.rolegameassistant.models.character.breed.displayedBreed
 
 /**
- *   Class "DomainBreed" :
- *   Represents one breed
+ *   Class "DomainDisplayedBreed" :
+ *   Represents one displayed breed
  **/
 class DomainDisplayedBreed(
+    /**
+     * Breed identifier
+     */
     val breedId: Long?,
+    /**
+     * Breed name
+     */
     val breedName: String?,
+    /**
+     * Breed description
+     */
     val breedDescription: String?,
+    /**
+     * Breed health bonus
+     */
     val breedHealthBonus: Int?,
-    var breedChecked: Boolean = false
+    /**
+     * Is breed checked
+     */
+    var breedIsChecked: Boolean = false
 ) {
+    /**
+     *Returns a string representation of the object.
+     */
     override fun toString(): String {
-        return "DomainDisplayedBreed(breedId=$breedId, breedName=$breedName, breedDescription=$breedDescription, breedHealthBonus=$breedHealthBonus, breedChecked=$breedChecked)"
+        return "DomainDisplayedBreed(breedId=$breedId, breedName=$breedName, breedDescription=$breedDescription, breedHealthBonus=$breedHealthBonus, breedChecked=$breedIsChecked)"
     }
 }

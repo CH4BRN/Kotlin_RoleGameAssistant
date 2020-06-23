@@ -16,9 +16,12 @@ import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 /**
 Class "HobbiesFragment"
 
-TODO: Describe class utility.
+Holds hobbies management
  */
 class HobbiesFragment : CustomFragment() {
+    /**
+     * Initialize view
+     */
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = layoutInflater.inflate(
             R.layout.fragment_hobbies, container, false
@@ -26,12 +29,18 @@ class HobbiesFragment : CustomFragment() {
         return initialRootView
     }
 
+    /**
+     * Fragment lifecycle
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadHobbiesSkillRecyclerView()
 
     }
 
+    /**
+     * load hobbies skills recycler view
+     */
     private fun loadHobbiesSkillRecyclerView() {
         if(activity != null){
             var transaction = childFragmentManager.beginTransaction()
@@ -42,11 +51,7 @@ class HobbiesFragment : CustomFragment() {
                 )
             ).commit()
         }
-
     }
-
-
-
     companion object : CustomCompanion() {
         @JvmStatic
         override fun newInstance(activity: Activity): HobbiesFragment {
@@ -57,8 +62,6 @@ class HobbiesFragment : CustomFragment() {
 
             args.putInt(KEY_POSITION, HOBBIES_FRAGMENT_POSITION)
             fragment.arguments = args
-
-
 
             return fragment
         }

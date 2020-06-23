@@ -48,7 +48,7 @@ dependencies {
 
 
     testImplementation TestDependencies.junitJunit
-    androidTestImplementation TestDependencies.Junit
+    androidTestImplementation TestDependencies.androidXJunit
     androidTestImplementation TestDependencies.EspressoCore
     implementation AndroidXDependencies.ConstraintLayout
 }

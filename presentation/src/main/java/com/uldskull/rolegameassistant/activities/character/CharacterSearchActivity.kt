@@ -60,6 +60,9 @@ class CharacterSearchActivity : CustomActivity(),
 
     }
 
+    /**
+     * Transmit character into GSon format
+     */
     override fun transmitCharacter(domainCharacter: DomainCharacter?) {
         Log.d("DEBUG $TAG", "$domainCharacter")
         val intent = Intent(this, CharacterActivity::class.java)

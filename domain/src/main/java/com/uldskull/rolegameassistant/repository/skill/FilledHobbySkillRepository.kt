@@ -8,10 +8,13 @@ import com.uldskull.rolegameassistant.repository.GenericRepository
 /**
 Interface "FilledHobbySkillRepository"
 
-TODO : Describe interface utility.
+Class to manage DomainSkillToFill persistence.
  **/
 interface FilledHobbySkillRepository<T>:
 GenericRepository<T, DomainSkillToFill>{
 
+    /**
+     * Deletes skills by character's id
+     */
     fun deleteAllByCharacterId(id:Long):Int
 }

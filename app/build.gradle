@@ -46,7 +46,7 @@ dependencies {
     implementation project(ProjectsDependencies.presentation)
 
     testImplementation TestDependencies.junitJunit
-    androidTestImplementation TestDependencies.Junit
+    androidTestImplementation TestDependencies.androidXJunit
     androidTestImplementation TestDependencies.EspressoCore
     implementation AndroidXDependencies.Recyclerview
     implementation MaterialDependencies.material

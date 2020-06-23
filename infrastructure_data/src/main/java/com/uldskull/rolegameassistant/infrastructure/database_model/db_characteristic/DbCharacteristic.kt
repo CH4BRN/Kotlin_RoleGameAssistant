@@ -32,6 +32,9 @@ open class DbCharacteristic(
         )
     }
 
+    /**
+     * Returns a string representation of the object.
+     */
     override fun toString(): String {
         return "DbCharacteristic(characteristicId=$characteristicId, characteristicName=$characteristicName)"
     }

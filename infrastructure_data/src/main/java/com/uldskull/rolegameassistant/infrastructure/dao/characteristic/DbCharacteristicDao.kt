@@ -8,36 +8,29 @@ import androidx.room.*
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
 import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_BREED_CHARACTERISTIC_ID
 import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_CHARACTERISTICS
+import com.uldskull.rolegameassistant.infrastructure.dao.DELETE_FROM
+import com.uldskull.rolegameassistant.infrastructure.dao.GenericDao
+import com.uldskull.rolegameassistant.infrastructure.dao.SELECT_ALL_FROM
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbCharacteristic
 
 /**
  *   Interface "DbCharacteristicDao" :
- *   TODO: Fill interface use.
+ *   DbCharacteristics database interactions.
  **/
 @Dao
-interface DbCharacteristicDao {
-    //  CREATE
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertCharacteristic(dbBreedCharacteristic: DbCharacteristic): Long
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertCharacteristics(dbBreedCharacteristics: List<DbCharacteristic>): List<Long>
-
+abstract class DbCharacteristicDao : GenericDao<DbCharacteristic> {
     //  READ
-    @Query("SELECT * FROM $TABLE_NAME_CHARACTERISTICS")
-    fun getCharacteristics(): LiveData<List<DbCharacteristic>>
+    @Query("$SELECT_ALL_FROM $TABLE_NAME_CHARACTERISTICS")
+    abstract fun getCharacteristics(): LiveData<List<DbCharacteristic>>
 
-    @Query("SELECT * FROM $TABLE_NAME_CHARACTERISTICS WHERE $FIELD_BREED_CHARACTERISTIC_ID = :id")
-    fun getCharacteristicById(id: Long?): DbCharacteristic
+    @Query("$SELECT_ALL_FROM $TABLE_NAME_CHARACTERISTICS WHERE $FIELD_BREED_CHARACTERISTIC_ID = :id")
+    abstract fun getCharacteristicById(id: Long?): DbCharacteristic
 
-    //  UPDATE
-    @Update
-    fun updateCharacteristic(vararg dbBreedCharacteristics: DbCharacteristic): Int
 
     //  DELETE
     @Delete
-    fun deleteCharacteristics(vararg dbBreedCharacteristic: DbCharacteristic): Int
+    abstract fun deleteCharacteristics(vararg dbBreedCharacteristic: DbCharacteristic): Int
 
-    @Query("DELETE FROM $TABLE_NAME_CHARACTERISTICS")
-    fun deleteAllCharacteristics(): Int
+    @Query("$DELETE_FROM $TABLE_NAME_CHARACTERISTICS")
+    abstract fun deleteAllCharacteristics(): Int
 }

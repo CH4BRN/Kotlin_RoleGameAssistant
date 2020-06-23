@@ -44,10 +44,15 @@ class DerivedValues1Fragment : CustomFragment() {
      */
     private val derivedValuesViewModel: DerivedValuesViewModel by sharedViewModel()
 
+    /**
+     * displayed breeds view model
+     */
     private val displayedBreedsViewModel: DisplayedBreedsViewModel by sharedViewModel()
 
+    /**
+     * new character view model
+     */
     private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
-
 
     /**
      * Called when the view is created
@@ -71,8 +76,6 @@ class DerivedValues1Fragment : CustomFragment() {
         setBreedHealthBonusScore()
         setTotalHealthScore()
         setKnowScore()
-
-
     }
 
     /**
@@ -85,6 +88,9 @@ class DerivedValues1Fragment : CustomFragment() {
         }
     }
 
+    /**
+     * set total health score
+     */
     private fun setTotalHealthScore() {
         Log.d(TAG, "setTotalHealthScore")
         if (et_totalHealthPoints != null) {
@@ -92,6 +98,9 @@ class DerivedValues1Fragment : CustomFragment() {
         }
     }
 
+    /**
+     * Set know score
+     */
     private fun setKnowScore() {
         if (et_knowPoints != null && !derivedValuesViewModel.knowEditTextHasChanged) {
             //  Gets the characteristics
@@ -133,11 +142,11 @@ class DerivedValues1Fragment : CustomFragment() {
         setEditTextsListeners()
         setBtnEditClickListener()
         startObservation()
-
-        Log.d(TAG, "set health points")
-
     }
 
+    /**
+     * Observe breed health bonus
+     */
     private fun observeBreedHealthBonus() {
         derivedValuesViewModel.breedHealthBonus.observe(this, Observer {
             Log.d("DEBUG$TAG", "Breed bonus : ${it}")
@@ -158,6 +167,9 @@ class DerivedValues1Fragment : CustomFragment() {
         })
     }
 
+    /**
+     * Start observation
+     */
     fun startObservation() {
         observeBaseHealthScore()
         observeBreedHealthBonus()
@@ -169,10 +181,11 @@ class DerivedValues1Fragment : CustomFragment() {
         observeLuckScore()
         observeSelectedCharacter()
         observeCharacteristics()
-
-
     }
 
+    /**
+     * Observe characteristics
+     */
      private fun observeCharacteristics() {
         characteristicsViewModel.displayedCharacteristics?.observe(
             this,
@@ -198,61 +211,77 @@ class DerivedValues1Fragment : CustomFragment() {
             })
     }
 
+    /**
+     * calculate know score
+     */
     private fun calculateKnowScore(education:DomainRollsCharacteristic?){
         if(education != null){
             derivedValuesViewModel.calculateKnowScore(education)
         }
     }
 
+    /**
+     * Calculate luck score
+     */
     private fun calculateLuckScore(power:DomainRollsCharacteristic?){
         if(power != null){
             derivedValuesViewModel.calculateLuckScore(power)
         }
     }
 
+    /**
+     * Calculate sanity score
+     */
     private fun calculateSanityScore(power:DomainRollsCharacteristic?){
         if(power != null){
             derivedValuesViewModel.calculateSanityScore(power)
         }
     }
 
+    /**
+     * Calculate idea score
+     */
     private fun calculateIdeaScore(intelligence:DomainRollsCharacteristic?){
         if(intelligence != null){
             derivedValuesViewModel.calculateIdeaScore(intelligence)
         }
     }
 
+    /**
+     * Calculate base health points
+     */
     private fun calculateBaseHealthPoints(size:DomainRollsCharacteristic?, constitution:DomainRollsCharacteristic?){
         if (size != null && constitution != null) {
             derivedValuesViewModel.calculateBaseHealth(listOf(size, constitution))
         }
     }
 
+    /**
+     * Observe selected character
+     */
     private fun observeSelectedCharacter() {
         newCharacterViewModel.selectedCharacter.observe(
             this,
             Observer { domainCharacter: DomainCharacter? ->
                 if (domainCharacter != null) {
-                    Log.d("DEBUG$TAG", "TotalHp : ${domainCharacter.characterHealthPoints}")
                     derivedValuesViewModel.totalHealth.value =
                         domainCharacter.characterHealthPoints
-                    Log.d("DEBUG$TAG", "BaseHp : ${domainCharacter.characterBaseHealthPoints}")
                     derivedValuesViewModel.baseHealth.value =
                         domainCharacter.characterBaseHealthPoints
                     derivedValuesViewModel.breedHealthBonus.value =
                         domainCharacter.characterBreedBonus
-                    Log.d("DEBUG$TAG", "Idea : ${domainCharacter.characterIdeaPoints}")
+
                     derivedValuesViewModel.ideaScore.value = domainCharacter.characterIdeaPoints
-                    Log.d("DEBUG$TAG", "Sanity : ${domainCharacter.characterSanity}")
                     derivedValuesViewModel.sanityScore.value = domainCharacter.characterSanity
-                    Log.d("DEBUG$TAG", "Luck : ${domainCharacter.characterLuck}")
                     derivedValuesViewModel.luckScore.value = domainCharacter.characterLuck
-                    Log.d("DEBUG$TAG", "Know : ${domainCharacter.characterKnow}")
                     derivedValuesViewModel.knowScore.value = domainCharacter.characterKnow
                 }
             })
     }
 
+    /**
+     * Observe breeds
+     */
     private fun observeBreeds() {
         displayedBreedsViewModel.observedMutableBreeds.observe(
             this,
@@ -260,7 +289,7 @@ class DerivedValues1Fragment : CustomFragment() {
                 kotlin.run {
                     var breedBonus = 0
                     domainDisplayedBreeds?.forEach {
-                        if (it.breedChecked) {
+                        if (it.breedIsChecked) {
                             Log.d("DEBUG$TAG", "Breed bonus : ${it.breedHealthBonus}")
                             if (it.breedHealthBonus != null) {
                                 breedBonus += it.breedHealthBonus!!
@@ -272,6 +301,9 @@ class DerivedValues1Fragment : CustomFragment() {
             })
     }
 
+    /**
+     * observe luck score
+     */
     private fun observeLuckScore() {
         derivedValuesViewModel.luckScore.observe(this, Observer { luckScore ->
             if (luckScore != null && et_luckPoints.text.toString() != luckScore.toString()) {
@@ -281,6 +313,9 @@ class DerivedValues1Fragment : CustomFragment() {
         })
     }
 
+    /**
+     * observe total health score
+     */
     private fun observeTotalHealthScore() {
         derivedValuesViewModel.totalHealth.observe(this, Observer {
             Log.d("DEBUG$TAG", "Total health : ${it}")
@@ -290,6 +325,9 @@ class DerivedValues1Fragment : CustomFragment() {
         })
     }
 
+    /**
+     * observe idea score
+     */
     private fun observeIdeaScore() {
         derivedValuesViewModel.ideaScore.observe(this, Observer {
             if (it != null && et_ideaPoints.text.toString() != it.toString()) {
@@ -298,6 +336,9 @@ class DerivedValues1Fragment : CustomFragment() {
         })
     }
 
+    /**
+     * observe sanity score
+     */
     private fun observeSanityScore() {
         derivedValuesViewModel.sanityScore.observe(this, Observer {
             Log.d("DEBUG$TAG", "Sanity : $it")
@@ -307,6 +348,9 @@ class DerivedValues1Fragment : CustomFragment() {
         })
     }
 
+    /**
+     * observe base health score
+     */
     private fun observeBaseHealthScore() {
         derivedValuesViewModel.baseHealth.observe(this, Observer {
             Log.d("DEBUG$TAG", "Base health : ${it}")
@@ -327,6 +371,9 @@ class DerivedValues1Fragment : CustomFragment() {
         })
     }
 
+    /**
+     * observe know score
+     */
     private fun observeKnowScore() {
         derivedValuesViewModel.knowScore.observe(this, Observer {
             Log.d("DEBUG$TAG", "Know score : $it")
@@ -337,6 +384,9 @@ class DerivedValues1Fragment : CustomFragment() {
     }
 
 
+    /**
+     * Set edit texts listeners
+     */
     private fun setEditTextsListeners() {
         setBaseHealthPointListener()
         setBreedBonusListener()
@@ -346,6 +396,9 @@ class DerivedValues1Fragment : CustomFragment() {
         setLuckListener()
     }
 
+    /**
+     * set sanity edit text listener
+     */
     private fun setSanityListener() {
         et_sanityPoints.addTextChangedListener(object : CustomTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
@@ -367,6 +420,9 @@ class DerivedValues1Fragment : CustomFragment() {
         })
     }
 
+    /**
+     * Set luck edit text listener
+     */
     private fun setLuckListener() {
         et_luckPoints.addTextChangedListener(object : CustomTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
@@ -399,6 +455,9 @@ class DerivedValues1Fragment : CustomFragment() {
         })
     }
 
+    /**
+     * set ideal edit text listener
+     */
     private fun setIdeaListener() {
         et_ideaPoints.addTextChangedListener(object : CustomTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
@@ -419,6 +478,9 @@ class DerivedValues1Fragment : CustomFragment() {
         })
     }
 
+    /**
+     * set know points edit text listener
+     */
     private fun setKnowPointsListener() {
         et_knowPoints.addTextChangedListener(object : CustomTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
@@ -441,6 +503,9 @@ class DerivedValues1Fragment : CustomFragment() {
     }
 
 
+    /**
+     * set breed bonus edit text listener
+     */
     private fun setBreedBonusListener() {
         et_breedHealthBonus.addTextChangedListener(object : CustomTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
@@ -464,6 +529,9 @@ class DerivedValues1Fragment : CustomFragment() {
     }
 
 
+    /**
+     * set base health points listener
+     */
     private fun setBaseHealthPointListener() {
         et_baseHealthPoints.addTextChangedListener(object : CustomTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
@@ -486,6 +554,9 @@ class DerivedValues1Fragment : CustomFragment() {
         })
     }
 
+    /**
+     * set button edit onclick listener
+     */
     private fun setBtnEditClickListener() {
         if (btn_edit != null) {
             btn_edit?.setOnClickListener {
@@ -494,6 +565,9 @@ class DerivedValues1Fragment : CustomFragment() {
         }
     }
 
+    /**
+     * enable or disable edit texts
+     */
     private fun editTextsEnabling() {
         if (et_baseHealthPoints != null) {
             editTextEnabling(et_baseHealthPoints)

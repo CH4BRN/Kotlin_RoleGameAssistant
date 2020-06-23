@@ -5,8 +5,11 @@ package com.uldskull.rolegameassistant.fragments.fragment
 /**
 Interface "AdapterListTransmitter"
 
-TODO : Describe interface utility.
+Allows an adapter to transmit a list
  **/
 interface AdapterListTransmitter<T> {
+    /**
+     * Transmit the list
+     */
     fun transmitList(domainModels: List<T>?)
 }

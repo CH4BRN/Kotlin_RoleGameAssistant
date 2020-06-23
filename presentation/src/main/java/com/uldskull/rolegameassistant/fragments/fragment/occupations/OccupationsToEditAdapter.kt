@@ -9,17 +9,17 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
+import com.uldskull.rolegameassistant.fragments.fragment.CustomAdapterButtonListener
 import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
 
 /**
 Class "OccupationsToEditAdapter"
 
-TODO: Describe class utility.
+Adapter for occupations to edit
  */
 class OccupationsToEditAdapter internal constructor(
     val context: Context,
-    private val buttonListener: AdapterButtonListener<DomainOccupation>
+    private val buttonListenerCustom: CustomAdapterButtonListener<DomainOccupation>
 ) : RecyclerView.Adapter<OccupationsToEditAdapter.OccupationsToEditViewHolder>() {
 
     companion object {
@@ -28,13 +28,22 @@ class OccupationsToEditAdapter internal constructor(
     /** Inflater  **/
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
 
+    /**
+     * Occupation list
+     */
     private var occupations = emptyList<DomainOccupation?>()
 
+    /**
+     * Set occupations list
+     */
     fun setOccupations(occupations: List<DomainOccupation?>) {
         this.occupations = occupations
         notifyDataSetChanged()
     }
 
+    /**
+     * View holder
+     */
     inner class OccupationsToEditViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var tvOccupationName: TextView? =
             itemView.findViewById(R.id.textView_occupationToEdit_title)
@@ -43,7 +52,7 @@ class OccupationsToEditAdapter internal constructor(
         fun bind(occupation: DomainOccupation?) {
             tvOccupationName?.text = occupation?.occupationName
             occupationOverlay?.setOnClickListener{
-                buttonListener?.itemPressed(occupations[adapterPosition])
+                buttonListenerCustom?.itemPressed(occupations[adapterPosition])
             }
         }
     }

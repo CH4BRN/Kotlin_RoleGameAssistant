@@ -13,9 +13,12 @@ import com.uldskull.rolegameassistant.repository.characteristic.BreedsCharacteri
 
 /**
  *   Class "DbBreedCharacteristicRepositoryImpl" :
- *   TODO: Fill class use.
+ *   Repository for breed characteristics.
  **/
 class DbBreedsCharacteristicRepositoryImpl(
+    /**
+     * Breed characteristic Dao
+     */
     private val dbBreedCharacteristicDao: DbBreedCharacteristicDao
 ) :
     BreedsCharacteristicRepository<LiveData<List<DomainBreedsCharacteristic>>> {
@@ -35,7 +38,9 @@ class DbBreedsCharacteristicRepositoryImpl(
             throw e
         }
     }
-
+    /**
+     * Converts a list of database entities into domain entities
+     */
     private fun List<DbBreedCharacteristic>.asDomainModel(): List<DomainBreedsCharacteristic> {
         Log.d(TAG, "asDomainModel")
         return map {
@@ -66,7 +71,7 @@ class DbBreedsCharacteristicRepositoryImpl(
         Log.d(TAG, "insertAll")
         if ((all != null) && (all.isNotEmpty())) {
             try {
-                val result = dbBreedCharacteristicDao.insertBreedCharacteristics(all.map { b ->
+                val result = dbBreedCharacteristicDao.insert(all.map { b ->
                     DbBreedCharacteristic.from(
                         b
                     )
@@ -90,7 +95,7 @@ class DbBreedsCharacteristicRepositoryImpl(
         return if (one != null) {
             try {
                 val result =
-                    dbBreedCharacteristicDao.insertBreedCharacteristic(
+                    dbBreedCharacteristicDao.insert(
                         DbBreedCharacteristic.from(
                             one
                         )
@@ -123,7 +128,7 @@ class DbBreedsCharacteristicRepositoryImpl(
     override fun updateOne(one: DomainBreedsCharacteristic?): Int? {
         Log.d(TAG, "updateOne")
         try {
-            dbBreedCharacteristicDao.updateBreedCharacteristic(DbBreedCharacteristic.from(one))
+            dbBreedCharacteristicDao.update(DbBreedCharacteristic.from(one))
         } catch (e: Exception) {
             Log.e(TAG, "updateOne FAILED")
             e.printStackTrace()

@@ -10,9 +10,18 @@ import com.uldskull.rolegameassistant.models.character.characteristic.DomainBree
  *   Holds one breed with its characteristics.
  **/
 class DomainDisplayedBreedWithCharacteristics(
+    /**
+     * Displayed breed
+     */
     val displayedBreed: DomainDisplayedBreed,
+    /**
+     * Breed's characteristics
+     */
     val characteristics: List<DomainBreedsCharacteristic>
 ) {
+    /**
+     * Returns a string representation of the object.
+     */
     override fun toString(): String {
         return "DomainDisplayedBreedWithCharacteristics(displayedBreed=$displayedBreed, characteristics=$characteristics)"
     }

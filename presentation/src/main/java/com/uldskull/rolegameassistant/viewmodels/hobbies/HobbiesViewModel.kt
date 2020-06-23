@@ -10,7 +10,7 @@ import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
 /**
 Class "HobbiesViewModel"
 
-TODO: Describe class utility.
+View model for hobbies
  */
 class HobbiesViewModel(
     application: Application
@@ -19,7 +19,15 @@ class HobbiesViewModel(
     companion object{
         private const val TAG = "HobbiesViewModel"
     }
+
+    /**
+     * Mutable selected character skills
+     */
     val selectedCharacterSkills = MutableLiveData<List<Long?>>()
+
+    /**
+     * Observable mutable hobbies skills.
+     */
     var observedHobbiesSkills: MutableLiveData<List<DomainSkillToCheck>>? =
         MutableLiveData()
 }

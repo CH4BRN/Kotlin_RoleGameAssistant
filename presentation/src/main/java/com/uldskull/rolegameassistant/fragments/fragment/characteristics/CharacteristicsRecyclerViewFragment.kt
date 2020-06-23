@@ -21,6 +21,7 @@ import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.character.CharacterActivity
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
+import com.uldskull.rolegameassistant.fragments.fragment.CustomSensorEventListener
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.characteristics.adapters.CharacteristicsAdapter
 import com.uldskull.rolegameassistant.fragments.fragment.characteristics.adapters.CharacteristicsDisabledAdapter
@@ -41,18 +42,42 @@ import kotlin.math.sqrt
 class CharacteristicsRecyclerViewFragment :
     CustomRecyclerViewFragment() {
 
+    /**
+     * Sensor manager
+     */
     private var sensorManager: SensorManager? = null
+
+    /**
+     * Base acceleration
+     */
     private var acceleration = 0f
+
+    /**
+     * Current acceleration
+     */
     private var currentAcceleration = 0f
+
+    /**
+     * Last acceleration
+     */
     private var lastAcceleration = 0f
 
+    /**
+     * Is the fragment editable by user
+     */
     private var editable: Boolean = false
 
     /** ViewModel for characteristics **/
     private val characteristicsViewModel: CharacteristicsViewModel by sharedViewModel()
 
+    /**
+     * Derived values view model
+     */
     private val derivedValuesViewModel: DerivedValuesViewModel by sharedViewModel()
 
+    /**
+     * New character's view model
+     */
     private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
 
     /** Adapter for abilities recycler view **/
@@ -71,21 +96,30 @@ class CharacteristicsRecyclerViewFragment :
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        sensorManager = activity?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        Objects.requireNonNull(sensorManager)!!.registerListener(
-            sensorListener, sensorManager!!.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-            SensorManager.SENSOR_DELAY_NORMAL
-        )
-        acceleration = 10f
-        currentAcceleration = SensorManager.GRAVITY_EARTH
-        lastAcceleration = SensorManager.GRAVITY_EARTH
+        if (activity != null) {
+            sensorManager = activity?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+            Objects.requireNonNull(sensorManager)!!.registerListener(
+                sensorListener, sensorManager!!.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_NORMAL
+            )
+            acceleration = 10f
+            currentAcceleration = SensorManager.GRAVITY_EARTH
+            lastAcceleration = SensorManager.GRAVITY_EARTH
+        }
+
         return initializeView(inflater, container)
     }
 
-    private val sensorListener: SensorEventListener = object : SensorEventListener {
+    /**
+     * Sensor listener
+     */
+    private val sensorListener: SensorEventListener = object : CustomSensorEventListener() {
         override fun onSensorChanged(event: SensorEvent) {
-            val x = event.values[0]
+            // x axis
+            val x = event?.values[0]
+            // y axis
             val y = event.values[1]
+            // z axis
             val z = event.values[2]
             lastAcceleration = currentAcceleration
             currentAcceleration = sqrt((x * x + y * y + z * z).toDouble()).toFloat()
@@ -103,11 +137,9 @@ class CharacteristicsRecyclerViewFragment :
                 }
 
                 (activity as CharacterActivity).addEndFragments()
-
             }
         }
 
-        override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
     }
 
     /** Initialize the view **/
@@ -144,9 +176,7 @@ class CharacteristicsRecyclerViewFragment :
                 } else {
                     characteristicsRecyclerView?.adapter = characteristicsAdapter
                 }
-
                 (activity as CharacterActivity).addEndFragments()
-                Log.d("DEBUG$TAG", "${(activity as CharacterActivity).fragmentAdapter?.itemCount}")
             }
         }
 
@@ -179,6 +209,9 @@ class CharacteristicsRecyclerViewFragment :
 
     }
 
+    /**
+     * Set edit text changed to false
+     */
     private fun setEditTextChangedToFalse() {
         derivedValuesViewModel.breedBonusEditTextHasChanged = false
         derivedValuesViewModel.sanityEditTextHasChanged = false
@@ -219,13 +252,14 @@ class CharacteristicsRecyclerViewFragment :
      * Start ViewModel's collection observation.
      */
     override fun startObservation() {
-
-
         observeCharacteristics()
         observeMutableCharacteristics()
         observeSelectedCharacter()
     }
 
+    /**
+     * Observe selected character
+     */
     private fun observeSelectedCharacter() {
         newCharacterViewModel.selectedCharacter.observe(this, Observer { domainCharacter ->
             if (domainCharacter != null) {
@@ -245,8 +279,7 @@ class CharacteristicsRecyclerViewFragment :
                     domainCharacter.characterStrength
                 )
 
-
-                var test = true
+                var isThereANullCharacteristic = true
                 characteristicList.forEach {
                     if ((it?.characteristicTotal == null)
                         ||
@@ -254,12 +287,11 @@ class CharacteristicsRecyclerViewFragment :
                         ||
                         (it.characteristicBonus == null)
                     ) {
-                        test = false
+                        isThereANullCharacteristic = false
                     }
                 }
 
-
-                if(test){
+                if (isThereANullCharacteristic) {
                     if (characteristicsViewModel.observedMutableCharacteristics.value == null) {
                         characteristicsViewModel.observedMutableCharacteristics.value =
                             characteristicList.toMutableList()
@@ -270,20 +302,23 @@ class CharacteristicsRecyclerViewFragment :
                             characteristicList
                     }
 
-
                     characteristicsAdapter?.setCharacteristics(characteristicList)
                     characteristicsDisabledAdapter?.setCharacteristics(characteristicList)
                     characteristicsRecyclerView?.adapter = characteristicsDisabledAdapter
 
                     (activity as CharacterActivity).addEndFragments()
-                    Log.d("DEBUG$TAG", "${(activity as CharacterActivity).fragmentAdapter?.itemCount}")
+                    Log.d(
+                        "DEBUG$TAG",
+                        "${(activity as CharacterActivity).fragmentAdapter?.itemCount}"
+                    )
                 }
-
-
             }
         })
     }
 
+    /**
+     * Observe characteristics
+     */
     private fun observeCharacteristics() {
         characteristicsViewModel.observedRepositoryCharacteristics?.observe(
             this, Observer {
@@ -304,6 +339,9 @@ class CharacteristicsRecyclerViewFragment :
         )
     }
 
+    /**
+     * observe mutable characteristics
+     */
     private fun observeMutableCharacteristics() {
         characteristicsViewModel.observedMutableCharacteristics.observe(
             this,
@@ -317,6 +355,9 @@ class CharacteristicsRecyclerViewFragment :
             })
     }
 
+    /**
+     * populate random roll characteristics
+     */
     private fun populateRandomRollCharacteristics() {
         characteristicsViewModel.populateRandomRollCharacteristics()
         characteristicsDisabledAdapter?.setCharacteristics(characteristicsViewModel.displayedCharacteristics?.value)
@@ -329,7 +370,7 @@ class CharacteristicsRecyclerViewFragment :
     /** Set recycler view adapter   **/
     override fun setRecyclerViewAdapter() {
         var checkedBreedList = characteristicsViewModel.characterDisplayedBreeds?.filter { b ->
-            b.breedChecked
+            b.breedIsChecked
         }
         characteristicsViewModel.calculateBreedBonuses(checkedBreedList)
         setRecyclerViewDisabledAdapter()

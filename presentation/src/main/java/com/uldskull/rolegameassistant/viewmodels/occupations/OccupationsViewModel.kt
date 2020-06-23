@@ -33,7 +33,9 @@ class OccupationsViewModel(
         refreshDataFromRepository()
     }
 
-
+    /**
+     * Refresh data from repository
+     */
     fun refreshDataFromRepository() {
         Log.d(TAG, "refreshDataFromRepository")
         viewModelScope.launch {
@@ -45,6 +47,9 @@ class OccupationsViewModel(
         }
     }
 
+    /**
+     * Find all data from repository
+     */
     private fun findAll(): LiveData<List<DomainOccupation>>? {
         Log.d(TAG, "findAll")
         thread(start = true) {
@@ -53,6 +58,9 @@ class OccupationsViewModel(
         return repositoryOccupations
     }
 
+    /**
+     * Find one entity with its children
+     */
     fun findOneWithChildren(id: Long?): DomainOccupationWithSkills? {
         Log.d(TAG, "findOneWithChildren")
         try {
@@ -64,6 +72,9 @@ class OccupationsViewModel(
         }
     }
 
+    /**
+     * Insert one occupation
+     */
     fun insertOccupation(domainOccupation: DomainOccupation): Long? {
         if (domainOccupation == null) {
             return 0
@@ -79,6 +90,9 @@ class OccupationsViewModel(
         }
     }
 
+    /**
+     * gets occupation by its id
+     */
     fun getOccupationById(id: Long?): DomainOccupation? {
         if(id != null){
             return occupationsRepositoryImpl?.findOneById(id)
@@ -87,6 +101,9 @@ class OccupationsViewModel(
         }
     }
 
+    /**
+     * Delete occupation
+     */
     fun deleteOccupation(currentOccupationToEdit: DomainOccupation):Int {
         if(currentOccupationToEdit == null){
             throw Exception("Occupation is null")
@@ -94,15 +111,54 @@ class OccupationsViewModel(
         return occupationsRepositoryImpl?.deleteOne(currentOccupationToEdit)
     }
 
+    /**
+     * Current occupation to edit
+     */
     var currentOccupationToEdit: DomainOccupation? = null
+
+    /**
+     * Observable occupation income
+     */
     var selectedOccupationIncome: MutableLiveData<String>? = MutableLiveData()
+
+    /**
+     * Observable selected character skills
+     */
     val selectedCharacterSkills = MutableLiveData<List<Long?>>()
+
+    /**
+     * Observable occupation contacts
+     */
     var selectedOccupationContacts: MutableLiveData<String>? = MutableLiveData()
+
+    /**
+     * Observable occupation special
+     */
     var selectedOccupationSpecial: MutableLiveData<String>? = MutableLiveData()
+
+    /**
+     * Observable occupation index
+     */
     var selectedOccupationIndex: MutableLiveData<Int>? = MutableLiveData()
+
+    /**
+     * Observable selected occupation
+     */
     var selectedOccupation: MutableLiveData<DomainOccupation>? = MutableLiveData()
+
+    /**
+     * Observable repository occupations
+     */
     var repositoryOccupations = occupationsRepositoryImpl.getAll()
+
+    /**
+     * Observable displayed occupations
+     */
     var displayedOccupations = MutableLiveData<List<String?>>()
+
+    /**
+     * Observable occupation skills
+     */
     var observedOccupationsSkills: MutableLiveData<List<DomainSkillToCheck>>? =
         MutableLiveData()
 }

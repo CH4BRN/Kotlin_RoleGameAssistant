@@ -9,6 +9,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
+import com.uldskull.rolegameassistant.models.character.character.DomainCharacterWithSkills
+import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
 import com.uldskull.rolegameassistant.repository.character.CharacterRepository
 import kotlinx.coroutines.launch
 import kotlin.concurrent.thread
@@ -55,6 +57,9 @@ class CharactersViewModel(
         }
     }
 
+
+
+
     /**
      * Find all the characters in using the repository
      */
@@ -66,7 +71,9 @@ class CharactersViewModel(
         return characters
     }
 
-
+    /**
+     * Find one character by its id
+     */
     fun findOneById(id: Long?): DomainCharacter? {
         Log.d(TAG, "findOneById $id")
         var character = characterRepository.findOneById(id)
@@ -77,5 +84,4 @@ class CharactersViewModel(
             return null
         }
     }
-// TODO : Fill class.
 }

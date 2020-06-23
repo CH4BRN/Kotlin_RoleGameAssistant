@@ -13,15 +13,30 @@ import com.uldskull.rolegameassistant.models.character.DomainIdeal
 
 /**
  *   Class "DbIdeal" :
- *   TODO: Fill class use.
+ *   Database model for ideal
  **/
 @Entity(tableName = TABLE_NAME_IDEAL)
 class DbIdeal(
+    /**
+     * Ideal's identifier
+     */
     @PrimaryKey(autoGenerate = true)
     val idealId: Long?,
+    /**
+     * Ideal's name
+     */
     val idealName: String?,
+    /**
+     * Ideal's good points
+     */
     val idealGoodPoints: Int?,
+    /**
+     * Ideal's evil points
+     */
     val idealEvilPoints: Int?,
+    /**
+     * Is ideal checked ?
+     */
     var isChecked: Boolean? = false
 ) : DbEntity<DomainIdeal> {
 
@@ -38,6 +53,9 @@ class DbIdeal(
         )
     }
 
+    /**
+     * Returns a string representation of the object.
+     */
     override fun toString(): String {
         return "DbIdeal(idealId=$idealId, idealName=$idealName, idealGoodPoints=$idealGoodPoints, idealEvilPoints=$idealEvilPoints, isChecked=$isChecked)"
     }

@@ -8,7 +8,7 @@ import com.uldskull.rolegameassistant.repository.GenericRepository
 
 /**
  *   Class "OccupationSkillRepository" :
- *   TODO: Fill class use.
+ *   Class to manage DomainSkillToCheck persistence.
  **/
-interface OccupationSkillRepository<T> :
+interface SkillToCheckRepository<T> :
     GenericRepository<T, DomainSkillToCheck>

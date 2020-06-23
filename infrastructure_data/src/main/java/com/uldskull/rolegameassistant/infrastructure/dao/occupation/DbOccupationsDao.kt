@@ -8,37 +8,24 @@ import androidx.room.*
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
 import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_OCCUPATION_ID
 import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_OCCUPATIONS
+import com.uldskull.rolegameassistant.infrastructure.dao.DELETE_FROM
+import com.uldskull.rolegameassistant.infrastructure.dao.GenericDao
 import com.uldskull.rolegameassistant.infrastructure.dao.SELECT_ALL_FROM
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupation.DbOccupation
 
 /**
  *   Interface "DbJobsDao" :
- *   DbJobs database interactions.
+ *   DbOccupation database interactions.
  **/
 @Dao
-interface DbOccupationsDao {
-    //  CREATE
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertOccupation(dbOccupation: DbOccupation): Long
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertJobs(dbOccupations: List<DbOccupation>): List<Long>
-
+abstract class DbOccupationsDao : GenericDao<DbOccupation> {
     //  READ
     @Query("$SELECT_ALL_FROM $TABLE_NAME_OCCUPATIONS")
-    fun getJobs(): LiveData<List<DbOccupation>>
+    abstract fun getJobs(): LiveData<List<DbOccupation>>
 
     @Query("$SELECT_ALL_FROM $TABLE_NAME_OCCUPATIONS WHERE $FIELD_OCCUPATION_ID LIKE :id")
-    fun getJobById(id: Long?): DbOccupation
+    abstract fun getJobById(id: Long?): DbOccupation
 
-    //  UPDATE
-    @Update
-    fun updateJob(vararg occupations: DbOccupation): Int
-
-    //  DELETE
-    @Delete
-    fun deleteOccupations(vararg occupations: DbOccupation): Int
-
-    @Query("DELETE FROM $TABLE_NAME_OCCUPATIONS")
-    fun deleteAllJobs(): Int
+    @Query("$DELETE_FROM $TABLE_NAME_OCCUPATIONS")
+    abstract fun deleteAllOccupations(): Int
 }

@@ -11,16 +11,31 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.DbEntity
 import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
 
 /**
- *   Class "DbJob" :
- *   TODO: Fill class use.
+ *   Class "DbOccupation" :
+ *   Database model for occupation
  **/
 @Entity(tableName = TABLE_NAME_OCCUPATIONS)
 class DbOccupation(
+    /**
+     * Occupation's identifier
+     */
     @PrimaryKey(autoGenerate = true)
     val occupationId: Long?= null,
+    /**
+     * Occupation's name
+     */
     val occupationName: String? = "occupation name",
+    /**
+     * occupation's income
+     */
     var occupationIncome:String? = "occupation income",
+    /**
+     * occupation's contact
+     */
     var occupationContacts:String? = "occupation contacts",
+    /**
+     * occupation's special
+     */
     var occupationSpecial:String? = "occupation specials"
 ) : DbEntity<DomainOccupation> {
     /**
@@ -36,6 +51,9 @@ class DbOccupation(
         )
     }
 
+    /**
+     * Returns a string representation of the object.
+     */
     override fun toString(): String {
         return "DbOccupation(occupationId=$occupationId, occupationName=$occupationName, occupationIncome=$occupationIncome, occupationContacts=$occupationContacts, occupationSpecial=$occupationSpecial)"
     }

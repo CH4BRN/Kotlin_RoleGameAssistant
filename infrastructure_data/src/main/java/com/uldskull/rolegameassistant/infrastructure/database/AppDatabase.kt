@@ -96,8 +96,14 @@ abstract class AppDatabase : RoomDatabase() {
      */
     abstract fun dbCharacterDao(): DbCharacterDao
 
+    /**
+     * Database Character with skills DAO
+     */
     abstract fun dbCharacterWithDbFilledSkillsDao(): DbCharacterWithDbFilledSkillsDao
 
+    /**
+     * Database filled skills DAO
+     */
     abstract fun dbFilledSkillDao(): DbFilledOccupationSkillDao
 
     /**
@@ -125,8 +131,13 @@ abstract class AppDatabase : RoomDatabase() {
      */
     abstract fun dbOccupationsWithSkillsDao(): DbOccupationDbSkillDao
 
-
+    /**
+     * Database callback
+     */
     private class AppDatabaseCallback : RoomDatabase.Callback() {
+        /**
+         * Called when database is opened
+         */
         override fun onOpen(db: SupportSQLiteDatabase) {
             super.onOpen(db)
             INSTANCE?.let { database ->
@@ -143,7 +154,6 @@ abstract class AppDatabase : RoomDatabase() {
                         occupationSkillDao = database.dbSkillToCheckDao(),
                         occupationWithSkillDao = database.dbOccupationsWithSkillsDao()
                     )
-
                 }
             }
         }

@@ -19,6 +19,9 @@ import com.uldskull.rolegameassistant.fragments.fragment.CustomFragment
  */
 class BlankFragment : CustomFragment() {
 
+    /**
+     * Fragment lifecycle
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

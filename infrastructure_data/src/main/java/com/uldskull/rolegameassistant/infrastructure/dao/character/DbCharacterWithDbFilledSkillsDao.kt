@@ -6,16 +6,16 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
 import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_CHARACTER
+import com.uldskull.rolegameassistant.infrastructure.dao.SELECT_ALL_FROM
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_character.DbCharacterWithDbSkills
 
 /**
-Class "DbCharacterWithSkillsDao"
-
-
+ * Class "DbCharacterWithSkillsDao"
+ * DbCharacterWithDbSkills database interactions.
  */
 @Dao
-interface DbCharacterWithDbFilledSkillsDao{
+interface DbCharacterWithDbFilledSkillsDao {
     @Transaction
-    @Query("SELECT * FROM $TABLE_NAME_CHARACTER")
+    @Query("$SELECT_ALL_FROM $TABLE_NAME_CHARACTER")
     fun getCharacterWithSkills(): List<DbCharacterWithDbSkills>
 }

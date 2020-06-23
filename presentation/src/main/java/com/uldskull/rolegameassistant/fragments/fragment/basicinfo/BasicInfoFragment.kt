@@ -21,6 +21,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.*
 import com.uldskull.rolegameassistant.fragments.fragment.breed.BreedsRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.BASIC_INFO_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
+import com.uldskull.rolegameassistant.viewmodels.BasicInfoViewModel
 import com.uldskull.rolegameassistant.viewmodels.CharacteristicsViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.ProgressionBarViewModel
@@ -35,16 +36,15 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  **/
 class BasicInfoFragment : CustomFragment() {
 
-    private var displayedBreeds: MutableList<DomainDisplayedBreed?>? = mutableListOf()
-        set(value) {
-            Log.d("DEBUG$TAG", "breeds list size = ${value?.size}")
-            field = value
-        }
-
     /**
      * Button to add breed.
      */
     private var buttonAddBreed: ImageButton? = null
+
+    /**
+     * ViewModel for basic info
+     */
+    private val basicInfoViewModel: BasicInfoViewModel by sharedViewModel()
 
     /**
      * ViewModel for new character
@@ -179,12 +179,12 @@ class BasicInfoFragment : CustomFragment() {
                 activity!!
             )
 
-            Log.d("DEBUG$TAG", "breeds size then : ${this.displayedBreeds?.size}")
+            Log.d("DEBUG$TAG", "breeds size then : ${basicInfoViewModel.displayedBreeds?.size}")
 
-            displayedBreeds?.forEach { newBreed ->
+            basicInfoViewModel.displayedBreeds?.forEach { newBreed ->
                 if (newBreed != null) {
-                    displayedBreedsViewModel.observedRepositoryBreeds?.value?.find { it.breedId == newBreed.breedId }?.breedChecked =
-                        newBreed.breedChecked
+                    displayedBreedsViewModel.observedRepositoryBreeds?.value?.find { it.breedId == newBreed.breedId }?.breedIsChecked =
+                        newBreed.breedIsChecked
                 }
             }
 
@@ -235,12 +235,14 @@ class BasicInfoFragment : CustomFragment() {
         observeBiography()
         observeHeight()
         observeWeight()
+        observeSelectedOccupation()
+        observeSelectedCharacter()
+    }
 
-        occupationsViewModel?.selectedOccupation?.observe(this, Observer { domainOccupation ->
-            Log.d("DEBUG$TAG", "Occupation : ${domainOccupation.occupationName}")
-        })
-
-
+    /**
+     * Observe selected character.
+     */
+    private fun observeSelectedCharacter() {
         newCharacterViewModel.selectedCharacter.observe(this, Observer { domainCharacter ->
             Log.d("DEBUG$TAG", "Selected character is null : ${domainCharacter == null}")
 
@@ -273,10 +275,20 @@ class BasicInfoFragment : CustomFragment() {
 
 
         })
-
-
     }
 
+    /**
+     * Observe selected occupation
+     */
+    private fun observeSelectedOccupation() {
+        occupationsViewModel?.selectedOccupation?.observe(this, Observer { domainOccupation ->
+            Log.d("DEBUG$TAG", "Occupation : ${domainOccupation.occupationName}")
+        })
+    }
+
+    /**
+     * Observe weight
+     */
     private fun observeWeight() {
         newCharacterViewModel?.characterWeight?.observe(this, Observer { weight ->
             if (weight != null) {
@@ -287,6 +299,9 @@ class BasicInfoFragment : CustomFragment() {
         })
     }
 
+    /**
+     * Observe height
+     */
     private fun observeHeight() {
         newCharacterViewModel?.characterHeight?.observe(this, Observer { height ->
             if (height != null) {
@@ -298,6 +313,9 @@ class BasicInfoFragment : CustomFragment() {
         })
     }
 
+    /**
+     * Observe biography
+     */
     private fun observeBiography() {
         newCharacterViewModel?.characterBiography?.observe(this, Observer { biography ->
             if (biography != null) {
@@ -309,6 +327,9 @@ class BasicInfoFragment : CustomFragment() {
         })
     }
 
+    /**
+     * Observe gender
+     */
     private fun observeGender() {
         newCharacterViewModel?.characterGender?.observe(this, Observer { gender ->
             if (gender != null) {
@@ -320,6 +341,9 @@ class BasicInfoFragment : CustomFragment() {
         })
     }
 
+    /**
+     * Observe age
+     */
     private fun observeAge() {
         newCharacterViewModel?.characterAge?.observe(this, Observer { age ->
             if (age != null) {
@@ -331,6 +355,9 @@ class BasicInfoFragment : CustomFragment() {
         })
     }
 
+    /**
+     * observe name
+     */
     private fun observeName() {
         newCharacterViewModel?.characterName?.observe(this, Observer { name ->
             if (name != null) {

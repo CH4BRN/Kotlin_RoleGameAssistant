@@ -7,10 +7,12 @@ import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.Doma
 
 /**
  *   Interface "BreedsService" :
- *   TODO: Fill interface use.
+ *   Service to manage breeds
  **/
 interface BreedsService {
 
+    /**
+     * Get all breeds
+     */
     fun getAllBreeds(): List<DomainDisplayedBreed>
-// TODO : Fill interface.
 }

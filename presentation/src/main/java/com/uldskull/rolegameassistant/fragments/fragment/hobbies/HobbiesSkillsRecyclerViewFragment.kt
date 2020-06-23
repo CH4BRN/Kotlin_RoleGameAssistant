@@ -13,7 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
+import com.uldskull.rolegameassistant.fragments.fragment.CustomAdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
@@ -28,10 +28,13 @@ Manage hobbies's skill's recyclerview fragmet.
  */
 class HobbiesSkillsRecyclerViewFragment :
     CustomRecyclerViewFragment(),
-    AdapterButtonListener<DomainSkillToCheck> {
+    CustomAdapterButtonListener<DomainSkillToCheck> {
     /** ViewModel for skills  **/
     private val skillsViewModel: SkillsViewModel by sharedViewModel()
 
+    /**
+     * Viewmodel for character
+     */
     private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
 
     /** Adapter for skills recycler view    **/
@@ -45,6 +48,9 @@ class HobbiesSkillsRecyclerViewFragment :
         super.onCreate(savedInstanceState)
     }
 
+    /**
+     * initialize recycler view
+     */
     override fun initializeRecyclerView() {
         if (activity != null) {
             skillsRecyclerView =
@@ -61,11 +67,14 @@ class HobbiesSkillsRecyclerViewFragment :
         startObservation()
     }
 
+    /**
+     * initialize hobbies skill adapter
+     */
     private fun initializeHobbiesSkillsAdapter() {
         if (activity != null) {
             hobbiesSkillAdapter = HobbiesSkillAdapter(
                 context = activity!! as Context,
-                buttonListener = this
+                buttonListenerCustom = this
             )
         }
     }
@@ -73,27 +82,15 @@ class HobbiesSkillsRecyclerViewFragment :
     /** Observe ViewModel's skills  **/
     override fun startObservation() {
         Log.d("DEBUG$TAG", "StartObservation")
-
-        var isNull = this.skillsViewModel.hobbiesSkills.value == null
-        Log.d("DEBUG$TAG", "isNull : $isNull")
-
         observeHobbiesSkills()
-
-        skillsViewModel?.hobbySkills.observe(this, Observer {
-            it.forEach { Log.d("DEBUG$TAG", "Hobby : $it") }
-        })
-
     }
 
+    /**
+     * observe hobbies skills
+     */
     private fun observeHobbiesSkills() {
         skillsViewModel?.hobbiesSkills?.observe(this, Observer { domainHobbiesSkills ->
             run {
-
-
-                domainHobbiesSkills?.forEach {
-                    Log.d("DEBUG$TAG", "Skill ${it?.skillName} is checked ${it?.skillIsChecked}")
-                }
-
                 hobbiesSkillAdapter?.setHobbiesSkills(domainHobbiesSkills)
 
                 var character = newCharacterViewModel?.currentCharacter
@@ -112,11 +109,6 @@ class HobbiesSkillsRecyclerViewFragment :
                             checkedSkills?.map { s -> s.skillId }.toMutableList()
                     }
                     newCharacterViewModel?.currentCharacter = character
-
-                    Log.d(
-                        "DEBUG$TAG",
-                        "  hobbiesSkillAdapter?.hobbiesSkills : ${hobbiesSkillAdapter?.hobbiesSkills?.size}"
-                    )
                     skillsRecyclerView?.adapter = hobbiesSkillAdapter
                 }
             }
@@ -126,6 +118,9 @@ class HobbiesSkillsRecyclerViewFragment :
     override fun setRecyclerViewAdapter() {
     }
 
+    /**
+     * Set recycler view layout manager
+     */
     override fun setRecyclerViewLayoutManager() {
         skillsRecyclerView?.layoutManager = LinearLayoutManager(
             activity,
@@ -134,7 +129,9 @@ class HobbiesSkillsRecyclerViewFragment :
         )
     }
 
-
+    /**
+     * Initialize view
+     */
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         initialRootView = layoutInflater.inflate(
             R.layout.fragment_hobbiesskills_recyclerview, container, false
@@ -161,20 +158,15 @@ class HobbiesSkillsRecyclerViewFragment :
      * Called when a recyclerview cell is pressed
      */
     override fun itemPressed(domainModel: DomainSkillToCheck?, position: Int?) {
-        Log.d("DEBUG$TAG", "itemPressed for ${domainModel?.skillName}")
         if (domainModel != null) {
             var temp = skillsViewModel.hobbiesSkills?.value?.toMutableList()
-            Log.d("DEBUG$TAG", "skills size : ${temp?.size}")
             var checked = temp?.count { s -> s?.skillIsChecked!! }
-            Log.d("DEBUG$TAG", "Checked skills : $checked")
             var index = temp?.indexOfFirst { s -> s?.skillId == domainModel.skillId }
             if (index != null) {
                 temp?.removeAt(index)
-                Log.d("DEBUG$TAG", "skills size : ${temp?.size}")
                 temp?.add(index, domainModel)
             }
             checked = temp?.count { s -> s?.skillIsChecked!! }
-            Log.d("DEBUG$TAG", "Checked skills : $checked")
             skillsViewModel?.hobbiesSkills?.value = temp
         }
     }

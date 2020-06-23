@@ -17,10 +17,16 @@ import com.uldskull.rolegameassistant.repository.breed.DisplayedBreedsRepository
 
 /**
  *   Class "BreedsRepositoryImpl" :
- *   TODO: Fill class use.
+ *   Repository for displayed breed.
  **/
 class DbDisplayedBreedsRepositoryImpl(
+    /**
+     * Displayed breed dao
+     */
     private val dbDisplayedBreedDao: DbDisplayedBreedDao,
+    /**
+     * Displayed breed with characteristics dao.
+     */
     private val dbBreedWithDbCharacteristicsDao: DbBreedWithDbCharacteristicsDao
 ) :
     DisplayedBreedsRepository<LiveData<List<DomainDisplayedBreed?>>> {
@@ -68,7 +74,7 @@ class DbDisplayedBreedsRepositoryImpl(
         Log.d(TAG, "insertAll")
         if ((all != null) && (all.isNotEmpty())) {
             try {
-                val result = dbDisplayedBreedDao.insertBreeds(all.map { result ->
+                val result = dbDisplayedBreedDao.insert(all.map { result ->
                     DbDisplayedBreed.from(
                         result
                     )
@@ -91,7 +97,7 @@ class DbDisplayedBreedsRepositoryImpl(
         Log.d(TAG, "insertOne")
         return if (one != null) {
             try {
-                val result = dbDisplayedBreedDao.insertBreed(DbDisplayedBreed.from(one))
+                val result = dbDisplayedBreedDao.insert(DbDisplayedBreed.from(one))
                 Log.d(TAG, "insertOne RESULT = $result")
                 result
             } catch (e: Exception) {
@@ -115,7 +121,9 @@ class DbDisplayedBreedsRepositoryImpl(
             throw e
         }
     }
-
+    /**
+     * Converts a list of database entities into domain entities
+     */
     private fun List<DbDisplayedBreed>.asDomainModel(): List<DomainDisplayedBreed> {
         Log.d(TAG, "asDomainModel")
         return map {
@@ -163,6 +171,9 @@ class DbDisplayedBreedsRepositoryImpl(
         return emptyList()
     }
 
+    /**
+     * Find one breed with all its associated characteristics.
+     */
     override fun findOneWithChildren(id: Long?): DomainDisplayedBreedWithCharacteristics? {
         Log.d(TAG, "findOneWithChildren")
         val getDisplayedBreedWithCharacteristicResult: DbDisplayedBreedWithCharacteristics =
@@ -184,13 +195,12 @@ class DbDisplayedBreedsRepositoryImpl(
 
 
         }
-
         return null
     }
 
     /**  Update one entity  **/
     override fun updateOne(one: DomainDisplayedBreed?): Int? {
         Log.d(TAG, "updateOne")
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dbDisplayedBreedDao?.update(DbDisplayedBreed.from(one))
     }
 }

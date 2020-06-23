@@ -10,12 +10,12 @@ import com.uldskull.rolegameassistant.models.character.characteristic.Characteri
 
 /**
  *   Class "BreedDatabaseUtil" :
- *   TODO: Fill class use.
+ *   Database utils for breed characteristics
  **/
 class BreedCharacteristicDatabaseUtil {
-    companion object{
-
+    companion object {
         private const val TAG = "BreedDatabaseUtil"
+
         /**
          * Populate the database with some characteristics.
          */
@@ -35,11 +35,10 @@ class BreedCharacteristicDatabaseUtil {
                     characteristicBreedId = 2
                 )
             )
-            var result = breedCharacteristicDao.insertBreedCharacteristics(dbBreedCharacteristics)
+            var result = breedCharacteristicDao.insert(dbBreedCharacteristics)
             result.forEach {
                 Log.d("Insert result", it.toString())
             }
         }
     }
-// TODO : Fill class.
 }

@@ -7,6 +7,9 @@ Class "DatabaseModelContracts"
 
 */
 
-object databaseModelContracts{
+object DatabaseModelContracts{
+    /**
+     * String separator for GSon
+     */
     const val strSeparator = "__,__"
 }

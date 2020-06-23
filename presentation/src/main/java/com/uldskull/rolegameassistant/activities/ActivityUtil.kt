@@ -10,7 +10,9 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.uldskull.rolegameassistant.activities.Tag.TAG
 
-
+/**
+ * Extension function to do a fragment manager transaction
+ */
 inline fun FragmentManager.doTransaction(func: FragmentTransaction.() -> Unit) {
     Log.d(TAG, "doTransaction")
     val fragmentTransaction = beginTransaction()
@@ -18,17 +20,24 @@ inline fun FragmentManager.doTransaction(func: FragmentTransaction.() -> Unit) {
     fragmentTransaction.commit()
 }
 
-
+/**
+ * extension function to replace fragment
+ */
 fun AppCompatActivity.replaceFragment(frameId: Int, fragment: Fragment) {
     Log.d(TAG, "replaceFragment")
         supportFragmentManager.doTransaction { replace(frameId, fragment) }
 }
 
+/**
+ * extension function to add fragment
+ */
 fun AppCompatActivity.addFragment(frameId: Int, fragment: Fragment) {
     Log.d(TAG, "addFragment")
     supportFragmentManager.doTransaction { add(frameId, fragment) }
 }
-
+/**
+ * extension function to remove fragment
+ */
 fun AppCompatActivity.removeFragment(fragment: Fragment) {
     Log.d(TAG, "addFragment")
     supportFragmentManager.doTransaction { remove(fragment) }

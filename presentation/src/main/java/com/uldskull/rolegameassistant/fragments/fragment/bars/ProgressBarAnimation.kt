@@ -9,7 +9,7 @@ import android.widget.ProgressBar
 /**
 Class "ProgressBarAnimation"
 
-TODO: Describe class utility.
+Class to manage progress bar animation
  */
 class ProgressBarAnimation(var progressBar: ProgressBar,var from:Float,var to:Float) : Animation(){
 

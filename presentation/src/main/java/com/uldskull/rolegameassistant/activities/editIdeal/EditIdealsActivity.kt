@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.CustomActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
-import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
+import com.uldskull.rolegameassistant.fragments.fragment.CustomAdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.fragment.CustomTextWatcher
 import com.uldskull.rolegameassistant.fragments.fragment.bars.NavigationBarFragment
 import com.uldskull.rolegameassistant.fragments.fragment.ideals.ideal_toEdit.IdealsToEditAdapter
@@ -27,21 +27,49 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
  *   Class "NewIdealActivity" :
  *   Activity for a new ideal creation
  **/
-class EditIdealsActivity : CustomActivity(), AdapterButtonListener<DomainIdeal> {
+class EditIdealsActivity : CustomActivity(), CustomAdapterButtonListener<DomainIdeal> {
     companion object {
         private const val TAG = "NewIdealActivity"
     }
 
+    /**
+     * Delete ideal image button
+     */
     private var deleteIdealButton: ImageButton? = null
-    private var setIdealGoodPointsEditText: EditText? = null
-    private var setIdealEvilPointsEditText: EditText? = null
+
+    /**
+     * ideal good points edit text
+     */
+    private var idealGoodPointsEditText: EditText? = null
+
+    /**
+     * ideal evil points edit text
+     */
+    private var idealEvilPointsEditText: EditText? = null
+
+    /**
+     * add ideal button
+     */
     private var addIdealButton: Button? = null
+
+    /**
+     * ideals view model
+     */
     private lateinit var idealsViewModel: IdealsViewModel
 
+    /**
+     * ideal to edit recycler view
+     */
     private var idealToEditRecyclerView: RecyclerView? = null
 
+    /**
+     * ideal title edit text
+     */
     private var setIdealTitleEditText: EditText? = null
 
+    /**
+     * save ideal button
+     */
     private var saveIdealImageButton: ImageButton? = null
 
     /**
@@ -69,10 +97,13 @@ class EditIdealsActivity : CustomActivity(), AdapterButtonListener<DomainIdeal> 
     }
 
 
+    /**
+     * initialize the evil points edit text
+     */
     private fun initializeSetIdealEvilPointsEditText() {
-        setIdealEvilPointsEditText =
+        idealEvilPointsEditText =
             this?.findViewById(R.id.activityEditIdeals_editText_idealEvilPoints)
-        setIdealEvilPointsEditText?.addTextChangedListener(object : CustomTextWatcher() {
+        idealEvilPointsEditText?.addTextChangedListener(object : CustomTextWatcher() {
             /**
              * This method is called to notify you that, within `s`,
              * the `count` characters beginning at `start`
@@ -98,10 +129,13 @@ class EditIdealsActivity : CustomActivity(), AdapterButtonListener<DomainIdeal> 
         })
     }
 
+    /**
+     * initialize the good points edit text
+     */
     private fun initializeSetIdealGoodPointsEditText() {
-        setIdealGoodPointsEditText =
+        idealGoodPointsEditText =
             this?.findViewById<EditText>(R.id.activityEditIdeals_editText_idealGoodPoints)
-        setIdealGoodPointsEditText?.addTextChangedListener(object : CustomTextWatcher() {
+        idealGoodPointsEditText?.addTextChangedListener(object : CustomTextWatcher() {
             /**
              * This method is called to notify you that, within `s`,
              * the `count` characters beginning at `start`
@@ -127,6 +161,9 @@ class EditIdealsActivity : CustomActivity(), AdapterButtonListener<DomainIdeal> 
         })
     }
 
+    /**
+     * initialize the ideal title edit text
+     */
     private fun initializeSetIdealTitleEditText() {
         setIdealTitleEditText = this.findViewById(R.id.activityEditIdeals_editText_idealTitle)
         setIdealTitleEditText?.addTextChangedListener(object : CustomTextWatcher() {
@@ -155,6 +192,9 @@ class EditIdealsActivity : CustomActivity(), AdapterButtonListener<DomainIdeal> 
         })
     }
 
+    /**
+     * initialize the add ideal button
+     */
     private fun initializeAddIdealButton() {
         addIdealButton = this?.findViewById(R.id.activityEditIdeals_imageButton_addNewIdeal)
         if (addIdealButton != null) {
@@ -175,14 +215,17 @@ class EditIdealsActivity : CustomActivity(), AdapterButtonListener<DomainIdeal> 
                 if (ideal != null) {
                     idealsViewModel?.currentIdealToEdit = ideal
                     setIdealTitleEditText?.setText(ideal?.idealName)
-                    setIdealGoodPointsEditText?.setText(ideal?.idealGoodPoints?.toString())
-                    setIdealEvilPointsEditText?.setText(ideal?.idealEvilPoints?.toString())
+                    idealGoodPointsEditText?.setText(ideal?.idealGoodPoints?.toString())
+                    idealEvilPointsEditText?.setText(ideal?.idealEvilPoints?.toString())
                 }
             }
         }
 
     }
 
+    /**
+     * initialize the delete ideal button
+     */
     private fun initializeDeleteIdealButton() {
         deleteIdealButton =
             this?.findViewById<ImageButton>(R.id.activityEditIdeals_imageButton_deleteIdeal)
@@ -203,6 +246,9 @@ class EditIdealsActivity : CustomActivity(), AdapterButtonListener<DomainIdeal> 
 
     }
 
+    /**
+     * initialize the save ideal button
+     */
     private fun initializeSaveIdealButton() {
         saveIdealImageButton = this?.findViewById(R.id.activityEditIdeals_imageButton_saveIdeal)
         if (saveIdealImageButton == null) {
@@ -221,10 +267,16 @@ class EditIdealsActivity : CustomActivity(), AdapterButtonListener<DomainIdeal> 
 
     }
 
+    /**
+     * start observation
+     */
     private fun startObservation() {
         observeRepositoryIdeals()
     }
 
+    /**
+     * observe repository ideals
+     */
     private fun observeRepositoryIdeals() {
         idealsViewModel?.repositoryIdeals?.observe(this, Observer {
             var recyclerViewAdapter = IdealsToEditAdapter(this, this)

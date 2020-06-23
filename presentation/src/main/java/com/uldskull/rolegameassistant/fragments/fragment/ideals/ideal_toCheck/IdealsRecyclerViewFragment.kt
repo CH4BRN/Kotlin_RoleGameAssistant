@@ -14,12 +14,13 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
+import com.uldskull.rolegameassistant.fragments.fragment.CustomAdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.IDEAL_RECYCLER_VIEW_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.models.character.DomainIdeal
+import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
 import com.uldskull.rolegameassistant.viewmodels.IdealsViewModel
 import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -30,7 +31,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  **/
 class IdealsRecyclerViewFragment :
     CustomRecyclerViewFragment(),
-    AdapterButtonListener<DomainIdeal> {
+    CustomAdapterButtonListener<DomainIdeal> {
 
     /** ViewModel for bonds    **/
     private val idealsViewModel: IdealsViewModel by sharedViewModel()
@@ -147,13 +148,10 @@ class IdealsRecyclerViewFragment :
      */
     private fun observeSelectedCharacter() {
         newCharacterViewModel.selectedCharacter.observe(this, Observer { domainCharacter ->
-
             if (domainCharacter != null) {
-                if (domainCharacter.characterIdeals != null && !domainCharacter.characterIdeals.isNullOrEmpty()) {
+                if (characterIdealsAreNotNullOrEmpty(domainCharacter)) {
                     var characterIdeals = domainCharacter.characterIdeals
                     Log.d("DEBUG$TAG", "Character ideals is null = ${characterIdeals == null}")
-
-
                     var test = true
                     characterIdeals?.forEach { i ->
                         if (i == null) {
@@ -176,6 +174,12 @@ class IdealsRecyclerViewFragment :
             }
         })
     }
+
+    /**
+     * Checks if ideals are not null or empty
+     */
+    private fun characterIdealsAreNotNullOrEmpty(domainCharacter: DomainCharacter) =
+        domainCharacter.characterIdeals != null && !domainCharacter.characterIdeals.isNullOrEmpty()
 
     /**
      * Called when the fragment is visible to the user and actively running.

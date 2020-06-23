@@ -10,13 +10,16 @@ import com.uldskull.rolegameassistant.R
 /**
 Class "NewSkillActivity"
 
-Activity for a new skill creation.
- Logs "start" when it is created.
+Activity for skill creation and edition
  */
 class EditSkillActivity : AppCompatActivity() {
     companion object {
         private const val TAG = "NewSkillActivity"
     }
+
+    /**
+     * activty lifecycle
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate")

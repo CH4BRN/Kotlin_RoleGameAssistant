@@ -9,7 +9,7 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_ideal.DbI
 
 /**
  *   Class "IdealDatabaseUtil" :
- *   TODO: Fill class use.
+ *   Database utils for ideals
  **/
 class IdealDatabaseUtil {
     companion object{
@@ -67,5 +67,4 @@ class IdealDatabaseUtil {
             }
         }
     }
-// TODO : Fill class.
 }

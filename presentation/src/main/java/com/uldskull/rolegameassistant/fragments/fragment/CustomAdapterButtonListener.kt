@@ -3,13 +3,12 @@
 
 package com.uldskull.rolegameassistant.fragments.fragment
 
-import java.text.FieldPosition
 
 /**
  *   Interface "AdapterButtonListener" :
  *   Ensure communication between adapter and fragment.
  **/
-interface AdapterButtonListener<T> {
+interface CustomAdapterButtonListener<T> {
     /**
      * Called when a recyclerview cell is pressed
      */

@@ -34,7 +34,6 @@ class CharacterPagerAdapter(fm: FragmentManager, val activity: Activity) :
     override fun getCount(): Int {
         Log.d(TAG, "getCount")
         return 10
-
     }
 
     /**
@@ -58,6 +57,10 @@ class CharacterPagerAdapter(fm: FragmentManager, val activity: Activity) :
         return super.getItemPosition(`object`)
     }
 
+
+    /**
+     * Instantiate item
+     */
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         Log.d(TAG, "instantiateItem")
         return super.instantiateItem(container, position)
@@ -79,9 +82,7 @@ class CharacterPagerAdapter(fm: FragmentManager, val activity: Activity) :
         super.destroyItem(container, position, `object`)
     }
 
-
-
-    /** Instantiate the view    **/
+    /** Get the corresponding view   **/
     override fun getItem(position: Int): Fragment {
         Log.d(TAG, "getItem")
         return when (position) {

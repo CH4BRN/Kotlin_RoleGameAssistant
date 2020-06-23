@@ -29,6 +29,9 @@ open class CharacteristicsAdapter internal constructor(
         private const val TAG = "CharacteristicsAdapter"
     }
 
+    /**
+     * Is the adapter on bind ?
+     */
     private var onBind: Boolean = false
 
     /** Inflater    **/
@@ -37,8 +40,17 @@ open class CharacteristicsAdapter internal constructor(
     /** Abilities list  **/
     private var rollCharacteristics = mutableListOf<DomainRollsCharacteristic?>()
 
-    fun getCharacteristics(): List<DomainRollsCharacteristic?> {
-        return rollCharacteristics.toList()
+    /** ViewHolder life-cycle   **/
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacteristicsViewHolder {
+        Log.d(TAG, "onCreateViewHolder")
+
+        val itemView =
+            inflater.inflate(R.layout.fragment_characteristics_recyclerview_item, parent, false)
+
+        itemView.et_characteristicRoll.inputType = InputType.TYPE_CLASS_NUMBER
+        itemView.et_characteristicBonus.inputType = InputType.TYPE_CLASS_NUMBER
+
+        return CharacteristicsViewHolder((itemView))
     }
 
     /** Custom ViewHolder   **/
@@ -58,76 +70,53 @@ open class CharacteristicsAdapter internal constructor(
 
         //  Get the total's TextView.
         val totalItemView: TextView = itemView.findViewById(R.id.tv_characteristicTotal)
+
+        init {
+            addBonusTextChangedListener()
+        }
+
+        private fun addBonusTextChangedListener() {
+            bonusItemView.addTextChangedListener {
+                val stringBonus = bonusItemView.text.toString()
+                // Log.d(TAG, "String bonus $stringBonus")
+                try {
+                    if (stringBonus.isNotBlank() && stringBonus.isNotEmpty()) {
+                        rollCharacteristics[adapterPosition]?.characteristicBonus =
+                            stringBonus.toInt()
+                        // Log.d(TAG, "Bonus : " + bonus.toString())
+                    } else {
+                        rollCharacteristics[adapterPosition]?.characteristicBonus = 0
+                    }
+                    rollCharacteristics[adapterPosition]?.characteristicTotal =
+                        rollCharacteristics[adapterPosition]?.characteristicRoll!! + rollCharacteristics[adapterPosition]?.characteristicBonus!!
+                    totalItemView.text =
+                        rollCharacteristics[adapterPosition]?.characteristicTotal.toString()
+
+
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    throw  e
+                }
+            }
+        }
+
+        /**
+         * Bind the value
+         */
+        fun bind(domainRollsCharacteristic: DomainRollsCharacteristic?) {
+            characteristicNameItemView.text = domainRollsCharacteristic?.characteristicName
+            bonusItemView.setText(domainRollsCharacteristic?.characteristicBonus.toString())
+            abilityRollItemView.setText(domainRollsCharacteristic?.characteristicRoll.toString())
+            totalItemView.text = domainRollsCharacteristic?.characteristicTotal.toString()
+            rollRuleItemView.text = domainRollsCharacteristic?.characteristicRollRule
+        }
     }
-
-    /** ViewHolder life-cycle   **/
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacteristicsViewHolder {
-        Log.d(TAG, "onCreateViewHolder")
-
-        val itemView = inflater.inflate(R.layout.fragment_characteristics_recyclerview_item, parent, false)
-        itemView.et_characteristicRoll.inputType = InputType.TYPE_CLASS_NUMBER
-
-        itemView.et_characteristicBonus.inputType = InputType.TYPE_CLASS_NUMBER
-
-
-        return CharacteristicsViewHolder((itemView))
-    }
-
 
     /** ViewHolder life-cycle   **/
     override fun onBindViewHolder(holder: CharacteristicsViewHolder, position: Int) {
         Log.d(TAG, "onBindViewHolder")
         onBind = true
-        val current = rollCharacteristics[position]
-        holder.characteristicNameItemView.text = current?.characteristicName
-        holder.bonusItemView.setText(current?.characteristicBonus.toString())
-        Log.d("DEBUG$TAG", "current?.characteristicRoll : ${current?.characteristicRoll} ")
-        holder.abilityRollItemView.setText(current?.characteristicRoll.toString())
-        holder.totalItemView.text = current?.characteristicTotal.toString()
-        holder.rollRuleItemView.text = current?.characteristicRollRule
-
-        holder.abilityRollItemView.addTextChangedListener {
-            val stringRoll = holder.abilityRollItemView.text.toString()
-            Log.d(TAG, "StringRoll = $stringRoll")
-            try {
-                if (stringRoll.isNotBlank() && stringRoll.isNotEmpty()) {
-                    current?.characteristicRoll = stringRoll.toInt()
-                    Log.d(TAG, "Roll : " + current?.characteristicRoll.toString())
-                } else
-                    current?.characteristicRoll = 0
-                current?.characteristicTotal =
-                    current?.characteristicRoll!! + current?.characteristicBonus!!
-
-                holder.totalItemView.text = current.characteristicTotal.toString()
-                rollCharacteristics[position] = current
-
-            } catch (e: Exception) {
-                e.printStackTrace()
-                throw  e
-            }
-        }
-
-        holder.bonusItemView.addTextChangedListener {
-            val stringBonus = holder.bonusItemView.text.toString()
-            // Log.d(TAG, "String bonus $stringBonus")
-            try {
-                if (stringBonus.isNotBlank() && stringBonus.isNotEmpty()) {
-                    current?.characteristicBonus = stringBonus.toInt()
-                    // Log.d(TAG, "Bonus : " + bonus.toString())
-                } else {
-                    current?.characteristicBonus = 0
-                }
-                current?.characteristicTotal =
-                    current?.characteristicRoll!! + current.characteristicBonus!!
-                holder.totalItemView.text = current.characteristicTotal.toString()
-
-
-            } catch (e: Exception) {
-                e.printStackTrace()
-                throw  e
-            }
-        }
-
+        holder?.bind(rollCharacteristics[position])
         onBind = false
     }
 
@@ -138,8 +127,6 @@ open class CharacteristicsAdapter internal constructor(
             this.rollCharacteristics =
                 domainCharacteristics.sortedBy { c -> c?.characteristicName }.toMutableList()
         }
-
-        Log.d(TAG, "rollCharacteristics size = " + this.rollCharacteristics.size.toString())
         notifyDataSetChanged()
     }
 
@@ -149,6 +136,9 @@ open class CharacteristicsAdapter internal constructor(
         return rollCharacteristics.size
     }
 
+    /**
+     * Returns a string representation of the object.
+     */
     override fun toString(): String {
         return "CharacteristicsAdapter(onBind=$onBind,\n" +
                 " inflater=$inflater,\n" +

@@ -13,17 +13,24 @@ import com.uldskull.rolegameassistant.models.character.DomainBond
 
 /**
  *   Class "DbBond" :
- *   Hold a Bond
+ *   Holds a Bond
  **/
 @Entity(tableName = TABLE_NAME_BOND)
 class DbBond(
+    /**
+     * Bond identifier
+     */
     @PrimaryKey(autoGenerate = true)
     val bondId: Long? = null,
+    /**
+     * Bond title
+     */
     val bondTitle: String?,
+    /**
+     * Bond value
+     */
     val bondValue: String?
 ) : DbEntity<DomainBond> {
-
-
 
     /**
      * Converts a Database model entity into a domain model.
@@ -36,6 +43,9 @@ class DbBond(
         )
     }
 
+    /**
+     * Returns a string representation of the object.
+     */
     override fun toString(): String {
         return "DbBond(bondId=$bondId, bondTitle=$bondTitle, bondValue=$bondValue)"
     }

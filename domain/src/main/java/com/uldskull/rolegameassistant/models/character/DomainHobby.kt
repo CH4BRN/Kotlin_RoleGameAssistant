@@ -5,15 +5,24 @@ package com.uldskull.rolegameassistant.models.character
 
 /**
  *   Class "DomainHobby" :
- *   TODO: Fill class use.
+ *   Holds a character hobby
  **/
 class DomainHobby(
+    /**
+     * Hobby's identifier
+     */
     hobbyId: Long,
+    /**
+     * Hobby's name
+     */
     hobbyName: String
 ) : DomainActivity(
     activityId = hobbyId,
     activityName = hobbyName
 ) {
+    /**
+     * Returns a string representation of the object.
+     */
     override fun toString(): String {
         return "DomainHobby()"
     }

@@ -14,8 +14,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
-import com.uldskull.rolegameassistant.fragments.fragment.ImageUtil.Companion.resizeImage
+import com.uldskull.rolegameassistant.fragments.fragment.CustomAdapterButtonListener
+import com.uldskull.rolegameassistant.fragments.fragment.PictureUtil.Companion.resizePicture
 import com.uldskull.rolegameassistant.models.character.DomainIdeal
 
 
@@ -25,7 +25,7 @@ import com.uldskull.rolegameassistant.models.character.DomainIdeal
  **/
 class IdealsToCheckAdapter internal constructor(
     val context: Context,
-    private val buttonListener: AdapterButtonListener<DomainIdeal>
+    private val buttonListenerCustom: CustomAdapterButtonListener<DomainIdeal>
 ) :
     RecyclerView.Adapter<IdealsToCheckAdapter.IdealsToCheckViewHolder>() {
     companion object {
@@ -38,25 +38,6 @@ class IdealsToCheckAdapter internal constructor(
     /**  Ideals list  **/
     private var ideals = emptyList<DomainIdeal?>()
 
-
-    /**  Inner class to display  **/
-    inner class IdealsToCheckViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var idealCheckedItemView: CheckBox = itemView.findViewById(R.id.chk_ideal)
-        var idealValueItemView: TextView = itemView.findViewById(R.id.tv_ideal)
-        var idealNameItemView: TextView = itemView.findViewById(R.id.activityEditIdeals_textView_idealTitle)
-        var idealAlignmentItemView: ImageView = itemView.findViewById(R.id.img_alignment)
-        var idealEvilPoints: TextView = itemView.findViewById(R.id.tv_idealEvilPoints)
-        var idealGoodPoints: TextView = itemView.findViewById(R.id.tv_idealGoodPoints)
-        var idealOverlay: View = itemView.findViewById(R.id.ideal_overlay)
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IdealsToCheckViewHolder {
-        Log.d("IdealsAdapter", "onCreateViewHolder")
-        val itemView = layoutInflater.inflate(R.layout.fragment_idealtocheck_recyclerview_item, parent, false)
-
-        return IdealsToCheckViewHolder(itemView)
-    }
-
     /**
      * Returns the total number of items in the data set held by the adapter.
      *
@@ -65,6 +46,48 @@ class IdealsToCheckAdapter internal constructor(
     override fun getItemCount(): Int {
         Log.d("IdealsAdapter", "getItemCount")
         return ideals.size
+    }
+
+    /**  Inner class to display  **/
+    inner class IdealsToCheckViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var idealCheckedItemView: CheckBox = itemView.findViewById(R.id.chk_ideal)
+        var idealValueItemView: TextView = itemView.findViewById(R.id.tv_ideal)
+        var idealNameItemView: TextView =
+            itemView.findViewById(R.id.activityEditIdeals_textView_idealTitle)
+        var idealAlignmentItemView: ImageView = itemView.findViewById(R.id.img_alignment)
+        var idealEvilPoints: TextView = itemView.findViewById(R.id.tv_idealEvilPoints)
+        var idealGoodPoints: TextView = itemView.findViewById(R.id.tv_idealGoodPoints)
+        var idealOverlay: View = itemView.findViewById(R.id.ideal_overlay)
+
+        /**
+         * Bind the holder
+         */
+        fun bind(domainIdeal: DomainIdeal?) {
+            idealValueItemView.maxWidth = 550
+            idealNameItemView.text = domainIdeal?.idealName
+            idealEvilPoints.text = domainIdeal?.idealEvilPoints.toString()
+            idealGoodPoints.text = domainIdeal?.idealGoodPoints.toString()
+            if (domainIdeal != null) {
+                if (domainIdeal.isChecked != null) {
+                    idealCheckedItemView.isChecked = domainIdeal.isChecked!!
+                }
+            }
+
+            val idealGoodPoints = domainIdeal?.idealGoodPoints
+            val idealEvilPoints = domainIdeal?.idealEvilPoints
+            setAlignmentIcon(idealEvilPoints, idealGoodPoints, this)
+        }
+
+        init {
+            idealOverlay.setOnClickListener {
+                var checked = ideals[adapterPosition]?.isChecked
+                if (checked != null) {
+                    ideals[adapterPosition]?.isChecked = !checked
+                }
+                idealCheckedItemView.isChecked = ideals[adapterPosition]?.isChecked!!
+                buttonListenerCustom.itemPressed(ideals[adapterPosition])
+            }
+        }
     }
 
     /**
@@ -89,40 +112,46 @@ class IdealsToCheckAdapter internal constructor(
      * @param position The position of the item within the adapter's data set.
      */
     override fun onBindViewHolder(holder: IdealsToCheckViewHolder, position: Int) {
-        val current = ideals[position]
-
-        holder.idealValueItemView.maxWidth = 550
-        holder.idealNameItemView.text = current?.idealName
-        holder.idealEvilPoints.text = current?.idealEvilPoints.toString()
-        holder.idealGoodPoints.text = current?.idealGoodPoints.toString()
-        if (current != null) {
-            Log.d("DEBUG$TAG", "Current is checked : ${current.isChecked}")
-            if (current.isChecked != null) {
-                holder.idealCheckedItemView.isChecked = current.isChecked!!
-            }
-
-        }
-
-
-        val idealGoodPoints = current?.idealGoodPoints
-        val idealEvilPoints = current?.idealEvilPoints
-        setAlignmentIcon(idealEvilPoints, idealGoodPoints, holder)
-
-        holder.idealOverlay.setOnClickListener {
-
-            Log.d("DEBUG$TAG", "OVERLAY")
-            var checked = current?.isChecked
-            if (checked != null) {
-                current?.isChecked = !checked
-            }
-            Log.d("DEBUG$TAG", "current is checked : ${current?.isChecked}")
-            holder.idealCheckedItemView.isChecked = current?.isChecked!!
-            this.buttonListener.itemPressed(current)
-        }
+        holder.bind(ideals[position])
 
 
     }
 
+    /**
+     * Called when RecyclerView needs a new [ViewHolder] of the given type to represent
+     * an item.
+     *
+     *
+     * This new ViewHolder should be constructed with a new View that can represent the items
+     * of the given type. You can either create a new View manually or inflate it from an XML
+     * layout file.
+     *
+     *
+     * The new ViewHolder will be used to display items of the adapter using
+     * [.onBindViewHolder]. Since it will be re-used to display
+     * different items in the data set, it is a good idea to cache references to sub views of
+     * the View to avoid unnecessary [View.findViewById] calls.
+     *
+     * @param parent The ViewGroup into which the new View will be added after it is bound to
+     * an adapter position.
+     * @param viewType The view type of the new View.
+     *
+     * @return A new ViewHolder that holds a View of the given view type.
+     * @see .getItemViewType
+     * @see .onBindViewHolder
+     */
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IdealsToCheckViewHolder {
+        Log.d("IdealsAdapter", "onCreateViewHolder")
+        val itemView =
+            layoutInflater.inflate(R.layout.fragment_idealtocheck_recyclerview_item, parent, false)
+
+        return IdealsToCheckViewHolder(itemView)
+    }
+
+
+    /**
+     * Set the alignment icon
+     */
     private fun setAlignmentIcon(
         idealEvilPoints: Int?,
         idealGoodPoints: Int?,
@@ -131,14 +160,14 @@ class IdealsToCheckAdapter internal constructor(
         if (idealEvilPoints != null && idealGoodPoints != null) {
             if (idealEvilPoints > idealGoodPoints) {
                 holder.idealAlignmentItemView.setImageBitmap(
-                    resizeImage(
+                    resizePicture(
                         BitmapFactory.decodeResource(context.resources, R.drawable.evil_icon),
                         250, 250
                     )
                 )
             } else {
                 holder.idealAlignmentItemView.setImageBitmap(
-                    resizeImage(
+                    resizePicture(
                         BitmapFactory.decodeResource(context.resources, R.drawable.good_icon),
                         250, 250
                     )

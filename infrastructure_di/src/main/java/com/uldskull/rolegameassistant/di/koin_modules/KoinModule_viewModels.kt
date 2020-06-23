@@ -48,7 +48,7 @@ val viewModelModule = module {
     viewModel {
         SkillsViewModel(
             application = get(),
-            skillToCheckRepository = get()
+            skillToCheckToCheckRepository = get()
         )
     }
     //  Bonds ViewModel
@@ -137,6 +137,13 @@ val viewModelModule = module {
     //  Hobbies view model
     viewModel {
         HobbiesViewModel(
+            application = get()
+        )
+    }
+    
+    //  basic info view model
+    viewModel { 
+        BasicInfoViewModel(
             application = get()
         )
     }

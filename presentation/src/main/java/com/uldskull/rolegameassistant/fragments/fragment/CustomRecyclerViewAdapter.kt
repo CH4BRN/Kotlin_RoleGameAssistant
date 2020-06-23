@@ -8,11 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
 
 /**
  *   Class "CustomRecyclerViewAdapter" :
- *   TODO: Fill class use.
+ *   Custom recycler view adapter
  **/
 abstract class CustomRecyclerViewAdapter internal constructor(
     context: Context
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    /**
+     * Ensure that viewHolder has a onClickListener method
+     */
     fun <T : RecyclerView.ViewHolder> T.listen(event: (position: Int, type: Int) -> Unit): T {
         itemView.setOnClickListener {
             event.invoke(adapterPosition, itemViewType)

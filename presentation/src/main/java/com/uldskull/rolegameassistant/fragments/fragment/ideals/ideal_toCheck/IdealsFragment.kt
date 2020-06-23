@@ -80,9 +80,6 @@ class IdealsFragment : CustomFragment() {
         setButtonAddIdeal()
     }
 
-
-
-
     /**
      * Load ideals's recycler view.
      */

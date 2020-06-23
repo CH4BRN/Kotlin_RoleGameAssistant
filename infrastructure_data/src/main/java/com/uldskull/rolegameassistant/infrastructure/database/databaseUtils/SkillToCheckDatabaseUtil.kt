@@ -9,13 +9,17 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_skill.DbS
 /**
 Class "SkillToCheckDatabaseUtil"
 
-TODO: Describe class utility.
+Database utils for skills to check
  */
 class SkillToCheckDatabaseUtil {
     companion object{
         private const val TAG = "SkillToCheckDatabaseUtil"
 
+        /**
+         * Populate database with skills to check
+         */
         fun populateSkillsToCheck(
+            //  TODO("Populate database")
             skillsToCheckDao: DbSkillToCheckDao
         ){
 

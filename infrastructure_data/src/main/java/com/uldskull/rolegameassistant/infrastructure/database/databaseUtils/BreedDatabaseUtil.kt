@@ -9,7 +9,7 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.dis
 
 /**
  *   Class "BreedDatabaseUtil" :
- *   TODO: Fill class use.
+ *   Database utils for breed
  **/
 class BreedDatabaseUtil {
     companion object{
@@ -49,12 +49,13 @@ class BreedDatabaseUtil {
                 )
 
             )
-            var result = displayedBreedDao.insertBreeds(dbBreeds)
-            result.forEach {
-                Log.d("Insert result", it.toString())
-            }
+            dbBreeds?.forEach {
+                if(displayedBreedDao?.getBreedById(it?.breedId) == null){
+                    displayedBreedDao?.insert(it)
+                    Log.d("Insert result", it.toString())
+                }
 
+            }
         }
     }
-// TODO : Fill class.
 }

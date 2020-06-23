@@ -14,7 +14,7 @@ import com.uldskull.rolegameassistant.models.character.characteristic.DomainRoll
 
 /**
  *   Class "DerivedValuesViewModel" :
- *   TODO: Fill class use.
+ *   Viewmodel for derived values
  **/
 class DerivedValuesViewModel(application: Application) : AndroidViewModel(application) {
     companion object {
@@ -22,9 +22,19 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
         private const val TAG = "DerivedValuesViewModel"
     }
 
+    /**
+     * Has know score edit text changed ?
+     */
     var knowScoreEditTextHasChanged: Boolean = false
 
+    /**
+     * Has know edit text changed ?
+     */
     var knowEditTextHasChanged: Boolean = false
+
+    /**
+     *  Has cthulhu myth edit text changed ?
+     */
     var cthulhuMythScoreEditTextHasChanged: Boolean = false
 
     /**
@@ -32,7 +42,9 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
      */
     var cthulhuMythScore: MutableLiveData<Int> = MutableLiveData()
 
-
+    /**
+     * Enum for damage bonus
+     */
     enum class DamageBonus(value: String) {
         Minus1D6("-1D6"),
         Minus1D4("-1D4"),
@@ -50,18 +62,47 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
         Plus10D6("+10D6")
     }
 
+    /**
+     *  Has base health edit text changed ?
+     */
     var baseHealthEditTextHasChanged: Boolean = false
+
+    /**
+     *  Has breed bonus edit text changed ?
+     */
     var breedBonusEditTextHasChanged: Boolean = false
         set(value) {
             Log.d(TAG, "totalHealthEditTextHasChanged = ${value}")
             field = value
         }
+
+    /**
+     *  Has idea edit text changed ?
+     */
     var ideaEditTextHasChanged: Boolean = false
+    /**
+     *  Has sanity edit text changed ?
+     */
     var sanityEditTextHasChanged: Boolean = false
+    /**
+     *  Has luck edit text changed ?
+     */
     var luckEditTextHasChanged: Boolean = false
+    /**
+     *  Has energy edit text changed ?
+     */
     var energyPointsEdiTextHasChanged: Boolean = false
+    /**
+     *  Has size plus strength edit text changed ?
+     */
     var sizePlusStrengthEditTextHasChanged: Boolean = false
+    /**
+     *  Has damage bonus spinner selection changed ?
+     */
     var damageBonusSpinnerSelectionHasChanged: Boolean = false
+    /**
+     *  Has alignment edit text changed ?
+     */
     var alignmentEditTextHasChanged: Boolean = false
 
     /**
@@ -112,33 +153,37 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
     /**
      * Character's Size + Strength score
      */
-    var sizePlusStrengthScore:MutableLiveData<Int?> = MutableLiveData()
+    var sizePlusStrengthScore: MutableLiveData<Int?> = MutableLiveData()
 
     /**
      * Character damage bonus index
      */
-    var selectedDamageBonusIndex:MutableLiveData<Int?> = MutableLiveData()
+    var selectedDamageBonusIndex: MutableLiveData<Int?> = MutableLiveData()
 
-    var alignmentScore:MutableLiveData<Int?> = MutableLiveData()
+    var alignmentScore: MutableLiveData<Int?> = MutableLiveData()
 
     init {
-        if(cthulhuMythScore.value == 0 ||cthulhuMythScore.value == null ){
+        if (cthulhuMythScore.value == 0 || cthulhuMythScore.value == null) {
             cthulhuMythScore.value = 99
         }
     }
-    fun calculateAlignmentScore(ideals:List<DomainIdeal?>){
+
+    /**
+     * Calcuate alignment score
+     */
+    fun calculateAlignmentScore(ideals: List<DomainIdeal?>) {
         var score = 0
         ideals.forEach {
-            if(it != null){
-                if(it.idealGoodPoints != null){
+            if (it != null) {
+                if (it.idealGoodPoints != null) {
                     var goodPoints = it.idealGoodPoints
-                    if(goodPoints != null){
-                        score+=goodPoints
+                    if (goodPoints != null) {
+                        score += goodPoints
                     }
                 }
-                if(it.idealEvilPoints != null){
+                if (it.idealEvilPoints != null) {
                     var evilPoints = it.idealEvilPoints
-                    if(evilPoints != null){
+                    if (evilPoints != null) {
                         score -= evilPoints
                     }
                 }
@@ -158,7 +203,9 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
         }
     }
 
-
+    /**
+     * Calculate damage bonus
+     */
     fun calculateDamageBonus(size: DomainRollsCharacteristic, strength: DomainRollsCharacteristic) {
         Log.d(TAG, "calculateDamageBonus")
         Log.d(TAG, "Selected damage bonus index $selectedDamageBonusIndex")
@@ -211,14 +258,18 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
             sanityScore.value = score
         }
     }
-
+    /**
+     * Calculate character's luck score
+     */
     fun calculateLuckScore(power: DomainRollsCharacteristic?) {
         if (power?.characteristicTotal != null) {
             var score = power.characteristicTotal!! * 5
             luckScore.value = score
         }
     }
-
+    /**
+     * Calculate character's know score
+     */
     fun calculateKnowScore(education: DomainRollsCharacteristic) {
         Log.d("DEBUG$TAG", "calculateKnowPoints")
         if (education.characteristicTotal != null) {
@@ -259,7 +310,9 @@ class DerivedValuesViewModel(application: Application) : AndroidViewModel(applic
             totalHealth.value = baseHealthValue + breedHealthBonusValue
         }
     }
-
+    /**
+     * Calculate character's breed health bonus score
+     */
     fun calculateBreedsHealthBonus(displayedBreeds: List<DomainDisplayedBreed>): Int {
         Log.d(TAG, "calculateBreedsHealthBonus")
         var bonus: Int = 0

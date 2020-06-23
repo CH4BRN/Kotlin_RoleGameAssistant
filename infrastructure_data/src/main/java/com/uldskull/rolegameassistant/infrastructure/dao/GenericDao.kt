@@ -8,9 +8,7 @@ import androidx.room.Insert
 import androidx.room.Update
 
 /**
-Interface "GenericDao"
-
-TODO : Describe interface utility.
+ * Interface "GenericDao"
  **/
 @Dao
 open interface GenericDao<T> {

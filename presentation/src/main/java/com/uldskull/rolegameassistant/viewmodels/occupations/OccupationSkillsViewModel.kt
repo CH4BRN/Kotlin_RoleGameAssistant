@@ -19,11 +19,24 @@ class OccupationSkillsViewModel(
         private const val TAG = "OccupationSkillsViewModel"
     }
 
+    /**
+     * Lock object for threading
+     */
     private val lock = java.lang.Object()
 
+    /**
+     * Checked occupation skills
+     */
     var checkedOccupationSkills = MutableLiveData<List<DomainSkillToFill>>()
+
+    /**
+     * Current selected occupation skill
+     */
     var currentOccupationSkill = MutableLiveData<DomainSkillToFill?>()
 
+    /**
+     * occupation skills total points to spend
+     */
     var occupationSkillsTotalPointsToSpend = MutableLiveData<Int>()
 
 

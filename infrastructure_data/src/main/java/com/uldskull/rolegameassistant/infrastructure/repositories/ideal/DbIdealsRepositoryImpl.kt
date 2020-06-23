@@ -13,9 +13,12 @@ import com.uldskull.rolegameassistant.repository.ideal.IdealsRepository
 
 /**
  *   Class "IdealsRepositoryImpl" :
- *   TODO: Fill class use.
+ *   Repository for ideal
  **/
 class DbIdealsRepositoryImpl(
+    /**
+     * ideal dao
+     */
     private val dbIdealDao: DbIdealsDao
 ) : IdealsRepository<LiveData<List<DomainIdeal>>> {
     companion object {
@@ -40,6 +43,9 @@ class DbIdealsRepositoryImpl(
         }
     }
 
+    /**
+     * get ideals.
+     */
     override fun getIdeals(): List<DomainIdeal> {
         Log.d(TAG, "getAll")
         try {
@@ -51,7 +57,9 @@ class DbIdealsRepositoryImpl(
             throw e
         }
     }
-
+    /**
+     * Converts a list of database entities into domain entities
+     */
     private fun List<DbIdeal>.asDomainModel(): List<DomainIdeal> {
         Log.d(TAG, "asDomainModel")
         return map {
@@ -105,6 +113,9 @@ class DbIdealsRepositoryImpl(
         }
     }
 
+    /**
+     * delete one ideal
+     */
     override fun deleteOne(ideal: DomainIdeal): Int {
         Log.d(TAG, "deleteOne")
         if (ideal == null) {

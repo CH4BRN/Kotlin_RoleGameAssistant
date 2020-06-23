@@ -5,13 +5,16 @@ package com.uldskull.rolegameassistant.infrastructure.database_model.db_ideal
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
-import com.uldskull.rolegameassistant.infrastructure.database_model.databaseModelContracts.strSeparator
+import com.uldskull.rolegameassistant.infrastructure.database_model.DatabaseModelContracts.strSeparator
 
 /**
  *   Class "IdealConverter" :
- *   TODO: Fill class use.
+ *   Converter for ideal / gsonstring
  **/
 class DbIdealConverter {
+    /**
+     * Converts an ideal list into a gson string
+     */
     @TypeConverter
     fun convertIdealListToString(ideals: List<DbIdeal?>?): String {
         var str = ""
@@ -30,10 +33,12 @@ class DbIdealConverter {
                 }
             }
         }
-
         return str
     }
 
+    /**
+     * Converts a string into a ideals list
+     */
     @TypeConverter
     fun convertStringToList(idealsString: String): List<DbIdeal> {
         var idealsArray = idealsString.split(strSeparator)

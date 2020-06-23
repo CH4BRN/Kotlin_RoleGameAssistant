@@ -13,11 +13,17 @@ import com.uldskull.rolegameassistant.repository.skill.FilledHobbySkillRepositor
 /**
 Class "DbFilledHobbySkillRepositoryImpl"
 
-TODO: Describe class utility.
+Repository for hobby filled skill
  */
 class DbFilledHobbySkillRepositoryImpl(
+    /**
+     * Filled skill dao
+     */
     private val dbFilledOccupationSkillDao: DbFilledOccupationSkillDao
 ) : FilledHobbySkillRepository<LiveData<List<DomainSkillToFill>>> {
+    /**
+     * Delete all skills by character id
+     */
     override fun deleteAllByCharacterId(id: Long): Int {
         Log.d(TAG, "deleteAllByCharacterId")
         try {
@@ -46,7 +52,9 @@ class DbFilledHobbySkillRepositoryImpl(
             throw e
         }
     }
-
+    /**
+     * Converts a list of database entities into domain entities
+     */
     private fun List<DbFilledSkill>.asDomainModel(): List<DomainSkillToFill> {
         Log.d("DEBUG$TAG", "asDomainModel")
         return map {

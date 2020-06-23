@@ -7,11 +7,20 @@ import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
 
 /**
  *   Class "DomainOccupationWithSkills" :
- *   TODO: Fill class use.
+ *   Holds an occupation with its skills
  **/
 class DomainOccupationWithSkills (
+    /**
+     * The occupation
+     */
     var occupation:DomainOccupation?,
+    /**
+     * The skills list
+     */
     var skills:List<DomainSkillToCheck>){
+    /**
+     * Returns a string representation of the object.
+     */
     override fun toString(): String {
         return "DomainOccupationWithSkills(occupation=$occupation, skills=$skills)"
     }

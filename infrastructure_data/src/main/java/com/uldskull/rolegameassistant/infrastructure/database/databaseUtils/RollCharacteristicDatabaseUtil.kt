@@ -10,13 +10,16 @@ import com.uldskull.rolegameassistant.models.character.characteristic.Characteri
 
 /**
  *   Class "RollCharacteristicDatabaseUtil" :
- *   TODO: Fill class use.
+ *   Database utils for roll characetristic
  **/
 class RollCharacteristicDatabaseUtil {
     companion object{
         private const val TAG = "RollCharacteristicDatabaseUtil"
 
 
+        /**
+         * Populate database with roll characteristics.
+         */
         fun populateRollCharacteristics(rollCharacteristicsDao: DbRollCharacteristicsDao) {
             Log.d(TAG, "populateRollCharacteristics")
             var dbRollCharacteristics = listOf(
@@ -54,7 +57,7 @@ class RollCharacteristicDatabaseUtil {
                 )
 
             )
-            var result = rollCharacteristicsDao.insertRollCharacteristics(dbRollCharacteristics)
+            var result = rollCharacteristicsDao.insert(dbRollCharacteristics)
             result.forEach {
                 Log.d("Insert result", it.toString())
             }

@@ -8,8 +8,8 @@ import com.uldskull.rolegameassistant.repository.GenericRepository
 
 /**
  *   Interface "IdealRepository" :
- *   TODO: Fill interface use.
- **/
+ *   Class to manage DomainIdeal persistence.
+**/
 interface IdealsRepository<T> :
     GenericRepository<T, DomainIdeal> {
 

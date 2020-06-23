@@ -6,10 +6,18 @@ package com.uldskull.rolegameassistant.repository
 /**
  *   Interface "GenericRepository" :
  *   Interface for generic repository.
+ *   The repository class will be responsible for interacting with
+ *   the Room database on behalf of the ViewModel and will need to provide methods that use
+ *   the DAO to insert, delete and query basic info records.
+ *   With the exception of the getAllBasicInfo() DAO method
+ *   (which returns a LiveData object)
+ *   these database operations will need to be performed on separate threads from the main
+ *   thread using the AsyncTask class.
  **/
 interface GenericRepository<T, U> {
     /** Get all entities    */
     fun getAll(): T?
+
     /** Get one entity by its id    */
     fun findOneById(id: Long?): U?
 

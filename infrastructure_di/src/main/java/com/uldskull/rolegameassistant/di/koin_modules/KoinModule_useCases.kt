@@ -9,10 +9,22 @@ import com.uldskull.rolegameassistant.useCases.diceRoll.DiceServiceImpl
 import com.uldskull.rolegameassistant.useCases.diceRoll.GetOneDiceRollUseCase
 import org.koin.dsl.module
 
+/**
+ * Use cases module
+ */
 val useCasesModule = module {
+    /**
+     * Dice roll use case di
+     */
     factory { GetOneDiceRollUseCase() }
 }
 
+/**
+ * Use cases service module
+ */
 val useCasesServiceModule = module {
+    /**
+     * dice service di
+     */
     single<DiceService> { DiceServiceImpl(get()) }
 }

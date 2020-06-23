@@ -12,7 +12,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
+import com.uldskull.rolegameassistant.fragments.fragment.CustomAdapterButtonListener
 import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
 
 
@@ -22,14 +22,15 @@ import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
  **/
 class OccupationSkillsAdapter constructor(
     val context: Context,
-    private val occupationSkillsRecyclerViewFragment_buttonListener: AdapterButtonListener<DomainSkillToFill>
+    private val occupationSkillsRecyclerViewFragment_buttonListenerCustom: CustomAdapterButtonListener<DomainSkillToFill>
 ) : RecyclerView.Adapter<OccupationSkillsAdapter.OccupationSkillsViewHolder>() {
-    //: CustomRecyclerViewAdapter(context)
     companion object {
         private const val TAG = "OccupationSkillsAdapter"
     }
 
-
+    /**
+     * Checked position
+     */
     var checkedPosition: Int = 0
 
     /**
@@ -117,9 +118,6 @@ class OccupationSkillsAdapter constructor(
         var tvOccupationSkillBase: TextView? = itemView.findViewById(R.id.tv_occupationSkillBase)
         var tvOccupationSkillAdd: TextView? = itemView.findViewById(R.id.tv_occupationSkillAdd)
         var tvOccupationSkillTotal: TextView? = itemView.findViewById(R.id.tv_occupationSkillTotal)
-        var tvOccupationSkillPlus: TextView? = itemView.findViewById(R.id.tv_occupationSkillPlus)
-        var tvOccupationSkillSeparator: TextView? =
-            itemView.findViewById(R.id.tv_occupationSkillSeparator)
 
         /**
          * Bind the view holder
@@ -163,7 +161,7 @@ class OccupationSkillsAdapter constructor(
                     context.getDrawable(R.drawable.my_recycler_view_selected_cell_background)
                 tvOccupationSkillName?.setTextColor(context.getColor(R.color.colorPrimary))
 
-                occupationSkillsRecyclerViewFragment_buttonListener.itemPressed(occupationSkills[adapterPosition], adapterPosition)
+                occupationSkillsRecyclerViewFragment_buttonListenerCustom.itemPressed(occupationSkills[adapterPosition], adapterPosition)
                 // tvOccupationSkillTotal?.visibility = View.VISIBLE
                 if (checkedPosition != adapterPosition) {
                     notifyItemChanged(checkedPosition)

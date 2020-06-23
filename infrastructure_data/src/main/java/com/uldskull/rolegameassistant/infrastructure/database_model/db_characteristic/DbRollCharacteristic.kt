@@ -13,21 +13,41 @@ import com.uldskull.rolegameassistant.models.character.characteristic.DomainRoll
 
 /**
  *   Class "DbRollCharacteristic" :
- *   TODO: Fill class use.
+ *   Database model for roll characteristic.
  **/
 @Entity(tableName = TABLE_NAME_ROLL_CHARACTERISTICS)
 class DbRollCharacteristic(
+    /**
+     * Characteristic's identifier
+     */
     @PrimaryKey(autoGenerate = true)
     val characteristicId: Long? = null,
+    /**
+     * Characteristic's name
+     */
     val characteristicName: String?,
+    /**
+     * Characteristic's bonus
+     */
     val characteristicBonus: Int? = 0,
+    /**
+     * Characteristic's max
+     */
     val characteristicMax: Int? = 24,
+    /**
+     * Characteristic's roll
+     */
     val characteristicRoll: Int? = 0,
+    /**
+     * Characteristic's total
+     */
     val characteristicTotal: Int? = 0,
+    /**
+     * Characteristic's rule
+     */
     val characteristicRollRule: String?
 ) :
     DbEntity<DomainRollsCharacteristic> {
-
 
     companion object : DbCompanion<DomainRollsCharacteristic, DbRollCharacteristic> {
         /**
@@ -64,6 +84,9 @@ class DbRollCharacteristic(
         )
     }
 
+    /**
+     * Returns a string representation of the object.
+     */
     override fun toString(): String {
         return "DbRollCharacteristic(characteristicId=$characteristicId, characteristicName=$characteristicName, characteristicBonus=$characteristicBonus, characteristicMax=$characteristicMax, characteristicRoll=$characteristicRoll, characteristicTotal=$characteristicTotal, characteristicRollRule=$characteristicRollRule)"
     }

@@ -5,9 +5,12 @@ package com.uldskull.rolegameassistant.useCases.diceRoll
 
 /**
  *   Class "DiceServiceImpl" :
- *   TODO: Implements coroutines
+ *   Holds the dices service implementation
  **/
 class DiceServiceImpl(
+    /**
+     * use case for "getOneDice"
+     */
     private val getOneDiceRollUseCase: GetOneDiceRollUseCase
 ) : DiceService {
 
@@ -15,10 +18,16 @@ class DiceServiceImpl(
         private const val TAG = "DiceServiceImpl"
     }
 
+    /**
+     * Get one dice roll with a number of faces
+     */
     override fun getOneDiceRollWithANumberOfFace(numberOfFace: Int): Int {
         return getOneDiceRollUseCase.execute(numberOfFace)
     }
 
+    /**
+     * Get multiple dice rolls specifying the number of faces.
+     */
     override fun getMultipleDiceRollWithANumberOfFace(numberOfFaces: ArrayList<Int>): ArrayList<Int> {
         var list: ArrayList<Int>? = null
 

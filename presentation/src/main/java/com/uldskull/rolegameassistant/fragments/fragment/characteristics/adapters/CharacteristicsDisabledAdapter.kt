@@ -9,7 +9,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.EditTextUtil.Companion.
 
 /**
  *   Class "CharacteristicsDisabledAdapter" :
- *   TODO: Fill class use.
+ *   Adapter with disabled edit texts for characteristics
  **/
 class CharacteristicsDisabledAdapter(context: Context) : CharacteristicsAdapter(context) {
     companion object {

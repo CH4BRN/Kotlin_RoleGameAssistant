@@ -14,7 +14,7 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_skill.DbS
 
 /**
  *   Class "OccupationDatabaseUtil" :
- *   TODO: Fill class use.
+ *   Database utils for occupation
  **/
 class OccupationDatabaseUtil {
     companion object {
@@ -32,14 +32,13 @@ class OccupationDatabaseUtil {
         }
 
 
-
         private fun insertAcrobat(
             occupationsDao: DbOccupationsDao,
             occupationSkillDao: DbSkillToCheckDao,
             occupationWithSkillDao: DbOccupationDbSkillDao
         ) {
             Log.d(TAG, "insertAcrobat")
-            var occupationId = occupationsDao.insertOccupation(
+            var occupationId = occupationsDao.insert(
                 DbOccupation(
                     occupationName = "Acrobat",
                     occupationContacts = "Amateur athletic circles, sports writers, circuses, and carnivals",
@@ -48,7 +47,7 @@ class OccupationDatabaseUtil {
                 )
             )
             Log.d(TAG, "occupation id : ${occupationId}")
-            var skillId = occupationSkillDao.insertSkillToCheck(
+            var skillId = occupationSkillDao.insert(
                 DbSkillToCheck(
                     skillName = "Bargain  ",
                     skillDescription = "The skill of obtaining something for an agreeable price. \n" +
@@ -86,7 +85,7 @@ class OccupationDatabaseUtil {
         ) {
             Log.d(TAG, "insertAccountant")
 
-            var occupationId = occupationsDao.insertOccupation(
+            var occupationId = occupationsDao.insert(
                 DbOccupation(
                     occupationName = "Accountant",
                     occupationContacts = "Contacts: Other accountants",
@@ -96,7 +95,7 @@ class OccupationDatabaseUtil {
             )
             Log.d(TAG, "occupation id : ${occupationId}")
 
-            var skillId = occupationSkillDao.insertSkillToCheck(
+            var skillId = occupationSkillDao.insert(
                 DbSkillToCheck(
                     skillName = "Accounting ",
                     skillDescription = " Grants understanding of accountancy procedures, and reveals " +
@@ -119,7 +118,7 @@ class OccupationDatabaseUtil {
             )
             Log.d(TAG, "crossID : ${crossId}")
 
-            skillId = occupationSkillDao.insertSkillToCheck(
+            skillId = occupationSkillDao.insert(
                 DbSkillToCheck(
                     skillName = "Anthropology  ",
                     skillDescription = "Enables the user to identify and understand an individual’s" +

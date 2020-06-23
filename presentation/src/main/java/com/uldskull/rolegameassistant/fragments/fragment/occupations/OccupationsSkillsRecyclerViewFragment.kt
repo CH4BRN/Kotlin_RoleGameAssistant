@@ -29,7 +29,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  **/
 class OccupationsSkillsRecyclerViewFragment :
     CustomRecyclerViewFragment(),
-    AdapterButtonListener<DomainSkillToCheck> {
+    CustomAdapterButtonListener<DomainSkillToCheck> {
 
     companion object : CustomCompanion() {
         private const val TAG = "OccupationsSkillsRecyclerView"
@@ -46,8 +46,19 @@ class OccupationsSkillsRecyclerViewFragment :
     }
 
     //  VIEWMODELS
+    /**
+     * Occupations view model
+     */
     private val occupationsViewModel: OccupationsViewModel by sharedViewModel()
+
+    /**
+     * New character view model
+     */
     private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
+
+    /**
+     * occupations skills recycler view
+     */
     private var occupationsSkillsRecyclerView: RecyclerView? = null
 
 
@@ -63,8 +74,14 @@ class OccupationsSkillsRecyclerViewFragment :
         setRecyclerViewLayoutManager()
     }
 
+    /**
+     * Occupations skills adapter
+     */
     var occupationsSkillsAdapter: OccupationsSkillsDescriptionAdapter? = null
 
+    /**
+     * Initialize occupations skills adapter
+     */
     private fun initializeOccupationsSkillsAdapter() {
         if (activity != null) {
             occupationsSkillsAdapter = OccupationsSkillsDescriptionAdapter(
@@ -74,6 +91,9 @@ class OccupationsSkillsRecyclerViewFragment :
         }
     }
 
+    /**
+     * Fragment life-cycle
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initializeOccupationsSkillsAdapter()
@@ -89,6 +109,9 @@ class OccupationsSkillsRecyclerViewFragment :
     }
 
 
+    /**
+     * Observe selected occupation
+     */
     private fun observeSelectedOccupation() {
         occupationsViewModel.selectedOccupation?.observe(
             this,
@@ -116,8 +139,10 @@ class OccupationsSkillsRecyclerViewFragment :
             })
     }
 
+    /**
+     * Observe occupation skills
+     */
     private fun observeOccupationsSkills() {
-
         occupationsViewModel.observedOccupationsSkills?.observe(
             this, Observer { domainOccupationsSkills: List<DomainSkillToCheck?> ->
 
@@ -173,6 +198,9 @@ class OccupationsSkillsRecyclerViewFragment :
         }
     }
 
+    /**
+     * Layout manager
+     */
     private var layoutManager: LinearLayoutManager? = null
 
     /**

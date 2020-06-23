@@ -29,15 +29,28 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
  *   Class "DerivedValues2Fragment" :
- *   TODO("COMMENT")
+ *   Derived values 2 fragment
  **/
 class DerivedValues2Fragment : CustomFragment() {
-
+    /**
+     * Ideals view model
+     */
     private val idealsViewModel: IdealsViewModel by sharedViewModel()
+
+    /**
+     * Characteristics view model
+     */
     private val characteristicsViewModel: CharacteristicsViewModel by sharedViewModel()
+
+    /**
+     * Derived values view model
+     */
     private val derivedValuesViewModel: DerivedValuesViewModel by sharedViewModel()
 
 
+    /**
+     * fragment lifecycle
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -47,6 +60,9 @@ class DerivedValues2Fragment : CustomFragment() {
         return initializeView(inflater, container)
     }
 
+    /**
+     * fragment lifecycle
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d(TAG, "onViewCreated")
@@ -60,17 +76,22 @@ class DerivedValues2Fragment : CustomFragment() {
         startObservation()
     }
 
+    /**
+     * start observation
+     */
     private fun startObservation() {
         observeCharacteristics()
         observePowerScore()
         observeSizePlusStrengthScore()
-        observeDamageBonus()
         observeDamageBonusIndex()
         observeIdeals()
         observeAlignmentScore()
         observeCthulhuMythScore()
     }
 
+    /**
+     * Observe cthulhu myth score
+     */
     private fun observeCthulhuMythScore() {
         derivedValuesViewModel.cthulhuMythScore.observe(this, Observer { score ->
             kotlin.run {
@@ -84,6 +105,9 @@ class DerivedValues2Fragment : CustomFragment() {
         })
     }
 
+    /**
+     * observe alignment score
+     */
     private fun observeAlignmentScore() {
         derivedValuesViewModel.alignmentScore.observe(this, Observer { score ->
             kotlin.run {
@@ -99,6 +123,9 @@ class DerivedValues2Fragment : CustomFragment() {
         })
     }
 
+    /**
+     * observe ideals
+     */
     private fun observeIdeals() {
         idealsViewModel.mutableIdeals?.observe(this, Observer { idealList ->
             if (idealList != null) {
@@ -108,10 +135,16 @@ class DerivedValues2Fragment : CustomFragment() {
         })
     }
 
+    /**
+     * calculate alignment score
+     */
     private fun calculateAlignmentScore(checkedIdeals: List<DomainIdeal?>) {
         derivedValuesViewModel.calculateAlignmentScore(checkedIdeals)
     }
 
+    /**
+     * observe damage bonus index
+     */
     private fun observeDamageBonusIndex() {
         derivedValuesViewModel.selectedDamageBonusIndex.observe(this, Observer {
             if (it != null) {
@@ -123,13 +156,9 @@ class DerivedValues2Fragment : CustomFragment() {
         })
     }
 
-    private fun observeDamageBonus() {
-        derivedValuesViewModel.damageBonus.observe(this, Observer {
-            Log.d("DEBUG$TAG", "Damage bonus :${it.toString()}")
-        })
-    }
-
-
+    /**
+     * observe size plus strength score
+     */
     private fun observeSizePlusStrengthScore() {
         derivedValuesViewModel.sizePlusStrengthScore.observe(this, Observer {
             if (et_sizePlusStrength.text.toString() != it.toString()) {
@@ -138,6 +167,9 @@ class DerivedValues2Fragment : CustomFragment() {
         })
     }
 
+    /**
+     * observe power score
+     */
     private fun observePowerScore() {
         derivedValuesViewModel.energyPoints.observe(this, Observer {
             if (et_energyPoints.text.toString() != it.toString()) {
@@ -146,6 +178,9 @@ class DerivedValues2Fragment : CustomFragment() {
         })
     }
 
+    /**
+     * observe characteristics score
+     */
     private fun observeCharacteristics() {
         characteristicsViewModel.displayedCharacteristics?.observe(
             this,
@@ -163,6 +198,9 @@ class DerivedValues2Fragment : CustomFragment() {
             })
     }
 
+    /**
+     * calculate damage bonus value
+     */
     private fun calculateDamageBonus(
         size: DomainRollsCharacteristic?,
         strength: DomainRollsCharacteristic?
@@ -172,10 +210,16 @@ class DerivedValues2Fragment : CustomFragment() {
         }
     }
 
+    /**
+     * calculate energy score
+     */
     private fun calculateEnergyScore(power: DomainRollsCharacteristic?) {
         derivedValuesViewModel.calculateEnergyPoints(power)
     }
 
+    /**
+     * set miscellaneous listeners
+     */
     private fun setListeners() {
         setBtnEditClickListener()
         setEnergyPointsTextChangedListener()
@@ -186,18 +230,20 @@ class DerivedValues2Fragment : CustomFragment() {
     }
 
 
+    /**
+     * set alignment points text changed listener
+     */
     private fun setAlignmentPointsTextChangedListener() {
         if (et_alignmentPoints != null) {
             et_alignmentPoints.addTextChangedListener(alignmentPointsTextWatcher())
         }
     }
 
+    /**
+     * Alignment points text watcher
+     */
     private fun alignmentPointsTextWatcher(): CustomTextWatcher {
         return object : CustomTextWatcher() {
-            override fun afterTextChanged(s: Editable?) {
-
-
-            }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (!s.isNullOrEmpty()) {
@@ -219,6 +265,9 @@ class DerivedValues2Fragment : CustomFragment() {
         }
     }
 
+    /**
+     * Set damage bonus spinner selection changed listener
+     */
     private fun setDamageBonusSpinnerSelectionChangedListener() {
         spinner_damageBonus.onItemSelectedListener = object : CustomOnItemSelectedListener() {
 
@@ -233,12 +282,13 @@ class DerivedValues2Fragment : CustomFragment() {
                     derivedValuesViewModel.damageBonus.value =
                         DerivedValuesViewModel.DamageBonus.values()[position]
                 }
-
             }
-
         }
     }
 
+    /**
+     * set size plus strength text changed listener
+     */
     private fun setSizePlusStrengthTextChangedListener() {
         et_sizePlusStrength.addTextChangedListener(object : CustomTextWatcher() {
 
@@ -254,7 +304,7 @@ class DerivedValues2Fragment : CustomFragment() {
                         }
 
                     } catch (e: Exception) {
-                        Log.e(TAG, "et_sizePlusStrength FAILED")
+                        Log.e("ERROR$TAG", "et_sizePlusStrength FAILED")
                         e.printStackTrace()
                         throw e
                     }
@@ -263,11 +313,11 @@ class DerivedValues2Fragment : CustomFragment() {
         })
     }
 
+    /**
+     * Set energy points text changed listener
+     */
     private fun setEnergyPointsTextChangedListener() {
         et_energyPoints.addTextChangedListener(object : CustomTextWatcher() {
-            override fun afterTextChanged(s: Editable?) {
-
-            }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (!s.isNullOrEmpty()) {
@@ -278,7 +328,7 @@ class DerivedValues2Fragment : CustomFragment() {
                         }
 
                     } catch (e: Exception) {
-                        Log.e(TAG, "et_energyPoints FAILED")
+                        Log.e("ERROR$TAG", "et_energyPoints FAILED")
                         e.printStackTrace()
                         throw e
                     }
@@ -287,6 +337,9 @@ class DerivedValues2Fragment : CustomFragment() {
         })
     }
 
+    /**
+     * set cthulhu myth points text changed listener
+     */
     private fun setCthulhuMythPointsTextChangedListener() {
         et_cthulhuMyth.addTextChangedListener(object : CustomTextWatcher() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -298,7 +351,7 @@ class DerivedValues2Fragment : CustomFragment() {
                         }
 
                     } catch (e: Exception) {
-                        Log.e(TAG, "et_cthulhuMyth FAILED")
+                        Log.e("ERROR$TAG", "et_cthulhuMyth FAILED")
                         e.printStackTrace()
                         throw e
                     }
@@ -308,6 +361,9 @@ class DerivedValues2Fragment : CustomFragment() {
     }
 
 
+    /**
+     * set damage bonnus spinner
+     */
     private fun setDamageBonusSpinner() {
         if (spinner_damageBonus != null) {
 
@@ -324,6 +380,9 @@ class DerivedValues2Fragment : CustomFragment() {
     }
 
 
+    /**
+     * set alignment picture
+     */
     private fun setAlignmentPicture(score: Int) {
         Log.d(TAG, "setAlignmentPicture")
         if (derivedValues_img_alignment != null) {
@@ -342,7 +401,9 @@ class DerivedValues2Fragment : CustomFragment() {
         }
     }
 
-
+    /**
+     * set button edit on click listener
+     */
     private fun setBtnEditClickListener() {
         if (btn_edit != null) {
             btn_edit?.setOnClickListener {
@@ -352,6 +413,9 @@ class DerivedValues2Fragment : CustomFragment() {
         }
     }
 
+    /**
+     * enable or disable damage bonus spinner
+     */
     private fun enableOrDisableDamageBonusSpinner() {
         if (spinner_damageBonus != null) {
             val enabled = spinner_damageBonus.isEnabled
@@ -359,6 +423,9 @@ class DerivedValues2Fragment : CustomFragment() {
         }
     }
 
+    /**
+     * enable or disable edit texts
+     */
     private fun enableOrDisableEditTexts() {
         if (et_energyPoints != null) {
             editTextEnabling(et_energyPoints)
@@ -377,7 +444,9 @@ class DerivedValues2Fragment : CustomFragment() {
         }
     }
 
-
+    /**
+     * initialize view
+     */
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         Log.d(TAG, "initializeView")
         initialRootView = layoutInflater.inflate(

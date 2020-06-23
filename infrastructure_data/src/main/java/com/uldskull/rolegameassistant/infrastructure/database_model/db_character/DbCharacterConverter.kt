@@ -4,14 +4,17 @@ package com.uldskull.rolegameassistant.infrastructure.database_model.db_characte
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
-import com.uldskull.rolegameassistant.infrastructure.database_model.databaseModelContracts.strSeparator
+import com.uldskull.rolegameassistant.infrastructure.database_model.DatabaseModelContracts.strSeparator
 
 /**
 Class "DbCharacterConverter"
 
-TODO: Describe class utility.
+Database character converter
  */
 class DbCharacterConverter {
+    /**
+     * Converts skills list into a GSon string
+     */
     @TypeConverter
     fun convertSkillsListToString(selectedSkills: List<Long?>?): String {
         var str = ""
@@ -36,6 +39,9 @@ class DbCharacterConverter {
         return str
     }
 
+    /**
+     * Converts a GSon string into a skill list
+     */
     @TypeConverter
     fun convertStringToList(skillsIdString: String):List<Long>{
         var skillsIdArray = skillsIdString.split(strSeparator)

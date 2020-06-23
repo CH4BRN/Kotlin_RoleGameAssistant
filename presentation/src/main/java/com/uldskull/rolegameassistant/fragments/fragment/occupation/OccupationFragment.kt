@@ -250,6 +250,9 @@ class OccupationFragment : CustomFragment() {
         startObservation()
     }
 
+    /**
+     * Start observation
+     */
     private fun startObservation() {
         observeCurrentOccupationSkill()
         observeCurrentOccupationSkillPosition()
@@ -260,6 +263,9 @@ class OccupationFragment : CustomFragment() {
         observeSpendOccupationTensPointsArray()
     }
 
+    /**
+     * Observes spend occupations tens points array
+     */
     private fun observeSpendOccupationTensPointsArray() {
         pointsToSpendViewModel.observableOccupationSpentTensPointsArray.observe(this, Observer {
             if (it != null && currentOccupationSkillPosition != null && it.size != 0) {
@@ -278,12 +284,18 @@ class OccupationFragment : CustomFragment() {
         })
     }
 
+    /**
+     * Observe observable points to spend
+     */
     private fun observeObservablePointsToSpend() {
         pointsToSpendViewModel.observableOccupationPointsToSpend.observe(this, Observer {
             textViewOccupationPointsValue?.text = "$it"
         })
     }
 
+    /**
+     * observe occupation skills total points to spend
+     */
     private fun observeOccupationSkillsTotalPointsToSpend() {
         occupationSkillsViewModel.occupationSkillsTotalPointsToSpend.observe(this, Observer {
             tv_totalOccupationPoints?.text = "$it"
@@ -291,6 +303,9 @@ class OccupationFragment : CustomFragment() {
         })
     }
 
+    /**
+     * Observe observable spent points
+     */
     private fun observeObservableSpentPoints() {
         pointsToSpendViewModel.observableOccupationSpentPoints.observe(this, Observer { it: Int ->
             var totalPointsToSpend: Int? =
@@ -315,6 +330,9 @@ class OccupationFragment : CustomFragment() {
             })
     }
 
+    /**
+     * load occupation skills recycler view
+     */
     private fun loadOccupationSkillsRecyclerView() {
         if (activity != null) {
             var transaction = childFragmentManager.beginTransaction()
@@ -324,7 +342,6 @@ class OccupationFragment : CustomFragment() {
             ).commit()
         }
     }
-
 
     /**
      * Set the occupation skills points to spend tew view.
@@ -394,7 +411,6 @@ class OccupationFragment : CustomFragment() {
         Log.d(TAG, "setUnitsSpinnerOnItemSelectedListener")
         spinnerUnitsValue?.onItemSelectedListener = object : CustomOnItemSelectedListener() {
 
-
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -402,16 +418,10 @@ class OccupationFragment : CustomFragment() {
                 id: Long
             ) {
                 unitsValue = this@OccupationFragment.valuesList[position]
-                Log.d(
-                    "DEBUG", "\tCurrent skill position = $currentOccupationSkillPosition\n" +
-                            "\tvalue : $unitsValue"
-                )
             }
         }
     }
 
-    var lastTensValue: Int? = null
-    var lastUnit: Int? = null
 
     /**
      * Sets the tens's spinner selection listener
@@ -436,13 +446,14 @@ class OccupationFragment : CustomFragment() {
                     }
                     pointsToSpendViewModel.observableOccupationSpentTensPointsArray.value =
                         tensPoints
-
                 }
-
             }
         }
     }
 
+    /**
+     *  Observes checked occupations skills.
+     */
     private fun observeCheckedOccupationSkills() {
         occupationSkillsViewModel.checkedOccupationSkills.observe(
             this,
@@ -495,10 +506,7 @@ class OccupationFragment : CustomFragment() {
                         Log.d("DEBUG", "spentPoints < pointsToSpend")
                         var domainFilledSkill =
                             occupationSkillsViewModel.currentOccupationSkill.value
-                        Log.d(
-                            TAG + "valid",
-                            "currentOccupationSkill : ${occupationSkillsViewModel.currentOccupationSkill.value}"
-                        )
+
                         if (tensValue != null) {
                             Log.d(TAG + "valid", "tens value : $tensValue")
                             domainFilledSkill?.filledSkillTensValue = tensValue
@@ -527,8 +535,6 @@ class OccupationFragment : CustomFragment() {
 
                         }
                         occupationSkillsViewModel.checkedOccupationSkills.value = filledSkills
-
-
                     }
 
                 } else {
@@ -580,6 +586,9 @@ class OccupationFragment : CustomFragment() {
         }
     }
 
+    /**
+     * Display alert dialog is there is not anymore points to spend.
+     */
     private fun displayAlertDialog() {
         //  There is not anymore points to spend
         val pictureDialog = AlertDialog.Builder(context!!)
@@ -637,7 +646,6 @@ class OccupationFragment : CustomFragment() {
 
         }
     }
-
 
 
     /**

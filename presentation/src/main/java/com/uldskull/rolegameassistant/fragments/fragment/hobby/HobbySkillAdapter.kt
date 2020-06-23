@@ -11,29 +11,38 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
+import com.uldskull.rolegameassistant.fragments.fragment.CustomAdapterButtonListener
 import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
 
 /**
  *   Class "HobbySkillAdapter" :
- *   TODO: Fill class use.
+ *   Adapter for hobby skills
  **/
 class HobbySkillAdapter internal constructor(
     val context: Context,
-    private val hobbySkillsRecyclerViewFragment_buttonListener:AdapterButtonListener<DomainSkillToFill>
+    private val hobbySkillsRecyclerViewFragment_buttonListenerCustom:CustomAdapterButtonListener<DomainSkillToFill>
 ) : RecyclerView.Adapter<HobbySkillAdapter.HobbySkillsViewHolder>() {
 
     companion object {
         private const val TAG = "HobbySkillAdapter"
     }
 
+    /**
+     * Current checked position
+     */
     var checkedPosition: Int = 0
 
+    /**
+     * Layout inflater
+     */
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
 
     /**  Skills list  **/
     private var hobbySkills = emptyList<DomainSkillToFill?>()
 
+    /**
+     * View holder for hobby skills
+     */
     inner class HobbySkillsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var tvHobbySkillName: TextView? = itemView.findViewById(R.id.tv_hobbySkillName)
         var tvHobbySkillBase: TextView? = itemView.findViewById(R.id.tv_hobbySkillBase)
@@ -41,6 +50,25 @@ class HobbySkillAdapter internal constructor(
         var tvHobbySkillAddUnits: TextView? = itemView.findViewById(R.id.tv_hobbySkillAddUnits)
         var tvHobbySkillTotal: TextView = itemView.findViewById(R.id.tv_hobbySkillTotal)
 
+        init {
+            /**
+             * Set itemView onClickListener
+             */
+            itemView?.setOnClickListener {
+                itemView.background = context.getDrawable(R.drawable.my_recycler_view_selected_cell_background)
+                tvHobbySkillName?.setTextColor(context.getColor(R.color.colorPrimary))
+
+                hobbySkillsRecyclerViewFragment_buttonListenerCustom.itemPressed(hobbySkills[adapterPosition], adapterPosition)
+                if(checkedPosition != adapterPosition){
+                    notifyItemChanged(checkedPosition)
+                    checkedPosition = adapterPosition
+                }
+            }
+        }
+
+        /**
+         * Bind the holder
+         */
         fun bind(skill: DomainSkillToFill?) {
             Log.d("DEBUG$TAG", "Skill : $skill")
             //holder.tvHobbySkillName?.text = current.skillName
@@ -66,16 +94,7 @@ class HobbySkillAdapter internal constructor(
                 }
             }
 
-            itemView?.setOnClickListener {
-                itemView.background = context.getDrawable(R.drawable.my_recycler_view_selected_cell_background)
-                tvHobbySkillName?.setTextColor(context.getColor(R.color.colorPrimary))
 
-                hobbySkillsRecyclerViewFragment_buttonListener.itemPressed(hobbySkills[adapterPosition], adapterPosition)
-                if(checkedPosition != adapterPosition){
-                    notifyItemChanged(checkedPosition)
-                    checkedPosition = adapterPosition
-                }
-            }
         }
     }
 
@@ -141,6 +160,9 @@ class HobbySkillAdapter internal constructor(
         holder.bind(hobbySkills[position])
     }
 
+    /**
+     * Set hobby skills
+     */
     fun setHobbySkills(skills: List<DomainSkillToFill?>) {
         this.hobbySkills = skills
         notifyDataSetChanged()

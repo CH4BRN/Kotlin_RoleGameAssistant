@@ -34,11 +34,7 @@ import com.uldskull.rolegameassistant.useCases.diceRoll.DiceService
  **/
 class NewCharacterViewModel(
     application: Application,
-    private val diceService: DiceService,
     private val characterRepository: CharacterRepository<LiveData<List<DomainCharacter>>>,
-    private val displayedBreedsRepository: DisplayedBreedsRepository<LiveData<List<DomainDisplayedBreed>>>,
-    private val characteristicRepository: BreedsCharacteristicRepository<LiveData<List<DomainBreedsCharacteristic>>>,
-    private val idealsRepository: IdealsRepository<LiveData<List<DomainIdeal>>>,
     private val filledOccupationSkillRepository: FilledOccupationSkillRepository<LiveData<List<DomainSkillToFill>>>
 ) : AndroidViewModel(application) {
 
@@ -50,6 +46,9 @@ class NewCharacterViewModel(
         private const val TAG = "NewCharacterViewModel"
     }
 
+    /**
+     * Character occupation
+     */
     var characterOccupation: DomainOccupation? = null
 
     /**
@@ -62,8 +61,10 @@ class NewCharacterViewModel(
      */
     var characterPictureUri: Uri? = null
 
+    /**
+     * Character skills ids
+     */
     var characterSkillsIds: MutableList<Long?> = mutableListOf()
-
 
     /**
      * Character's id.
@@ -106,12 +107,6 @@ class NewCharacterViewModel(
     var characterBiography = MutableLiveData<String>()
 
     /**
-     * Character breed.
-     */
-    var characterDisplayedBreeds: MutableList<DomainDisplayedBreed>? = mutableListOf()
-
-
-    /**
      * Save age into view model
      */
     fun saveAge(characterAge: String) {
@@ -123,23 +118,6 @@ class NewCharacterViewModel(
                 throw e
             }
         }
-    }
-
-    fun getCharacterWithSkills(id: Long?): DomainCharacterWithSkills? {
-        var characterWithSkills: DomainCharacterWithSkills? =
-            characterRepository.findOneWithOccupationSkills(id)
-        Log.d("DBUG$TAG", "characterWithSkills: $characterWithSkills")
-        return characterWithSkills
-    }
-
-    /**
-     * Get character skills by type and by id
-     * id thend type
-     */
-    fun getCharacterSkills(id: Long?, type: Long): List<DomainSkillToFill>? {
-        var characterWithSkills: DomainCharacterWithSkills? =
-            characterRepository.findOneWithOccupationSkills(id)
-        return characterWithSkills?.skills?.filter { s -> s.filledSkillType == type }
     }
 
     /**
@@ -188,9 +166,7 @@ class NewCharacterViewModel(
         setAge()
         setGender()
         setBiography()
-
         setHeight()
-
         setPictureUri()
         setBonds()
 
@@ -272,12 +248,6 @@ class NewCharacterViewModel(
                     insertHobbySkills(filledHobbySkills)
                     //  Get hobby skills
                     var hobbySkills = getCharacterSkills(characterId, 1)
-                    hobbySkills?.forEach {
-                        Log.d(
-                            "DEBUG$TAG",
-                            "Hobby skill :${it.skillName?.toUpperCase()} - ${it?.filledSkillTensValue}${it?.filledSkillUnitsValue}"
-                        )
-                    }
                 } catch (e: Exception) {
                     Log.e("ERROR", "Failed to insert hobby skills")
                     e.printStackTrace()
@@ -303,12 +273,7 @@ class NewCharacterViewModel(
 
                 //  Gets all skills
                 var skills = getCharacterWithSkills(characterId)
-                skills?.skills?.forEach {
-                    Log.d(
-                        "DEBUG$TAG",
-                        "Skill : ${it?.skillName?.toUpperCase()}- ${it?.filledSkillTensValue}${it?.filledSkillUnitsValue}"
-                    )
-                }
+
             }
         } catch (e: Exception) {
             Log.e("ERROR", "Insertion failed")
@@ -317,10 +282,31 @@ class NewCharacterViewModel(
         }
         Log.d("RESULT", currentCharacter.toString())
         var breeds = getCharacterWithBreeds(characterId)
-        // TODO Check saved breeds
         return currentCharacter?.characterId
     }
 
+    /**
+     * Get character with skills
+     */
+    fun getCharacterWithSkills(id: Long?): DomainCharacterWithSkills? {
+        var characterWithSkills: DomainCharacterWithSkills? =
+            characterRepository.findOneWithOccupationSkills(id)
+        Log.d("DBUG$TAG", "characterWithSkills: $characterWithSkills")
+        return characterWithSkills
+    }
+    /**
+     * Get character skills by type and by id
+     * id thend type
+     */
+    fun getCharacterSkills(id: Long?, type: Long): List<DomainSkillToFill>? {
+        var characterWithSkills: DomainCharacterWithSkills? =
+            characterRepository.findOneWithOccupationSkills(id)
+        return characterWithSkills?.skills?.filter { s -> s.filledSkillType == type }
+    }
+
+    /**
+     * Insert occupations skills
+     */
     private fun insertOccupationSkills(filledOccupationSkills: List<DomainSkillToFill>?) {
         filledOccupationSkills?.forEach { filledSkill ->
             var newSkill = DomainSkillToFill(
@@ -363,6 +349,9 @@ class NewCharacterViewModel(
         }
     }
 
+    /**
+     * Insert hobby skills
+     */
     private fun insertHobbySkills(filledHobbySkills: List<DomainSkillToFill>?) {
         Log.d("DEBUG$TAG", "FilledHobbySkills : ${filledHobbySkills?.size}")
         filledHobbySkills?.forEach {
@@ -404,22 +393,6 @@ class NewCharacterViewModel(
             }
 
 
-            /*
-               if (theSame == null) {
-             Log.d("DEBUG$TAG", "insertOne".toUpperCase())
-             var id = filledOccupationSkillRepository?.insertOne(newSkill)
-             Log.d("DEBUG$TAG", "Inserted id : $id")
-         } else {
-             var skill = filledOccupationSkillRepository.findOneById(newSkill.skillId)
-             skill?.filledSkillCharacterId = currentCharacter?.value?.characterId
-             skill?.filledSkillTensValue = newSkill?.filledSkillTensValue
-             skill?.filledSkillUnitsValue = newSkill?.filledSkillUnitsValue
-
-             var updated = filledOccupationSkillRepository.updateOne(skill)
-             Log.d(
-                 "DEBUG$TAG",
-                 "Updated $updated skill : ${skill?.skillName} - ${skill?.filledSkillCharacterId}"
-             )*/
         }
     }
 

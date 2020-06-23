@@ -20,6 +20,9 @@ class NewBreedActivity : CustomActivity() {
     }
 
 
+    /**
+     * Activity lifecycle
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d(TAG, "onCreate")
         super.onCreate(savedInstanceState)

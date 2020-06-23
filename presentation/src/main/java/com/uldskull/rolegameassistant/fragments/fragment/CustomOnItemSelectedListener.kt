@@ -8,7 +8,7 @@ import android.widget.AdapterView
 /**
 Class "CustomOnItemSelectedListener"
 
-TODO: Describe class utility.
+Custom onItemSelectedListener that only the "onItemSelected" method is abstract
  */
 abstract class CustomOnItemSelectedListener:AdapterView.OnItemSelectedListener{
     /**
@@ -19,7 +19,7 @@ abstract class CustomOnItemSelectedListener:AdapterView.OnItemSelectedListener{
      * @param parent The AdapterView that now contains no selected item.
      */
     override fun onNothingSelected(parent: AdapterView<*>?) {
-
+        // Ignore
     }
 
     /**

@@ -8,21 +8,26 @@ import androidx.room.*
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
 import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_CHARACTER_ID
 import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_CHARACTER
+import com.uldskull.rolegameassistant.infrastructure.dao.DELETE_FROM
 import com.uldskull.rolegameassistant.infrastructure.dao.GenericDao
+import com.uldskull.rolegameassistant.infrastructure.dao.SELECT_ALL_FROM
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_character.DbCharacter
 
 /**
  *   Interface "CharacterDao" :
- *   Allow interaction with SqLite database
+ *   Db Character database interactions.
  **/
 @Dao
 abstract class DbCharacterDao : GenericDao<DbCharacter> {
 
     //  READ
-    @Query("SELECT * FROM $TABLE_NAME_CHARACTER")
+    @Query("$SELECT_ALL_FROM $TABLE_NAME_CHARACTER")
     abstract fun getCharacters(): LiveData<List<DbCharacter>>
 
-    @Query("SELECT * FROM $TABLE_NAME_CHARACTER WHERE $FIELD_CHARACTER_ID LIKE :id")
+    @Query("$SELECT_ALL_FROM $TABLE_NAME_CHARACTER WHERE $FIELD_CHARACTER_ID LIKE :id")
     abstract fun getCharacterById(id: Long?): DbCharacter
+
+    @Query("$DELETE_FROM $TABLE_NAME_CHARACTER")
+    abstract fun deleteAll():Int
 
 }

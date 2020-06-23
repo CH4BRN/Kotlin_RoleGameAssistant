@@ -10,17 +10,17 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
+import com.uldskull.rolegameassistant.fragments.fragment.CustomAdapterButtonListener
 import com.uldskull.rolegameassistant.models.character.DomainIdeal
 
 /**
 Class "idealsToEditAdapter"
 
-TODO: Describe class utility.
+Adapter for ideals to edit recycler view
  */
 class IdealsToEditAdapter internal constructor(
     val context: Context,
-    val adapterButtonListener: AdapterButtonListener<DomainIdeal>
+    val customAdapterButtonListener: CustomAdapterButtonListener<DomainIdeal>
 ) : RecyclerView.Adapter<IdealsToEditAdapter.IdealsToEditViewHolder>() {
 
     companion object {
@@ -34,11 +34,17 @@ class IdealsToEditAdapter internal constructor(
     /**  Ideals list  **/
     private var ideals = emptyList<DomainIdeal?>()
 
+    /**
+     * Set ideals list
+     */
     fun setIdeals(list: List<DomainIdeal?>) {
         ideals = list
         notifyDataSetChanged()
     }
 
+    /**
+     * View holder
+     */
     inner class IdealsToEditViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var idealTitle: TextView = itemView.findViewById(R.id.tv_idealToEdit_title)
         var idealGoodPoints: TextView = itemView.findViewById(R.id.tv_idealToEdit_goodPoints)
@@ -50,9 +56,7 @@ class IdealsToEditAdapter internal constructor(
             idealEvilPoints.setText(domainIdeal?.idealEvilPoints.toString())
             idealGoodPoints.setText(domainIdeal?.idealGoodPoints.toString())
             idealOverlay?.setOnClickListener {
-                Log.d("DEBUG$TAG", "OnClick")
-                adapterButtonListener?.itemPressed(ideals[adapterPosition])
-
+                customAdapterButtonListener?.itemPressed(ideals[adapterPosition])
             }
         }
 

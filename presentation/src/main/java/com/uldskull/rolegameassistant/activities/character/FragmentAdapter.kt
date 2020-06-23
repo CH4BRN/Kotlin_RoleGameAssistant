@@ -31,7 +31,9 @@ class FragmentAdapter(val activity: AppCompatActivity) : FragmentStateAdapter(ac
         return fragmentList.size
     }
 
-
+    /**
+     * Fragments to display list
+     */
     var fragmentList = mutableListOf<Fragment>(
         BasicInfoFragment.newInstance(
             activity
@@ -44,29 +46,7 @@ class FragmentAdapter(val activity: AppCompatActivity) : FragmentStateAdapter(ac
         ),
         CharacteristicsFragment.newInstance(
             activity
-        )/*,
-        DerivedValues1Fragment.newInstance(
-            activity
-        ),
-        DerivedValues1Fragment.newInstance(
-            activity
-        ),
-        DerivedValues2Fragment.newInstance(
-            activity
-        ),
-        OccupationsFragment.newInstance(
-            activity
-        ),
-        OccupationFragment.newInstance(
-            activity
-        ),
-        HobbiesFragment.newInstance(
-            activity
-        ),
-        HobbyFragment.newInstance(
-            activity
-        )*/
-
+        )
     )
 
     /**
@@ -85,37 +65,5 @@ class FragmentAdapter(val activity: AppCompatActivity) : FragmentStateAdapter(ac
     override fun createFragment(position: Int): Fragment {
         Log.d(TAG, "getItem")
         return fragmentList[position]
-        /*when (position) {
-            BASIC_INFO_FRAGMENT_POSITION -> BasicInfoFragment.newInstance(
-                activity
-            )
-            BONDS_FRAGMENT_POSITION -> BondsFragment.newInstance(
-                activity
-            )
-            IDEALS_FRAGMENT_POSITION -> IdealsFragment.newInstance(
-                activity
-            )
-            ABILITIES_FRAGMENT_POSITION -> CharacteristicsFragment.newInstance(
-                activity
-            )
-            DERIVED_VALUES_1_FRAGMENT_POSITION -> DerivedValues1Fragment.newInstance(
-                activity
-            )
-            DERIVED_VALUES_2_FRAGMENT_POSITION -> DerivedValues2Fragment.newInstance(
-                activity
-            )
-            OCCUPATIONS_FRAGMENT_POSITION -> OccupationsFragment.newInstance(
-                activity
-            )
-            OCCUPATION_FRAGMENT_POSITION -> OccupationFragment.newInstance(
-                activity
-            )
-            HOBBIES_FRAGMENT_POSITION -> HobbiesFragment.newInstance(
-                activity
-            )
-            HOBBY_FRAGMENT_POSITION -> HobbyFragment.newInstance(
-                activity
-            )
-            else -> BasicInfoFragment.newInstance(activity)*/
     }
 }

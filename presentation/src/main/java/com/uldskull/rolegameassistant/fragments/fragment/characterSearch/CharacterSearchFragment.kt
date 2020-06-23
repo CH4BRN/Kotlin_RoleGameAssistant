@@ -25,8 +25,14 @@ import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
 class CharacterSearchFragment : CustomFragment(),
     CharacterTransmission {
 
+    /**
+     * Character transmitter
+     */
     private var characterTransmitter: CharacterTransmission? = null
 
+    /**
+     * Fragment lifecycle
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,6 +41,9 @@ class CharacterSearchFragment : CustomFragment(),
         return inflater.inflate(R.layout.fragment_character_search, container, false)
     }
 
+    /**
+     * Fragment lifecycle
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (activity != null) {
@@ -78,6 +87,9 @@ class CharacterSearchFragment : CustomFragment(),
         }
     }
 
+    /**
+     * Transmit character
+     */
     override fun transmitCharacter(domainCharacter: DomainCharacter?) {
         Log.d("DEBUG", "Character $domainCharacter")
         characterTransmitter?.transmitCharacter(domainCharacter)

@@ -19,7 +19,6 @@ import org.koin.core.context.startKoin
  *   App entry point.
  **/
 class MainApplication : Application() {
-
     /** Application life cycle  **/
     override fun onCreate() {
         Log.d(TAG, "onCreate")
@@ -29,25 +28,27 @@ class MainApplication : Application() {
             androidContext(this@MainApplication)
             androidLogger()
 
-            // TODO("Inject modules here")
+            // Injects modules for DI
+            //  Room
             modules(
                 roomModule
             )
+            //  Repositories
             modules(
                 repositoriesModule
             )
+            //  View models
             modules(
                 viewModelModule
             )
-
+            // UseCases
             modules(
                 useCasesModule
             )
+            //  UseCases service
             modules(
                 useCasesServiceModule
             )
-
-
         }
     }
 

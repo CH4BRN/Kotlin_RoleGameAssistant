@@ -10,15 +10,24 @@ import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_OCCUPATIO
 
 /**
  *   Class "OccupationAndSkillCrossRef" :
- *   TODO: Fill class use.
+ *   Relation between occupation and skills
  **/
 @Entity(primaryKeys = [FIELD_OCCUPATION_ID, FIELD_OCCUPATION_SKILL_ID])
 data class DbOccupationAndDbSkillCrossRef(
+    /**
+     * Occupation identifier
+     */
     @NonNull
     val occupationId: Long,
+    /**
+     * Skill identifier
+     */
     @NonNull
     val skillId: Long
 ) {
+    /**
+     * Returns a string representation of the object.
+     */
     override fun toString(): String {
         return "DbOccupationAndDbSkillCrossRef(occupationId=$occupationId, skillId=$skillId)"
     }

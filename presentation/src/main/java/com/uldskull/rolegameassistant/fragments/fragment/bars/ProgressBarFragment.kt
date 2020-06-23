@@ -24,6 +24,9 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  **/
 class ProgressBarFragment(val progression: Int = 0) : CustomFragment() {
 
+    /**
+     * Progression bar view model
+     */
     private val progressionBarViewModel:ProgressionBarViewModel by sharedViewModel()
 
 
@@ -46,6 +49,9 @@ class ProgressBarFragment(val progression: Int = 0) : CustomFragment() {
         observeProgression()
     }
 
+    /**
+     * Observe progression from view model
+     */
     private fun observeProgression() {
         progressionBarViewModel.progression.observe(this, Observer { progression ->
             updateProgressBar(progression)

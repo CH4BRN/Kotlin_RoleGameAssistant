@@ -5,9 +5,12 @@ package com.uldskull.rolegameassistant.activities.character
 
 /**
  *   Interface "LockTheViewPager" :
- *   TODO: Fill interface use.
+ *   Interface to allows fragments to add other fragments
  **/
 interface AddEndFragment {
 
+    /**
+     * Add the end fragments
+     */
     fun addEndFragments()
 }

@@ -9,5 +9,8 @@ Class "CustomCompanion"
 Custom companion class
  */
 abstract class CustomCompanion {
+    /**
+     * Singleton
+     */
     abstract fun newInstance(activity: Activity): CustomFragment
 }

@@ -15,7 +15,7 @@ import kotlin.concurrent.thread
 
 /**
  *   Class "BreedCharacteristicsViewModel" :
- *   TODO: Fill class use.
+ *   Viewmodel for breed's characteristics.
  **/
 class BreedCharacteristicsViewModel(
     application: Application,
@@ -24,13 +24,21 @@ class BreedCharacteristicsViewModel(
 
     companion object {
         private const val TAG = "BreedCharacteristicsViewModel"
-
-
     }
 
+    /**
+     * Lock object for threading
+     */
     private val lock = java.lang.Object()
+
+    /**
+     * LiveData for breed characteristics
+     */
     var breedCharacteristics = breedsCharacteristicRepositoryImpl.getAll()
 
+    /**
+     * Gets a live data for breed characteristics
+     */
     private fun findAllBreedCharacteristics(): LiveData<List<DomainBreedsCharacteristic>>? {
         Log.d(TAG, "findAllBreedCharacteristics")
         thread(start = true) {
@@ -39,6 +47,9 @@ class BreedCharacteristicsViewModel(
         return breedCharacteristics
     }
 
+    /**
+     * Refresh data from repository
+     */
     private fun refreshDataFromRepository() {
         viewModelScope.launch {
             try {
@@ -51,6 +62,9 @@ class BreedCharacteristicsViewModel(
         }
     }
 
+    /**
+     * Save one breed characteristic
+     */
     fun saveOneBreedCharacteristic(domainBreedsCharacteristic: DomainBreedsCharacteristic): Long? {
         Log.d(TAG, "saveOneBreedCharacteristic")
 
@@ -59,6 +73,9 @@ class BreedCharacteristicsViewModel(
         return result
     }
 
+    /**
+     * Find one breed characteristic by its id
+     */
     fun findBreedCharacteristicWithId(breedCharacteristicId: Long?): DomainBreedsCharacteristic? {
         Log.d(TAG, "findCharacteristicWithId with id : $breedCharacteristicId")
 
@@ -66,6 +83,9 @@ class BreedCharacteristicsViewModel(
         return result
     }
 
+    /**
+     * Save all breed characteristics
+     */
     fun saveAllBreedCharacteristics(domainBreedsCharacteristics: List<DomainBreedsCharacteristic>): List<Long>? =
 
         synchronized(lock) {
@@ -79,6 +99,9 @@ class BreedCharacteristicsViewModel(
             return result
         }
 
+    /**
+     * Delete all breed characteristics.
+     */
     fun deleteAllBreedCharacteristics(): Int? {
         Log.d(TAG, "deleteAllBreedCharacteristics")
         thread(start = true) {

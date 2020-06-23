@@ -12,17 +12,17 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
+import com.uldskull.rolegameassistant.fragments.fragment.CustomAdapterButtonListener
 import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
 
 
 /**
  *   Class "JobSkillsAdapter" :
- *   TODO: Fill class use.
+ *   Adapter for "described" skills
  **/
 class OccupationsSkillsDescriptionAdapter internal constructor(
     context: Context,
-    private val buttonListener: AdapterButtonListener<DomainSkillToCheck>
+    private val buttonListenerCustom: CustomAdapterButtonListener<DomainSkillToCheck>
 ) : RecyclerView.Adapter<OccupationsSkillsDescriptionAdapter.OccupationsSkillsDescriptionViewHolder>() {
     companion object {
         private const val TAG = "OccupationsSkillsDescriptionAdapter"
@@ -47,7 +47,7 @@ class OccupationsSkillsDescriptionAdapter internal constructor(
             cbOccupationsSkillIsChecked?.isChecked = skill?.skillIsChecked!!
             vOccupationsSkillOverlay?.setOnClickListener {
                 Log.d("DEBUG$TAG", "Overlay")
-                buttonListener.itemPressed(skill)
+                buttonListenerCustom.itemPressed(skill)
             }
 
         }
@@ -123,7 +123,9 @@ class OccupationsSkillsDescriptionAdapter internal constructor(
         holder.bind(occupationSkills[position])
     }
 
-
+    /**
+     * Set occupation skills list
+     */
     fun setOccupationsSkills(skills: List<DomainSkillToCheck?>?) {
         if (skills != null) {
             this.occupationSkills = skills

@@ -29,6 +29,9 @@ class DisplayedBreedsViewModel(
         refreshDataFromRepository()
     }
 
+    /**
+     * Refresh data from repository
+     */
     private fun refreshDataFromRepository() {
         Log.d(TAG, "refreshDataFromRepository")
         viewModelScope.launch {
@@ -39,16 +42,6 @@ class DisplayedBreedsViewModel(
             }
         }
     }
-
-    fun findDisplayedBreedsWithCharacteristics(): List<DomainDisplayedBreedWithCharacteristics> {
-        Log.d(TAG, "findBreedsWithCharacteristics")
-        var result = displayedBreedRepositoryImpl.findAllWithChildren()
-
-        return result
-
-
-    }
-
 
 
     /**
@@ -63,10 +56,19 @@ class DisplayedBreedsViewModel(
         return result
     }
 
-
+    /**
+     *  Observable repository breeds
+     */
     var observedRepositoryBreeds = displayedBreedRepositoryImpl.getAll()
+
+    /**
+     *  Mutable observable breeds
+     */
     var observedMutableBreeds = MutableLiveData<List<DomainDisplayedBreed>>()
 
+    /**
+     * Gets a live data for repository breeds
+     */
     private fun findAll(): LiveData<List<DomainDisplayedBreed>>? {
         Log.d(TAG, "findAll")
         thread(start = true) {
@@ -75,6 +77,9 @@ class DisplayedBreedsViewModel(
         return observedRepositoryBreeds
     }
 
+    /**
+     * Save one breed
+     */
     fun saveOne(domainDisplayedBreed: DomainDisplayedBreed): Long? {
         Log.d(TAG, "saveOne")
         var result: Long? = displayedBreedRepositoryImpl.insertOne(domainDisplayedBreed)
@@ -82,8 +87,14 @@ class DisplayedBreedsViewModel(
         return result
     }
 
+    /**
+     * Lock object for threading
+     */
     private val lock = java.lang.Object()
 
+    /**
+     * Save all breeds
+     */
     fun saveAll(domainDisplayedBreed: List<DomainDisplayedBreed>): List<Long>? =
         synchronized(lock) {
             Log.d(TAG, "saveAll")

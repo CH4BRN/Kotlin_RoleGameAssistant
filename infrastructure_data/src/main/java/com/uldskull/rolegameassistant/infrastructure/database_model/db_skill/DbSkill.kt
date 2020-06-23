@@ -20,9 +20,18 @@ import com.uldskull.rolegameassistant.models.character.DomainSkill
  */
 @Entity
 open class DbSkill(
+    /**
+     * skill's identifier
+     */
     @PrimaryKey(autoGenerate = true)
     val skillId: Long?,
+    /**
+     * skill's name
+     */
     val skillName: String?,
+    /**
+     * skill's description
+     */
     val skillDescription: String?
 ) : DbEntity<DomainSkill> {
     /**
@@ -36,6 +45,9 @@ open class DbSkill(
         )
     }
 
+    /**
+     * Returns a string representation of the object.
+     */
     override fun toString(): String {
         return "DbSkill(skillId=$skillId, skillName=$skillName, skillDescription=$skillDescription)"
     }

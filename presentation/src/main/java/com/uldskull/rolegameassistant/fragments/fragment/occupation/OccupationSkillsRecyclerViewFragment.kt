@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.skills.EditSkillActivity
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.JOB_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION
-import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
+import com.uldskull.rolegameassistant.fragments.fragment.CustomAdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
@@ -33,7 +33,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  **/
 class OccupationSkillsRecyclerViewFragment :
     CustomRecyclerViewFragment(),
-    AdapterButtonListener<DomainSkillToFill> {
+    CustomAdapterButtonListener<DomainSkillToFill> {
 
     /**
      * Occupation skills adapter.
@@ -45,13 +45,18 @@ class OccupationSkillsRecyclerViewFragment :
     private val occupationSkillsViewModel: OccupationSkillsViewModel by sharedViewModel()
 
 
+    /**
+     * Points to spend view model
+     */
     private val pointsToSpendViewModel:PointsToSpendViewModel by sharedViewModel()
     /**
      * Occupation skills recyclerView
      */
     private var occupationSkillsRecyclerView: RecyclerView? = null
 
-
+    /**
+     * Fragment lifecycle
+     */
     override fun onResume() {
         super.onResume()
         Log.d(TAG, "onResume")
@@ -68,6 +73,9 @@ class OccupationSkillsRecyclerViewFragment :
         return initialRootView
     }
 
+    /**
+     * Fragment lifecycle
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setBtnAddSkillOnClickListener(view)
@@ -103,6 +111,9 @@ class OccupationSkillsRecyclerViewFragment :
 
     }
 
+    /**
+     * Observe checked skills
+     */
     private fun observeCheckedSkills() {
         occupationSkillsViewModel.checkedOccupationSkills.observe(
             this,
@@ -113,6 +124,9 @@ class OccupationSkillsRecyclerViewFragment :
             })
     }
 
+    /**
+     * Fil occupation skills recycler view with skills to fill
+     */
     private fun fillOccupationSkillsRecyclerViewWithSkillsToFill(occupationSkills: List<DomainSkillToFill>) {
         Log.d("DEBUG$TAG", "checkedOccupationSkills size : ${occupationSkills.size}")
 
@@ -174,16 +188,13 @@ class OccupationSkillsRecyclerViewFragment :
      */
     override fun itemPressed(domainModel: DomainSkillToFill?, position: Int?) {
         Log.d("DEBUG", "item pressed for $domainModel \n\tat position $position")
-
-
-
         pointsToSpendViewModel.observableCurrentOccupationSkillPosition.value = position
         occupationSkillsViewModel.currentOccupationSkill.value = domainModel
-
-
-
     }
 
+    /**
+     * Set recycler view adapter
+     */
     override fun setRecyclerViewAdapter() {
         Log.d(TAG, "setRecyclerViewAdapter")
         if(activity != null){
@@ -198,7 +209,14 @@ class OccupationSkillsRecyclerViewFragment :
     }
 
 
+    /**
+     * layout manager
+     */
     private var layoutManager: LinearLayoutManager? = null
+
+    /**
+     * set button add skill on click listener
+     */
     private fun setBtnAddSkillOnClickListener(view: View) {
         val btnAddSkills = view.findViewById<ImageButton>(R.id.btn_occupation_addSkill)
         btnAddSkills.setOnClickListener {
@@ -221,10 +239,5 @@ class OccupationSkillsRecyclerViewFragment :
 
             return fragment
         }
-
     }
-
-
-
-
 }

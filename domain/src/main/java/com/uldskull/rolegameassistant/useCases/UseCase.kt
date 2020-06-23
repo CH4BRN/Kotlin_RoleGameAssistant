@@ -5,7 +5,7 @@ package com.uldskull.rolegameassistant.useCases
 
 /**
  *   Interface "UseCase" :
- *   TODO: Fill interface use.
+ *   Interface for functional use cases
  **/
 interface UseCase<in Request, out Response> {
     fun execute(request: Request?): Response

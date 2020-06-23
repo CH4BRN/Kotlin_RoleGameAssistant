@@ -33,18 +33,10 @@ import kotlin.math.sqrt
  *   Display
  **/
 class CharacteristicsFragment : CustomFragment() {
-
-
-
     /**
      * Breed Characteristic's ViewModel.
      */
     private val breedCharacteristicsViewModel: BreedCharacteristicsViewModel by sharedViewModel()
-
-    /**
-     * Progression bar's ViewModel
-     */
-    private val progressionBarViewModel: ProgressionBarViewModel by sharedViewModel()
 
     /**
      * Called when the view is created
@@ -56,15 +48,10 @@ class CharacteristicsFragment : CustomFragment() {
     ): View? {
 
         Log.d(TAG, "onCreateView")
-
-
-
-
         val characteristicObserver = getCharacteristicObserver()
         breedCharacteristicsViewModel.breedCharacteristics?.observe(this, characteristicObserver)
         return initializeView(inflater, container)
     }
-
 
 
     /**
@@ -111,7 +98,6 @@ class CharacteristicsFragment : CustomFragment() {
         }
     }
 
-
     /**
      * Initialize the view
      */
@@ -136,7 +122,6 @@ class CharacteristicsFragment : CustomFragment() {
 
             args.putInt(KEY_POSITION, CHARACTERISTICS_FRAGMENT_POSITION)
             fragment.arguments = args
-
 
             return fragment
         }

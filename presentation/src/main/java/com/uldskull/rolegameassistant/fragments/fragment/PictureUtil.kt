@@ -6,12 +6,15 @@ package com.uldskull.rolegameassistant.fragments.fragment
 import android.graphics.Bitmap
 
 /**
- *   Class "ImageUtil" :
- *   TODO: Fill class use.
+ *   Class "PictureUtil" :
+ *   Allow to scale a picture into a bitmap.
  **/
-class ImageUtil {
+class PictureUtil {
     companion object{
-        fun resizeImage(bitmap: Bitmap, width: Int, height: Int): Bitmap {
+        /**
+         * resize picture
+         */
+        fun resizePicture(bitmap: Bitmap, width: Int, height: Int): Bitmap {
             return Bitmap.createScaledBitmap(bitmap, width, height, false)
         }
     }

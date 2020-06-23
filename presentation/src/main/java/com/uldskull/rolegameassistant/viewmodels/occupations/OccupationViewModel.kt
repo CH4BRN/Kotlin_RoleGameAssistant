@@ -9,7 +9,7 @@ import androidx.lifecycle.MutableLiveData
 
 /**
  *   Class "OccupationViewModel" :
- *   TODO: Fill class use.
+ *   ViewModel for occupation
  **/
 class OccupationViewModel(
     application: Application

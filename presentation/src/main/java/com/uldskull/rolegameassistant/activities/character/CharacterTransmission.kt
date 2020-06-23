@@ -7,9 +7,12 @@ import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
 /**
 Interface "CharacterTransmission"
 
-TODO : Describe interface utility.
+Ensure that activity can transmit character
  **/
 interface CharacterTransmission {
 
+    /**
+     * Transmit character
+     */
     fun transmitCharacter(domainCharacter:DomainCharacter?)
 }

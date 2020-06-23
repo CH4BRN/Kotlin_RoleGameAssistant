@@ -3,8 +3,6 @@
 package com.uldskull.rolegameassistant.fragments.fragment.occupations
 
 import android.content.Context
-import android.util.Log
-import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,17 +10,17 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
+import com.uldskull.rolegameassistant.fragments.fragment.CustomAdapterButtonListener
 import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
 
 /**
 Class "OccupationsSkillsToCheckAdapter"
 
-TODO: Describe class utility.
+Adapter for skills "to check" recycler view
  */
 class OccupationsSkillsToCheckSimpleAdapter internal constructor(
     context: Context,
-    private val buttonListener: AdapterButtonListener<DomainSkillToCheck>
+    private val buttonListenerCustom: CustomAdapterButtonListener<DomainSkillToCheck>
 ) : RecyclerView.Adapter<OccupationsSkillsToCheckSimpleAdapter.OccupationsSkillsToCheckViewHolder>() {
     companion object {
         private const val TAG = "OccupationsSkillsToCheckAdapter"
@@ -36,6 +34,9 @@ class OccupationsSkillsToCheckSimpleAdapter internal constructor(
     /**  Skills list  **/
     private var occupationSkills = emptyList<DomainSkillToCheck?>()
 
+    /**
+     * View holder
+     */
     inner class OccupationsSkillsToCheckViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
         var tvSkillName: TextView? =
@@ -57,6 +58,9 @@ class OccupationsSkillsToCheckSimpleAdapter internal constructor(
             }
         }
 
+        /**
+         * Bind the view holder
+         */
         fun bind(domainSkillToCheck: DomainSkillToCheck?, position: Int) {
             if (domainSkillToCheck != null) {
                 tvSkillName?.text = domainSkillToCheck.skillName
@@ -109,6 +113,9 @@ class OccupationsSkillsToCheckSimpleAdapter internal constructor(
         return occupationSkills?.size
     }
 
+    /**
+     * set the skills list
+     */
     fun setSkills(skillsToCheck: List<DomainSkillToCheck>) {
         if (skillsToCheck != null) {
             this?.occupationSkills = skillsToCheck

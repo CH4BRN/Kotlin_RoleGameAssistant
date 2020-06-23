@@ -57,6 +57,9 @@ class PictureFragment : CustomFragment() {
         )
     }
 
+    /**
+     * Select picture
+     */
     private fun selectPicture() {
         Log.d(TAG, "selectPicture")
         if (context != null) {
@@ -88,6 +91,9 @@ class PictureFragment : CustomFragment() {
 
     }
 
+    /**
+     * Take photo from camera
+     */
     private fun takePhotoFromCamera() {
         Log.d(TAG, "takePhotoFromCamera")
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -97,7 +103,9 @@ class PictureFragment : CustomFragment() {
         )
     }
 
-
+    /**
+     * choose photo from gallery
+     */
     private fun choosePhotoFromGallery() {
         Log.d(TAG, "choosePhotoFromGallery")
         val galleryIntent = Intent(
@@ -110,7 +118,6 @@ class PictureFragment : CustomFragment() {
             REQUEST_CODE_GALLERY
         )
     }
-
 
     /** Get a pick image intent **/
     private fun getPickImageIntent(): Intent {
@@ -199,6 +206,9 @@ class PictureFragment : CustomFragment() {
         }
     }
 
+    /**
+     * Activity lifecycle
+     */
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         Log.d("DEBUG", "onActivityCreated")
         super.onActivityCreated(savedInstanceState)

@@ -9,11 +9,13 @@ import androidx.lifecycle.MutableLiveData
 
 /**
  *   Class "ProgressionBarViewModel" :
- *   TODO: Fill class use.
+ *  Viewmodel for progress bar
  **/
 class ProgressionBarViewModel(
     application: Application
 ) : AndroidViewModel(application) {
-
+    /**
+     * Observable progression
+     */
     var progression = MutableLiveData<Int>()
 }

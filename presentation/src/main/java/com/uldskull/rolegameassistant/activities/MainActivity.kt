@@ -6,7 +6,9 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.uldskull.rolegameassistant.R
 
-
+/**
+ * App's main activity
+ */
 class MainActivity : AppCompatActivity() {
 
 

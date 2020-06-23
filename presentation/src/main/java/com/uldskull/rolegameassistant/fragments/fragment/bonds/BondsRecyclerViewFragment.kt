@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.BONDS_RECYCLER_VIEW_FRAGMENT_POSITION
-import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
+import com.uldskull.rolegameassistant.fragments.fragment.CustomAdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
@@ -29,7 +29,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   TODO: Fill class use.
  **/
 class BondsRecyclerViewFragment :
-    CustomRecyclerViewFragment(), AdapterButtonListener<DomainBond> {
+    CustomRecyclerViewFragment(), CustomAdapterButtonListener<DomainBond> {
     /** ViewModel for bonds    **/
     private val bondsViewModel: BondsViewModel by sharedViewModel()
 

@@ -5,8 +5,11 @@ package com.uldskull.rolegameassistant.activities.character
 /**
 Interface "AddEndFragmentAndUpdateAdapter"
 
-TODO : Describe interface utility.
+Interface to allows fragments to add other fragments
  **/
 interface AddEndFragmentAndUpdateAdapter {
+    /**
+     * Add the end fragments and update adapter
+     */
     fun addEndFragmentsAndUpdateAdapter()
 }

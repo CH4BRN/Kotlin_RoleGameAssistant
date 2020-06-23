@@ -13,7 +13,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
+import com.uldskull.rolegameassistant.fragments.fragment.CustomAdapterButtonListener
 import com.uldskull.rolegameassistant.models.character.DomainBond
 import kotlinx.android.synthetic.main.fragment_bonds_recyclerview_item.view.*
 
@@ -22,8 +22,10 @@ import kotlinx.android.synthetic.main.fragment_bonds_recyclerview_item.view.*
  *   Adapter for bonds recycler view.
  **/
 class BondsAdapter internal constructor(
+    //  application context
     context: Context,
-    private val buttonListener: AdapterButtonListener<DomainBond>
+    //  button listener for domain bonds
+    private val buttonListenerCustom: CustomAdapterButtonListener<DomainBond>
 ) : RecyclerView.Adapter<BondsAdapter.BondsViewHolder>() {
     companion object {
         private const val TAG = "BondsAdapter"
@@ -40,6 +42,20 @@ class BondsAdapter internal constructor(
         var bondTitleItemView: TextView = itemView.findViewById(R.id.tv_bond)
         var bondValueItemView: TextView = itemView.findViewById(R.id.tv_bondValue)
         var bondDeleteItemView: ImageButton = itemView.findViewById(R.id.btn_deleteBond)
+
+        /**
+         * Bind the value
+         */
+        fun bind(domainBond: DomainBond?) {
+            bondTitleItemView.text = domainBond?.bondTitle
+            bondValueItemView.text = domainBond?.bondValue
+
+            bondDeleteItemView.setOnClickListener {
+                val bond = bonds[adapterPosition]
+                setBonds(bonds.minus(bond))
+                buttonListenerCustom.itemPressed(bond)
+            }
+        }
     }
 
     /**
@@ -87,24 +103,7 @@ class BondsAdapter internal constructor(
      */
     override fun onBindViewHolder(holder: BondsViewHolder, position: Int) {
         Log.d(TAG, "onBindViewHolder")
-        val current = bonds[position]
-        holder.bondTitleItemView.text = current?.bondTitle
-        holder.bondValueItemView.text = current?.bondValue
-
-
-        holder.bondDeleteItemView.setOnClickListener {
-            Log.d("Bond", "position = $position")
-            val bond = bonds[position]
-
-            setBonds(bonds.minus(bond))
-            Log.d("ADAPTER", bond.toString())
-            buttonListener.itemPressed(bond)
-
-
-            Log.d("ADAPTER", bonds.size.toString())
-            Log.d("ADAPTER", "delete")
-
-        }
+        holder?.bind(bonds[position])
     }
 
     /**

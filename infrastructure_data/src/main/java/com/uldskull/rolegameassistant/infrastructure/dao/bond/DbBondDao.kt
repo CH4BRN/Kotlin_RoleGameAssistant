@@ -26,9 +26,6 @@ abstract class DbBondDao : GenericDao<DbBond> {
     abstract fun getBondById(id: Long?): DbBond
 
     //  DELETE
-    @Delete
-    abstract fun deleteBonds(vararg bonds: DbBond): Int
-
     @Query("$DELETE_FROM $TABLE_NAME_BOND")
     abstract fun deleteAllBonds(): Int
 }

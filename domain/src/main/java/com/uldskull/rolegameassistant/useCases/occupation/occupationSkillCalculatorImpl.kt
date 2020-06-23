@@ -7,13 +7,17 @@ import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
 /**
 Class "occupationSkillCalculatorImpl"
 
-TODO: Describe class utility.
+holds the skill calculator implementation
  */
 class occupationSkillCalculatorImpl : OccupationSkillCalculator {
 
     companion object{
         private const val TAG = "occupationSkillCalculatorImpl"
     }
+
+    /**
+     * Adds the bonus and the base to get the total.
+     */
     override fun calculateAdd(current: DomainSkillToFill?): Int? {
         var add: Int? = 0
 

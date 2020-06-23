@@ -46,6 +46,6 @@ dependencies {
     testImplementation KoinDependencies.KoinCore
 
     testImplementation KoinDependencies.KoinTest
-    androidTestImplementation TestDependencies.Junit
+    androidTestImplementation TestDependencies.androidXJunit
     androidTestImplementation TestDependencies.EspressoCore
 }

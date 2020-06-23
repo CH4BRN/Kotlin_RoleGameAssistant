@@ -9,12 +9,16 @@ import kotlin.random.Random
 
 /**
  *   Class "GetOneDiceRollUseCase" :
- *   TODO: Fill class use.
+ *   Use case to get one dice roll
  **/
 class GetOneDiceRollUseCase : UseCase<Int, Int> {
     companion object{
         private const val TAG ="GetOneDiceRollUseCase"
     }
+
+    /**
+     * Execute method
+     */
     override fun execute(faces: Int?): Int {
 
         when (faces) {

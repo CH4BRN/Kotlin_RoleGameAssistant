@@ -15,7 +15,7 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupatio
 
 /**
  *   Interface "DbOccupationDbSkillDao" :
- *   TODO: Fill interface use.
+ *   DbOccupation with DbSkill database interactions.
  **/
 @Dao
 interface DbOccupationDbSkillDao {

@@ -7,9 +7,12 @@ import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
 /**
 Interface "occupationSkillCalculator"
 
-TODO : Describe interface utility.
+ contracts for skill total calculation
  **/
 interface OccupationSkillCalculator {
 
+    /**
+     * Adds the base and the bonus to gets the total.
+     */
     fun calculateAdd(current: DomainSkillToFill?): Int?
 }

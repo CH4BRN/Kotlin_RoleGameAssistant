@@ -56,26 +56,59 @@ class CharacterActivity :
     /** ViewModel for new character activity    **/
     private lateinit var newCharacterViewModel: NewCharacterViewModel
 
+    /**
+     * Viewmodel for characteristics
+     */
     private lateinit var characteristicsViewModel: CharacteristicsViewModel
 
+    /**
+     * Viewmodel for progression bar
+     */
     private lateinit var progressionBarViewModel: ProgressionBarViewModel
 
+    /**
+     * Viewmodel for occupations
+     */
     private lateinit var occupationsViewModel: OccupationsViewModel
 
+    /**
+     * Viewmodel for hobbies
+     */
     private lateinit var hobbiesViewModel: HobbiesViewModel
 
+    /**
+     * viewmodel for occupation
+     */
     private lateinit var occupationViewModel: OccupationViewModel
 
+    /**
+     * ViewModel for displayed breeds
+     */
     private lateinit var displayedBreedsViewModel: DisplayedBreedsViewModel
 
+    /**
+     * Viewmodel for character's picture
+     */
     private lateinit var charactersPictureViewModel: CharactersPictureViewModel
 
+    /**
+     * Viewmodel for occupation skills
+     */
     private lateinit var occupationSkillsViewModel: OccupationSkillsViewModel
 
+    /**
+     * View model for hobby skills
+     */
     private lateinit var hobbySkillsViewModel: HobbySkillsViewModel
 
+    /**
+     * Viewmodel for points to spend
+     */
     private lateinit var pointsToSpendViewModel: PointsToSpendViewModel
 
+    /**
+     * Viewmodel for skills
+     */
     private lateinit var skillsViewModel: SkillsViewModel
 
     /** SupportFragmentManager  **/
@@ -98,13 +131,9 @@ class CharacterActivity :
         this.initializeProgressBarFragment()
 
         deserializeDomainCharacter()
-
         observeRepositoryOccupations()
         observeRepositorySkills()
-
-
     }
-
 
     /**
      * Observes occupation from the repository.
@@ -125,6 +154,9 @@ class CharacterActivity :
             })
     }
 
+    /**
+     * Observe skills from repository
+     */
     private fun observeRepositorySkills() {
         this.skillsViewModel.repositorySkillsToCheck?.observe(
             this,
@@ -151,7 +183,9 @@ class CharacterActivity :
         )
     }
 
-
+    /**
+     * Deserialize domain character
+     */
     private fun deserializeDomainCharacter() {
         var jsonCharacter: String? = null
         val extras: Bundle? = intent.extras
@@ -163,6 +197,7 @@ class CharacterActivity :
         Log.d("DEBUG$TAG", "Character = ${character?.characterName}")
         if (character != null) {
 
+            // Sets the values
             newCharacterViewModel.selectedCharacter.value = character
             newCharacterViewModel.currentCharacter = character
             newCharacterViewModel.characterName.value = character?.characterName
@@ -175,32 +210,31 @@ class CharacterActivity :
                 character?.characterSpentOccupationPoints
 
 
+            // Gets the breeds
             var characterBreeds: MutableList<DomainDisplayedBreed?> = mutableListOf()
             character?.characterBreeds?.forEach {
                 characterBreeds?.add(displayedBreedsViewModel.findBreedWithId(it))
             }
-
             var breedsToLoad: MutableList<DomainDisplayedBreed> = mutableListOf()
 
             observeRepositoryBreeds(characterBreeds, breedsToLoad)
 
+            // Gets the occupation
             var occupation = character?.characterOccupation
-
             initializeSelectedOccupation(occupation)
 
-            //  Occupation
+            //  Gets the occupation skills ids
             var occupationSkillsIds = character?.characterSelectedOccupationSkill
-            Log.d("DEBUG$TAG", "occupationSkillsIds : $occupationSkillsIds")
+            //  Sets the occupation skills ids
             occupationsViewModel?.selectedCharacterSkills?.value = occupationSkillsIds?.toList()
-            Log.d("DEBUG$TAG", "occupationSkillsIds : ${occupationSkillsIds}")
+
             observeOccupationsSkills()
+            //  Gets the observed occupations skills
             var occupationsSkills = occupationsViewModel?.observedOccupationsSkills?.value
-            Log.d("DEBUG$TAG", "occupationsSkills : ${occupationsSkills}")
-            Log.d("DEBUG$TAG", "Occupation = ${occupation}")
+            // get the character's skills
             var occupationSkills: List<DomainSkillToFill>? =
                 newCharacterViewModel?.getCharacterSkills(character?.characterId, 0)
-            Log.d("DEBUG$TAG", "Character occupation skills from activity : $occupationSkills")
-
+            // sets the character's skills
             if (occupationSkillsViewModel.checkedOccupationSkills.value == null) {
                 occupationSkillsViewModel.checkedOccupationSkills.value = occupationSkills
             }
@@ -215,7 +249,9 @@ class CharacterActivity :
 
             Log.d("DEBUG$TAG", "hobbiesSkillsIds : $hobbiesSkillsIds")
             hobbiesViewModel?.selectedCharacterSkills?.value = hobbiesSkillsIds
+            //  Observe hobbies skills
             observeHobbiesSkills()
+            //  Observe hobbies skills
             observeSkillsForHobbies()
 
             //  Hobby
@@ -238,22 +274,20 @@ class CharacterActivity :
         }
     }
 
+    /**
+     * Get character hobbies' skills to check
+     */
     private fun getCharacterHobbiesSkillToCheck(hobbiesSkillsIds: MutableList<Long?>?): MutableList<DomainSkillToCheck?>? {
+        // get tge mutable hobbies skills
         var list: MutableList<DomainSkillToCheck?>? =
             skillsViewModel?.hobbiesSkills?.value?.toMutableList()
-        Log.d("DEBUG$TAG", "List : ${list?.size}")
-
+        // Check the skills if they are in the character selected skills
         list?.forEach { skill ->
             kotlin.run {
                 hobbiesSkillsIds?.forEach { id ->
                     run {
                         if (skill != null && id != null) {
                             skill.skillIsChecked = true
-
-                            Log.d(
-                                "DEBUG$TAG",
-                                "Skill :${skill?.skillName} is checked : ${skill?.skillIsChecked}"
-                            )
                             var index = list.indexOfFirst { s -> s?.skillId == skill.skillId }
                             list[index] = skill
                         }
@@ -264,6 +298,9 @@ class CharacterActivity :
         return list
     }
 
+    /**
+     * Get the character's occupation skills
+     */
     private fun getCharacterOccupationSkills(
         characterId: Long?
     ): List<DomainSkillToFill>? {
@@ -279,10 +316,16 @@ class CharacterActivity :
         return occupationSkills
     }
 
+    /**
+     * Get the character's hobby skills
+     */
     private fun getCharacterHobbySkills(characterId: Long?): List<DomainSkillToFill>? {
         return newCharacterViewModel?.getCharacterSkills(characterId, 1)
     }
 
+    /**
+     * get the hobbies skills
+     */
     private fun observeSkillsForHobbies() {
         skillsViewModel?.hobbiesSkills?.observe(this, Observer {
             var list = it?.toMutableList()
@@ -308,6 +351,9 @@ class CharacterActivity :
         })
     }
 
+    /**
+     * Observe hobbies skills
+     */
     private fun observeHobbiesSkills() {
         hobbiesViewModel?.observedHobbiesSkills?.observe(this, Observer {
             var list = it.toMutableList()
@@ -327,6 +373,9 @@ class CharacterActivity :
         })
     }
 
+    /**
+     * Observe occupations skills
+     */
     private fun observeOccupationsSkills() {
         occupationsViewModel?.observedOccupationsSkills?.observe(this, Observer {
             var list = it.toMutableList()
@@ -345,6 +394,9 @@ class CharacterActivity :
         })
     }
 
+    /**
+     * Observe repository's breeds.
+     */
     private fun observeRepositoryBreeds(
         characterBreeds: MutableList<DomainDisplayedBreed?>,
         breedsToLoad: MutableList<DomainDisplayedBreed>
@@ -354,7 +406,7 @@ class CharacterActivity :
             Observer { repositoryBreeds ->
                 repositoryBreeds?.forEach { breed ->
                     if (characterBreeds?.any { b -> b?.breedId == breed.breedId }) {
-                        breed.breedChecked = true
+                        breed.breedIsChecked = true
                     }
                     breedsToLoad?.add(breed)
                 }
@@ -363,6 +415,9 @@ class CharacterActivity :
             })
     }
 
+    /**
+     * Initialize selected occupation
+     */
     private fun initializeSelectedOccupation(occupation: DomainOccupation?) {
         if (occupation != null) {
             occupationsViewModel.selectedOccupation?.value = occupation
@@ -385,6 +440,9 @@ class CharacterActivity :
         builder.show()
     }
 
+    /**
+     * load the viewmodels
+     */
     private fun loadViewModels() {
         //  Get the ViewModels by DI
         newCharacterViewModel = getViewModel()
@@ -416,6 +474,9 @@ class CharacterActivity :
 
     }
 
+    /**
+     * Callback for swiping
+     */
     private fun onPageChangeCallback(): ViewPager2.OnPageChangeCallback {
         return object : ViewPager2.OnPageChangeCallback() {
 
@@ -433,12 +494,7 @@ class CharacterActivity :
                 positionOffset: Float,
                 positionOffsetPixels: Int
             ) {
-                if (position == 3 && fragmentAdapter?.fragmentList?.size == 4 && viewPager?.scrollState == 1) {
-
-                    Log.d(
-                        "DEBUG$TAG",
-                        "Characteristics ${characteristicsViewModel.getAllCharacteristics()}"
-                    )
+                if (isOnCharacteristicFragment(position)) {
                     var areCharacteristicsRolled = true
 
                     var characteristics = characteristicsViewModel.getAllCharacteristics()
@@ -450,11 +506,6 @@ class CharacterActivity :
                                 areCharacteristicsRolled = false
                             }
                         }
-
-                        Log.d("DEBUG$TAG", "areCharacteristicsRolled : $areCharacteristicsRolled")
-
-
-                        Log.d("DEBUG", "Situation")
                         if (!areCharacteristicsRolled) {
                             characteristicsAlert()
                         } else {
@@ -473,16 +524,17 @@ class CharacterActivity :
              * @param position Position index of the new selected page.
              */
             override fun onPageSelected(position: Int) {
-                Log.d(
-                    "DEBUG", "onPageSelected\n" +
-                            "\tposition : $position"
-                )
                 progressionBarViewModel.progression.value = position * 10
-
                 super.onPageSelected(position)
             }
         }
     }
+
+    /**
+     * Checks if the characteristics fragment is displayed.
+     */
+    private fun isOnCharacteristicFragment(position: Int) =
+        position == 3 && fragmentAdapter?.fragmentList?.size == 4 && viewPager?.scrollState == 1
 
 
     /** Load the progress bar fragment
@@ -509,7 +561,6 @@ class CharacterActivity :
     companion object {
 
         private const val TAG = "CharacterActivity"
-        /** ViewPager progression   **/
     }
 
     /**
@@ -550,10 +601,11 @@ class CharacterActivity :
                 )
             )
         }
-
-
     }
 
+    /**
+     * Add the end of the fragment list and update adapter
+     */
     override fun addEndFragmentsAndUpdateAdapter() {
         if(fragmentAdapter?.itemCount != 10){
             fragmentAdapter?.fragmentList?.add(

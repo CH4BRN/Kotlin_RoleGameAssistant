@@ -13,9 +13,12 @@ import com.uldskull.rolegameassistant.repository.skill.FilledOccupationSkillRepo
 /**
 Class "DbFilledSkillRepositoryImpl"
 
-TODO: Describe class utility.
+ repository for db filled skills
  */
 class DbFilledOccupationSkillRepositoryImpl(
+    /**
+     * db filled skill dao
+     */
     private val dbFilledOccupationSkillsDao: DbFilledOccupationSkillDao
 
 ) : FilledOccupationSkillRepository<LiveData<List<DomainSkillToFill>>> {
@@ -54,6 +57,9 @@ class DbFilledOccupationSkillRepositoryImpl(
         return result.toDomain()
     }
 
+    /**
+     * find the same skill
+     */
     override fun findTheSame(skill: DomainSkillToFill): DomainSkillToFill? {
         Log.d("DEBUG$TAG", "skill?.filledSkillCharacterId :${skill?.filledSkillCharacterId} ")
         var skills = dbFilledOccupationSkillsDao.getAllByCharacterId(skill?.filledSkillCharacterId)
@@ -140,7 +146,9 @@ class DbFilledOccupationSkillRepositoryImpl(
         return 1
     }
 
-
+    /**
+     * Converts a list of database entities into domain entities
+     */
     private fun List<DbFilledSkill>.asDomainModel(): List<DomainSkillToFill> {
         Log.d("DEBUG$TAG", "asDomainModel")
         return map {
@@ -158,6 +166,9 @@ class DbFilledOccupationSkillRepositoryImpl(
         }
     }
 
+    /**
+     * delete all skills by character id
+     */
     override fun deleteAllByCharacterId(id: Long): Int {
         Log.d(TAG, "deleteAllByCharacterId")
         try {
@@ -169,10 +180,16 @@ class DbFilledOccupationSkillRepositoryImpl(
         }
     }
 
+    /**
+     * update tens value for a skill
+     */
     override fun updateTensValues(skill: DomainSkillToFill, tensValues: Int): Int {
         return dbFilledOccupationSkillsDao?.updateTensValues(skill?.skillId!!, tensValues)
     }
 
+    /**
+     * update units value for a skill
+     */
     override fun updateUnitsValues(skill: DomainSkillToFill, unitsValues: Int): Int {
         return dbFilledOccupationSkillsDao?.updateUnitsValues(skill?.skillId!!, unitsValues)
     }

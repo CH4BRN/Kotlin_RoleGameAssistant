@@ -3,5 +3,8 @@
  **/
 
 object ApplicationValues {
+    /**
+     * Application ID
+     */
     const val applicationId = "com.uldskull.rolegameassistant"
 }

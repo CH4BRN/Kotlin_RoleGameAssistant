@@ -12,15 +12,27 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.DbEntity
 import com.uldskull.rolegameassistant.models.character.characteristic.DomainBreedsCharacteristic
 
 /**
- *   Class "DbBonusCharacteristic" :
- *   TODO: Fill class use.
+ *   Class "DbBreedCharacteristic" :
+ *   Database model for breed characteristic
  **/
 @Entity(tableName = TABLE_NAME_BREED_CHARACTERISTICS)
 class DbBreedCharacteristic(
+    /**
+     * Characteristic's identifier
+     */
     @PrimaryKey(autoGenerate = true)
     val characteristicId: Long? = null,
+    /**
+     * Characteristic's name
+     */
     val characteristicName: String?,
+    /**
+     * Characteristic's bonus
+     */
     var characteristicBonus: Int = 0,
+    /**
+     * Characteristic's breed identifier
+     */
     val characteristicBreedId: Long?
 ) : DbEntity<DomainBreedsCharacteristic> {
 
@@ -37,6 +49,9 @@ class DbBreedCharacteristic(
         )
     }
 
+    /**
+     * Returns a string representation of the object.
+     */
     override fun toString(): String {
         return "DbBreedCharacteristic(characteristicId=$characteristicId, characteristicName=$characteristicName, characteristicBonus=$characteristicBonus, characteristicBreedId=$characteristicBreedId)"
     }

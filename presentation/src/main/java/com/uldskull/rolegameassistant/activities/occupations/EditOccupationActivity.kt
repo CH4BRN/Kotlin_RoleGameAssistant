@@ -5,21 +5,18 @@ package com.uldskull.rolegameassistant.activities.occupations
 
 import android.os.Bundle
 import android.util.Log
-import android.util.SparseBooleanArray
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
-import androidx.core.util.set
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.CustomActivity
 import com.uldskull.rolegameassistant.activities.replaceFragment
-import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
+import com.uldskull.rolegameassistant.fragments.fragment.CustomAdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.fragment.CustomTextWatcher
 import com.uldskull.rolegameassistant.fragments.fragment.bars.NavigationBarFragment
-import com.uldskull.rolegameassistant.fragments.fragment.occupations.OccupationsSkillsDescriptionAdapter
 import com.uldskull.rolegameassistant.fragments.fragment.occupations.OccupationsSkillsToCheckSimpleAdapter
 import com.uldskull.rolegameassistant.fragments.fragment.occupations.OccupationsToEditAdapter
 import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
@@ -32,14 +29,17 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**
  *   Class "NewJobActivity" :
- *   Handle job creation.
+ *   Handle occupation creation and edition.
  **/
 class EditOccupationActivity : CustomActivity() {
     companion object {
         private const val TAG = "EditOccupationActivity"
     }
 
-    var skillAdapterButtonListener = object : AdapterButtonListener<DomainSkillToCheck> {
+    /**
+     * Adapter button listener for skills
+     */
+    var skillAdapterButtonListener = object : CustomAdapterButtonListener<DomainSkillToCheck> {
         /**
          * Called when a recyclerview cell is pressed
          */
@@ -49,7 +49,10 @@ class EditOccupationActivity : CustomActivity() {
 
     }
 
-    var occupationAdapterButtonListener = object : AdapterButtonListener<DomainOccupation> {
+    /**
+     * Adapter button listener for occupations
+     */
+    var occupationAdapterButtonListener = object : CustomAdapterButtonListener<DomainOccupation> {
         /**
          * Called when a recyclerview cell is pressed
          */
@@ -80,17 +83,64 @@ class EditOccupationActivity : CustomActivity() {
         }
     }
 
+    /**
+     * occupations view model
+     */
     private lateinit var occupationsViewModel: OccupationsViewModel
+
+    /**
+     * skills view model
+     */
     private lateinit var skillsViewModel: SkillsViewModel
+
+    /**
+     * occupation to edit recycler view
+     */
     private var occupationsToEditRecyclerView: RecyclerView? = null
+
+    /**
+     * occupations skills to edit recycler view
+     */
     private var occupationsSkillsToEditRecyclerView: RecyclerView? = null
+
+    /**
+     * Add occupation button
+     */
     private var addOccupationButton: Button? = null
+
+    /**
+     * delete occupation button
+     */
     private var deleteOccupationImageButton: ImageButton? = null
+
+    /**
+     * save occupation button
+     */
     private var saveOccupationImageButton: ImageButton? = null
+
+    /**
+     * occupation title edit text
+     */
     private var setOccupationTitleEditText: EditText? = null
+
+    /**
+     * occupation contact edit text
+     */
     private var setOccupationContactsEditText: EditText? = null
+
+    /**
+     * occupation income edit text
+     */
     private var setOccupationIncomeEditText: EditText? = null
+
+    /**
+     * occupation special edit text
+     */
     private var setOccupationSpecialEditText: EditText? = null
+
+    /**
+     * initialize delete occupation button
+     */
     private fun initializeDeleteOccupationButton() {
         deleteOccupationImageButton =
             this?.findViewById(R.id.activityEditOccupation_imageButton_deleteOccupation)
@@ -109,6 +159,9 @@ class EditOccupationActivity : CustomActivity() {
         }
     }
 
+    /**
+     * initialize add occupation button
+     */
     private fun initializeAddOccupationButton() {
         addOccupationButton =
             this?.findViewById(R.id.activityEditOccupation_button_addNewOccupation)
@@ -134,6 +187,9 @@ class EditOccupationActivity : CustomActivity() {
         }
     }
 
+    /**
+     * Activity lifecycle
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d(TAG, "onCreate")
         super.onCreate(savedInstanceState)
@@ -165,6 +221,9 @@ class EditOccupationActivity : CustomActivity() {
     }
 
 
+    /**
+     * initialize set occupation title edit text
+     */
     private fun initializeSetOccupationTitleEditText() {
         setOccupationTitleEditText =
             this?.findViewById(R.id.activityEditOccupation_editText_occupationTitle)
@@ -187,20 +246,29 @@ class EditOccupationActivity : CustomActivity() {
         })
     }
 
+    /**
+     * start observation
+     */
     private fun startObservation() {
         observeRepositoryOccupations()
         observeRepositorySkills()
         observeMutableSkillsToCheck()
     }
 
+    /**
+     * Skills recycler view adapter
+     */
     var skillRecyclerViewAdapter: OccupationsSkillsToCheckSimpleAdapter? = null
 
+    /**
+     * observe mutable skills to check
+     */
     private fun observeMutableSkillsToCheck() {
         skillsViewModel?.mutableSkillsToCheck?.observe(
             this, Observer {
                 skillRecyclerViewAdapter = OccupationsSkillsToCheckSimpleAdapter(
                     context = this,
-                    buttonListener = this.skillAdapterButtonListener
+                    buttonListenerCustom = this.skillAdapterButtonListener
                 )
 
                 skillRecyclerViewAdapter?.setSkills(it)
@@ -215,12 +283,18 @@ class EditOccupationActivity : CustomActivity() {
         )
     }
 
+    /**
+     * Observe repository skills
+     */
     private fun observeRepositorySkills() {
         skillsViewModel?.repositorySkillsToCheck?.observe(this, Observer {
             skillsViewModel?.mutableSkillsToCheck?.value = it
         })
     }
 
+    /**
+     * observe repository occupations
+     */
     private fun observeRepositoryOccupations() {
         occupationsViewModel?.repositoryOccupations?.observe(this, Observer {
             var recyclerViewAdapter =

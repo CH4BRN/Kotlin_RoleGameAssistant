@@ -7,12 +7,21 @@ import com.uldskull.rolegameassistant.models.character.DomainIdeal
 
 /**
  *   Class "DomainCharacterWithIdeals" :
- *   TODO: Fill class use.
+ *   Holds character with its ideals
  **/
 class DomainCharacterWithIdeals(
+    /**
+     * Character
+     */
     val character: DomainCharacter,
+    /**
+     * Ideals list
+     */
     val ideals: List<DomainIdeal>
 ) {
+    /**
+     * Returns a string representation of the object.
+     */
     override fun toString(): String {
         return "DomainCharacterWithIdeals(character=$character, ideals=$ideals)"
     }

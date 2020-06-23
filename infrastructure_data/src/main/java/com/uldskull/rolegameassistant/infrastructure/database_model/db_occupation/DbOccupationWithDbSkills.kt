@@ -12,11 +12,17 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_skill.DbS
 
 /**
  *   Class "DbOccupationWithDbSkills" :
- *   TODO: Fill class use.
+ *   Holds an occupation with all its skills
  **/
 class DbOccupationWithDbSkills (
+    /**
+     * The occupation
+     */
     @Embedded
     val occupation: DbOccupation,
+    /**
+     * The skills
+     */
     @Relation(
         parentColumn = FIELD_OCCUPATION_ID,
         entityColumn = FIELD_OCCUPATION_SKILL_ID,
@@ -24,6 +30,9 @@ class DbOccupationWithDbSkills (
     )
     val skills:List<DbSkillToCheck>
 ){
+    /**
+     * Returns a string representation of the object.
+     */
     override fun toString(): String {
         return "DbOccupationWithDbSkills(occupation=$occupation, skills=$skills)"
     }

@@ -11,17 +11,26 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_character
 
 /**
  *   Class "DbBreedWithCharacteristics" :
- *   TODO: Fill class use.
+ *   Holds a breed with all its characteristics
  **/
 data class DbDisplayedBreedWithCharacteristics(
+    /**
+     * The breed
+     */
     @Embedded
     val displayedBreed: DbDisplayedBreed,
+    /**
+     * The characteristics
+     */
     @Relation(
         parentColumn = FIELD_BREED_ID,
         entityColumn = FIELD_CHARACTERISTIC_BREED_ID
     )
     val characteristics: List<DbBreedCharacteristic>
 ) {
+    /**
+     * Returns a string representation of the object.
+     */
     override fun toString(): String {
         return "DbDisplayedBreedWithCharacteristics(displayedBreed=$displayedBreed, characteristics=$characteristics)"
     }

@@ -9,6 +9,7 @@ import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
 import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_BREED_CHARACTERISTIC_ID
 import com.uldskull.rolegameassistant.infrastructure.Queries.DELETE_ALL_BREED_CHARACTERISTICS
 import com.uldskull.rolegameassistant.infrastructure.Queries.SELECT_ALL_BREED_CHARACTERISTICS
+import com.uldskull.rolegameassistant.infrastructure.dao.GenericDao
 import com.uldskull.rolegameassistant.infrastructure.dao.LIKE
 import com.uldskull.rolegameassistant.infrastructure.dao.SELECT_ALL_FROM
 import com.uldskull.rolegameassistant.infrastructure.dao.WHERE
@@ -19,29 +20,19 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_character
  *   DbBreedCharacteristic database interactions.
  **/
 @Dao
-interface DbBreedCharacteristicDao {
-    //  CREATE
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertBreedCharacteristic(dbBreedCharacteristic: DbBreedCharacteristic): Long
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertBreedCharacteristics(dbBreedCharacteristics: List<DbBreedCharacteristic>): List<Long>
+abstract class DbBreedCharacteristicDao : GenericDao<DbBreedCharacteristic>{
 
     //  READ
     @Query(SELECT_ALL_BREED_CHARACTERISTICS)
-    fun getBreedCharacteristics(): LiveData<List<DbBreedCharacteristic>>
+    abstract fun getBreedCharacteristics(): LiveData<List<DbBreedCharacteristic>>
 
     @Query("$SELECT_ALL_BREED_CHARACTERISTICS $WHERE $FIELD_BREED_CHARACTERISTIC_ID $LIKE :id")
-    fun getBreedCharacteristicById(id: Long?): DbBreedCharacteristic
-
-    //  UPDATE
-    @Update
-    fun updateBreedCharacteristic(vararg dbBreedCharacteristics: DbBreedCharacteristic): Int
+    abstract fun getBreedCharacteristicById(id: Long?): DbBreedCharacteristic
 
     //  DELETE
     @Delete
-    fun deleteBreedCharacteristics(vararg dbBreedCharacteristic: DbBreedCharacteristic): Int
+    abstract fun deleteBreedCharacteristics(vararg dbBreedCharacteristic: DbBreedCharacteristic): Int
 
     @Query(DELETE_ALL_BREED_CHARACTERISTICS)
-    fun deleteAllBreedCharacteristics(): Int
+    abstract fun deleteAllBreedCharacteristics(): Int
 }

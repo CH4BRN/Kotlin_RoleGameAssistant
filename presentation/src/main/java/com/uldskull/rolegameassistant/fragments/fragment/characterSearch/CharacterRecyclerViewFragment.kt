@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.character.CharacterTransmission
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.CHARACTERS_RECYCLER_VIEW_FRAGMENT_POSITION
-import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
+import com.uldskull.rolegameassistant.fragments.fragment.CustomAdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
@@ -26,13 +26,15 @@ import com.uldskull.rolegameassistant.viewmodels.NewCharacterViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
- *   Class "CharacterRecycerViewFragment" :
- *   TODO: Fill class use.
+ *   Class "CharacterRecyclerViewFragment" :
  **/
 class CharacterRecyclerViewFragment :
     CustomRecyclerViewFragment(),
-    AdapterButtonListener<DomainCharacter> {
+    CustomAdapterButtonListener<DomainCharacter> {
 
+    /**
+     * Character transmitter
+     */
     private var characterTransmitter: CharacterTransmission? = null
 
     /**
@@ -65,7 +67,6 @@ class CharacterRecyclerViewFragment :
             val args = Bundle()
             fragment.activity = activity
             fragment.characterTransmitter = activity as CharacterTransmission
-
 
             args.putInt(KEY_POSITION, CHARACTERS_RECYCLER_VIEW_FRAGMENT_POSITION)
             fragment.arguments = args

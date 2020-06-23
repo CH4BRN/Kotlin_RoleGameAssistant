@@ -8,7 +8,7 @@ import com.uldskull.rolegameassistant.repository.GenericRepository
 
 /**
  *   Interface "RaceCharacteristicRepository" :
- *   TODO: Fill interface use.
+ *   Class to manage breed's characteristic persistence.
  **/
 interface BreedsCharacteristicRepository<T> :
     GenericRepository<T, DomainBreedsCharacteristic>

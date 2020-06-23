@@ -9,21 +9,26 @@ import androidx.lifecycle.Transformations
 import com.uldskull.rolegameassistant.infrastructure.dao.skill.DbSkillToCheckDao
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_skill.DbSkillToCheck
 import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToCheck
-import com.uldskull.rolegameassistant.repository.skill.OccupationSkillRepository
+import com.uldskull.rolegameassistant.repository.skill.SkillToCheckRepository
 
 /**
  *   Class "DbOccupationSkillRepositoryImpl" :
- *   TODO: Fill class use.
+ *   Repository for skills to check
  **/
-class DbOccupationSkillRepositoryImpl(
-    private val dbOccupationSkillDao: DbSkillToCheckDao
+class DbSkillToCheckRepositoryImpl(
+    /**
+     * skill dao
+     */
+    private val dbSkillToCheckDao: DbSkillToCheckDao
 ) :
-    OccupationSkillRepository<LiveData<List<DomainSkillToCheck>>> {
+    SkillToCheckRepository<LiveData<List<DomainSkillToCheck>>> {
 
     companion object {
         private const val TAG = "DbOccupationSkillRepositoryImpl"
     }
-
+    /**
+     * Converts a list of database entities into domain entities
+     */
     private fun List<DbSkillToCheck>.asDomainModel(): List<DomainSkillToCheck> {
         Log.d(TAG, "asDomainModel")
         return map {
@@ -42,7 +47,7 @@ class DbOccupationSkillRepositoryImpl(
     override fun getAll(): LiveData<List<DomainSkillToCheck>> {
         Log.d(TAG, "getAll")
         try {
-            return Transformations.map(dbOccupationSkillDao.getOccupationSkills()) {
+            return Transformations.map(dbSkillToCheckDao.getOccupationSkills()) {
                 it.asDomainModel()
             }
         } catch (e: Exception) {
@@ -56,7 +61,7 @@ class DbOccupationSkillRepositoryImpl(
         Log.d(TAG, "findOneById")
         var result: DbSkillToCheck
         try {
-            result = dbOccupationSkillDao.getOccupationSkillById(id)
+            result = dbSkillToCheckDao.getOccupationSkillById(id)
         } catch (e: Exception) {
             Log.e(TAG, "findOneById FAILED")
             throw e
@@ -69,7 +74,7 @@ class DbOccupationSkillRepositoryImpl(
         Log.d(TAG, "insertAll")
         if (all != null && all.isNotEmpty()) {
             try {
-                val result = dbOccupationSkillDao.insertOccupationSkills(all.map { s ->
+                val result = dbSkillToCheckDao.insert(all.map { s ->
                     DbSkillToCheck.from(
                         s
                     )
@@ -93,7 +98,7 @@ class DbOccupationSkillRepositoryImpl(
         return if (one != null) {
             try {
                 val result =
-                    dbOccupationSkillDao.insertSkillToCheck(
+                    dbSkillToCheckDao.insert(
                         DbSkillToCheck.from(
                             one
                         )
@@ -114,7 +119,7 @@ class DbOccupationSkillRepositoryImpl(
     override fun deleteAll(): Int {
         Log.d(TAG, "deleteAll")
         try {
-            return dbOccupationSkillDao.deleteAllOccupationSkills()
+            return dbSkillToCheckDao.deleteAllOccupationSkills()
         } catch (e: Exception) {
             Log.e(TAG, "deleteAll FAILED")
             e.printStackTrace()
@@ -126,7 +131,7 @@ class DbOccupationSkillRepositoryImpl(
     override fun updateOne(one: DomainSkillToCheck?): Int? {
         Log.d(TAG, "updateOne")
         try {
-            dbOccupationSkillDao.updateOccupationSkill(DbSkillToCheck.from(one))
+            dbSkillToCheckDao.update(DbSkillToCheck.from(one))
         } catch (e: Exception) {
             Log.e(TAG, "updateOne FAILED")
             e.printStackTrace()

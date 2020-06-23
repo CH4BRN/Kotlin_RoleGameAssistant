@@ -61,16 +61,34 @@ class NavigationBarFragment : CustomFragment() {
      */
     private val bondsViewModel: BondsViewModel by sharedViewModel()
 
+    /**
+     * Ideals view model
+     */
     private val idealsViewModel: IdealsViewModel by sharedViewModel()
 
+    /**
+     * Occupations view model
+     */
     private val occupationsViewModel: OccupationsViewModel by sharedViewModel()
 
+    /**
+     * occupation skills view model
+     */
     private val occupationSkillsViewModel: OccupationSkillsViewModel by sharedViewModel()
 
+    /**
+     * hobby skills view model
+     */
     private val hobbySkillsViewModel: HobbySkillsViewModel by sharedViewModel()
 
+    /**
+     * skills view model
+     */
     private val skillsViewModel: SkillsViewModel by sharedViewModel()
 
+    /**
+     * Points to spend view model
+     */
     private val pointsToSpendViewModel: PointsToSpendViewModel by sharedViewModel()
 
     /**
@@ -286,7 +304,7 @@ class NavigationBarFragment : CustomFragment() {
      * Get the checked breeds from the view model
      */
     private fun getCheckedBreeds(): List<DomainDisplayedBreed>? {
-        return displayedBreedsViewModel.observedMutableBreeds.value?.filter { b -> b.breedChecked }
+        return displayedBreedsViewModel.observedMutableBreeds.value?.filter { b -> b.breedIsChecked }
     }
 
     /**

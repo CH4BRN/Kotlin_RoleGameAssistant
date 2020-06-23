@@ -32,16 +32,11 @@ class CharacteristicsViewModel(
     private val displayedBreedsRepository: DisplayedBreedsRepository<LiveData<List<DomainDisplayedBreed>>>,
     private val diceServiceImpl: DiceService
 ) : AndroidViewModel(application) {
-
-
-    val characterBreeds: MutableLiveData<List<DomainDisplayedBreed?>> = MutableLiveData()
-
     /**
      * Displayed characteristics
      */
     var displayedCharacteristics: MutableLiveData<List<DomainRollsCharacteristic?>>? =
         MutableLiveData()
-
 
     /**
      * Constitution bonus
@@ -134,7 +129,7 @@ class CharacteristicsViewModel(
         Log.d("DEBUG$TAG", "getCheckedBreeds")
         return if (!characterDisplayedBreeds.isNullOrEmpty()) {
             Log.d("DEBUG$TAG", "characterDisplayedBreeds is not empty")
-            var breeds = characterDisplayedBreeds!!.filter { b -> b.breedChecked }
+            var breeds = characterDisplayedBreeds!!.filter { b -> b.breedIsChecked }
             Log.d("DEBUG$TAG", "Checked breeds : ${breeds.size}")
             breeds.forEach {
                 Log.d("DEBUG$TAG", "Breeds : $it")
@@ -159,7 +154,7 @@ class CharacteristicsViewModel(
     var characterDisplayedBreeds: MutableList<DomainDisplayedBreed>? = mutableListOf()
         set(value) {
             Log.d("DEBUG$TAG", "set characterBreeds")
-            var checked = value?.filter { b -> b.breedChecked }
+            var checked = value?.filter { b -> b.breedIsChecked }
             checked?.forEach {
                 Log.d("DEBUG$TAG", "Checked : ${it.breedName}")
             }
@@ -168,6 +163,9 @@ class CharacteristicsViewModel(
         }
 
 
+    /**
+     * Get all characteristics
+     */
     fun getAllCharacteristics(): List<DomainRollsCharacteristic?>? {
         return displayedCharacteristics?.value?.toList()
     }
@@ -207,6 +205,9 @@ class CharacteristicsViewModel(
 
     }
 
+    /**
+     *  Get dice rolled characteristic for constitution
+     */
     private fun getConstitutionDiceRolledCharacteristic(): DomainRollsCharacteristic {
         return getDiceRollCharacteristic(
             name = CharacteristicsName.CONSTITUTION,
@@ -215,6 +216,9 @@ class CharacteristicsViewModel(
         )
     }
 
+    /**
+     * Gets dice rolled characteristic for strength
+     */
     private fun getStrengthDiceRolledCharacteristic(): DomainRollsCharacteristic {
         return getDiceRollCharacteristic(
             name = CharacteristicsName.STRENGTH,
@@ -223,6 +227,9 @@ class CharacteristicsViewModel(
         )
     }
 
+    /**
+     * Get dice rolled characteristic for power
+     */
     private fun getPowerDiceRolledCharacteristic(): DomainRollsCharacteristic {
         return getDiceRollCharacteristic(
             name = CharacteristicsName.POWER,
@@ -230,7 +237,9 @@ class CharacteristicsViewModel(
             rollRule = "3D6"
         )
     }
-
+    /**
+     * Get dice rolled characteristic for dexterity
+     */
     private fun getDexterityDiceRolledCharacteristic(): DomainRollsCharacteristic {
         return getDiceRollCharacteristic(
             name = CharacteristicsName.DEXTERITY,
@@ -238,7 +247,9 @@ class CharacteristicsViewModel(
             rollRule = "3D6"
         )
     }
-
+    /**
+     * Get dice rolled characteristic for size
+     */
     private fun getSizeDiceRolledCharacteristic(): DomainRollsCharacteristic {
         return getDiceRollCharacteristic(
             name = CharacteristicsName.SIZE,
@@ -246,7 +257,9 @@ class CharacteristicsViewModel(
             rollRule = "2D6+6"
         )
     }
-
+    /**
+     * Get dice rolled characteristic for intelligence
+     */
     private fun getIntelligenceDiceRolledCharacteristic(): DomainRollsCharacteristic {
         return getDiceRollCharacteristic(
             name = CharacteristicsName.INTELLIGENCE,
@@ -254,7 +267,9 @@ class CharacteristicsViewModel(
             rollRule = "2D6+6"
         )
     }
-
+    /**
+     * Get dice rolled characteristic for appearance
+     */
     private fun getAppearanceDiceRolledCharacteristic(): DomainRollsCharacteristic {
         return getDiceRollCharacteristic(
             name = CharacteristicsName.APPEARANCE,
@@ -262,7 +277,9 @@ class CharacteristicsViewModel(
             rollRule = "3D6"
         )
     }
-
+    /**
+     * Get dice rolled characteristic for education
+     */
     private fun getEducationDiceRolledCharacteristic(): DomainRollsCharacteristic {
         return getDiceRollCharacteristic(
             name = CharacteristicsName.EDUCATION,
@@ -270,7 +287,9 @@ class CharacteristicsViewModel(
             rollRule = "3D6+3"
         )
     }
-
+    /**
+     * Get dice rolled characteristics
+     */
     fun getDiceRollCharacteristic(
         name: CharacteristicsName,
         bonus: Int?,
@@ -357,14 +376,9 @@ class CharacteristicsViewModel(
 
     }
 
-    fun getIntelligence(): DomainRollsCharacteristic? {
-        var intelligence =
-            displayedCharacteristics?.value?.find { c -> c?.characteristicName == CharacteristicsName.INTELLIGENCE.toString() }
-        Log.d(TAG, "INTELLIGENCE : $intelligence")
-
-        return intelligence
-    }
-
+    /**
+     * Get education characteristic
+     */
     fun getEducation(): DomainRollsCharacteristic? {
         var education =
             displayedCharacteristics?.value?.find { c -> c?.characteristicName == CharacteristicsName.EDUCATION.toString() }
@@ -387,26 +401,19 @@ class CharacteristicsViewModel(
         return score
     }
 
-
-    private fun displayBonuses() {
-        Log.d(
-            TAG, "Bonuses : \n" +
-                    "\tapp : $appearanceBonus\n" +
-                    "\tcon : $constitutionBonus\n" +
-                    "\tdex : $dexterityBonus\n" +
-                    "\tint : $intelligenceBonus\n" +
-                    "\tpow : $powerBonus\n" +
-                    "\tsiz : $sizeBonus\n" +
-                    "\tstr : $strengthBonus\n" +
-                    "\tedu : $educationBonus"
-
-        )
-    }
-
+    /**
+     * Observable repository characteristics
+     */
     var observedRepositoryCharacteristics = rollsCharacteristicRepositoryImpl.getAll()
 
+    /**
+     * Observable mutable characteristics
+     */
     var observedMutableCharacteristics = MutableLiveData<MutableList<DomainRollsCharacteristic?>>()
 
+    /**
+     * Initialize bonuses
+     */
     private fun initializeBonuses() {
         appearanceBonus = 0
         constitutionBonus = 0
@@ -446,6 +453,9 @@ class CharacteristicsViewModel(
     }
 
 
+    /**
+     * Save all characteristics
+     */
     fun saveAllCharacteristics(domainCharacteristics: List<DomainCharacteristic>): List<Long>? =
         synchronized(lock) {
             Log.d(TAG, "saveAllCharacteristics")
@@ -460,6 +470,9 @@ class CharacteristicsViewModel(
         }
 
 
+    /**
+     * Delete all roll characteristics
+     */
     fun deleteAllRollCharacteristics(): Int? {
         Log.d(TAG, "deleteAllRollCharacteristics")
         thread(start = true) {
@@ -468,6 +481,9 @@ class CharacteristicsViewModel(
         return 0
     }
 
+    /**
+     * Update one roll characteristic
+     */
     fun updateOneRollCharacteristic(domainModel: DomainRollsCharacteristic): Int? {
         Log.d(TAG, "updateOneRollCharacteristic")
         var result: Int? = -1
@@ -478,10 +494,12 @@ class CharacteristicsViewModel(
     }
 
 
+    /**
+     * Calculate breed bonuses
+     */
     fun calculateBreedBonuses(displayedBreedList: List<DomainDisplayedBreed>?) {
         Log.d(TAG, "calculates bonuses")
         initializeBonuses()
-        displayBonuses()
         Log.d(TAG, "{breedList.size} ${displayedBreedList?.size}")
         displayedBreedList?.forEach {
             Log.d(TAG, "${it.breedName}")
@@ -508,7 +526,6 @@ class CharacteristicsViewModel(
         }
 
         assignsBonusForAllCharacteristics()
-        displayBonuses()
     }
 
     private fun assignsBonusForAllCharacteristics() {

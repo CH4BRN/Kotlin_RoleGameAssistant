@@ -14,7 +14,7 @@ import com.uldskull.rolegameassistant.infrastructure.repositories.characteristic
 import com.uldskull.rolegameassistant.infrastructure.repositories.ideal.DbIdealsRepositoryImpl
 import com.uldskull.rolegameassistant.infrastructure.repositories.occupations.DbOccupationsRepositoryImpl
 import com.uldskull.rolegameassistant.infrastructure.repositories.skill.DbFilledOccupationSkillRepositoryImpl
-import com.uldskull.rolegameassistant.infrastructure.repositories.skill.DbOccupationSkillRepositoryImpl
+import com.uldskull.rolegameassistant.infrastructure.repositories.skill.DbSkillToCheckRepositoryImpl
 import com.uldskull.rolegameassistant.models.character.DomainIdeal
 import com.uldskull.rolegameassistant.models.character.occupation.DomainOccupation
 import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.DomainDisplayedBreed
@@ -32,12 +32,12 @@ import com.uldskull.rolegameassistant.repository.characteristic.RollsCharacteris
 import com.uldskull.rolegameassistant.repository.ideal.IdealsRepository
 import com.uldskull.rolegameassistant.repository.occupations.OccupationsRepository
 import com.uldskull.rolegameassistant.repository.skill.FilledOccupationSkillRepository
-import com.uldskull.rolegameassistant.repository.skill.OccupationSkillRepository
+import com.uldskull.rolegameassistant.repository.skill.SkillToCheckRepository
 import org.koin.dsl.module
 
 val repositoriesModule = module {
     //  Repository for Characteristics
-    single<CharacteristicRepository<MutableLiveData<List<DomainCharacteristic>>>> {
+    single<CharacteristicRepository<LiveData<List<DomainCharacteristic>>>> {
         DbCharacteristicRepositoryImpl(
             dbCharacteristicDao = get()
         )
@@ -87,9 +87,9 @@ val repositoriesModule = module {
     }
 
     //  Repository for occupation skills
-    single<OccupationSkillRepository<LiveData<List<DomainSkillToCheck>>>> {
-        DbOccupationSkillRepositoryImpl(
-            dbOccupationSkillDao = get()
+    single<SkillToCheckRepository<LiveData<List<DomainSkillToCheck>>>> {
+        DbSkillToCheckRepositoryImpl(
+            dbSkillToCheckDao = get()
         )
     }
 

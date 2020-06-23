@@ -32,15 +32,35 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 class OccupationsFragment : CustomFragment() {
 
     //  VIEWMODELS
+    /**
+     * Occupation viewmodel
+     */
     private val occupationsViewModel: OccupationsViewModel by sharedViewModel()
+
+    /**
+     * Occupation skills view model
+     */
     private val occupationSkillsViewModel: OccupationSkillsViewModel by sharedViewModel()
+
+    /**
+     * Skill view model
+     */
     private val skillViewModel:SkillsViewModel by sharedViewModel()
+
+    /**
+     * New character view model
+     */
     private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
 
     //  ADAPTER
-    /// Occupation's spinner
+    /**
+     * Occupations adapter for spinner
+     */
     var occupationsAdapter: ArrayAdapter<String?>? = null
 
+    /**
+     * Initialize occupations adapter
+     */
     private fun initializeOccupationsAdapter() {
         if (activity != null) {
             occupationsAdapter = ArrayAdapter(
@@ -51,6 +71,9 @@ class OccupationsFragment : CustomFragment() {
     }
 
 
+    /**
+     * Set occupations spinner onItemSelectedListener
+     */
     private fun setSpinnerOccupationsOnItemSelectedListener() {
         spinner_occupations.onItemSelectedListener = object : CustomOnItemSelectedListener() {
 
@@ -74,7 +97,9 @@ class OccupationsFragment : CustomFragment() {
         }
     }
 
-
+    /**
+     * Start observation
+     */
     fun startObservation() {
         Log.d(TAG, "startObservation")
         //  Observe occupation from repository
@@ -83,11 +108,11 @@ class OccupationsFragment : CustomFragment() {
         observeSelectedOccupation()
         //  Observes selected occupations values.
         observeSelectedOccupationValues()
-        // Observe Selected character
-        observeSelectedCharacter()
-
     }
 
+    /**
+     * Observe selected occupations values
+     */
     private fun observeSelectedOccupationValues() {
         //  Observe occupation income
         observeSelectedOccupationIncome()
@@ -97,11 +122,17 @@ class OccupationsFragment : CustomFragment() {
         observeSelectedOccupationSpecial()
     }
 
+    /**
+     * Observe occupations
+     */
     private fun observeOccupations() {
         //  Observe displayed string occupations
         observeDisplayedOccupations()
     }
 
+    /**
+     * Observe displayed occupation
+     */
     private fun observeDisplayedOccupations() {
         occupationsViewModel?.displayedOccupations?.observe(this, Observer { stringOccupations ->
             kotlin.run {
@@ -114,21 +145,6 @@ class OccupationsFragment : CustomFragment() {
             }
         })
     }
-
-
-    private fun observeSelectedCharacter() {
-        newCharacterViewModel.selectedCharacter.observe(this, Observer { domainCharacter ->
-            kotlin.run {
-                if (domainCharacter != null) {
-                    Log.d("DEBUG$TAG", "Selected character is : ${domainCharacter}")
-                    var occupation = domainCharacter?.characterOccupation
-
-                }
-            }
-
-        })
-    }
-
 
     /**
      * Observes the selected occupation special.
@@ -147,8 +163,10 @@ class OccupationsFragment : CustomFragment() {
         }
     }
 
+    /**
+     * Observe selected occupation
+     */
     private fun observeSelectedOccupation() {
-
         occupationsViewModel.selectedOccupation?.observe(
             this,
             Observer { domainOccupation: DomainOccupation ->
@@ -176,9 +194,6 @@ class OccupationsFragment : CustomFragment() {
                     }
 
                     skillViewModel?.mutableSkillsToCheck?.value = oldList
-
-
-
                     setOccupationIncome(domainOccupation)
                     setOccupationContacts(domainOccupation)
                     setOccupationSpecial(domainOccupation)
@@ -194,6 +209,9 @@ class OccupationsFragment : CustomFragment() {
             })
     }
 
+    /**
+     * Set occupation special
+     */
     private fun setOccupationSpecial(domainOccupation: DomainOccupation) {
         //  Sets the occupation special.
         Log.d(
@@ -204,6 +222,9 @@ class OccupationsFragment : CustomFragment() {
             domainOccupation.occupationSpecial
     }
 
+    /**
+     * set occupation contacts
+     */
     private fun setOccupationContacts(domainOccupation: DomainOccupation) {
         //  Sets the occupation contacts.
         Log.d(
@@ -214,6 +235,9 @@ class OccupationsFragment : CustomFragment() {
             domainOccupation.occupationContacts
     }
 
+    /**
+     * Set occupation income
+     */
     private fun setOccupationIncome(domainOccupation: DomainOccupation) {
         //  Sets the occupation income
         Log.d(
@@ -224,7 +248,9 @@ class OccupationsFragment : CustomFragment() {
             domainOccupation.occupationIncome
     }
 
-
+    /**
+     * Observe selected occupation contacts
+     */
     private fun observeSelectedOccupationContact() {
         if (this.occupationsViewModel.selectedOccupationContacts != null) {
             this.occupationsViewModel.selectedOccupationContacts!!.observe(
@@ -238,6 +264,9 @@ class OccupationsFragment : CustomFragment() {
         }
     }
 
+    /**
+     * Observe selected occupation income
+     */
     private fun observeSelectedOccupationIncome() {
         if (this.occupationsViewModel.selectedOccupationIncome != null) {
             this.occupationsViewModel.selectedOccupationIncome!!.observe(this, Observer { income ->
@@ -311,12 +340,7 @@ class OccupationsFragment : CustomFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.d(TAG, "onViewCreated")
         super.onViewCreated(view, savedInstanceState)
-
-
-
         loadOccupationsSkillRecyclerView()
-
-
         setButtonAddJob()
         startObservation()
         setSpinnerOccupationsOnItemSelectedListener()
@@ -324,6 +348,9 @@ class OccupationsFragment : CustomFragment() {
         //  setSpinnerOccupationCurrentSelectedOccupation()
     }
 
+    /**
+     * Load occupation skill recycler view
+     */
     private fun loadOccupationsSkillRecyclerView() {
         if (activity != null) {
             var transaction = childFragmentManager.beginTransaction()
@@ -335,7 +362,9 @@ class OccupationsFragment : CustomFragment() {
 
     }
 
-
+    /**
+     * Empties the text views
+     */
     private fun emptyOccupationTextViews() {
         fragmentOccupations_tv_occupationIncomeValue.text = ""
         fragmentOccupations_tv_occupationContactsValue.text = ""

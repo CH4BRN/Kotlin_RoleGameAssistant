@@ -8,38 +8,26 @@ import androidx.room.*
 import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_OCCUPATION_SKILL_ID
 import com.uldskull.rolegameassistant.infrastructure.Queries.DELETE_ALL_OCCUPATION_SKILLS
 import com.uldskull.rolegameassistant.infrastructure.Queries.SELECT_ALL_OCCUPATION_SKILLS
+import com.uldskull.rolegameassistant.infrastructure.dao.GenericDao
 import com.uldskull.rolegameassistant.infrastructure.dao.LIKE
 import com.uldskull.rolegameassistant.infrastructure.dao.WHERE
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_skill.DbSkillToCheck
 
 /**
  *   Interface "DbOccupationSkillDao" :
- *   TODO: Fill interface use.
+ *  DbSkillToCheck database interactions.
  **/
 @Dao
-interface DbSkillToCheckDao {
-    //  CREATE
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertSkillToCheck(dbOccupationSkill: DbSkillToCheck): Long
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertOccupationSkills(dbOccupationSkills: List<DbSkillToCheck>): List<Long>
+abstract class DbSkillToCheckDao : GenericDao<DbSkillToCheck> {
 
     //  READ
     @Query(SELECT_ALL_OCCUPATION_SKILLS)
-    fun getOccupationSkills(): LiveData<List<DbSkillToCheck>>
+    abstract fun getOccupationSkills(): LiveData<List<DbSkillToCheck>>
 
     @Query("$SELECT_ALL_OCCUPATION_SKILLS $WHERE $FIELD_OCCUPATION_SKILL_ID $LIKE :id")
-    fun getOccupationSkillById(id: Long?): DbSkillToCheck
-
-    //  UPDATE
-    @Update
-    fun updateOccupationSkill(vararg dbOccupationSkill: DbSkillToCheck): Int
+    abstract fun getOccupationSkillById(id: Long?): DbSkillToCheck
 
     //  DELETE
-    @Delete
-    fun deleteOccupationSkills(vararg dbOccupationSkills: DbSkillToCheck): Int
-
     @Query(DELETE_ALL_OCCUPATION_SKILLS)
-    fun deleteAllOccupationSkills(): Int
+    abstract fun deleteAllOccupationSkills(): Int
 }

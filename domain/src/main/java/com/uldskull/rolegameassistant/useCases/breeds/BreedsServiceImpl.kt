@@ -7,11 +7,14 @@ import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.Doma
 
 /**
  *   Class "BreedsServiceImpl" :
- *   TODO: Fill class use.
+ *   Holds the breed service implementation
  **/
 class BreedsServiceImpl : BreedsService {
+    /**
+     * Gets all breeds.
+     */
     override fun getAllBreeds(): List<DomainDisplayedBreed> {
         TODO("Not implemented.")
     }
-// TODO : Fill class.
+
 }

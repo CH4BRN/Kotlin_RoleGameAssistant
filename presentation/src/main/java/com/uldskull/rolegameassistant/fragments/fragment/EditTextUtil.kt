@@ -8,7 +8,7 @@ import android.widget.EditText
 
 /**
  *   Class "EditTextUtil" :
- *   TODO: Fill class use.
+ *   Edit text utils to enable or disable edit text
  **/
 class EditTextUtil {
     companion object {

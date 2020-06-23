@@ -21,7 +21,13 @@ Class "CharacterRepositoryImpl"
 Insert and get Character from database.
  */
 class CharacterRepositoryImpl(
+    /**
+     * Character dao
+     */
     private val dbCharacterDao: DbCharacterDao,
+    /**
+     * Character with skills dao
+     */
     private val dbCharacterWithDbFilledSkillsDao: DbCharacterWithDbFilledSkillsDao
 ) :
     CharacterRepository<LiveData<List<DomainCharacter?>?>> {
@@ -30,7 +36,7 @@ class CharacterRepositoryImpl(
         private const val TAG = "CharacterRepositoryImpl"
     }
 
-    /** Get all entities    */
+    /** Get all domain characters   */
     override fun getAll(): LiveData<List<DomainCharacter?>?> {
         Log.d(TAG, "getAll")
         return try {
@@ -44,6 +50,9 @@ class CharacterRepositoryImpl(
         }
     }
 
+    /**
+     * Converts a list of database entities into domain entities
+     */
     private fun List<DbCharacter?>.asDomainModel(): List<DomainCharacter?>? {
         Log.d(TAG, "asDomainModel")
 
@@ -102,10 +111,19 @@ class CharacterRepositoryImpl(
         }
     }
 
+
     /** Insert a list of entity */
     override fun insertAll(all: List<DomainCharacter>?): List<Long> {
         Log.d(TAG, "insertAll")
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if ((all != null) && (all.isNotEmpty())) {
+            val result = dbCharacterDao.insert(all.map { c ->
+                DbCharacter.from(c)
+            })
+
+            return result
+        }
+        return emptyList()
+
     }
 
     /**  Update one entity  **/
@@ -142,7 +160,7 @@ class CharacterRepositoryImpl(
     /** Delete all entities **/
     override fun deleteAll(): Int {
         Log.d(TAG, "deleteAll")
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+      return dbCharacterDao?.deleteAll()
     }
 
     /**
@@ -154,13 +172,17 @@ class CharacterRepositoryImpl(
         return null
     }
 
+    /**
+     * Find one with it's occupation skills
+     */
     override fun findOneWithOccupationSkills(id: Long?): DomainCharacterWithSkills? {
         var entities: List<DbCharacterWithDbSkills> =
             dbCharacterWithDbFilledSkillsDao?.getCharacterWithSkills()
 
-        var theOne = entities.find { characterWithDbSkills -> characterWithDbSkills?.character?.characterId == id }
+        var theOne =
+            entities.find { characterWithDbSkills -> characterWithDbSkills?.character?.characterId == id }
 
-        if (theOne!= null) {
+        if (theOne != null) {
             val character = theOne.character
 
             val skills = theOne.skills

@@ -31,7 +31,7 @@ class BreedsAdapter internal constructor(
     }
 
     /**
-     * Races list
+     * breeds list
      */
     private var displayedBreeds: MutableList<DomainDisplayedBreed> = mutableListOf()
 
@@ -46,6 +46,34 @@ class BreedsAdapter internal constructor(
             itemView.findViewById<LinearLayout>(R.id.breed_item_linear_layout)
         val breedNameItemView: TextView = itemView.findViewById(R.id.tv_breedName)
         val breedDescriptionItemView: TextView = itemView.findViewById(R.id.tv_breedDescription)
+
+        /**
+         * Bind the value
+         */
+        fun bind(domainDisplayedBreed: DomainDisplayedBreed) {
+
+            Log.d("$TAG", "Current : ${domainDisplayedBreed.breedName}")
+            breedNameItemView.text = domainDisplayedBreed.breedName
+            breedDescriptionItemView.text = domainDisplayedBreed.breedDescription
+            breedItemLayout.setOnClickListener {
+                rowIndex = position
+
+                displayedBreeds[position].breedIsChecked = !displayedBreeds[position].breedIsChecked
+
+                var checkedBreeds = displayedBreeds.count { b -> b.breedIsChecked }
+                Log.d("DEBUG$TAG", "Checked : $checkedBreeds")
+                listTransmitter.transmitList(displayedBreeds)
+                notifyDataSetChanged()
+            }
+
+            if (domainDisplayedBreed.breedIsChecked) {
+                breedItemLayout.setBackgroundColor(Color.parseColor("#D98B43"))
+                breedNameItemView.setTextColor(Color.parseColor("#ffffff"))
+            } else {
+                breedItemLayout.setBackgroundColor(Color.parseColor("#ffffff"))
+                breedNameItemView.setTextColor(Color.parseColor("#C02942"))
+            }
+        }
     }
 
     /**
@@ -110,30 +138,8 @@ class BreedsAdapter internal constructor(
      */
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         Log.d(TAG, "onBindViewHolder")
-        val breedsViewHolder = holder as BreedsViewHolder
-        val current = displayedBreeds[position]
-        Log.d("$TAG", "Current : ${current.breedName}")
-        breedsViewHolder.breedNameItemView.text = current.breedName
-        breedsViewHolder.breedDescriptionItemView.text = current.breedDescription
-        breedsViewHolder.breedItemLayout.setOnClickListener {
-            rowIndex = position
+        (holder as BreedsViewHolder)?.bind(displayedBreeds[position])
 
-            displayedBreeds[position].breedChecked = !displayedBreeds[position].breedChecked
-
-            var checkedBreeds = displayedBreeds.count { b -> b.breedChecked }
-            Log.d("DEBUG$TAG", "Checked : $checkedBreeds")
-            listTransmitter.transmitList(displayedBreeds)
-            notifyDataSetChanged()
-        }
-
-        if (current.breedChecked) {
-            breedsViewHolder.breedItemLayout.setBackgroundColor(Color.parseColor("#D98B43"))
-            breedsViewHolder.breedNameItemView.setTextColor(Color.parseColor("#ffffff"))
-        } else {
-
-            breedsViewHolder.breedItemLayout.setBackgroundColor(Color.parseColor("#ffffff"))
-            breedsViewHolder.breedNameItemView.setTextColor(Color.parseColor("#C02942"))
-        }
     }
 
 
@@ -155,7 +161,6 @@ class BreedsAdapter internal constructor(
             }
 
         }
-        Log.d(TAG, "Breeds size = " + this.displayedBreeds.size.toString())
         notifyDataSetChanged()
     }
 }

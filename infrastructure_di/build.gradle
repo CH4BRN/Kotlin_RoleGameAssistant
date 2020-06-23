@@ -42,6 +42,6 @@ dependencies {
     implementation project(ProjectsDependencies.data)
     implementation project(ProjectsDependencies.domain)
     testImplementation TestDependencies.junitJunit
-    androidTestImplementation TestDependencies.Junit
+    androidTestImplementation TestDependencies.androidXJunit
     androidTestImplementation TestDependencies.EspressoCore
 }

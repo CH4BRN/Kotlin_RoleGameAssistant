@@ -5,7 +5,7 @@ package com.uldskull.rolegameassistant.useCases.breeds
 
 /**
  *   Interface "GetAllBreedsUseCase" :
- *   TODO: Fill interface use.
+ *   Contracts for "get all breeds" use case.
  **/
 interface GetAllBreedsUseCase {
 // TODO : Fill interface.

@@ -10,7 +10,7 @@ import com.uldskull.rolegameassistant.models.character.skill.DomainSkillToFill
 /**
 Class "HobbySkillsViewModel"
 
-TODO: Describe class utility.
+Viewmodel for hobby
  */
 class HobbySkillsViewModel(
     application: Application
@@ -19,7 +19,18 @@ class HobbySkillsViewModel(
         private const val TAG = "HobbySkillsViewModel"
     }
 
+    /**
+     * Current hobby skill
+     */
     var currentHobbySkill = MutableLiveData<DomainSkillToFill?>()
+
+    /**
+     * Total points to spend for hobby skills
+     */
     var hobbySkillsTotalPointsToSpend = MutableLiveData<Int>()
+
+    /**
+     * Checked hobby skills
+     */
     var checkedHobbySkills = MutableLiveData<List<DomainSkillToFill>>()
 }

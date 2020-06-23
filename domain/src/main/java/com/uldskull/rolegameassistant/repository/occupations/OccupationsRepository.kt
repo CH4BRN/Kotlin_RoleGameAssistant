@@ -9,12 +9,23 @@ import com.uldskull.rolegameassistant.repository.GenericRepository
 
 /**
  *   Interface "JobsRepository" :
- *   Interface to ensure that the class implementing it manage jobs persistence.
+ *   Class to manage DomainOccupation persistence.
  **/
 interface OccupationsRepository<T> :
 GenericRepository<T, DomainOccupation>{
+    /**
+     * Inserts a relation between occupation and skills
+     */
     fun insertOccupationAndSkillCross(occupationId:Long?, skillId:Long):Long
+
+    /**
+     * Find one occupation with its skills
+     */
     fun findOneWithChildren(occupationId: Long?):DomainOccupationWithSkills
+
+    /**
+     * Delete one occupation
+     */
     fun deleteOne(currentOccupationToEdit: DomainOccupation):Int
 
 }

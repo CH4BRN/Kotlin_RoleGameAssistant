@@ -10,17 +10,31 @@ import androidx.lifecycle.MutableLiveData
 /**
 Class "PointsToSpendViewModel"
 
-TODO: Describe class utility.
+Holds observable points to spend and points to spend logic
  */
 class PointsToSpendViewModel(application: Application) : AndroidViewModel(application) {
+    /**
+     * Observable occupation points to spend
+     */
     val observableOccupationPointsToSpend = MutableLiveData<Int>()
-    val observableHobbyPointsToSpend = MutableLiveData<Int>()
+
+    /**
+     * Observable occupation spent points array
+     */
     var observableOccupationSpentTensPointsArray = MutableLiveData<Array<Int?>>()
-    var observableHobbySpentTensPointsArray = MutableLiveData<Array<Int?>>()
-    var observableOccupationSpentUnitsPointsArray = MutableLiveData<ArrayList<Int>>()
-    var observableHobbySpentUnitsPointsArray = MutableLiveData<Array<Int>>()
+
+    /**
+     * Observable current occupation skill position
+     */
     var observableCurrentOccupationSkillPosition = MutableLiveData<Int>()
+
+    /**
+     * Observable occupation spent points
+     */
     var observableOccupationSpentPoints = MutableLiveData<Int>()
+    /**
+     * Observable hobby spent points array
+     */
     var observableHobbySpentPoints = MutableLiveData<Int>()
 
 }

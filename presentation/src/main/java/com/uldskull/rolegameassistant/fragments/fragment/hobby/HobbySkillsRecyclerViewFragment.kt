@@ -13,7 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
+import com.uldskull.rolegameassistant.fragments.fragment.CustomAdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.HOBBIES_SKILLS_RECYCLER_VIEW_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewFragment
@@ -28,17 +28,34 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 /**
 Class "HobbySkillsRecyclerViewFragment"
 
-TODO: Describe class utility.
+Holds the hobby skills recycler view fragment
  */
 class HobbySkillsRecyclerViewFragment :
-    CustomRecyclerViewFragment(), AdapterButtonListener<DomainSkillToFill> {
+    CustomRecyclerViewFragment(), CustomAdapterButtonListener<DomainSkillToFill> {
 
+    /**
+     * Hobby skill view model
+     */
     private val hobbySkillViewModel: HobbySkillsViewModel by sharedViewModel()
 
+    /**
+     * New character view model
+     */
     private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
 
+    /**
+     * Skills view model
+     */
+    private val skillsViewModel: SkillsViewModel by sharedViewModel()
+
+    /**
+     * Hobby skill recycler view
+     */
     private var hobbySkillRecyclerView: RecyclerView? = null
 
+    /**
+     * Hobby skills adapter
+     */
     private var hobbySkillAdapter: HobbySkillAdapter? = null
 
 
@@ -54,43 +71,20 @@ class HobbySkillsRecyclerViewFragment :
 
     }
 
-    private val skillsViewModel: SkillsViewModel by sharedViewModel()
+
 
     /**
      * Start ViewModel's collection observation.
      */
     override fun startObservation() {
+        observeHobbySkills()
+        observeHobbiesSkills()
+    }
 
-
-        this.skillsViewModel.hobbySkills.observe(this, Observer { skills: List<DomainSkillToFill> ->
-            kotlin.run {
-                Log.d("DEBUG$TAG", "hobbySkills : ${skills.size}")
-
-                var newList = mutableListOf<DomainSkillToFill>()
-
-                skills?.forEach {
-                    var skill =
-                        hobbySkillViewModel?.checkedHobbySkills?.value?.find { s -> s.skillId == it.skillId }
-                    if (skill != null) {
-                        Log.d("DEBUG$TAG", "Skill null Add : $skill")
-                        newList?.add(skill)
-                    } else {
-                        Log.d("DEBUG$TAG", "Skill not null Add : $it")
-                        newList?.add(it)
-                    }
-                }
-
-                if (newList.toString() != skillsViewModel.hobbySkills.value.toString()) {
-                    Log.d("DEBUG$TAG", "Different list")
-                    skillsViewModel.hobbySkills.value = newList
-                } else {
-                    Log.d("DEBUG$TAG", "Same list")
-                }
-
-                skills?.let { hobbySkillAdapter?.setHobbySkills(skills) }
-            }
-        })
-
+    /**
+     * Observe hobbies skills
+     */
+    private fun observeHobbiesSkills() {
         this.skillsViewModel.hobbiesSkills.observe(
             this,
             Observer { skills: List<DomainSkillToCheck?> ->
@@ -143,6 +137,43 @@ class HobbySkillsRecyclerViewFragment :
             })
     }
 
+    /**
+     * Observe hobby skills
+     */
+    private fun observeHobbySkills() {
+        this.skillsViewModel.hobbySkills.observe(this, Observer { skills: List<DomainSkillToFill> ->
+            kotlin.run {
+                Log.d("DEBUG$TAG", "hobbySkills : ${skills.size}")
+
+                var newList = mutableListOf<DomainSkillToFill>()
+
+                skills?.forEach {
+                    var skill =
+                        hobbySkillViewModel?.checkedHobbySkills?.value?.find { s -> s.skillId == it.skillId }
+                    if (skill != null) {
+                        Log.d("DEBUG$TAG", "Skill null Add : $skill")
+                        newList?.add(skill)
+                    } else {
+                        Log.d("DEBUG$TAG", "Skill not null Add : $it")
+                        newList?.add(it)
+                    }
+                }
+
+                if (newList.toString() != skillsViewModel.hobbySkills.value.toString()) {
+                    Log.d("DEBUG$TAG", "Different list")
+                    skillsViewModel.hobbySkills.value = newList
+                } else {
+                    Log.d("DEBUG$TAG", "Same list")
+                }
+
+                skills?.let { hobbySkillAdapter?.setHobbySkills(skills) }
+            }
+        })
+    }
+
+    /**
+     * Maps skills to check to skills to fill
+     */
     private fun mapSkillToCheckToSkillToFill(hobbiesChecked: List<DomainSkillToCheck?>): List<DomainSkillToFill> {
         var hobbyChecked: List<DomainSkillToFill> =
             hobbiesChecked?.map { hobbiesSkill: DomainSkillToCheck? ->
@@ -169,7 +200,7 @@ class HobbySkillsRecyclerViewFragment :
             hobbySkillAdapter =
                 HobbySkillAdapter(
                     context = activity as Context,
-                    hobbySkillsRecyclerViewFragment_buttonListener = this
+                    hobbySkillsRecyclerViewFragment_buttonListenerCustom = this
                 )
             hobbySkillRecyclerView?.adapter = hobbySkillAdapter
         }
@@ -197,6 +228,13 @@ class HobbySkillsRecyclerViewFragment :
         return initialRootView
     }
 
+    /**
+     * Called when a recyclerview cell is pressed
+     */
+    override fun itemPressed(domainModel: DomainSkillToFill?, position: Int?) {
+        hobbySkillViewModel.currentHobbySkill.value = domainModel
+    }
+
     companion object : CustomCompanion() {
         private const val TAG = "HobbySkillsRecyclerViewFragment"
 
@@ -217,10 +255,5 @@ class HobbySkillsRecyclerViewFragment :
 
     }
 
-    /**
-     * Called when a recyclerview cell is pressed
-     */
-    override fun itemPressed(domainModel: DomainSkillToFill?, position: Int?) {
-        hobbySkillViewModel.currentHobbySkill.value = domainModel
-    }
+
 }

@@ -30,7 +30,9 @@ class IdealsViewModel(
         refreshDataFromRepository()
     }
 
-
+    /**
+     * Refresh data from repository
+     */
     fun refreshDataFromRepository() {
         viewModelScope.launch {
             Log.d(TAG, "refreshDataFromRepository")
@@ -45,6 +47,9 @@ class IdealsViewModel(
         }
     }
 
+    /**
+     * Get an ideal by its id
+     */
     fun getIdealById(id:Long?):DomainIdeal?{
         if(id != null){
             return idealsRepositoryImpl?.findOneById(id)
@@ -53,6 +58,9 @@ class IdealsViewModel(
         }
     }
 
+    /**
+     * Delete an ideal
+     */
     fun deleteIdeal(currentIdealToEdit: DomainIdeal):Int {
         if(currentIdealToEdit == null){
             throw Exception("Ideal is null")
@@ -60,6 +68,10 @@ class IdealsViewModel(
 
          return idealsRepositoryImpl?.deleteOne(currentIdealToEdit)
     }
+
+    /**
+     * Insert an ideal
+     */
      fun insertIdeal(domainIdeal: DomainIdeal):Long?{
          if(domainIdeal == null){
              Log.d("DEBUG$TAG","Ideal is null")
@@ -81,13 +93,16 @@ class IdealsViewModel(
 
     }
 
-
+    /**
+     * Get all ideals
+     */
     fun getAll():List<DomainIdeal>?{
-        var ideals = idealsRepositoryImpl?.getIdeals()
-        return ideals
+        return idealsRepositoryImpl?.getIdeals()
     }
 
-
+    /**
+     * Find all repository ideals
+     */
     private fun findAll(): LiveData<List<DomainIdeal>>? {
         Log.d(TAG, "findAll ideals")
         repositoryIdeals = idealsRepositoryImpl.getAll()
@@ -96,12 +111,17 @@ class IdealsViewModel(
     }
 
 
-
+    /**
+     * Current edited ideal
+     */
     var currentIdealToEdit: DomainIdeal? = null
 
-    /** Ideals to display   **/
+    /** Ideals from repository   **/
     var repositoryIdeals = idealsRepositoryImpl.getAll()
 
+    /**
+     * Ideals to display
+     */
     var mutableIdeals: MutableLiveData<MutableList<DomainIdeal?>>? = MutableLiveData()
 
 

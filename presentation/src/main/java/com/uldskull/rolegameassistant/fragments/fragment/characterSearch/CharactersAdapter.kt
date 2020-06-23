@@ -13,7 +13,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.fragment.AdapterButtonListener
+import com.uldskull.rolegameassistant.fragments.fragment.CustomAdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.fragment.CustomRecyclerViewAdapter
 import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
 
@@ -23,13 +23,13 @@ import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
  **/
 class CharactersAdapter internal constructor(
     val context: Context,
-    private val buttonListener: AdapterButtonListener<DomainCharacter>
+    private val buttonListenerCustom: CustomAdapterButtonListener<DomainCharacter>
 ) : CustomRecyclerViewAdapter(context) {
 
     /**
      * Character list
      */
-    private var characters: List<DomainCharacter?>? = emptyList()
+    private var characters: List<DomainCharacter?> = emptyList()
 
     /**
      * Layout inflater
@@ -43,6 +43,35 @@ class CharactersAdapter internal constructor(
         val characterItemLayout: LinearLayout =
             itemView.findViewById(R.id.character_item_linear_layout)
         val characterNameItemView: TextView = itemView.findViewById(R.id.tv_characterName)
+
+        /**
+         * Bind the value
+         */
+        fun bind(domainCharacter: DomainCharacter?){
+            if(characters != null){
+
+                characterNameItemView.text = domainCharacter?.characterName
+                Log.d("test", "\nCurrent character : $domainCharacter")
+
+                characterItemLayout.setOnClickListener {
+                    rowIndex = adapterPosition
+                    Log.d("DEBUG", "onBindViewHolder - OnClick - ${characters!![adapterPosition]} ")
+                    //  Send the character to the RecyclerView fragment
+                    buttonListenerCustom.itemPressed(characters!![adapterPosition])
+
+                    notifyDataSetChanged()
+
+                }
+
+                if (rowIndex == adapterPosition) {
+                    characterItemLayout.setBackgroundColor(Color.parseColor("#D98B43"))
+                    characterNameItemView.setTextColor(Color.parseColor("#ffffff"))
+                } else {
+                    characterItemLayout.setBackgroundColor(Color.parseColor("#ffffff"))
+                    characterNameItemView.setTextColor(Color.parseColor("#C02942"))
+                }
+            }
+        }
     }
 
     /**
@@ -110,37 +139,14 @@ class CharactersAdapter internal constructor(
      */
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val charactersViewHolder = holder as CharactersViewHolder
-        if(characters != null){
-            val current = characters!![position]
-            charactersViewHolder.characterNameItemView.text = current?.characterName
-            Log.d("test", "\nCurrent character : $current")
-
-            charactersViewHolder.characterItemLayout.setOnClickListener {
-                rowIndex = position
-                Log.d("DEBUG", "onBindViewHolder - OnClick - ${characters!![position]} ")
-                //  Send the character to the RecyclerView fragment
-                buttonListener.itemPressed(characters!![position])
-
-                notifyDataSetChanged()
-
-            }
-
-            if (rowIndex == position) {
-                charactersViewHolder.characterItemLayout.setBackgroundColor(Color.parseColor("#D98B43"))
-                charactersViewHolder.characterNameItemView.setTextColor(Color.parseColor("#ffffff"))
-            } else {
-                charactersViewHolder.characterItemLayout.setBackgroundColor(Color.parseColor("#ffffff"))
-                charactersViewHolder.characterNameItemView.setTextColor(Color.parseColor("#C02942"))
-            }
-        }
-
+        charactersViewHolder?.bind(characters[position])
     }
 
 
     /**
      * Set the character list content
      */
-    internal fun setCharacters(domainCharacters: List<DomainCharacter?>?) {
+    internal fun setCharacters(domainCharacters: List<DomainCharacter?>) {
         this.characters = domainCharacters
         Log.d(this.javaClass.simpleName, "Characters size = " + this.characters?.size.toString())
         notifyDataSetChanged()

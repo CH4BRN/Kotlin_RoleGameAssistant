@@ -5,12 +5,21 @@ package com.uldskull.rolegameassistant.models.character
 
 /**
  *   Class "DomainActivity" :
- *   TODO: Fill class use.
+ *   Holds an activity : occupation or hobby
  **/
 abstract class DomainActivity(
+    /**
+     * Activity identifier
+     */
     val activityId: Long?,
+    /**
+     * Activity name
+     */
     val activityName: String?
 ) {
+    /**
+     * Returns a string representation of the object.
+     */
     override fun toString(): String {
         return "DomainActivity(activityId=$activityId, activityName=$activityName)"
     }

@@ -9,7 +9,7 @@ import androidx.lifecycle.MutableLiveData
 /**
 Class "CharactersPictureViewModel"
 
-TODO: Describe class utility.
+ViewModel for character picture
  */
 class CharactersPictureViewModel(
     application: Application

@@ -4,10 +4,12 @@
 package com.uldskull.rolegameassistant.infrastructure.dao.skill
 
 import androidx.room.Dao
+import com.uldskull.rolegameassistant.infrastructure.dao.GenericDao
+import com.uldskull.rolegameassistant.infrastructure.database_model.db_skill.DbSkill
 
 /**
  *   Interface "SkillDao" :
  *   Allows interactions with database.
  **/
 @Dao
-interface DbSkillDao
+abstract class DbSkillDao : GenericDao<DbSkill>

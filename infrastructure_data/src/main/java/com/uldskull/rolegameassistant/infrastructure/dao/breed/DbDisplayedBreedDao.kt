@@ -8,37 +8,29 @@ import androidx.room.*
 import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
 import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_BREED_ID
 import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_DISPLAYED_BREED
+import com.uldskull.rolegameassistant.infrastructure.dao.DELETE_FROM
+import com.uldskull.rolegameassistant.infrastructure.dao.GenericDao
 import com.uldskull.rolegameassistant.infrastructure.dao.SELECT_ALL_FROM
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.displayedBreeds.DbDisplayedBreed
 
 /**
  *   Interface "DbBreedDao" :
- *   DbBreed database interactions.
+ *   DbDisplayedBreed database interactions.
  **/
 @Dao
-interface DbDisplayedBreedDao {
-    //  CREATE
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertBreed(dbDisplayedBreed: DbDisplayedBreed): Long
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertBreeds(dbDisplayedBreeds: List<DbDisplayedBreed>): List<Long>
+abstract class DbDisplayedBreedDao:GenericDao<DbDisplayedBreed> {
 
     //  READ
     @Query("$SELECT_ALL_FROM $TABLE_NAME_DISPLAYED_BREED")
-    fun getBreeds(): LiveData<List<DbDisplayedBreed>>
+    abstract fun getBreeds(): LiveData<List<DbDisplayedBreed>>
 
     @Query("$SELECT_ALL_FROM $TABLE_NAME_DISPLAYED_BREED WHERE $FIELD_BREED_ID LIKE :id")
-    fun getBreedById(id: Long?): DbDisplayedBreed
-
-    //  UPDATE
-    @Update
-    fun updateBreed(vararg displayedBreeds: DbDisplayedBreed): Int
+    abstract fun getBreedById(id: Long?): DbDisplayedBreed
 
     //  DELETE
     @Delete
-    fun deleteBreeds(vararg displayedBreeds: DbDisplayedBreed): Int
+    abstract fun deleteBreeds(vararg displayedBreeds: DbDisplayedBreed): Int
 
-    @Query("DELETE FROM $TABLE_NAME_DISPLAYED_BREED")
-    fun deleteAllBreeds(): Int
+    @Query("$DELETE_FROM $TABLE_NAME_DISPLAYED_BREED")
+    abstract fun deleteAllBreeds(): Int
 }

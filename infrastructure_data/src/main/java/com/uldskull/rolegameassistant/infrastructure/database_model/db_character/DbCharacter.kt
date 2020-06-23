@@ -19,54 +19,148 @@ import com.uldskull.rolegameassistant.models.character.character.DomainCharacter
 
 /**
  *   Class "DbCharacter" :
- *   TODO: Fill class use.
+ *   Database model for character
  **/
 @Entity(tableName = TABLE_NAME_CHARACTER)
 class DbCharacter(
+    /**
+     * Character's identifier
+     */
     @PrimaryKey(autoGenerate = true)
     val characterId: Long? = null,
+    /**
+     * Character's name
+     */
     val characterName: String?,
+    /**
+     * Character's age
+     */
     val characterAge: Int?,
+    /**
+     * Character's biography
+     */
     val characterBiography: String?,
+    /**
+     * Character's bonds
+     */
     val characterBonds: List<DbBond?>?,
+    /**
+     * Character's health points
+     */
     val characterHealthPoints: Int?,
+    /**
+     * Character's base health
+     */
     val characterBaseHealth: Int?,
+    /**
+     * Character's idea points
+     */
     val characterIdeaPoints: Int?,
+    /**
+     * Character's alignment
+     */
     val characterAlignment: Int?,
+    /**
+     * Character's energy points
+     */
     val characterEnergyPoints: Int?,
+    /**
+     * Character's ideals
+     */
     val characterIdeals: List<DbIdeal?>?,
+    /**
+     * Character's gender
+     */
     val characterGender: String?,
+    /**
+     * Character's height
+     */
     val characterHeight: Int?,
+    /**
+     * Character's picture URI
+     */
     val characterPictureUri: String?,
+    /**
+     * Character's weight
+     */
     val characterWeight: Int?,
+    /**
+     * Character's know
+     */
     val characterKnow: Int?,
+    /**
+     * Character's luck
+     */
     val characterLuck: Int?,
+    /**
+     * Character's sanity
+     */
     val characterSanity: Int?,
+    /**
+     * Character's breed bonus
+     */
     val characterBreedBonus: Int?,
+    /**
+     * character's selected occupation skills
+     */
     val characterSelectedOccupationSkill: List<Long?>?,
+    /**
+     * character's selected hobbies skills
+     */
     val characterSelectedHobbiesSkill: MutableList<Long?>?,
+    /**
+     * Character's selected breeds
+     */
     val characterSelectedBreeds: List<Long?>?,
+    /**
+     * Character's spent occupation points
+     */
     val characterSpentOccupationPoints: Int?,
+    /**
+     * Characters occupation
+     */
     @Embedded(prefix = "occ")
     val characterOccupation: DbOccupation?,
+    /**
+     * character's strength
+     */
     @Embedded(prefix = "str")
     val characterStrength: DbRollCharacteristic?,
+    /**
+     * Character's size
+     */
     @Embedded(prefix = "siz")
     val characterSize: DbRollCharacteristic?,
+    /**
+     * Character's power
+     */
     @Embedded(prefix = "pow")
     val characterPower: DbRollCharacteristic?,
+    /**
+     * Character's intelligence
+     */
     @Embedded(prefix = "int")
     val characterIntelligence: DbRollCharacteristic?,
+    /**
+     * Character's dexterity
+     */
     @Embedded(prefix = "dex")
     val characterDexterity: DbRollCharacteristic?,
+    /**
+     * Character's constitution
+     */
     @Embedded(prefix = "con")
     val characterConstitution: DbRollCharacteristic?,
+    /**
+     * Character's appearance
+     */
     @Embedded(prefix = "app")
     val characterAppearance: DbRollCharacteristic?,
+    /**
+     * Character's education
+     */
     @Embedded(prefix = "edu")
     val characterEducation: DbRollCharacteristic?
-
-
 ) : DbEntity<DomainCharacter> {
 
 
@@ -130,6 +224,9 @@ class DbCharacter(
         )
     }
 
+    /**
+     * Returns a string representation of the object.
+     */
     override fun toString(): String {
         return "DbCharacter(characterId=$characterId, characterName=$characterName, characterAge=$characterAge, characterBiography=$characterBiography, characterBonds=$characterBonds, characterHealthPoints=$characterHealthPoints, characterBaseHealth=$characterBaseHealth, characterIdeaPoints=$characterIdeaPoints, characterAlignment=$characterAlignment, characterEnergyPoints=$characterEnergyPoints, characterIdeals=$characterIdeals, characterGender=$characterGender, characterHeight=$characterHeight, characterPictureUri=$characterPictureUri, characterWeight=$characterWeight, characterKnow=$characterKnow, characterLuck=$characterLuck, characterSanity=$characterSanity, characterBreedBonus=$characterBreedBonus, characterSelectedOccupationSkill=$characterSelectedOccupationSkill, characterStrength=$characterStrength, characterSize=$characterSize, characterPower=$characterPower, characterIntelligence=$characterIntelligence, characterDexterity=$characterDexterity, characterConstitution=$characterConstitution, characterAppearance=$characterAppearance, characterEducation=$characterEducation)".toUpperCase()
     }

@@ -5,12 +5,16 @@ package com.uldskull.rolegameassistant.infrastructure.database_model.db_bond
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
+import com.uldskull.rolegameassistant.infrastructure.database_model.DatabaseModelContracts.strSeparator
 
 /**
  *   Class "BondConverter" :
- *   TODO: Fill class use.
+ *   Converter bond list / json
  **/
 class DbBondConverter {
+    /**
+     * Converts a bond list to a json string
+     */
     @TypeConverter
     fun convertBondListToString(bonds: List<DbBond?>?): String {
         var str = ""
@@ -33,6 +37,9 @@ class DbBondConverter {
         return str
     }
 
+    /**
+     * converts a JSon string to a bond list
+     */
     @TypeConverter
     fun convertStringToList(bondsString: String): List<DbBond> {
         var bondArray = bondsString.split(strSeparator)
@@ -44,7 +51,4 @@ class DbBondConverter {
         return bonds
     }
 
-    companion object {
-        const val strSeparator = "__,__"
-    }
 }

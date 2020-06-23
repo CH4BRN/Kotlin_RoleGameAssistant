@@ -5,13 +5,16 @@ package com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.di
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
-import com.uldskull.rolegameassistant.infrastructure.database_model.databaseModelContracts.strSeparator
+import com.uldskull.rolegameassistant.infrastructure.database_model.DatabaseModelContracts.strSeparator
 
 /**
  *   Class "DbBreedConverter" :
- *   TODO: Fill class use.
+ *   Converter DbBreed list / json string
  **/
 class DbDisplayedBreedConverter {
+    /**
+     * Converts a breed list into a json string
+     */
     @TypeConverter
     fun convertBreedToString(displayedBreeds: List<DbDisplayedBreed?>?): String {
         if (displayedBreeds != null) {
@@ -34,6 +37,9 @@ class DbDisplayedBreedConverter {
 
     }
 
+    /**
+     * Converts a json string into a breed list
+     */
     @TypeConverter
     fun convertStringToList(breedsString: String): List<DbDisplayedBreed> {
         var breedsArray = breedsString.split(strSeparator)

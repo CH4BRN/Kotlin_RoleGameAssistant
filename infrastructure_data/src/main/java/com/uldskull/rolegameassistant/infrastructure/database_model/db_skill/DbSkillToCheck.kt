@@ -40,6 +40,9 @@ class DbSkillToCheck(
         )
     }
 
+    /**
+     * Returns a string representation of the object.
+     */
     override fun toString(): String {
         return "DbOccupationSkill(skillId=$skillId, skillName=$skillName, skillDescription=$skillDescription, skillIsChecked=$skillIsChecked, skillBase=$skillBase, skillMax=$skillMax)"
     }

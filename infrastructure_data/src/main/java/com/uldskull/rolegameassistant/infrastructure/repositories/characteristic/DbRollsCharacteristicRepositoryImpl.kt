@@ -13,7 +13,7 @@ import com.uldskull.rolegameassistant.repository.characteristic.RollsCharacteris
 
 /**
  *   Class "DbRollCharacteristicRepositoryImpl" :
- *   TODO: Fill class use.
+ *   Repository for dbRoll characteristics
  **/
 class DbRollsCharacteristicRepositoryImpl(
     private val dbRollCharacteristicsDao: DbRollCharacteristicsDao
@@ -37,7 +37,9 @@ class DbRollsCharacteristicRepositoryImpl(
             throw e
         }
     }
-
+    /**
+     * Converts a list of database entities into domain entities
+     */
     private fun List<DbRollCharacteristic>.asDomainModel(): List<DomainRollsCharacteristic> {
         Log.d(TAG, "asDomainModel")
         return map {
@@ -71,7 +73,7 @@ class DbRollsCharacteristicRepositoryImpl(
         Log.d(TAG, "insertAll")
         if ((all != null) && (all.isNotEmpty())) {
             try {
-                val result = dbRollCharacteristicsDao.insertRollCharacteristics(all.map { rc ->
+                val result = dbRollCharacteristicsDao.insert(all.map { rc ->
                     DbRollCharacteristic.from(
                         rc
                     )
@@ -95,7 +97,7 @@ class DbRollsCharacteristicRepositoryImpl(
         return if (one != null) {
             try {
                 val result =
-                    dbRollCharacteristicsDao.insertRollCharacteristic(
+                    dbRollCharacteristicsDao.insert(
                         DbRollCharacteristic.from(
                             one
                         )
@@ -129,7 +131,7 @@ class DbRollsCharacteristicRepositoryImpl(
     override fun updateOne(one: DomainRollsCharacteristic?): Int? {
         Log.d(TAG, "updateOne")
         try {
-            dbRollCharacteristicsDao.updateRollCharacteristic(DbRollCharacteristic.from(one))
+            dbRollCharacteristicsDao.update(DbRollCharacteristic.from(one))
         } catch (e: Exception) {
             Log.e(TAG, "updateOne FAILED")
             e.printStackTrace()

@@ -5,11 +5,17 @@ package com.uldskull.rolegameassistant.useCases.diceRoll
 
 /**
  *   Interface "DiceService" :
- *   TODO: Fill interface use.
+ *   Contracts for dice service
  **/
 interface DiceService {
 
+    /**
+     * Get one dice roll specifying a number of faces.
+     */
     fun getOneDiceRollWithANumberOfFace(numberOfFace: Int): Int?
 
+    /**
+     * Get multiple dice rolls specifying the number of faces.
+     */
     fun getMultipleDiceRollWithANumberOfFace(numberOfFaces: ArrayList<Int>): ArrayList<Int>
 }

@@ -6,7 +6,6 @@ package com.uldskull.rolegameassistant.infrastructure.database_model.db_breed.di
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.uldskull.rolegameassistant.infrastructure.DatabaseValues
 import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_DISPLAYED_BREED
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbCompanion
 import com.uldskull.rolegameassistant.infrastructure.database_model.DbEntity
@@ -17,11 +16,26 @@ import com.uldskull.rolegameassistant.models.character.breed.displayedBreed.Doma
  */
 @Entity(tableName = TABLE_NAME_DISPLAYED_BREED)
 class DbDisplayedBreed(
+    /**
+     * Breed identifier
+     */
     @PrimaryKey(autoGenerate = true)
     var breedId: Long? = null,
+    /**
+     * Breed name
+     */
     val breedName: String?,
+    /**
+     * Breed description
+     */
     var breedDescription: String?,
+    /**
+     * Breed health bonus
+     */
     var breedHealthBonus: Int?,
+    /**
+     * Breed is checked
+     */
     var breedIsChecked: Boolean = false
 ) : DbEntity<DomainDisplayedBreed> {
     /**
@@ -33,14 +47,16 @@ class DbDisplayedBreed(
             breedName = this.breedName,
             breedDescription = this.breedDescription,
             breedHealthBonus = this.breedHealthBonus,
-            breedChecked = this.breedIsChecked
+            breedIsChecked = this.breedIsChecked
         )
     }
 
+    /**
+     * Returns a string representation of the object.
+     */
     override fun toString(): String {
         return "DbDisplayedBreed(breedId=$breedId, breedName=$breedName, breedDescription=$breedDescription, breedHealthBonus=$breedHealthBonus, breedIsChecked=$breedIsChecked)"
     }
-
 
     companion object :
         DbCompanion<DomainDisplayedBreed, DbDisplayedBreed> {
@@ -54,7 +70,7 @@ class DbDisplayedBreed(
                     breedDescription = domainDisplayedModel.breedDescription,
                     breedName = domainDisplayedModel.breedName,
                     breedHealthBonus = domainDisplayedModel.breedHealthBonus,
-                    breedIsChecked = domainDisplayedModel.breedChecked
+                    breedIsChecked = domainDisplayedModel.breedIsChecked
                 )
             } else {
                 throw Exception("Breed is null")

@@ -8,17 +8,29 @@ import com.uldskull.rolegameassistant.repository.GenericRepository
 /**
 Interface "FilledOccupationSkillRepository"
 
-TODO : Describe interface utility.
+Class to manage DomainSkillToFill persistence.
  **/
 interface FilledOccupationSkillRepository<T> :
     GenericRepository<T, DomainSkillToFill> {
 
-    fun deleteAllByCharacterId(id:Long):Int
+    /**
+     * Deletes all skills corresponding to a character id
+     */
+    fun deleteAllByCharacterId(id: Long): Int
 
-    fun findTheSame(skill:DomainSkillToFill):DomainSkillToFill?
+    /**
+     * Find the same skill
+     */
+    fun findTheSame(skill: DomainSkillToFill): DomainSkillToFill?
 
-    fun updateTensValues(skill:DomainSkillToFill, tensValues:Int):Int
+    /**
+     * Update the corresponding skill's tens value
+     */
+    fun updateTensValues(skill: DomainSkillToFill, tensValues: Int): Int
 
-    fun updateUnitsValues(skill: DomainSkillToFill, unitsValues:Int):Int
+    /**
+     * Update the corresponding skill's units value
+     */
+    fun updateUnitsValues(skill: DomainSkillToFill, unitsValues: Int): Int
 
 }
