@@ -14,11 +14,9 @@
 
     <ImageButton
         android:layout_margin="8dp"
-        android:background="@color/colorPrimary"
         android:id="@+id/img_btn_characterPicture"
         android:layout_width="150dp"
         android:layout_height="170dp"
-
         android:contentDescription="@string/character_s_picture_description"
         android:src="@drawable/ic_launcher_foreground"
         app:layout_constraintBottom_toBottomOf="parent"

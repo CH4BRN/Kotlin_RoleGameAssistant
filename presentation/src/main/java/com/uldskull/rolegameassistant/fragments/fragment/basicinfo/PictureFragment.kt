@@ -223,10 +223,7 @@ class PictureFragment : CustomFragment() {
         super.onViewCreated(view, savedInstanceState)
         val imageButton = activity?.findViewById<ImageButton>(R.id.img_btn_characterPicture)
 
-        charactersPictureViewModel?.picturePath?.observe(this, Observer {
-            var uri = Uri.parse(it)
-            loadImage(uri)
-        })
+        observePictureUri()
 
         setImageButtonListener(imageButton)
 
@@ -234,12 +231,23 @@ class PictureFragment : CustomFragment() {
         Log.d("DEBUG $TAG", "$activity")
     }
 
+    /**
+     * Observe picture URI
+     */
+    private fun observePictureUri() {
+        charactersPictureViewModel?.picturePath?.observe(this, Observer {
+            var uri = Uri.parse(it)
+            loadImage(uri)
+        })
+    }
+
+    /**
+     * Load a picture in image button with Picasso
+     */
     private fun loadImage(uri: Uri?) {
         Log.d("DEBUG$TAG", "Uri : ${uri.toString()}")
         Picasso.get()
             .load(uri)
-            .resize(350, 450)
-            .centerCrop()
             .into(img_btn_characterPicture)
     }
 
@@ -247,7 +255,6 @@ class PictureFragment : CustomFragment() {
     private fun setImageButtonListener(imageButton: ImageButton?) {
         Log.d(TAG, "setImageButtonListener")
         imageButton?.setOnClickListener {
-            //  selectImageAlbum()
             selectPicture()
         }
     }
