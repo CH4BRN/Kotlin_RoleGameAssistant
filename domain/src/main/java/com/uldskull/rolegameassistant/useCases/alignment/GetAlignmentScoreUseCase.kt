@@ -18,15 +18,15 @@ class GetAlignmentScoreUseCase:
             if (it != null) {
                 if (it.idealGoodPoints != null) {
                     val goodPoints = it.idealGoodPoints
-                    if (goodPoints != null) {
+
                         score += goodPoints
-                    }
+
                 }
                 if (it.idealEvilPoints != null) {
                     val evilPoints = it.idealEvilPoints
-                    if (evilPoints != null) {
+
                         score -= evilPoints
-                    }
+
                 }
             }
         }

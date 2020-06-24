@@ -14,10 +14,10 @@ class GetSizePlusStrengthUseCase : UseCase<List<DomainRollsCharacteristic>, Int>
     override fun execute(request: List<DomainRollsCharacteristic>?): Int {
         if (request != null && request.isNotEmpty()) {
             var score = 0
-            request?.forEach {
-                if (it != null) {
+            request.forEach {
+
                     score += it.characteristicTotal!!
-                }
+
             }
             return score
         }

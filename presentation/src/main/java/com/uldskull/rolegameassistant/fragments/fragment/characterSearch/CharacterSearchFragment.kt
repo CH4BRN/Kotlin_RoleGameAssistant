@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.character.CharacterSearchActivity
@@ -13,6 +14,7 @@ import com.uldskull.rolegameassistant.activities.character.CharacterTransmission
 import com.uldskull.rolegameassistant.activities.replaceFragment
 import com.uldskull.rolegameassistant.fragments.core.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.core.CustomFragment
+import com.uldskull.rolegameassistant.fragments.core.listeners.CustomTextWatcher
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.CHARACTER_SEARCH_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.models.character.DomainCharacter
@@ -29,6 +31,8 @@ class CharacterSearchFragment : CustomFragment(),
      * Character transmitter
      */
     private var characterTransmitter: CharacterTransmission? = null
+
+    private var editTextCharacterSearch:EditText? = null
 
     /**
      * Fragment lifecycle
@@ -47,6 +51,9 @@ class CharacterSearchFragment : CustomFragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (activity != null) {
+
+
+
             (activity as CharacterSearchActivity).replaceFragment(
                 R.id.container_recycler_view_characters,
                 CharacterRecyclerViewFragment.newInstance(

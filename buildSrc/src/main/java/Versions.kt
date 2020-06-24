@@ -200,3 +200,14 @@ object DokkaVersions {
      */
     const val dokka = "0.10.1"
 }
+
+/**
+ *  RxJava versions
+ */
+object RxJavaVersions{
+    /**
+     * RxJava
+     */
+    const val rxJava = "3.0.4"
+}
+

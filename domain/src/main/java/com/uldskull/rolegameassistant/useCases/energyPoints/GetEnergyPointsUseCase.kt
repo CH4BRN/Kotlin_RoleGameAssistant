@@ -18,5 +18,4 @@ class GetEnergyPointsUseCase : UseCase<DomainRollsCharacteristic, Int>{
             0
         }
     }
-
 }

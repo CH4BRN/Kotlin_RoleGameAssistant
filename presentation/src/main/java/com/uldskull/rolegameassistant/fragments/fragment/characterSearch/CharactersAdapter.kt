@@ -23,8 +23,13 @@ import com.uldskull.rolegameassistant.models.character.DomainCharacter
  **/
 class CharactersAdapter internal constructor(
     val context: Context,
-    private val buttonListenerCustom: CustomAdapterButtonListener<DomainCharacter>
+    var buttonListenerCustom: CustomAdapterButtonListener<DomainCharacter>?
 ) : CustomRecyclerViewAdapter(context) {
+
+   fun setButtonListener(buttonListenerCustom: CustomAdapterButtonListener<DomainCharacter>?){
+       this.buttonListenerCustom = buttonListenerCustom
+   }
+
 
     /**
      * Character list
@@ -56,8 +61,11 @@ class CharactersAdapter internal constructor(
                 characterItemLayout.setOnClickListener {
                     rowIndex = adapterPosition
                     Log.d("DEBUG", "onBindViewHolder - OnClick - ${characters[adapterPosition]} ")
-                    //  Send the character to the RecyclerView fragment
-                    buttonListenerCustom.itemPressed(characters[adapterPosition])
+                    if(buttonListenerCustom != null){
+                        //  Send the character to the RecyclerView fragment
+                        buttonListenerCustom?.itemPressed(characters[adapterPosition])
+                    }
+
 
                     notifyDataSetChanged()
 

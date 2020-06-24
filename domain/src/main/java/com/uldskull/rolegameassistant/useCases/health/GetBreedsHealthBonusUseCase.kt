@@ -13,7 +13,7 @@ Gets breeds health bonus
 class GetBreedsHealthBonusUseCase:UseCase<List<DomainDisplayedBreed>, Int> {
     override fun execute(request: List<DomainDisplayedBreed>?): Int {
         var bonus = 0
-        if(request != null && request?.isNotEmpty()){
+        if(request != null && request.isNotEmpty()){
             request.forEach{
                 if(it.breedHealthBonus != null){
                     bonus += it.breedHealthBonus

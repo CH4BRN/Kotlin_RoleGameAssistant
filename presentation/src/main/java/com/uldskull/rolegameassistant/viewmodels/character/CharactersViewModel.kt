@@ -37,7 +37,7 @@ class CharactersViewModel(
     /**
      * List of characters
      */
-    var characters:LiveData<List<DomainCharacter?>?>? = characterRepository.getAll()
+    var characters: LiveData<List<DomainCharacter?>?>? = characterRepository.getAll()
 
     /**
      * Refresh the characters list

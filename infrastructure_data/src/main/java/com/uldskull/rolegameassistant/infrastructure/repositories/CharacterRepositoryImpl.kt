@@ -30,18 +30,19 @@ class CharacterRepositoryImpl(
      */
     private val dbCharacterWithDbFilledSkillsDao: DbCharacterWithDbFilledSkillsDao
 ) :
-    CharacterRepository<LiveData<List<DomainCharacter?>?>> {
+//CharacterRepository<LiveData<List<DomainCharacter?>?>>
+    CharacterRepository<LiveData<List<DomainCharacter>>> {
 
     companion object {
         private const val TAG = "CharacterRepositoryImpl"
     }
 
     /** Get all domain characters   */
-    override fun getAll(): LiveData<List<DomainCharacter?>?> {
+    override fun getAll(): LiveData<List<DomainCharacter>> {
         Log.d(TAG, "getAll")
         return try {
             Transformations.map(dbCharacterDao.getCharacters()) {
-                return@map it?.asDomainModel()
+                return@map it.asDomainModel()
             }
         } catch (e: Exception) {
             Log.e(TAG, "getAll FAILED")
@@ -53,11 +54,9 @@ class CharacterRepositoryImpl(
     /**
      * Converts a list of database entities into domain entities
      */
-    private fun List<DbCharacter?>.asDomainModel(): List<DomainCharacter?>? {
+    private fun List<DbCharacter?>.asDomainModel(): List<DomainCharacter> {
         Log.d(TAG, "asDomainModel")
-
-
-        return map {
+        var character = map {
             DomainCharacter(
                 characterId = it?.characterId,
                 characterName = it?.characterName,
@@ -93,6 +92,11 @@ class CharacterRepositoryImpl(
                 characterBreeds = it?.characterSelectedBreeds?.toMutableList(),
                 characterSelectedHobbiesSkill = it?.characterSelectedHobbiesSkill?.toMutableList()
             )
+        }
+        if (character != null) {
+            return character!!
+        } else {
+            throw Exception("ERROR : Character is null")
         }
     }
 
@@ -156,7 +160,7 @@ class CharacterRepositoryImpl(
     /** Delete all entities **/
     override fun deleteAll(): Int {
         Log.d(TAG, "deleteAll")
-      return dbCharacterDao.deleteAll()
+        return dbCharacterDao.deleteAll()
     }
 
     /**

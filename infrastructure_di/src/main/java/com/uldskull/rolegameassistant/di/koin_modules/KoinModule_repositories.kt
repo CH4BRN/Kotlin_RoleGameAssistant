@@ -63,7 +63,7 @@ val repositoriesModule = module {
 
 
     //  Repository for character
-    single<CharacterRepository<LiveData<List<DomainCharacter?>?>>> {
+    single<CharacterRepository<LiveData<List<DomainCharacter>>>> {
         CharacterRepositoryImpl(
             dbCharacterDao = get(),
             dbCharacterWithDbFilledSkillsDao = get()

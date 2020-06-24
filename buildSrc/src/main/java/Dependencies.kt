@@ -10,6 +10,7 @@ import KoinVersions.koinAndroid
 import KotlinxVersions.coroutines
 import RoomVersions.room
 import MaterialVersions.Material
+import RxJavaVersions.rxJava
 
 /** File Dependencies.kt
  *   @Author pierre.antoine - 27/01/2020 - No copyright.
@@ -238,5 +239,12 @@ object TestDependencies {
      * Android JUnit runner
      */
     const val AndroidJUnitRunner = "androidx.test.runner.AndroidJUnitRunner"
+}
+
+/**
+ * Rx  java dependencies
+ */
+object RxJavaDependencies{
+    const val RxJava = "io.reactivex.rxjava3:rxjava:$rxJava"
 }
 

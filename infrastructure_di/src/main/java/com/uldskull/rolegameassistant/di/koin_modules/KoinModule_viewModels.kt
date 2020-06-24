@@ -23,7 +23,8 @@ val viewModelModule = module {
         NewCharacterViewModel(
             application = get(),
             characterRepository = get(),
-            filledOccupationSkillRepository = get()
+            filledOccupationSkillRepository = get(),
+            getAnHobbySkillWithCharacterIdUseCase = get()
         )
     }
     //  Characteristics ViewModel

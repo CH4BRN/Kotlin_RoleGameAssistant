@@ -6,7 +6,13 @@
     android:minHeight="80dp"
     android:orientation="vertical"
     tools:context="com.uldskull.rolegameassistant.fragments.fragment.characterSearch.CharacterRecyclerViewFragment">
-
+    <EditText
+        android:id="@+id/et_characterSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/search"
+        android:inputType="text"
+        />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_characters"
         android:layout_width="match_parent"
