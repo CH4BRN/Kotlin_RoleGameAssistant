@@ -197,7 +197,6 @@ class CharacterRecyclerViewFragment :
                             Log.d("DEBUG$TAG", "Array sort length : ${arraySort?.size}")
                             charactersValuesArray = ArrayList(it)
                         }
-
                     }
                 }
             })

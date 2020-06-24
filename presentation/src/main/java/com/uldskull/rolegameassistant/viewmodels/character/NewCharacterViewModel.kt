@@ -4,7 +4,6 @@
 package com.uldskull.rolegameassistant.viewmodels.character
 
 import android.app.Application
-import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -55,7 +54,7 @@ class NewCharacterViewModel(
     /**
      * Character's picture.
      */
-    var characterPictureUri: Uri? = null
+    var characterPictureUri: String? = null
 
     /**
      * Character skills ids

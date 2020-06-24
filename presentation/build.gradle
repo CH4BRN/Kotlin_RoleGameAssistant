@@ -45,6 +45,8 @@ dependencies {
     implementation KotlinXDependencies.kotlinxCoroutinesCore
     implementation KotlinXDependencies.kotlinxCoroutinesAndroid
 
+    implementation PicassoDependencies.picassoPicasso
+
 
 
     testImplementation TestDependencies.junitJunit

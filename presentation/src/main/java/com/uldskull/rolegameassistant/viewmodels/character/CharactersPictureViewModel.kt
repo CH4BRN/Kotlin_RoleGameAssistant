@@ -18,6 +18,6 @@ class CharactersPictureViewModel(
     /**
      * Observable picture uri
      */
-    val pictureUri: MutableLiveData<String> = MutableLiveData()
+    val picturePath: MutableLiveData<String> = MutableLiveData()
 
 }

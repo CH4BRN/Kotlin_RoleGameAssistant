@@ -11,6 +11,7 @@ import KotlinxVersions.coroutines
 import RoomVersions.room
 import MaterialVersions.Material
 import RxJavaVersions.rxJava
+import PicassoVersions.picasso
 
 /** File Dependencies.kt
  *   @Author pierre.antoine - 27/01/2020 - No copyright.
@@ -186,6 +187,13 @@ object AndroidXDependencies {
      */
     const val ViewPager2 = "androidx.viewpager2:viewpager2:${viewPager2}"
 
+}
+
+/**
+ * Picasso dependencies
+ */
+object PicassoDependencies{
+    const val picassoPicasso = "com.squareup.picasso:picasso:${picasso}"
 }
 
 /**

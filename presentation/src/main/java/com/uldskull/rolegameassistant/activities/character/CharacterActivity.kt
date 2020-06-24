@@ -198,6 +198,10 @@ class CharacterActivity :
             pointsToSpendViewModel.observableOccupationSpentPoints.value =
                 character.characterSpentOccupationPoints
 
+            //  Gets the picture URI
+            val pictureURI = character?.characterPictureUri
+            Log.d("DEBUG$TAG", "Picture uri : $pictureURI")
+            charactersPictureViewModel.picturePath.value = pictureURI
 
             // Gets the breeds
             val characterBreeds = mutableListOf<DomainDisplayedBreed?>()

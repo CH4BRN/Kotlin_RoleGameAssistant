@@ -17,11 +17,17 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Observer
+import com.squareup.picasso.Picasso
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.core.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.core.CustomFragment
-import com.uldskull.rolegameassistant.fragments.fragment.*
+import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
+import com.uldskull.rolegameassistant.fragments.fragment.REQUEST_CODE_CAMERA
+import com.uldskull.rolegameassistant.fragments.fragment.REQUEST_CODE_GALLERY
+import com.uldskull.rolegameassistant.fragments.fragment.REQUEST_CODE_SELECT_IMAGE_IN_ALBUM
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.PICTURE_FRAGMENT_POSITION
+import com.uldskull.rolegameassistant.viewmodels.character.CharactersPictureViewModel
 import com.uldskull.rolegameassistant.viewmodels.character.NewCharacterViewModel
 import kotlinx.android.synthetic.main.fragment_picture.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -35,6 +41,9 @@ class PictureFragment : CustomFragment() {
 
     /** View model for new character    **/
     private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
+
+    /**  View model for picture **/
+    private val charactersPictureViewModel: CharactersPictureViewModel by sharedViewModel()
 
     /** Fragment Lifecycle  **/
     override fun onCreateView(
@@ -139,23 +148,44 @@ class PictureFragment : CustomFragment() {
             REQUEST_CODE_SELECT_IMAGE_IN_ALBUM -> {
                 if (isResultOk(resultCode) && data != null) {
                     val selectedImage: Uri? = data.data
-                    img_btn_characterPicture.setImageURI(selectedImage)
-                    newCharacterViewModel.characterPictureUri = selectedImage
+                    val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
+                    if (selectedImage != null) {
+                        var cursor = activity?.contentResolver?.query(
+                            selectedImage,
+                            filePathColumn,
+                            null,
+                            null,
+                            null,
+                            null
+                        )
+                        cursor?.moveToFirst()
+                        var columnIndex = cursor?.getColumnIndex(filePathColumn[0])
+                        if (columnIndex != null) {
+                            var picturePath = cursor?.getString(columnIndex)
+                            Log.d("DEBUG$TAG", "Picture path :$picturePath")
+                            charactersPictureViewModel.picturePath.value = picturePath
+                            //img_btn_characterPicture.setImageURI(selectedImage)
+                            newCharacterViewModel.characterPictureUri = picturePath
+                        }
+                    }
                 }
             }
             REQUEST_CODE_GALLERY -> {
                 Toast.makeText(context, "Gallery", Toast.LENGTH_SHORT).show()
                 if (isResultOk(resultCode) && data != null) {
                     val selectedImage: Uri? = data.data
-                    img_btn_characterPicture.setImageURI(selectedImage)
-                    newCharacterViewModel.characterPictureUri = selectedImage
+                    if (selectedImage != null) {
+                            charactersPictureViewModel.picturePath.value = selectedImage.toString()
+                            newCharacterViewModel.characterPictureUri = selectedImage.toString()
+                    }
                 }
             }
             REQUEST_CODE_CAMERA -> {
                 Toast.makeText(context, "Camera", Toast.LENGTH_SHORT).show()
                 if (isResultOk(resultCode) && data != null) {
                     val selectedImage: Uri? = data.data
-                    img_btn_characterPicture.setImageURI(selectedImage)
+                    charactersPictureViewModel.picturePath.value = selectedImage.toString()
+                    //img_btn_characterPicture.setImageURI(selectedImage)
                 }
             }
             else -> {
@@ -193,10 +223,24 @@ class PictureFragment : CustomFragment() {
         super.onViewCreated(view, savedInstanceState)
         val imageButton = activity?.findViewById<ImageButton>(R.id.img_btn_characterPicture)
 
+        charactersPictureViewModel?.picturePath?.observe(this, Observer {
+            var uri = Uri.parse(it)
+            loadImage(uri)
+        })
+
         setImageButtonListener(imageButton)
 
         Log.d("DEBUG $TAG", "activity is null ? ${activity == null}")
         Log.d("DEBUG $TAG", "$activity")
+    }
+
+    private fun loadImage(uri: Uri?) {
+        Log.d("DEBUG$TAG", "Uri : ${uri.toString()}")
+        Picasso.get()
+            .load(uri)
+            .resize(350, 450)
+            .centerCrop()
+            .into(img_btn_characterPicture)
     }
 
     /** Set image button listener       **/

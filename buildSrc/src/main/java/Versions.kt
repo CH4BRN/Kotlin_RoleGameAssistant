@@ -211,3 +211,13 @@ object RxJavaVersions{
     const val rxJava = "3.0.4"
 }
 
+/**
+ * Picasso versions
+ */
+object PicassoVersions{
+    /**
+     * Picasso
+     */
+    const val picasso = "2.71828"
+}
+
