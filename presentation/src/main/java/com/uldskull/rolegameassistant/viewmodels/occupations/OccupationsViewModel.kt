@@ -128,7 +128,7 @@ class OccupationsViewModel(
     /**
      * Observable selected character skills
      */
-    val selectedCharacterSkills = MutableLiveData<List<Long?>>()
+    val selectedCharacterOccupationsSkills = MutableLiveData<List<Long?>>()
 
     /**
      * Observable occupation contacts
@@ -158,7 +158,7 @@ class OccupationsViewModel(
     /**
      * Observable displayed occupations
      */
-    var displayedOccupations = MutableLiveData<List<String?>>()
+    var displayedOccupations = MutableLiveData<List<String>>()
 
     /**
      * Observable occupation skills

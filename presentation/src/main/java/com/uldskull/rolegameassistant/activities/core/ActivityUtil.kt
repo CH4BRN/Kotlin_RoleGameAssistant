@@ -1,6 +1,6 @@
 // ActivityUtil.kt created by UldSkull - 25/02/2020
 
-package com.uldskull.rolegameassistant.activities
+package com.uldskull.rolegameassistant.activities.core
 
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 
 import androidx.fragment.app.FragmentTransaction
-import com.uldskull.rolegameassistant.activities.Tag.TAG
+import com.uldskull.rolegameassistant.activities.core.Tag.TAG
 
 /**
  * Extension function to do a fragment manager transaction

@@ -1,6 +1,6 @@
 // AddEndFragmentAndUpdateAdapter.kt created by UldSkull - 05/06/2020
 
-package com.uldskull.rolegameassistant.activities.character
+package com.uldskull.rolegameassistant.activities.core
 
 /**
 Interface "AddEndFragmentAndUpdateAdapter"

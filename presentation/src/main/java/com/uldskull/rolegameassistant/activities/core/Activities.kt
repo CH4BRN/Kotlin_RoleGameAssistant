@@ -2,8 +2,9 @@
  *   @Author pierre.antoine - 04/03/2020 - No copyright.
  **/
 
-package com.uldskull.rolegameassistant.activities
+package com.uldskull.rolegameassistant.activities.core
 
+import com.uldskull.rolegameassistant.activities.MainActivity
 import com.uldskull.rolegameassistant.activities.editIdeal.EditIdealsActivity
 import com.uldskull.rolegameassistant.activities.character.CharacterActivity
 import com.uldskull.rolegameassistant.activities.skills.EditSkillActivity

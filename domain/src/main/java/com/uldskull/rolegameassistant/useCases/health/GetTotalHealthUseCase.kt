@@ -10,7 +10,7 @@ Class "GetTotalHealthUseCase"
 Gets total health
  */
 class GetTotalHealthUseCase : UseCase<List<Int?>, Int> {
-    override fun execute(request: List<Int?>?): Int {
+    override fun execute(request: List<Int?>): Int {
         var score = 0
         if (request != null && request.isNotEmpty()) {
             request.forEach {

@@ -1,7 +1,7 @@
 // File CustomActivity.kt
 // @Author pierre.antoine - 16/03/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.activities
+package com.uldskull.rolegameassistant.activities.core
 
 import android.os.Bundle
 import android.util.Log

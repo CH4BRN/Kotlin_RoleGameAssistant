@@ -9,11 +9,11 @@ Class "GetDamageBonusUseCase"
 
 Get damage bonus use case
  */
-class GetDamageBonusScoreUseCase : UseCase<Int, Int>{
-    override fun execute(request: Int?): Int {
+class GetDamageBonusScoreUseCase : UseCase<Int, Int> {
 
+    override fun execute(request: Int): Int {
         when (request) {
-            in 2..12 -> return  0
+            in 2..12 -> return 0
             in 13..16 -> return 1
             in 17..24 -> return 2
             in 25..32 -> return 3

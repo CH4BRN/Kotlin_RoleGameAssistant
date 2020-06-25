@@ -9,11 +9,11 @@ Class "GetDamageBonusUseCase"
 
 Get the damage bonus value
  */
-class GetDamageBonusUseCase:UseCase<Int, DamageBonus>{
-    override fun execute(request: Int?): DamageBonus {
-        return if (request != null){
+class GetDamageBonusUseCase : UseCase<Int, DamageBonus> {
+    override fun execute(request: Int): DamageBonus {
+        return if (request != null) {
             DamageBonus.values()[request]
-        }else{
+        } else {
             DamageBonus.None
         }
     }

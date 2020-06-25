@@ -12,7 +12,7 @@ Gets the base health value
  */
 class GetBaseHealthUseCase :
     UseCase<List<DomainRollsCharacteristic?>, Int> {
-    override fun execute(request: List<DomainRollsCharacteristic?>?): Int {
+    override fun execute(request: List<DomainRollsCharacteristic?>): Int {
         var hp = 0
         request?.forEach {
             if (it?.characteristicTotal != null) {

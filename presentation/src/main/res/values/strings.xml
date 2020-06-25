@@ -49,7 +49,7 @@
         blandit eu augue. Aenean tempor ipsum non elit efficitur,
         vel accumsan ipsum cursus.
     </string>
-    <string name="new_breed">New breed</string>
+    <string name="edit_breed">Edit breed</string>
     <string name="new_skill">New skill</string>
     <string name="edit_ideals">Edit ideals</string>
     <string name="ideal_title">Ideal title :</string>
@@ -116,7 +116,7 @@
     <string name="derived_values_2">Derived values 2</string>
     <string name="energy_po">ENERGY = PO :</string>
     <string name="siz_str">SIZ + STR :</string>
-    <string name="damage_bonus">Damage bonus :</string>
+    <string name="damage_bonus">= Damage bonus :</string>
     <string name="alignment">Alignment :</string>
     <string name="alignment_picture">Alignment picture</string>
     <string name="cthulhu_myth">Cthulhu myth :</string>
@@ -167,5 +167,8 @@
     <string name="button_to_delete_occupation">button to delete occupation</string>
     <string name="save_button">save button</string>
     <string name="savebutton">saveButton</string>
+    <string name="let_s_type_a_bond">Let\'s type a bond</string>
+    <string name="description">Description :</string>
+    <string name="what_does_this_breed_look_like">What does this breed look like ?</string>
 
 </resources>

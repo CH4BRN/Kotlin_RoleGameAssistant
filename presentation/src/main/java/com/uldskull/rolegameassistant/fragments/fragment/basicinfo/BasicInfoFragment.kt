@@ -15,8 +15,8 @@ import android.widget.EditText
 import android.widget.ImageButton
 import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.NEW_BREED_ACTIVITY
-import com.uldskull.rolegameassistant.activities.character.AddEndFragmentAndUpdateAdapter
+import com.uldskull.rolegameassistant.activities.core.NEW_BREED_ACTIVITY
+import com.uldskull.rolegameassistant.activities.core.AddEndFragmentAndUpdateAdapter
 import com.uldskull.rolegameassistant.fragments.core.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.core.CustomFragment
 import com.uldskull.rolegameassistant.fragments.core.listeners.CustomTextWatcher
@@ -144,9 +144,9 @@ class BasicInfoFragment : CustomFragment() {
         return initialRootView
     }
 
-    /**
+  /*  *//**
      * Load picture fragment
-     */
+     *//*
     private fun loadPictureFragment() {
         Log.d(TAG, "Load picture fragment")
         if (activity != null) {
@@ -155,7 +155,7 @@ class BasicInfoFragment : CustomFragment() {
                 val transaction = childFragmentManager.beginTransaction()
                 transaction.replace(
                     R.id.basicInfo_container_picture,
-                    PictureFragment.newInstance(
+                    PicturePickerFragment.newInstance(
                         activity!!
                     )
                 ).commit()
@@ -163,7 +163,7 @@ class BasicInfoFragment : CustomFragment() {
                 throw e
             }
         }
-    }
+    }*/
 
     /**
      * Load breeds RecyclerView fragment.
@@ -368,8 +368,8 @@ class BasicInfoFragment : CustomFragment() {
     /**
      * Load children fragments.
      */
-    private fun loadChildrenFragments() {
-        loadPictureFragment()
+    override fun loadChildrenFragments() {
+        //loadPictureFragment()
         loadBreedsRecyclerViewFragment()
     }
 
@@ -472,7 +472,9 @@ class BasicInfoFragment : CustomFragment() {
         Log.d(TAG, "setButtonAddBreed")
         if (buttonAddBreed != null) {
             buttonAddBreed?.setOnClickListener {
-                val intent = Intent(activity, NEW_BREED_ACTIVITY)
+                val intent = Intent(activity,
+                    NEW_BREED_ACTIVITY
+                )
                 startActivityForResult(
                     intent,
                     REQUEST_CODE_BASIC_INFO_NEW_BREED

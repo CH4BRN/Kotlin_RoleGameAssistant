@@ -82,6 +82,7 @@ class DerivedValuesViewModel(
     companion object {
         private const val TAG = "DerivedValuesViewModel"
     }
+
     /**
      * Has know score edit text changed ?
      */
@@ -214,7 +215,9 @@ class DerivedValuesViewModel(
      * Calculate energy points
      */
     fun calculateEnergyPoints(power: DomainRollsCharacteristic?) {
-        energyPoints.value = getEnergyPointsUseCase.execute(power)
+        if (power != null) {
+            energyPoints.value = getEnergyPointsUseCase.execute(power)
+        }
     }
 
     /**
@@ -234,28 +237,37 @@ class DerivedValuesViewModel(
      * Calculate character's idea score
      */
     fun calculateIdeaScore(intelligence: DomainRollsCharacteristic?) {
-        ideaScore.value = getIdeaScoreUseCase.execute(intelligence)
+        if (intelligence != null) {
+            ideaScore.value = getIdeaScoreUseCase.execute(intelligence)
+        }
+
     }
 
     /**
      * Calculate character's chance score
      */
     fun calculateSanityScore(power: DomainRollsCharacteristic?) {
-        sanityScore.value = getSanityScoreUseCase.execute(power)
+        if (power != null) {
+            sanityScore.value = getSanityScoreUseCase.execute(power)
+        }
     }
 
     /**
      * Calculate character's luck score
      */
     fun calculateLuckScore(power: DomainRollsCharacteristic?) {
-        luckScore.value = getLuckScoreUseCase.execute(power)
+        if (power != null) {
+            luckScore.value = getLuckScoreUseCase.execute(power)
+        }
     }
 
     /**
      * Calculate character's know score
      */
     fun calculateKnowScore(education: DomainRollsCharacteristic?) {
-        knowScore.value = getKnowScoreUseCase.execute(education)
+        if (education != null) {
+            knowScore.value = getKnowScoreUseCase.execute(education)
+        }
     }
 
     /**
@@ -271,16 +283,20 @@ class DerivedValuesViewModel(
     fun calculateTotalHealth() {
         val baseHealthValue = baseHealth.value
         val breedHealthBonusValue = breedHealthBonus.value
-        totalHealth.value = getTotalHealthUseCase?.execute(listOf(baseHealthValue, breedHealthBonusValue))
+        totalHealth.value =
+            getTotalHealthUseCase?.execute(listOf(baseHealthValue, breedHealthBonusValue))
     }
 
     /**
      * Calculate character's breed health bonus score
      */
-    fun calculateBreedsHealthBonus(displayedBreeds: List<DomainDisplayedBreed>) {
+    fun calculateBreedsHealthBonus(displayedBreeds: List<DomainDisplayedBreed>?) {
         Log.d(TAG, "calculateBreedsHealthBonus")
-        var bonus = getBreedsHealthBonusUseCase.execute(displayedBreeds)
-        breedHealthBonus.value = bonus
+        if (displayedBreeds != null) {
+            var bonus = getBreedsHealthBonusUseCase.execute(displayedBreeds)
+            breedHealthBonus.value = bonus
+        }
+
     }
 
 

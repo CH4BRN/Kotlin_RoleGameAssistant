@@ -24,22 +24,14 @@ import com.uldskull.rolegameassistant.models.character.DomainCharacter
 class CharactersAdapter internal constructor(
     val context: Context,
     var buttonListenerCustom: CustomAdapterButtonListener<DomainCharacter>?
-) : CustomRecyclerViewAdapter(context) {
+) : CustomRecyclerViewAdapter<DomainCharacter>(context) {
 
    fun setButtonListener(buttonListenerCustom: CustomAdapterButtonListener<DomainCharacter>?){
        this.buttonListenerCustom = buttonListenerCustom
    }
 
 
-    /**
-     * Character list
-     */
-    private var characters: List<DomainCharacter?> = emptyList()
 
-    /**
-     * Layout inflater
-     */
-    private val inflater: LayoutInflater = LayoutInflater.from(context)
 
     /**
      * View holder class
@@ -53,17 +45,17 @@ class CharactersAdapter internal constructor(
          * Bind the value
          */
         fun bind(domainCharacter: DomainCharacter?){
-            if(characters != null){
+            if(itemList != null){
 
                 characterNameItemView.text = domainCharacter?.characterName
                 Log.d("test", "\nCurrent character : $domainCharacter")
 
                 characterItemLayout.setOnClickListener {
                     rowIndex = adapterPosition
-                    Log.d("DEBUG", "onBindViewHolder - OnClick - ${characters[adapterPosition]} ")
+                    Log.d("DEBUG", "onBindViewHolder - OnClick - ${itemList[adapterPosition]} ")
                     if(buttonListenerCustom != null){
                         //  Send the character to the RecyclerView fragment
-                        buttonListenerCustom?.itemPressed(characters[adapterPosition])
+                        buttonListenerCustom?.itemPressed(itemList[adapterPosition])
                     }
 
 
@@ -72,11 +64,11 @@ class CharactersAdapter internal constructor(
                 }
 
                 if (rowIndex == adapterPosition) {
-                    characterItemLayout.setBackgroundColor(Color.parseColor("#D98B43"))
-                    characterNameItemView.setTextColor(Color.parseColor("#ffffff"))
+                    characterItemLayout.setBackgroundColor(context.resources.getColor(R.color.colorPrimaryDark))
+                    characterNameItemView.setTextColor(context.resources.getColor(R.color.textColorPrimary))
                 } else {
-                    characterItemLayout.setBackgroundColor(Color.parseColor("#ffffff"))
-                    characterNameItemView.setTextColor(Color.parseColor("#C02942"))
+                    characterItemLayout.setBackgroundColor(context.resources.getColor(R.color.textColorPrimary))
+                    characterNameItemView.setTextColor(context.resources.getColor(R.color.colorPrimaryDark))
                 }
             }
         }
@@ -110,19 +102,7 @@ class CharactersAdapter internal constructor(
         return CharactersViewHolder(itemView)
     }
 
-    /**
-     * Returns the total number of items in the data set held by the adapter.
-     *
-     * @return The total number of items in this adapter.
-     */
-    override fun getItemCount(): Int {
-        return if(characters == null){
-            0
-        } else{
-            characters.size
-        }
 
-    }
 
     /**
      * Called by RecyclerView to display the data at the specified position. This method should
@@ -147,16 +127,6 @@ class CharactersAdapter internal constructor(
      */
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val charactersViewHolder = holder as CharactersViewHolder
-        charactersViewHolder.bind(characters[position])
-    }
-
-
-    /**
-     * Set the character list content
-     */
-    internal fun setCharacters(domainCharacters: List<DomainCharacter?>) {
-        this.characters = domainCharacters
-        Log.d(this.javaClass.simpleName, "Characters size = " + this.characters.size.toString())
-        notifyDataSetChanged()
+        charactersViewHolder.bind(itemList[position])
     }
 }

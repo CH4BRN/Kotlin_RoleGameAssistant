@@ -11,12 +11,12 @@ Class "GetDamageBonusUseCase"
 Get damage bonus score
  */
 class GetSizePlusStrengthUseCase : UseCase<List<DomainRollsCharacteristic>, Int> {
-    override fun execute(request: List<DomainRollsCharacteristic>?): Int {
+    override fun execute(request: List<DomainRollsCharacteristic>): Int {
         if (request != null && request.isNotEmpty()) {
             var score = 0
             request.forEach {
 
-                    score += it.characteristicTotal!!
+                score += it.characteristicTotal!!
 
             }
             return score

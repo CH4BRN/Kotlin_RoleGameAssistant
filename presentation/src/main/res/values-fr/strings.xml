@@ -62,7 +62,7 @@
     <string name="luck_pow_5">CHANCE (POU *5):</string>
     <string name="name">Nom :</string>
     <string name="name_hint">Nom …</string>
-    <string name="new_breed">Nouvelle race</string>
+    <string name="edit_breed">Nouvelle race</string>
     <string name="new_skill">Nouvelle compétence</string>
     <string name="occupation">Métier</string>
     <string name="occupations">Métiers</string>
@@ -98,4 +98,7 @@
     <string name="button_to_delete_occupation">Bouton pour supprimer un métier</string>
     <string name="save_button">Bouton sauver</string>
     <string name="savebutton">Bouton sauver</string>
+    <string name="let_s_type_a_bond">Et si on écrivais une obligation ?</string>
+    <string name="description">Description :</string>
+    <string name="what_does_this_breed_look_like">A quoi cette race ressemble ?</string>
 </resources>

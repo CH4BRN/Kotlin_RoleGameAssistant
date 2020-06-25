@@ -10,11 +10,10 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.character.CharacterSearchActivity
-import com.uldskull.rolegameassistant.activities.character.CharacterTransmission
-import com.uldskull.rolegameassistant.activities.replaceFragment
+import com.uldskull.rolegameassistant.activities.core.CharacterTransmission
+import com.uldskull.rolegameassistant.activities.core.replaceFragment
 import com.uldskull.rolegameassistant.fragments.core.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.core.CustomFragment
-import com.uldskull.rolegameassistant.fragments.core.listeners.CustomTextWatcher
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.CHARACTER_SEARCH_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.models.character.DomainCharacter

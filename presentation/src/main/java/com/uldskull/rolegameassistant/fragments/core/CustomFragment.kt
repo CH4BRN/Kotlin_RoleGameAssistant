@@ -41,6 +41,11 @@ abstract class CustomFragment : Fragment() {
         return initializeView(inflater, container)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        loadChildrenFragments()
+    }
+
     /**
      * Called to do initial creation of a fragment.  This is called after
      * [.onAttach] and before
@@ -63,6 +68,14 @@ abstract class CustomFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate")
+    }
+
+    /**
+     * Called to load children fragments after the fragment creation.
+     * This is called in [.onViewCreated]"
+     */
+    open fun loadChildrenFragments(){
+        //  Implements children fragments loading.
     }
 
     /**

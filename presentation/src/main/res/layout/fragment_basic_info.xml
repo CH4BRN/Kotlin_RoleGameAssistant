@@ -17,10 +17,10 @@
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:padding="4dp"
             android:id="@+id/container_parent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="4dp">
 
 
             <TableLayout
@@ -54,13 +54,13 @@
                     <TextView
                         android:id="@+id/tv_subtitle_age"
                         style="@style/TextViewSubTitle"
-                        android:text="@string/age"
+                        android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:layout_width="0dp"/>
+                        android:text="@string/age" />
 
                     <EditText
-                        android:layout_width="0dp"
                         android:id="@+id/et_characterAge"
+                        android:layout_width="0dp"
                         android:layout_weight="1"
                         android:hint="@string/age_hint"
                         android:inputType="number" />
@@ -68,13 +68,13 @@
                     <TextView
                         android:id="@+id/tv_subtitle_gender"
                         style="@style/TextViewSubTitle"
-                        android:layout_weight="1"
                         android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:text="@string/gender" />
 
                     <EditText
-                        android:layout_width="0dp"
                         android:id="@+id/et_CharacterGender"
+                        android:layout_width="0dp"
                         android:layout_weight="1"
                         android:hint="@string/gender_hint"
                         android:inputType="text" />
@@ -85,47 +85,48 @@
                 <TableRow style="@style/Row">
 
                     <TextView
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
                         android:id="@+id/tv_subtitle_biography"
                         style="@style/TextViewSubTitle"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:text="@string/biography" />
 
                     <EditText
                         android:id="@+id/et_CharacterBiography"
-                        android:layout_weight="3"
                         android:layout_width="0dp"
+                        android:layout_weight="3"
                         android:hint="@string/biography_hint"
                         android:inputType="textMultiLine" />
                 </TableRow>
+
                 <TableRow style="@style/Row">
 
                     <TextView
 
                         android:id="@+id/tv_subtitle_height"
                         style="@style/TextViewSubTitle"
-                        android:text="@string/height"
+                        android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:layout_width="0dp"/>
+                        android:text="@string/height" />
 
                     <EditText
                         android:id="@+id/et_CharacterHeight"
-                        android:layout_weight="1"
                         android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:hint="@string/height_hint"
                         android:inputType="number" />
 
                     <TextView
                         android:id="@+id/tv_subtitle_weight"
                         style="@style/TextViewSubTitle"
-                        android:layout_weight="1"
                         android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:text="@string/weight" />
 
                     <EditText
                         android:id="@+id/et_CharacterWeight"
-                        android:layout_weight="1"
                         android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:hint="@string/weight_hint"
                         android:inputType="number" />
 
@@ -137,25 +138,24 @@
                     <TextView
                         android:id="@+id/tv_subtitle_breed"
                         style="@style/TextViewSubTitle"
+                        android:layout_width="0dp"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
-                        android:layout_width="0dp"
                         android:text="@string/breed" />
 
                     <FrameLayout
                         android:id="@+id/basicInfo_container_breed"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:layout_width="0dp" />
+                        android:layout_weight="3" />
                 </TableRow>
 
                 <TableRow style="@style/Row">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_column="2"
-                        android:layout_span="3">
-
+                        android:layout_weight="1"
+                        android:layout_column="3"
+                        >
                         <ImageButton
                             android:id="@+id/btn_addBreed"
                             style="@style/myCornerRadiusButton"
@@ -174,15 +174,15 @@
 
 
             </TableLayout>
-
-            <FrameLayout
-                android:id="@+id/basicInfo_container_picture"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="50dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layout_info" />
-
+            <!--
+                        <FrameLayout
+                            android:id="@+id/basicInfo_container_picture"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:minHeight="50dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/layout_info" />
+            -->
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </LinearLayout>

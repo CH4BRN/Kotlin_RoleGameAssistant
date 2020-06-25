@@ -11,7 +11,7 @@ Class "GetAnHobbySkill"
 Get an hobby skill with the character id
  */
 class GetAnHobbySkillWithCharacterIdUseCase : UseCase<Long,  DomainSkillToFill>{
-    override fun execute(request: Long?): DomainSkillToFill {
+    override fun execute(request: Long): DomainSkillToFill {
         return DomainSkillToFill(
             filledSkillCharacterId = request,
             filledSkillType = 1

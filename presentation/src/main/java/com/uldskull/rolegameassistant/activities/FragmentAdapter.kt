@@ -1,7 +1,7 @@
 // File FragmentAdapter.kt
 // @Author pierre.antoine - 10/05/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.activities.character
+package com.uldskull.rolegameassistant.activities
 
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +11,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.basicinfo.BasicInfoFrag
 import com.uldskull.rolegameassistant.fragments.fragment.bonds.BondsFragment
 import com.uldskull.rolegameassistant.fragments.fragment.characteristics.CharacteristicsFragment
 import com.uldskull.rolegameassistant.fragments.fragment.ideals.ideal_toCheck.IdealsFragment
+import com.uldskull.rolegameassistant.fragments.fragment.picture.PictureFragment
 
 /**
  *   Class "FragmentAdapter" :
@@ -36,6 +37,9 @@ class FragmentAdapter(val activity: AppCompatActivity) : FragmentStateAdapter(ac
      */
     var fragmentList = mutableListOf<Fragment>(
         BasicInfoFragment.newInstance(
+            activity
+        ),
+        PictureFragment.newInstance(
             activity
         ),
         BondsFragment.newInstance(

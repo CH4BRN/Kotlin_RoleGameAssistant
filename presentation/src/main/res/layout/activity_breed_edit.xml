@@ -1,20 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/activityEditBreed_textView_title"
         style="@style/activityEditBreed_textView_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/new_breed"
+        android:text="@string/edit_breed"
         app:layout_constraintTop_toTopOf="parent" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/activityEditBreed_recyclerView_breedsToChoose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/activityEditBreed_textView_title"/>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/activityEditBreed_recyclerView_breedsToChoose">
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/activityEditBreed_textView_breedName"
+                style="@style/TextViewSubTitle"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:text="@string/name" />
+
+            <EditText
+                android:inputType="text"
+                android:id="@+id/activityEditBreed_editText_breedName"
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:hint="@string/name_hint" />
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:id="@+id/activityEditBreed_textView_breedDescription"
+                style="@style/TextViewSubTitle"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:text="@string/description"/>
+            <EditText
+                android:id="@+id/activityEditBreed_editText_breedDescription"
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:inputType="textMultiLine"
+                android:hint="@string/what_does_this_breed_look_like"/>
+        </TableRow>
+
+    </TableLayout>
 
     <FrameLayout
         android:id="@+id/activityEditBreed_layout_navigationBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

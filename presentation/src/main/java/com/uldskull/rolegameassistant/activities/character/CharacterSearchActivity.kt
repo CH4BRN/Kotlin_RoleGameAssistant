@@ -8,8 +8,9 @@ import android.os.Bundle
 import android.util.Log
 import com.google.gson.Gson
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.CustomActivity
-import com.uldskull.rolegameassistant.activities.replaceFragment
+import com.uldskull.rolegameassistant.activities.core.CharacterTransmission
+import com.uldskull.rolegameassistant.activities.core.CustomActivity
+import com.uldskull.rolegameassistant.activities.core.replaceFragment
 import com.uldskull.rolegameassistant.fragments.fragment.characterSearch.CharacterSearchFragment
 import com.uldskull.rolegameassistant.models.character.DomainCharacter
 import kotlinx.android.synthetic.main.activity_character_search.*

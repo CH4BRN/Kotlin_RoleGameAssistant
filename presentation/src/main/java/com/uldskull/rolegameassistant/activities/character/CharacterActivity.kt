@@ -12,7 +12,10 @@ import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
 import com.google.gson.Gson
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.replaceFragment
+import com.uldskull.rolegameassistant.activities.core.AddEndFragment
+import com.uldskull.rolegameassistant.activities.core.AddEndFragmentAndUpdateAdapter
+import com.uldskull.rolegameassistant.activities.FragmentAdapter
+import com.uldskull.rolegameassistant.activities.core.replaceFragment
 import com.uldskull.rolegameassistant.fragments.fragment.bars.NavigationBarFragment
 import com.uldskull.rolegameassistant.fragments.fragment.bars.ProgressBarFragment
 import com.uldskull.rolegameassistant.fragments.fragment.derivedValues.DerivedValues1Fragment
@@ -145,7 +148,7 @@ class CharacterActivity :
                     domainOccupations?.let {
                         Log.d("DEBUG$TAG", "observedOccupations has changed")
                         occupationsViewModel.displayedOccupations.value =
-                            domainOccupations.map { o -> o.occupationName }
+                            domainOccupations.map { o -> o?.occupationName!! }
 
                         Log.d("DEBUG$TAG", "Occupations : $it")
                     }
@@ -201,7 +204,7 @@ class CharacterActivity :
             //  Gets the picture URI
             val pictureURI = character?.characterPictureUri
             Log.d("DEBUG$TAG", "Picture uri : $pictureURI")
-            charactersPictureViewModel.picturePath.value = pictureURI
+            charactersPictureViewModel.pictureUri.value = pictureURI
 
             // Gets the breeds
             val characterBreeds = mutableListOf<DomainDisplayedBreed?>()
@@ -209,7 +212,6 @@ class CharacterActivity :
                 characterBreeds.add(displayedBreedsViewModel.findBreedWithId(it))
             }
             val breedsToLoad: MutableList<DomainDisplayedBreed> = mutableListOf()
-
             observeRepositoryBreeds(characterBreeds, breedsToLoad)
 
             // Gets the occupation
@@ -219,12 +221,13 @@ class CharacterActivity :
             //  Gets the occupation skills ids
             val occupationSkillsIds = character.characterSelectedOccupationSkill
             //  Sets the occupation skills ids
-            occupationsViewModel.selectedCharacterSkills.value = occupationSkillsIds?.toList()
+            occupationsViewModel.selectedCharacterOccupationsSkills.value =
+                occupationSkillsIds?.toList()
 
             observeOccupationsSkills()
             //  Gets the observed occupations skills
             var occupationsSkills = occupationsViewModel.observedOccupationsSkills?.value
-            // get the character's skills
+            // get the character's occupation skills
             val occupationSkills: List<DomainSkillToFill>? =
                 newCharacterViewModel.getCharacterSkills(character.characterId, 0)
             // sets the character's skills
@@ -370,21 +373,37 @@ class CharacterActivity :
      * Observe occupations skills
      */
     private fun observeOccupationsSkills() {
-        occupationsViewModel.observedOccupationsSkills?.observe(this, Observer {
-            val list = it.toMutableList()
-            val selected: List<Long?>? = occupationsViewModel.selectedCharacterSkills.value
-            list.forEach { skill ->
-                selected?.forEach { selectedId ->
-                    kotlin.run {
-                        if (skill.skillId == selectedId) {
-                            val index = list.indexOfFirst { s -> s.skillId == skill.skillId }
-                            skill.skillIsChecked = true
-                            list[index] = skill
+        //  Observe the observed occupations skills
+        occupationsViewModel.observedOccupationsSkills?.observe(
+            this,
+            Observer { skillsToCheck ->
+                //  "Let" the skills to check
+                skillsToCheck.let { skillsToCheckList ->
+
+                    //  Gets a "mutable" list
+                    var mutableSkillsToCheckList = skillsToCheckList?.toMutableList()
+
+                    //  Observe the selected character occupations skills
+                    occupationsViewModel.selectedCharacterOccupationsSkills.observe(
+                        this,
+                        Observer { characterCheckedSkills ->
+                            //  "Let" the character selected skills
+                            characterCheckedSkills.let { characterCheckedSkillsList ->
+                                //  Foreach skills to check
+                                mutableSkillsToCheckList?.forEach { skill ->
+                                    if (characterCheckedSkillsList.any { characterCheckedSkill -> characterCheckedSkill!! == skill?.skillId!! }) {
+                                        val index =
+                                            mutableSkillsToCheckList.indexOfFirst { s -> s.skillId == skill.skillId }
+                                        skill.skillIsChecked = true
+                                        mutableSkillsToCheckList[index] = skill
+                                    }
+                                }
+                            }
                         }
-                    }
+                    )
                 }
             }
-        })
+        )
     }
 
     /**
@@ -461,7 +480,8 @@ class CharacterActivity :
         Log.d(TAG, "setCharacterPageAdapter")
         //  Instantiate a ViewPager2 and a PagerAdapter.
         viewPager = findViewById(R.id.activityEditCharacter_viewPager2)
-        fragmentAdapter = FragmentAdapter(this)
+        fragmentAdapter =
+            FragmentAdapter(this)
         viewPager?.adapter = fragmentAdapter
 
         //  Register on Page change callback
@@ -493,7 +513,13 @@ class CharacterActivity :
                     var areCharacteristicsRolled = true
 
                     val characteristics = characteristicsViewModel.getAllCharacteristics()
-                    if (characteristics == null || (characteristics.isEmpty())) {
+                    var isOneCharacteristicToZero = false
+                    characteristics?.forEach { characteristic ->
+                        if(characteristic?.characteristicTotal == 0){
+                            isOneCharacteristicToZero = true
+                        }
+                    }
+                    if (characteristics == null || (characteristics.isEmpty()) || isOneCharacteristicToZero) {
                         characteristicsAlert()
                     } else {
                         characteristics.forEach {
@@ -529,7 +555,7 @@ class CharacterActivity :
      * Checks if the characteristics fragment is displayed.
      */
     private fun isOnCharacteristicFragment(position: Int) =
-        position == 3 && fragmentAdapter?.fragmentList?.size == 4 && viewPager?.scrollState == 1
+        position == 4 && fragmentAdapter?.fragmentList?.size == 5 && viewPager?.scrollState == 1
 
 
     /** Load the progress bar fragment
@@ -563,7 +589,7 @@ class CharacterActivity :
      */
     override fun addEndFragments() {
         Log.d("DEBUG$TAG", "Add end fragments")
-        if(fragmentAdapter?.itemCount != 10){
+        if (fragmentAdapter?.itemCount != 10) {
             fragmentAdapter?.fragmentList?.add(
                 DerivedValues1Fragment.newInstance(
                     this
@@ -602,7 +628,7 @@ class CharacterActivity :
      * Add the end of the fragment list and update adapter
      */
     override fun addEndFragmentsAndUpdateAdapter() {
-        if(fragmentAdapter?.itemCount != 10){
+        if (fragmentAdapter?.itemCount != 10) {
             fragmentAdapter?.fragmentList?.add(
                 DerivedValues1Fragment.newInstance(
                     this

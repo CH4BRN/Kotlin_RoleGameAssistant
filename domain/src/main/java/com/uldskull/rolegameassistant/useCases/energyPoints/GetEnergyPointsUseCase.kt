@@ -10,11 +10,11 @@ Class "GetEnergyPointsUseCase"
 
 Gets energy points use case
  */
-class GetEnergyPointsUseCase : UseCase<DomainRollsCharacteristic, Int>{
-    override fun execute(request: DomainRollsCharacteristic?): Int {
-        return if(request?.characteristicTotal != null){
+class GetEnergyPointsUseCase : UseCase<DomainRollsCharacteristic, Int> {
+    override fun execute(request: DomainRollsCharacteristic): Int {
+        return if (request?.characteristicTotal != null) {
             request.characteristicTotal!!
-        }else{
+        } else {
             0
         }
     }

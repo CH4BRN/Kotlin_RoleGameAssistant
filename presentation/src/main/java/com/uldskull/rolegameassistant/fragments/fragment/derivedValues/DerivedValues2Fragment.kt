@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.lifecycle.Observer
+import com.squareup.picasso.Picasso
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.core.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.core.CustomFragment
@@ -118,9 +119,9 @@ class DerivedValues2Fragment : CustomFragment() {
                     Log.d("DEBUG$TAG", "Score : $score")
                     if (et_alignmentPoints.text.toString() != score.toString()) {
                         et_alignmentPoints.setText(score.toString())
-                        setAlignmentPicture(score)
-                    }
 
+                    }
+                    setAlignmentPicture(score)
                 }
             }
         })
@@ -387,6 +388,7 @@ class DerivedValues2Fragment : CustomFragment() {
     private fun setAlignmentPicture(score: Int) {
         Log.d(TAG, "setAlignmentPicture")
         if (derivedValues_img_alignment != null) {
+            Picasso.get()
             val imgResId: Int = when {
                 score < -25 -> {
                     R.drawable.evil_icon
@@ -398,7 +400,10 @@ class DerivedValues2Fragment : CustomFragment() {
                     R.drawable.neutral_icon
                 }
             }
-            derivedValues_img_alignment.setImageResource(imgResId)
+            Picasso.get()
+                .load(imgResId)
+                .resize(300, 300)
+                .into(derivedValues_img_alignment)
         }
     }
 

@@ -4,7 +4,6 @@
 package com.uldskull.rolegameassistant.fragments.fragment.breed
 
 import android.content.Context
-import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -21,22 +20,15 @@ import com.uldskull.rolegameassistant.models.breed.DomainDisplayedBreed
  *   Class "RacesAdapter" :
  *   Class that populates the breed recycler view
  **/
-class BreedsAdapter internal constructor(
-    context: Context,
+class BreedsToChooseAdapter internal constructor(
+    val context: Context,
     private val listTransmitter: AdapterListTransmitter<DomainDisplayedBreed>
-) : CustomRecyclerViewAdapter(context) {
+) : CustomRecyclerViewAdapter<DomainDisplayedBreed>(context) {
 
     companion object {
         private const val TAG = "BreedsAdapter"
     }
 
-    /**
-     * breeds list
-     */
-    private var displayedBreeds: MutableList<DomainDisplayedBreed> = mutableListOf()
-
-    /** Inflater    **/
-    private val inflater: LayoutInflater = LayoutInflater.from(context)
 
     /**
      * View holder for races
@@ -45,33 +37,35 @@ class BreedsAdapter internal constructor(
         private val breedItemLayout: LinearLayout =
             itemView.findViewById(R.id.breed_item_linear_layout)
         private val breedNameItemView: TextView = itemView.findViewById(R.id.tv_breedName)
-        private val breedDescriptionItemView: TextView = itemView.findViewById(R.id.tv_breedDescription)
+        private val breedDescriptionItemView: TextView =
+            itemView.findViewById(R.id.tv_breedDescription)
 
         /**
          * Bind the value
          */
-        fun bind(domainDisplayedBreed: DomainDisplayedBreed) {
+        fun bind(domainDisplayedBreed: DomainDisplayedBreed?) {
 
-            Log.d(TAG, "Current : ${domainDisplayedBreed.breedName}")
-            breedNameItemView.text = domainDisplayedBreed.breedName
-            breedDescriptionItemView.text = domainDisplayedBreed.breedDescription
+            Log.d(TAG, "Current : ${domainDisplayedBreed?.breedName}")
+            breedNameItemView.text = domainDisplayedBreed?.breedName
+            breedDescriptionItemView.text = domainDisplayedBreed?.breedDescription
             breedItemLayout.setOnClickListener {
                 rowIndex = position
 
-                displayedBreeds[position].breedIsChecked = !displayedBreeds[position].breedIsChecked
+                itemList[position]?.breedIsChecked = !itemList[position]?.breedIsChecked!!
 
-                val checkedBreeds = displayedBreeds.count { b -> b.breedIsChecked }
-                Log.d("DEBUG$TAG", "Checked : $checkedBreeds")
-                listTransmitter.transmitList(displayedBreeds)
+
+                listTransmitter.transmitList(itemList.toList())
                 notifyDataSetChanged()
             }
 
-            if (domainDisplayedBreed.breedIsChecked) {
-                breedItemLayout.setBackgroundColor(Color.parseColor("#D98B43"))
-                breedNameItemView.setTextColor(Color.parseColor("#ffffff"))
+            if (domainDisplayedBreed?.breedIsChecked!!) {
+                breedItemLayout.setBackgroundColor(context.resources.getColor(R.color.colorPrimaryDark))
+                breedNameItemView.setTextColor(context.resources.getColor(R.color.textColorPrimary))
+                breedDescriptionItemView.setTextColor(context.resources.getColor(R.color.textColorPrimary))
             } else {
-                breedItemLayout.setBackgroundColor(Color.parseColor("#ffffff"))
-                breedNameItemView.setTextColor(Color.parseColor("#C02942"))
+                breedItemLayout.setBackgroundColor(context.resources.getColor(R.color.textColorPrimary))
+                breedNameItemView.setTextColor(context.resources.getColor(R.color.colorAccent))
+                breedDescriptionItemView.setTextColor(context.resources.getColor(R.color.colorAccent))
             }
         }
     }
@@ -101,19 +95,11 @@ class BreedsAdapter internal constructor(
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BreedsViewHolder {
         Log.d(TAG, "onCreateViewHolder")
-        val itemView = inflater.inflate(R.layout.fragment_breeds_recyclerview_item, parent, false)
+        val itemView =
+            inflater.inflate(R.layout.fragment_breeds_simple_recyclerview_item, parent, false)
         return BreedsViewHolder(itemView)
     }
 
-    /**
-     * Returns the total number of items in the data set held by the adapter.
-     *
-     * @return The total number of items in this adapter.
-     */
-    override fun getItemCount(): Int {
-        // Log.d(TAG, "getItemCount")
-        return displayedBreeds.size
-    }
 
     /**
      * Called by RecyclerView to display the data at the specified position. This method should
@@ -138,7 +124,7 @@ class BreedsAdapter internal constructor(
      */
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         Log.d(TAG, "onBindViewHolder")
-        (holder as BreedsViewHolder).bind(displayedBreeds[position])
+        (holder as BreedsViewHolder).bind(itemList[position])
 
     }
 
@@ -152,11 +138,11 @@ class BreedsAdapter internal constructor(
         domainDisplayedBreeds?.sortBy { b -> b?.breedName }
         domainDisplayedBreeds?.forEach {
             if (it != null) {
-                if (this.displayedBreeds.contains(it)) {
-                    val index = displayedBreeds.lastIndexOf(it)
-                    this.displayedBreeds[index] = it
+                if (this.itemList.contains(it)) {
+                    val index = itemList.lastIndexOf(it)
+                    this.itemList[index] = it
                 } else {
-                    this.displayedBreeds.add(it)
+                    this.itemList.add(it)
                 }
             }
 

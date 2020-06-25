@@ -1,6 +1,6 @@
 // CharacterTransmission.kt created by UldSkull - 25/05/2020
 
-package com.uldskull.rolegameassistant.activities.character
+package com.uldskull.rolegameassistant.activities.core
 
 import com.uldskull.rolegameassistant.models.character.DomainCharacter
 

@@ -15,7 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.character.CharacterTransmission
+import com.uldskull.rolegameassistant.activities.core.CharacterTransmission
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.CHARACTERS_RECYCLER_VIEW_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.fragments.core.listeners.CustomAdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.core.CustomCompanion
@@ -65,20 +65,20 @@ class CharacterRecyclerViewFragment :
     /**
      * Edit text for character search
      */
-    private var editTextCharacterSearch:EditText? = null
+    private var editTextCharacterSearch: EditText? = null
 
-    private var arraySort:ArrayList<DomainCharacter> = ArrayList()
+    private var arraySort: ArrayList<DomainCharacter> = ArrayList()
 
     /**
      * Fragment life-cycle : Called once the view is created.
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if(activity != null){
+        if (activity != null) {
             editTextCharacterSearch = activity!!.findViewById(R.id.et_characterSearch)
 
 
-            editTextCharacterSearch?.addTextChangedListener(object :CustomTextWatcher(){
+            editTextCharacterSearch?.addTextChangedListener(object : CustomTextWatcher() {
                 /**
                  * This method is called to notify you that, within `s`,
                  * the `count` characters beginning at `start`
@@ -89,50 +89,60 @@ class CharacterRecyclerViewFragment :
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     super.onTextChanged(s, start, before, count)
                     // Instantiate the adapter
-                    charactersAdapter = CharactersAdapter(activity as Context, this@CharacterRecyclerViewFragment)
+                    charactersAdapter =
+                        CharactersAdapter(activity as Context, this@CharacterRecyclerViewFragment)
 
                     //  Update the cached copy
-                    charactersViewModel?.characters?.observe(viewLifecycleOwner, Observer { characters ->
-                        characters?.let {
-                            Log.d("DEBUG$TAG", "characters size : ${it?.size}")
-                            charactersAdapter?.setCharacters(it) }
-                    })
+                    charactersViewModel?.characters?.observe(
+                        viewLifecycleOwner,
+                        Observer { characters ->
+                            characters?.let {
+                                Log.d("DEBUG$TAG", "characters size : ${it?.size}")
+                                charactersAdapter?.setItems(it as List<DomainCharacter>)
+                            }
+                        })
 
                     //  Checks the text length
-                    textLength = if (editTextCharacterSearch?.text?.length != null){
+                    textLength = if (editTextCharacterSearch?.text?.length != null) {
                         editTextCharacterSearch?.text?.length
-                    }else {
+                    } else {
                         0
                     }
                     Log.d("DEBUG$TAG", "TextLength : $textLength")
                     //  Clear the array sort
                     arraySort.clear()
 
-                    if(editTextCharacterSearch?.text != null){
+                    if (editTextCharacterSearch?.text != null) {
                         //  For each character value
-                        for (i in charactersValuesArray.indices){
+                        for (i in charactersValuesArray.indices) {
                             Log.d("DEBUG$TAG", "Indice = $i")
-                            Log.d("DEBUG$TAG", "textLength!! <= charactersValuesArray[i].characterName!!.length = ${textLength!! <= charactersValuesArray[i].characterName!!.length}")
-                            if(textLength!! <= charactersValuesArray[i].characterName!!.length){
-                                if(charactersValuesArray[i]?.characterName!!.toLowerCase()
+                            Log.d(
+                                "DEBUG$TAG",
+                                "textLength!! <= charactersValuesArray[i].characterName!!.length = ${textLength!! <= charactersValuesArray[i].characterName!!.length}"
+                            )
+                            if (textLength!! <= charactersValuesArray[i].characterName!!.length) {
+                                if (charactersValuesArray[i]?.characterName!!.toLowerCase()
                                         .trim()
                                         .contains(
                                             editTextCharacterSearch?.text!!.toString()
                                                 .toLowerCase()
-                                                .trim{
+                                                .trim {
                                                     it <= ' '
                                                 })
-                                ){
+                                ) {
                                     Log.d("DEBUG$TAG", "Add")
                                     arraySort.add(charactersValuesArray[i])
-                                }else{
+                                } else {
                                     Log.d("DEBUG$TAG", "Not added")
                                 }
                             }
                         }
                         Log.d("DEBUG$TAG", "Array sort length : ${arraySort?.size}")
-                        arraySort.let { charactersAdapter?.setCharacters(it) }
-                        Log.d("DEBUG$TAG", "charactersAdapter?.itemCount: ${charactersAdapter?.itemCount}")
+                        arraySort.let { charactersAdapter?.setItems(it) }
+                        Log.d(
+                            "DEBUG$TAG",
+                            "charactersAdapter?.itemCount: ${charactersAdapter?.getItemCount()}"
+                        )
                         recycler_view_characters?.adapter = charactersAdapter
                         recycler_view_characters?.layoutManager =
                             LinearLayoutManager(
@@ -166,7 +176,7 @@ class CharacterRecyclerViewFragment :
             return fragment
         }
 
-        var charactersValuesArray:ArrayList<DomainCharacter> = ArrayList()
+        var charactersValuesArray: ArrayList<DomainCharacter> = ArrayList()
 
         const val TAG = "CharacterRecyclerViewFragment"
     }
@@ -191,7 +201,7 @@ class CharacterRecyclerViewFragment :
                 kotlin.run {
                     it?.let { it ->
                         if (it != null && it.isNotEmpty()) {
-                            charactersAdapter?.setCharacters(it)
+                            charactersAdapter?.setItems(it as List<DomainCharacter>)
                             arraySort.clear()
                             arraySort.addAll(it as Collection<DomainCharacter>)
                             Log.d("DEBUG$TAG", "Array sort length : ${arraySort?.size}")

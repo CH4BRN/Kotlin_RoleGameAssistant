@@ -66,7 +66,7 @@
     <string name="name">Name :</string>
     <string name="name_hint">Name …</string>
     <string name="necessary_characteristics">Characteristics are necessary for the following steps.</string>
-    <string name="new_breed">New breed</string>
+    <string name="edit_breed">New breed</string>
     <string name="new_skill">New skill</string>
     <string name="occupation">Occupation</string>
     <string name="occupations">Occupations</string>
@@ -98,4 +98,7 @@
     <string name="button_to_delete_occupation">button to delete occupation</string>
     <string name="save_button">save button</string>
     <string name="savebutton">save button</string>
+    <string name="let_s_type_a_bond">Let\'s type a bond</string>
+    <string name="description">Description :</string>
+    <string name="what_does_this_breed_look_like">What does this breed look like ?</string>
 </resources>

@@ -1,7 +1,7 @@
 // File PictureFragment.kt
 // @Author pierre.antoine - 28/01/2020 - No copyright.
 
-package com.uldskull.rolegameassistant.fragments.fragment.basicinfo
+package com.uldskull.rolegameassistant.fragments.fragment.picture
 
 import android.app.Activity
 import android.content.DialogInterface
@@ -26,17 +26,17 @@ import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.REQUEST_CODE_CAMERA
 import com.uldskull.rolegameassistant.fragments.fragment.REQUEST_CODE_GALLERY
 import com.uldskull.rolegameassistant.fragments.fragment.REQUEST_CODE_SELECT_IMAGE_IN_ALBUM
-import com.uldskull.rolegameassistant.fragments.viewPager.adapter.PICTURE_FRAGMENT_POSITION
+import com.uldskull.rolegameassistant.fragments.viewPager.adapter.PICTURE_PICKER_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.viewmodels.character.CharactersPictureViewModel
 import com.uldskull.rolegameassistant.viewmodels.character.NewCharacterViewModel
-import kotlinx.android.synthetic.main.fragment_picture.*
+import kotlinx.android.synthetic.main.fragment_picture_picker.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
  *   Class "PictureFragment" :
  *   Handle character's picture
  **/
-class PictureFragment : CustomFragment() {
+class PicturePickerFragment : CustomFragment() {
 
 
     /** View model for new character    **/
@@ -163,7 +163,7 @@ class PictureFragment : CustomFragment() {
                         if (columnIndex != null) {
                             var picturePath = cursor?.getString(columnIndex)
                             Log.d("DEBUG$TAG", "Picture path :$picturePath")
-                            charactersPictureViewModel.picturePath.value = picturePath
+                            charactersPictureViewModel.pictureUri.value = picturePath
                             //img_btn_characterPicture.setImageURI(selectedImage)
                             newCharacterViewModel.characterPictureUri = picturePath
                         }
@@ -175,8 +175,8 @@ class PictureFragment : CustomFragment() {
                 if (isResultOk(resultCode) && data != null) {
                     val selectedImage: Uri? = data.data
                     if (selectedImage != null) {
-                            charactersPictureViewModel.picturePath.value = selectedImage.toString()
-                            newCharacterViewModel.characterPictureUri = selectedImage.toString()
+                        charactersPictureViewModel.pictureUri.value = selectedImage.toString()
+                        newCharacterViewModel.characterPictureUri = selectedImage.toString()
                     }
                 }
             }
@@ -184,7 +184,7 @@ class PictureFragment : CustomFragment() {
                 Toast.makeText(context, "Camera", Toast.LENGTH_SHORT).show()
                 if (isResultOk(resultCode) && data != null) {
                     val selectedImage: Uri? = data.data
-                    charactersPictureViewModel.picturePath.value = selectedImage.toString()
+                    charactersPictureViewModel.pictureUri.value = selectedImage.toString()
                     //img_btn_characterPicture.setImageURI(selectedImage)
                 }
             }
@@ -212,7 +212,7 @@ class PictureFragment : CustomFragment() {
     override fun initializeView(layoutInflater: LayoutInflater, container: ViewGroup?): View? {
         Log.d(TAG, "initializeView")
         initialRootView = layoutInflater.inflate(
-            R.layout.fragment_picture, container, false
+            R.layout.fragment_picture_picker, container, false
         )
         return initialRootView
     }
@@ -226,18 +226,17 @@ class PictureFragment : CustomFragment() {
         observePictureUri()
 
         setImageButtonListener(imageButton)
-
-        Log.d("DEBUG $TAG", "activity is null ? ${activity == null}")
-        Log.d("DEBUG $TAG", "$activity")
     }
 
     /**
      * Observe picture URI
      */
     private fun observePictureUri() {
-        charactersPictureViewModel?.picturePath?.observe(this, Observer {
-            var uri = Uri.parse(it)
-            loadImage(uri)
+        charactersPictureViewModel?.pictureUri?.observe(this, Observer { uriString ->
+            if (uriString != null && uriString.isNotEmpty()) {
+                var uri = Uri.parse(uriString)
+                loadImage(uri)
+            }
         })
     }
 
@@ -246,9 +245,17 @@ class PictureFragment : CustomFragment() {
      */
     private fun loadImage(uri: Uri?) {
         Log.d("DEBUG$TAG", "Uri : ${uri.toString()}")
+        if (img_btn_characterPicture == null) {
+            return
+        }
+
+
         Picasso.get()
             .load(uri)
+            .fit()
             .into(img_btn_characterPicture)
+
+
     }
 
     /** Set image button listener       **/
@@ -266,23 +273,20 @@ class PictureFragment : CustomFragment() {
         Log.d("DEBUG", "onActivityCreated")
         super.onActivityCreated(savedInstanceState)
         activity = getActivity()
-        Log.d("DEBUG", "activity is null ? ${activity == null}")
     }
 
     companion object : CustomCompanion() {
-        private const val TAG = "PictureFragment"
+        private const val TAG = "PicturePickerFragment"
 
         @JvmStatic
-        override fun newInstance(activity: Activity): PictureFragment {
+        override fun newInstance(activity: Activity): PicturePickerFragment {
             Log.d(TAG, "newInstance")
             val fragment =
-                PictureFragment(
-
-                )
+                PicturePickerFragment()
             fragment.activity = activity
             val args = Bundle()
 
-            args.putInt(KEY_POSITION, PICTURE_FRAGMENT_POSITION)
+            args.putInt(KEY_POSITION, PICTURE_PICKER_FRAGMENT_POSITION)
             fragment.arguments = args
 
             return fragment

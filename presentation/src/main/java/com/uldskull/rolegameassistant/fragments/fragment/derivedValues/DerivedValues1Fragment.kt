@@ -18,6 +18,7 @@ import com.uldskull.rolegameassistant.fragments.core.CustomFragment
 import com.uldskull.rolegameassistant.fragments.core.listeners.CustomTextWatcher
 import com.uldskull.rolegameassistant.fragments.core.utils.EditTextUtil.Companion.editTextEnabling
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
+import com.uldskull.rolegameassistant.models.breed.DomainDisplayedBreed
 import com.uldskull.rolegameassistant.models.character.DomainCharacter
 import com.uldskull.rolegameassistant.models.characteristic.CharacteristicsName
 import com.uldskull.rolegameassistant.models.characteristic.DomainRollsCharacteristic

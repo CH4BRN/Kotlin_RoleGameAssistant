@@ -29,8 +29,10 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   Holds a recycler view that displays breeds.
  **/
 class BreedsRecyclerViewFragment :
-    CustomRecyclerViewFragment(),
-    AdapterListTransmitter<DomainDisplayedBreed> {
+    AdapterListTransmitter<DomainDisplayedBreed>,
+    CustomRecyclerViewFragment() {
+
+
     /**
      * Recycler view for races.
      */
@@ -45,10 +47,11 @@ class BreedsRecyclerViewFragment :
      * ViewModel for new character
      */
     private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
+
     /**
      * Adapter for races recycler view
      */
-    private var breedsAdapter: BreedsAdapter? = null
+    private var breedsToChooseAdapter: BreedsToChooseAdapter? = null
 
     /**
      * Initialize the recycler view.
@@ -79,16 +82,21 @@ class BreedsRecyclerViewFragment :
         this.displayedBreedsViewModel.observedMutableBreeds.observe(
             this,
             Observer { domainDisplayedBreeds ->
-                Log.d("DEBUG$TAG", "Checked breeds = ${domainDisplayedBreeds?.count { b -> b.breedIsChecked }}")
+                Log.d(
+                    "DEBUG$TAG",
+                    "Checked breeds = ${domainDisplayedBreeds?.count { b -> b?.breedIsChecked!! }}"
+                )
 
                 val newCharacter = newCharacterViewModel.currentCharacter
 
-                newCharacter?.characterBreeds = domainDisplayedBreeds?.filter { breed -> breed.breedIsChecked }?.map { breed-> breed.breedId }?.toMutableList()
+                newCharacter?.characterBreeds =
+                    domainDisplayedBreeds?.filter { breed -> breed?.breedIsChecked!! }
+                        ?.map { breed -> breed?.breedId }?.toMutableList()
 
                 newCharacterViewModel.currentCharacter = newCharacter
 
                 if (domainDisplayedBreeds != null) {
-                    this.breedsAdapter?.setBreeds(domainDisplayedBreeds.toMutableList())
+                    this.breedsToChooseAdapter?.setBreeds(domainDisplayedBreeds.toMutableList())
                 }
             })
     }
@@ -98,11 +106,13 @@ class BreedsRecyclerViewFragment :
      * Observe breeds from repository, to load breeds to display.
      */
     private fun observeRepositoryBreeds() {
-        this.displayedBreedsViewModel.observedRepositoryBreeds?.observe(this, Observer { breeds ->
-            kotlin.run {
-                this.displayedBreedsViewModel.observedMutableBreeds.value = breeds
-            }
-        })
+        this.displayedBreedsViewModel.observedRepositoryBreeds?.observe(
+            this,
+            Observer { breeds ->
+                kotlin.run {
+                    this.displayedBreedsViewModel.observedMutableBreeds.value = breeds
+                }
+            })
     }
 
     /**
@@ -111,12 +121,12 @@ class BreedsRecyclerViewFragment :
     override fun setRecyclerViewAdapter() {
         Log.d(TAG, "setRecyclerViewAdapter")
         if (activity != null) {
-            breedsAdapter =
-                BreedsAdapter(
+            breedsToChooseAdapter =
+                BreedsToChooseAdapter(
                     activity as Context,
                     this
                 )
-            breedsRecyclerView?.adapter = breedsAdapter
+            breedsRecyclerView?.adapter = breedsToChooseAdapter
         }
     }
 
@@ -163,12 +173,13 @@ class BreedsRecyclerViewFragment :
         }
     }
 
+
     /**
-     * List transmitter
+     * Transmit the list
      */
-    override fun transmitList(domainDisplayedModels: List<DomainDisplayedBreed>?) {
-        displayedBreedsViewModel.observedMutableBreeds.value = domainDisplayedModels
+    override fun transmitList(domainModels: List<DomainDisplayedBreed>) {
+        displayedBreedsViewModel.observedMutableBreeds.value = domainModels
     }
 
-
 }
+

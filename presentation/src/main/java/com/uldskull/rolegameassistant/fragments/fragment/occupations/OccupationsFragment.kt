@@ -14,7 +14,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.NEW_JOB_ACTIVITY
+import com.uldskull.rolegameassistant.activities.core.NEW_JOB_ACTIVITY
 import com.uldskull.rolegameassistant.fragments.core.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.core.CustomFragment
 import com.uldskull.rolegameassistant.fragments.core.listeners.CustomOnItemSelectedListener
@@ -43,7 +43,7 @@ class OccupationsFragment : CustomFragment() {
     /**
      * Skill view model
      */
-    private val skillViewModel:SkillsViewModel by sharedViewModel()
+    private val skillViewModel: SkillsViewModel by sharedViewModel()
 
     /**
      * New character view model
@@ -54,7 +54,13 @@ class OccupationsFragment : CustomFragment() {
     /**
      * Occupations adapter for spinner
      */
-    private var occupationsAdapter: ArrayAdapter<String?>? = null
+    private var occupationsAdapter: ArrayAdapter<String>? = null
+
+    //  ARRAYS
+    /**
+     * Array for displayed occupation
+     */
+    private var occupationsValuesArray: ArrayList<String>? = ArrayList()
 
     /**
      * Initialize occupations adapter
@@ -68,7 +74,6 @@ class OccupationsFragment : CustomFragment() {
         }
     }
 
-
     /**
      * Set occupations spinner onItemSelectedListener
      */
@@ -81,15 +86,16 @@ class OccupationsFragment : CustomFragment() {
                 position: Int,
                 id: Long
             ) {
-                Log.d(TAG, "onItemSelected")
-
-                Log.d(TAG, "position : $position")
-
+                Log.d("DEBUG$TAG", "Position : $position")
                 if (position == 0) {
-                    emptyOccupationTextViews()
+                    //emptyOccupationTextViews()
                 } else {
                     occupationsViewModel.selectedOccupation?.value =
-                        occupationsViewModel.repositoryOccupations?.value?.get(position)
+                        occupationsViewModel.repositoryOccupations?.value?.findLast { o ->
+                            o.occupationName == occupationsValuesArray?.get(
+                                position
+                            )
+                        }
                 }
             }
         }
@@ -133,14 +139,23 @@ class OccupationsFragment : CustomFragment() {
      */
     private fun observeDisplayedOccupations() {
         occupationsViewModel.displayedOccupations.observe(this, Observer { stringOccupations ->
-            kotlin.run {
-                occupationsAdapter = ArrayAdapter(
-                    activity!!,
-                    android.R.layout.simple_spinner_dropdown_item,
-                    stringOccupations
-                )
-                spinner_occupations.adapter = occupationsAdapter
+            stringOccupations.let {
+                if (occupationsValuesArray == null) {
+                    occupationsValuesArray = ArrayList()
+                } else {
+                    occupationsValuesArray?.clear()
+                }
+                occupationsValuesArray?.add("Choose one occupation ...")
+                occupationsValuesArray?.addAll(it)
             }
+
+            occupationsAdapter = ArrayAdapter(
+                activity!!,
+                android.R.layout.simple_spinner_dropdown_item,
+                occupationsValuesArray!!.toMutableList()
+            )
+            spinner_occupations.adapter = occupationsAdapter
+
         })
     }
 
@@ -172,12 +187,12 @@ class OccupationsFragment : CustomFragment() {
 
                     val index =
                         occupationsViewModel.displayedOccupations.value?.indexOfFirst { occupation ->
-                            occupation.toString() == domainOccupation.occupationName
+                            occupation == domainOccupation.occupationName
                         }
 
                     if (index != null) {
                         Log.d("DEBUG$TAG", "Index of occupation : $index")
-                        spinner_occupations?.setSelection(index)
+                      //  spinner_occupations?.setSelection(index)
                     }
 
                     val occupationWithChildren = occupationsViewModel.findOneWithChildren(
@@ -186,7 +201,7 @@ class OccupationsFragment : CustomFragment() {
 
                     val oldList = skillViewModel.mutableSkillsToCheck?.value
 
-                    if(oldList != null){
+                    if (oldList != null) {
                         for (i in oldList.indices) {
                             oldList[i].skillIsChecked =
                                 occupationWithChildren?.skills?.any { occupationSkill -> occupationSkill.skillId!! == oldList[i].skillId!! }!!
@@ -379,7 +394,9 @@ class OccupationsFragment : CustomFragment() {
         Log.d(TAG, "setButtonAddJob")
         if (btn_addOccupation != null) {
             btn_addOccupation!!.setOnClickListener {
-                val intent = Intent(activity, NEW_JOB_ACTIVITY)
+                val intent = Intent(activity,
+                    NEW_JOB_ACTIVITY
+                )
                 startActivityForResult(intent, REQUEST_CODE_JOBS_NEW_JOB)
             }
         }

@@ -10,22 +10,23 @@ Class "AlignmentScoreUseCase"
 
 Gets the alignment score.
  */
-class GetAlignmentScoreUseCase:
-    UseCase<List<DomainIdeal?>, Int>{
-    override fun execute(request: List<DomainIdeal?>?): Int {
+class GetAlignmentScoreUseCase :
+    UseCase<List<DomainIdeal?>, Int> {
+
+    override fun execute(request: List<DomainIdeal?>): Int {
         var score = 0
         request?.forEach {
             if (it != null) {
                 if (it.idealGoodPoints != null) {
                     val goodPoints = it.idealGoodPoints
 
-                        score += goodPoints
+                    score += goodPoints
 
                 }
                 if (it.idealEvilPoints != null) {
                     val evilPoints = it.idealEvilPoints
 
-                        score -= evilPoints
+                    score -= evilPoints
 
                 }
             }

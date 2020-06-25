@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.activities.core.CHARACTER_ACTIVITY
+import com.uldskull.rolegameassistant.activities.core.CHARACTER_SEARCH_ACTIVITY
 
 /**
  * App's main activity

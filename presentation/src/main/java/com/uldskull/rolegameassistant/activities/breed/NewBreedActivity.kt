@@ -6,8 +6,8 @@ package com.uldskull.rolegameassistant.activities.breed
 import android.os.Bundle
 import android.util.Log
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.activities.CustomActivity
-import com.uldskull.rolegameassistant.activities.replaceFragment
+import com.uldskull.rolegameassistant.activities.core.CustomActivity
+import com.uldskull.rolegameassistant.activities.core.replaceFragment
 import com.uldskull.rolegameassistant.fragments.fragment.bars.NavigationBarFragment
 
 /**

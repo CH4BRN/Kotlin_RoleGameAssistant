@@ -11,5 +11,5 @@ interface AdapterListTransmitter<T> {
     /**
      * Transmit the list
      */
-    fun transmitList(domainModels: List<T>?)
+    fun transmitList(domainModels: List<T>)
 }

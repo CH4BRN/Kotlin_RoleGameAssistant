@@ -24,7 +24,6 @@
                 android:layout_width="wrap_content"
                 android:importantForAutofill="no"
                 android:layout_height="wrap_content"
-                android:ems="10"
                 app:layout_constraintStart_toStartOf="parent"
                 android:gravity="start|top"
                 android:hint="@string/title_hint"
@@ -53,18 +52,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="380"
-                android:ems="10"
                 android:gravity="start|top"
-                android:hint="@string/lorem_ipsum_short"
+                android:hint="@string/let_s_type_a_bond"
                 android:inputType="textMultiLine"
-
                 app:layout_constraintTop_toBottomOf="@id/etBondTitle" />
 
 
             <ImageButton
                 android:id="@+id/btn_addBond"
                 style="@style/myCornerRadiusButton"
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/mybutton"
