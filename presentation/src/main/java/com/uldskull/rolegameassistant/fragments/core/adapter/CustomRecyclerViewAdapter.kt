@@ -26,6 +26,11 @@ abstract class CustomRecyclerViewAdapter<U> internal constructor(
     }
 
     /**
+     * Current checked position
+     */
+    var checkedPosition: Int = 0
+
+    /**
      * Set the items taht will be displayed
      */
     fun setItems(itemsList:List<U>){

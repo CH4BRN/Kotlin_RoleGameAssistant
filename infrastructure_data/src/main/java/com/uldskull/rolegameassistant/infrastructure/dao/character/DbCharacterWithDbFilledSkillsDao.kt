@@ -17,5 +17,5 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_character
 interface DbCharacterWithDbFilledSkillsDao {
     @Transaction
     @Query("$SELECT_ALL_FROM $TABLE_NAME_CHARACTER")
-    fun getCharacterWithSkills(): List<DbCharacterWithDbSkills>
+    suspend fun getCharacterWithSkills(): List<DbCharacterWithDbSkills>
 }

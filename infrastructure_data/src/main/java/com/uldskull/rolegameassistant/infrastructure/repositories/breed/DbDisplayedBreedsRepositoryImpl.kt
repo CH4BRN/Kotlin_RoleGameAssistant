@@ -3,6 +3,7 @@
 
 package com.uldskull.rolegameassistant.infrastructure.repositories.breed
 
+import android.os.AsyncTask
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
@@ -51,76 +52,91 @@ class DbDisplayedBreedsRepositoryImpl(
     }
 
     /** Get one entity by its id    */
-    override fun findOneById(id: Long?): DomainDisplayedBreed? {
+    override suspend fun findOneById(id: Long?): DomainDisplayedBreed? {
         Log.d(TAG, "findOneById")
-        Log.d("DEBUG$TAG"," Breed Id : ${id.toString()}")
-        val result: DbDisplayedBreed
+        Log.d("DEBUG$TAG", " Breed Id : ${id.toString()}")
+        // Check if ID is null
+        if (id == null) {
+            return null
+        }
+
+        var result: DbDisplayedBreed? = null
         try {
+
             result = dbDisplayedBreedDao.getBreedById(id)
+
         } catch (e: Exception) {
             Log.e(TAG, "findOneById FAILED")
             e.printStackTrace()
             throw e
         }
-        if(result != null){
-            return result.toDomain()
+        if (result == null) {
+            return null
         }
-        return null
-
+        return result?.toDomain()
     }
 
     /** Insert a list of entity - it should return long[] or List<Long>.*/
-    override fun insertAll(all: List<DomainDisplayedBreed>?): List<Long>? {
+    override suspend fun insertAll(all: List<DomainDisplayedBreed>?): List<Long>? {
         Log.d(TAG, "insertAll")
-        if ((all != null) && (all.isNotEmpty())) {
-            try {
-                val result = dbDisplayedBreedDao.insert(all.map { result ->
-                    DbDisplayedBreed.from(
-                        result
-                    )
-                })
-                Log.d(TAG, "insertAll RESULT = ${result.size}")
-                return result
-            } catch (e: Exception) {
-                Log.e(TAG, "insertAll FAILED")
-                e.printStackTrace()
-                throw e
-            }
-        } else {
-            Log.d(TAG, "insertAll RESULT = 0")
+        if (all == null) {
             return emptyList()
         }
+        if (all.isEmpty()) {
+            return emptyList()
+        }
+        var result: List<Long> = emptyList()
+        try {
+            result = dbDisplayedBreedDao.insert(all.map { result ->
+                DbDisplayedBreed.from(
+                    result
+                )
+            })
+
+        } catch (e: Exception) {
+            Log.e(TAG, "insertAll FAILED")
+            e.printStackTrace()
+            throw e
+        }
+        return result
+
     }
 
     /** Insert one entity  -  it can return a long, which is the new rowId for the inserted item.*/
-    override fun insertOne(one: DomainDisplayedBreed?): Long {
+    override suspend fun insertOne(one: DomainDisplayedBreed?): Long? {
         Log.d(TAG, "insertOne")
-        return if (one != null) {
-            try {
-                val result = dbDisplayedBreedDao.insert(DbDisplayedBreed.from(one))
-                Log.d(TAG, "insertOne RESULT = $result")
-                result
-            } catch (e: Exception) {
-                Log.e(TAG, "insertOne FAILED")
-                e.printStackTrace()
-                throw  e
-            }
-        } else {
-            -1
+        if (one == null) {
+            return -1
         }
+        var result: Long? = null
+        try {
+
+            result = dbDisplayedBreedDao.insert(DbDisplayedBreed.from(one))
+
+        } catch (e: Exception) {
+            Log.e(TAG, "insertOne FAILED")
+            e.printStackTrace()
+            throw  e
+        }
+        return result
     }
 
     /** Delete all entities **/
-    override fun deleteAll(): Int {
+    override suspend fun deleteAll(): Int? {
         Log.d(TAG, "deleteAll")
+        var result: Int? = null
         try {
-            return dbDisplayedBreedDao.deleteAllBreeds()
+            AsyncTask.execute {
+                result = dbDisplayedBreedDao.deleteAllBreeds()
+            }
         } catch (e: Exception) {
             Log.e(TAG, "deleteAll FAILED")
             e.printStackTrace()
             throw e
         }
+        return result
     }
+
     /**
      * Converts a list of database entities into domain entities
      */
@@ -199,7 +215,7 @@ class DbDisplayedBreedsRepositoryImpl(
     }
 
     /**  Update one entity  **/
-    override fun updateOne(one: DomainDisplayedBreed?): Int? {
+    override suspend fun updateOne(one: DomainDisplayedBreed?): Int? {
         Log.d(TAG, "updateOne")
         return dbDisplayedBreedDao.update(DbDisplayedBreed.from(one))
     }

@@ -12,16 +12,33 @@
         android:layout_height="wrap_content"
         android:text="@string/edit_breed"
         app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/activityEditBreed_recyclerView_breedsToChoose"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/activityEditBreed_textView_title"/>
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="8dp"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintHeight_max="185dp"
+        app:layout_constraintTop_toBottomOf="@id/activityEditBreed_textView_title" />
+
+    <ImageButton
+        android:id="@+id/activityEditBreed_imageButton_addBreed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/mybutton"
+        android:padding="8dp"
+        android:src="@drawable/ic_add_black_24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activityEditBreed_recyclerView_breedsToChoose" />
 
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/activityEditBreed_recyclerView_breedsToChoose">
+        android:paddingHorizontal="8dp"
+        app:layout_constraintTop_toBottomOf="@id/activityEditBreed_imageButton_addBreed">
 
         <TableRow>
 
@@ -33,25 +50,28 @@
                 android:text="@string/name" />
 
             <EditText
-                android:inputType="text"
                 android:id="@+id/activityEditBreed_editText_breedName"
                 android:layout_width="0dp"
                 android:layout_weight="4"
-                android:hint="@string/name_hint" />
+                android:hint="@string/name_hint"
+                android:inputType="text" />
         </TableRow>
+
         <TableRow>
+
             <TextView
                 android:id="@+id/activityEditBreed_textView_breedDescription"
                 style="@style/TextViewSubTitle"
                 android:layout_width="0dp"
                 android:layout_weight="2"
-                android:text="@string/description"/>
+                android:text="@string/description" />
+
             <EditText
                 android:id="@+id/activityEditBreed_editText_breedDescription"
                 android:layout_width="0dp"
                 android:layout_weight="4"
-                android:inputType="textMultiLine"
-                android:hint="@string/what_does_this_breed_look_like"/>
+                android:hint="@string/what_does_this_breed_look_like"
+                android:inputType="textMultiLine" />
         </TableRow>
 
     </TableLayout>

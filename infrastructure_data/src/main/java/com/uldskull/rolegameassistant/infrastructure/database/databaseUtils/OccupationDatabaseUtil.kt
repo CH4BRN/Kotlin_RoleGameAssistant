@@ -11,6 +11,9 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupatio
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupation.DbOccupationAndDbSkillCrossRef
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupation.DbOccupationWithDbSkills
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_skill.DbSkillToCheck
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  *   Class "OccupationDatabaseUtil" :
@@ -37,44 +40,48 @@ class OccupationDatabaseUtil {
             occupationSkillDao: DbSkillToCheckDao,
             occupationWithSkillDao: DbOccupationDbSkillDao
         ) {
-            Log.d(TAG, "insertAcrobat")
-            val occupationId = occupationsDao.insert(
-                DbOccupation(
-                    occupationName = "Acrobat",
-                    occupationContacts = "Amateur athletic circles, sports writers, circuses, and carnivals",
-                    occupationIncome = "Lower to Lower Middle class",
-                    occupationSpecial = "+1 STR and +1 DEX, or +2 DEX"
+            val coroutineScope = CoroutineScope(Dispatchers.Main)
+
+            coroutineScope.launch {
+                Log.d("DEBUG$TAG", "insertAcrobat")
+                val occupationId = occupationsDao.insert(
+                    DbOccupation(
+                        occupationName = "Acrobat",
+                        occupationContacts = "Amateur athletic circles, sports writers, circuses, and carnivals",
+                        occupationIncome = "Lower to Lower Middle class",
+                        occupationSpecial = "+1 STR and +1 DEX, or +2 DEX"
+                    )
                 )
-            )
-            Log.d(TAG, "occupation id : $occupationId")
-            val skillId = occupationSkillDao.insert(
-                DbSkillToCheck(
-                    skillName = "Bargain  ",
-                    skillDescription = "The skill of obtaining something for an agreeable price. \n" +
-                            "The bargainer must state the price at which he or she wishes to \n" +
-                            "purchase the item and, for each 2% difference between the price and\n" +
-                            " the asking price, he or she must subtract 1 percentile from his \n" +
-                            "Bargain skill. The seller will not take a loss, no matter how good\n" +
-                            " the bargaining. The keeper usually determines the bottom-line secretly.",
-                    skillBase = 5
+                Log.d("DEBUG$TAG", "occupation id : $occupationId")
+                val skillId = occupationSkillDao.insert(
+                    DbSkillToCheck(
+                        skillName = "Bargain  ",
+                        skillDescription = "The skill of obtaining something for an agreeable price. \n" +
+                                "The bargainer must state the price at which he or she wishes to \n" +
+                                "purchase the item and, for each 2% difference between the price and\n" +
+                                " the asking price, he or she must subtract 1 percentile from his \n" +
+                                "Bargain skill. The seller will not take a loss, no matter how good\n" +
+                                " the bargaining. The keeper usually determines the bottom-line secretly.",
+                        skillBase = 5
 
+                    )
                 )
-            )
-            Log.d(TAG, "skill id : $skillId")
+                Log.d("DEBUG$TAG", "skill id : $skillId")
 
 
-            val crossId = occupationWithSkillDao.insertCross(
-                DbOccupationAndDbSkillCrossRef(
-                    occupationId = occupationId,
-                    skillId = skillId
+                val crossId = occupationWithSkillDao.insertCross(
+                    DbOccupationAndDbSkillCrossRef(
+                        occupationId = occupationId,
+                        skillId = skillId
+                    )
                 )
-            )
-            Log.d(TAG, "crossID : $crossId")
+                Log.d("DEBUG$TAG", "crossID : $crossId")
 
-            val result = occupationWithSkillDao.getOccupationsWithSkills()
+                val result = occupationWithSkillDao.getOccupationsWithSkills()
 
-            result.forEach { dbOccupationWithDbSkills: DbOccupationWithDbSkills ->
-                Log.d(TAG, "$dbOccupationWithDbSkills")
+                result.forEach { dbOccupationWithDbSkills: DbOccupationWithDbSkills ->
+                    Log.d(TAG, "$dbOccupationWithDbSkills")
+                }
             }
         }
 
@@ -83,73 +90,78 @@ class OccupationDatabaseUtil {
             occupationSkillDao: DbSkillToCheckDao,
             occupationWithSkillDao: DbOccupationDbSkillDao
         ) {
-            Log.d(TAG, "insertAccountant")
+            Log.d("DEBUG$TAG", "insertAccountant")
 
-            val occupationId = occupationsDao.insert(
-                DbOccupation(
-                    occupationName = "Accountant",
-                    occupationContacts = "Contacts: Other accountants",
-                    occupationIncome = "Lower to Lower Middle class",
-                    occupationSpecial = "+1 STR and +1 DEX, or +2 DEX"
+            val coroutineScope = CoroutineScope(Dispatchers.Main)
+
+            coroutineScope.launch {
+                val occupationId = occupationsDao.insert(
+                    DbOccupation(
+                        occupationName = "Accountant",
+                        occupationContacts = "Contacts: Other accountants",
+                        occupationIncome = "Lower to Lower Middle class",
+                        occupationSpecial = "+1 STR and +1 DEX, or +2 DEX"
+                    )
                 )
-            )
-            Log.d(TAG, "occupation id : $occupationId")
 
-            var skillId = occupationSkillDao.insert(
-                DbSkillToCheck(
-                    skillName = "Accounting ",
-                    skillDescription = " Grants understanding of accountancy procedures, and reveals " +
-                            "the financial functioning of a business or person. Inspecting the" +
-                            "books, one might detect cheated employees, siphoned-off funds, payment" +
-                            " of bribes or blackmail, and whether or not the financial condition is " +
-                            "better or worse than claimed. Looking through old accounts, one could " +
-                            "see how money was gained or lost in the past (grain, slave-trading," +
-                            " whiskey-running, etc.) and to whom and for what payment was made.",
-                    skillBase = 10
+                Log.d("DEBUG$TAG", "occupation id : $occupationId")
+
+                var skillId = occupationSkillDao.insert(
+                    DbSkillToCheck(
+                        skillName = "Accounting ",
+                        skillDescription = " Grants understanding of accountancy procedures, and reveals " +
+                                "the financial functioning of a business or person. Inspecting the" +
+                                "books, one might detect cheated employees, siphoned-off funds, payment" +
+                                " of bribes or blackmail, and whether or not the financial condition is " +
+                                "better or worse than claimed. Looking through old accounts, one could " +
+                                "see how money was gained or lost in the past (grain, slave-trading," +
+                                " whiskey-running, etc.) and to whom and for what payment was made.",
+                        skillBase = 10
+                    )
                 )
-            )
-            Log.d(TAG, "skill id : $skillId")
 
-            var crossId = occupationWithSkillDao.insertCross(
-                DbOccupationAndDbSkillCrossRef(
-                    occupationId = occupationId,
-                    skillId = skillId
+                Log.d("DEBUG$TAG", "skill id : $skillId")
+
+                var crossId = occupationWithSkillDao.insertCross(
+                    DbOccupationAndDbSkillCrossRef(
+                        occupationId = occupationId,
+                        skillId = skillId
+                    )
                 )
-            )
-            Log.d(TAG, "crossID : $crossId")
+                Log.d("DEBUG$TAG", "crossID : $crossId")
 
-            skillId = occupationSkillDao.insert(
-                DbSkillToCheck(
-                    skillName = "Anthropology  ",
-                    skillDescription = "Enables the user to identify and understand an individual’s" +
-                            " way of life from his behavior. If the skill-user observes another " +
-                            "culture from within for a time, or works from accurate records concerning " +
-                            "an extinct culture, he or she may make simple predictions about that " +
-                            "culture’s ways and morals, even though the evidence may be incomplete." +
-                            " Studying the culture for a month or more, the anthropologist begins " +
-                            "to understand how the culture functions and, in combination with " +
-                            "Psychology, may predict the actions and beliefs of representatives." +
-                            " Essentially useful only with existing human cultures.",
-                    skillBase = 1
+                skillId = occupationSkillDao.insert(
+                    DbSkillToCheck(
+                        skillName = "Anthropology  ",
+                        skillDescription = "Enables the user to identify and understand an individual’s" +
+                                " way of life from his behavior. If the skill-user observes another " +
+                                "culture from within for a time, or works from accurate records concerning " +
+                                "an extinct culture, he or she may make simple predictions about that " +
+                                "culture’s ways and morals, even though the evidence may be incomplete." +
+                                " Studying the culture for a month or more, the anthropologist begins " +
+                                "to understand how the culture functions and, in combination with " +
+                                "Psychology, may predict the actions and beliefs of representatives." +
+                                " Essentially useful only with existing human cultures.",
+                        skillBase = 1
+                    )
                 )
-            )
-            Log.d(TAG, "skill id : $skillId")
 
-            crossId = occupationWithSkillDao.insertCross(
-                DbOccupationAndDbSkillCrossRef(
-                    occupationId = occupationId,
-                    skillId = skillId
+                Log.d("DEBUG$TAG", "skill id : $skillId")
+
+                crossId = occupationWithSkillDao.insertCross(
+                    DbOccupationAndDbSkillCrossRef(
+                        occupationId = occupationId,
+                        skillId = skillId
+                    )
                 )
-            )
-            Log.d(TAG, "crossID : $crossId")
+                Log.d("DEBUG$TAG", "crossID : $crossId")
 
-            val result = occupationWithSkillDao.getOccupationsWithSkills()
+                val result = occupationWithSkillDao.getOccupationsWithSkills()
 
-            result.forEach { dbOccupationWithDbSkills: DbOccupationWithDbSkills ->
-                Log.d(TAG, "$dbOccupationWithDbSkills")
+                result.forEach { dbOccupationWithDbSkills: DbOccupationWithDbSkills ->
+                    Log.d("DEBUG$TAG", "$dbOccupationWithDbSkills")
+                }
             }
-
         }
     }
-// TODO : Fill class.
 }

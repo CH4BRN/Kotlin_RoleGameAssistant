@@ -16,10 +16,15 @@ interface CharacterRepository<T> : GenericRepository<T, DomainCharacter> {
     /**
      * Find the corresponding character with all its ideals
      */
-    fun findOneWithIdeals(id: Long?): DomainCharacterWithIdeals?
+    suspend fun findOneWithIdeals(id: Long?): DomainCharacterWithIdeals?
 
     /**
      * Find the corresponding character with all its skills.
      */
-    fun findOneWithOccupationSkills(id:Long?) : DomainCharacterWithSkills?
+    suspend fun findOneWithOccupationSkills(id:Long?) : DomainCharacterWithSkills?
+
+    /**
+     * Delete one character
+     */
+    suspend fun deleteOneCharacter(domainCharacter: DomainCharacter):Int
 }

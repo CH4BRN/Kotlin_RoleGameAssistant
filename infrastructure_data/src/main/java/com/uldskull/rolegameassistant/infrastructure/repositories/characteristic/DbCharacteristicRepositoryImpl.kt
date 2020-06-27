@@ -25,22 +25,23 @@ class DbCharacteristicRepositoryImpl(
     companion object {
         private const val TAG = "DbCharacteristicRepositoryImpl"
     }
+
     /** Get all entities    */
     override fun getAll(): LiveData<List<DomainCharacteristic>> {
         Log.d(TAG, "getAll")
-        return Transformations.map(dbCharacteristicDao.getCharacteristics()){
+        return Transformations.map(dbCharacteristicDao.getCharacteristics()) {
             it?.asDomainModel()
         }
     }
 
     /** Get one entity by its id    */
-    override fun findOneById(id: Long?): DomainCharacteristic? {
+    override suspend fun findOneById(id: Long?): DomainCharacteristic? {
         Log.d(TAG, "findOneById")
         return dbCharacteristicDao.getCharacteristicById(id).toDomain()
     }
 
     /** Insert a list of entity - it should return long[] or List<Long>.*/
-    override fun insertAll(all: List<DomainCharacteristic>?): List<Long>? {
+    override suspend fun insertAll(all: List<DomainCharacteristic>?): List<Long>? {
         Log.d(TAG, "insertAll")
         if ((all != null) && (all.isNotEmpty())) {
             try {
@@ -64,29 +65,29 @@ class DbCharacteristicRepositoryImpl(
     }
 
     /** Insert one entity  -  it can return a long, which is the new rowId for the inserted item.*/
-    override fun insertOne(one: DomainCharacteristic?): Long? {
+    override suspend fun insertOne(one: DomainCharacteristic?): Long? {
         Log.d(TAG, "insertOne")
         return dbCharacteristicDao.insert(DbCharacteristic.from(one))
     }
 
     /** Delete all entities **/
-    override fun deleteAll(): Int {
+    override suspend fun deleteAll(): Int {
         Log.d(TAG, "deleteAll")
         return dbCharacteristicDao.deleteAllCharacteristics()
     }
 
     /**  Update one entity  **/
-    override fun updateOne(one: DomainCharacteristic?): Int? {
+    override suspend fun updateOne(one: DomainCharacteristic?): Int? {
         Log.d(TAG, "updateOne")
-       return dbCharacteristicDao.update(DbCharacteristic.from(one))
+        return dbCharacteristicDao.update(DbCharacteristic.from(one))
     }
 
     /**
      * Converts a list of database entities into domain entities
      */
-    private fun List<DbCharacteristic>.asDomainModel():List<DomainCharacteristic>{
+    private fun List<DbCharacteristic>.asDomainModel(): List<DomainCharacteristic> {
         Log.d(TAG, "asDomainModel")
-        return map{
+        return map {
             DomainCharacteristic(
                 characteristicId = it.characteristicId,
                 characteristicName = it.characteristicName

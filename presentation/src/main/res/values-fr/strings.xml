@@ -101,4 +101,6 @@
     <string name="let_s_type_a_bond">Et si on écrivais une obligation ?</string>
     <string name="description">Description :</string>
     <string name="what_does_this_breed_look_like">A quoi cette race ressemble ?</string>
+    <string name="type_a_breed_description">A quoi cette race ressemble ?</string>
+    <string name="type_a_breed_name">Quel est le nom de cette race ?</string>
 </resources>

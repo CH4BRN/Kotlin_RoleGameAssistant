@@ -3,8 +3,11 @@
 
 package com.uldskull.rolegameassistant.activities.core
 
+import android.content.Context
 import android.os.Bundle
+import android.util.AttributeSet
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 
 /**
@@ -18,7 +21,31 @@ abstract class CustomActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d(TAG, "onCreate")
+        Log.d("DEBUg$TAG","onCreate")
         super.onCreate(savedInstanceState)
+        initializeViewModels()
+        startObservation()
     }
+
+
+
+    /**
+     * Initialize the activity ViewModels
+     */
+    abstract fun initializeViewModels()
+
+    /**
+     * Deserialize widgets
+     */
+    abstract fun deserializeWidgets()
+
+    /**
+     * Initialize the widgets
+     */
+    abstract fun initializeWidgets()
+
+    /**
+     * Start livedata observation
+     */
+    abstract fun startObservation()
 }

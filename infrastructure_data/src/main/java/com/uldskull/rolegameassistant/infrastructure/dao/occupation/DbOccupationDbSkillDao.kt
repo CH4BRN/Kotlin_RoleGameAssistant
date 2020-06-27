@@ -19,13 +19,13 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupatio
 @Dao
 interface DbOccupationDbSkillDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertCross(dbOccupationAndDbSkillCrossRef: DbOccupationAndDbSkillCrossRef):Long
+    suspend fun insertCross(dbOccupationAndDbSkillCrossRef: DbOccupationAndDbSkillCrossRef):Long
 
     @Transaction
     @Query("$SELECT_ALL_FROM $TABLE_NAME_OCCUPATIONS")
-    fun getOccupationsWithSkills():List<DbOccupationWithDbSkills>
+    suspend fun getOccupationsWithSkills():List<DbOccupationWithDbSkills>
 
     @Transaction
     @Query("$SELECT_ALL_FROM $TABLE_NAME_OCCUPATIONS $WHERE $FIELD_OCCUPATION_ID $LIKE :id")
-    fun getOccupationWithSkills(id:Long?):DbOccupationWithDbSkills
+    suspend fun getOccupationWithSkills(id:Long?):DbOccupationWithDbSkills
 }

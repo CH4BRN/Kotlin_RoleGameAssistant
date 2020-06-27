@@ -144,27 +144,6 @@ class BasicInfoFragment : CustomFragment() {
         return initialRootView
     }
 
-  /*  *//**
-     * Load picture fragment
-     *//*
-    private fun loadPictureFragment() {
-        Log.d(TAG, "Load picture fragment")
-        if (activity != null) {
-            Log.d("DEBUG $TAG", "activity is not null}")
-            try {
-                val transaction = childFragmentManager.beginTransaction()
-                transaction.replace(
-                    R.id.basicInfo_container_picture,
-                    PicturePickerFragment.newInstance(
-                        activity!!
-                    )
-                ).commit()
-            } catch (e: Exception) {
-                throw e
-            }
-        }
-    }*/
-
     /**
      * Load breeds RecyclerView fragment.
      */
@@ -177,14 +156,6 @@ class BasicInfoFragment : CustomFragment() {
             )
 
             Log.d("DEBUG$TAG", "breeds size then : ${basicInfoViewModel.displayedBreeds?.size}")
-
-            basicInfoViewModel.displayedBreeds?.forEach { newBreed ->
-                if (newBreed != null) {
-                    displayedBreedsViewModel.observedRepositoryBreeds?.value?.find { it.breedId == newBreed.breedId }?.breedIsChecked =
-                        newBreed.breedIsChecked
-                }
-            }
-
 
             transaction.replace(
                 R.id.basicInfo_container_breed,
@@ -472,7 +443,8 @@ class BasicInfoFragment : CustomFragment() {
         Log.d(TAG, "setButtonAddBreed")
         if (buttonAddBreed != null) {
             buttonAddBreed?.setOnClickListener {
-                val intent = Intent(activity,
+                val intent = Intent(
+                    activity,
                     NEW_BREED_ACTIVITY
                 )
                 startActivityForResult(

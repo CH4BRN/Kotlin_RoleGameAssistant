@@ -137,6 +137,7 @@ object MaterialDependencies {
      */
     const val material =
         "com.google.android.material:material:$Material"
+
 }
 
 /**

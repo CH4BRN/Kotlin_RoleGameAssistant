@@ -8,6 +8,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.uldskull.rolegameassistant.models.DomainBond
 import com.uldskull.rolegameassistant.models.character.DomainCharacter
 import com.uldskull.rolegameassistant.models.character.DomainCharacterWithSkills
@@ -18,6 +19,7 @@ import com.uldskull.rolegameassistant.models.skill.DomainSkillToFill
 import com.uldskull.rolegameassistant.repository.character.CharacterRepository
 import com.uldskull.rolegameassistant.repository.skill.FilledOccupationSkillRepository
 import com.uldskull.rolegameassistant.useCases.skills.GetAnHobbySkillWithCharacterIdUseCase
+import kotlinx.coroutines.launch
 import java.util.*
 
 /**
@@ -118,7 +120,7 @@ class NewCharacterViewModel(
     /**
      * Represents the selected character.
      */
-    var currentCharacter:DomainCharacter? = null
+    var currentCharacter: DomainCharacter? = null
 
     init {
         if (currentCharacter == null) {
@@ -144,6 +146,7 @@ class NewCharacterViewModel(
         luckScore: Int?,
         knowScore: Int?,
         baseHealth: Int?,
+        chosenBreeds:List<Long?>,
         breedBonus: Int?,
         skillsIds: List<Long?>,
         filledOccupationSkills: List<DomainSkillToFill>?,
@@ -152,7 +155,7 @@ class NewCharacterViewModel(
     ): Long? {
 
         if (currentCharacter == null) {
-            currentCharacter= emptyCharacter()
+            currentCharacter = emptyCharacter()
         }
 
         setId()
@@ -164,11 +167,16 @@ class NewCharacterViewModel(
         setHeight()
         setPictureUri()
         setBonds()
-
         setCharacteristics(characteristics)
-        if (currentCharacter?.characterBreeds == null) {
-            currentCharacter?.characterBreeds = mutableListOf()
+
+        chosenBreeds.forEach {
+            Log.d("DEBUG$TAG","Chosen breeds : $it")
         }
+
+        currentCharacter?.characterBreeds = chosenBreeds.toMutableList()
+
+        Log.d("DEBUG$TAG", "Character chosen breeds : ${currentCharacter?.characterBreeds}")
+
 
         if (currentCharacter?.characterIdeals == null) {
             currentCharacter?.characterIdeals = mutableListOf()
@@ -218,65 +226,81 @@ class NewCharacterViewModel(
         if (characterId == null) {
             Log.d("DEBUG$TAG", "INSERT")
             try {
-                characterId = characterRepository.insertOne(currentCharacter)
-                currentCharacter?.characterId = characterId
+                viewModelScope.launch {
+                    characterId = characterRepository.insertOne(currentCharacter)
+                    currentCharacter?.characterId = characterId
 
+                    Log.d("DEBUG$TAG", "character $currentCharacter ")
+
+                    try {
+                        if (characterId != null) {
+                            try {
+                                //  Hobby skills
+                                insertHobbySkills(filledHobbySkills)
+                                //  Get hobby skills
+                                var hobbySkills = getCharacterSkills(characterId, 1)
+
+                            } catch (e: Exception) {
+                                Log.e("ERROR", "Failed to insert hobby skills")
+                                e.printStackTrace()
+                                throw e
+                            }
+
+                            try {
+                                //   Occupation skills
+                                insertOccupationSkills(filledOccupationSkills)
+                                //  Gets occupation skills
+                                val occupationSkills = getCharacterSkills(characterId, 0)
+                                occupationSkills?.forEach {
+                                    Log.d(
+                                        "DEBUG$TAG",
+                                        "Occupation skill :${it.skillName?.toUpperCase(Locale.ENGLISH)} - ${it.filledSkillTensValue}${it.filledSkillUnitsValue}"
+                                    )
+                                }
+                            } catch (e: Exception) {
+                                Log.e("ERROR", "Failed to insert occupation skills")
+                                e.printStackTrace()
+                                throw e
+                            }
+
+                            //  Gets all skills
+                            var skills: DomainCharacterWithSkills?
+                            viewModelScope.launch {
+                                skills = getCharacterWithSkills(characterId)
+                            }
+
+
+                        }
+                    } catch (e: Exception) {
+                        Log.e("ERROR", "Insertion failed")
+                        e.printStackTrace()
+                        throw e
+                    }
+                    Log.d("RESULT", currentCharacter.toString())
+
+                    var breeds = getCharacterWithBreeds(characterId)
+
+                    breeds?.forEach {
+                        Log.d("DEBUG$TAG", "breed id : $it")
+                    }
+
+
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
                 throw e
             }
         } else {
             try {
-                characterRepository.updateOne(currentCharacter)
-
+                viewModelScope.launch {
+                    characterRepository.updateOne(currentCharacter)
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
                 throw e
             }
         }
-        Log.d("DEBUG$TAG", "character $currentCharacter ")
 
-        try {
-            if (characterId != null) {
-                try {
-                    //  Hobby skills
-                    insertHobbySkills(filledHobbySkills)
-                    //  Get hobby skills
-                    var hobbySkills = getCharacterSkills(characterId, 1)
-                } catch (e: Exception) {
-                    Log.e("ERROR", "Failed to insert hobby skills")
-                    e.printStackTrace()
-                    throw e
-                }
-
-                try {
-                    //   Occupation skills
-                    insertOccupationSkills(filledOccupationSkills)
-                    //  Gets occupation skills
-                    val occupationSkills = getCharacterSkills(characterId, 0)
-                    occupationSkills?.forEach {
-                        Log.d(
-                            "DEBUG$TAG",
-                            "Occupation skill :${it.skillName?.toUpperCase(Locale.ENGLISH)} - ${it.filledSkillTensValue}${it.filledSkillUnitsValue}"
-                        )
-                    }
-                } catch (e: Exception) {
-                    Log.e("ERROR", "Failed to insert occupation skills")
-                    e.printStackTrace()
-                    throw e
-                }
-
-                //  Gets all skills
-                var skills = getCharacterWithSkills(characterId)
-
-            }
-        } catch (e: Exception) {
-            Log.e("ERROR", "Insertion failed")
-            e.printStackTrace()
-            throw e
-        }
-        Log.d("RESULT", currentCharacter.toString())
-        var breeds = getCharacterWithBreeds(characterId)
         return currentCharacter?.characterId
     }
 
@@ -284,18 +308,29 @@ class NewCharacterViewModel(
      * Get character with skills
      */
     fun getCharacterWithSkills(id: Long?): DomainCharacterWithSkills? {
-        val characterWithSkills: DomainCharacterWithSkills? =
-            characterRepository.findOneWithOccupationSkills(id)
+        var characterWithSkills: DomainCharacterWithSkills? = null
+        viewModelScope.launch {
+            characterWithSkills = characterRepository.findOneWithOccupationSkills(id)
+        }
+
         Log.d("DBUG$TAG", "characterWithSkills: $characterWithSkills")
         return characterWithSkills
     }
+
     /**
      * Get character skills by type and by id
      * id thend type
      */
     fun getCharacterSkills(id: Long?, type: Long): List<DomainSkillToFill>? {
-        val characterWithSkills: DomainCharacterWithSkills? =
-            characterRepository.findOneWithOccupationSkills(id)
+        var characterWithSkills: DomainCharacterWithSkills? = null
+
+        viewModelScope.launch {
+            characterWithSkills = characterRepository.findOneWithOccupationSkills(id)
+        }
+        if (characterWithSkills == null) {
+            return null
+        }
+
         return characterWithSkills?.skills?.filter { s -> s.filledSkillType == type }
     }
 
@@ -323,8 +358,10 @@ class NewCharacterViewModel(
 
             if (oldSkill == null) {
                 Log.d("DEBUG$TAG", "insertOne".toUpperCase(Locale.ENGLISH))
-                val id = filledOccupationSkillRepository.insertOne(newSkill)
-                Log.d("DEBUG$TAG", "Inserted id : $id")
+                viewModelScope.launch {
+                    val id = filledOccupationSkillRepository.insertOne(newSkill)
+                    Log.d("DEBUG$TAG", "Inserted id : $id")
+                }
             } else {
                 Log.d("DEBUG$TAG", "updateOne".toUpperCase(Locale.ENGLISH))
                 Log.d(
@@ -338,7 +375,11 @@ class NewCharacterViewModel(
                     "Old skill : ${oldSkill.skillName?.toUpperCase(Locale.ENGLISH)} - ${oldSkill.filledSkillTensValue}${oldSkill.filledSkillUnitsValue}"
                 )
 
-                val count = filledOccupationSkillRepository.updateOne(oldSkill)
+                var count: Int? = null
+                viewModelScope.launch {
+                    count = filledOccupationSkillRepository.updateOne(oldSkill)
+                }
+
                 Log.d("DEBUG$TAG", "$count skills updated.")
             }
         }
@@ -368,8 +409,11 @@ class NewCharacterViewModel(
 
             if (oldSkill == null) {
                 Log.d("DEBUG$TAG", "insertOne".toUpperCase(Locale.ENGLISH))
-                val id = filledOccupationSkillRepository.insertOne(newSkill)
-                Log.d("DEBUG$TAG", "Inserted id : $id")
+                viewModelScope.launch {
+                    val id = filledOccupationSkillRepository.insertOne(newSkill)
+                    Log.d("DEBUG$TAG", "Inserted id : $id")
+                }
+
             } else {
                 Log.d("DEBUG$TAG", "updateOne".toUpperCase(Locale.ENGLISH))
                 Log.d(
@@ -383,7 +427,11 @@ class NewCharacterViewModel(
                     "Old skill : ${oldSkill.skillName?.toUpperCase(Locale.ENGLISH)} - ${oldSkill.filledSkillTensValue}${oldSkill.filledSkillUnitsValue}"
                 )
 
-                val count = filledOccupationSkillRepository.updateOne(oldSkill)
+                var count: Int? = null
+                viewModelScope.launch {
+                    count = filledOccupationSkillRepository.updateOne(oldSkill)
+                }
+
                 Log.d("DEBUG$TAG", "$count skills updated.")
             }
 
@@ -466,12 +514,18 @@ class NewCharacterViewModel(
     /**
      * Get a character with its breeds.
      */
-    fun getCharacterWithBreeds(id: Long?) {
-        val character = characterRepository.findOneById(id)
-        character?.characterBreeds?.forEach {
-            Log.d("DEBUG$TAG", "Breed id : $it")
+    fun getCharacterWithBreeds(id: Long?):List<Long?>? {
+        var character: DomainCharacter? = null
+        viewModelScope.launch {
+            character = characterRepository.findOneById(id)
+            Log.d("DEBUG$TAG", "Character : ${character?.characterName} : breeds ${character?.characterBreeds}")
+
+            character?.characterBreeds?.forEach {
+                Log.d("DEBUG$TAG", "Breed id : $it")
+            }
         }
 
+        return character?.characterBreeds?.toList()
     }
 
     /**

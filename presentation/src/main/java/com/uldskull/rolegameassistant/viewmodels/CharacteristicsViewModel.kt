@@ -27,7 +27,7 @@ import kotlin.concurrent.thread
  **/
 class CharacteristicsViewModel(
     application: Application,
-    private val rollsCharacteristicRepositoryImpl: RollsCharacteristicRepository<MutableLiveData<List<DomainRollsCharacteristic>>>,
+    private val rollsCharacteristicRepositoryImpl: RollsCharacteristicRepository<LiveData<List<DomainRollsCharacteristic>>>,
     private val characteristicRepositoryImpl: CharacteristicRepository<LiveData<List<DomainCharacteristic>>>,
     private val displayedBreedsRepository: DisplayedBreedsRepository<LiveData<List<DomainDisplayedBreed>>>,
     private val diceServiceImpl: DiceService
@@ -235,6 +235,7 @@ class CharacteristicsViewModel(
             rollRule = "3D6"
         )
     }
+
     /**
      * Get dice rolled characteristic for dexterity
      */
@@ -245,6 +246,7 @@ class CharacteristicsViewModel(
             rollRule = "3D6"
         )
     }
+
     /**
      * Get dice rolled characteristic for size
      */
@@ -255,6 +257,7 @@ class CharacteristicsViewModel(
             rollRule = "2D6+6"
         )
     }
+
     /**
      * Get dice rolled characteristic for intelligence
      */
@@ -265,6 +268,7 @@ class CharacteristicsViewModel(
             rollRule = "2D6+6"
         )
     }
+
     /**
      * Get dice rolled characteristic for appearance
      */
@@ -275,6 +279,7 @@ class CharacteristicsViewModel(
             rollRule = "3D6"
         )
     }
+
     /**
      * Get dice rolled characteristic for education
      */
@@ -285,6 +290,7 @@ class CharacteristicsViewModel(
             rollRule = "3D6+3"
         )
     }
+
     /**
      * Get dice rolled characteristics
      */
@@ -402,7 +408,7 @@ class CharacteristicsViewModel(
     /**
      * Observable repository characteristics
      */
-    var observedRepositoryCharacteristics = rollsCharacteristicRepositoryImpl.getAll()
+    var observedRepositoryCharacteristics: LiveData<List<DomainRollsCharacteristic>>? = null
 
     /**
      * Observable mutable characteristics
@@ -458,11 +464,11 @@ class CharacteristicsViewModel(
         synchronized(lock) {
             Log.d(TAG, "saveAllCharacteristics")
             var result: List<Long>? = null
-
-            thread(start = true) {
+            viewModelScope.launch {
                 result = characteristicRepositoryImpl.insertAll(domainCharacteristics)
                 Log.d("CharacteristicViewModel", "INSERTED $result")
             }
+
             lock.notifyAll()
             return result
         }
@@ -473,7 +479,7 @@ class CharacteristicsViewModel(
      */
     fun deleteAllRollCharacteristics(): Int? {
         Log.d(TAG, "deleteAllRollCharacteristics")
-        thread(start = true) {
+        viewModelScope.launch {
             rollsCharacteristicRepositoryImpl.deleteAll()
         }
         return 0
@@ -485,7 +491,7 @@ class CharacteristicsViewModel(
     fun updateOneRollCharacteristic(domainModel: DomainRollsCharacteristic): Int? {
         Log.d(TAG, "updateOneRollCharacteristic")
         var result: Int? = -1
-        thread(start = true) {
+        viewModelScope.launch {
             result = rollsCharacteristicRepositoryImpl.updateOne(domainModel)
         }
         return result
@@ -530,7 +536,7 @@ class CharacteristicsViewModel(
 
         val characteristics = displayedCharacteristics?.value?.toMutableList()
 
-        if ((characteristics != null )) {
+        if ((characteristics != null)) {
 
             for (index in 0 until characteristics.size) {
 

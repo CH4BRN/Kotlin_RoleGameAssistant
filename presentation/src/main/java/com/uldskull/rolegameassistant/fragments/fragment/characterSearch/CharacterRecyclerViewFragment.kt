@@ -21,6 +21,7 @@ import com.uldskull.rolegameassistant.fragments.core.listeners.CustomAdapterButt
 import com.uldskull.rolegameassistant.fragments.core.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.core.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.core.listeners.CustomTextWatcher
+import com.uldskull.rolegameassistant.fragments.core.listeners.DeleteCharacterButtonListener
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.models.character.DomainCharacter
 import com.uldskull.rolegameassistant.viewmodels.character.CharactersViewModel
@@ -33,7 +34,8 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  **/
 class CharacterRecyclerViewFragment :
     CustomRecyclerViewFragment(),
-    CustomAdapterButtonListener<DomainCharacter> {
+    CustomAdapterButtonListener<DomainCharacter>,
+    DeleteCharacterButtonListener {
 
     private var textLength: Int? = 0
 
@@ -53,11 +55,6 @@ class CharacterRecyclerViewFragment :
     private val charactersViewModel: CharactersViewModel by sharedViewModel()
 
     /**
-     * ViewModel for character creation/edition
-     */
-    private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
-
-    /**
      * Adapter for character's recycler view.
      */
     private var charactersAdapter: CharactersAdapter? = null
@@ -67,7 +64,12 @@ class CharacterRecyclerViewFragment :
      */
     private var editTextCharacterSearch: EditText? = null
 
+    /**
+     * Sorted character array.
+     */
     private var arraySort: ArrayList<DomainCharacter> = ArrayList()
+
+
 
     /**
      * Fragment life-cycle : Called once the view is created.
@@ -90,7 +92,7 @@ class CharacterRecyclerViewFragment :
                     super.onTextChanged(s, start, before, count)
                     // Instantiate the adapter
                     charactersAdapter =
-                        CharactersAdapter(activity as Context, this@CharacterRecyclerViewFragment)
+                        CharactersAdapter(activity as Context, this@CharacterRecyclerViewFragment, this@CharacterRecyclerViewFragment)
 
                     //  Update the cached copy
                     charactersViewModel?.characters?.observe(
@@ -195,6 +197,13 @@ class CharacterRecyclerViewFragment :
      * Start ViewModel's collection observation.
      */
     override fun startObservation() {
+        observeCharacters()
+    }
+
+    /**
+     * Observe characters
+     */
+    private fun observeCharacters() {
         this.charactersViewModel.characters?.observe(
             this,
             Observer {
@@ -217,7 +226,7 @@ class CharacterRecyclerViewFragment :
      */
     override fun setRecyclerViewAdapter() {
         if (activity != null) {
-            charactersAdapter = CharactersAdapter(activity as Context, this)
+            charactersAdapter = CharactersAdapter(activity as Context, this, this)
             characterRecyclerView?.adapter = charactersAdapter
         }
 
@@ -254,5 +263,13 @@ class CharacterRecyclerViewFragment :
     override fun itemPressed(domainModel: DomainCharacter?, position: Int?) {
         Log.d("DEBUG", "Button pressed for $domainModel")
         characterTransmitter?.transmitCharacter(domainModel)
+    }
+
+    /**
+     * Called when the "delete" button is pushed
+     */
+    override fun deleteCharacter(domainCharacter: DomainCharacter) {
+        charactersViewModel.deleteOne(domainCharacter)
+
     }
 }

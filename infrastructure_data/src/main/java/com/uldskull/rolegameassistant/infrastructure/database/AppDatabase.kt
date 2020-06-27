@@ -142,13 +142,19 @@ abstract class AppDatabase : RoomDatabase() {
             super.onOpen(db)
             INSTANCE?.let { database ->
                 thread(true) {
+                    database.dbDisplayedBreedDao().deleteAllBreeds()
                     populateBreed(database.dbDisplayedBreedDao())
+
+                    database.dbBreedCharacteristicDao().deleteAllBreedCharacteristics()
                     populateBreedCharacteristics(database.dbBreedCharacteristicDao())
+
+                    database.dbIdealsDao().deleteAllIdeals()
                     populateIdeals(database.dbIdealsDao())
+
+                    database.dbRollCharacteristicsDao().deleteAllRollCharacteristics()
                     populateRollCharacteristics(database.dbRollCharacteristicsDao())
+
                     populateSkillsToCheck(database.dbSkillToCheckDao())
-                    //populateOccupations(database.dbOccupationsDao())
-                    //populateSkills(database.dbOccupationSkillDao())
                     insertOccupations(
                         occupationsDao = database.dbOccupationsDao(),
                         occupationSkillDao = database.dbSkillToCheckDao(),
@@ -172,12 +178,16 @@ abstract class AppDatabase : RoomDatabase() {
         fun getDatabase(context: Context): AppDatabase {
             Log.d(TAG, "getDatabase")
 
-            if (INSTANCE == null) {
-                INSTANCE = buildAppDatabase(context)
+            val tempInstance = INSTANCE
+            if (tempInstance != null) {
+                return tempInstance
             }
-            return INSTANCE!!
+            synchronized(this) {
+                val instance = buildAppDatabase(context)
+                INSTANCE = instance
+                return instance
+            }
         }
-
 
         /** Build the database  */
         private fun buildAppDatabase(context: Context): AppDatabase {
@@ -189,7 +199,7 @@ abstract class AppDatabase : RoomDatabase() {
                     DATABASE_NAME
                 )
                 .addCallback(AppDatabaseCallback())
-                .allowMainThreadQueries()
+                //.allowMainThreadQueries()
                 .build()
         }
     }

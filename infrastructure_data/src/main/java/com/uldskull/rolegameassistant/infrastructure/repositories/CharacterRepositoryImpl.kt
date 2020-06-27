@@ -101,20 +101,19 @@ class CharacterRepositoryImpl(
     }
 
     /** Get one entity by its id    */
-    override fun findOneById(id: Long?): DomainCharacter? {
+    override suspend fun findOneById(id: Long?): DomainCharacter? {
         Log.d(TAG, "findOneById")
-        return try {
-            dbCharacterDao.getCharacterById(id).toDomain()
-        } catch (e: Exception) {
-            Log.e(TAG, "findOneById FAILED")
-            e.printStackTrace()
-            throw e
-        }
+
+        var model = dbCharacterDao.getCharacterById(id)
+        return if (model == null) {
+            model
+        } else
+            model.toDomain()
     }
 
 
     /** Insert a list of entity */
-    override fun insertAll(all: List<DomainCharacter>?): List<Long> {
+    override suspend fun insertAll(all: List<DomainCharacter>?): List<Long> {
         Log.d(TAG, "insertAll")
         if ((all != null) && (all.isNotEmpty())) {
 
@@ -127,7 +126,7 @@ class CharacterRepositoryImpl(
     }
 
     /**  Update one entity  **/
-    override fun updateOne(one: DomainCharacter?): Int? {
+    override suspend fun updateOne(one: DomainCharacter?): Int? {
         Log.d(TAG, "updateOne")
 
         try {
@@ -140,7 +139,7 @@ class CharacterRepositoryImpl(
     }
 
     /** Insert one entity   */
-    override fun insertOne(one: DomainCharacter?): Long {
+    override suspend fun insertOne(one: DomainCharacter?): Long {
         Log.d(TAG, "insertOne")
 
         return if (one != null) {
@@ -158,7 +157,7 @@ class CharacterRepositoryImpl(
     }
 
     /** Delete all entities **/
-    override fun deleteAll(): Int {
+    override suspend fun deleteAll(): Int {
         Log.d(TAG, "deleteAll")
         return dbCharacterDao.deleteAll()
     }
@@ -166,7 +165,7 @@ class CharacterRepositoryImpl(
     /**
      * Find the corresponding character with all its ideals
      */
-    override fun findOneWithIdeals(id: Long?): DomainCharacterWithIdeals? {
+    override suspend fun findOneWithIdeals(id: Long?): DomainCharacterWithIdeals? {
         Log.d(TAG, "findOneWithIdeals")
 
         return null
@@ -175,7 +174,7 @@ class CharacterRepositoryImpl(
     /**
      * Find one with it's occupation skills
      */
-    override fun findOneWithOccupationSkills(id: Long?): DomainCharacterWithSkills? {
+    override suspend fun findOneWithOccupationSkills(id: Long?): DomainCharacterWithSkills? {
         val entities: List<DbCharacterWithDbSkills> =
             dbCharacterWithDbFilledSkillsDao.getCharacterWithSkills()
 
@@ -204,6 +203,16 @@ class CharacterRepositoryImpl(
             return null
         }
         return null
+    }
+
+    /**
+     * Delete one character
+     */
+    override suspend fun deleteOneCharacter(domainCharacter: DomainCharacter): Int {
+        if (domainCharacter == null) {
+            return 0
+        }
+        return dbCharacterDao?.delete(DbCharacter.from(domainCharacter))
     }
 
 

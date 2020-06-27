@@ -74,7 +74,7 @@ class DbIdealsRepositoryImpl(
     }
 
     /** Get one entity by its id    */
-    override fun findOneById(id: Long?): DomainIdeal? {
+    override suspend fun findOneById(id: Long?): DomainIdeal? {
         Log.d(TAG, "findOneById : $id")
         val result: DbIdeal
         try {
@@ -84,12 +84,15 @@ class DbIdealsRepositoryImpl(
             e.printStackTrace()
             throw e
         }
-        return result.toDomain()
-
+        return if(result == null){
+            result
+        }else{
+            result.toDomain()
+        }
     }
 
     /** Insert a list of entity - it should return long[] or List<Long>.*/
-    override fun insertAll(all: List<DomainIdeal>?): List<Long>? {
+    override suspend fun insertAll(all: List<DomainIdeal>?): List<Long>? {
         Log.d(TAG, "insertAll")
         return if ((all != null) && (all.isNotEmpty())) {
             try {
@@ -111,7 +114,7 @@ class DbIdealsRepositoryImpl(
     /**
      * delete one ideal
      */
-    override fun deleteOne(ideal: DomainIdeal): Int {
+    override suspend fun deleteOne(ideal: DomainIdeal): Int {
         Log.d(TAG, "deleteOne")
         if (ideal == null) {
             throw Exception("ERROR : Ideal is null.")
@@ -120,7 +123,7 @@ class DbIdealsRepositoryImpl(
     }
 
     /** Insert one entity  -  it can return a long, which is the new rowId for the inserted item.*/
-    override fun insertOne(one: DomainIdeal?): Long? {
+    override suspend fun insertOne(one: DomainIdeal?): Long? {
         Log.d(TAG, "insertOne")
         if (one == null) {
             throw Exception("ERROR : Ideal is null.")
@@ -136,7 +139,7 @@ class DbIdealsRepositoryImpl(
     }
 
     /** Delete all entities **/
-    override fun deleteAll(): Int {
+    override suspend fun deleteAll(): Int {
         Log.d(TAG, "deleteAll")
         try {
             return dbIdealDao.deleteAllIdeals()
@@ -148,7 +151,7 @@ class DbIdealsRepositoryImpl(
     }
 
     /**  Update one entity  **/
-    override fun updateOne(one: DomainIdeal?): Int? {
+    override suspend fun updateOne(one: DomainIdeal?): Int? {
         Log.d(TAG, "updateOne")
         try {
             return dbIdealDao.update(DbIdeal.from(one))

@@ -5,6 +5,8 @@
 package com.uldskull.rolegameassistant.infrastructure
 
 import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_BREED_CHARACTERISTICS
+import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_DISPLAYED_BREED
+import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_OCCUPATIONS
 import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_SKILL_TO_CHECK
 import com.uldskull.rolegameassistant.infrastructure.dao.DELETE_FROM
 import com.uldskull.rolegameassistant.infrastructure.dao.SELECT_ALL_FROM
@@ -13,24 +15,26 @@ object DatabaseValues {
     const val DATABASE_NAME = "appdb"
 }
 
-object IdFieldName{
+object IdFieldName {
     const val FIELD_OCCUPATION_SKILL_ID = "skillId"
     const val FIELD_BREED_CHARACTERISTIC_ID = "characteristicId"
     const val FIELD_BOND_ID = "bondId"
     const val FIELD_BREED_ID = "breedId"
+    const val FIELD_BREED_NAME = "breedName"
     const val FIELD_CHARACTER_BREED_ID = "characterBreedId"
     const val FIELD_CHARACTER_ID = "characterId"
     const val FIELD_SKILL_ID = "filledSkillId"
     const val FIELD_IDEAL_ID = "idealId"
+    const val FIELD_IDEAL_NAME = "idealName"
     const val FIELD_OCCUPATION_ID = "occupationId"
     const val FIELD_CHARACTERISTIC_BREED_ID = "characteristicBreedId"
     const val FIELD_FILLED_OCCUPATION_SKILL_ID = "filledSkillId"
-    const val FIELD_FILLED_OCCUPATION_SKILL_TYPE = "filledSkillType"
+    const val FIELD_FILLED_SKILL_TYPE = "filledSkillType"
     const val FIELD_FILLED_OCCUPATION_SKILL_CHARACTER_ID = "filledSkillCharacterId"
 }
 
-object TableNames{
-    const val TABLE_NAME_SKILL_TO_CHECK  = "skill_to_check"
+object TableNames {
+    const val TABLE_NAME_SKILL_TO_CHECK = "skill_to_check"
     const val TABLE_NAME_FILLED_OCCUPATION_SKILL = "DbFilledSkill"
     const val TABLE_NAME_SKILL = "skill"
     const val TABLE_NAME_HEALTH = "health"
@@ -55,9 +59,14 @@ object TableNames{
     const val TABLE_NAME_OCCUPATIONS = "occupations"
 }
 
-object Queries{
-    const val SELECT_ALL_BREED_CHARACTERISTICS = "$SELECT_ALL_FROM $TABLE_NAME_BREED_CHARACTERISTICS"
+object Queries {
+    const val SELECT_ALL_BREED_CHARACTERISTICS =
+        "$SELECT_ALL_FROM $TABLE_NAME_BREED_CHARACTERISTICS"
+    const val SELECT_ALL_SKILLS = "$SELECT_ALL_FROM $TABLE_NAME_SKILL_TO_CHECK"
+    const val DELETE_ALL_SKILLS = "$DELETE_FROM $TABLE_NAME_SKILL_TO_CHECK"
     const val DELETE_ALL_BREED_CHARACTERISTICS = "$DELETE_FROM $TABLE_NAME_BREED_CHARACTERISTICS"
-    const val SELECT_ALL_OCCUPATION_SKILLS = "$SELECT_ALL_FROM $TABLE_NAME_SKILL_TO_CHECK"
-    const val DELETE_ALL_OCCUPATION_SKILLS = "$DELETE_FROM $TABLE_NAME_SKILL_TO_CHECK"
+    const val DELETE_ALL_DISPLAYED_BREEDS = "$DELETE_FROM $TABLE_NAME_DISPLAYED_BREED"
+    const val SELECT_ALL_DISPLAYED_BREEDS = "$SELECT_ALL_FROM $TABLE_NAME_DISPLAYED_BREED"
+    const val DELETE_ALL_OCCUPATIONS = "$DELETE_FROM $TABLE_NAME_OCCUPATIONS"
+    const val SELECT_ALL_OCCUPATIONS = "$SELECT_ALL_FROM $TABLE_NAME_OCCUPATIONS"
 }

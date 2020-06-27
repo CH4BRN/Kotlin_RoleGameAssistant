@@ -73,7 +73,7 @@ class DbFilledHobbySkillRepositoryImpl(
     }
 
     /** Get one entity by its id    */
-    override fun findOneById(id: Long?): DomainSkillToFill? {
+    override suspend fun findOneById(id: Long?): DomainSkillToFill? {
         Log.d(TAG, "findOneById")
         val result: DbFilledSkill
         try {
@@ -90,7 +90,7 @@ class DbFilledHobbySkillRepositoryImpl(
     }
 
     /** Insert a list of entity - it should return long[] or List<Long>.*/
-    override fun insertAll(all: List<DomainSkillToFill>?): List<Long>? {
+    override suspend fun insertAll(all: List<DomainSkillToFill>?): List<Long>? {
         Log.d(TAG, "insertAll")
         if (all != null && all.isNotEmpty()) {
             try {
@@ -112,7 +112,7 @@ class DbFilledHobbySkillRepositoryImpl(
     }
 
     /** Insert one entity  -  it can return a long, which is the new rowId for the inserted item.*/
-    override fun insertOne(one: DomainSkillToFill?): Long? {
+    override suspend fun insertOne(one: DomainSkillToFill?): Long? {
         Log.d(TAG, "insertOne $one")
         return if (one != null) {
             try {
@@ -135,7 +135,7 @@ class DbFilledHobbySkillRepositoryImpl(
     }
 
     /** Delete all entities **/
-    override fun deleteAll(): Int {
+    override suspend fun deleteAll(): Int {
         Log.d(TAG, "deleteAll")
         try {
             return dbFilledOccupationSkillDao.deleteAll()
@@ -147,7 +147,7 @@ class DbFilledHobbySkillRepositoryImpl(
     }
 
     /**  Update one entity  **/
-    override fun updateOne(one: DomainSkillToFill?): Int? {
+    override suspend fun updateOne(one: DomainSkillToFill?): Int? {
         Log.d(TAG, "updateOne")
         try {
             dbFilledOccupationSkillDao.update(DbFilledSkill.from(one))

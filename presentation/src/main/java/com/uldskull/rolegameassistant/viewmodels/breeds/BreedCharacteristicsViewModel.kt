@@ -67,8 +67,10 @@ class BreedCharacteristicsViewModel(
      */
     fun saveOneBreedCharacteristic(domainBreedsCharacteristic: DomainBreedsCharacteristic): Long? {
         Log.d(TAG, "saveOneBreedCharacteristic")
-
-        val result: Long? = breedsCharacteristicRepositoryImpl.insertOne(domainBreedsCharacteristic)
+        var result: Long? = null
+        viewModelScope.launch {
+            result = breedsCharacteristicRepositoryImpl.insertOne(domainBreedsCharacteristic)
+        }
         Log.d(TAG, "saved $result")
         return result
     }
@@ -78,35 +80,39 @@ class BreedCharacteristicsViewModel(
      */
     fun findBreedCharacteristicWithId(breedCharacteristicId: Long?): DomainBreedsCharacteristic? {
         Log.d(TAG, "findCharacteristicWithId with id : $breedCharacteristicId")
-
-        return breedsCharacteristicRepositoryImpl.findOneById(breedCharacteristicId)
+        var result: DomainBreedsCharacteristic? = null
+        viewModelScope.launch {
+            result = breedsCharacteristicRepositoryImpl.findOneById(breedCharacteristicId)
+        }
+        return result
     }
 
     /**
      * Save all breed characteristics
      */
-    fun saveAllBreedCharacteristics(domainBreedsCharacteristics: List<DomainBreedsCharacteristic>): List<Long>? =
+    fun saveAllBreedCharacteristics(domainBreedsCharacteristics: List<DomainBreedsCharacteristic>): List<Long>? {
 
-        synchronized(lock) {
-            Log.d(TAG, "saveAllBreedCharacteristics")
-            Log.d(TAG, "saveAllBreedCharacteristics")
-
-            val result: List<Long>? = breedsCharacteristicRepositoryImpl.insertAll(domainBreedsCharacteristics)
-            Log.d(TAG, "INSERTED $result")
-
-            lock.notifyAll()
-            return result
+        Log.d(TAG, "saveAllBreedCharacteristics")
+        Log.d(TAG, "saveAllBreedCharacteristics")
+        var result: List<Long>? = null
+        viewModelScope.launch {
+            result = breedsCharacteristicRepositoryImpl.insertAll(domainBreedsCharacteristics)
         }
+        Log.d(TAG, "INSERTED $result")
+        return result
+    }
+
 
     /**
      * Delete all breed characteristics.
      */
     fun deleteAllBreedCharacteristics(): Int? {
         Log.d(TAG, "deleteAllBreedCharacteristics")
-        thread(start = true) {
-            breedsCharacteristicRepositoryImpl.deleteAll()
+        var result: Int? = null
+        viewModelScope.launch {
+            result = breedsCharacteristicRepositoryImpl.deleteAll()
         }
-        return 0
+        return result
     }
 
     init {

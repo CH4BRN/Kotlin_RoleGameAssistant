@@ -16,16 +16,16 @@ GenericRepository<T, DomainOccupation>{
     /**
      * Inserts a relation between occupation and skills
      */
-    fun insertOccupationAndSkillCross(occupationId:Long?, skillId:Long):Long
+    suspend fun insertOccupationAndSkillCross(occupationId:Long?, skillId:Long):Long
 
     /**
      * Find one occupation with its skills
      */
-    fun findOneWithChildren(occupationId: Long?):DomainOccupationWithSkills
+    suspend fun findOneWithChildren(occupationId: Long?):DomainOccupationWithSkills
 
     /**
      * Delete one occupation
      */
-    fun deleteOne(currentOccupationToEdit: DomainOccupation):Int
+    suspend fun deleteOne(currentOccupationToEdit: DomainOccupation):Int
 
 }

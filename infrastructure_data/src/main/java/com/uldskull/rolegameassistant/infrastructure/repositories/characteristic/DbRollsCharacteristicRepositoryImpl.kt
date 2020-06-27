@@ -37,6 +37,7 @@ class DbRollsCharacteristicRepositoryImpl(
             throw e
         }
     }
+
     /**
      * Converts a list of database entities into domain entities
      */
@@ -56,7 +57,7 @@ class DbRollsCharacteristicRepositoryImpl(
     }
 
     /** Get one entity by its id    */
-    override fun findOneById(id: Long?): DomainRollsCharacteristic? {
+    override suspend fun findOneById(id: Long?): DomainRollsCharacteristic? {
         Log.d(TAG, "findOndById")
         val result: DbRollCharacteristic
         try {
@@ -69,7 +70,7 @@ class DbRollsCharacteristicRepositoryImpl(
     }
 
     /** Insert a list of entity - it should return long[] or List<Long>.*/
-    override fun insertAll(all: List<DomainRollsCharacteristic>?): List<Long>? {
+    override suspend fun insertAll(all: List<DomainRollsCharacteristic>?): List<Long>? {
         Log.d(TAG, "insertAll")
         if ((all != null) && (all.isNotEmpty())) {
             try {
@@ -92,7 +93,7 @@ class DbRollsCharacteristicRepositoryImpl(
     }
 
     /** Insert one entity  -  it can return a long, which is the new rowId for the inserted item.*/
-    override fun insertOne(one: DomainRollsCharacteristic?): Long? {
+    override suspend fun insertOne(one: DomainRollsCharacteristic?): Long? {
         Log.d(TAG, "insertOne")
         return if (one != null) {
             try {
@@ -115,7 +116,7 @@ class DbRollsCharacteristicRepositoryImpl(
     }
 
     /** Delete all entities **/
-    override fun deleteAll(): Int {
+    override suspend fun deleteAll(): Int {
         Log.d(TAG, "deleteAll")
         try {
             return dbRollCharacteristicsDao.deleteAllRollCharacteristics()
@@ -128,7 +129,7 @@ class DbRollsCharacteristicRepositoryImpl(
     }
 
     /**  Update one entity  **/
-    override fun updateOne(one: DomainRollsCharacteristic?): Int? {
+    override suspend fun updateOne(one: DomainRollsCharacteristic?): Int? {
         Log.d(TAG, "updateOne")
         try {
             dbRollCharacteristicsDao.update(DbRollCharacteristic.from(one))

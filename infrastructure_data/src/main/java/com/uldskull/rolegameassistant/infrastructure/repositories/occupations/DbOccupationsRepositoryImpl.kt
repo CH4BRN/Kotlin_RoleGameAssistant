@@ -65,7 +65,7 @@ class DbOccupationsRepositoryImpl(
     }
 
     /** Get one entity by its id    */
-    override fun findOneById(id: Long?): DomainOccupation? {
+    override suspend fun findOneById(id: Long?): DomainOccupation? {
         Log.d(TAG, "findOneById")
         val result: DbOccupation
         try {
@@ -79,7 +79,7 @@ class DbOccupationsRepositoryImpl(
     }
 
     /** Insert a list of entity - it should return long[] or List<Long>.*/
-    override fun insertAll(all: List<DomainOccupation>?): List<Long>? {
+    override suspend fun insertAll(all: List<DomainOccupation>?): List<Long>? {
         Log.d(TAG, "insertAll")
         if ((all != null) && (all.isNotEmpty())) {
             try {
@@ -102,7 +102,7 @@ class DbOccupationsRepositoryImpl(
     }
 
     /** Insert one entity  -  it can return a long, which is the new rowId for the inserted item.*/
-    override fun insertOne(one: DomainOccupation?): Long? {
+    override suspend fun insertOne(one: DomainOccupation?): Long? {
         Log.d(TAG, "insertOne")
         return if (one != null) {
             try {
@@ -120,7 +120,7 @@ class DbOccupationsRepositoryImpl(
     }
 
     /** Delete all entities **/
-    override fun deleteAll(): Int {
+    override suspend fun deleteAll(): Int {
         Log.d(TAG, "deleteAll")
         try {
             return dbOccupationDao.deleteAllOccupations()
@@ -132,7 +132,7 @@ class DbOccupationsRepositoryImpl(
     }
 
     /**  Update one entity  **/
-    override fun updateOne(one: DomainOccupation?): Int? {
+    override suspend fun updateOne(one: DomainOccupation?): Int? {
         Log.d(TAG, "updateOne")
         return dbOccupationDao.update(DbOccupation.from(one))
     }
@@ -140,7 +140,7 @@ class DbOccupationsRepositoryImpl(
     /**
      * Inserts realtion between occupation and skills
      */
-    override fun insertOccupationAndSkillCross(occupationId: Long?, skillId: Long): Long {
+    override suspend fun insertOccupationAndSkillCross(occupationId: Long?, skillId: Long): Long {
         Log.d(TAG, "insertOccupationAndSkillCross")
         return try {
             if (occupationId != null && skillId != null) {
@@ -164,7 +164,7 @@ class DbOccupationsRepositoryImpl(
     /**
      * find one occupation with all its associated skills
      */
-    override fun findOneWithChildren(occupationId: Long?): DomainOccupationWithSkills {
+    override suspend fun findOneWithChildren(occupationId: Long?): DomainOccupationWithSkills {
         val result: DbOccupationWithDbSkills = try {
             dbOccupationDbSkillDao.getOccupationWithSkills(occupationId)
 
@@ -189,7 +189,7 @@ class DbOccupationsRepositoryImpl(
     /**
      * delete one occupation
      */
-    override fun deleteOne(currentOccupationToEdit: DomainOccupation):Int {
+    override suspend fun deleteOne(currentOccupationToEdit: DomainOccupation):Int {
         if(currentOccupationToEdit == null){
             throw Exception("ERROR : Occupation is null.")
         }

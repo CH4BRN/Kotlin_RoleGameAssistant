@@ -7,7 +7,7 @@ import androidx.room.Dao
 import androidx.room.Query
 import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_FILLED_OCCUPATION_SKILL_CHARACTER_ID
 import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_FILLED_OCCUPATION_SKILL_ID
-import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_FILLED_OCCUPATION_SKILL_TYPE
+import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_FILLED_SKILL_TYPE
 import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_FILLED_OCCUPATION_SKILL
 import com.uldskull.rolegameassistant.infrastructure.dao.*
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_skill.DbFilledSkill
@@ -22,7 +22,7 @@ abstract class DbFilledOccupationSkillDao : GenericDao<DbFilledSkill> {
     @Query("$SELECT_ALL_FROM $TABLE_NAME_FILLED_OCCUPATION_SKILL")
     abstract fun getFilledSkill(): LiveData<List<DbFilledSkill>>
 
-    @Query("$SELECT_ALL_FROM DbFilledSkill WHERE $FIELD_FILLED_OCCUPATION_SKILL_TYPE LIKE :type")
+    @Query("$SELECT_ALL_FROM DbFilledSkill WHERE $FIELD_FILLED_SKILL_TYPE LIKE :type")
     abstract fun getSkillsByTypes(type: Long): LiveData<List<DbFilledSkill>>
 
 

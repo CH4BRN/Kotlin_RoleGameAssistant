@@ -71,36 +71,7 @@ class BreedsRecyclerViewFragment :
         Log.d(TAG, "startObservation")
         //  Observe repository breeds
         observeRepositoryBreeds()
-        //  Observe displayed breeds
-        observeMutableBreedsList()
     }
-
-    /**
-     * Observe the mutable breeds list that will be displayed.
-     */
-    private fun observeMutableBreedsList() {
-        this.displayedBreedsViewModel.observedMutableBreeds.observe(
-            this,
-            Observer { domainDisplayedBreeds ->
-                Log.d(
-                    "DEBUG$TAG",
-                    "Checked breeds = ${domainDisplayedBreeds?.count { b -> b?.breedIsChecked!! }}"
-                )
-
-                val newCharacter = newCharacterViewModel.currentCharacter
-
-                newCharacter?.characterBreeds =
-                    domainDisplayedBreeds?.filter { breed -> breed?.breedIsChecked!! }
-                        ?.map { breed -> breed?.breedId }?.toMutableList()
-
-                newCharacterViewModel.currentCharacter = newCharacter
-
-                if (domainDisplayedBreeds != null) {
-                    this.breedsToChooseAdapter?.setBreeds(domainDisplayedBreeds.toMutableList())
-                }
-            })
-    }
-
 
     /**
      * Observe breeds from repository, to load breeds to display.
@@ -109,8 +80,42 @@ class BreedsRecyclerViewFragment :
         this.displayedBreedsViewModel.observedRepositoryBreeds?.observe(
             this,
             Observer { breeds ->
-                kotlin.run {
-                    this.displayedBreedsViewModel.observedMutableBreeds.value = breeds
+
+                var mutableBreeds = breeds.toMutableList()
+
+                breeds.let {
+
+                    displayedBreedsViewModel?.observableSelectedBreeds?.observe(this, Observer {list ->
+                        list.forEach {id ->
+                            Log.d("DEBUG$TAG","Selected breed = $id")
+                            if (id != null) {
+                               var index =  mutableBreeds?.indexOfFirst { b -> b.breedId == id }
+                                Log.d("DEBUG$TAG", "Index : $index")
+                                if(index != null){
+                                    mutableBreeds[index].breedIsChecked = true
+                                }
+                            }
+                        }
+
+                    })
+
+                    Log.d("DEBUG$TAG", "Breed : ${breeds.size}")
+                    if (it != null && it.isNotEmpty()) {
+                        breedsToChooseAdapter = BreedsToChooseAdapter(
+                            activity as Context,
+                            this
+                        )
+
+                        breedsToChooseAdapter?.setItems(mutableBreeds as List<DomainDisplayedBreed>)
+                        breedsRecyclerView?.adapter = breedsToChooseAdapter
+
+                        breedsRecyclerView?.layoutManager = LinearLayoutManager(
+                            activity,
+                            LinearLayoutManager.VERTICAL,
+                            false
+                        )
+
+                    }
                 }
             })
     }
@@ -119,22 +124,13 @@ class BreedsRecyclerViewFragment :
      * Set the recycler view adapter.
      */
     override fun setRecyclerViewAdapter() {
-        Log.d(TAG, "setRecyclerViewAdapter")
-        if (activity != null) {
-            breedsToChooseAdapter =
-                BreedsToChooseAdapter(
-                    activity as Context,
-                    this
-                )
-            breedsRecyclerView?.adapter = breedsToChooseAdapter
-        }
     }
 
     /**
      * Set the RecyclerView's layout manager.
      */
     override fun setRecyclerViewLayoutManager() {
-        Log.d(TAG, "setRecyclerViewLayoutManager")
+        Log.d("DEBUG$TAG", "setRecyclerViewLayoutManager")
         breedsRecyclerView?.layoutManager = LinearLayoutManager(
             activity,
             LinearLayoutManager.VERTICAL,
@@ -158,6 +154,11 @@ class BreedsRecyclerViewFragment :
     companion object : CustomCompanion() {
         private const val TAG = "BreedsRecyclerViewFragment"
 
+        /**
+         * Array that holds breeds.
+         */
+        var breedValuesArray: ArrayList<DomainDisplayedBreed> = ArrayList()
+
         @JvmStatic
         override fun newInstance(activity: Activity): BreedsRecyclerViewFragment {
             Log.d(TAG, "newInstance")
@@ -178,7 +179,7 @@ class BreedsRecyclerViewFragment :
      * Transmit the list
      */
     override fun transmitList(domainModels: List<DomainDisplayedBreed>) {
-        displayedBreedsViewModel.observedMutableBreeds.value = domainModels
+        // displayedBreedsViewModel.observedMutableBreeds.value = domainModels
     }
 
 }

@@ -50,57 +50,65 @@ class IdealsViewModel(
     /**
      * Get an ideal by its id
      */
-    fun getIdealById(id:Long?): DomainIdeal?{
-        return if(id != null){
-            idealsRepositoryImpl.findOneById(id)
-        }else{
-            null
+    fun getIdealById(id: Long?): DomainIdeal? {
+        if (id == null) {
+            return null
         }
+        var result: DomainIdeal? = null
+        viewModelScope.launch {
+            result = idealsRepositoryImpl.findOneById(id)
+        }
+        return result
     }
 
     /**
      * Delete an ideal
      */
-    fun deleteIdeal(currentIdealToEdit: DomainIdeal):Int {
-        if(currentIdealToEdit == null){
+    fun deleteIdeal(currentIdealToEdit: DomainIdeal): Int? {
+        if (currentIdealToEdit == null) {
             throw Exception("Ideal is null")
         }
 
-         return idealsRepositoryImpl.deleteOne(currentIdealToEdit)
+        var result:Int? = null
+        viewModelScope.launch {
+            result =idealsRepositoryImpl.deleteOne(currentIdealToEdit)
+        }
+
+        return result
     }
 
     /**
      * Insert an ideal
      */
-     fun insertIdeal(domainIdeal: DomainIdeal):Long?{
-         if(domainIdeal == null){
-             Log.d("DEBUG$TAG","Ideal is null")
-             return 0
-         }else{
-             Log.d("DEBUG$TAG","Ideal is $domainIdeal")
-             return when {
-                 domainIdeal.idealId == null -> {
-                     Log.d("DEBUG$TAG","Ideal id is null")
-                     idealsRepositoryImpl.insertOne(domainIdeal)
-                 }
-                 idealsRepositoryImpl.findOneById(domainIdeal.idealId) == null -> {
-                     Log.d("DEBUG$TAG","Ideal not found")
-                     idealsRepositoryImpl.insertOne(domainIdeal)
-                 }
-                 else -> {
-                     Log.d("DEBUG$TAG", "Update ideal")
-                     idealsRepositoryImpl.updateOne(domainIdeal)
-                     return domainIdeal.idealId
-                 }
-             }
-         }
+    fun insertIdeal(domainIdeal: DomainIdeal): Long? {
+        var result: Long? = -1
+        if (domainIdeal == null) {
+            Log.d("DEBUG$TAG", "Ideal is null")
+            return result
+        } else {
+            viewModelScope.launch {
+                Log.d("DEBUG$TAG", "Ideal is $domainIdeal")
 
+                if (domainIdeal.idealId == null) {
+                    Log.d("DEBUG$TAG", "Ideal id is null")
+                    result = idealsRepositoryImpl.insertOne(domainIdeal)
+                }
+                var model: DomainIdeal? = idealsRepositoryImpl.findOneById(domainIdeal.idealId)
+
+                result = if (model == null) {
+                    idealsRepositoryImpl.insertOne(domainIdeal)
+                } else {
+                    idealsRepositoryImpl.updateOne(domainIdeal)?.toLong()
+                }
+            }
+            return result
+        }
     }
 
     /**
      * Get all ideals
      */
-    fun getAll():List<DomainIdeal>?{
+    fun getAll(): List<DomainIdeal>? {
         return idealsRepositoryImpl.getIdeals()
     }
 
@@ -109,8 +117,9 @@ class IdealsViewModel(
      */
     private fun findAll(): LiveData<List<DomainIdeal>>? {
         Log.d(TAG, "findAll ideals")
-        repositoryIdeals = idealsRepositoryImpl.getAll()
-
+        viewModelScope.launch {
+            repositoryIdeals = idealsRepositoryImpl.getAll()
+        }
         return repositoryIdeals
     }
 
@@ -126,8 +135,7 @@ class IdealsViewModel(
     /**
      * Ideals to display
      */
-    var mutableIdeals: MutableLiveData<MutableList<DomainIdeal?>>? = MutableLiveData()
-
+    var mutableIdeals: MutableLiveData<MutableList<DomainIdeal>>? = MutableLiveData()
 
 
 }

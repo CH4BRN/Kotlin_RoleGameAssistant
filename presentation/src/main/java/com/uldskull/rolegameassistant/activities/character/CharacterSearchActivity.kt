@@ -6,6 +6,8 @@ package com.uldskull.rolegameassistant.activities.character
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.core.CharacterTransmission
@@ -24,15 +26,49 @@ class CharacterSearchActivity : CustomActivity(),
     companion object {
         private const val TAG = "CharacterSearchActivity"
     }
+    /** Floating action button*/
+    private var fabNewCharacter:FloatingActionButton? = null
 
     /** Activity life-cycle  **/
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d(TAG, "onCreate")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_character_search)
+        deserializeWidgets()
+        initializeWidgets()
+    }
 
+    /**
+     * Initialize the activity ViewModels
+     */
+    override fun initializeViewModels() {
+        //  Do nothing
+    }
+
+    /**
+     * Deserialize widgets
+     */
+    override fun deserializeWidgets() {
+        fabNewCharacter = this.findViewById(R.id.fab_createCharacter)
+        if(fabNewCharacter == null){
+            throw Exception("Fab is null.")
+        }
+    }
+
+
+    /**
+     * Initialize the widgets
+     */
+    override fun initializeWidgets() {
         initializeAddCharacterFab()
         initializeCharacterSearchView()
+    }
+
+    /**
+     * Start livedata observation
+     */
+    override fun startObservation() {
+        //  Do nothing
     }
 
     /**
@@ -52,8 +88,8 @@ class CharacterSearchActivity : CustomActivity(),
      */
     private fun initializeAddCharacterFab() {
         Log.d(TAG, "initializeAddCharacterFab")
-        if (this.fab_createCharacter != null) {
-            this.fab_createCharacter.setOnClickListener {
+        if (fabNewCharacter != null) {
+            fabNewCharacter!!.setOnClickListener {
                 val intent = Intent(this, CharacterActivity::class.java)
                 startActivity(intent)
             }

@@ -15,6 +15,6 @@ interface IdealsRepository<T> :
 
     fun getIdeals():List<DomainIdeal>
 
-    fun deleteOne(ideal: DomainIdeal):Int
+    suspend fun deleteOne(ideal: DomainIdeal):Int
 
 }

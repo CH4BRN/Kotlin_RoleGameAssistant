@@ -8,10 +8,9 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Query
 import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_IDEAL_ID
+import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_IDEAL_NAME
 import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_IDEAL
-import com.uldskull.rolegameassistant.infrastructure.dao.DELETE_FROM
-import com.uldskull.rolegameassistant.infrastructure.dao.GenericDao
-import com.uldskull.rolegameassistant.infrastructure.dao.SELECT_ALL_FROM
+import com.uldskull.rolegameassistant.infrastructure.dao.*
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_ideal.DbIdeal
 
 /**
@@ -24,8 +23,11 @@ abstract class DbIdealsDao : GenericDao<DbIdeal> {
     @Query("$SELECT_ALL_FROM $TABLE_NAME_IDEAL")
     abstract fun getIdealsLiveData(): LiveData<List<DbIdeal>>
 
-    @Query("$SELECT_ALL_FROM $TABLE_NAME_IDEAL WHERE $FIELD_IDEAL_ID LIKE :id")
-    abstract fun getIdealById(id: Long?): DbIdeal
+    @Query("$SELECT_ALL_FROM $TABLE_NAME_IDEAL $WHERE $FIELD_IDEAL_ID $LIKE :id")
+    abstract suspend fun getIdealById(id: Long?): DbIdeal
+
+    @Query("$SELECT_ALL_FROM $TABLE_NAME_IDEAL $WHERE $FIELD_IDEAL_NAME $LIKE :idealName")
+    abstract suspend fun findIdealByName(idealName: String?): DbIdeal
 
     @Query("$SELECT_ALL_FROM  $TABLE_NAME_IDEAL")
     abstract fun getIdeals(): List<DbIdeal>
@@ -37,4 +39,5 @@ abstract class DbIdealsDao : GenericDao<DbIdeal> {
 
     @Query("$DELETE_FROM $TABLE_NAME_IDEAL")
     abstract fun deleteAllIdeals(): Int
+
 }

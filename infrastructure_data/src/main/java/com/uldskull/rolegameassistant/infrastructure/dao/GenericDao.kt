@@ -13,16 +13,16 @@ import androidx.room.Update
 @Dao
 open interface GenericDao<T> {
     @Insert
-    fun insert(obj: T):Long
+    suspend fun insert(obj: T): Long
 
     @Insert
-    fun insert(obj:List<T>):List<Long>
+    suspend fun insert(obj: List<T>): List<Long>
 
     @Update
-    fun update(obj: T):Int
+    suspend fun update(obj: T): Int
 
     @Delete
-    fun delete(obj: T):Int
+    suspend fun delete(obj: T): Int
 }
 
 

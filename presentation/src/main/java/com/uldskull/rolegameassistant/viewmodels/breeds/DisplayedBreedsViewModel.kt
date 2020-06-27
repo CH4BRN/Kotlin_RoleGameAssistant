@@ -51,12 +51,18 @@ class DisplayedBreedsViewModel(
      */
     fun findBreedWithId(breedId: Long?): DomainDisplayedBreed? {
         Log.d(TAG, "findBreedWithId with id : $breedId")
-
-        val result = displayedBreedRepositoryImpl.findOneById(breedId)
-        Log.d(TAG, "findBreedWithId result" + result?.breedName)
-
+        var result: DomainDisplayedBreed? = null
+        viewModelScope.launch {
+            result = displayedBreedRepositoryImpl.findOneById(breedId)
+            Log.d(TAG, "findBreedWithId result" + result?.breedName)
+        }
         return result
     }
+
+    /**
+     * Observable repository breed
+     */
+    var observableRepositoryBreed = MutableLiveData<DomainDisplayedBreed>()
 
     /**
      *  Observable repository breeds
@@ -64,9 +70,14 @@ class DisplayedBreedsViewModel(
     var observedRepositoryBreeds = displayedBreedRepositoryImpl.getAll()
 
     /**
-     *  Mutable observable breeds
+     * Mutable observable selected breed
      */
-    var observedMutableBreeds = MutableLiveData<List<DomainDisplayedBreed>>()
+    var observableMutableSelectedBreed = MutableLiveData<DomainDisplayedBreed>()
+
+    /**
+     * Observable character's breeds ids
+     */
+    var observableSelectedBreeds = MutableLiveData<List<Long?>>()
 
     /**
      * Gets a live data for repository breeds
@@ -84,8 +95,13 @@ class DisplayedBreedsViewModel(
      */
     fun saveOne(domainDisplayedBreed: DomainDisplayedBreed): Long? {
         Log.d(TAG, "saveOne")
-        val result: Long? = displayedBreedRepositoryImpl.insertOne(domainDisplayedBreed)
-        Log.d(TAG, "INSERTED $result")
+        var result: Long? = null
+        viewModelScope.launch {
+            result = displayedBreedRepositoryImpl.insertOne(domainDisplayedBreed)
+        }
+
+        Log.d("DEBUG$TAG", "INSERTED $result")
+        refreshDataFromRepository()
         return result
     }
 
@@ -100,9 +116,10 @@ class DisplayedBreedsViewModel(
     fun saveAll(domainDisplayedBreed: List<DomainDisplayedBreed>): List<Long>? =
         synchronized(lock) {
             Log.d(TAG, "saveAll")
-
-            val result: List<Long>? =
-                displayedBreedRepositoryImpl.insertAll(domainDisplayedBreed)
+            var result: List<Long>? = null
+            viewModelScope.launch {
+                result = displayedBreedRepositoryImpl.insertAll(domainDisplayedBreed)
+            }
             Log.d(TAG, "INSERTED $result")
             lock.notifyAll()
             return result

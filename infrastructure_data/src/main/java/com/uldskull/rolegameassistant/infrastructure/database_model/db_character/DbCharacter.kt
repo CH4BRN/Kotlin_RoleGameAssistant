@@ -3,6 +3,7 @@
 
 package com.uldskull.rolegameassistant.infrastructure.database_model.db_character
 
+import android.util.Log
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -68,7 +69,7 @@ class DbCharacter(
     /**
      * Character's ideals
      */
-    val characterIdeals: List<DbIdeal?>?,
+    val characterIdeals: List<DbIdeal>?,
     /**
      * Character's gender
      */
@@ -176,13 +177,14 @@ class DbCharacter(
             mutableListOf()
         }
 
-        val domainIdeals: MutableList<DomainIdeal?>
+        val domainIdeals: MutableList<DomainIdeal>
         domainIdeals = if (!this.characterIdeals.isNullOrEmpty()) {
             this.characterIdeals.map { dbIdeal -> dbIdeal?.toDomain() }.toMutableList()
         } else {
             mutableListOf()
         }
 
+        Log.d("DEBUGNew", "Characters selected breeds : ${this.characterSelectedBreeds}")
 
         return DomainCharacter(
             characterId = this.characterId,
@@ -240,6 +242,9 @@ class DbCharacter(
          * Converts a domain model into a database model entity.
          */
         override fun from(domainModel: DomainCharacter?): DbCharacter {
+
+            Log.d("DEBUGNew", "Characters breeds : ${domainModel?.characterBreeds}")
+
             return DbCharacter(
                 characterId = domainModel?.characterId,
 

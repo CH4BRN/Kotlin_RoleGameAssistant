@@ -19,17 +19,17 @@ interface GenericRepository<T, U> {
     fun getAll(): T?
 
     /** Get one entity by its id    */
-    fun findOneById(id: Long?): U?
+    suspend fun findOneById(id: Long?): U?
 
     /** Insert a list of entity - it should return long[] or List<Long>.*/
-    fun insertAll(all: List<U>?): List<Long>?
+    suspend fun insertAll(all: List<U>?): List<Long>?
 
     /** Insert one entity  -  it can return a long, which is the new rowId for the inserted item.*/
-    fun insertOne(one: U?): Long?
+    suspend fun insertOne(one: U?): Long?
 
     /** Delete all entities **/
-    fun deleteAll(): Int
+    suspend fun deleteAll(): Int?
 
     /**  Update one entity  **/
-    fun updateOne(one: U?): Int?
+    suspend fun updateOne(one: U?): Int?
 }

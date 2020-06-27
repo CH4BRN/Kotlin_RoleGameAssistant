@@ -64,7 +64,11 @@ class OccupationsViewModel(
     fun findOneWithChildren(id: Long?): DomainOccupationWithSkills? {
         Log.d(TAG, "findOneWithChildren")
         try {
-            return occupationsRepositoryImpl.findOneWithChildren(id)
+            var result: DomainOccupationWithSkills? = null
+            viewModelScope.launch {
+                result = occupationsRepositoryImpl.findOneWithChildren(id)
+            }
+            return result
         } catch (e: Exception) {
             Log.e(TAG, "findOneWithChildren FAILED")
             e.printStackTrace()
@@ -79,18 +83,21 @@ class OccupationsViewModel(
         if (domainOccupation == null) {
             return 0
         } else {
-            return when {
-                domainOccupation.occupationId == null -> {
-                    occupationsRepositoryImpl.insertOne(domainOccupation)
-                }
-                occupationsRepositoryImpl.findOneById(domainOccupation.occupationId) == null -> {
-                    occupationsRepositoryImpl.insertOne(domainOccupation)
-                }
-                else -> {
-                    occupationsRepositoryImpl.updateOne(domainOccupation)
-                    return domainOccupation.occupationId
+            var result: Long? = -1
+            viewModelScope.launch {
+                if (domainOccupation.occupationId == null) {
+                    result = occupationsRepositoryImpl.insertOne(domainOccupation)
+                } else {
+                    var model = occupationsRepositoryImpl.findOneById(domainOccupation.occupationId)
+                    if (model == null) {
+                        result = occupationsRepositoryImpl.insertOne(domainOccupation)
+                    } else {
+                        occupationsRepositoryImpl.updateOne(domainOccupation)
+                        result = domainOccupation.occupationId
+                    }
                 }
             }
+            return result
         }
     }
 
@@ -98,21 +105,28 @@ class OccupationsViewModel(
      * gets occupation by its id
      */
     fun getOccupationById(id: Long?): DomainOccupation? {
-        return if(id != null){
-            occupationsRepositoryImpl.findOneById(id)
-        }else{
-            null
+        if (id == null) {
+            return null
         }
+        var model: DomainOccupation? = null
+        viewModelScope.launch {
+            model = occupationsRepositoryImpl.findOneById(id)
+        }
+        return model
     }
 
     /**
      * Delete occupation
      */
-    fun deleteOccupation(currentOccupationToEdit: DomainOccupation):Int {
-        if(currentOccupationToEdit == null){
+    fun deleteOccupation(currentOccupationToEdit: DomainOccupation): Int? {
+        if (currentOccupationToEdit == null) {
             throw Exception("Occupation is null")
         }
-        return occupationsRepositoryImpl.deleteOne(currentOccupationToEdit)
+        var result: Int? = null
+        viewModelScope.launch {
+            result = occupationsRepositoryImpl.deleteOne(currentOccupationToEdit)
+        }
+        return result
     }
 
     /**

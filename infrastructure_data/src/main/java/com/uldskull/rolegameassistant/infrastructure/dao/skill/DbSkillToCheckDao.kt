@@ -5,9 +5,10 @@ package com.uldskull.rolegameassistant.infrastructure.dao.skill
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_FILLED_SKILL_TYPE
 import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_OCCUPATION_SKILL_ID
-import com.uldskull.rolegameassistant.infrastructure.Queries.DELETE_ALL_OCCUPATION_SKILLS
-import com.uldskull.rolegameassistant.infrastructure.Queries.SELECT_ALL_OCCUPATION_SKILLS
+import com.uldskull.rolegameassistant.infrastructure.Queries.DELETE_ALL_SKILLS
+import com.uldskull.rolegameassistant.infrastructure.Queries.SELECT_ALL_SKILLS
 import com.uldskull.rolegameassistant.infrastructure.dao.GenericDao
 import com.uldskull.rolegameassistant.infrastructure.dao.LIKE
 import com.uldskull.rolegameassistant.infrastructure.dao.WHERE
@@ -21,13 +22,19 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_skill.DbS
 abstract class DbSkillToCheckDao : GenericDao<DbSkillToCheck> {
 
     //  READ
-    @Query(SELECT_ALL_OCCUPATION_SKILLS)
+    @Query(SELECT_ALL_SKILLS)
     abstract fun getOccupationSkills(): LiveData<List<DbSkillToCheck>>
 
-    @Query("$SELECT_ALL_OCCUPATION_SKILLS $WHERE $FIELD_OCCUPATION_SKILL_ID $LIKE :id")
+    @Query("$SELECT_ALL_SKILLS $WHERE $FIELD_OCCUPATION_SKILL_ID $LIKE :id")
     abstract fun getOccupationSkillById(id: Long?): DbSkillToCheck
 
     //  DELETE
-    @Query(DELETE_ALL_OCCUPATION_SKILLS)
-    abstract fun deleteAllOccupationSkills(): Int
+    @Query(DELETE_ALL_SKILLS)
+    abstract fun deleteAllSkills(): Int
+/*
+    @Query("$DELETE_ALL_SKILLS $WHERE $FIELD_FILLED_SKILL_TYPE = 0")
+    abstract fun deleteAllOccupationsSkills(): Int
+
+    @Query("$DELETE_ALL_SKILLS $WHERE $FIELD_FILLED_SKILL_TYPE = 1")
+    abstract fun deleteAllHobbiesSkills(): Int*/
 }

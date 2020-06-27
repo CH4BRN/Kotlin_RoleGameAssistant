@@ -101,4 +101,6 @@
     <string name="let_s_type_a_bond">Let\'s type a bond</string>
     <string name="description">Description :</string>
     <string name="what_does_this_breed_look_like">What does this breed look like ?</string>
+    <string name="type_a_breed_description">Let\'s type a breed description</string>
+    <string name="type_a_breed_name">Let\'s type a breed name</string>
 </resources>

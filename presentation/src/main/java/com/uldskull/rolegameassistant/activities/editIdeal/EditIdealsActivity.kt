@@ -5,6 +5,7 @@ package com.uldskull.rolegameassistant.activities.editIdeal
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -80,10 +81,58 @@ class EditIdealsActivity : CustomActivity(),
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate")
         setContentView(R.layout.activity_ideals_edit)
+        deserializeWidgets()
+        initializeWidgets()
         loadNavigationBarFragment()
+    }
+
+    /**
+     * Initialize the activity ViewModels
+     */
+    override fun initializeViewModels() {
         idealsViewModel = getViewModel()
+    }
+
+    /**
+     * Deserialize widgets
+     */
+    override fun deserializeWidgets() {
+        idealEvilPointsEditText =
+            this.findViewById(R.id.activityEditIdeals_editText_idealEvilPoints)
+        idealGoodPointsEditText =
+            this.findViewById(R.id.activityEditIdeals_editText_idealGoodPoints)
+        setIdealTitleEditText =
+            this.findViewById(R.id.activityEditIdeals_editText_idealTitle)
+        addIdealButton =
+            this.findViewById(R.id.activityEditIdeals_imageButton_addNewIdeal)
+        deleteIdealButton =
+            this.findViewById(R.id.activityEditIdeals_imageButton_deleteIdeal)
+        saveIdealImageButton =
+            this.findViewById(R.id.activityEditIdeals_imageButton_saveIdeal)
         idealToEditRecyclerView =
             this.findViewById(R.id.activityEditIdeals_recyclerView_displayedIdeals)
+
+        var widgetList: List<View?> = listOf(
+            idealEvilPointsEditText,
+            idealGoodPointsEditText,
+            setIdealTitleEditText,
+            addIdealButton,
+            deleteIdealButton,
+            saveIdealImageButton
+        )
+        widgetList.forEach { view ->
+            if (view == null) {
+                throw Exception("ERROR : Widget $view is null.")
+            }
+        }
+    }
+
+
+
+    /**
+     * Initialize the widgets
+     */
+    override fun initializeWidgets() {
         initializeSetIdealTitleEditText()
         initializeSetIdealGoodPointsEditText()
         initializeSetIdealEvilPointsEditText()
@@ -91,10 +140,6 @@ class EditIdealsActivity : CustomActivity(),
         initializeSaveIdealButton()
         initializeAddIdealButton()
         initializeDeleteIdealButton()
-
-
-
-        startObservation()
     }
 
 
@@ -102,8 +147,6 @@ class EditIdealsActivity : CustomActivity(),
      * initialize the evil points edit text
      */
     private fun initializeSetIdealEvilPointsEditText() {
-        idealEvilPointsEditText =
-            this.findViewById(R.id.activityEditIdeals_editText_idealEvilPoints)
         idealEvilPointsEditText?.addTextChangedListener(object : CustomTextWatcher() {
             /**
              * This method is called to notify you that, within `s`,
@@ -135,8 +178,6 @@ class EditIdealsActivity : CustomActivity(),
      * initialize the good points edit text
      */
     private fun initializeSetIdealGoodPointsEditText() {
-        idealGoodPointsEditText =
-            this.findViewById(R.id.activityEditIdeals_editText_idealGoodPoints)
         idealGoodPointsEditText?.addTextChangedListener(object : CustomTextWatcher() {
             /**
              * This method is called to notify you that, within `s`,
@@ -168,7 +209,7 @@ class EditIdealsActivity : CustomActivity(),
      * initialize the ideal title edit text
      */
     private fun initializeSetIdealTitleEditText() {
-        setIdealTitleEditText = this.findViewById(R.id.activityEditIdeals_editText_idealTitle)
+
         setIdealTitleEditText?.addTextChangedListener(object : CustomTextWatcher() {
             /**
              * This method is called to notify you that, within `s`,
@@ -200,7 +241,7 @@ class EditIdealsActivity : CustomActivity(),
      * initialize the add ideal button
      */
     private fun initializeAddIdealButton() {
-        addIdealButton = this.findViewById(R.id.activityEditIdeals_imageButton_addNewIdeal)
+
         if (addIdealButton != null) {
             addIdealButton?.setOnClickListener {
                 val id = idealsViewModel.insertIdeal(
@@ -231,8 +272,7 @@ class EditIdealsActivity : CustomActivity(),
      * initialize the delete ideal button
      */
     private fun initializeDeleteIdealButton() {
-        deleteIdealButton =
-            this.findViewById(R.id.activityEditIdeals_imageButton_deleteIdeal)
+
         if (deleteIdealButton == null) {
             throw Exception("Button is null")
         }
@@ -254,7 +294,7 @@ class EditIdealsActivity : CustomActivity(),
      * initialize the save ideal button
      */
     private fun initializeSaveIdealButton() {
-        saveIdealImageButton = this.findViewById(R.id.activityEditIdeals_imageButton_saveIdeal)
+
         if (saveIdealImageButton == null) {
             throw Exception("Button is null")
         }
@@ -274,7 +314,7 @@ class EditIdealsActivity : CustomActivity(),
     /**
      * start observation
      */
-    private fun startObservation() {
+    override fun startObservation() {
         observeRepositoryIdeals()
     }
 

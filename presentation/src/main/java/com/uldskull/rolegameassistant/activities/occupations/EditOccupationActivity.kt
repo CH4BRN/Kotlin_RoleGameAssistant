@@ -5,6 +5,7 @@ package com.uldskull.rolegameassistant.activities.occupations
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -144,8 +145,7 @@ class EditOccupationActivity : CustomActivity() {
      * initialize delete occupation button
      */
     private fun initializeDeleteOccupationButton() {
-        deleteOccupationImageButton =
-            this.findViewById(R.id.activityEditOccupation_imageButton_deleteOccupation)
+
         if (deleteOccupationImageButton == null) {
             throw Exception("Button is null.")
         }
@@ -165,8 +165,7 @@ class EditOccupationActivity : CustomActivity() {
      * initialize add occupation button
      */
     private fun initializeAddOccupationButton() {
-        addOccupationButton =
-            this.findViewById(R.id.activityEditOccupation_button_addNewOccupation)
+
         if (addOccupationButton == null) {
             throw Exception("Button is null.")
         }
@@ -196,27 +195,55 @@ class EditOccupationActivity : CustomActivity() {
         Log.d(TAG, "onCreate")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_occupations_edit)
+        deserializeWidgets()
+        initializeWidgets()
         this.loadNavigationBarFragment()
 
-        occupationsViewModel = getViewModel()
-        skillsViewModel = getViewModel()
-        occupationsToEditRecyclerView =
-            this.findViewById(R.id.activityEditOccupation_recyclerView_displayedOccupations)
         if (occupationsToEditRecyclerView == null) {
             throw Exception("Recycler view is null")
         }
-
-        occupationsSkillsToEditRecyclerView =
-            this.findViewById(R.id.activityEditOccupation_recyclerView_occupationSkills)
         if (occupationsSkillsToEditRecyclerView == null) {
             throw Exception("Recycler view is null")
         }
+
+
+    }
+
+    /**
+     * Initialize the activity ViewModels
+     */
+    override fun initializeViewModels() {
+        occupationsViewModel = getViewModel()
+        skillsViewModel = getViewModel()
+    }
+
+
+
+    /**
+     * Deserialize widgets
+     */
+    override fun deserializeWidgets() {
+        addOccupationButton =
+            this.findViewById(R.id.activityEditOccupation_button_addNewOccupation)
+        occupationsSkillsToEditRecyclerView =
+            this.findViewById(R.id.activityEditOccupation_recyclerView_occupationSkills)
+        occupationsToEditRecyclerView =
+            this.findViewById(R.id.activityEditOccupation_recyclerView_displayedOccupations)
+        deleteOccupationImageButton =
+            this.findViewById(R.id.activityEditOccupation_imageButton_deleteOccupation)
+        setOccupationTitleEditText =
+            this.findViewById(R.id.activityEditOccupation_editText_occupationTitle)
+    }
+
+
+
+    /**
+     * Initialize the widgets
+     */
+    override fun initializeWidgets() {
         initializeSetOccupationTitleEditText()
         initializeAddOccupationButton()
         initializeDeleteOccupationButton()
-
-
-        startObservation()
     }
 
 
@@ -224,8 +251,7 @@ class EditOccupationActivity : CustomActivity() {
      * initialize set occupation title edit text
      */
     private fun initializeSetOccupationTitleEditText() {
-        setOccupationTitleEditText =
-            this.findViewById(R.id.activityEditOccupation_editText_occupationTitle)
+
         setOccupationTitleEditText?.addTextChangedListener(object : CustomTextWatcher() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 super.onTextChanged(s, start, before, count)
@@ -248,7 +274,7 @@ class EditOccupationActivity : CustomActivity() {
     /**
      * start observation
      */
-    private fun startObservation() {
+    override fun startObservation() {
         observeRepositoryOccupations()
         observeRepositorySkills()
         observeMutableSkillsToCheck()

@@ -233,13 +233,8 @@ class DerivedValues1Fragment : CustomFragment() {
      * Observe breeds
      */
     private fun observeBreeds() {
-        displayedBreedsViewModel.observedMutableBreeds.observe(
-            this,
-            Observer { domainDisplayedBreeds ->
-                kotlin.run {
-                    derivedValuesViewModel.calculateBreedsHealthBonus(domainDisplayedBreeds)
-                }
-            })
+        //TODO("Implements breed bonus calculation")
+
     }
 
     /**

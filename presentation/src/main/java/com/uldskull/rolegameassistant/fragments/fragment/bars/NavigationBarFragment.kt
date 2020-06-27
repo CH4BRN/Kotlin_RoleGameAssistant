@@ -148,11 +148,8 @@ class NavigationBarFragment : CustomFragment() {
 
         observeCharacterName()
 
-        occupationsViewModel.observedOccupationsSkills?.observe(this, Observer { it ->
-            it.forEach { Log.d("DEBUG$TAG", "Skill = ${it.skillName}") }
-        })
-    }
 
+    }
 
 
     /**
@@ -299,6 +296,13 @@ class NavigationBarFragment : CustomFragment() {
      * Save a character and gets the resulting id
      */
     private fun saveCharacter(): Long? {
+        var breeds = mutableListOf<Long?>()
+
+        displayedBreedsViewModel?.observedRepositoryBreeds?.observe(this, Observer {
+            it.let {
+                breeds?.addAll(it.filter { b -> b.breedIsChecked }.map { b -> b.breedId })
+            }
+        })
         return newCharacterViewModel.saveCharacter(
             characteristics = characteristicsViewModel.displayedCharacteristics?.value,
             ideaScore = derivedValuesViewModel.ideaScore.value,
@@ -312,7 +316,8 @@ class NavigationBarFragment : CustomFragment() {
             skillsIds = newCharacterViewModel.characterSkillsIds,
             filledOccupationSkills = occupationSkillsViewModel.checkedOccupationSkills.value,
             filledHobbySkills = skillsViewModel.hobbySkills.value,
-            spentOccupationPoints = pointsToSpendViewModel.observableOccupationSpentPoints.value
+            spentOccupationPoints = pointsToSpendViewModel.observableOccupationSpentPoints.value,
+            chosenBreeds = breeds
         )
     }
 

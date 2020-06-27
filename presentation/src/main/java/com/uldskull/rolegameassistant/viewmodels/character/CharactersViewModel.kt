@@ -34,6 +34,7 @@ class CharactersViewModel(
      * Current selected character.
      */
     var selectedCharacter: DomainCharacter? = null
+
     /**
      * List of characters
      */
@@ -56,8 +57,6 @@ class CharactersViewModel(
     }
 
 
-
-
     /**
      * Find all the characters in using the repository
      */
@@ -74,12 +73,30 @@ class CharactersViewModel(
      */
     fun findOneById(id: Long?): DomainCharacter? {
         Log.d(TAG, "findOneById $id")
-        val character = characterRepository.findOneById(id)
+        var character: DomainCharacter? = null
+        viewModelScope.launch {
+            character = characterRepository.findOneById(id)
+        }
         return if (character != null) {
             Log.d(TAG, "$character")
             character
         } else {
             null
         }
+    }
+
+    /**
+     * Delete one character
+     */
+    fun deleteOne(domainCharacter: DomainCharacter?):Int{
+        var result = 0
+        if(domainCharacter == null){
+            return result
+        }
+        viewModelScope.launch {
+            result =  characterRepository.deleteOneCharacter(domainCharacter)
+        }
+        refreshDataFromRepository()
+        return result
     }
 }

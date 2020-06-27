@@ -3,10 +3,14 @@
 
 package com.uldskull.rolegameassistant.infrastructure.database.databaseUtils
 
+import android.os.AsyncTask
 import android.util.Log
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbBreedCharacteristicDao
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbBreedCharacteristic
 import com.uldskull.rolegameassistant.models.characteristic.CharacteristicsName
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  *   Class "BreedDatabaseUtil" :
@@ -35,7 +39,11 @@ class BreedCharacteristicDatabaseUtil {
                     characteristicBreedId = 2
                 )
             )
-            val result = breedCharacteristicDao.insert(dbBreedCharacteristics)
+            var result: List<Long> = emptyList()
+            val coroutineScope = CoroutineScope(Dispatchers.Main)
+            coroutineScope.launch {
+                result = breedCharacteristicDao.insert(dbBreedCharacteristics)
+            }
             result.forEach {
                 Log.d("Insert result", it.toString())
             }

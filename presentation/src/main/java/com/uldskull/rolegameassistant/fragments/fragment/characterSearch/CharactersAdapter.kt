@@ -9,12 +9,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.core.listeners.CustomAdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.core.adapter.CustomRecyclerViewAdapter
+import com.uldskull.rolegameassistant.fragments.core.listeners.DeleteCharacterButtonListener
 import com.uldskull.rolegameassistant.models.character.DomainCharacter
 
 /**
@@ -23,7 +26,8 @@ import com.uldskull.rolegameassistant.models.character.DomainCharacter
  **/
 class CharactersAdapter internal constructor(
     val context: Context,
-    var buttonListenerCustom: CustomAdapterButtonListener<DomainCharacter>?
+    var buttonListenerCustom: CustomAdapterButtonListener<DomainCharacter>?,
+    var deleteCharacterButtonListener: DeleteCharacterButtonListener
 ) : CustomRecyclerViewAdapter<DomainCharacter>(context) {
 
    fun setButtonListener(buttonListenerCustom: CustomAdapterButtonListener<DomainCharacter>?){
@@ -37,10 +41,17 @@ class CharactersAdapter internal constructor(
      * View holder class
      */
     inner class CharactersViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val characterItemLayout: LinearLayout =
+        private val characterItemLayout: ConstraintLayout =
             itemView.findViewById(R.id.character_item_linear_layout)
         private val characterNameItemView: TextView = itemView.findViewById(R.id.tv_characterName)
 
+        private val imageButtonDeleteCharacter:ImageButton = itemView.findViewById(R.id.fragmentCharacterRecyclerViewItem_imageButton_deleteCharacter)
+
+        init {
+            imageButtonDeleteCharacter?.setOnClickListener {
+                deleteCharacterButtonListener.deleteCharacter(itemList[adapterPosition])
+            }
+        }
         /**
          * Bind the value
          */
@@ -57,11 +68,10 @@ class CharactersAdapter internal constructor(
                         //  Send the character to the RecyclerView fragment
                         buttonListenerCustom?.itemPressed(itemList[adapterPosition])
                     }
-
-
                     notifyDataSetChanged()
-
                 }
+
+
 
                 if (rowIndex == adapterPosition) {
                     characterItemLayout.setBackgroundColor(context.resources.getColor(R.color.colorPrimaryDark))
@@ -99,6 +109,7 @@ class CharactersAdapter internal constructor(
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharactersViewHolder {
         val itemView = inflater.inflate(R.layout.fragment_character_recyclerview_item, parent, false)
+
         return CharactersViewHolder(itemView)
     }
 

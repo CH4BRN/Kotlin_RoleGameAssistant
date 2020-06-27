@@ -46,7 +46,7 @@ dependencies {
     implementation KotlinXDependencies.kotlinxCoroutinesAndroid
 
     implementation PicassoDependencies.picassoPicasso
-
+    implementation MaterialDependencies.material
 
 
     testImplementation TestDependencies.junitJunit

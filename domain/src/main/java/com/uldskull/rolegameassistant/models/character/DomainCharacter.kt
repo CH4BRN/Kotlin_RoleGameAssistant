@@ -40,7 +40,7 @@ open class DomainCharacter(
     /**
      * Character's ideals
      */
-    var characterIdeals: MutableList<DomainIdeal?>? = mutableListOf(),
+    var characterIdeals: MutableList<DomainIdeal>? = mutableListOf(),
     /**
      * Character's base health points
      */

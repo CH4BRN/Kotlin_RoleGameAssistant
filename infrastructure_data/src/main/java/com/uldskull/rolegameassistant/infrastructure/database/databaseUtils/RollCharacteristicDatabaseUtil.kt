@@ -7,13 +7,16 @@ import android.util.Log
 import com.uldskull.rolegameassistant.infrastructure.dao.characteristic.DbRollCharacteristicsDao
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_characteristic.DbRollCharacteristic
 import com.uldskull.rolegameassistant.models.characteristic.CharacteristicsName
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  *   Class "RollCharacteristicDatabaseUtil" :
  *   Database utils for roll characetristic
  **/
 class RollCharacteristicDatabaseUtil {
-    companion object{
+    companion object {
         private const val TAG = "RollCharacteristicDatabaseUtil"
 
 
@@ -57,10 +60,19 @@ class RollCharacteristicDatabaseUtil {
                 )
 
             )
-            val result = rollCharacteristicsDao.insert(dbRollCharacteristics)
-            result.forEach {
-                Log.d("Insert result", it.toString())
+            var result: List<Long>? = null
+
+            val coroutineScope = CoroutineScope(Dispatchers.Main)
+            coroutineScope.launch {
+                result = rollCharacteristicsDao.insert(dbRollCharacteristics)
+                if (result != null) {
+                    result!!.forEach {
+                        Log.d("Insert result", it.toString())
+                    }
+                }
+
             }
+
         }
     }
 }

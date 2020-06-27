@@ -57,7 +57,7 @@ class DbSkillToCheckRepositoryImpl(
     }
 
     /** Get one entity by its id    */
-    override fun findOneById(id: Long?): DomainSkillToCheck? {
+    override suspend fun findOneById(id: Long?): DomainSkillToCheck? {
         Log.d(TAG, "findOneById")
         val result: DbSkillToCheck
         try {
@@ -70,7 +70,7 @@ class DbSkillToCheckRepositoryImpl(
     }
 
     /** Insert a list of entity - it should return long[] or List<Long>.*/
-    override fun insertAll(all: List<DomainSkillToCheck>?): List<Long>? {
+    override suspend fun insertAll(all: List<DomainSkillToCheck>?): List<Long>? {
         Log.d(TAG, "insertAll")
         if (all != null && all.isNotEmpty()) {
             try {
@@ -93,7 +93,7 @@ class DbSkillToCheckRepositoryImpl(
 
 
     /** Insert one entity  -  it can return a long, which is the new rowId for the inserted item.*/
-    override fun insertOne(one: DomainSkillToCheck?): Long? {
+    override suspend fun insertOne(one: DomainSkillToCheck?): Long? {
         Log.d(TAG, "insertOne $one")
         return if (one != null) {
             try {
@@ -116,10 +116,10 @@ class DbSkillToCheckRepositoryImpl(
     }
 
     /** Delete all entities **/
-    override fun deleteAll(): Int {
+    override suspend fun deleteAll(): Int {
         Log.d(TAG, "deleteAll")
         try {
-            return dbSkillToCheckDao.deleteAllOccupationSkills()
+            return dbSkillToCheckDao.deleteAllSkills()
         } catch (e: Exception) {
             Log.e(TAG, "deleteAll FAILED")
             e.printStackTrace()
@@ -128,7 +128,7 @@ class DbSkillToCheckRepositoryImpl(
     }
 
     /**  Update one entity  **/
-    override fun updateOne(one: DomainSkillToCheck?): Int? {
+    override suspend fun updateOne(one: DomainSkillToCheck?): Int? {
         Log.d(TAG, "updateOne")
         try {
             dbSkillToCheckDao.update(DbSkillToCheck.from(one))

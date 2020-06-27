@@ -6,14 +6,18 @@ package com.uldskull.rolegameassistant.infrastructure.database.databaseUtils
 import android.util.Log
 import com.uldskull.rolegameassistant.infrastructure.dao.ideal.DbIdealsDao
 import com.uldskull.rolegameassistant.infrastructure.database_model.db_ideal.DbIdeal
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  *   Class "IdealDatabaseUtil" :
  *   Database utils for ideals
  **/
 class IdealDatabaseUtil {
-    companion object{
+    companion object {
         private const val TAG = "IdealDatabaseUtil"
+
         /**
          * Populate database with some ideals.
          */
@@ -39,26 +43,40 @@ class IdealDatabaseUtil {
 
             val insertIdealsResults: MutableList<Long?> = mutableListOf()
             Log.d(TAG, "populateIdeals - Inserts")
-            dbIdeals.forEach {
-                val result: Long?
-                Log.d(TAG, "Ideal : $it")
-                try {
-                    result = idealsDao.insert(it)
-                    Log.d(TAG, "Populate ideal insert result : $result")
-                } catch (e: Exception) {
-                    Log.e(TAG, "Inserting ideal failed.")
-                    e.printStackTrace()
-                    throw e
+            val coroutineScope = CoroutineScope(Dispatchers.Main)
+            coroutineScope.launch {
+                dbIdeals.forEach {
+                    var result: Long? = null
+                    Log.d(TAG, "Ideal : $it")
+                    try {
+                        var oldIdeal = idealsDao.findIdealByName(it.idealName)
+                        if (oldIdeal == null) {
+                            result = idealsDao.insert(it)
+                        } else {
+                            //do nothing
+                        }
+                        Log.d(TAG, "Populate ideal insert result : $result")
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Inserting ideal failed.")
+                        e.printStackTrace()
+                        throw e
+                    }
+                    insertIdealsResults.add(result)
                 }
-                insertIdealsResults.add(result)
             }
+
+
 
             Log.d(TAG, "populateIdeals - Checks")
             insertIdealsResults.forEach {
                 Log.d(TAG, "Ideal id : $it")
                 try {
-                    val ideal = idealsDao.getIdealById(it)
-                    Log.d(TAG, "$ideal")
+                    val coroutineScope = CoroutineScope(Dispatchers.Main)
+                    coroutineScope.launch {
+                        val ideal = idealsDao.getIdealById(it)
+                        Log.d(TAG, "$ideal")
+                    }
+
                 } catch (e: Exception) {
                     Log.e(TAG, "Checking ideal failed.")
                     e.printStackTrace()

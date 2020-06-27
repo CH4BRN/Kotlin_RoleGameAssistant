@@ -45,6 +45,9 @@ class IdealsRecyclerViewFragment :
     /** Recycler view for ideals   **/
     private var idealsRecyclerView: RecyclerView? = null
 
+    /**  Array for displayed ideals **/
+    private var idealsValuesArray:ArrayList<DomainIdeal>? = ArrayList()
+
     /**
      * Called to do initial creation of a fragment.  This is called after
      * [.onAttach] and before
@@ -122,7 +125,10 @@ class IdealsRecyclerViewFragment :
         idealsViewModel.repositoryIdeals?.observe(this, Observer { domainIdealsList ->
 
 
-            idealsViewModel.mutableIdeals?.value = domainIdealsList.toMutableList()
+            if(domainIdealsList != null){
+                idealsViewModel.mutableIdeals?.value = domainIdealsList.toMutableList()
+            }
+
 
         })
     }
@@ -132,12 +138,17 @@ class IdealsRecyclerViewFragment :
      */
     private fun observeIdealsMutableList() {
         idealsViewModel.mutableIdeals?.observe(this, Observer { domainIdealsList ->
-            Log.d("DEBUG$TAG", "Mutable ideals")
-
-            domainIdealsList?.forEach {
-                Log.d("DEBUG$TAG", "Ideal : ${it?.idealName} is checked : ${it?.isChecked}")
+            domainIdealsList.let {
+                if(idealsValuesArray == null){
+                    idealsValuesArray = ArrayList()
+                }else{
+                    idealsValuesArray?.clear()
+                }
+                idealsValuesArray?.addAll(it.toList())
             }
-            idealsAdapter?.setIdeals(domainIdealsList?.toList())
+
+            idealsAdapter = IdealsToCheckAdapter(activity as Context, this)
+            idealsAdapter?.setIdeals(idealsValuesArray)
             idealsRecyclerView?.adapter = idealsAdapter
         })
     }
@@ -160,7 +171,13 @@ class IdealsRecyclerViewFragment :
                     }
 
                     if (test) {
-                        if (characterIdeals != null && !characterIdeals.isNullOrEmpty()) {
+                        if (characterIdeals == null) {
+                            // Do nothing
+                            Log.d("DEBUG$TAG", "CharacterIdeals is null.")
+                        } else if (characterIdeals.isNullOrEmpty()) {
+                            //  Do nothing
+                            Log.d("DEBUG$TAG", "Character ideals is empty")
+                        } else {
                             var count: Int? = characterIdeals.count { i -> i?.isChecked!! }
                             Log.d("DEBUG$TAG", "characterIdeals count : $count")
 

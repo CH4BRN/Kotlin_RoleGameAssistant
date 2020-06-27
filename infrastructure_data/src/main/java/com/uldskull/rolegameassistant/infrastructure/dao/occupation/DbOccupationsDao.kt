@@ -7,6 +7,8 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
 import com.uldskull.rolegameassistant.infrastructure.IdFieldName.FIELD_OCCUPATION_ID
+import com.uldskull.rolegameassistant.infrastructure.Queries.DELETE_ALL_OCCUPATIONS
+import com.uldskull.rolegameassistant.infrastructure.Queries.SELECT_ALL_OCCUPATIONS
 import com.uldskull.rolegameassistant.infrastructure.TableNames.TABLE_NAME_OCCUPATIONS
 import com.uldskull.rolegameassistant.infrastructure.dao.DELETE_FROM
 import com.uldskull.rolegameassistant.infrastructure.dao.GenericDao
@@ -20,12 +22,12 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupatio
 @Dao
 abstract class DbOccupationsDao : GenericDao<DbOccupation> {
     //  READ
-    @Query("$SELECT_ALL_FROM $TABLE_NAME_OCCUPATIONS")
+    @Query(SELECT_ALL_OCCUPATIONS)
     abstract fun getJobs(): LiveData<List<DbOccupation>>
 
     @Query("$SELECT_ALL_FROM $TABLE_NAME_OCCUPATIONS WHERE $FIELD_OCCUPATION_ID LIKE :id")
     abstract fun getJobById(id: Long?): DbOccupation
 
-    @Query("$DELETE_FROM $TABLE_NAME_OCCUPATIONS")
+    @Query(DELETE_ALL_OCCUPATIONS)
     abstract fun deleteAllOccupations(): Int
 }

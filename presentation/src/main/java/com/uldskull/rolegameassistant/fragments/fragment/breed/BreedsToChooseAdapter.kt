@@ -5,7 +5,6 @@ package com.uldskull.rolegameassistant.fragments.fragment.breed
 
 import android.content.Context
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -31,9 +30,9 @@ class BreedsToChooseAdapter internal constructor(
 
 
     /**
-     * View holder for races
+     * View holder for breeds
      */
-    inner class BreedsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class BreedsToChooseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val breedItemLayout: LinearLayout =
             itemView.findViewById(R.id.breed_item_linear_layout)
         private val breedNameItemView: TextView = itemView.findViewById(R.id.tv_breedName)
@@ -93,11 +92,11 @@ class BreedsToChooseAdapter internal constructor(
      * @see .getItemViewType
      * @see .onBindViewHolder
      */
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BreedsViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BreedsToChooseViewHolder {
         Log.d(TAG, "onCreateViewHolder")
         val itemView =
             inflater.inflate(R.layout.fragment_breeds_simple_recyclerview_item, parent, false)
-        return BreedsViewHolder(itemView)
+        return BreedsToChooseViewHolder(itemView)
     }
 
 
@@ -123,30 +122,11 @@ class BreedsToChooseAdapter internal constructor(
      * @param position The position of the item within the adapter's data set.
      */
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        Log.d(TAG, "onBindViewHolder")
-        (holder as BreedsViewHolder).bind(itemList[position])
+        Log.d("DEBUG$TAG", "onBindViewHolder")
+        Log.d("DEBUG$TAG", "Items count : $itemCount")
+        Log.d("DEBUG$TAG", "itemList[position] :${itemList[position].breedName}")
+        (holder as BreedsToChooseViewHolder).bind(itemList[position])
 
     }
 
-
-    /**
-     * Set the races list content.
-     */
-    internal fun setBreeds(domainDisplayedBreeds: MutableList<DomainDisplayedBreed?>?) {
-        Log.d(TAG, "setBreeds")
-
-        domainDisplayedBreeds?.sortBy { b -> b?.breedName }
-        domainDisplayedBreeds?.forEach {
-            if (it != null) {
-                if (this.itemList.contains(it)) {
-                    val index = itemList.lastIndexOf(it)
-                    this.itemList[index] = it
-                } else {
-                    this.itemList.add(it)
-                }
-            }
-
-        }
-        notifyDataSetChanged()
-    }
 }

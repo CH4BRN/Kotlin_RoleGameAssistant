@@ -136,8 +136,13 @@ class OccupationsSkillsRecyclerViewFragment :
                             occupationsViewModel.findOneWithChildren(domainOccupation.occupationId)
                         Log.d(TAG, "occupation with skills : \n $occupationWithSkills")
 
-                        occupationsViewModel.observedOccupationsSkills?.value =
-                            occupationWithSkills?.skills
+                        if( occupationWithSkills?.skills != null){
+                            occupationsViewModel.observedOccupationsSkills?.value =
+                                occupationWithSkills?.skills
+                        }else{
+                            // Do nothing
+                        }
+
                     }
                 }
             })

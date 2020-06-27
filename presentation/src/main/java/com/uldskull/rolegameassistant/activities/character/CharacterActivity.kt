@@ -6,8 +6,8 @@ package com.uldskull.rolegameassistant.activities.character
 import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
 import com.google.gson.Gson
@@ -15,6 +15,7 @@ import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.core.AddEndFragment
 import com.uldskull.rolegameassistant.activities.core.AddEndFragmentAndUpdateAdapter
 import com.uldskull.rolegameassistant.activities.FragmentAdapter
+import com.uldskull.rolegameassistant.activities.core.CustomActivity
 import com.uldskull.rolegameassistant.activities.core.replaceFragment
 import com.uldskull.rolegameassistant.fragments.fragment.bars.NavigationBarFragment
 import com.uldskull.rolegameassistant.fragments.fragment.bars.ProgressBarFragment
@@ -38,6 +39,9 @@ import com.uldskull.rolegameassistant.viewmodels.hobbies.HobbySkillsViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationSkillsViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationsViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 /**
@@ -47,7 +51,7 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 class CharacterActivity :
     AddEndFragment,
     AddEndFragmentAndUpdateAdapter,
-    AppCompatActivity() {
+    CustomActivity() {
     /**
      * ViewPager2 to display fragments
      */
@@ -123,16 +127,57 @@ class CharacterActivity :
         Log.d(TAG, "onCreate")
         //  Set the view
         setContentView(R.layout.activity_character_edit)
-        //  load view models
-        loadViewModels()
-        //  Set the character page adapter
-        this.setCharacterPagerAdapter()
+        //  Deserialize widgets
+        deserializeWidgets()
+        //  Initialize widgets
+        initializeWidgets()
         //  Load the navigation bar fragment
         this.loadNavigationBarFragment()
         //  Update the progress bar
         this.initializeProgressBarFragment()
-
+        //  Deserialize the selected domain character
         deserializeDomainCharacter()
+    }
+
+    /**
+     * Initialize the activity ViewModels
+     */
+    override fun initializeViewModels() {
+        newCharacterViewModel = getViewModel()
+        progressionBarViewModel = getViewModel()
+        characteristicsViewModel = getViewModel()
+        occupationViewModel = getViewModel()
+        occupationsViewModel = getViewModel()
+        hobbiesViewModel = getViewModel()
+        displayedBreedsViewModel = getViewModel()
+        charactersPictureViewModel = getViewModel()
+        occupationSkillsViewModel = getViewModel()
+        hobbySkillsViewModel = getViewModel()
+        pointsToSpendViewModel = getViewModel()
+        skillsViewModel = getViewModel()
+    }
+
+    /**
+     * Deserialize widgets
+     */
+    override fun deserializeWidgets() {
+        //  Instantiate a ViewPager2
+        viewPager = this.findViewById(R.id.activityEditCharacter_viewPager2)
+    }
+
+
+    /**
+     * Initialize the widgets
+     */
+    override fun initializeWidgets() {
+        //  Set the character page adapter
+        this.initializeCharacterPagerAdapter()
+    }
+
+    /**
+     * Start livedata observation
+     */
+    override fun startObservation() {
         observeRepositoryOccupations()
         observeRepositorySkills()
     }
@@ -148,9 +193,9 @@ class CharacterActivity :
                     domainOccupations?.let {
                         Log.d("DEBUG$TAG", "observedOccupations has changed")
                         occupationsViewModel.displayedOccupations.value =
-                            domainOccupations.map { o -> o?.occupationName!! }
+                            domainOccupations.map { o -> o.occupationName!! }
 
-                        Log.d("DEBUG$TAG", "Occupations : $it")
+                        //Log.d("DEBUG$TAG", "Occupations : $it")
                     }
                 }
             })
@@ -168,7 +213,7 @@ class CharacterActivity :
                         skillsViewModel.hobbiesSkills.value =
                             domainSkillToCheck
 
-                        Log.d("DEBUG$TAG", "Repository Skills : $list")
+                        //Log.d("DEBUG$TAG", "Repository Skills : $list")
                     }
                 }
             }
@@ -202,17 +247,25 @@ class CharacterActivity :
                 character.characterSpentOccupationPoints
 
             //  Gets the picture URI
-            val pictureURI = character?.characterPictureUri
+            val pictureURI = character.characterPictureUri
             Log.d("DEBUG$TAG", "Picture uri : $pictureURI")
             charactersPictureViewModel.pictureUri.value = pictureURI
 
             // Gets the breeds
             val characterBreeds = mutableListOf<DomainDisplayedBreed?>()
-            character.characterBreeds?.forEach {
-                characterBreeds.add(displayedBreedsViewModel.findBreedWithId(it))
+            Log.d("DEBUG$TAG", "character.characterBreeds?.toList() : ${character.characterBreeds?.toList()}")
+            displayedBreedsViewModel?.observableSelectedBreeds?.value = character.characterBreeds?.toList()
+
+
+            val coroutineScope = CoroutineScope(Dispatchers.Main)
+            coroutineScope.launch {
+                character.characterBreeds?.forEach {
+                    characterBreeds.add(displayedBreedsViewModel.findBreedWithId(it))
+                }
             }
-            val breedsToLoad: MutableList<DomainDisplayedBreed> = mutableListOf()
-            observeRepositoryBreeds(characterBreeds, breedsToLoad)
+
+
+
 
             // Gets the occupation
             val occupation = character.characterOccupation
@@ -391,7 +444,7 @@ class CharacterActivity :
                             characterCheckedSkills.let { characterCheckedSkillsList ->
                                 //  Foreach skills to check
                                 mutableSkillsToCheckList?.forEach { skill ->
-                                    if (characterCheckedSkillsList.any { characterCheckedSkill -> characterCheckedSkill!! == skill?.skillId!! }) {
+                                    if (characterCheckedSkillsList.any { characterCheckedSkill -> characterCheckedSkill!! == skill.skillId!! }) {
                                         val index =
                                             mutableSkillsToCheckList.indexOfFirst { s -> s.skillId == skill.skillId }
                                         skill.skillIsChecked = true
@@ -406,26 +459,7 @@ class CharacterActivity :
         )
     }
 
-    /**
-     * Observe repository's breeds.
-     */
-    private fun observeRepositoryBreeds(
-        characterBreeds: MutableList<DomainDisplayedBreed?>,
-        breedsToLoad: MutableList<DomainDisplayedBreed>
-    ) {
-        displayedBreedsViewModel.observedRepositoryBreeds?.observe(
-            this,
-            Observer { repositoryBreeds ->
-                repositoryBreeds?.forEach { breed ->
-                    if (characterBreeds.any { b -> b?.breedId == breed.breedId }) {
-                        breed.breedIsChecked = true
-                    }
-                    breedsToLoad.add(breed)
-                }
-                displayedBreedsViewModel.observedMutableBreeds.value = breedsToLoad.toList()
 
-            })
-    }
 
     /**
      * Initialize selected occupation
@@ -454,32 +488,11 @@ class CharacterActivity :
         builder.show()
     }
 
-    /**
-     * load the viewModels
-     */
-    private fun loadViewModels() {
-        //  Get the ViewModels by DI
-        newCharacterViewModel = getViewModel()
-        progressionBarViewModel = getViewModel()
-        characteristicsViewModel = getViewModel()
-        occupationViewModel = getViewModel()
-        occupationsViewModel = getViewModel()
-        hobbiesViewModel = getViewModel()
-        displayedBreedsViewModel = getViewModel()
-        charactersPictureViewModel = getViewModel()
-        occupationSkillsViewModel = getViewModel()
-        hobbySkillsViewModel = getViewModel()
-        pointsToSpendViewModel = getViewModel()
-        skillsViewModel = getViewModel()
-
-    }
-
 
     /** Set character page adapter  **/
-    private fun setCharacterPagerAdapter() {
+    private fun initializeCharacterPagerAdapter() {
         Log.d(TAG, "setCharacterPageAdapter")
-        //  Instantiate a ViewPager2 and a PagerAdapter.
-        viewPager = findViewById(R.id.activityEditCharacter_viewPager2)
+
         fragmentAdapter =
             FragmentAdapter(this)
         viewPager?.adapter = fragmentAdapter
@@ -515,7 +528,7 @@ class CharacterActivity :
                     val characteristics = characteristicsViewModel.getAllCharacteristics()
                     var isOneCharacteristicToZero = false
                     characteristics?.forEach { characteristic ->
-                        if(characteristic?.characteristicTotal == 0){
+                        if (characteristic?.characteristicTotal == 0) {
                             isOneCharacteristicToZero = true
                         }
                     }

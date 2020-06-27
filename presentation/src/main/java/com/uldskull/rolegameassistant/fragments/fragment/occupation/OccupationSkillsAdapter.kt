@@ -115,6 +115,7 @@ class OccupationSkillsAdapter constructor(
         private var tvOccupationSkillBase: TextView? = itemView.findViewById(R.id.tv_occupationSkillBase)
         private var tvOccupationSkillAdd: TextView? = itemView.findViewById(R.id.tv_occupationSkillAdd)
         private var tvOccupationSkillTotal: TextView? = itemView.findViewById(R.id.tv_occupationSkillTotal)
+        private var tvOccupationSkillPlus:TextView? = itemView.findViewById(R.id.tv_occupationSkillPlus)
 
         /**
          * Bind the view holder
@@ -145,10 +146,20 @@ class OccupationSkillsAdapter constructor(
                 if (checkedPosition == adapterPosition) {
                     itemView.background =
                         context.getDrawable(R.drawable.my_recycler_view_selected_cell_background)
+                    tvOccupationSkillName?.setTextColor(context.resources.getColor(R.color.textColorPrimary))
+                    tvOccupationSkillBase?.setTextColor(context.resources.getColor(R.color.textColorPrimary))
+                    tvOccupationSkillAdd?.setTextColor(context.resources.getColor(R.color.textColorPrimary))
+                    tvOccupationSkillTotal?.setTextColor(context.resources.getColor(R.color.textColorPrimary))
+                    tvOccupationSkillPlus?.setTextColor(context.resources.getColor(R.color.textColorPrimary))
                 } else {
                     //  Not selected
                     itemView.background =
                         context.getDrawable(R.drawable.my_recycler_view_cell_background)
+                    tvOccupationSkillName?.setTextColor(context.resources.getColor(R.color.colorPrimary))
+                    tvOccupationSkillBase?.setTextColor(context.resources.getColor(R.color.colorPrimary))
+                    tvOccupationSkillAdd?.setTextColor(context.resources.getColor(R.color.colorPrimary))
+                    tvOccupationSkillTotal?.setTextColor(context.resources.getColor(R.color.colorPrimary))
+                    tvOccupationSkillPlus?.setTextColor(context.resources.getColor(R.color.colorPrimary))
                 }
             }
 
@@ -156,7 +167,10 @@ class OccupationSkillsAdapter constructor(
             itemView.setOnClickListener {
                 itemView.background =
                     context.getDrawable(R.drawable.my_recycler_view_selected_cell_background)
-                tvOccupationSkillName?.setTextColor(context.getColor(R.color.colorPrimary))
+                tvOccupationSkillName?.setTextColor(context.resources.getColor(R.color.textColorPrimary))
+                tvOccupationSkillBase?.setTextColor(context.resources.getColor(R.color.textColorPrimary))
+                tvOccupationSkillAdd?.setTextColor(context.resources.getColor(R.color.textColorPrimary))
+                tvOccupationSkillTotal?.setTextColor(context.resources.getColor(R.color.textColorPrimary))
 
                 occupationSkillsRecyclerViewFragment_buttonListenerCustom.itemPressed(occupationSkills[adapterPosition], adapterPosition)
                 // tvOccupationSkillTotal?.visibility = View.VISIBLE
