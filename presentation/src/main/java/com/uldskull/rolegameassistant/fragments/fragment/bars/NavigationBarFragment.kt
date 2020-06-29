@@ -15,6 +15,9 @@ import androidx.lifecycle.Observer
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.fragments.core.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.core.CustomFragment
+import com.uldskull.rolegameassistant.models.DomainIdeal
+import com.uldskull.rolegameassistant.models.breed.DomainDisplayedBreed
+import com.uldskull.rolegameassistant.models.character.DomainCharacter
 import com.uldskull.rolegameassistant.viewmodels.*
 import com.uldskull.rolegameassistant.viewmodels.breeds.DisplayedBreedsViewModel
 import com.uldskull.rolegameassistant.viewmodels.character.CharactersViewModel
@@ -263,21 +266,31 @@ class NavigationBarFragment : CustomFragment() {
 
             Log.d("DEBUG$TAG", "characterWithSkills : $characterWithSkills ")
 
-            val result = charactersViewModel.findOneById(insertedId)
+            var result: DomainCharacter? = null
+
+            charactersViewModel?.characters?.observe(this, Observer { list ->
+                result = list?.firstOrNull { c -> c?.characterId == insertedId }
+            })
+
             result?.characterBreeds?.forEach { id ->
                 kotlin.run {
-                    val breed = displayedBreedsViewModel.findBreedWithId(id)
+                    var breed: DomainDisplayedBreed? = null
+                    displayedBreedsViewModel?.observableRepositoryBreeds?.observe(
+                        this,
+                        Observer { list ->
+                            breed = list.first { b -> b.breedId == id }
+                        })
 
                     Log.d("DEBUG$TAG", "Breed ${breed?.breedName}")
                 }
             }
-            result?.characterIdeals?.forEach {id ->
+            result?.characterIdeals?.forEach { id ->
 
-                val ideal = idealsViewModel.getIdealById(id)
-                Log.d(
-                    "DEBUG$TAG",
-                    "result?.characterIdeals? ${ideal?.idealName}"
-                )
+                var ideal: DomainIdeal? = null
+                idealsViewModel.repositoryIdeals?.observe(this, Observer { list ->
+                    ideal = list.first { i -> i.idealId == id }
+                })
+                Log.d("DEBUG$TAG", "Ideal : $ideal")
             }
             Log.d(TAG, "${result?.characterName} saved")
         } catch (e: Exception) {

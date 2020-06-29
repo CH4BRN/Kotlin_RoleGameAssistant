@@ -53,11 +53,17 @@ class EditBreedActivity : CustomActivity(), CustomAdapterButtonListener<DomainDi
     /**
      * Selected breed bonus text viex.
      */
-    private var editTextSelectedBreedBonus:EditText? = null
+    private var editTextSelectedBreedBonus: EditText? = null
+
     /**
      * Add breed button.
      */
     private var imageButtonAddBreed: ImageButton? = null
+
+    /**
+     * Save breed button.
+     */
+    private var imageButtonSaveBreed: ImageButton? = null
 
     /**
      * Activity lifecycle
@@ -89,6 +95,7 @@ class EditBreedActivity : CustomActivity(), CustomAdapterButtonListener<DomainDi
             this.findViewById(R.id.activityEditBreed_editText_breedDescription)
         imageButtonAddBreed = this.findViewById(R.id.activityEditBreed_imageButton_addBreed)
         editTextSelectedBreedBonus = this.findViewById(R.id.activityEditBreed_editText_breedBonus)
+        imageButtonSaveBreed = this.findViewById(R.id.activityEditBreed_imageButton_saveBreed)
     }
 
     /**
@@ -96,6 +103,39 @@ class EditBreedActivity : CustomActivity(), CustomAdapterButtonListener<DomainDi
      */
     override fun initializeWidgets() {
         initializeAddBreedImageButton()
+        initializeSaveBreedImageButton()
+    }
+
+    private fun initializeSaveBreedImageButton() {
+        imageButtonSaveBreed?.setOnClickListener {
+            var breedId: Long? = null
+            breedsViewModel?.observableMutableSelectedBreed?.observe(this, Observer {
+                breedId = it?.breedId
+            })
+            Log.d("DEBUG$TAG", "Breed id : $breedId")
+            if (breedId == null) {
+                throw Exception("Breed ID is null.")
+            }
+            var oldBreed: DomainDisplayedBreed? = null
+            breedsViewModel?.observableRepositoryBreeds?.observe(this, Observer {list ->
+                oldBreed = list.first{ b -> b.breedId == breedId}
+            })
+
+            if (oldBreed == null) {
+                throw Exception("No breed found.")
+            }
+            oldBreed?.breedName = editTextSelectedBreedName?.text.toString()
+            oldBreed?.breedDescription = editTextSelectedBreedDescription?.text.toString()
+            oldBreed?.breedHealthBonus = editTextSelectedBreedBonus?.text?.toString()?.toInt()
+            try {
+                breedsViewModel.updateOne(oldBreed!!)
+            } catch (e: Exception) {
+                Log.e("ERROR", "Save breed failed")
+                e.printStackTrace()
+                throw e
+
+            }
+        }
     }
 
     /**
@@ -113,9 +153,12 @@ class EditBreedActivity : CustomActivity(), CustomAdapterButtonListener<DomainDi
                 )
             )
             if (breedId != null) {
-                var newBreed = breedsViewModel.findBreedWithId(breedId)
-                Log.d("DEBUG$TAG", "Breed id : $breedId")
-                breedsViewModel.observableMutableSelectedBreed.value = newBreed
+                breedsViewModel.observableRepositoryBreeds?.observe(this, Observer {
+                    Log.d("DEBUG$TAG", "Breed id : $breedId")
+                    breedsViewModel.observableMutableSelectedBreed.value =
+                        it?.first { b -> b.breedId == breedId }
+                })
+
             }
         }
     }

@@ -35,6 +35,7 @@
         app:layout_constraintTop_toBottomOf="@id/activityEditBreed_recyclerView_breedsToChoose" />
 
     <TableLayout
+        android:id="@+id/activityEditBreed_layout_breedInformation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="8dp"
@@ -75,20 +76,32 @@
         </TableRow>
 
         <TableRow>
+
             <TextView
                 android:id="@+id/activityEditBreed_textView_breedBonus"
                 style="@style/TextViewSubTitle"
                 android:layout_width="0dp"
                 android:layout_weight="2"
-                android:text="@string/bonus"/>
+                android:text="@string/bonus" />
+
             <EditText
                 android:id="@+id/activityEditBreed_editText_breedBonus"
                 android:layout_width="0dp"
                 android:layout_weight="4"
-                android:hint="@string/hint_edit_breed_bonus"/>
+                android:hint="@string/hint_edit_breed_bonus" />
         </TableRow>
     </TableLayout>
 
+    <ImageButton
+        app:layout_constraintTop_toBottomOf="@id/activityEditBreed_layout_breedInformation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="8dp"
+        android:background="@drawable/mybutton"
+        android:src="@drawable/ic_save_black_24dp"
+        android:id="@+id/activityEditBreed_imageButton_saveBreed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 
     <FrameLayout

@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.uldskull.rolegameassistant.models.DomainIdeal
 import com.uldskull.rolegameassistant.repository.ideal.IdealsRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
@@ -47,19 +48,7 @@ class IdealsViewModel(
         }
     }
 
-    /**
-     * Get an ideal by its id
-     */
-    fun getIdealById(id: Long?): DomainIdeal? {
-        if (id == null) {
-            return null
-        }
-        var result: DomainIdeal? = null
-        viewModelScope.launch {
-            result = idealsRepositoryImpl.findOneById(id)
-        }
-        return result
-    }
+
 
     /**
      * Delete an ideal
@@ -86,24 +75,28 @@ class IdealsViewModel(
             Log.d("DEBUG$TAG", "Ideal is null")
             return result
         } else {
-            viewModelScope.launch {
+            viewModelScope.launch(Dispatchers.IO) {
                 Log.d("DEBUG$TAG", "Ideal is $domainIdeal")
-
-                if (domainIdeal.idealId == null) {
-                    Log.d("DEBUG$TAG", "Ideal id is null")
-                    result = idealsRepositoryImpl.insertOne(domainIdeal)
-                }
-                var model: DomainIdeal? = idealsRepositoryImpl.findOneById(domainIdeal.idealId)
-
-                result = if (model == null) {
-                    idealsRepositoryImpl.insertOne(domainIdeal)
-                } else {
-                    idealsRepositoryImpl.updateOne(domainIdeal)?.toLong()
-                }
+                result = idealsRepositoryImpl.insertOne(domainIdeal)
             }
+        }
+        return result
+    }
+
+    /**
+     * Update an ideal
+     */
+    fun updateIdeal(domainIdeal: DomainIdeal): Int? {
+        var result: Int? = -1
+        if (domainIdeal == null) {
             return result
         }
+        viewModelScope.launch(Dispatchers.IO) {
+            result = idealsRepositoryImpl.updateOne(domainIdeal)
+        }
+        return result
     }
+
 
     /**
      * Get all ideals

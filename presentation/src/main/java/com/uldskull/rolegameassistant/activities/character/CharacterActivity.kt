@@ -263,11 +263,16 @@ class CharacterActivity :
             val characterIdeals = mutableListOf<DomainIdeal?>()
             idealViewModel.observableSelectedIdeals?.value = character?.characterIdeals?.toList()
 
-            coroutineScope.launch {
-                character.characterIdeals?.forEach {
-                    characterIdeals.add(idealViewModel.getIdealById(it))
-                }
+            character.characterIdeals?.forEach { id ->
+                idealViewModel?.repositoryIdeals?.observe(this, Observer { list ->
+                    var ideal = list.firstOrNull { i -> i.idealId == id }
+                    if (ideal != null) {
+                        characterIdeals.add(ideal)
+                    }
+                })
             }
+
+
             // Gets the breeds
             val characterBreeds = mutableListOf<DomainDisplayedBreed?>()
             displayedBreedsViewModel?.observableSelectedBreeds?.value =
@@ -276,7 +281,15 @@ class CharacterActivity :
 
             coroutineScope.launch {
                 character.characterBreeds?.forEach {
-                    characterBreeds.add(displayedBreedsViewModel.findBreedWithId(it))
+                    displayedBreedsViewModel?.observableRepositoryBreeds?.observe(
+                        this@CharacterActivity,
+                        Observer { list ->
+                            var breed = list.firstOrNull { b -> b.breedId == it }
+                            if (breed != null) {
+                                characterBreeds.add(breed)
+                            }
+                        }
+                    )
                 }
             }
 

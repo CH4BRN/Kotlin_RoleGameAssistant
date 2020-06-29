@@ -25,7 +25,7 @@ abstract class DbCharacterDao : GenericDao<DbCharacter> {
     abstract fun getCharacters(): LiveData<List<DbCharacter>>
 
     @Query("$SELECT_ALL_FROM $TABLE_NAME_CHARACTER WHERE $FIELD_CHARACTER_ID LIKE :id")
-    abstract suspend fun getCharacterById(id: Long?): DbCharacter
+    abstract fun getCharacterById(id: Long?): DbCharacter
 
     @Query("$DELETE_FROM $TABLE_NAME_CHARACTER")
     abstract fun deleteAll():Int

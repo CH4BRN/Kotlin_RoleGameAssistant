@@ -51,30 +51,7 @@ class DbDisplayedBreedsRepositoryImpl(
         }
     }
 
-    /** Get one entity by its id    */
-    override suspend fun findOneById(id: Long?): DomainDisplayedBreed? {
-        Log.d(TAG, "findOneById")
-        Log.d("DEBUG$TAG", " Breed Id : ${id.toString()}")
-        // Check if ID is null
-        if (id == null) {
-            return null
-        }
 
-        var result: DbDisplayedBreed? = null
-        try {
-
-            result = dbDisplayedBreedDao.getBreedById(id)
-
-        } catch (e: Exception) {
-            Log.e(TAG, "findOneById FAILED")
-            e.printStackTrace()
-            throw e
-        }
-        if (result == null) {
-            return null
-        }
-        return result?.toDomain()
-    }
 
     /** Insert a list of entity - it should return long[] or List<Long>.*/
     override suspend fun insertAll(all: List<DomainDisplayedBreed>?): List<Long>? {
@@ -110,9 +87,8 @@ class DbDisplayedBreedsRepositoryImpl(
         }
         var result: Long? = null
         try {
-
             result = dbDisplayedBreedDao.insert(DbDisplayedBreed.from(one))
-
+            Log.d("DEBUG$TAG", " Inserted id : $result")
         } catch (e: Exception) {
             Log.e(TAG, "insertOne FAILED")
             e.printStackTrace()

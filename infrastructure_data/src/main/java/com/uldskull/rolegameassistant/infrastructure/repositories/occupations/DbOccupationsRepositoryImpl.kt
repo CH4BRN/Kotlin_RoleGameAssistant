@@ -54,7 +54,7 @@ class DbOccupationsRepositoryImpl(
         Log.d(TAG, "getAll")
         try {
             //  Transforms the DbJobs into DomainJobs
-            return Transformations.map(dbOccupationDao.getJobs()) {
+            return Transformations.map(dbOccupationDao.getOccupations()) {
                 it.asDomainModel()
             }
         } catch (e: Exception) {
@@ -64,19 +64,7 @@ class DbOccupationsRepositoryImpl(
         }
     }
 
-    /** Get one entity by its id    */
-    override suspend fun findOneById(id: Long?): DomainOccupation? {
-        Log.d(TAG, "findOneById")
-        val result: DbOccupation
-        try {
-            result = dbOccupationDao.getJobById(id)
-        } catch (e: Exception) {
-            Log.e(TAG, "findOneById FAILED")
-            e.printStackTrace()
-            throw e
-        }
-        return result.toDomain()
-    }
+
 
     /** Insert a list of entity - it should return long[] or List<Long>.*/
     override suspend fun insertAll(all: List<DomainOccupation>?): List<Long>? {

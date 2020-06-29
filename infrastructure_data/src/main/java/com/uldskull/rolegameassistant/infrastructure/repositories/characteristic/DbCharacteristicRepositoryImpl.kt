@@ -34,11 +34,6 @@ class DbCharacteristicRepositoryImpl(
         }
     }
 
-    /** Get one entity by its id    */
-    override suspend fun findOneById(id: Long?): DomainCharacteristic? {
-        Log.d(TAG, "findOneById")
-        return dbCharacteristicDao.getCharacteristicById(id).toDomain()
-    }
 
     /** Insert a list of entity - it should return long[] or List<Long>.*/
     override suspend fun insertAll(all: List<DomainCharacteristic>?): List<Long>? {

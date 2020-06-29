@@ -23,10 +23,10 @@ import com.uldskull.rolegameassistant.infrastructure.database_model.db_occupatio
 abstract class DbOccupationsDao : GenericDao<DbOccupation> {
     //  READ
     @Query(SELECT_ALL_OCCUPATIONS)
-    abstract fun getJobs(): LiveData<List<DbOccupation>>
+    abstract fun getOccupations(): LiveData<List<DbOccupation>>
 
     @Query("$SELECT_ALL_FROM $TABLE_NAME_OCCUPATIONS WHERE $FIELD_OCCUPATION_ID LIKE :id")
-    abstract fun getJobById(id: Long?): DbOccupation
+    abstract fun getOccupationById(id: Long?): DbOccupation
 
     @Query(DELETE_ALL_OCCUPATIONS)
     abstract fun deleteAllOccupations(): Int

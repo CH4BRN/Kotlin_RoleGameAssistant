@@ -56,18 +56,7 @@ class DbSkillToCheckRepositoryImpl(
         }
     }
 
-    /** Get one entity by its id    */
-    override suspend fun findOneById(id: Long?): DomainSkillToCheck? {
-        Log.d(TAG, "findOneById")
-        val result: DbSkillToCheck
-        try {
-            result = dbSkillToCheckDao.getOccupationSkillById(id)
-        } catch (e: Exception) {
-            Log.e(TAG, "findOneById FAILED")
-            throw e
-        }
-        return result.toDomain()
-    }
+
 
     /** Insert a list of entity - it should return long[] or List<Long>.*/
     override suspend fun insertAll(all: List<DomainSkillToCheck>?): List<Long>? {

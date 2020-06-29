@@ -72,22 +72,7 @@ class DbFilledHobbySkillRepositoryImpl(
         }
     }
 
-    /** Get one entity by its id    */
-    override suspend fun findOneById(id: Long?): DomainSkillToFill? {
-        Log.d(TAG, "findOneById")
-        val result: DbFilledSkill
-        try {
-            result = dbFilledOccupationSkillDao.getOneById(id)
-        } catch (e: Exception) {
-            Log.e("ERROR$TAG", "findOneById FAILED")
-            e.printStackTrace()
-            throw e
-        }
-        if (result == null) {
-            return null
-        }
-        return result.toDomain()
-    }
+
 
     /** Insert a list of entity - it should return long[] or List<Long>.*/
     override suspend fun insertAll(all: List<DomainSkillToFill>?): List<Long>? {

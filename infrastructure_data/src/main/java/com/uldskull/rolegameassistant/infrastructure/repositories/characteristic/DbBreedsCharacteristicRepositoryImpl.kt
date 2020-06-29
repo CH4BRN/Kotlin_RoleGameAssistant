@@ -53,18 +53,6 @@ class DbBreedsCharacteristicRepositoryImpl(
         }
     }
 
-    /** Get one entity by its id    */
-    override suspend fun findOneById(id: Long?): DomainBreedsCharacteristic? {
-        Log.d(TAG, "findOneById")
-        val result: DbBreedCharacteristic
-        try {
-            result = dbBreedCharacteristicDao.getBreedCharacteristicById(id)
-        } catch (e: Exception) {
-            Log.e(TAG, "findOneById FAILED")
-            throw e
-        }
-        return result.toDomain()
-    }
 
     /** Insert a list of entity - it should return long[] or List<Long>.*/
     override suspend fun insertAll(all: List<DomainBreedsCharacteristic>?): List<Long>? {

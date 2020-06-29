@@ -24,7 +24,7 @@ abstract class DbIdealsDao : GenericDao<DbIdeal> {
     abstract fun getIdealsLiveData(): LiveData<List<DbIdeal>>
 
     @Query("$SELECT_ALL_FROM $TABLE_NAME_IDEAL $WHERE $FIELD_IDEAL_ID $LIKE :id")
-    abstract suspend fun getIdealById(id: Long?): DbIdeal
+    abstract  fun getIdealById(id: Long?): DbIdeal
 
     @Query("$SELECT_ALL_FROM $TABLE_NAME_IDEAL $WHERE $FIELD_IDEAL_NAME $LIKE :idealName")
     abstract suspend fun findIdealByName(idealName: String?): DbIdeal

@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.uldskull.rolegameassistant.models.breed.DomainDisplayedBreed
 import com.uldskull.rolegameassistant.repository.breed.DisplayedBreedsRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.concurrent.thread
 
@@ -45,21 +46,6 @@ class DisplayedBreedsViewModel(
         }
     }
 
-
-    /**
-     * Find one breed by its ID
-     */
-    fun findBreedWithId(breedId: Long?): DomainDisplayedBreed? {
-        Log.d(TAG, "findBreedWithId with id : $breedId")
-        var result: DomainDisplayedBreed? = null
-        viewModelScope.launch {
-            result = displayedBreedRepositoryImpl.findOneById(breedId)
-            Log.d(TAG, "findBreedWithId result" + result?.breedName)
-        }
-        return result
-    }
-
-
     /**
      *  Observable repository breeds
      */
@@ -91,14 +77,31 @@ class DisplayedBreedsViewModel(
      */
     fun saveOne(domainDisplayedBreed: DomainDisplayedBreed): Long? {
         Log.d(TAG, "saveOne")
+        if (domainDisplayedBreed == null) {
+            throw Exception("Breed is null")
+        }
         var result: Long? = null
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             result = displayedBreedRepositoryImpl.insertOne(domainDisplayedBreed)
         }
 
         Log.d("DEBUG$TAG", "INSERTED $result")
         refreshDataFromRepository()
         return result
+    }
+
+    fun updateOne(domainDisplayedBreed: DomainDisplayedBreed): Int? {
+        if (domainDisplayedBreed == null) {
+            throw Exception("Breed is null")
+        }
+        var result: Int? = null
+        viewModelScope.launch(Dispatchers.IO) {
+            result = displayedBreedRepositoryImpl.updateOne(domainDisplayedBreed)
+        }
+        Log.d("DEBUG$TAG", "UPDATED $result")
+        refreshDataFromRepository()
+        return result
+
     }
 
     /**

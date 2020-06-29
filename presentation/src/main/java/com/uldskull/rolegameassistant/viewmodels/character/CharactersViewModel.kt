@@ -68,22 +68,7 @@ class CharactersViewModel(
         return characters
     }
 
-    /**
-     * Find one character by its id
-     */
-    fun findOneById(id: Long?): DomainCharacter? {
-        Log.d(TAG, "findOneById $id")
-        var character: DomainCharacter? = null
-        viewModelScope.launch {
-            character = characterRepository.findOneById(id)
-        }
-        return if (character != null) {
-            Log.d(TAG, "$character")
-            character
-        } else {
-            null
-        }
-    }
+
 
     /**
      * Delete one character

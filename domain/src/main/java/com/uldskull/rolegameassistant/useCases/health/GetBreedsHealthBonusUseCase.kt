@@ -16,7 +16,7 @@ class GetBreedsHealthBonusUseCase : UseCase<List<DomainDisplayedBreed>, Int> {
         if (request != null && request.isNotEmpty()) {
             request.forEach {
                 if (it.breedHealthBonus != null) {
-                    bonus += it.breedHealthBonus
+                    bonus += it.breedHealthBonus!!
                 }
             }
         }

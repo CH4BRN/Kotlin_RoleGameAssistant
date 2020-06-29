@@ -80,7 +80,7 @@ class OccupationDatabaseUtil {
                 val result = occupationWithSkillDao.getOccupationsWithSkills()
 
                 result.forEach { dbOccupationWithDbSkills: DbOccupationWithDbSkills ->
-                    Log.d(TAG, "$dbOccupationWithDbSkills")
+                    Log.d(TAG, "${dbOccupationWithDbSkills.occupation.occupationName}")
                 }
             }
         }
@@ -159,7 +159,7 @@ class OccupationDatabaseUtil {
                 val result = occupationWithSkillDao.getOccupationsWithSkills()
 
                 result.forEach { dbOccupationWithDbSkills: DbOccupationWithDbSkills ->
-                    Log.d("$TAG", "$dbOccupationWithDbSkills")
+                    Log.d("$TAG", "${dbOccupationWithDbSkills.occupation.occupationName}")
                 }
             }
         }

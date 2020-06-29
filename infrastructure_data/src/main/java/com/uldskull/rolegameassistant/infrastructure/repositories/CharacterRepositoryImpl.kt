@@ -99,16 +99,7 @@ class CharacterRepositoryImpl(
         }
     }
 
-    /** Get one entity by its id    */
-    override suspend fun findOneById(id: Long?): DomainCharacter? {
-        Log.d(TAG, "findOneById")
 
-        var model = dbCharacterDao.getCharacterById(id)
-        return if (model == null) {
-            model
-        } else
-            model.toDomain()
-    }
 
 
     /** Insert a list of entity */

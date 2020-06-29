@@ -285,7 +285,7 @@ class NewCharacterViewModel(
                     }
                     Log.d("RESULT", currentCharacter.toString())
 
-                    var breeds = getCharacterWithBreeds(characterId)
+
 
 
 
@@ -516,22 +516,7 @@ class NewCharacterViewModel(
         }
     }
 
-    /**
-     * Get a character with its breeds.
-     */
-    fun getCharacterWithBreeds(id: Long?):List<Long?>? {
-        var character: DomainCharacter? = null
-        viewModelScope.launch {
-            character = characterRepository.findOneById(id)
-            Log.d("DEBUG$TAG", "Character : ${character?.characterName} : breeds ${character?.characterBreeds}")
 
-            character?.characterBreeds?.forEach {
-                Log.d("DEBUG$TAG", "Breed id : $it")
-            }
-        }
-
-        return character?.characterBreeds?.toList()
-    }
 
     /**
      * Set character's height.

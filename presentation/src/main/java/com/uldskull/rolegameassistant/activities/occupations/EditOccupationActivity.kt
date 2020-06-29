@@ -181,7 +181,11 @@ class EditOccupationActivity : CustomActivity() {
             )
             occupationsViewModel.refreshDataFromRepository()
 
-            val occupation = occupationsViewModel.getOccupationById(id)
+            var occupation: DomainOccupation? = null
+
+            occupationsViewModel.repositoryOccupations?.observe(this, Observer { list ->
+                occupation = list.first { o -> o.occupationId == id }
+            })
             occupationAdapterButtonListener.itemPressed(occupation)
 
 
@@ -218,7 +222,6 @@ class EditOccupationActivity : CustomActivity() {
     }
 
 
-
     /**
      * Deserialize widgets
      */
@@ -234,7 +237,6 @@ class EditOccupationActivity : CustomActivity() {
         setOccupationTitleEditText =
             this.findViewById(R.id.activityEditOccupation_editText_occupationTitle)
     }
-
 
 
     /**

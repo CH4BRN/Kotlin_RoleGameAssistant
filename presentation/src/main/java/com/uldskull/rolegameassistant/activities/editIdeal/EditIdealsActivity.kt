@@ -128,7 +128,6 @@ class EditIdealsActivity : CustomActivity(),
     }
 
 
-
     /**
      * Initialize the widgets
      */
@@ -256,12 +255,19 @@ class EditIdealsActivity : CustomActivity(),
 
                 idealsViewModel.refreshDataFromRepository()
 
-                val ideal = idealsViewModel.getIdealById(id)
+                var ideal: DomainIdeal? = null
+
+                idealsViewModel?.repositoryIdeals?.observe(this, Observer { list ->
+                    ideal = list?.first { i ->
+                        i.idealId == id
+                    }
+                })
+
                 if (ideal != null) {
                     idealsViewModel.currentIdealToEdit = ideal
-                    setIdealTitleEditText?.setText(ideal.idealName)
-                    idealGoodPointsEditText?.setText(ideal.idealGoodPoints?.toString())
-                    idealEvilPointsEditText?.setText(ideal.idealEvilPoints?.toString())
+                    setIdealTitleEditText?.setText(ideal?.idealName)
+                    idealGoodPointsEditText?.setText(ideal?.idealGoodPoints?.toString())
+                    idealEvilPointsEditText?.setText(ideal?.idealEvilPoints?.toString())
                 }
             }
         }
@@ -300,8 +306,16 @@ class EditIdealsActivity : CustomActivity(),
         }
         saveIdealImageButton!!.setOnClickListener {
 
-            if (idealsViewModel.currentIdealToEdit != null) {
-                idealsViewModel.insertIdeal(idealsViewModel.currentIdealToEdit!!)
+            var idealToEdit = idealsViewModel.currentIdealToEdit
+            if (idealToEdit != null) {
+
+                idealsViewModel.repositoryIdeals?.observe(this, Observer { list ->
+                    if (list.any { i -> i.idealId == idealToEdit.idealId }) {
+                        idealsViewModel.updateIdeal(idealToEdit)
+                    } else {
+                        idealsViewModel.insertIdeal(idealToEdit)
+                    }
+                })
             }
             idealsViewModel.refreshDataFromRepository()
             val ideals = idealsViewModel.getAll()

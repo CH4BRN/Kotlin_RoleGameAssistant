@@ -73,23 +73,7 @@ class DbIdealsRepositoryImpl(
         }
     }
 
-    /** Get one entity by its id    */
-    override suspend fun findOneById(id: Long?): DomainIdeal? {
-        Log.d(TAG, "findOneById : $id")
-        val result: DbIdeal
-        try {
-            result = dbIdealDao.getIdealById(id)
-        } catch (e: Exception) {
-            Log.e(TAG, "findOneById FAILED")
-            e.printStackTrace()
-            throw e
-        }
-        return if(result == null){
-            result
-        }else{
-            result.toDomain()
-        }
-    }
+
 
     /** Insert a list of entity - it should return long[] or List<Long>.*/
     override suspend fun insertAll(all: List<DomainIdeal>?): List<Long>? {

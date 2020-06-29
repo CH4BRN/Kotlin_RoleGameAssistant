@@ -55,9 +55,7 @@ class BreedsNamesAdapter internal constructor(
             }
         }
 
-        fun setPosition(position:Int){
 
-        }
         /**
          * Bind the view holder
          */

@@ -88,32 +88,16 @@ class OccupationsViewModel(
                 if (domainOccupation.occupationId == null) {
                     result = occupationsRepositoryImpl.insertOne(domainOccupation)
                 } else {
-                    var model = occupationsRepositoryImpl.findOneById(domainOccupation.occupationId)
-                    if (model == null) {
-                        result = occupationsRepositoryImpl.insertOne(domainOccupation)
-                    } else {
-                        occupationsRepositoryImpl.updateOne(domainOccupation)
-                        result = domainOccupation.occupationId
-                    }
+
+                    result = occupationsRepositoryImpl.insertOne(domainOccupation)
+
                 }
             }
             return result
         }
     }
 
-    /**
-     * gets occupation by its id
-     */
-    fun getOccupationById(id: Long?): DomainOccupation? {
-        if (id == null) {
-            return null
-        }
-        var model: DomainOccupation? = null
-        viewModelScope.launch {
-            model = occupationsRepositoryImpl.findOneById(id)
-        }
-        return model
-    }
+
 
     /**
      * Delete occupation

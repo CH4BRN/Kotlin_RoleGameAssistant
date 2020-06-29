@@ -40,22 +40,7 @@ class DbFilledOccupationSkillRepositoryImpl(
         }
     }
 
-    /** Get one entity by its id    */
-    override suspend fun findOneById(id: Long?): DomainSkillToFill? {
-        Log.d(TAG, "findOneById")
-        val result: DbFilledSkill
-        try {
-            result = dbFilledOccupationSkillsDao.getOneById(id)
-        } catch (e: Exception) {
-            Log.e("ERROR$TAG", "findOneById FAILED")
-            e.printStackTrace()
-            throw e
-        }
-        if (result == null) {
-            return null
-        }
-        return result.toDomain()
-    }
+
 
     /**
      * find the same skill

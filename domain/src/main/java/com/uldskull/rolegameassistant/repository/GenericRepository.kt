@@ -18,9 +18,6 @@ interface GenericRepository<T, U> {
     /** Get all entities    */
     fun getAll(): T?
 
-    /** Get one entity by its id    */
-    suspend fun findOneById(id: Long?): U?
-
     /** Insert a list of entity - it should return long[] or List<Long>.*/
     suspend fun insertAll(all: List<U>?): List<Long>?
 

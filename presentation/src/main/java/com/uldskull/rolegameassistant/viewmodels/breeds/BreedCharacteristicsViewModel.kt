@@ -75,17 +75,7 @@ class BreedCharacteristicsViewModel(
         return result
     }
 
-    /**
-     * Find one breed characteristic by its id
-     */
-    fun findBreedCharacteristicWithId(breedCharacteristicId: Long?): DomainBreedsCharacteristic? {
-        Log.d(TAG, "findCharacteristicWithId with id : $breedCharacteristicId")
-        var result: DomainBreedsCharacteristic? = null
-        viewModelScope.launch {
-            result = breedsCharacteristicRepositoryImpl.findOneById(breedCharacteristicId)
-        }
-        return result
-    }
+
 
     /**
      * Save all breed characteristics

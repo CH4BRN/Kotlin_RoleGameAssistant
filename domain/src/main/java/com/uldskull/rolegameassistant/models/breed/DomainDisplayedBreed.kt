@@ -15,15 +15,15 @@ class DomainDisplayedBreed(
     /**
      * Breed name
      */
-    val breedName: String?,
+    var breedName: String?,
     /**
      * Breed description
      */
-    val breedDescription: String?,
+    var breedDescription: String?,
     /**
      * Breed health bonus
      */
-    val breedHealthBonus: Int?,
+    var breedHealthBonus: Int?,
     /**
      * Is breed checked
      */
