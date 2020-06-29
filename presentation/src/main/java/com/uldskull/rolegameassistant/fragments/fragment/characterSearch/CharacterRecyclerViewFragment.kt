@@ -5,6 +5,7 @@ package com.uldskull.rolegameassistant.fragments.fragment.characterSearch
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -12,21 +13,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
 import com.uldskull.rolegameassistant.activities.core.CharacterTransmission
-import com.uldskull.rolegameassistant.fragments.viewPager.adapter.CHARACTERS_RECYCLER_VIEW_FRAGMENT_POSITION
-import com.uldskull.rolegameassistant.fragments.core.listeners.CustomAdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.core.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.core.CustomRecyclerViewFragment
-import com.uldskull.rolegameassistant.fragments.core.listeners.CustomTextWatcher
-import com.uldskull.rolegameassistant.fragments.core.listeners.DeleteCharacterButtonListener
+import com.uldskull.rolegameassistant.fragments.core.listeners.*
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
+import com.uldskull.rolegameassistant.fragments.viewPager.adapter.CHARACTERS_RECYCLER_VIEW_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.models.character.DomainCharacter
+import com.uldskull.rolegameassistant.viewmodels.DerivedValuesViewModel
+import com.uldskull.rolegameassistant.viewmodels.LifePointsViewModel
 import com.uldskull.rolegameassistant.viewmodels.character.CharactersViewModel
-import com.uldskull.rolegameassistant.viewmodels.character.NewCharacterViewModel
 import kotlinx.android.synthetic.main.fragment_characters_recyclerview.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -36,7 +38,9 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 class CharacterRecyclerViewFragment :
     CustomRecyclerViewFragment(),
     CustomAdapterButtonListener<DomainCharacter>,
-    DeleteCharacterButtonListener {
+    DeleteCharacterButtonListener,
+    EditLifePointsButtonListener,
+    EditSanityButtonListener {
 
     private var textLength: Int? = 0
 
@@ -70,6 +74,35 @@ class CharacterRecyclerViewFragment :
      */
     private var arraySort: ArrayList<DomainCharacter> = ArrayList()
 
+    /**
+     * Lifepoints dialog
+     */
+    private var lifePointsDialog: Dialog? = null
+
+    /**
+     * Lifepoints view model
+     */
+    private val lifePointsViewModel: LifePointsViewModel by sharedViewModel()
+
+    /**
+     * TextView for health points
+     */
+    private var textViewHealthPoints: TextView? = null
+
+    /**
+     * TextView for sanity points
+     */
+    private var textViewSanityPoints: TextView? = null
+
+    /**
+     * Sanity dialog
+     */
+    private var sanityPointsDialog: Dialog? = null
+
+    /**
+     * Derived values view model
+     */
+    private val derivedValuesViewModel: DerivedValuesViewModel by sharedViewModel()
 
     /**
      * Fragment life-cycle : Called once the view is created.
@@ -77,6 +110,7 @@ class CharacterRecyclerViewFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (activity != null) {
+
             editTextCharacterSearch = activity!!.findViewById(R.id.et_characterSearch)
 
 
@@ -95,11 +129,13 @@ class CharacterRecyclerViewFragment :
                         CharactersAdapter(
                             activity as Context,
                             this@CharacterRecyclerViewFragment,
+                            this@CharacterRecyclerViewFragment,
+                            this@CharacterRecyclerViewFragment,
                             this@CharacterRecyclerViewFragment
                         )
 
                     //  Update the cached copy
-                    charactersViewModel?.characters?.observe(
+                    charactersViewModel?.repositoryCharacters?.observe(
                         viewLifecycleOwner,
                         Observer { characters ->
                             characters?.let {
@@ -157,12 +193,9 @@ class CharacterRecyclerViewFragment :
                                 false
                             )
                     }
-
-
                 }
             })
         }
-
     }
 
     /**
@@ -202,13 +235,16 @@ class CharacterRecyclerViewFragment :
      */
     override fun startObservation() {
         observeCharacters()
+        observeLifePointsValue()
+        observeSanityScoreValue()
     }
+
 
     /**
      * Observe characters
      */
     private fun observeCharacters() {
-        this.charactersViewModel.characters?.observe(
+        this.charactersViewModel.repositoryCharacters?.observe(
             this,
             Observer {
                 kotlin.run {
@@ -230,7 +266,7 @@ class CharacterRecyclerViewFragment :
      */
     override fun setRecyclerViewAdapter() {
         if (activity != null) {
-            charactersAdapter = CharactersAdapter(activity as Context, this, this)
+            charactersAdapter = CharactersAdapter(activity as Context, this, this, this, this)
             characterRecyclerView?.adapter = charactersAdapter
         }
 
@@ -274,6 +310,7 @@ class CharacterRecyclerViewFragment :
      */
     override fun deleteCharacter(domainCharacter: DomainCharacter) {
         Log.d("DEBUG$TAG", "Character : ${domainCharacter.characterName}")
+        var result: Int? = -1
         if (activity != null) {
             val confirmDialog = AlertDialog.Builder(activity)
 
@@ -288,7 +325,28 @@ class CharacterRecyclerViewFragment :
             ) { _, which ->
                 Log.d("DEBUG$TAG", "Which : $which")
                 when (which) {
-                    1 -> charactersViewModel.deleteOne(domainCharacter)
+                    1 -> kotlin.run {
+                        result = charactersViewModel.deleteOne(domainCharacter)
+
+                        var index =
+                            charactersAdapter?.itemList?.indexOfFirst { c -> c.characterId == domainCharacter?.characterId }
+                        Log.d("DEBUG$TAG", "Index : $index")
+                        if (index != null) {
+                            var adapterItems = charactersAdapter?.itemList
+                            if (adapterItems != null) {
+                                Log.d(
+                                    "DEBUG$TAG",
+                                    "Adapter items size before : ${adapterItems?.size}"
+                                )
+                                adapterItems?.remove(domainCharacter)
+                                Log.d(
+                                    "DEBUG$TAG",
+                                    "Adapter items size after : ${adapterItems?.size}"
+                                )
+                                charactersAdapter?.setItems(adapterItems?.toList())
+                            }
+                        }
+                    }
                 }
             }
             confirmDialog.show()
@@ -296,10 +354,235 @@ class CharacterRecyclerViewFragment :
     }
 
     /**
-     * Displays the "delete confirmation" alert dialog
+     * Observe life points value
      */
-    private fun displayeDeleteConfirmationAlertDialog() {
+    private fun observeLifePointsValue() {
+        lifePointsViewModel.lifePoints.observe(this, Observer { healthPoints ->
+            Log.d("DEBUG$TAG", "LifePoints : $healthPoints")
+            if (healthPoints != null && textViewHealthPoints != null) {
+                textViewHealthPoints?.text = healthPoints.toString()
+            }
+        })
+    }
+
+    /**
+     * Observe sanity score value
+     */
+    private fun observeSanityScoreValue() {
+        derivedValuesViewModel.sanityScore.observe(this, Observer { sanity ->
+            Log.d("DEBUG$TAG", "sanity : $sanity")
+            if (sanity != null && textViewSanityPoints != null) {
+                textViewSanityPoints?.text = sanity.toString()
+            }
+        })
+    }
 
 
+    /**
+     * Called to display the character life points edition pop up window
+     */
+    private fun showLifePointsPopUp(domainCharacter: DomainCharacter) {
+        Log.d("DEBUG$TAG", "showLifePointsPopUp")
+        lifePointsDialog = Dialog(activity!!)
+        if (lifePointsDialog != null) {
+            lifePointsDialog?.setContentView(R.layout.popup_character)
+
+            //  Displays base health points
+            textViewHealthPoints =
+                lifePointsDialog?.findViewById(R.id.popupCharacter_textView_healthPoints)
+
+            // Declares buttons
+            var imageButtonMinus: ImageButton? = null
+            var imageButtonPlus: ImageButton? = null
+            var imageButtonCancel: ImageButton? = null
+            var imageButtonSave: ImageButton? = null
+
+            //  Deserializes buttons
+            imageButtonMinus =
+                lifePointsDialog?.findViewById(R.id.popupCharacter_imageButton_minus)
+            imageButtonPlus =
+                lifePointsDialog?.findViewById(R.id.popupCharacter_imageButton_plus)
+            imageButtonCancel =
+                lifePointsDialog?.findViewById(R.id.popupCharacter_imageButton_cancel)
+            imageButtonSave =
+                lifePointsDialog?.findViewById(R.id.popupCharacter_imageButton_save)
+
+            //  Checks if buttons are deserialized
+            if (imageButtonMinus == null || imageButtonPlus == null || imageButtonCancel == null || imageButtonSave == null) {
+                throw Exception("Button is null.")
+            }
+
+            //  Gets character health points
+            if (domainCharacter.characterHealthPoints != null) {
+                lifePointsViewModel.lifePoints.value = domainCharacter.characterHealthPoints
+            } else {
+                lifePointsViewModel.lifePoints.value = 0
+            }
+
+            //  Sets the minus button onClickListener
+            imageButtonMinus.setOnClickListener {
+                Log.d("DEBUG$TAG", "Minus")
+                var initialLifePoints: Int? = 0
+                lifePointsViewModel.lifePoints.observe(this, Observer { lifePoints ->
+                    initialLifePoints = lifePoints
+                })
+                if (initialLifePoints!! >= 1) {
+                    var newLifePoints = initialLifePoints!! - 1
+                    lifePointsViewModel.lifePoints.value = newLifePoints
+                }
+            }
+
+            //  Sets the plus button onClickListener
+            imageButtonPlus.setOnClickListener {
+                Log.d("DEBUG$TAG", "Plus")
+                var initialLifePoints: Int? = 0
+                lifePointsViewModel.lifePoints.observe(this, Observer { lifePoints ->
+                    initialLifePoints = lifePoints
+                })
+                var newLifePoints = initialLifePoints!! + 1
+                lifePointsViewModel.lifePoints.value = newLifePoints
+            }
+
+            //  Sets the cancel button onClickListener
+            imageButtonCancel.setOnClickListener {
+                lifePointsDialog!!.dismiss()
+            }
+
+            //  Sets the save button onClickListener
+            imageButtonSave.setOnClickListener {
+                var oldCharacter: DomainCharacter? = null
+                charactersViewModel?.repositoryCharacters?.observe(this, Observer { list ->
+                    Log.d("DEBUG$TAG", "Character id : ${domainCharacter.characterId}")
+                    oldCharacter =
+                        list?.firstOrNull { c -> c?.characterId == domainCharacter.characterId }
+                })
+                if (oldCharacter == null) {
+                    Log.d("DEBUG$TAG", "Old Character is null")
+                    //  Do nothing
+                } else {
+                    Log.d("DEBUG$TAG", "Old Character is not null")
+                    // Gets the life points
+                    lifePointsViewModel.lifePoints.observe(this, Observer { healthPoints ->
+                        oldCharacter?.characterHealthPoints = healthPoints
+                    })
+                    //  Update the character
+                    charactersViewModel.updateOne(oldCharacter)
+                }
+            }
+
+            //  Shows the dialog
+            lifePointsDialog?.show()
+        }
+    }
+
+    /**
+     * Called when the "edit life points" button is pushed
+     */
+    override fun editLifePoints(domainCharacter: DomainCharacter) {
+        Log.d("DEBUG$TAG", "Edit life points")
+        if (activity != null) {
+            showLifePointsPopUp(domainCharacter)
+        }
+    }
+
+    /**
+     * Called when the "edit cthulhu myth" button is pushed
+     */
+    override fun editSanityScore(domainCharacter: DomainCharacter) {
+        Log.d("DEBUG$TAG", "Edit cthulhu myth")
+        if (activity != null) {
+            showSanityPopUp(domainCharacter)
+        }
+    }
+
+    /**
+     * Called to display the character sanity edition pop up windows
+     */
+    private fun showSanityPopUp(domainCharacter: DomainCharacter) {
+        Log.d("DEBUG$TAG", "showSanityPopUp")
+        sanityPointsDialog = Dialog(activity!!)
+        if (sanityPointsDialog != null) {
+            sanityPointsDialog?.setContentView(R.layout.popup_sanity)
+
+            //  Displays base sanity
+            textViewSanityPoints =
+                sanityPointsDialog?.findViewById(R.id.popupSanity_textView_sanityPoints)
+
+            //  Declares buttons
+            var imageButtonMinus: ImageButton? = null
+            var imageButtonPlus: ImageButton? = null
+            var imageButtonCancel: ImageButton? = null
+            var imageButtonSave: ImageButton? = null
+
+            //  Deserializes buttons
+            imageButtonMinus =
+                sanityPointsDialog?.findViewById(R.id.popupSanity_imageButton_minus)
+            imageButtonPlus =
+                sanityPointsDialog?.findViewById(R.id.popupSanity_imageButton_plus)
+            imageButtonCancel =
+                sanityPointsDialog?.findViewById(R.id.popupSanity_imageButton_cancel)
+            imageButtonSave =
+                sanityPointsDialog?.findViewById(R.id.popupSanity_imageButton_save)
+
+            //  Checks if buttons are deserialized
+            if (imageButtonMinus == null || imageButtonPlus == null || imageButtonCancel == null || imageButtonSave == null) {
+                throw Exception("Button is null.")
+            }
+
+            //  Gets character sanity points
+            if (domainCharacter.characterSanity != null) {
+                derivedValuesViewModel.sanityScore.value = domainCharacter.characterSanity
+            } else {
+                derivedValuesViewModel.sanityScore.value = 99
+            }
+
+            //  Sets the minus button onClickListener
+            imageButtonMinus.setOnClickListener {
+                Log.d("DEBUG$TAG", "Minus")
+                var initialSanity: Int? = 0
+                derivedValuesViewModel.sanityScore.observe(this, Observer { sanity ->
+                    initialSanity = sanity
+                })
+                var newSanityPoints = initialSanity!! - 1
+                derivedValuesViewModel.sanityScore.value = newSanityPoints
+            }
+
+            //  Sets the plus button onClickListener
+            imageButtonPlus.setOnClickListener {
+                Log.d("DEBUG$TAG", "Minus")
+                var initialSanity: Int? = 0
+                derivedValuesViewModel.sanityScore.observe(this, Observer { sanity ->
+                    initialSanity = sanity
+                })
+                var newSanityPoints = initialSanity!! + 1
+                derivedValuesViewModel.sanityScore.value = newSanityPoints
+            }
+
+            //  Sets the cancel button onClickListener
+            imageButtonCancel.setOnClickListener {
+                sanityPointsDialog!!.dismiss()
+            }
+
+            //  Sets the save button onClickListener
+            imageButtonSave.setOnClickListener {
+                var oldCharacter: DomainCharacter? = null
+                charactersViewModel.repositoryCharacters?.observe(this, Observer { list ->
+                    oldCharacter =
+                        list?.firstOrNull { c -> c?.characterId == domainCharacter.characterId }
+                })
+                if (oldCharacter == null) {
+                    // Do nothing
+                } else {
+                    derivedValuesViewModel.sanityScore.observe(this, Observer { sanity ->
+                        Log.d("DEBUG$TAG"," Sanity observed = $sanity")
+                        oldCharacter?.characterSanity = sanity
+                    })
+                    //Update the character
+                    charactersViewModel.updateOne(oldCharacter)
+                }
+            }
+            //  Shows the dialog
+            sanityPointsDialog?.show()
+        }
     }
 }

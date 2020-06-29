@@ -152,10 +152,17 @@ val viewModelModule = module {
             application = get()
         )
     }
-    
+
     //  basic info view model
-    viewModel { 
+    viewModel {
         BasicInfoViewModel(
+            application = get()
+        )
+    }
+
+    //  Life points view model
+    viewModel {
+        LifePointsViewModel(
             application = get()
         )
     }

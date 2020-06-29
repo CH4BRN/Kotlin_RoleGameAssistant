@@ -13,8 +13,6 @@ import com.uldskull.rolegameassistant.repository.GenericRepository
 interface IdealsRepository<T> :
     GenericRepository<T, DomainIdeal> {
 
-    fun getIdeals():List<DomainIdeal>
-
     suspend fun deleteOne(ideal: DomainIdeal):Int
 
 }

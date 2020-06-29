@@ -128,7 +128,7 @@
                 android:id="@+id/activityEditOccupation_imageButton_deleteOccupation"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:background="@drawable/mybutton"
+                android:background="@drawable/my_button"
                 android:padding="8dp"
                 android:src="@drawable/ic_trash_can_24dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -139,7 +139,7 @@
                 android:id="@+id/activityEditOccupation_imageButton_saveOccupation"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:background="@drawable/mybutton"
+                android:background="@drawable/my_button"
                 android:padding="8dp"
                 android:src="@drawable/ic_save_black_24dp"
                 app:layout_constraintEnd_toEndOf="parent" />

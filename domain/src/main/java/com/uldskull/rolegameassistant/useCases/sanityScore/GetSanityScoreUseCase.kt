@@ -11,7 +11,7 @@ import com.uldskull.rolegameassistant.useCases.UseCase
  */
 class GetSanityScoreUseCase : UseCase<DomainRollsCharacteristic, Int> {
     override fun execute(request: DomainRollsCharacteristic): Int {
-        return if (request?.characteristicTotal != null) {
+        return if (request.characteristicTotal != null) {
             request.characteristicTotal!! * 5
         } else {
             0

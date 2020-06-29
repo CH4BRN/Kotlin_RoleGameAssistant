@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.uldskull.rolegameassistant.models.character.DomainCharacter
 import com.uldskull.rolegameassistant.repository.character.CharacterRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.concurrent.thread
 
@@ -38,7 +39,7 @@ class CharactersViewModel(
     /**
      * List of characters
      */
-    var characters: LiveData<List<DomainCharacter?>?>? = characterRepository.getAll()
+    var repositoryCharacters: LiveData<List<DomainCharacter?>?>? = characterRepository.getAll()
 
     /**
      * Refresh the characters list
@@ -47,8 +48,8 @@ class CharactersViewModel(
         Log.d("DEBUG$TAG", "refreshDataFromRepository")
         viewModelScope.launch {
             try {
-                characters = findAll()
-                Log.d(TAG, "characters size ${characters?.value?.size}")
+                repositoryCharacters = findAll()
+                Log.d(TAG, "characters size ${repositoryCharacters?.value?.size}")
             } catch (e: Exception) {
                 Log.e("Error", "${e.stackTrace}")
                 throw e
@@ -63,24 +64,38 @@ class CharactersViewModel(
     private fun findAll(): LiveData<List<DomainCharacter?>?>? {
         Log.d(TAG, "findAll")
         thread(start = true) {
-            characters = characterRepository.getAll()
+            repositoryCharacters = characterRepository.getAll()
         }
-        return characters
+        return repositoryCharacters
     }
-
 
 
     /**
      * Delete one character
      */
-    fun deleteOne(domainCharacter: DomainCharacter?):Int{
+    fun deleteOne(domainCharacter: DomainCharacter?): Int {
         var result = 0
-        if(domainCharacter == null){
+        if (domainCharacter == null) {
             return result
         }
-        viewModelScope.launch {
-            result =  characterRepository.deleteOneCharacter(domainCharacter)
+        viewModelScope.launch(Dispatchers.IO) {
+            result = characterRepository.deleteOneCharacter(domainCharacter)
         }
         return result
+    }
+
+    /**
+     * Update one character
+     */
+    fun updateOne(domainCharacter: DomainCharacter?): Int? {
+        var result: Int? = 0
+        if (domainCharacter == null) {
+            return result
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            result = characterRepository.updateOne(domainCharacter)
+        }
+        return result
+
     }
 }

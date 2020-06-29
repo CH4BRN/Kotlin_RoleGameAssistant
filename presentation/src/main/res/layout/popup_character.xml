@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp">
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/my_button"
+        android:padding="8dp"
+        android:id="@+id/popupCharacter_imageButton_cancel"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_cancel_24dp"
+        />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:paddingVertical="32dp"
+        android:id="@+id/popupCharacter_layout_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/popupCharacter_imageButton_cancel"
+        app:layout_constraintBottom_toTopOf="@id/popupCharacter_imageButton_save">
+
+        <ImageButton
+            android:id="@+id/popupCharacter_imageButton_minus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/my_button_minus"
+            android:padding="8dp"
+            android:src="@drawable/ic_heart_minus_30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_marginHorizontal="16dp"
+            android:id="@+id/popupCharacter_textView_healthPoints"
+            style="@style/TextViewSubTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/health_points_hint"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/popupCharacter_imageButton_plus"
+            app:layout_constraintStart_toEndOf="@id/popupCharacter_imageButton_minus"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/popupCharacter_imageButton_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/my_button_plus"
+            android:padding="8dp"
+            android:src="@drawable/ic_heart_plus_30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <ImageButton
+        android:id="@+id/popupCharacter_imageButton_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_save_black_24dp"
+        android:background="@drawable/my_button"
+        android:padding="8dp"
+        app:layout_constraintTop_toBottomOf="@id/popupCharacter_layout_edit"
+        android:layout_marginTop="16dp"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

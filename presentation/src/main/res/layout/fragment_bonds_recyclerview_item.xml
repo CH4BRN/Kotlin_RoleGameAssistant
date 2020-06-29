@@ -44,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
-        android:background="@drawable/mybutton"
+        android:background="@drawable/my_button"
         android:contentDescription="@string/delete_bond"
         android:gravity="center"
         android:padding="8dp"

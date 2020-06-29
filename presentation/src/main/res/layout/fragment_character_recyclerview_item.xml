@@ -8,28 +8,105 @@
     android:background="@drawable/my_character_recyclerview_cell"
     android:orientation="horizontal">
 
+
     <TextView
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
         android:id="@+id/tv_characterName"
         style="@style/TextViewSubTitle"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-    </TextView>
-    <ImageButton
-        android:id="@+id/fragmentCharacterRecyclerViewItem_imageButton_deleteCharacter"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/name_hint"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        app:layout_constrainedWidth="true"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_min="150dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_max="150dp"></TextView>
+
+
+    <TextView
+        android:id="@+id/fragmentCharacterRecyclerViewItem_textView_healthPoints"
+        style="@style/TextViewSubTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:src="@drawable/ic_trash_can_24dp"
-        android:background="@drawable/mybutton"
-        android:padding="8dp"/>
+        android:hint="@string/health_points_hint"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_characterName"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/fragmentCharacterRecyclerViewItem_textView_healthPointAttribute"/>
+
+    <TextView
+        android:id="@+id/fragmentCharacterRecyclerViewItem_textView_healthPointAttribute"
+        style="@style/TextViewSubTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:text="@string/health_points_attribute"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/fragmentCharacterRecyclerViewItem_textView_healthPoints"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/fragmentCharacterRecyclerViewItem_imageButton_setLifePoints"/>
+
+    <ImageButton
+        android:id="@+id/fragmentCharacterRecyclerViewItem_imageButton_setLifePoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/my_button"
+        android:padding="4dp"
+        android:src="@drawable/ic_life_bar_35dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/fragmentCharacterRecyclerViewItem_textView_healthPointAttribute"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/fragmentCharacterRecyclerViewItem_textView_sanity"/>
+
+    <TextView
+        android:id="@+id/fragmentCharacterRecyclerViewItem_textView_sanity"
+        style="@style/TextViewSubTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_sanity"
+        app:layout_constraintEnd_toStartOf="@id/fragmentCharacterRecyclerViewItem_textView_sanityAttribute"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/fragmentCharacterRecyclerViewItem_imageButton_setLifePoints"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/fragmentCharacterRecyclerViewItem_textView_sanityAttribute"
+        style="@style/TextViewSubTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/pts"
+        app:layout_constraintEnd_toStartOf="@id/fragmentCharacterRecyclerViewItem_imageButton_editSanity"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/fragmentCharacterRecyclerViewItem_textView_sanity"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:layout_marginRight="24dp"
+        android:id="@+id/fragmentCharacterRecyclerViewItem_imageButton_editSanity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/my_button"
+        android:padding="4dp"
+        android:src="@drawable/ic_brain_35dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/fragmentCharacterRecyclerViewItem_textView_sanityAttribute"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/fragmentCharacterRecyclerViewItem_imageButton_deleteCharacter"/>
+
+
+    <ImageButton
+
+        android:id="@+id/fragmentCharacterRecyclerViewItem_imageButton_deleteCharacter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/my_button_minus"
+        android:padding="8dp"
+        android:src="@drawable/ic_trash_can_35dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

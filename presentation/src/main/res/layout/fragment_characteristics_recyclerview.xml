@@ -67,12 +67,12 @@
                 app:layout_constraintTop_toBottomOf="@id/layout_titles" />
 
             <ImageButton
-                android:src="@drawable/ic_pencil"
+                android:src="@drawable/ic_pencil_48dp"
                 android:id="@+id/btn_use_point"
                 style="@style/myCornerRadiusButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/mybutton"
+                android:background="@drawable/my_button"
                 android:padding="4dp"
                 android:text="@string/use_points"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -81,12 +81,12 @@
                 android:contentDescription="@string/use_points_manually" />
 
             <ImageButton
-                android:src="@drawable/ic_dice_twenty_faces_one"
+                android:src="@drawable/ic_dice_twenty_faces_one_48dp"
                 android:id="@+id/btn_roll"
                 style="@style/myCornerRadiusButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/mybutton"
+                android:background="@drawable/my_button"
                 android:padding="4dp"
                 android:text="@string/roll"
                 app:layout_constraintBottom_toBottomOf="parent"

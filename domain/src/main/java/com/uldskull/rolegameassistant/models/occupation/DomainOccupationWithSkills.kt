@@ -9,15 +9,16 @@ import com.uldskull.rolegameassistant.models.skill.DomainSkillToCheck
  *   Class "DomainOccupationWithSkills" :
  *   Holds an occupation with its skills
  **/
-class DomainOccupationWithSkills (
+class DomainOccupationWithSkills(
     /**
      * The occupation
      */
-    var occupation:DomainOccupation?,
+    var occupation: DomainOccupation?,
     /**
      * The skills list
      */
-    var skills:List<DomainSkillToCheck>){
+    var skills: List<DomainSkillToCheck>
+) {
     /**
      * Returns a string representation of the object.
      */

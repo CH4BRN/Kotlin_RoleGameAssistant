@@ -69,16 +69,20 @@ class EditOccupationActivity : CustomActivity() {
 
                 var occupationWithChildren: DomainOccupationWithSkills? = null
                 occupationsViewModel.repositoryOccupationsWithSkills?.observe(this@EditOccupationActivity, Observer {list ->
-                    occupationWithChildren = list.firstOrNull { o -> o?.occupation?.occupationId == domainOccupation.occupationId }
+                    occupationWithChildren = list.firstOrNull { o -> o?.occupation?.occupationId == domainOccupation?.occupationId }
                 })
 
 
                 val oldList = skillsViewModel.mutableSkillsToCheck?.value
 
-                for (i in oldList?.indices!!) {
-                    oldList[i].skillIsChecked =
-                        occupationWithChildren?.skills?.any { occupationSkill -> occupationSkill.skillId!! == oldList[i].skillId!! }!!
+                if(occupationWithChildren?.skills != null){
+                    for (i in oldList?.indices!!) {
+
+                        oldList[i].skillIsChecked =
+                            occupationWithChildren?.skills?.any { occupationSkill -> occupationSkill?.skillId!! == oldList[i]?.skillId!! }!!
+                    }
                 }
+
 
                 occupationsSkillsToEditRecyclerView?.adapter = skillRecyclerViewAdapter
 
@@ -186,9 +190,12 @@ class EditOccupationActivity : CustomActivity() {
             var occupation: DomainOccupation? = null
 
             occupationsViewModel.repositoryOccupations?.observe(this, Observer { list ->
-                occupation = list.first { o -> o.occupationId == id }
+                occupation = list.firstOrNull { o -> o.occupationId == id }
             })
-            occupationAdapterButtonListener.itemPressed(occupation)
+            if(occupation != null){
+                occupationAdapterButtonListener.itemPressed(occupation)
+            }
+
 
 
         }

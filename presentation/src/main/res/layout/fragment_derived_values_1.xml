@@ -216,10 +216,10 @@
                 android:layout_gravity="end"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:background="@drawable/mybutton"
+                android:background="@drawable/my_button"
                 android:contentDescription="@string/edit_derived_values_manually"
                 android:padding="4dp"
-                android:src="@drawable/ic_pencil"
+                android:src="@drawable/ic_pencil_48dp"
                 android:text="@string/use_points"
                 app:layout_constraintEnd_toEndOf="@id/scrollView_derivedValues1"
                 app:layout_constraintTop_toBottomOf="@id/scrollView_derivedValues1" />

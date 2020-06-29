@@ -268,7 +268,7 @@ class NavigationBarFragment : CustomFragment() {
 
             var result: DomainCharacter? = null
 
-            charactersViewModel?.characters?.observe(this, Observer { list ->
+            charactersViewModel?.repositoryCharacters?.observe(this, Observer { list ->
                 result = list?.firstOrNull { c -> c?.characterId == insertedId }
             })
 

@@ -43,20 +43,7 @@ class DbIdealsRepositoryImpl(
         }
     }
 
-    /**
-     * get ideals.
-     */
-    override fun getIdeals(): List<DomainIdeal> {
-        Log.d(TAG, "getAll")
-        try {
-            val ideals: List<DbIdeal> = dbIdealDao.getIdeals()
-            return ideals.map { ideal -> ideal.toDomain() }
 
-        } catch (e: Exception) {
-            Log.e("ERROR", "Get ideals failed")
-            throw e
-        }
-    }
     /**
      * Converts a list of database entities into domain entities
      */
@@ -72,7 +59,6 @@ class DbIdealsRepositoryImpl(
             )
         }
     }
-
 
 
     /** Insert a list of entity - it should return long[] or List<Long>.*/

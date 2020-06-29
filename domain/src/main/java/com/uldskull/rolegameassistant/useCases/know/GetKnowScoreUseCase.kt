@@ -12,7 +12,7 @@ Gets know score
  */
 class GetKnowScoreUseCase : UseCase<DomainRollsCharacteristic, Int>{
     override fun execute(request: DomainRollsCharacteristic): Int {
-        return if(request?.characteristicTotal != null){
+        return if(request.characteristicTotal != null){
             request.characteristicTotal!! *5
         }else{
             0

@@ -140,18 +140,21 @@ class IdealsRecyclerViewFragment :
                         }
                     })
                     if (it != null && it.isNotEmpty()) {
-                        idealsAdapter = IdealsToCheckAdapter(
-                            activity as Context
-                        )
+                        if(activity != null){
+                            idealsAdapter = IdealsToCheckAdapter(
+                                activity as Context
+                            )
 
-                        idealsAdapter?.setItems(mutableIdeals as List<DomainIdeal>)
-                        idealsRecyclerView?.adapter = idealsAdapter
+                            idealsAdapter?.setItems(mutableIdeals as List<DomainIdeal>)
+                            idealsRecyclerView?.adapter = idealsAdapter
 
-                        idealsRecyclerView?.layoutManager = LinearLayoutManager(
-                            activity,
-                            LinearLayoutManager.VERTICAL,
-                            false
-                        )
+                            idealsRecyclerView?.layoutManager = LinearLayoutManager(
+                                activity,
+                                LinearLayoutManager.VERTICAL,
+                                false
+                            )
+                        }
+
                     }
                 }
             }

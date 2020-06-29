@@ -112,18 +112,53 @@ class IdealsToCheckAdapter internal constructor(
         idealGoodPoints: Int?,
         holder: IdealsToCheckViewHolder
     ) {
+        /*
+           /**
+     * set alignment picture
+     */
+    private fun setAlignmentPicture(score: Int) {
+        Log.d(TAG, "setAlignmentPicture")
+        if (derivedValues_img_alignment != null) {
+            Picasso.get()
+            val imgResId: Int = when {
+                score < -25 -> {
+                    R.drawable.evil_icon
+                }
+                score > 25 -> {
+                    R.drawable.good_icon
+                }
+                else -> {
+                    R.drawable.neutral_icon
+                }
+            }
+            Picasso.get()
+                .load(imgResId)
+                .resize(300, 300)
+                .into(derivedValues_img_alignment)
+        }
+    }
+         */
         if (idealEvilPoints != null && idealGoodPoints != null) {
-            if (idealEvilPoints > idealGoodPoints) {
+            var score = idealGoodPoints - idealEvilPoints
+
+            if (score < -50) {
                 holder.idealAlignmentItemView.setImageBitmap(
                     resizePicture(
                         BitmapFactory.decodeResource(context.resources, R.drawable.evil_icon),
                         250, 250
                     )
                 )
-            } else {
+            } else if(score > 50) {
                 holder.idealAlignmentItemView.setImageBitmap(
                     resizePicture(
                         BitmapFactory.decodeResource(context.resources, R.drawable.good_icon),
+                        250, 250
+                    )
+                )
+            }else{
+                holder.idealAlignmentItemView.setImageBitmap(
+                    resizePicture(
+                        BitmapFactory.decodeResource(context.resources, R.drawable.neutral_icon),
                         250, 250
                     )
                 )

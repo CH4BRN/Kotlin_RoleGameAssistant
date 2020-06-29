@@ -11,7 +11,7 @@ import androidx.room.Update
  * Interface "GenericDao"
  **/
 @Dao
-open interface GenericDao<T> {
+interface GenericDao<T> {
     @Insert
     suspend fun insert(obj: T): Long
 

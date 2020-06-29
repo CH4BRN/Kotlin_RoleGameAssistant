@@ -109,4 +109,11 @@
     <string name="no_cancel">Non, annuler.</string>
     <string name="yes_delete">Oui, supprimer.</string>
     <string name="hint_edit_breed_bonus">Quel est le bonus ?</string>
+    <string name="health_points_hint">20</string>
+    <string name="health_points_attribute">PV</string>
+    <string name="what_do_you_want_to_edit">Que voulez vous editer ?</string>
+    <string name="complete_edition">Edition complete</string>
+    <string name="sanity_points_hint">99</string>
+    <string name="pts">PTs</string>
+    <string name="hint_sanity">99</string>
 </resources>

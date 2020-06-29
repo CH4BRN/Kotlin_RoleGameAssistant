@@ -156,7 +156,7 @@ class EditIdealsActivity : CustomActivity(),
              */
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 super.onTextChanged(s, start, before, count)
-                if (s != null) {
+                if (s != null && s.isNotBlank() && s.isNotEmpty()) {
                     val oldIdeal = idealsViewModel.currentIdealToEdit
                     val newIdeal =
                         DomainIdeal(
@@ -258,7 +258,7 @@ class EditIdealsActivity : CustomActivity(),
                 var ideal: DomainIdeal? = null
 
                 idealsViewModel?.repositoryIdeals?.observe(this, Observer { list ->
-                    ideal = list?.first { i ->
+                    ideal = list?.firstOrNull() { i ->
                         i.idealId == id
                     }
                 })
@@ -287,13 +287,7 @@ class EditIdealsActivity : CustomActivity(),
                 idealsViewModel.deleteIdeal(idealsViewModel.currentIdealToEdit!!)
             }
             idealsViewModel.refreshDataFromRepository()
-
-            val ideals = idealsViewModel.getAll()
-
-            ideals?.forEach { i -> Log.d("DEBUG$TAG", "Ideal : ${i.idealName}") }
         }
-
-
     }
 
     /**
@@ -318,9 +312,6 @@ class EditIdealsActivity : CustomActivity(),
                 })
             }
             idealsViewModel.refreshDataFromRepository()
-            val ideals = idealsViewModel.getAll()
-
-            ideals?.forEach { i -> Log.d("DEBUG$TAG", "Ideal : ${i.idealName}") }
         }
 
     }

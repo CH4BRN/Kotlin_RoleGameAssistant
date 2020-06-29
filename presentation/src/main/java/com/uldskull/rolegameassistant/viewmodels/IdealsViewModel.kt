@@ -98,12 +98,7 @@ class IdealsViewModel(
     }
 
 
-    /**
-     * Get all ideals
-     */
-    fun getAll(): List<DomainIdeal>? {
-        return idealsRepositoryImpl.getIdeals()
-    }
+
 
     /**
      * Find all repository ideals

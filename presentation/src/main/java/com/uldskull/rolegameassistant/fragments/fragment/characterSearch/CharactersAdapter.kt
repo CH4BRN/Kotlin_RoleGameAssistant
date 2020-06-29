@@ -4,20 +4,19 @@
 package com.uldskull.rolegameassistant.fragments.fragment.characterSearch
 
 import android.content.Context
-import android.graphics.Color
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.core.listeners.CustomAdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.core.adapter.CustomRecyclerViewAdapter
+import com.uldskull.rolegameassistant.fragments.core.listeners.CustomAdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.core.listeners.DeleteCharacterButtonListener
+import com.uldskull.rolegameassistant.fragments.core.listeners.EditLifePointsButtonListener
+import com.uldskull.rolegameassistant.fragments.core.listeners.EditSanityButtonListener
 import com.uldskull.rolegameassistant.models.character.DomainCharacter
 
 /**
@@ -26,16 +25,15 @@ import com.uldskull.rolegameassistant.models.character.DomainCharacter
  **/
 class CharactersAdapter internal constructor(
     val context: Context,
-    var buttonListenerCustom: CustomAdapterButtonListener<DomainCharacter>?,
-    var deleteCharacterButtonListener: DeleteCharacterButtonListener
+    var openCharacterButtonListener: CustomAdapterButtonListener<DomainCharacter>?,
+    var deleteCharacterButtonListener: DeleteCharacterButtonListener,
+    var editLifePointsButtonListener: EditLifePointsButtonListener,
+    var editSanityPointsButtonListener: EditSanityButtonListener
 ) : CustomRecyclerViewAdapter<DomainCharacter>(context) {
 
-   fun setButtonListener(buttonListenerCustom: CustomAdapterButtonListener<DomainCharacter>?){
-       this.buttonListenerCustom = buttonListenerCustom
-   }
-
-
-
+    companion object {
+        private const val TAG = "CharactersAdapter"
+    }
 
     /**
      * View holder class
@@ -44,47 +42,92 @@ class CharactersAdapter internal constructor(
         private val characterItemLayout: ConstraintLayout =
             itemView.findViewById(R.id.character_item_linear_layout)
         private val characterNameItemView: TextView = itemView.findViewById(R.id.tv_characterName)
-
-        private val imageButtonDeleteCharacter:ImageButton = itemView.findViewById(R.id.fragmentCharacterRecyclerViewItem_imageButton_deleteCharacter)
+        private val imageButtonDeleteCharacter: ImageButton =
+            itemView.findViewById(R.id.fragmentCharacterRecyclerViewItem_imageButton_deleteCharacter)
+        private val textViewCharacterHealth: TextView =
+            itemView.findViewById(R.id.fragmentCharacterRecyclerViewItem_textView_healthPoints)
+        private val textViewHealthAttribute: TextView =
+            itemView.findViewById(R.id.fragmentCharacterRecyclerViewItem_textView_healthPointAttribute)
+        private val textViewCharacterSanity:TextView =
+            itemView.findViewById(R.id.fragmentCharacterRecyclerViewItem_textView_sanity)
+        private val textViewSanityAttribute :TextView =
+            itemView.findViewById(R.id.fragmentCharacterRecyclerViewItem_textView_sanityAttribute)
+        private val imageButtonSetLifePoints: ImageButton =
+            itemView.findViewById(R.id.fragmentCharacterRecyclerViewItem_imageButton_setLifePoints)
+        private val imageButtonSetSanity: ImageButton =
+            itemView.findViewById(R.id.fragmentCharacterRecyclerViewItem_imageButton_editSanity)
 
         init {
+            setDeleteButtonOnClickListener()
+
+            characterItemLayout.setOnClickListener {
+                rowIndex = adapterPosition
+                Log.d("DEBUG", "onBindViewHolder - OnClick - ${itemList[adapterPosition]} ")
+                if (openCharacterButtonListener != null) {
+                    //  Send the character to the RecyclerView fragment
+                    openCharacterButtonListener?.itemPressed(itemList[adapterPosition])
+                }
+                notifyDataSetChanged()
+            }
+
+            imageButtonSetLifePoints?.setOnClickListener {
+                editLifePointsButtonListener?.editLifePoints(itemList[adapterPosition])
+            }
+
+            imageButtonSetSanity?.setOnClickListener {
+                editSanityPointsButtonListener?.editSanityScore(itemList[adapterPosition])
+            }
+        }
+
+        /**
+         * Set delete button on click listener
+         */
+        private fun setDeleteButtonOnClickListener() {
             imageButtonDeleteCharacter?.setOnClickListener {
-                if (adapterPosition == -1){
+                if (adapterPosition == -1) {
                     deleteCharacterButtonListener.deleteCharacter(itemList[0])
-                }else{
+                } else {
                     deleteCharacterButtonListener.deleteCharacter(itemList[adapterPosition])
                 }
                 notifyDataSetChanged()
-
             }
         }
+
         /**
          * Bind the value
          */
-        fun bind(domainCharacter: DomainCharacter?){
-            if(itemList != null){
-
+        fun bind(domainCharacter: DomainCharacter?) {
+            if (itemList != null) {
                 characterNameItemView.text = domainCharacter?.characterName
-                Log.d("test", "\nCurrent character : $domainCharacter")
-
-                characterItemLayout.setOnClickListener {
-                    rowIndex = adapterPosition
-                    Log.d("DEBUG", "onBindViewHolder - OnClick - ${itemList[adapterPosition]} ")
-                    if(buttonListenerCustom != null){
-                        //  Send the character to the RecyclerView fragment
-                        buttonListenerCustom?.itemPressed(itemList[adapterPosition])
-                    }
-                    notifyDataSetChanged()
+                if (domainCharacter?.characterHealthPoints == null) {
+                    textViewCharacterHealth.text = 0.toString()
+                } else {
+                    textViewCharacterHealth.text = domainCharacter.characterHealthPoints.toString()
                 }
 
 
+                if(domainCharacter?.characterSanity == null){
+                    textViewCharacterSanity.text = 99.toString()
+                }else{
+                    textViewCharacterSanity.text = domainCharacter.characterSanity.toString()
+                }
+
+                Log.d("test", "\nCurrent character : $domainCharacter")
 
                 if (rowIndex == adapterPosition) {
                     characterItemLayout.setBackgroundColor(context.resources.getColor(R.color.colorPrimaryDark))
                     characterNameItemView.setTextColor(context.resources.getColor(R.color.textColorPrimary))
+                    textViewCharacterHealth.setTextColor(context.resources.getColor(R.color.textColorPrimary))
+                    textViewHealthAttribute.setTextColor(context.resources.getColor(R.color.textColorPrimary))
+                    textViewCharacterSanity.setTextColor(context.resources.getColor(R.color.textColorPrimary))
+                    textViewSanityAttribute.setTextColor(context.resources.getColor(R.color.textColorPrimary))
                 } else {
                     characterItemLayout.setBackgroundColor(context.resources.getColor(R.color.textColorPrimary))
                     characterNameItemView.setTextColor(context.resources.getColor(R.color.colorPrimaryDark))
+                    textViewCharacterHealth.setTextColor(context.resources.getColor(R.color.colorPrimaryDark))
+                    textViewHealthAttribute.setTextColor(context.resources.getColor(R.color.colorPrimaryDark))
+                    textViewCharacterSanity.setTextColor(context.resources.getColor(R.color.colorPrimaryDark))
+                    textViewSanityAttribute.setTextColor(context.resources.getColor(R.color.colorPrimaryDark))
                 }
             }
         }
@@ -114,11 +157,11 @@ class CharactersAdapter internal constructor(
      * @see .onBindViewHolder
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharactersViewHolder {
-        val itemView = inflater.inflate(R.layout.fragment_character_recyclerview_item, parent, false)
+        val itemView =
+            inflater.inflate(R.layout.fragment_character_recyclerview_item, parent, false)
 
         return CharactersViewHolder(itemView)
     }
-
 
 
     /**

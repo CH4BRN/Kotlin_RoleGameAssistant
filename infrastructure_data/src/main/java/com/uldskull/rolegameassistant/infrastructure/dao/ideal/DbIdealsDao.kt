@@ -29,8 +29,6 @@ abstract class DbIdealsDao : GenericDao<DbIdeal> {
     @Query("$SELECT_ALL_FROM $TABLE_NAME_IDEAL $WHERE $FIELD_IDEAL_NAME $LIKE :idealName")
     abstract suspend fun findIdealByName(idealName: String?): DbIdeal
 
-    @Query("$SELECT_ALL_FROM  $TABLE_NAME_IDEAL")
-    abstract fun getIdeals(): List<DbIdeal>
 
 
     //  DELETE

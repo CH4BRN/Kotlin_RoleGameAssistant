@@ -6,15 +6,14 @@ package com.uldskull.rolegameassistant.activities.character
 import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
 import com.google.gson.Gson
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.activities.FragmentAdapter
 import com.uldskull.rolegameassistant.activities.core.AddEndFragment
 import com.uldskull.rolegameassistant.activities.core.AddEndFragmentAndUpdateAdapter
-import com.uldskull.rolegameassistant.activities.FragmentAdapter
 import com.uldskull.rolegameassistant.activities.core.CustomActivity
 import com.uldskull.rolegameassistant.activities.core.replaceFragment
 import com.uldskull.rolegameassistant.fragments.fragment.bars.NavigationBarFragment
@@ -42,7 +41,6 @@ import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationsViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -466,17 +464,23 @@ class CharacterActivity :
                     occupationsViewModel.selectedCharacterOccupationsSkills.observe(
                         this,
                         Observer { characterCheckedSkills ->
-                            //  "Let" the character selected skills
-                            characterCheckedSkills.let { characterCheckedSkillsList ->
-                                //  Foreach skills to check
-                                mutableSkillsToCheckList?.forEach { skill ->
-                                    if (characterCheckedSkillsList.any { characterCheckedSkill -> characterCheckedSkill!! == skill.skillId!! }) {
-                                        val index =
-                                            mutableSkillsToCheckList.indexOfFirst { s -> s.skillId == skill.skillId }
-                                        skill.skillIsChecked = true
-                                        mutableSkillsToCheckList[index] = skill
+                            characterCheckedSkills?.let { characterCheckedSkillsList ->
+                                if(characterCheckedSkillsList != null){
+                                    //  Foreach skills to check
+                                    if (mutableSkillsToCheckList != null) {
+                                        mutableSkillsToCheckList?.forEach { skill ->
+
+
+                                            if (characterCheckedSkillsList.any { characterCheckedSkill -> characterCheckedSkill!! == skill.skillId!! }) {
+                                                val index =
+                                                    mutableSkillsToCheckList.indexOfFirst { s -> s.skillId == skill.skillId }
+                                                skill.skillIsChecked = true
+                                                mutableSkillsToCheckList[index] = skill
+                                            }
+                                        }
                                     }
                                 }
+
                             }
                         }
                     )

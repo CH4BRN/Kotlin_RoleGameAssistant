@@ -109,7 +109,7 @@ class EditBreedActivity : CustomActivity(), CustomAdapterButtonListener<DomainDi
     private fun initializeSaveBreedImageButton() {
         imageButtonSaveBreed?.setOnClickListener {
             var breedId: Long? = null
-            breedsViewModel?.observableMutableSelectedBreed?.observe(this, Observer {
+            breedsViewModel.observableMutableSelectedBreed.observe(this, Observer {
                 breedId = it?.breedId
             })
             Log.d("DEBUG$TAG", "Breed id : $breedId")
@@ -117,7 +117,7 @@ class EditBreedActivity : CustomActivity(), CustomAdapterButtonListener<DomainDi
                 throw Exception("Breed ID is null.")
             }
             var oldBreed: DomainDisplayedBreed? = null
-            breedsViewModel?.observableRepositoryBreeds?.observe(this, Observer {list ->
+            breedsViewModel.observableRepositoryBreeds?.observe(this, Observer {list ->
                 oldBreed = list.first{ b -> b.breedId == breedId}
             })
 
@@ -180,7 +180,7 @@ class EditBreedActivity : CustomActivity(), CustomAdapterButtonListener<DomainDi
             editTextSelectedBreedName?.setText(domainModel?.breedName.toString())
             editTextSelectedBreedBonus?.setText(domainModel?.breedHealthBonus.toString())
 
-            breedsViewModel?.observableRepositoryBreeds?.observe(this, Observer {
+            breedsViewModel.observableRepositoryBreeds?.observe(this, Observer {
                 var position = it.indexOfFirst { b -> b.breedId == domainModel?.breedId }
             })
 

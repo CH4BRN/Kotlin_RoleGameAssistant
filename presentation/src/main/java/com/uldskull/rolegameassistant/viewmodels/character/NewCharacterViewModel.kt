@@ -19,6 +19,7 @@ import com.uldskull.rolegameassistant.models.skill.DomainSkillToFill
 import com.uldskull.rolegameassistant.repository.character.CharacterRepository
 import com.uldskull.rolegameassistant.repository.skill.FilledOccupationSkillRepository
 import com.uldskull.rolegameassistant.useCases.skills.GetAnHobbySkillWithCharacterIdUseCase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -232,7 +233,7 @@ class NewCharacterViewModel(
         if (characterId == null) {
             Log.d("DEBUG$TAG", "INSERT")
             try {
-                viewModelScope.launch {
+                viewModelScope.launch(Dispatchers.IO) {
                     characterId = characterRepository.insertOne(currentCharacter)
                     currentCharacter?.characterId = characterId
                     var ideals = characterRepository.findOneWithIdeals(characterId)

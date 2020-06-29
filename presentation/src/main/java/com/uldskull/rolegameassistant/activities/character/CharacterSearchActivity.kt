@@ -3,10 +3,10 @@
 
 package com.uldskull.rolegameassistant.activities.character
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
 import com.uldskull.rolegameassistant.R
@@ -15,7 +15,6 @@ import com.uldskull.rolegameassistant.activities.core.CustomActivity
 import com.uldskull.rolegameassistant.activities.core.replaceFragment
 import com.uldskull.rolegameassistant.fragments.fragment.characterSearch.CharacterSearchFragment
 import com.uldskull.rolegameassistant.models.character.DomainCharacter
-import kotlinx.android.synthetic.main.activity_character_search.*
 
 /**
  *   Class "CharacterSearchActivity" :
@@ -102,6 +101,12 @@ class CharacterSearchActivity : CustomActivity(),
      */
     override fun transmitCharacter(domainCharacter: DomainCharacter?) {
         Log.d("DEBUG $TAG", "$domainCharacter")
+        val confirmDialog = AlertDialog.Builder(this)
+        confirmDialog.setTitle(resources.getString(R.string.what_do_you_want_to_edit))
+        val  confirmDialogItems = arrayOf(
+            resources.getString(R.string.complete_edition)
+        )
+
         val intent = Intent(this, CharacterActivity::class.java)
         intent.putExtra("selectedCharacter", Gson().toJson(domainCharacter))
         this.startActivity(intent)
