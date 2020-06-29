@@ -15,7 +15,7 @@ class GetAlignmentScoreUseCase :
 
     override fun execute(request: List<DomainIdeal?>): Int {
         var score = 0
-        request?.forEach {
+        request.forEach {
             if (it != null) {
                 if (it.idealGoodPoints != null) {
                     val goodPoints = it.idealGoodPoints

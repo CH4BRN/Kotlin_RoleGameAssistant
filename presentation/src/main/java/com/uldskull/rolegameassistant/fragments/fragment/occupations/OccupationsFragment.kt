@@ -22,6 +22,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.fragment.REQUEST_CODE_JOBS_NEW_JOB
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.OCCUPATIONS_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.models.occupation.DomainOccupation
+import com.uldskull.rolegameassistant.models.occupation.DomainOccupationWithSkills
 import com.uldskull.rolegameassistant.viewmodels.SkillsViewModel
 import com.uldskull.rolegameassistant.viewmodels.character.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationsViewModel
@@ -192,12 +193,18 @@ class OccupationsFragment : CustomFragment() {
 
                     if (index != null) {
                         Log.d("DEBUG$TAG", "Index of occupation : $index")
-                      //  spinner_occupations?.setSelection(index)
+                        //  spinner_occupations?.setSelection(index)
                     }
 
-                    val occupationWithChildren = occupationsViewModel.findOneWithChildren(
-                        domainOccupation.occupationId
-                    )
+                    var occupationWithChildren: DomainOccupationWithSkills? = null
+
+                    occupationsViewModel.repositoryOccupationsWithSkills?.observe(
+                        this,
+                        Observer { list ->
+                            occupationWithChildren =
+                                list.firstOrNull { o -> o?.occupation?.occupationId == domainOccupation.occupationId }
+                        })
+
 
                     val oldList = skillViewModel.mutableSkillsToCheck?.value
 
@@ -394,7 +401,8 @@ class OccupationsFragment : CustomFragment() {
         Log.d(TAG, "setButtonAddJob")
         if (btn_addOccupation != null) {
             btn_addOccupation!!.setOnClickListener {
-                val intent = Intent(activity,
+                val intent = Intent(
+                    activity,
                     NEW_JOB_ACTIVITY
                 )
                 startActivityForResult(intent, REQUEST_CODE_JOBS_NEW_JOB)

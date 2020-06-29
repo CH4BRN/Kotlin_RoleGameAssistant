@@ -22,7 +22,8 @@ class DbSkillToCheck(
     var skillDescription: String?,
     var skillIsChecked: Boolean = false,
     var skillBase: Int? = 0,
-    var skillMax: Int? = 0
+    var skillMax: Int? = 0,
+    var isUserSkill:Boolean? = false
     ) : DbEntity<DomainSkillToCheck> {
 
     /**
@@ -36,16 +37,15 @@ class DbSkillToCheck(
             skillName = this.skillName,
             skillIsChecked = this.skillIsChecked,
             skillBase = this.skillBase,
-            skillMax = this.skillMax
+            skillMax = this.skillMax,
+            skillIsUser = this.isUserSkill!!
         )
     }
 
-    /**
-     * Returns a string representation of the object.
-     */
     override fun toString(): String {
-        return "DbOccupationSkill(skillId=$skillId, skillName=$skillName, skillDescription=$skillDescription, skillIsChecked=$skillIsChecked, skillBase=$skillBase, skillMax=$skillMax)"
+        return "DbSkillToCheck(skillId=$skillId, skillName=$skillName, skillDescription=$skillDescription, skillIsChecked=$skillIsChecked, skillBase=$skillBase, skillMax=$skillMax, isUserSkill=$isUserSkill)"
     }
+
 
     companion object : DbCompanion<DomainSkillToCheck, DbSkillToCheck> {
         /**
@@ -59,7 +59,8 @@ class DbSkillToCheck(
                     skillDescription = domainModel.skillDescription,
                     skillIsChecked = domainModel.skillIsChecked,
                     skillMax = domainModel.skillMax,
-                    skillBase = domainModel.skillBase
+                    skillBase = domainModel.skillBase,
+                    isUserSkill = domainModel.skillIsUser
 
                 )
             } else {

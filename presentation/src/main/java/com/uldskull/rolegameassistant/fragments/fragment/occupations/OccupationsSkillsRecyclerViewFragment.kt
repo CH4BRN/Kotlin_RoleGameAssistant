@@ -29,7 +29,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
  *   Class "OccupationsSkillsRecyclerView" :
- *   TODO: Fill class use.
+ *   Manage occupations with skills displaying.
  **/
 class OccupationsSkillsRecyclerViewFragment :
     CustomRecyclerViewFragment(),
@@ -110,6 +110,18 @@ class OccupationsSkillsRecyclerViewFragment :
     override fun startObservation() {
         observeSelectedOccupation()
         observeOccupationsSkills()
+        observeOccupationWithSkills()
+    }
+
+    private fun observeOccupationWithSkills() {
+        occupationsViewModel?.repositoryOccupationsWithSkills?.observe(this, Observer { list ->
+            list.forEach {
+                Log.d(
+                    "DEBUG$TAG", "Occupation : ${it?.occupation?.occupationId}\n" +
+                            "Skills : ${it?.skills}"
+                )
+            }
+        })
     }
 
 
@@ -123,23 +135,43 @@ class OccupationsSkillsRecyclerViewFragment :
                 kotlin.run {
                     Log.d(TAG, "observeSelectedOccupation $domainOccupation")
 
-                    val index =
-                        this.occupationsViewModel.repositoryOccupations?.value?.indexOfFirst { o ->
-                            o.occupationId == domainOccupation.occupationId
-                        }
+                    var index: Int? = null
+                    occupationsViewModel.repositoryOccupations?.observe(this, Observer { list ->
+                        index =
+                            list.indexOfFirst { o -> o.occupationId == domainOccupation.occupationId }
+                    })
+                    Log.d("DEBUG$TAG", "occupation index : $index")
 
-                    if (index == occupationsViewModel.selectedOccupationIndex?.value) {
+                    var selectedOccupationIndex: Int? = null
+
+                    occupationsViewModel?.selectedOccupationIndex?.observe(this, Observer {
+                        selectedOccupationIndex = it
+                    })
+
+
+                    if (index == selectedOccupationIndex) {
                         Log.d(TAG, "do nothing")
                         //  Do nothing
                     } else {
-                        val occupationWithSkills: DomainOccupationWithSkills? =
-                            occupationsViewModel.findOneWithChildren(domainOccupation.occupationId)
-                        Log.d(TAG, "occupation with skills : \n $occupationWithSkills")
+                        Log.d(
+                            "DEBUG$TAG",
+                            "DomainOccupation id : ${domainOccupation.occupationId}"
+                        )
 
-                        if( occupationWithSkills?.skills != null){
+
+                        var occupationWithSkills: DomainOccupationWithSkills? = null
+                        occupationsViewModel.repositoryOccupationsWithSkills?.observe(
+                            this,
+                            Observer { list ->
+                                occupationWithSkills =
+                                    list.firstOrNull { o -> o?.occupation?.occupationId == domainOccupation.occupationId }
+                            })
+                        Log.d("DEBUG$TAG", "occupation with skills : \n $occupationWithSkills")
+
+                        if (occupationWithSkills?.skills != null) {
                             occupationsViewModel.observedOccupationsSkills?.value =
                                 occupationWithSkills?.skills
-                        }else{
+                        } else {
                             // Do nothing
                         }
 

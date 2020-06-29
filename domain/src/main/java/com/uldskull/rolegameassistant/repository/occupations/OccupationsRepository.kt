@@ -13,15 +13,9 @@ import com.uldskull.rolegameassistant.repository.GenericRepository
  **/
 interface OccupationsRepository<T> :
 GenericRepository<T, DomainOccupation>{
-    /**
-     * Inserts a relation between occupation and skills
-     */
-    suspend fun insertOccupationAndSkillCross(occupationId:Long?, skillId:Long):Long
 
-    /**
-     * Find one occupation with its skills
-     */
-    suspend fun findOneWithChildren(occupationId: Long?):DomainOccupationWithSkills
+
+
 
     /**
      * Delete one occupation

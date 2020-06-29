@@ -33,6 +33,7 @@ class DbOccupationsRepositoryImpl(
     companion object {
         private const val TAG = "DbOccupationsRepositoryImpl"
     }
+
     /**
      * Converts a list of database entities into domain entities
      */
@@ -63,7 +64,6 @@ class DbOccupationsRepositoryImpl(
             throw e
         }
     }
-
 
 
     /** Insert a list of entity - it should return long[] or List<Long>.*/
@@ -126,62 +126,13 @@ class DbOccupationsRepositoryImpl(
     }
 
     /**
-     * Inserts realtion between occupation and skills
-     */
-    override suspend fun insertOccupationAndSkillCross(occupationId: Long?, skillId: Long): Long {
-        Log.d(TAG, "insertOccupationAndSkillCross")
-        return try {
-            if (occupationId != null && skillId != null) {
-                dbOccupationDbSkillDao.insertCross(
-                    DbOccupationAndDbSkillCrossRef(
-                        occupationId = occupationId,
-                        skillId = skillId
-                    )
-                )
-            } else {
-                -1
-            }
-
-        } catch (e: Exception) {
-            Log.e(TAG, "insertOccupationAndSkillCross FAILED")
-            e.printStackTrace()
-            throw e
-        }
-    }
-
-    /**
-     * find one occupation with all its associated skills
-     */
-    override suspend fun findOneWithChildren(occupationId: Long?): DomainOccupationWithSkills {
-        val result: DbOccupationWithDbSkills = try {
-            dbOccupationDbSkillDao.getOccupationWithSkills(occupationId)
-
-        } catch (e: Exception) {
-            Log.e(TAG, "findOneWithChildren FAILED")
-            e.printStackTrace()
-            throw e
-        }
-        Log.d(TAG, "$result")
-
-        val occupation = result.occupation
-        val skills = result.skills
-
-        return DomainOccupationWithSkills(
-            occupation = occupation.toDomain(),
-            skills = skills.map { s -> s.toDomain() }
-        )
-
-
-    }
-
-    /**
      * delete one occupation
      */
-    override suspend fun deleteOne(currentOccupationToEdit: DomainOccupation):Int {
-        if(currentOccupationToEdit == null){
+    override suspend fun deleteOne(currentOccupationToEdit: DomainOccupation): Int {
+        if (currentOccupationToEdit == null) {
             throw Exception("ERROR : Occupation is null.")
         }
-       return dbOccupationDao.delete( DbOccupation.from(currentOccupationToEdit))
+        return dbOccupationDao.delete(DbOccupation.from(currentOccupationToEdit))
     }
 
 }

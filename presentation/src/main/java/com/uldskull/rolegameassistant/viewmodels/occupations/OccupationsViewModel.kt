@@ -12,6 +12,7 @@ import androidx.lifecycle.viewModelScope
 import com.uldskull.rolegameassistant.models.occupation.DomainOccupation
 import com.uldskull.rolegameassistant.models.occupation.DomainOccupationWithSkills
 import com.uldskull.rolegameassistant.models.skill.DomainSkillToCheck
+import com.uldskull.rolegameassistant.repository.occupations.OccupationWithSkillsRepository
 import com.uldskull.rolegameassistant.repository.occupations.OccupationsRepository
 import kotlinx.coroutines.launch
 import kotlin.concurrent.thread
@@ -22,11 +23,17 @@ import kotlin.concurrent.thread
  **/
 class OccupationsViewModel(
     application: Application,
-    private val occupationsRepositoryImpl: OccupationsRepository<LiveData<List<DomainOccupation>>>
+    private val occupationsRepositoryImpl: OccupationsRepository<LiveData<List<DomainOccupation>>>,
+    private val occupationWithSkillsRepositoryImpl: OccupationWithSkillsRepository<LiveData<List<DomainOccupationWithSkills?>>>
 ) : AndroidViewModel(application) {
     companion object {
         private const val TAG = "OccupationsViewModel"
     }
+
+    /**
+     * Observable repository occupations with skills
+     */
+    var repositoryOccupationsWithSkills:LiveData<List<DomainOccupationWithSkills?>>? = null
 
     init {
         Log.d(TAG, "Init")
@@ -54,6 +61,7 @@ class OccupationsViewModel(
         Log.d(TAG, "findAll")
         thread(start = true) {
             repositoryOccupations = occupationsRepositoryImpl.getAll()
+            repositoryOccupationsWithSkills = occupationWithSkillsRepositoryImpl.getAll()
         }
         return repositoryOccupations
     }
@@ -61,14 +69,12 @@ class OccupationsViewModel(
     /**
      * Find one entity with its children
      */
-    fun findOneWithChildren(id: Long?): DomainOccupationWithSkills? {
+    fun getAllWithChildren(): LiveData<List<DomainOccupationWithSkills?>>? {
         Log.d(TAG, "findOneWithChildren")
         try {
-            var result: DomainOccupationWithSkills? = null
-            viewModelScope.launch {
-                result = occupationsRepositoryImpl.findOneWithChildren(id)
-            }
-            return result
+
+            return occupationWithSkillsRepositoryImpl.getAll()
+
         } catch (e: Exception) {
             Log.e(TAG, "findOneWithChildren FAILED")
             e.printStackTrace()
@@ -96,7 +102,6 @@ class OccupationsViewModel(
             return result
         }
     }
-
 
 
     /**

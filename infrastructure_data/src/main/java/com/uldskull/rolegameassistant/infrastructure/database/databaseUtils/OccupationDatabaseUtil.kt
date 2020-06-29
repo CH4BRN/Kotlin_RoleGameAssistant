@@ -29,7 +29,8 @@ class OccupationDatabaseUtil {
             occupationSkillDao: DbSkillToCheckDao,
             occupationWithSkillDao: DbOccupationDbSkillDao
         ) {
-
+            occupationsDao.deleteAllOccupations()
+            occupationSkillDao.deleteAllSkills()
             insertAccountant(occupationsDao, occupationSkillDao, occupationWithSkillDao)
             insertAcrobat(occupationsDao, occupationSkillDao, occupationWithSkillDao)
         }
@@ -77,11 +78,7 @@ class OccupationDatabaseUtil {
                 )
                 Log.d("$TAG", "crossID : $crossId")
 
-                val result = occupationWithSkillDao.getOccupationsWithSkills()
 
-                result.forEach { dbOccupationWithDbSkills: DbOccupationWithDbSkills ->
-                    Log.d(TAG, "${dbOccupationWithDbSkills.occupation.occupationName}")
-                }
             }
         }
 
@@ -155,12 +152,6 @@ class OccupationDatabaseUtil {
                     )
                 )
                 Log.d("$TAG", "crossID : $crossId")
-
-                val result = occupationWithSkillDao.getOccupationsWithSkills()
-
-                result.forEach { dbOccupationWithDbSkills: DbOccupationWithDbSkills ->
-                    Log.d("$TAG", "${dbOccupationWithDbSkills.occupation.occupationName}")
-                }
             }
         }
     }

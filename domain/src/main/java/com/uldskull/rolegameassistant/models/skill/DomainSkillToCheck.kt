@@ -25,24 +25,25 @@ class DomainSkillToCheck(
     /**
      * Skill's base score
      */
-    var skillBase:Int?,
+    var skillBase: Int?,
     /**
      * Skill's max score
      */
-    var skillMax:Int?,
+    var skillMax: Int?,
     /**
      * Is the skill checked ?
      */
-    var skillIsChecked: Boolean = false
+    var skillIsChecked: Boolean = false,
+    /**
+     * Is the skill a user skill
+     */
+    var skillIsUser: Boolean = false
 ) : DomainSkill(
     skillId = skillId,
     skillDescription = skillDescription,
     skillName = skillName
 ) {
-    /**
-     * Returns a string representation of the object.
-     */
     override fun toString(): String {
-        return "DomainSkillToCheck(skillBase=$skillBase, skillMax=$skillMax, skillIsChecked=$skillIsChecked)"
+        return "DomainSkillToCheck(skillBase=$skillBase, skillMax=$skillMax, skillIsChecked=$skillIsChecked, skillIsUser=$skillIsUser)"
     }
 }

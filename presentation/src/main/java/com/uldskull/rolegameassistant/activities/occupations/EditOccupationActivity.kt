@@ -5,7 +5,6 @@ package com.uldskull.rolegameassistant.activities.occupations
 
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -68,8 +67,11 @@ class EditOccupationActivity : CustomActivity() {
                 activityEditOccupation_editText_occupationSpecial.setText(domainOccupation.occupationSpecial)
 
 
-                val occupationWithChildren: DomainOccupationWithSkills? =
-                    occupationsViewModel.findOneWithChildren(domainOccupation.occupationId)
+                var occupationWithChildren: DomainOccupationWithSkills? = null
+                occupationsViewModel.repositoryOccupationsWithSkills?.observe(this@EditOccupationActivity, Observer {list ->
+                    occupationWithChildren = list.firstOrNull { o -> o?.occupation?.occupationId == domainOccupation.occupationId }
+                })
+
 
                 val oldList = skillsViewModel.mutableSkillsToCheck?.value
 

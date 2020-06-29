@@ -101,7 +101,8 @@ val viewModelModule = module {
     viewModel {
         OccupationsViewModel(
             application = get(),
-            occupationsRepositoryImpl = get()
+            occupationsRepositoryImpl = get(),
+            occupationWithSkillsRepositoryImpl = get()
         )
     }
     //  Occupation skills ViewModel
