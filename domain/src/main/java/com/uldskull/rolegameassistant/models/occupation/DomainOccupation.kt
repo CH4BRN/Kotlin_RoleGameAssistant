@@ -3,8 +3,6 @@
 
 package com.uldskull.rolegameassistant.models.occupation
 
-import com.uldskull.rolegameassistant.models.DomainActivity
-
 /**
  *   Class "DomainJob" :
  *   Holds a domain occupation ( like a job)
@@ -30,10 +28,7 @@ class DomainOccupation(
      * Occupation specials
      */
     var occupationSpecial:String?
-) : DomainActivity(
-    activityId = occupationId,
-    activityName = occupationName
-) {
+)  {
     /**
      * Returns a string representation of the object.
      */

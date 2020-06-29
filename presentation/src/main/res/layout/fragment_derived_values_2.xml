@@ -119,9 +119,6 @@
                 android:id="@+id/derivedValues_img_alignment"
                 android:layout_width="wrap_content"
                 android:contentDescription="@string/alignment_picture"
-                android:src="@drawable/good_icon"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                  />
 
             <View

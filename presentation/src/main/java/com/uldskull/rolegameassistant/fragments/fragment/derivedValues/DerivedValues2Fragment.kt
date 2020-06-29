@@ -131,7 +131,7 @@ class DerivedValues2Fragment : CustomFragment() {
      * observe ideals
      */
     private fun observeIdeals() {
-        idealsViewModel.mutableIdeals?.observe(this, Observer { idealList ->
+        idealsViewModel.repositoryIdeals?.observe(this, Observer { idealList ->
             if (idealList != null) {
                 val checkedIdeals = idealList.filter { i -> i?.isChecked!! }
                 calculateAlignmentScore(checkedIdeals)

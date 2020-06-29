@@ -110,10 +110,11 @@ class NavigationBarFragment : CustomFragment() {
         if (activity != null) {
             val confirmDialog = AlertDialog.Builder(activity!!)
 
-            confirmDialog.setTitle("Go back? : ")
+            confirmDialog.setTitle(resources.getString(R.string.go_back_confirmation))
             val confirmDialogItems = arrayOf(
-                "Go back.",
-                "No, continue."
+                resources.getString(R.string.go_back),
+                resources.getString(R.string.no_continue)
+
             )
 
             confirmDialog.setItems(
@@ -234,12 +235,7 @@ class NavigationBarFragment : CustomFragment() {
             val bonds = bondsViewModel.bonds.value
             Log.d("DEBUG$TAG", "saved bonds = ${bonds?.size}")
 
-            val characterIdeals =
-                idealsViewModel.mutableIdeals?.value?.filter { i -> i?.isChecked!! }
-            if (characterIdeals != null) {
-                newCharacterViewModel.currentCharacter?.characterIdeals =
-                    characterIdeals.toMutableList()
-            }
+
 
             newCharacterViewModel.characterBonds = bonds
 
@@ -272,13 +268,15 @@ class NavigationBarFragment : CustomFragment() {
                 kotlin.run {
                     val breed = displayedBreedsViewModel.findBreedWithId(id)
 
-                    Log.d("DEBUG$TAG", "Breed $breed")
+                    Log.d("DEBUG$TAG", "Breed ${breed?.breedName}")
                 }
             }
-            result?.characterIdeals?.forEach {
+            result?.characterIdeals?.forEach {id ->
+
+                val ideal = idealsViewModel.getIdealById(id)
                 Log.d(
                     "DEBUG$TAG",
-                    "result?.characterIdeals? ${it?.idealName} is checked : ${it?.isChecked}"
+                    "result?.characterIdeals? ${ideal?.idealName}"
                 )
             }
             Log.d(TAG, "${result?.characterName} saved")
@@ -297,12 +295,21 @@ class NavigationBarFragment : CustomFragment() {
      */
     private fun saveCharacter(): Long? {
         var breeds = mutableListOf<Long?>()
-
-        displayedBreedsViewModel?.observedRepositoryBreeds?.observe(this, Observer {
+        displayedBreedsViewModel?.observableRepositoryBreeds?.observe(this, Observer {
             it.let {
                 breeds?.addAll(it.filter { b -> b.breedIsChecked }.map { b -> b.breedId })
             }
+            Log.d("DEBUG$TAG", " Breeds : $it")
         })
+
+        var ideals = mutableListOf<Long?>()
+        idealsViewModel?.repositoryIdeals?.observe(this, Observer {
+            it.let {
+                ideals?.addAll(it.filter { i -> i?.isChecked!! }.map { i -> i.idealId })
+            }
+            Log.d("DEBUG$TAG", "Ideals : $it")
+        })
+
         return newCharacterViewModel.saveCharacter(
             characteristics = characteristicsViewModel.displayedCharacteristics?.value,
             ideaScore = derivedValuesViewModel.ideaScore.value,
@@ -317,7 +324,8 @@ class NavigationBarFragment : CustomFragment() {
             filledOccupationSkills = occupationSkillsViewModel.checkedOccupationSkills.value,
             filledHobbySkills = skillsViewModel.hobbySkills.value,
             spentOccupationPoints = pointsToSpendViewModel.observableOccupationSpentPoints.value,
-            chosenBreeds = breeds
+            chosenBreeds = breeds,
+            chosenIdeals = ideals
         )
     }
 

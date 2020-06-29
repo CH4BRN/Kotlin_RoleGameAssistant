@@ -147,6 +147,7 @@ class NewCharacterViewModel(
         knowScore: Int?,
         baseHealth: Int?,
         chosenBreeds:List<Long?>,
+        chosenIdeals:List<Long?>,
         breedBonus: Int?,
         skillsIds: List<Long?>,
         filledOccupationSkills: List<DomainSkillToFill>?,
@@ -170,12 +171,17 @@ class NewCharacterViewModel(
         setCharacteristics(characteristics)
 
         chosenBreeds.forEach {
-            Log.d("DEBUG$TAG","Chosen breeds : $it")
+            Log.d("$TAG","Chosen breeds : $it")
+        }
+        chosenIdeals.forEach {
+            Log.d("DEBUG$TAG", "Chosen ideals : $it")
         }
 
         currentCharacter?.characterBreeds = chosenBreeds.toMutableList()
+        Log.d("$TAG", "Character chosen breeds : ${currentCharacter?.characterBreeds}")
+        currentCharacter?.characterIdeals = chosenIdeals.toMutableList()
+        Log.d("$TAG", "Character chosen Ideals : ${currentCharacter?.characterIdeals}")
 
-        Log.d("DEBUG$TAG", "Character chosen breeds : ${currentCharacter?.characterBreeds}")
 
 
         if (currentCharacter?.characterIdeals == null) {
@@ -229,8 +235,9 @@ class NewCharacterViewModel(
                 viewModelScope.launch {
                     characterId = characterRepository.insertOne(currentCharacter)
                     currentCharacter?.characterId = characterId
+                    var ideals = characterRepository.findOneWithIdeals(characterId)
 
-                    Log.d("DEBUG$TAG", "character $currentCharacter ")
+                    Log.d("$TAG", "character $currentCharacter ")
 
                     try {
                         if (characterId != null) {
@@ -253,7 +260,7 @@ class NewCharacterViewModel(
                                 val occupationSkills = getCharacterSkills(characterId, 0)
                                 occupationSkills?.forEach {
                                     Log.d(
-                                        "DEBUG$TAG",
+                                        "$TAG",
                                         "Occupation skill :${it.skillName?.toUpperCase(Locale.ENGLISH)} - ${it.filledSkillTensValue}${it.filledSkillUnitsValue}"
                                     )
                                 }
@@ -280,9 +287,7 @@ class NewCharacterViewModel(
 
                     var breeds = getCharacterWithBreeds(characterId)
 
-                    breeds?.forEach {
-                        Log.d("DEBUG$TAG", "breed id : $it")
-                    }
+
 
 
                 }
@@ -313,7 +318,7 @@ class NewCharacterViewModel(
             characterWithSkills = characterRepository.findOneWithOccupationSkills(id)
         }
 
-        Log.d("DBUG$TAG", "characterWithSkills: $characterWithSkills")
+        Log.d("$TAG", "characterWithSkills: $characterWithSkills")
         return characterWithSkills
     }
 
@@ -351,13 +356,13 @@ class NewCharacterViewModel(
                 filledSkillType = 0
             )
             Log.d(
-                "DEBUG$TAG",
+                "$TAG",
                 "OccupationSkill : ${newSkill.skillName?.toUpperCase(Locale.ENGLISH)} - ${newSkill.filledSkillTensValue}${newSkill.filledSkillUnitsValue}"
             )
             val oldSkill = filledOccupationSkillRepository.findTheSame(newSkill)
 
             if (oldSkill == null) {
-                Log.d("DEBUG$TAG", "insertOne".toUpperCase(Locale.ENGLISH))
+                Log.d("$TAG", "insertOne".toUpperCase(Locale.ENGLISH))
                 viewModelScope.launch {
                     val id = filledOccupationSkillRepository.insertOne(newSkill)
                     Log.d("DEBUG$TAG", "Inserted id : $id")

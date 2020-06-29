@@ -208,7 +208,9 @@ class DerivedValuesViewModel(
      * Calculate alignment score
      */
     fun calculateAlignmentScore(ideals: List<DomainIdeal?>) {
-        alignmentScore.value = getAlignmentScoreUseCase?.execute(ideals)
+        var tempAlignmentScore = getAlignmentScoreUseCase?.execute(ideals)
+        Log.d("DEBUG$TAG", "Alignment score : $tempAlignmentScore")
+        alignmentScore.value = tempAlignmentScore
     }
 
     /**

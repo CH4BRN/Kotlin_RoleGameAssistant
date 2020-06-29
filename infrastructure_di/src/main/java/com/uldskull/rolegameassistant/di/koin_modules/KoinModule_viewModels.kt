@@ -31,7 +31,6 @@ val viewModelModule = module {
     viewModel {
         CharacteristicsViewModel(
             application = get(),
-            characteristicRepositoryImpl = get(),
             rollsCharacteristicRepositoryImpl = get(),
             diceServiceImpl = get(),
             displayedBreedsRepository = get()

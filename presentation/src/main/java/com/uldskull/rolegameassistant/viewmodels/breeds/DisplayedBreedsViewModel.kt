@@ -38,7 +38,7 @@ class DisplayedBreedsViewModel(
         Log.d(TAG, "refreshDataFromRepository")
         viewModelScope.launch {
             try {
-                observedRepositoryBreeds = findAll()
+                observableRepositoryBreeds = findAll()
             } catch (e: Exception) {
                 throw e
             }
@@ -59,15 +59,11 @@ class DisplayedBreedsViewModel(
         return result
     }
 
-    /**
-     * Observable repository breed
-     */
-    var observableRepositoryBreed = MutableLiveData<DomainDisplayedBreed>()
 
     /**
      *  Observable repository breeds
      */
-    var observedRepositoryBreeds = displayedBreedRepositoryImpl.getAll()
+    var observableRepositoryBreeds = displayedBreedRepositoryImpl.getAll()
 
     /**
      * Mutable observable selected breed
@@ -85,9 +81,9 @@ class DisplayedBreedsViewModel(
     private fun findAll(): LiveData<List<DomainDisplayedBreed>>? {
         Log.d(TAG, "findAll")
         thread(start = true) {
-            observedRepositoryBreeds = displayedBreedRepositoryImpl.getAll()
+            observableRepositoryBreeds = displayedBreedRepositoryImpl.getAll()
         }
-        return observedRepositoryBreeds
+        return observableRepositoryBreeds
     }
 
     /**

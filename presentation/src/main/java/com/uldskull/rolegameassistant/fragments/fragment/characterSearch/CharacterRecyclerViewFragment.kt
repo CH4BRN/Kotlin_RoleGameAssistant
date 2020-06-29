@@ -4,6 +4,7 @@
 package com.uldskull.rolegameassistant.fragments.fragment.characterSearch
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -70,7 +71,6 @@ class CharacterRecyclerViewFragment :
     private var arraySort: ArrayList<DomainCharacter> = ArrayList()
 
 
-
     /**
      * Fragment life-cycle : Called once the view is created.
      */
@@ -92,7 +92,11 @@ class CharacterRecyclerViewFragment :
                     super.onTextChanged(s, start, before, count)
                     // Instantiate the adapter
                     charactersAdapter =
-                        CharactersAdapter(activity as Context, this@CharacterRecyclerViewFragment, this@CharacterRecyclerViewFragment)
+                        CharactersAdapter(
+                            activity as Context,
+                            this@CharacterRecyclerViewFragment,
+                            this@CharacterRecyclerViewFragment
+                        )
 
                     //  Update the cached copy
                     charactersViewModel?.characters?.observe(
@@ -269,7 +273,33 @@ class CharacterRecyclerViewFragment :
      * Called when the "delete" button is pushed
      */
     override fun deleteCharacter(domainCharacter: DomainCharacter) {
-        charactersViewModel.deleteOne(domainCharacter)
+        Log.d("DEBUG$TAG", "Character : ${domainCharacter.characterName}")
+        if (activity != null) {
+            val confirmDialog = AlertDialog.Builder(activity)
+
+            confirmDialog.setTitle(resources.getString(R.string.delete_character_confirm))
+            val confirmDialogItems = arrayOf(
+                resources.getString(R.string.no_cancel),
+                resources.getString(R.string.yes_delete)
+            )
+
+            confirmDialog.setItems(
+                confirmDialogItems
+            ) { _, which ->
+                Log.d("DEBUG$TAG", "Which : $which")
+                when (which) {
+                    1 -> charactersViewModel.deleteOne(domainCharacter)
+                }
+            }
+            confirmDialog.show()
+        }
+    }
+
+    /**
+     * Displays the "delete confirmation" alert dialog
+     */
+    private fun displayeDeleteConfirmationAlertDialog() {
+
 
     }
 }

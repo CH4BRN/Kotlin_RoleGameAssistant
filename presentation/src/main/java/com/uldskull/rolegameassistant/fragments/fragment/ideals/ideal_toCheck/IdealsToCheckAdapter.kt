@@ -14,6 +14,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.fragments.core.adapter.CustomRecyclerViewAdapter
 import com.uldskull.rolegameassistant.fragments.core.listeners.CustomAdapterButtonListener
 import com.uldskull.rolegameassistant.fragments.core.utils.PictureUtil.Companion.resizePicture
 import com.uldskull.rolegameassistant.models.DomainIdeal
@@ -24,28 +25,11 @@ import com.uldskull.rolegameassistant.models.DomainIdeal
  *   Adapter for ideals recycler view
  **/
 class IdealsToCheckAdapter internal constructor(
-    val context: Context,
-    private val buttonListenerCustom: CustomAdapterButtonListener<DomainIdeal>
+    val context: Context
 ) :
-    RecyclerView.Adapter<IdealsToCheckAdapter.IdealsToCheckViewHolder>() {
+    CustomRecyclerViewAdapter<DomainIdeal>(context) {
     companion object {
         private const val TAG = "IdealsToCheckAdapter"
-    }
-
-    /** Inflater  **/
-    private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
-
-    /**  Ideals list  **/
-    private var ideals = emptyList<DomainIdeal?>()
-
-    /**
-     * Returns the total number of items in the data set held by the adapter.
-     *
-     * @return The total number of items in this adapter.
-     */
-    override fun getItemCount(): Int {
-        Log.d("IdealsAdapter", "getItemCount")
-        return ideals.size
     }
 
     /**  Inner class to display  **/
@@ -59,6 +43,14 @@ class IdealsToCheckAdapter internal constructor(
         private var idealGoodPoints: TextView = itemView.findViewById(R.id.tv_idealGoodPoints)
         private var idealOverlay: View = itemView.findViewById(R.id.ideal_overlay)
 
+        init {
+            idealOverlay.setOnClickListener {
+                rowIndex = adapterPosition
+                itemList[adapterPosition]?.isChecked = !itemList[adapterPosition]?.isChecked!!
+                notifyDataSetChanged()
+            }
+        }
+
         /**
          * Bind the holder
          */
@@ -67,55 +59,18 @@ class IdealsToCheckAdapter internal constructor(
             idealNameItemView.text = domainIdeal?.idealName
             idealEvilPoints.text = domainIdeal?.idealEvilPoints.toString()
             idealGoodPoints.text = domainIdeal?.idealGoodPoints.toString()
-            if (domainIdeal != null) {
-                if (domainIdeal.isChecked != null) {
-                    idealCheckedItemView.isChecked = domainIdeal.isChecked!!
-                }
-            }
-
+            idealCheckedItemView.isChecked = domainIdeal?.isChecked!!
             val idealGoodPoints = domainIdeal?.idealGoodPoints
             val idealEvilPoints = domainIdeal?.idealEvilPoints
+
             setAlignmentIcon(idealEvilPoints, idealGoodPoints, this)
         }
 
-        init {
-            idealOverlay.setOnClickListener {
-                val checked = ideals[adapterPosition]?.isChecked
-                if (checked != null) {
-                    ideals[adapterPosition]?.isChecked = !checked
-                }
-                idealCheckedItemView.isChecked = ideals[adapterPosition]?.isChecked!!
-                buttonListenerCustom.itemPressed(ideals[adapterPosition])
-            }
-        }
-    }
-
-    /**
-     * Called by RecyclerView to display the data at the specified position. This method should
-     * update the contents of the [IdealsToCheckViewHolder.itemView] to reflect the item at the given
-     * position.
-     *
-     *
-     * Note that unlike [android.widget.ListView], RecyclerView will not call this method
-     * again if the position of the item changes in the data set unless the item itself is
-     * invalidated or the new position cannot be determined. For this reason, you should only
-     * use the `position` parameter while acquiring the related data item inside
-     * this method and should not keep a copy of it. If you need the position of an item later
-     * on (e.g. in a click listener), use [IdealsToCheckViewHolder.getAdapterPosition] which will
-     * have the updated adapter position.
-     *
-     * Override [.onBindViewHolder] instead if Adapter can
-     * handle efficient partial bind.
-     *
-     * @param holder The ViewHolder which should be updated to represent the contents of the
-     * item at the given position in the data set.
-     * @param position The position of the item within the adapter's data set.
-     */
-    override fun onBindViewHolder(holder: IdealsToCheckViewHolder, position: Int) {
-        holder.bind(ideals[position])
-
 
     }
+
+    /** Inflater  **/
+    private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
 
     /**
      * Called when RecyclerView needs a new [ViewHolder] of the given type to represent
@@ -176,16 +131,29 @@ class IdealsToCheckAdapter internal constructor(
         }
     }
 
+
     /**
-     * Set the displayed bonds.
+     * Called by RecyclerView to display the data at the specified position. This method should
+     * update the contents of the [ViewHolder.itemView] to reflect the item at the given
+     * position.
+     *
+     *
+     * Note that unlike [android.widget.ListView], RecyclerView will not call this method
+     * again if the position of the item changes in the data set unless the item itself is
+     * invalidated or the new position cannot be determined. For this reason, you should only
+     * use the `position` parameter while acquiring the related data item inside
+     * this method and should not keep a copy of it. If you need the position of an item later
+     * on (e.g. in a click listener), use [ViewHolder.getAdapterPosition] which will
+     * have the updated adapter position.
+     *
+     * Override [.onBindViewHolder] instead if Adapter can
+     * handle efficient partial bind.
+     *
+     * @param holder The ViewHolder which should be updated to represent the contents of the
+     * item at the given position in the data set.
+     * @param position The position of the item within the adapter's data set.
      */
-    fun setIdeals(ideals: List<DomainIdeal?>?) {
-        Log.d(TAG, "ideals size =" + ideals?.size.toString())
-        if (ideals != null) {
-            this.ideals = ideals.sortedBy { i -> i?.idealName }
-
-        }
-        notifyDataSetChanged()
-
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        (holder as IdealsToCheckViewHolder).bind(itemList[position])
     }
 }

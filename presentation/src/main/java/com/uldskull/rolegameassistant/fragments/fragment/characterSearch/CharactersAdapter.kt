@@ -49,7 +49,13 @@ class CharactersAdapter internal constructor(
 
         init {
             imageButtonDeleteCharacter?.setOnClickListener {
-                deleteCharacterButtonListener.deleteCharacter(itemList[adapterPosition])
+                if (adapterPosition == -1){
+                    deleteCharacterButtonListener.deleteCharacter(itemList[0])
+                }else{
+                    deleteCharacterButtonListener.deleteCharacter(itemList[adapterPosition])
+                }
+                notifyDataSetChanged()
+
             }
         }
         /**

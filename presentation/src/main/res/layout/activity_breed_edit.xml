@@ -74,7 +74,22 @@
                 android:inputType="textMultiLine" />
         </TableRow>
 
+        <TableRow>
+            <TextView
+                android:id="@+id/activityEditBreed_textView_breedBonus"
+                style="@style/TextViewSubTitle"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:text="@string/bonus"/>
+            <EditText
+                android:id="@+id/activityEditBreed_editText_breedBonus"
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:hint="@string/hint_edit_breed_bonus"/>
+        </TableRow>
     </TableLayout>
+
+
 
     <FrameLayout
         android:id="@+id/activityEditBreed_layout_navigationBar"

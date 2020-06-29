@@ -324,7 +324,8 @@ class EditIdealsActivity : CustomActivity(),
     private fun observeRepositoryIdeals() {
         idealsViewModel.repositoryIdeals?.observe(this, Observer {
             val recyclerViewAdapter = IdealsToEditAdapter(this, this)
-            recyclerViewAdapter.setIdeals(it)
+
+            recyclerViewAdapter.setItems(it)
             idealToEditRecyclerView?.adapter = recyclerViewAdapter
             val layoutManager = LinearLayoutManager(
                 this,

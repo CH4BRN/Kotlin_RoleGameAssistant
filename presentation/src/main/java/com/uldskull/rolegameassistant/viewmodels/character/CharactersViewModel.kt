@@ -96,7 +96,6 @@ class CharactersViewModel(
         viewModelScope.launch {
             result =  characterRepository.deleteOneCharacter(domainCharacter)
         }
-        refreshDataFromRepository()
         return result
     }
 }

@@ -65,8 +65,8 @@ class DbOccupation(
          */
         override fun from(domainModel: DomainOccupation?): DbOccupation {
             return DbOccupation(
-                occupationId = domainModel?.activityId,
-                occupationName = domainModel?.activityName,
+                occupationId = domainModel?.occupationId,
+                occupationName = domainModel?.occupationName,
                 occupationSpecial = domainModel?.occupationSpecial,
                 occupationIncome = domainModel?.occupationIncome,
                 occupationContacts = domainModel?.occupationContacts

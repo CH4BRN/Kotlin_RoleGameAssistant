@@ -11,10 +11,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.uldskull.rolegameassistant.models.breed.DomainDisplayedBreed
 import com.uldskull.rolegameassistant.models.characteristic.CharacteristicsName
-import com.uldskull.rolegameassistant.models.characteristic.DomainCharacteristic
 import com.uldskull.rolegameassistant.models.characteristic.DomainRollsCharacteristic
 import com.uldskull.rolegameassistant.repository.breed.DisplayedBreedsRepository
-import com.uldskull.rolegameassistant.repository.characteristic.CharacteristicRepository
 import com.uldskull.rolegameassistant.repository.characteristic.RollsCharacteristicRepository
 import com.uldskull.rolegameassistant.services.DiceService
 import kotlinx.coroutines.launch
@@ -28,7 +26,6 @@ import kotlin.concurrent.thread
 class CharacteristicsViewModel(
     application: Application,
     private val rollsCharacteristicRepositoryImpl: RollsCharacteristicRepository<LiveData<List<DomainRollsCharacteristic>>>,
-    private val characteristicRepositoryImpl: CharacteristicRepository<LiveData<List<DomainCharacteristic>>>,
     private val displayedBreedsRepository: DisplayedBreedsRepository<LiveData<List<DomainDisplayedBreed>>>,
     private val diceServiceImpl: DiceService
 ) : AndroidViewModel(application) {
@@ -455,48 +452,6 @@ class CharacteristicsViewModel(
             }
         }
     }
-
-
-    /**
-     * Save all characteristics
-     */
-    fun saveAllCharacteristics(domainCharacteristics: List<DomainCharacteristic>): List<Long>? =
-        synchronized(lock) {
-            Log.d(TAG, "saveAllCharacteristics")
-            var result: List<Long>? = null
-            viewModelScope.launch {
-                result = characteristicRepositoryImpl.insertAll(domainCharacteristics)
-                Log.d("CharacteristicViewModel", "INSERTED $result")
-            }
-
-            lock.notifyAll()
-            return result
-        }
-
-
-    /**
-     * Delete all roll characteristics
-     */
-    fun deleteAllRollCharacteristics(): Int? {
-        Log.d(TAG, "deleteAllRollCharacteristics")
-        viewModelScope.launch {
-            rollsCharacteristicRepositoryImpl.deleteAll()
-        }
-        return 0
-    }
-
-    /**
-     * Update one roll characteristic
-     */
-    fun updateOneRollCharacteristic(domainModel: DomainRollsCharacteristic): Int? {
-        Log.d(TAG, "updateOneRollCharacteristic")
-        var result: Int? = -1
-        viewModelScope.launch {
-            result = rollsCharacteristicRepositoryImpl.updateOne(domainModel)
-        }
-        return result
-    }
-
 
     /**
      * Calculate breed bonuses

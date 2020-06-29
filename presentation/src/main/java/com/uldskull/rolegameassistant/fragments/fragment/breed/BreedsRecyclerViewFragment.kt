@@ -14,13 +14,11 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
-import com.uldskull.rolegameassistant.fragments.core.AdapterListTransmitter
 import com.uldskull.rolegameassistant.fragments.core.CustomCompanion
 import com.uldskull.rolegameassistant.fragments.core.CustomRecyclerViewFragment
 import com.uldskull.rolegameassistant.fragments.fragment.KEY_POSITION
 import com.uldskull.rolegameassistant.fragments.viewPager.adapter.BREED_RECYCLER_VIEW_FRAGMENT_POSITION
 import com.uldskull.rolegameassistant.models.breed.DomainDisplayedBreed
-import com.uldskull.rolegameassistant.viewmodels.character.NewCharacterViewModel
 import com.uldskull.rolegameassistant.viewmodels.breeds.DisplayedBreedsViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -29,7 +27,6 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
  *   Holds a recycler view that displays breeds.
  **/
 class BreedsRecyclerViewFragment :
-    AdapterListTransmitter<DomainDisplayedBreed>,
     CustomRecyclerViewFragment() {
 
 
@@ -42,11 +39,6 @@ class BreedsRecyclerViewFragment :
      * ViewModel for displayed breeds
      */
     private val displayedBreedsViewModel: DisplayedBreedsViewModel by sharedViewModel()
-
-    /**
-     * ViewModel for new character
-     */
-    private val newCharacterViewModel: NewCharacterViewModel by sharedViewModel()
 
     /**
      * Adapter for races recycler view
@@ -77,33 +69,28 @@ class BreedsRecyclerViewFragment :
      * Observe breeds from repository, to load breeds to display.
      */
     private fun observeRepositoryBreeds() {
-        this.displayedBreedsViewModel.observedRepositoryBreeds?.observe(
+        this.displayedBreedsViewModel.observableRepositoryBreeds?.observe(
             this,
             Observer { breeds ->
-
                 var mutableBreeds = breeds.toMutableList()
-
                 breeds.let {
-
                     displayedBreedsViewModel?.observableSelectedBreeds?.observe(this, Observer {list ->
                         list.forEach {id ->
                             Log.d("DEBUG$TAG","Selected breed = $id")
                             if (id != null) {
                                var index =  mutableBreeds?.indexOfFirst { b -> b.breedId == id }
                                 Log.d("DEBUG$TAG", "Index : $index")
-                                if(index != null){
+                                if(index != null && index != -1){
                                     mutableBreeds[index].breedIsChecked = true
                                 }
                             }
                         }
-
                     })
 
                     Log.d("DEBUG$TAG", "Breed : ${breeds.size}")
                     if (it != null && it.isNotEmpty()) {
                         breedsToChooseAdapter = BreedsToChooseAdapter(
-                            activity as Context,
-                            this
+                            activity as Context
                         )
 
                         breedsToChooseAdapter?.setItems(mutableBreeds as List<DomainDisplayedBreed>)
@@ -117,7 +104,8 @@ class BreedsRecyclerViewFragment :
 
                     }
                 }
-            })
+            }
+        )
     }
 
     /**
@@ -154,10 +142,6 @@ class BreedsRecyclerViewFragment :
     companion object : CustomCompanion() {
         private const val TAG = "BreedsRecyclerViewFragment"
 
-        /**
-         * Array that holds breeds.
-         */
-        var breedValuesArray: ArrayList<DomainDisplayedBreed> = ArrayList()
 
         @JvmStatic
         override fun newInstance(activity: Activity): BreedsRecyclerViewFragment {
@@ -173,14 +157,5 @@ class BreedsRecyclerViewFragment :
             return fragment
         }
     }
-
-
-    /**
-     * Transmit the list
-     */
-    override fun transmitList(domainModels: List<DomainDisplayedBreed>) {
-        // displayedBreedsViewModel.observedMutableBreeds.value = domainModels
-    }
-
 }
 

@@ -49,11 +49,6 @@ class OccupationSkillsAdapter constructor(
     internal fun setOccupationFilledSkills(skills: List<DomainSkillToFill?>?) {
         Log.d(TAG, "setSkills")
         if (skills != null) {
-            skills.forEach { skill ->
-                kotlin.run {
-                    Log.d(TAG, "skill : $skill")
-                }
-            }
             this.occupationSkills = skills
             notifyDataSetChanged()
         }
@@ -111,11 +106,16 @@ class OccupationSkillsAdapter constructor(
      */
     inner class OccupationSkillsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var layoutOccupationSkill: LinearLayout? = itemView.findViewById(R.id.occupationSkill_row)
-        private var tvOccupationSkillName: TextView? = itemView.findViewById(R.id.tv_occupationSkillName)
-        private var tvOccupationSkillBase: TextView? = itemView.findViewById(R.id.tv_occupationSkillBase)
-        private var tvOccupationSkillAdd: TextView? = itemView.findViewById(R.id.tv_occupationSkillAdd)
-        private var tvOccupationSkillTotal: TextView? = itemView.findViewById(R.id.tv_occupationSkillTotal)
-        private var tvOccupationSkillPlus:TextView? = itemView.findViewById(R.id.tv_occupationSkillPlus)
+        private var tvOccupationSkillName: TextView? =
+            itemView.findViewById(R.id.tv_occupationSkillName)
+        private var tvOccupationSkillBase: TextView? =
+            itemView.findViewById(R.id.tv_occupationSkillBase)
+        private var tvOccupationSkillAdd: TextView? =
+            itemView.findViewById(R.id.tv_occupationSkillAdd)
+        private var tvOccupationSkillTotal: TextView? =
+            itemView.findViewById(R.id.tv_occupationSkillTotal)
+        private var tvOccupationSkillPlus: TextView? =
+            itemView.findViewById(R.id.tv_occupationSkillPlus)
 
         /**
          * Bind the view holder
@@ -172,7 +172,10 @@ class OccupationSkillsAdapter constructor(
                 tvOccupationSkillAdd?.setTextColor(context.resources.getColor(R.color.textColorPrimary))
                 tvOccupationSkillTotal?.setTextColor(context.resources.getColor(R.color.textColorPrimary))
 
-                occupationSkillsRecyclerViewFragment_buttonListenerCustom.itemPressed(occupationSkills[adapterPosition], adapterPosition)
+                occupationSkillsRecyclerViewFragment_buttonListenerCustom.itemPressed(
+                    occupationSkills[adapterPosition],
+                    adapterPosition
+                )
                 // tvOccupationSkillTotal?.visibility = View.VISIBLE
                 if (checkedPosition != adapterPosition) {
                     notifyItemChanged(checkedPosition)
@@ -194,7 +197,6 @@ class OccupationSkillsAdapter constructor(
         }
         return null
     }
-
 
 
     /**

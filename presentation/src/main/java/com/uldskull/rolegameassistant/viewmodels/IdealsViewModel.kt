@@ -69,9 +69,9 @@ class IdealsViewModel(
             throw Exception("Ideal is null")
         }
 
-        var result:Int? = null
+        var result: Int? = null
         viewModelScope.launch {
-            result =idealsRepositoryImpl.deleteOne(currentIdealToEdit)
+            result = idealsRepositoryImpl.deleteOne(currentIdealToEdit)
         }
 
         return result
@@ -123,6 +123,15 @@ class IdealsViewModel(
         return repositoryIdeals
     }
 
+    /**
+     * Character's ideals
+     */
+    var characterIdeals = MutableLiveData<List<Long?>>()
+
+    /**
+     * Observable selected ideals
+     */
+    var observableSelectedIdeals = MutableLiveData<List<Long?>>()
 
     /**
      * Current edited ideal
@@ -131,11 +140,6 @@ class IdealsViewModel(
 
     /** Ideals from repository   **/
     var repositoryIdeals = idealsRepositoryImpl.getAll()
-
-    /**
-     * Ideals to display
-     */
-    var mutableIdeals: MutableLiveData<MutableList<DomainIdeal>>? = MutableLiveData()
 
 
 }

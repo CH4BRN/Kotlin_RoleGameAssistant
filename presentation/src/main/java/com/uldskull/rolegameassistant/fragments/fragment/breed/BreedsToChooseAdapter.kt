@@ -20,8 +20,7 @@ import com.uldskull.rolegameassistant.models.breed.DomainDisplayedBreed
  *   Class that populates the breed recycler view
  **/
 class BreedsToChooseAdapter internal constructor(
-    val context: Context,
-    private val listTransmitter: AdapterListTransmitter<DomainDisplayedBreed>
+    val context: Context
 ) : CustomRecyclerViewAdapter<DomainDisplayedBreed>(context) {
 
     companion object {
@@ -39,23 +38,20 @@ class BreedsToChooseAdapter internal constructor(
         private val breedDescriptionItemView: TextView =
             itemView.findViewById(R.id.tv_breedDescription)
 
+        init {
+            breedItemLayout.setOnClickListener {
+                rowIndex = adapterPosition
+                itemList[adapterPosition]?.breedIsChecked = !itemList[adapterPosition]?.breedIsChecked!!
+                notifyDataSetChanged()
+            }
+        }
         /**
          * Bind the value
          */
         fun bind(domainDisplayedBreed: DomainDisplayedBreed?) {
-
             Log.d(TAG, "Current : ${domainDisplayedBreed?.breedName}")
             breedNameItemView.text = domainDisplayedBreed?.breedName
             breedDescriptionItemView.text = domainDisplayedBreed?.breedDescription
-            breedItemLayout.setOnClickListener {
-                rowIndex = position
-
-                itemList[position]?.breedIsChecked = !itemList[position]?.breedIsChecked!!
-
-
-                listTransmitter.transmitList(itemList.toList())
-                notifyDataSetChanged()
-            }
 
             if (domainDisplayedBreed?.breedIsChecked!!) {
                 breedItemLayout.setBackgroundColor(context.resources.getColor(R.color.colorPrimaryDark))
@@ -123,8 +119,6 @@ class BreedsToChooseAdapter internal constructor(
      */
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         Log.d("DEBUG$TAG", "onBindViewHolder")
-        Log.d("DEBUG$TAG", "Items count : $itemCount")
-        Log.d("DEBUG$TAG", "itemList[position] :${itemList[position].breedName}")
         (holder as BreedsToChooseViewHolder).bind(itemList[position])
 
     }

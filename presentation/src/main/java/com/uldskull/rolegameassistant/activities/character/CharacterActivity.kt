@@ -25,6 +25,7 @@ import com.uldskull.rolegameassistant.fragments.fragment.hobbies.HobbiesFragment
 import com.uldskull.rolegameassistant.fragments.fragment.hobby.HobbyFragment
 import com.uldskull.rolegameassistant.fragments.fragment.occupation.OccupationFragment
 import com.uldskull.rolegameassistant.fragments.fragment.occupations.OccupationsFragment
+import com.uldskull.rolegameassistant.models.DomainIdeal
 import com.uldskull.rolegameassistant.models.breed.DomainDisplayedBreed
 import com.uldskull.rolegameassistant.models.character.DomainCharacter
 import com.uldskull.rolegameassistant.models.occupation.DomainOccupation
@@ -41,6 +42,7 @@ import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationViewModel
 import com.uldskull.rolegameassistant.viewmodels.occupations.OccupationsViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -52,6 +54,11 @@ class CharacterActivity :
     AddEndFragment,
     AddEndFragmentAndUpdateAdapter,
     CustomActivity() {
+    /**
+     * Ideals view model
+     */
+    private lateinit var idealViewModel: IdealsViewModel
+
     /**
      * ViewPager2 to display fragments
      */
@@ -155,6 +162,7 @@ class CharacterActivity :
         hobbySkillsViewModel = getViewModel()
         pointsToSpendViewModel = getViewModel()
         skillsViewModel = getViewModel()
+        idealViewModel = getViewModel()
     }
 
     /**
@@ -233,7 +241,7 @@ class CharacterActivity :
             Gson().fromJson(jsonCharacter, DomainCharacter::class.java)
         Log.d("DEBUG$TAG", "Character = ${character?.characterName}")
         if (character != null) {
-
+            val coroutineScope = CoroutineScope(Dispatchers.Main)
             // Sets the values
             newCharacterViewModel.selectedCharacter.value = character
             newCharacterViewModel.currentCharacter = character
@@ -251,21 +259,26 @@ class CharacterActivity :
             Log.d("DEBUG$TAG", "Picture uri : $pictureURI")
             charactersPictureViewModel.pictureUri.value = pictureURI
 
+            //  Gets the ideals
+            val characterIdeals = mutableListOf<DomainIdeal?>()
+            idealViewModel.observableSelectedIdeals?.value = character?.characterIdeals?.toList()
+
+            coroutineScope.launch {
+                character.characterIdeals?.forEach {
+                    characterIdeals.add(idealViewModel.getIdealById(it))
+                }
+            }
             // Gets the breeds
             val characterBreeds = mutableListOf<DomainDisplayedBreed?>()
-            Log.d("DEBUG$TAG", "character.characterBreeds?.toList() : ${character.characterBreeds?.toList()}")
-            displayedBreedsViewModel?.observableSelectedBreeds?.value = character.characterBreeds?.toList()
+            displayedBreedsViewModel?.observableSelectedBreeds?.value =
+                character.characterBreeds?.toList()
 
 
-            val coroutineScope = CoroutineScope(Dispatchers.Main)
             coroutineScope.launch {
                 character.characterBreeds?.forEach {
                     characterBreeds.add(displayedBreedsViewModel.findBreedWithId(it))
                 }
             }
-
-
-
 
             // Gets the occupation
             val occupation = character.characterOccupation
@@ -458,7 +471,6 @@ class CharacterActivity :
             }
         )
     }
-
 
 
     /**

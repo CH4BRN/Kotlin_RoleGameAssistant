@@ -67,10 +67,6 @@ class DbCharacter(
      */
     val characterEnergyPoints: Int?,
     /**
-     * Character's ideals
-     */
-    val characterIdeals: List<DbIdeal>?,
-    /**
      * Character's gender
      */
     val characterGender: String?,
@@ -114,6 +110,10 @@ class DbCharacter(
      * Character's selected breeds
      */
     val characterSelectedBreeds: List<Long?>?,
+    /**
+     * Character's selected ideals
+     */
+    val characterSelectedIdeals: List<Long?>?,
     /**
      * Character's spent occupation points
      */
@@ -177,12 +177,7 @@ class DbCharacter(
             mutableListOf()
         }
 
-        val domainIdeals: MutableList<DomainIdeal>
-        domainIdeals = if (!this.characterIdeals.isNullOrEmpty()) {
-            this.characterIdeals.map { dbIdeal -> dbIdeal?.toDomain() }.toMutableList()
-        } else {
-            mutableListOf()
-        }
+        val domainIdeals: MutableList<Long?>? = this.characterSelectedIdeals?.toMutableList()
 
         Log.d("DEBUGNew", "Characters selected breeds : ${this.characterSelectedBreeds}")
 
@@ -193,7 +188,7 @@ class DbCharacter(
             characterGender = this.characterGender,
             characterBiography = this.characterBiography,
             characterBonds = domainBonds,
-            characterIdeals = domainIdeals,
+
             //   characterCharacteristics = this.characterCharacteristics?.map { characteristic -> characteristic.toDomain() },
             characterHealthPoints = this.characterHealthPoints,
             characterIdeaPoints = this.characterIdeaPoints,
@@ -221,18 +216,14 @@ class DbCharacter(
             characterSelectedOccupationSkill = this.characterSelectedOccupationSkill?.toMutableList(),
             characterOccupation = this.characterOccupation?.toDomain(),
             characterBreeds = this.characterSelectedBreeds?.toMutableList(),
+            characterIdeals = this.characterSelectedIdeals?.toMutableList(),
             characterSpentOccupationPoints = this.characterSpentOccupationPoints,
             characterSelectedHobbiesSkill = this.characterSelectedHobbiesSkill
         )
     }
 
-    /**
-     * Returns a string representation of the object.
-     */
     override fun toString(): String {
-        return "DbCharacter(characterId=$characterId, characterName=$characterName, characterAge=$characterAge, characterBiography=$characterBiography, characterBonds=$characterBonds, characterHealthPoints=$characterHealthPoints, characterBaseHealth=$characterBaseHealth, characterIdeaPoints=$characterIdeaPoints, characterAlignment=$characterAlignment, characterEnergyPoints=$characterEnergyPoints, characterIdeals=$characterIdeals, characterGender=$characterGender, characterHeight=$characterHeight, characterPictureUri=$characterPictureUri, characterWeight=$characterWeight, characterKnow=$characterKnow, characterLuck=$characterLuck, characterSanity=$characterSanity, characterBreedBonus=$characterBreedBonus, characterSelectedOccupationSkill=$characterSelectedOccupationSkill, characterStrength=$characterStrength, characterSize=$characterSize, characterPower=$characterPower, characterIntelligence=$characterIntelligence, characterDexterity=$characterDexterity, characterConstitution=$characterConstitution, characterAppearance=$characterAppearance, characterEducation=$characterEducation)".toUpperCase(
-            Locale.ENGLISH
-        )
+        return "DbCharacter(characterId=$characterId, characterName=$characterName, characterAge=$characterAge, characterBiography=$characterBiography, characterBonds=$characterBonds, characterHealthPoints=$characterHealthPoints, characterBaseHealth=$characterBaseHealth, characterIdeaPoints=$characterIdeaPoints, characterAlignment=$characterAlignment, characterEnergyPoints=$characterEnergyPoints, characterGender=$characterGender, characterHeight=$characterHeight, characterPictureUri=$characterPictureUri, characterWeight=$characterWeight, characterKnow=$characterKnow, characterLuck=$characterLuck, characterSanity=$characterSanity, characterBreedBonus=$characterBreedBonus, characterSelectedOccupationSkill=$characterSelectedOccupationSkill, characterSelectedHobbiesSkill=$characterSelectedHobbiesSkill, characterSelectedBreeds=$characterSelectedBreeds, characterSelectedIdeals=$characterSelectedIdeals, characterSpentOccupationPoints=$characterSpentOccupationPoints, characterOccupation=$characterOccupation, characterStrength=$characterStrength, characterSize=$characterSize, characterPower=$characterPower, characterIntelligence=$characterIntelligence, characterDexterity=$characterDexterity, characterConstitution=$characterConstitution, characterAppearance=$characterAppearance, characterEducation=$characterEducation)"
     }
 
 
@@ -256,11 +247,7 @@ class DbCharacter(
                         domainBond
                     )
                 },
-                characterIdeals = domainModel?.characterIdeals?.map { domainIdeal ->
-                    DbIdeal.from(
-                        domainIdeal
-                    )
-                },
+
                 // characterCharacteristics = null,
                 characterAlignment = domainModel?.characterAlignment,
                 characterEnergyPoints = domainModel?.characterEnergyPoints,
@@ -289,6 +276,7 @@ class DbCharacter(
                 characterSelectedOccupationSkill = domainModel?.characterSelectedOccupationSkill,
                 characterOccupation = DbOccupation.from(domainModel?.characterOccupation),
                 characterSelectedBreeds = domainModel?.characterBreeds,
+                characterSelectedIdeals = domainModel?.characterIdeals,
                 characterSpentOccupationPoints = domainModel?.characterSpentOccupationPoints,
                 characterSelectedHobbiesSkill = domainModel?.characterSelectedHobbiesSkill
 

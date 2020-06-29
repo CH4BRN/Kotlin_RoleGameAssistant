@@ -6,7 +6,7 @@
     <string name="add_bond">Ajouter une obligation.</string>
     <string name="add_breed_description">Ajouter une race.</string>
     <string name="add_ideal">Ajouter un idéal.</string>
-    <string name="add_occupation">Ajouter un métier.</string>
+    <string name="add_occupation">Ajouter une profession.</string>
     <string name="add_skill">Ajouter une compétence.</string>
     <string name="age">Age :</string>
     <string name="age_hint">Age …</string>
@@ -34,7 +34,7 @@
     <string name="derived_values_2">Valeurs dérivées 2</string>
     <string name="edit_derived_values_manually">Editer les valeurs dérivées manuellement.</string>
     <string name="edit_ideals">Editer les idéaux</string>
-    <string name="edit_occupation">Editer les métier</string>
+    <string name="edit_occupation">Editer les professions</string>
     <string name="energy_po">ENERGIE = POU</string>
     <string name="gender">Genre :</string>
     <string name="gender_hint">Genre …</string>
@@ -64,8 +64,8 @@
     <string name="name_hint">Nom …</string>
     <string name="edit_breed">Nouvelle race</string>
     <string name="new_skill">Nouvelle compétence</string>
-    <string name="occupation">Métier</string>
-    <string name="occupations">Métiers</string>
+    <string name="occupation">Profession</string>
+    <string name="occupations">Professions</string>
     <string name="picture">Image :</string>
     <string name="roll">Jet :</string>
     <string name="roll_the_dices">Jeté de dé.</string>
@@ -95,7 +95,7 @@
     <string name="characteristics_trick_content">Vous pouvez secouer votre telephone pour obtenir des characteristiques \"jet de dé\"</string>
     <string name="characteristics_trick_title">Petite astuce</string>
     <string name="button_to_delete_ideal">Bouton pour supprimer un ideal</string>
-    <string name="button_to_delete_occupation">Bouton pour supprimer un métier</string>
+    <string name="button_to_delete_occupation">Bouton pour supprimer une profession</string>
     <string name="save_button">Bouton sauver</string>
     <string name="savebutton">Bouton sauver</string>
     <string name="let_s_type_a_bond">Et si on écrivais une obligation ?</string>
@@ -103,4 +103,10 @@
     <string name="what_does_this_breed_look_like">A quoi cette race ressemble ?</string>
     <string name="type_a_breed_description">A quoi cette race ressemble ?</string>
     <string name="type_a_breed_name">Quel est le nom de cette race ?</string>
+    <string name="delete_character_confirm">Supprimer personnage ?</string>
+    <string name="go_back_confirmation">Retour arrière ?</string>
+    <string name="no_continue">Non, continuer.</string>
+    <string name="no_cancel">Non, annuler.</string>
+    <string name="yes_delete">Oui, supprimer.</string>
+    <string name="hint_edit_breed_bonus">Quel est le bonus ?</string>
 </resources>

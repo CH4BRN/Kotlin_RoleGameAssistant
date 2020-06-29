@@ -27,12 +27,12 @@ class DomainIdeal(
     /**
      * Is ideal checked ?
      */
-    var isChecked: Boolean? = false
+    var isChecked: Boolean?
 ) {
     /**
      * Returns a string representation of the object.
      */
     override fun toString(): String {
-        return "DomainIdeal(idealId=$idealId, idealName=$idealName, idealGoodPoints=$idealGoodPoints, idealEvilPoints=$idealEvilPoints, isChecked=$isChecked)"
+        return "DomainIdeal(idealId=$idealId, idealName=$idealName, isChecked=$isChecked)"
     }
 }

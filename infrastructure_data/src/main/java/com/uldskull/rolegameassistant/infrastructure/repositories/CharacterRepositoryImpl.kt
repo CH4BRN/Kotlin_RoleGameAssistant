@@ -71,8 +71,7 @@ class CharacterRepositoryImpl(
                 characterPictureUri = it?.characterPictureUri,
                 characterBonds = it?.characterBonds?.map { dbBond -> dbBond?.toDomain() }
                     ?.toMutableList(),
-                characterIdeals = it?.characterIdeals?.map { dbIdeal -> dbIdeal?.toDomain() }
-                    ?.toMutableList(),
+                characterIdeals = it?.characterSelectedIdeals?.toMutableList(),
                 characterStrength = it?.characterStrength?.toDomain(),
                 characterSize = it?.characterSize?.toDomain(),
                 characterPower = it?.characterPower?.toDomain(),

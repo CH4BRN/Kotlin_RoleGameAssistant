@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uldskull.rolegameassistant.R
+import com.uldskull.rolegameassistant.fragments.core.adapter.CustomRecyclerViewAdapter
 import com.uldskull.rolegameassistant.fragments.core.listeners.CustomAdapterButtonListener
 import com.uldskull.rolegameassistant.models.DomainIdeal
 
@@ -20,7 +21,7 @@ Adapter for ideals to edit recycler view
 class IdealsToEditAdapter internal constructor(
     val context: Context,
     val customAdapterButtonListener: CustomAdapterButtonListener<DomainIdeal>
-) : RecyclerView.Adapter<IdealsToEditAdapter.IdealsToEditViewHolder>() {
+) : CustomRecyclerViewAdapter<DomainIdeal>(context) {
 
     companion object {
         private const val TAG = "IdealsToEditAdapter"
@@ -29,25 +30,15 @@ class IdealsToEditAdapter internal constructor(
     /** Inflater  **/
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
 
-
-    /**  Ideals list  **/
-    private var ideals = emptyList<DomainIdeal?>()
-
-    /**
-     * Set ideals list
-     */
-    fun setIdeals(list: List<DomainIdeal?>) {
-        ideals = list
-        notifyDataSetChanged()
-    }
-
     /**
      * View holder
      */
     inner class IdealsToEditViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private var idealTitle: TextView = itemView.findViewById(R.id.tv_idealToEdit_title)
-        private var idealGoodPoints: TextView = itemView.findViewById(R.id.tv_idealToEdit_goodPoints)
-        private var idealEvilPoints: TextView = itemView.findViewById(R.id.tv_idealToEdit_evilPoints)
+        private var idealGoodPoints: TextView =
+            itemView.findViewById(R.id.tv_idealToEdit_goodPoints)
+        private var idealEvilPoints: TextView =
+            itemView.findViewById(R.id.tv_idealToEdit_evilPoints)
         private var idealOverlay: View = itemView.findViewById(R.id.view_idealToEdit_overlay)
 
         fun bind(domainIdeal: DomainIdeal?) {
@@ -55,7 +46,7 @@ class IdealsToEditAdapter internal constructor(
             idealEvilPoints.text = domainIdeal?.idealEvilPoints.toString()
             idealGoodPoints.text = domainIdeal?.idealGoodPoints.toString()
             idealOverlay.setOnClickListener {
-                customAdapterButtonListener.itemPressed(ideals[adapterPosition])
+                customAdapterButtonListener.itemPressed(itemList[adapterPosition])
             }
         }
 
@@ -85,18 +76,13 @@ class IdealsToEditAdapter internal constructor(
      * @see .onBindViewHolder
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IdealsToEditViewHolder {
-        val itemView = layoutInflater.inflate(R.layout.fragment_idealtoedit_recyclerview_item, parent, false)
+        val itemView =
+            layoutInflater.inflate(R.layout.fragment_idealtoedit_recyclerview_item, parent, false)
         return IdealsToEditViewHolder(itemView)
     }
 
-    /**
-     * Returns the total number of items in the data set held by the adapter.
-     *
-     * @return The total number of items in this adapter.
-     */
-    override fun getItemCount(): Int {
-        return ideals.size
-    }
+
+
 
     /**
      * Called by RecyclerView to display the data at the specified position. This method should
@@ -119,7 +105,7 @@ class IdealsToEditAdapter internal constructor(
      * item at the given position in the data set.
      * @param position The position of the item within the adapter's data set.
      */
-    override fun onBindViewHolder(holder: IdealsToEditViewHolder, position: Int) {
-        holder.bind(ideals[position])
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        (holder as IdealsToEditViewHolder).bind(itemList[position])
     }
 }

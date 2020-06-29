@@ -5,6 +5,7 @@ package com.uldskull.rolegameassistant.activities.breed
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.lifecycle.Observer
@@ -42,13 +43,17 @@ class EditBreedActivity : CustomActivity(), CustomAdapterButtonListener<DomainDi
     /**
      * Selected breed name text view.
      */
-    var editTextSelectedBreedName: TextView? = null
+    var editTextSelectedBreedName: EditText? = null
 
     /**
      * Selected breed description text view.
      */
-    private var editTextSelectedBreedDescription: TextView? = null
+    private var editTextSelectedBreedDescription: EditText? = null
 
+    /**
+     * Selected breed bonus text viex.
+     */
+    private var editTextSelectedBreedBonus:EditText? = null
     /**
      * Add breed button.
      */
@@ -83,6 +88,7 @@ class EditBreedActivity : CustomActivity(), CustomAdapterButtonListener<DomainDi
         editTextSelectedBreedDescription =
             this.findViewById(R.id.activityEditBreed_editText_breedDescription)
         imageButtonAddBreed = this.findViewById(R.id.activityEditBreed_imageButton_addBreed)
+        editTextSelectedBreedBonus = this.findViewById(R.id.activityEditBreed_editText_breedBonus)
     }
 
     /**
@@ -127,10 +133,11 @@ class EditBreedActivity : CustomActivity(), CustomAdapterButtonListener<DomainDi
      */
     private fun observeSelectedBreed() {
         breedsViewModel.observableMutableSelectedBreed.observe(this, Observer { domainModel ->
-            editTextSelectedBreedDescription?.text = domainModel?.breedDescription
-            editTextSelectedBreedName?.text = domainModel?.breedName
+            editTextSelectedBreedDescription?.setText(domainModel?.breedDescription.toString())
+            editTextSelectedBreedName?.setText(domainModel?.breedName.toString())
+            editTextSelectedBreedBonus?.setText(domainModel?.breedHealthBonus.toString())
 
-            breedsViewModel?.observedRepositoryBreeds?.observe(this, Observer {
+            breedsViewModel?.observableRepositoryBreeds?.observe(this, Observer {
                 var position = it.indexOfFirst { b -> b.breedId == domainModel?.breedId }
             })
 
@@ -141,7 +148,7 @@ class EditBreedActivity : CustomActivity(), CustomAdapterButtonListener<DomainDi
      * Start repository breeds observation
      */
     private fun observeRepositoryBreeds() {
-        breedsViewModel.observedRepositoryBreeds?.observe(this, Observer { displayedBreeds ->
+        breedsViewModel.observableRepositoryBreeds?.observe(this, Observer { displayedBreeds ->
             displayedBreeds.let { displayedBreedsList ->
                 var breedNamesAdapter: BreedsNamesAdapter = BreedsNamesAdapter(
                     context = this,

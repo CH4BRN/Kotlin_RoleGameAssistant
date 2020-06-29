@@ -43,7 +43,7 @@ class OccupationDatabaseUtil {
             val coroutineScope = CoroutineScope(Dispatchers.Main)
 
             coroutineScope.launch {
-                Log.d("DEBUG$TAG", "insertAcrobat")
+                Log.d("$TAG", "insertAcrobat")
                 val occupationId = occupationsDao.insert(
                     DbOccupation(
                         occupationName = "Acrobat",
@@ -52,7 +52,7 @@ class OccupationDatabaseUtil {
                         occupationSpecial = "+1 STR and +1 DEX, or +2 DEX"
                     )
                 )
-                Log.d("DEBUG$TAG", "occupation id : $occupationId")
+                Log.d("$TAG", "occupation id : $occupationId")
                 val skillId = occupationSkillDao.insert(
                     DbSkillToCheck(
                         skillName = "Bargain  ",
@@ -66,7 +66,7 @@ class OccupationDatabaseUtil {
 
                     )
                 )
-                Log.d("DEBUG$TAG", "skill id : $skillId")
+                Log.d("$TAG", "skill id : $skillId")
 
 
                 val crossId = occupationWithSkillDao.insertCross(
@@ -75,7 +75,7 @@ class OccupationDatabaseUtil {
                         skillId = skillId
                     )
                 )
-                Log.d("DEBUG$TAG", "crossID : $crossId")
+                Log.d("$TAG", "crossID : $crossId")
 
                 val result = occupationWithSkillDao.getOccupationsWithSkills()
 
@@ -90,7 +90,7 @@ class OccupationDatabaseUtil {
             occupationSkillDao: DbSkillToCheckDao,
             occupationWithSkillDao: DbOccupationDbSkillDao
         ) {
-            Log.d("DEBUG$TAG", "insertAccountant")
+            Log.d("$TAG", "insertAccountant")
 
             val coroutineScope = CoroutineScope(Dispatchers.Main)
 
@@ -104,7 +104,7 @@ class OccupationDatabaseUtil {
                     )
                 )
 
-                Log.d("DEBUG$TAG", "occupation id : $occupationId")
+                Log.d("$TAG", "occupation id : $occupationId")
 
                 var skillId = occupationSkillDao.insert(
                     DbSkillToCheck(
@@ -120,7 +120,7 @@ class OccupationDatabaseUtil {
                     )
                 )
 
-                Log.d("DEBUG$TAG", "skill id : $skillId")
+                Log.d("$TAG", "skill id : $skillId")
 
                 var crossId = occupationWithSkillDao.insertCross(
                     DbOccupationAndDbSkillCrossRef(
@@ -128,7 +128,7 @@ class OccupationDatabaseUtil {
                         skillId = skillId
                     )
                 )
-                Log.d("DEBUG$TAG", "crossID : $crossId")
+                Log.d("$TAG", "crossID : $crossId")
 
                 skillId = occupationSkillDao.insert(
                     DbSkillToCheck(
@@ -146,7 +146,7 @@ class OccupationDatabaseUtil {
                     )
                 )
 
-                Log.d("DEBUG$TAG", "skill id : $skillId")
+                Log.d("$TAG", "skill id : $skillId")
 
                 crossId = occupationWithSkillDao.insertCross(
                     DbOccupationAndDbSkillCrossRef(
@@ -154,12 +154,12 @@ class OccupationDatabaseUtil {
                         skillId = skillId
                     )
                 )
-                Log.d("DEBUG$TAG", "crossID : $crossId")
+                Log.d("$TAG", "crossID : $crossId")
 
                 val result = occupationWithSkillDao.getOccupationsWithSkills()
 
                 result.forEach { dbOccupationWithDbSkills: DbOccupationWithDbSkills ->
-                    Log.d("DEBUG$TAG", "$dbOccupationWithDbSkills")
+                    Log.d("$TAG", "$dbOccupationWithDbSkills")
                 }
             }
         }
