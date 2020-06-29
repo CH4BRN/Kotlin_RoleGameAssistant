@@ -447,25 +447,28 @@ class OccupationFragment : CustomFragment() {
         occupationSkillsViewModel.checkedOccupationSkills.observe(
             this,
             Observer { domainFilledSkill ->
-                var totalPoints = 0
-                domainFilledSkill.forEach {
-                    var tens = 0
-                    if (it.filledSkillTensValue != null) {
-                        tens = it.filledSkillTensValue!! * 10
-                    }
+                if(domainFilledSkill != null){
+                    var totalPoints = 0
+                    domainFilledSkill.forEach {
+                        var tens = 0
+                        if (it.filledSkillTensValue != null) {
+                            tens = it.filledSkillTensValue!! * 10
+                        }
 
-                    var units = 0
-                    if (it.filledSkillUnitsValue != null) {
-                        units = it.filledSkillUnitsValue!!
-                    }
+                        var units = 0
+                        if (it.filledSkillUnitsValue != null) {
+                            units = it.filledSkillUnitsValue!!
+                        }
 
-                    val total = tens + units
-                    totalPoints += total
+                        val total = tens + units
+                        totalPoints += total
+                    }
+                    Log.d("DEBUG", "total points = $totalPoints")
+                    if (totalPoints != null) {
+                        pointsToSpendViewModel.observableOccupationSpentPoints.value = totalPoints
+                    }
                 }
-                Log.d("DEBUG", "total points = $totalPoints")
-                if (totalPoints != null) {
-                    pointsToSpendViewModel.observableOccupationSpentPoints.value = totalPoints
-                }
+
             })
     }
 
